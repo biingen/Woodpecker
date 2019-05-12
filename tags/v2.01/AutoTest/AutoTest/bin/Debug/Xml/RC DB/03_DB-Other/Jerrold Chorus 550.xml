@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDevice xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Jerrold Chorus 550</Name>
+  <Manufacturer>Jerrold/Chorus</Manufacturer>
+  <DeviceModelNumber />
+  <RemoteModelNumber>MRC 550</RemoteModelNumber>
+  <DeviceType>SET_TOP_BOX</DeviceType>
+  <DoubleSignals>false</DoubleSignals>
+  <KeyboardSignals>false</KeyboardSignals>
+  <Signals>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>0</Name>
+      <UID>i3pUhaWG4Euouu+b0pTTeA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7655</double>
+        <double>7.8980000000000006</double>
+      </Lengths>
+      <SigData>AAEAAgACAAEAAgB/AAEAAgACAAEAAgB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7155</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>1</Name>
+      <UID>n1y4zBqYtEuiXRLSOPNhGg==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.77</double>
+        <double>7.905</double>
+      </Lengths>
+      <SigData>AAEAAgABAAEAAQB/AAEAAgABAAEAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7185</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>2</Name>
+      <UID>qjgH4EoAfUy6Svb6zl5X4A==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7685</double>
+        <double>7.904</double>
+      </Lengths>
+      <SigData>AAEAAgABAAEAAgB/AAEAAgABAAEAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.717499999999998</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>3</Name>
+      <UID>ym9g8zMWS0mWW0oFeBpomQ==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7635</double>
+        <double>7.8965000000000005</double>
+      </Lengths>
+      <SigData>AAEAAgABAAIAAQB/AAEAAgABAAIAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7135</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>4</Name>
+      <UID>hUN/kJYfuEOolK7igyTYoQ==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.762500000000001</double>
+        <double>7.9</double>
+      </Lengths>
+      <SigData>AAEAAQACAAEAAQB/AAEAAQACAAEAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7135</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>5</Name>
+      <UID>Ittnwsi4cky63T8eownT6A==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7685</double>
+        <double>7.8995000000000006</double>
+      </Lengths>
+      <SigData>AAEAAQACAAEAAgB/AAEAAQACAAEAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.7145</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>6</Name>
+      <UID>WVY6QGFLnUiugCx0gbLkLA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.764999999999999</double>
+        <double>7.899</double>
+      </Lengths>
+      <SigData>AAEAAQACAAIAAQB/AAEAAQACAAIAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7155</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>7</Name>
+      <UID>wLyHBV5iyUScesy1sL0LXA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7685</double>
+      </Lengths>
+      <SigData>AAEAAQABAAEAAQB/AAEAAQABAAEAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.713</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>8</Name>
+      <UID>Ig85i/j8Gk6Z+qHzAITYjg==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.768</double>
+        <double>7.904</double>
+      </Lengths>
+      <SigData>AAEAAQABAAEAAgB/AAEAAQABAAEAAgB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.717</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>9</Name>
+      <UID>CrU30B/qCkyob1kgdG9hvw==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7655</double>
+        <double>7.9015</double>
+      </Lengths>
+      <SigData>AAEAAQABAAIAAQB/AAEAAQABAAIAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.716</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>A/B</Name>
+      <UID>nt7ULPsPTU6BrufQ7/L48w==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.77</double>
+        <double>7.901</double>
+      </Lengths>
+      <SigData>AAEAAQACAAIAAgB/AAEAAQACAAIAAgB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.720499999999998</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>Channel-</Name>
+      <UID>FKRrgOaF+0a+u8cBAQQZ9g==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7655</double>
+        <double>7.899</double>
+      </Lengths>
+      <SigData>AAEAAgACAAIAAgB/AAEAAgACAAIAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.7145</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>Channel+</Name>
+      <UID>eWZl77+Zw0uWo+8g6SrRxw==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.764999999999999</double>
+        <double>7.9004999999999992</double>
+      </Lengths>
+      <SigData>AAEAAgABAAIAAgB/AAEAAgABAAIAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.715</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>Delete</Name>
+      <UID>0KDYpp4xcEGwIN2NhB72vA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8975</double>
+        <double>11.764999999999999</double>
+      </Lengths>
+      <SigData>AAEAAQACAAEAAgB/AAEAAQACAAEAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.7145</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="FlashCodeSignal">
+      <Name>Enter</Name>
+      <UID>aZsmYJhiPUOeG/sDo1c1Rg==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8995000000000006</double>
+        <double>11.7675</double>
+      </Lengths>
+      <SigData>AAEAAQABAAEAAgB/AAEAAQABAAEAAgB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.7165</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>F</Name>
+      <UID>Llkj1ASej06dY7JIiYCPMA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.9004999999999992</double>
+        <double>11.764999999999999</double>
+      </Lengths>
+      <SigData>AAEAAQACAAEAAQB/AAEAAQACAAEAAQB/</SigData>
+      <NoRepeats>6</NoRepeats>
+      <IntraSigPause>23.7135</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>FC</Name>
+      <UID>ETqeKFdebU6mZufg3eGAwQ==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.771</double>
+        <double>7.9030000000000005</double>
+      </Lengths>
+      <SigData>AAEAAgACAAIAAQB/AAEAAgACAAIAAQB/</SigData>
+      <NoRepeats>3</NoRepeats>
+      <IntraSigPause>23.7185</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>LC</Name>
+      <UID>cp5fLFLqiUqSPLUqF4DxRA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.9004999999999992</double>
+        <double>11.766</double>
+      </Lengths>
+      <SigData>AAEAAgACAAEAAQB/AAEAAgACAAEAAQB/</SigData>
+      <NoRepeats>6</NoRepeats>
+      <IntraSigPause>23.716</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Learn</Name>
+      <UID>3zCAL7v4lUCrjK/eUEC+YQ==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.9035000000000011</double>
+        <double>11.7675</double>
+      </Lengths>
+      <SigData>AAEAAQABAAIAAQB/AAEAAQABAAIAAQB/</SigData>
+      <NoRepeats>5</NoRepeats>
+      <IntraSigPause>23.716</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Mute</Name>
+      <UID>ol/4CdIF0EC04iGnv1EOnw==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8980000000000006</double>
+        <double>11.764</double>
+      </Lengths>
+      <SigData>AAEAAgABAAEAAgB/AAEAAgABAAEAAgB/</SigData>
+      <NoRepeats>5</NoRepeats>
+      <IntraSigPause>23.712</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>PC/PM</Name>
+      <UID>spHlINsi20auWKGkhG7qrg==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.766499999999999</double>
+        <double>7.8984999999999994</double>
+      </Lengths>
+      <SigData>AAEAAgACAAEAAQB/AAEAAgACAAEAAQB/</SigData>
+      <NoRepeats>4</NoRepeats>
+      <IntraSigPause>23.712500000000002</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Power</Name>
+      <UID>qJ1wu5LFEUCID54NP3KYiw==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>11.7635</double>
+        <double>7.8980000000000006</double>
+      </Lengths>
+      <SigData>AAEAAQABAAIAAgB/AAEAAQABAAIAAgB/</SigData>
+      <NoRepeats>5</NoRepeats>
+      <IntraSigPause>23.712</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Program</Name>
+      <UID>4t3x7YRFpkCq0HbbeZtqTA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8980000000000006</double>
+        <double>11.763</double>
+      </Lengths>
+      <SigData>AAEAAQACAAIAAQB/AAEAAQACAAIAAQB/</SigData>
+      <NoRepeats>6</NoRepeats>
+      <IntraSigPause>23.712500000000002</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Select</Name>
+      <UID>WXJaqjHotEGu1xaihsrlNQ==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8980000000000006</double>
+        <double>11.762500000000001</double>
+      </Lengths>
+      <SigData>AAEAAQABAAIAAgB/AAEAAQABAAIAAgB/</SigData>
+      <NoRepeats>6</NoRepeats>
+      <IntraSigPause>23.712</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>TCP</Name>
+      <UID>OC6ZH5/caE+c9Mly34Kkug==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.8980000000000006</double>
+      </Lengths>
+      <SigData>AAEAAQABAAEAAQB/AAEAAQABAAEAAQB/</SigData>
+      <NoRepeats>6</NoRepeats>
+      <IntraSigPause>23.7135</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Vol-</Name>
+      <UID>v/BByH88hUqrbL4GoFo90A==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.901</double>
+        <double>11.767</double>
+      </Lengths>
+      <SigData>AAEAAQACAAIAAgB/AAEAAQACAAIAAgB/</SigData>
+      <NoRepeats>5</NoRepeats>
+      <IntraSigPause>23.715</IntraSigPause>
+    </IRPacket>
+    <IRPacket xsi:type="RedRat3FlashCodeSignal">
+      <Name>Vol+</Name>
+      <UID>h1i/XRzmQkCR0OWeLMAIvA==</UID>
+      <Lengths>
+        <double>0.031</double>
+        <double>7.9004999999999992</double>
+        <double>11.764</double>
+      </Lengths>
+      <SigData>AAEAAgABAAIAAgB/AAEAAgABAAIAAgB/</SigData>
+      <NoRepeats>5</NoRepeats>
+      <IntraSigPause>23.715</IntraSigPause>
+    </IRPacket>
+  </Signals>
+</AVDevice>

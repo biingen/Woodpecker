@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDeviceDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AVDevices>
+    <AVDevice>
+      <Name>TOSHIBA_2008</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber>CT-90300</RemoteModelNumber>
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>false</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>0</Name>
+          <UID>pLlrs0kQ70etLUKacT3F7g==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9055</double>
+            <double>4.466</double>
+            <double>0.5625</double>
+            <double>1.658</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>1</Name>
+          <UID>ShcTqd4Vd02qarhh4JFVBQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9065</double>
+            <double>4.466</double>
+            <double>0.5535</double>
+            <double>1.6675</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>2</Name>
+          <UID>a9hNxYUJ6ESI0BWwTctTBg==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.5545</double>
+            <double>1.664</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>3</Name>
+          <UID>6wSWpw9keUGmmmGTWvuJZA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.466</double>
+            <double>0.55599999999999994</double>
+            <double>1.661</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgICAgICAgICAgICAgICAgMCAwIDAgMCAwIDAn8=</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>4</Name>
+          <UID>FkzPDdykPUye85x5Fr86tw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.554</double>
+            <double>1.664</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAwICAgICAgICAgICAwIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>5</Name>
+          <UID>Kd86fuB0GUyORCGKkY56/Q==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.56400000000000006</double>
+            <double>1.673</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAwICAgICAgICAgICAgIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>6</Name>
+          <UID>Yppyam1thECOiTBq8P90CA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.466</double>
+            <double>0.55699999999999994</double>
+            <double>1.661</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAwICAgICAgICAgICAwICAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>7</Name>
+          <UID>e4o+FjWau0KAli5t2yR7PQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.466</double>
+            <double>0.565</double>
+            <double>1.6585</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6605</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>8</Name>
+          <UID>MR7zHs3j6EGS82jp2gx6Wg==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6704999999999999</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgIDAgICAgICAgICAwIDAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>9</Name>
+          <UID>eLYiphBuPU2xpziUblY/cQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9035</double>
+            <double>4.466</double>
+            <double>0.5625</double>
+            <double>1.6585</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgIDAgICAgICAgICAgIDAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Back</Name>
+          <UID>IW4/zg7AGU25lGkRXdCaQg==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9110000000000014</double>
+            <double>4.465</double>
+            <double>0.56400000000000006</double>
+            <double>1.659</double>
+            <double>2.2325</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgMCAgIDAgICAwICAgMCAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.6915</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Blue</Name>
+          <UID>HvYeIM3CL06kSLV6Xey5Sw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.907</double>
+            <double>4.4635</double>
+            <double>0.5555</double>
+            <double>1.682</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgIDAgICAgIDAgICAgICAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.711499999999994</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel-</Name>
+          <UID>AMN6tW9u6kGCgT9LgR9tTQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.559</double>
+            <double>1.661</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwIDAgMCAgICAgICAgICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel+</Name>
+          <UID>pVaUlMrq6E2xFyLANCCswA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.466</double>
+            <double>0.553</double>
+            <double>1.676</double>
+            <double>2.2845</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgIDAgMCAgICAgICAgICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Dual</Name>
+          <UID>JZZ0xwJHhEq7L3NlAoxYOQ==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.465</double>
+            <double>0.56099999999999994</double>
+            <double>1.665</double>
+            <double>2.21</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgICAgMCAgICAgICAgICAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7455</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Enlage</Name>
+          <UID>Qe0E+SNMJEOS5SVzFAcUNQ==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.465</double>
+            <double>0.55599999999999994</double>
+            <double>1.6615</double>
+            <double>2.2365000000000004</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAwIDAgICAgICAgICAgIDAgICAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.692</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Freeze</Name>
+          <UID>9Lroty71eUCYOK4wDB7ImQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.562</double>
+            <double>1.676</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgICAwICAgICAwICAgMCAwIDAgICAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.7355</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Green</Name>
+          <UID>iSicPR4DRUK1Nf8/jTEhpw==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.4635</double>
+            <double>0.553</double>
+            <double>1.6644999999999999</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgIDAgICAgIDAgICAgIDAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Hold</Name>
+          <UID>S3wkWNt0f0uQavQ+CskKNA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9065</double>
+            <double>4.465</double>
+            <double>0.566</double>
+            <double>1.6585</double>
+            <double>2.21</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgICAgMCAgIDAgICAgICAgMCAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.692</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Info</Name>
+          <UID>xbAOLiqGOEeH0k8dLcjM9A==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.909</double>
+            <double>4.465</double>
+            <double>0.562</double>
+            <double>1.659</double>
+            <double>2.2325</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAwICAgMCAgICAgICAwICAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7165</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Input</Name>
+          <UID>5HAMKie16EuZDCNS3T16og==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9105</double>
+            <double>4.465</double>
+            <double>0.5655</double>
+            <double>1.6735</double>
+            <double>2.21</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAwICAgMCAgICAgICAwIDAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.716</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Menu</Name>
+          <UID>oPp+Qg87G0SUSU+jY6ypGA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9335</double>
+            <double>4.4675</double>
+            <double>0.562</double>
+            <double>1.658</double>
+            <double>2.233</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgIDAgMCAgIDAgICAgICAgMCAgICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7455</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Mute</Name>
+          <UID>xEqTmZlKhkqaitv/SRGckA==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.907</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6555</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgICAgMCAgICAgICAwIDAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Power</Name>
+          <UID>+9P15Y4/OU6HwUHX7sl32A==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6555</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgMCAgICAgICAwICAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Red</Name>
+          <UID>VhOUZLLNT0i1QNtNiPqdnQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.904</double>
+            <double>4.466</double>
+            <double>0.559</double>
+            <double>1.6795</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgIDAgICAgIDAgICAwIDAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Reveal</Name>
+          <UID>iCvF3DbBk0WETEFa/tzYqQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9105</double>
+            <double>4.465</double>
+            <double>0.555</double>
+            <double>1.677</double>
+            <double>2.2365000000000004</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAwICAgMCAgIDAgICAwIDAgICAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.690000000000005</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Subtitle</Name>
+          <UID>6YYmMxs95UCOlIPCl6rJAA==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.465</double>
+            <double>0.56400000000000006</double>
+            <double>1.659</double>
+            <double>2.2365000000000004</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAwIDAgICAgICAgICAwIDAgICAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.718999999999994</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>TXT</Name>
+          <UID>/mKvszwk8kqIiTzB0UbUxg==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.909</double>
+            <double>4.466</double>
+            <double>0.56800000000000006</double>
+            <double>1.6555</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>UlR2+hRqtEO0l5fufr+wdA==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.4635</double>
+            <double>0.5595</double>
+            <double>1.6765</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAwIDAgMCAgICAgICAwICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7385</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>K0dhJ+GISk+oPkF6vhwMWg==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.4635</double>
+            <double>0.5495</double>
+            <double>1.664</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgIDAgMCAgICAgICAwICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Yellow</Name>
+          <UID>ftd6VdJW4U2eYB+5jANg1w==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.916</double>
+            <double>4.4635</double>
+            <double>0.5605</double>
+            <double>1.7225000000000001</double>
+            <double>0.49050000000000005</double>
+            <double>1.657</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwQCAgMCAwIDAgMCBQIFAgICAwICAgUCAgIFAgICAgIFAgICBQICAgMCAgIDAgMCAgIFAn8ABgJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7395</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+    <AVDevice>
+      <Name>New ATV</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>false</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>0</Name>
+          <UID>dg6LMP8cJk+bqbvvKxI5bw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9055</double>
+            <double>4.466</double>
+            <double>0.5625</double>
+            <double>1.658</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>1</Name>
+          <UID>4VSVazmPO0WoDgB7K3dzOQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9065</double>
+            <double>4.466</double>
+            <double>0.5535</double>
+            <double>1.6675</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>2</Name>
+          <UID>JwKZWW9sBEuqANKjbiURjQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.5545</double>
+            <double>1.664</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>3</Name>
+          <UID>WU4z6q+l4U62KWdfm14sMg==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.466</double>
+            <double>0.55599999999999994</double>
+            <double>1.661</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgICAgICAgICAgICAgICAgMCAwIDAgMCAwIDAn8=</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>4</Name>
+          <UID>RcWSWsb0z0m7JpY892vykQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.554</double>
+            <double>1.664</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAwICAgICAgICAgICAwIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>5</Name>
+          <UID>SVcV+Aj7mUGK98yTBOZWoQ==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.56400000000000006</double>
+            <double>1.673</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAwICAgICAgICAgICAgIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>6</Name>
+          <UID>oJ6BbVRSOECtxrUkXzBDHQ==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.466</double>
+            <double>0.55699999999999994</double>
+            <double>1.661</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAwICAgICAgICAgICAwICAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>7</Name>
+          <UID>bavSaFqJJUaeja+p3JSq9Q==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.466</double>
+            <double>0.565</double>
+            <double>1.6585</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6605</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>8</Name>
+          <UID>gDqsgBU5aUqVtWNG9cXgAw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6704999999999999</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgIDAgICAgICAgICAwIDAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>9</Name>
+          <UID>60M0hKjgrkeV9u3yP99V/A==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9035</double>
+            <double>4.466</double>
+            <double>0.5625</double>
+            <double>1.6585</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgIDAgICAgICAgICAgIDAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Blue</Name>
+          <UID>fsSdD/Yr/EGN6tPXm6K/3Q==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.907</double>
+            <double>4.4635</double>
+            <double>0.5555</double>
+            <double>1.682</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgIDAgICAgIDAgICAgICAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.711499999999994</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel-</Name>
+          <UID>z7cqkmJ5ZUGfCpkDLAIYaw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4635</double>
+            <double>0.559</double>
+            <double>1.661</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwIDAgMCAgICAgICAgICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel+</Name>
+          <UID>EaKZavPCvkOqryUo9BL8pg==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.466</double>
+            <double>0.553</double>
+            <double>1.676</double>
+            <double>2.2845</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAgIDAgMCAgICAgICAgICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Freeze</Name>
+          <UID>B5qe1k/4nUKZzByKzER8sw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.905</double>
+            <double>4.466</double>
+            <double>0.562</double>
+            <double>1.676</double>
+            <double>2.2085</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgICAwICAgICAwICAgMCAwIDAgICAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.7355</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Green</Name>
+          <UID>ji87d1FCy0G9VFWiwL23gA==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9085</double>
+            <double>4.4635</double>
+            <double>0.553</double>
+            <double>1.6644999999999999</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgICAgIDAgICAgIDAgICAgIDAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.738</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Mute</Name>
+          <UID>S1Eb5IHGdEej/QLQyAY1OA==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.907</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6555</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgICAgMCAgICAgICAwIDAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Power</Name>
+          <UID>1sGi3dKZXUS4Lq8m0HEvVQ==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.4635</double>
+            <double>0.56700000000000006</double>
+            <double>1.6555</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgICAgMCAgICAgICAwICAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.6875</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Red</Name>
+          <UID>DfXA5ZVunU2/3WDlHB9UIg==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.904</double>
+            <double>4.466</double>
+            <double>0.559</double>
+            <double>1.6795</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgICAgIDAgICAgIDAgICAwIDAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.714</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>TXT</Name>
+          <UID>WaHsm7Z1UUyj6jSUPBO0Bw==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.909</double>
+            <double>4.466</double>
+            <double>0.56800000000000006</double>
+            <double>1.6555</double>
+            <double>2.2079999999999997</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwIDAgMCAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>7p/H32V53E+XmlrL9lzE3A==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.9044999999999987</double>
+            <double>4.4635</double>
+            <double>0.5595</double>
+            <double>1.6765</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAwIDAgMCAgICAgICAwICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7385</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>+4mkuK9Da0+y7p77kMTjWQ==</UID>
+          <ModulationFreq>38095</ModulationFreq>
+          <Lengths>
+            <double>8.9075</double>
+            <double>4.4635</double>
+            <double>0.5495</double>
+            <double>1.664</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAgICAwICAgMCAgIDAgMCAgICAgICAwICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.713499999999996</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Yellow</Name>
+          <UID>sPRYF3oHV06vtZDP6qEnjw==</UID>
+          <ModulationFreq>37735</ModulationFreq>
+          <Lengths>
+            <double>8.916</double>
+            <double>4.4635</double>
+            <double>0.5605</double>
+            <double>1.7225000000000001</double>
+            <double>0.49050000000000005</double>
+            <double>1.657</double>
+            <double>2.235</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAgICAgICAwQCAgMCAwIDAgMCBQIFAgICAwICAgUCAgIFAgICAgIFAgICBQICAgMCAgIDAgMCAgIFAn8ABgJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.7395</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+  </AVDevices>
+</AVDeviceDB>

@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Threading;
+using SplashDemo;
+using System.Management;
+
+namespace AutoTest
+{
+    static class Program
+    {
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
+
+        /// <summary>
+        /// 應用程式的主要進入點。
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            if (System.Environment.OSVersion.Version.Major >= 6) { SetProcessDPIAware(); }
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            //Thread to show splash window
+            Thread thUI = new Thread(new ThreadStart(ShowSplashWindow));
+            thUI.Name = "Splash UI";
+            thUI.Priority = ThreadPriority.Highest;
+            thUI.IsBackground = true;
+            thUI.Start();
+
+            //Thread to load time-consuming resources.
+            Thread th = new Thread(new ThreadStart(LoadResources));
+            th.Name = "Resource Loader";
+            th.Priority = ThreadPriority.Normal;
+            th.Start();
+            th.Join();
+            /*
+            if (SplashForm != null)
+            {
+                Console.WriteLine("fuck");
+                SplashForm.Invoke(new MethodInvoker(delegate { SplashForm.Close(); }));
+            }
+            */
+            SplashForm.Invoke(new MethodInvoker(delegate { SplashForm.Close(); }));
+            thUI.Join();
+            Application.Run(new Form1());
+        }
+
+        public static frm_Splash SplashForm
+        {
+            get;
+            set;
+        }
+
+        private static void LoadResources()
+        {
+            for (int i = 1; i <= 25; i++)
+            {
+                if (SplashForm != null)
+                {SplashForm.Invoke(new MethodInvoker(delegate 
+                        {SplashForm.labelMark.Text = "AutoTest";}));}
+                Thread.Sleep(100);
+            }
+        }
+
+        private static void ReadVidPid()
+        {
+            var usbDevices = GetUSBDevices();
+
+            foreach (var usbDevice in usbDevices)
+            {
+                string deviceId = usbDevice.DeviceID.ToString();
+                string deviceTp = usbDevice.Name.ToString();
+                string deviecDescription = usbDevice.Description.ToString();
+                
+                if (deviecDescription.IndexOf("USB 視訊裝置", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    deviceTp.IndexOf("Webcam", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    int vidIndex = deviceId.IndexOf("VID_");
+                    string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"                    
+                    string vid = startingAtVid.Substring(0, 4); // vid is four characters long
+                    //Console.WriteLine("VID: " + vid);
+
+                    Global.VID.Add(vid);
+                    //Console.WriteLine(VID[0]);
+
+                    int pidIndex = deviceId.IndexOf("PID_");
+                    string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"                    
+                    string pid = startingAtPid.Substring(0, 4); // pid is four characters long
+                    //Console.WriteLine("PID: " + pid);
+
+                    Global.PID.Add(pid);
+                    //Console.WriteLine(PID[0]);
+                }
+                //Console.WriteLine("DeviceID: {0}\nName: {1}\nDescription: {2}",
+                //     usbDevice.DeviceID, usbDevice.Name, usbDevice.Description);
+            }
+/*
+            foreach (System.Management.ManagementObject usb in USBCollection)
+            {
+                string deviceId = usb["deviceid"].ToString();
+                string deviceTp = usb["Name"].ToString();
+                //Console.WriteLine(deviceId);
+                //Console.WriteLine(deviceTp);
+
+                if (deviceTp.IndexOf("Webcam", StringComparison.OrdinalIgnoreCase) > 0)
+                {
+                    int vidIndex = deviceId.IndexOf("VID_");
+                    string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"                    
+                    string vid = startingAtVid.Substring(0, 4); // vid is four characters long
+                    Console.WriteLine("VID: " + vid);
+
+                    Global.VID.Add(vid);
+                    //Console.WriteLine(VID[0]);
+
+                    int pidIndex = deviceId.IndexOf("PID_");
+                    string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"                    
+                    string pid = startingAtPid.Substring(0, 4); // pid is four characters long
+                    Console.WriteLine("PID: " + pid);
+
+                    Global.PID.Add(pid);
+                    //Console.WriteLine(PID[0]);
+                }
+                else
+                {
+                    Global.VID.Add("0000");
+                    Global.PID.Add("0000");
+                }
+            }
+ */
+        }
+
+        static List<USBDeviceInfo> GetUSBDevices()
+        {
+            List<USBDeviceInfo> devices = new List<USBDeviceInfo>();
+
+            ManagementObjectCollection collection;
+            using (var searcher = new ManagementObjectSearcher(@"Select * From Win32_PnPEntity"))
+                collection = searcher.Get();
+
+            foreach (var device in collection)
+            {
+                devices.Add(new USBDeviceInfo(
+                (string)device.GetPropertyValue("DeviceID"),
+                (string)device.GetPropertyValue("Name"),
+                (string)device.GetPropertyValue("Description")
+                ));
+            }
+
+            collection.Dispose();
+            return devices;
+        }
+
+        class USBDeviceInfo
+        {
+            public USBDeviceInfo(string deviceID, string name, string description)
+            {
+                DeviceID = deviceID;
+                Name = name;
+                Description = description;
+            }
+            public string DeviceID { get; private set; }
+            public string Name { get; private set; }
+            public string Description { get; private set; }
+        }
+
+        private static void ShowSplashWindow()
+        {
+            ReadVidPid();
+            SplashForm = new frm_Splash();
+            Application.Run(SplashForm);
+        }
+    }
+}

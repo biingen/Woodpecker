@@ -1,0 +1,180 @@
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojResolveAssemblyReference.cache
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+Z:\Tools\公司資料\TPV\03_Code\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojResolveAssemblyReference.cache
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+D:\SVN_Askey\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojResolveAssemblyReference.cache
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+D:\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojResolveAssemblyReference.cache
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+G:\TPV\03_Code\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojResolveAssemblyReference.cache
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+\\auo\rd\ASC\RRVC00\02_SmartTest\Auto Kit\SVN_AUO\Build_Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache

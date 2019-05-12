@@ -1,0 +1,932 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDeviceDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AVDevices>
+    <AVDevice>
+      <Name>NDS</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>true</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>.</Name>
+          <UID>cG97GU57WkabNEk6dl1INA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.876</double>
+            <double>4.471</double>
+            <double>0.5545</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAgIDAgICAgIDAgICAgICAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9885</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>0</Name>
+          <UID>/IYpz1gePEWhPhRJ0SEIEg==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.854000000000001</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAgICAgICAgIDAgICAgIDAgMCAwIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.965</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>1</Name>
+          <UID>cvTDwKLpFkafxZZqCYT3eA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8735</double>
+            <double>4.471</double>
+            <double>0.5565</double>
+            <double>1.684</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwICAgMCAgICAgICAgIDAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.982499999999995</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>2</Name>
+          <UID>2bA1AT0ZEUq5mg6z+rmqLg==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8745000000000012</double>
+            <double>4.471</double>
+            <double>0.5535</double>
+            <double>1.6865</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAwICAgMCAgICAgICAwICAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.991</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>3</Name>
+          <UID>aaroYd5b10KRcd60VBlbUw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.966</double>
+            <double>4.4645</double>
+            <double>0.5505</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+            <double>8.7935</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.965</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>68</bitNo>
+              <len1>0</len1>
+              <len2>6</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>4</Name>
+          <UID>Pe8lGg/a2kGFTUUFATZ8TQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8754999999999988</double>
+            <double>4.471</double>
+            <double>0.5555</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAgIDAgMCAgICAgICAgIDAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.993</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>5</Name>
+          <UID>0RppL8PWa0a+MoU4SB/QXg==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8579999999999988</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgIDAgMCAgICAgICAwICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9695</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>6</Name>
+          <UID>xDA3loXAmECVpoYus5USXQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8535</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAgIDAgMCAgICAgICAgICAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.967000000000006</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>7</Name>
+          <UID>NT+NlnixdUSE9WQi654klA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8509999999999991</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.681</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwIDAgMCAgICAgICAgIDAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9625</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>8</Name>
+          <UID>BriP4SeQg0elQ/4YUuOahw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8769999999999989</double>
+            <double>4.471</double>
+            <double>0.5535</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAwIDAgMCAgICAgICAwICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.991</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>9</Name>
+          <UID>sdjIAVVKH0GQ4lKV2W4KBA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8535</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwIDAgMCAgICAgICAgICAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9605</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Audio</Name>
+          <UID>VVkhvEZNq0S39EC3t1JQPQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.853</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgICAgMCAgIDAgICAwICAgMCAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.967000000000006</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>AV</Name>
+          <UID>wJIKSK8+UEO0krlKEd6hqg==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>AV</Name>
+            <UID>+MvAn4+j5U6KjhmDCHRv+A==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.9105</double>
+              <double>4.4905</double>
+              <double>0.5565</double>
+              <double>1.693</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwICAgICAgICAgICAgIDAgICAwIDAgMCAwIDAn8=</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>AV</Name>
+            <UID>zMeydWpNSUKOIkJV4weBag==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.91</double>
+              <double>4.4905</double>
+              <double>0.55750000000000011</double>
+              <double>1.693</double>
+              <double>2.2555</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwICAgICAgICAgICAgIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+            <NoRepeats>1</NoRepeats>
+            <IntraSigPause>40.173</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>CC</Name>
+          <UID>y5ZYDt34R0ezNzREhNtQrQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.91</double>
+            <double>4.4905</double>
+            <double>0.55599999999999994</double>
+            <double>1.689</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAgICAgMCAgIDAgICAgICAgMCAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1725</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>CH -</Name>
+          <UID>kGqIPCkXpE+4Yb28PQvbVw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.853</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAwIDAgMCAgICAgICAwIDAgICAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.9715</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>CH - List</Name>
+          <UID>AsDatzAfjEi3WB3rT2wp8A==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.908</double>
+            <double>4.4905</double>
+            <double>0.55750000000000011</double>
+            <double>1.693</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgIDAgMCAgIDAgICAwICAgMCAgICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.166</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>CH +</Name>
+          <UID>6SAiRIKeb0WPnqt9fegWlg==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8769999999999989</double>
+            <double>4.471</double>
+            <double>0.553</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAgIDAgMCAgICAgICAwIDAgMCAgICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9995</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>COMP</Name>
+          <UID>2h//DUuRFk+c4k8vMxjPvA==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>COMP</Name>
+            <UID>unDazRmgXEu2a4wOAS3fsg==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.908</double>
+              <double>4.4905</double>
+              <double>0.55599999999999994</double>
+              <double>1.693</double>
+              <double>2.2555</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwICAgICAgIDAgICAgICAgICAwIDAgMCAgIDAn8ABAJ/</SigData>
+            <NoRepeats>1</NoRepeats>
+            <IntraSigPause>40.1685</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>COMP</Name>
+            <UID>4BxqloSzsEeqgQBZ6/OZPA==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.913</double>
+              <double>4.4905</double>
+              <double>0.5545</double>
+              <double>1.693</double>
+              <double>2.0405</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwICAgICAgIDAgICAgICAgICAwIDAgMCAgIDAn8Efw==</SigData>
+            <NoRepeats>2</NoRepeats>
+            <IntraSigPause>40.1645</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>Display</Name>
+          <UID>HpOkDlJc/EWSyEzHx391lg==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>Display</Name>
+            <UID>u1hWD7ilb06dyJHJZYrhew==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37914</ModulationFreq>
+            <Lengths>
+              <double>8.852</double>
+              <double>4.4645</double>
+              <double>0.55099999999999993</double>
+              <double>1.6815</double>
+              <double>2.242</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgICAgICAgICAgICAwICAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+            <NoRepeats>2</NoRepeats>
+            <IntraSigPause>39.968999999999994</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>Display</Name>
+            <UID>owdpCos+ZEOKG/uorqpWfg==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37914</ModulationFreq>
+            <Lengths>
+              <double>5.6585</double>
+              <double>0.16349999999999998</double>
+              <double>0.071000000000000008</double>
+              <double>0.3995</double>
+              <double>0.0075000000000000006</double>
+              <double>2.218</double>
+              <double>0.532</double>
+              <double>0.57300000000000006</double>
+              <double>1.6815</double>
+            </Lengths>
+            <SigData>AAECAwR/AgUGBwYGBgYGBgYGBgYGCAYGBggGCAYIBggGCAYIBn8=</SigData>
+            <NoRepeats>3</NoRepeats>
+            <IntraSigPause>35.0185</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Down</Name>
+          <UID>eVt7VSaOb0C2xHjCwPHxVQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.878</double>
+            <double>4.469</double>
+            <double>0.554</double>
+            <double>1.684</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.997499999999995</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Exit</Name>
+          <UID>Z7LXc5UtZEe7icfWkZH7YQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8745000000000012</double>
+            <double>4.471</double>
+            <double>0.554</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwICAgICAgICAgICAgICAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.997499999999995</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>FAV</Name>
+          <UID>jOyJCAoy6Eiu0PKmDxFeew==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.909</double>
+            <double>4.4905</double>
+            <double>0.55599999999999994</double>
+            <double>1.692</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAgIDAgMCAgIDAgICAgICAgMCAgICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1815</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>HDMI / PC</Name>
+          <UID>uiJ96tZ9ckKdlg59shc6zw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>HDMI / PC</Name>
+            <UID>LpRbwGWL3kW88XzdJ5lcRQ==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.9155</double>
+              <double>4.4905</double>
+              <double>0.55599999999999994</double>
+              <double>1.692</double>
+              <double>2.1195</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAwICAgICAgICAgICAwICAgICAwIDAgMCAwIDAn8Efw==</SigData>
+            <NoRepeats>2</NoRepeats>
+            <IntraSigPause>40.173</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>HDMI / PC</Name>
+            <UID>5iE3cLBzr0+IDqBsKd+Hgw==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>3.787</double>
+              <double>1.8584999999999998</double>
+            </Lengths>
+            <SigData>AH8Bfw==</SigData>
+            <NoRepeats>6</NoRepeats>
+            <IntraSigPause>21.0405</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Left</Name>
+          <UID>KO4ugdTeP0Sng9A+OKLrNA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8545</double>
+            <double>4.4645</double>
+            <double>0.5505</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAgIDAgICAgIDAgICAgIDAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.961000000000006</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>List</Name>
+          <UID>0CUzqu6h30Ou08TeqIFgQw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8535</double>
+            <double>4.4665</double>
+            <double>0.5515</double>
+            <double>1.681</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgIDAgMCAgIDAgICAwICAgMCAgICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9695</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Menu</Name>
+          <UID>RiywSD+iaU+KGaex028o9g==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8775</double>
+            <double>4.471</double>
+            <double>0.5545</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgIDAgICAgICAgICAwICAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.993</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>MTS</Name>
+          <UID>cDKg5ihcaki4wWgeN2yNcA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.9114999999999984</double>
+            <double>4.4905</double>
+            <double>0.55699999999999994</double>
+            <double>1.693</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAgICAgICAgIDAgICAwIDAgMCAwIDAgMCAgIDAn8=</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Mute</Name>
+          <UID>ckB/5yXxNkaEha6oxF+OBQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.852</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAwICAgICAgICAgICAwIDAgICAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.9675</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Next</Name>
+          <UID>mkLvTxO1nk+QoC3/kazF/A==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.9110000000000014</double>
+            <double>4.4905</double>
+            <double>0.5565</double>
+            <double>1.6900000000000002</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAwIDAgICAgIDAgICAgICAgICAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.173</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>OK</Name>
+          <UID>bUqjCHZOMkGGHG7PgqVVPw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8775</double>
+            <double>4.471</double>
+            <double>0.5565</double>
+            <double>1.6835</double>
+            <double>2.2455000000000003</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwIDAgICAgICAgICAgIDAgICAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.991</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Picture</Name>
+          <UID>AMhIbJFGTUODodAkPuWsqw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.853</double>
+            <double>4.4645</double>
+            <double>0.5515</double>
+            <double>1.6785</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAgICAgMCAgIDAgICAgIDAgMCAwICAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>39.963</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>PLAY / PAUSE</Name>
+          <UID>hrErIp+DMUyZaiUEw7i6ZA==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>PLAY / PAUSE</Name>
+            <UID>LTJtAxuCyEqwlsODasFnfg==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>2.381</double>
+              <double>2.0665</double>
+            </Lengths>
+            <SigData>AH8Bfw==</SigData>
+            <NoRepeats>3</NoRepeats>
+            <IntraSigPause>21.968</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>PLAY / PAUSE</Name>
+            <UID>LbMXPfHdCka39RQGp747yA==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.9114999999999984</double>
+              <double>4.4905</double>
+              <double>0.55599999999999994</double>
+              <double>1.6900000000000002</double>
+              <double>2.255</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAwIDAgICAgIDAgICAwICAgICAgIDAgMCAgIDAn8ABAJ/</SigData>
+            <NoRepeats>1</NoRepeats>
+            <IntraSigPause>40.1745</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Power</Name>
+          <UID>nM7KIdyTV0aGZgdSTk3dXQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.875</double>
+            <double>4.469</double>
+            <double>0.5535</double>
+            <double>1.6835</double>
+            <double>2.245</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.980000000000004</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>PRE CH</Name>
+          <UID>fmWS3bjjSU2enHAv7Uis6w==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>1.5790000000000002</double>
+          </Lengths>
+          <SigData>AH8Afw==</SigData>
+          <NoRepeats>6</NoRepeats>
+          <IntraSigPause>21.2745</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Prev.</Name>
+          <UID>9JOyTtedfUCnJp4w0yPYOQ==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.9110000000000014</double>
+            <double>4.4885</double>
+            <double>0.5585</double>
+            <double>1.693</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAwIDAgICAgIDAgICAwIDAgICAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1795</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Right</Name>
+          <UID>bFC7/UoSlkugBh1EeDZNrg==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.874</double>
+            <double>4.471</double>
+            <double>0.553</double>
+            <double>1.6835</double>
+            <double>2.2485</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAgIDAgICAgIDAgICAwICAgMCAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.997499999999995</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Source</Name>
+          <UID>OGHjuZ7rF0CiEosWxhwQAw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.9105</double>
+            <double>4.4905</double>
+            <double>0.55599999999999994</double>
+            <double>1.692</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAgIDAgICAgICAgICAwIDAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.184</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Stop</Name>
+          <UID>i9o0nIk73EuV07kUZlqyrA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.91</double>
+            <double>4.4905</double>
+            <double>0.5545</double>
+            <double>1.6925</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgICAwIDAgICAgIDAgICAgIDAgICAgIDAgMCAgIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1755</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>TV</Name>
+          <UID>Z0GpY3Ibtkq5Pkxaopa2iw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>TV</Name>
+            <UID>vBcPv3Ixr0uZy1ng+FrF2A==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>2.721</double>
+              <double>3.238</double>
+            </Lengths>
+            <SigData>AH8Bfw==</SigData>
+            <NoRepeats>6</NoRepeats>
+            <IntraSigPause>21.038500000000003</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>TV</Name>
+            <UID>JnWER2EyaUexPK9cPtKCkg==</UID>
+            <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+            <RepeatPause>0</RepeatPause>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.9114999999999984</double>
+              <double>4.4885</double>
+              <double>0.55699999999999994</double>
+              <double>1.6900000000000002</double>
+              <double>2.2555</double>
+            </Lengths>
+            <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgMCAwICAgICAgIDAgICAwICAgICAwIDAgMCAgIDAn8ABAJ/</SigData>
+            <NoRepeats>1</NoRepeats>
+            <IntraSigPause>40.162000000000006</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Up</Name>
+          <UID>FMNA7lDI7Uy5Sfcu+fmxQw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37914</ModulationFreq>
+          <Lengths>
+            <double>8.8545</double>
+            <double>4.4645</double>
+            <double>0.5535</double>
+            <double>1.6815</double>
+            <double>2.242</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwIDAgMCAgIDAgICAgICAgICAgICAgMCAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>39.9755</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>VOL -</Name>
+          <UID>C4K0Aa/V5UyoszfhIdm0Nw==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.915</double>
+            <double>4.4905</double>
+            <double>0.55599999999999994</double>
+            <double>1.6900000000000002</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAgICAgMCAgICAgICAwIDAgMCAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.173</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>VOL +</Name>
+          <UID>QPqnh47U1EGXsVmmThNuRA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.9175</double>
+            <double>4.4885</double>
+            <double>0.553</double>
+            <double>1.6900000000000002</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAwIDAgICAgICAgICAwIDAgICAgIDAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1795</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Wide</Name>
+          <UID>+ETM0FUFC0edp0YzZi64iA==</UID>
+          <PauseRepeatMode>ConstantGap</PauseRepeatMode>
+          <RepeatPause>0</RepeatPause>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.91</double>
+            <double>4.4885</double>
+            <double>0.5595</double>
+            <double>1.692</double>
+            <double>2.2555</double>
+          </Lengths>
+          <SigData>AAECAgICAgICAwIDAgMCAgICAgMCAwIDAgICAgICAgMCAwICAgICAwICAgMCAgICAgICAwIDAgICAwICAgMCAwIDAn8ABAJ/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>40.1705</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+  </AVDevices>
+</AVDeviceDB>

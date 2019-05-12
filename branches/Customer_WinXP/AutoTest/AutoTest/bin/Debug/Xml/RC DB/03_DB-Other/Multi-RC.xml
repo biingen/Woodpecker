@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDeviceDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AVDevices>
+    <AVDevice>
+      <Name>Multi-RC</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>true</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>YOKO_Channel-</Name>
+          <UID>Q8JGg7Q8v06Cksh6h+CV3w==</UID>
+          <ModulationFreq>35398</ModulationFreq>
+          <Lengths>
+            <double>0.8675</double>
+            <double>1.75</double>
+            <double>0.771</double>
+            <double>1.6689999999999998</double>
+          </Lengths>
+          <SigData>AAABAgAAAAAAAAAAAAEBAAAAAAAAAQB/AAABAgAAAAAAAAAAAAMBAAAAAAAAAwB/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>90.157</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>2</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>4</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>26</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>28</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>YOKO_Channel+</Name>
+          <UID>XTR1HGFEE0qCAXfaad2M4g==</UID>
+          <ModulationFreq>35714</ModulationFreq>
+          <Lengths>
+            <double>0.87149999999999994</double>
+            <double>1.7485</double>
+            <double>0.7725</double>
+            <double>1.6675</double>
+          </Lengths>
+          <SigData>AAABAgAAAAAAAgAAAAEBAAAAAAIAAAB/AAABAAAAAAAAAAAAAAMBAAAAAAAAAAB/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>91.0485</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>2</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>4</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>26</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>28</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>YOKO_Power</Name>
+          <UID>8CjvS317+kyhNym9dt2f9w==</UID>
+          <ModulationFreq>35398</ModulationFreq>
+          <Lengths>
+            <double>0.87449999999999994</double>
+            <double>0.771</double>
+            <double>1.7489999999999999</double>
+            <double>0.93099999999999994</double>
+            <double>1.6675</double>
+          </Lengths>
+          <SigData>AAECAwABAAAAAwAAAAAAAAACAAACAAB/AAACAAAAAAAAAAAAAAAAAAAEAAACAAB/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>91.0525</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>2</bitNo>
+              <len1>2</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>4</bitNo>
+              <len1>0</len1>
+              <len2>2</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>26</bitNo>
+              <len1>2</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>28</bitNo>
+              <len1>0</len1>
+              <len2>2</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>YOKO_Vol-</Name>
+          <UID>Fbe9SN2Gr0u597tKtaeLsw==</UID>
+          <ModulationFreq>35714</ModulationFreq>
+          <Lengths>
+            <double>0.8695</double>
+            <double>0.7725</double>
+            <double>1.7489999999999999</double>
+            <double>1.6685</double>
+          </Lengths>
+          <SigData>AAECAAAAAAAAAAAAAAAAAwIAAAAAAgB/AAACAAAAAAAAAAAAAAAAAwIAAAAAAwB/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>90.154</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>2</bitNo>
+              <len1>2</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>4</bitNo>
+              <len1>0</len1>
+              <len2>2</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>26</bitNo>
+              <len1>2</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>28</bitNo>
+              <len1>0</len1>
+              <len2>2</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>YOKO_Vol+</Name>
+          <UID>8zy2BXBI6EmpFpleBtdcPw==</UID>
+          <ModulationFreq>35398</ModulationFreq>
+          <Lengths>
+            <double>0.87049999999999994</double>
+            <double>1.746</double>
+            <double>0.77399999999999991</double>
+            <double>1.668</double>
+          </Lengths>
+          <SigData>AAABAgAAAAAAAAAAAAAAAQECAAAAAAB/AAABAAAAAAAAAAAAAAAAAwEAAAAAAAB/</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>91.0525</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>2</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>4</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>26</bitNo>
+              <len1>1</len1>
+              <len2>0</len2>
+            </ToggleBit>
+            <ToggleBit>
+              <bitNo>28</bitNo>
+              <len1>0</len1>
+              <len2>1</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+    <AVDevice>
+      <Name>ANAM</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>true</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel-</Name>
+          <UID>ov0DelnA8k2XuQh+3nUOKA==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>7.8689999999999989</double>
+            <double>3.9979999999999998</double>
+            <double>0.482</double>
+            <double>1.4865</double>
+          </Lengths>
+          <SigData>AAECAgIDAgICAgICAgICAgICAgECAgIDAgICAgICAgICAgICAn8AAQICAgMCAgICAgICAgICAgICAQICAgMCAgICAgICAgICAgICfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.1245</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel+</Name>
+          <UID>Um8pDuMTAkeFHFVwaKUKiA==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>7.8675</double>
+            <double>3.9979999999999998</double>
+            <double>0.481</double>
+            <double>1.4855</double>
+          </Lengths>
+          <SigData>AAECAgIDAgICAgICAgICAgICAgECAwICAgICAgICAgICAgICAn8AAQICAgMCAgICAgICAgICAgICAQIDAgICAgICAgICAgICAgICfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.1245</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Power</Name>
+          <UID>dEhms+mgJE2kFWFPOCYLcg==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>7.8709999999999996</double>
+            <double>3.9979999999999998</double>
+            <double>0.481</double>
+            <double>1.4855</double>
+          </Lengths>
+          <SigData>AAECAgIDAgICAgICAgICAgICAgECAgIDAgMCAwICAgICAgICAn8AAQICAgMCAgICAgICAgICAgICAQICAgMCAwIDAgICAgICAgICfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>23.1805</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>Rcn8xyWqKkeSySt4tr/WqQ==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>7.8689999999999989</double>
+            <double>3.9979999999999998</double>
+            <double>0.4815</double>
+            <double>1.4885</double>
+          </Lengths>
+          <SigData>AAECAgIDAgICAgICAgICAgICAgECAgICAgMCAgICAgICAgICAn8AAQICAgMCAgICAgICAgICAgICAQICAgICAwICAgICAgICAgICfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.124</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>LPrMtf3nbkS9FxF8I2fyxg==</UID>
+          <ModulationFreq>37383</ModulationFreq>
+          <Lengths>
+            <double>7.866</double>
+            <double>3.9979999999999998</double>
+            <double>0.48250000000000004</double>
+            <double>1.4855</double>
+            <double>2.6755</double>
+          </Lengths>
+          <SigData>AAECAgIDAgICAgICAgICAgICAgECAwIDAgICAgICAgICAgICAn8AAQICAgMCAgICAgICAgICAgICAQIDAgMCAgICAgICAgICAgICfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>24.1575</IntraSigPause>
+          <ToggleData>
+            <ToggleBit>
+              <bitNo>0</bitNo>
+              <len1>0</len1>
+              <len2>5</len2>
+            </ToggleBit>
+          </ToggleData>
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+    <AVDevice>
+      <Name>AIWA</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0.16</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>true</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Channel-</Name>
+          <UID>NZHBd3sCOkuqBMPncPVMAQ==</UID>
+          <ModulationFreq>37470</ModulationFreq>
+          <Lengths>
+            <double>8.783</double>
+            <double>4.4975</double>
+            <double>0.537</double>
+            <double>1.6969999999999998</double>
+          </Lengths>
+          <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMCAwIDAgMCAgICAgICAgICAgMCAgICAgMCAwIDAgMCAwICAgMCfwABAn8=</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>23.659</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Channel+</Name>
+          <UID>0WEPEWnwt0mscltLlfuLeA==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.8305</double>
+            <double>4.4975</double>
+            <double>0.5335</double>
+            <double>1.696</double>
+          </Lengths>
+          <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMCAwIDAgICAgICAgICAgICAgMCAgIDAgMCAwIDAgMCAwICAgMCfwABAn8=</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>23.659</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>Power</Name>
+          <UID>/+goRH950kmvAIDRScfyAA==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>Power</Name>
+            <UID>nibT/qAKkEGAkZLdeEuBfw==</UID>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.8315</double>
+              <double>4.4975</double>
+              <double>0.533</double>
+              <double>1.6969999999999998</double>
+              <double>0.27099999999999996</double>
+              <double>1.9895</double>
+              <double>0.0090000000000000011</double>
+              <double>6.656</double>
+            </Lengths>
+            <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMEBQYHBn8AAQJ/</SigData>
+            <NoRepeats>2</NoRepeats>
+            <IntraSigPause>46.5475</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>Power</Name>
+            <UID>NGbmSgKyIE6+Ski8XRJdCQ==</UID>
+            <ModulationFreq>37647</ModulationFreq>
+            <Lengths>
+              <double>8.834</double>
+              <double>4.4955000000000007</double>
+              <double>0.533</double>
+              <double>1.696</double>
+            </Lengths>
+            <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMCAwIDAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwIDAgMCfwABAn8=</SigData>
+            <NoRepeats>2</NoRepeats>
+            <IntraSigPause>23.6525</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>RdrzPVzJ9E+ef9AOum6aRg==</UID>
+          <ModulationFreq>37383</ModulationFreq>
+          <Lengths>
+            <double>8.8355</double>
+            <double>4.4955000000000007</double>
+            <double>0.5325</double>
+            <double>1.6969999999999998</double>
+          </Lengths>
+          <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMCAwIDAgMCAgICAgMCAwICAgICAgICAgMCAwICAgICAwIDAgMCfwABAn8=</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>23.6585</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>+J44iNK/lEWI8pkLI+RSEg==</UID>
+          <ModulationFreq>37647</ModulationFreq>
+          <Lengths>
+            <double>8.831999999999999</double>
+            <double>4.4955000000000007</double>
+            <double>0.5315</double>
+            <double>1.7</double>
+          </Lengths>
+          <SigData>AAECAwIDAgICAwIDAgMCAwICAgICAgICAgICAgICAgICAwICAgICAgICAgMCAwIDAgMCAwIDAgICAgICAgMCAwICAgICAgIDAgMCAwICAgICAwIDAgMCfwABAn8=</SigData>
+          <NoRepeats>1</NoRepeats>
+          <IntraSigPause>23.6515</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+    <AVDevice>
+      <Name>FERGUSON</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>false</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel-</Name>
+          <UID>6naMSEGxF0q3ZenkPLUqZg==</UID>
+          <ModulationFreq>0</ModulationFreq>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Channel+</Name>
+          <UID>ColrHHMUakmWV1Bqcm65mA==</UID>
+          <ModulationFreq>0</ModulationFreq>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Power</Name>
+          <UID>xWV2dkv4SkS0YXVE32LxVA==</UID>
+          <ModulationFreq>0</ModulationFreq>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>H8HdS7vbrkuh7gVv2Xw/rg==</UID>
+          <ModulationFreq>0</ModulationFreq>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>VRSzo0/pMkCiMZhKr52otw==</UID>
+          <ModulationFreq>0</ModulationFreq>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+  </AVDevices>
+</AVDeviceDB>

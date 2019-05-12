@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDevice xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Sanyo PVL-Z2</Name>
+  <Manufacturer>Sanyo</Manufacturer>
+  <DeviceModelNumber>PVL-Z2</DeviceModelNumber>
+  <RemoteModelNumber />
+  <DeviceType>OTHER</DeviceType>
+  <DoubleSignals>false</DoubleSignals>
+  <KeyboardSignals>false</KeyboardSignals>
+  <Signals>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Auto  PC</Name>
+      <UID>5RwG1aBEA0utVUbx4np7Dw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAgIDAgICAgICAgMCAgIDAgMC
+AgIDAgMCAwICAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Cursor Down</Name>
+      <UID>hXyJ99PwXkSB0Y4Jm0ae2w==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAwIDAgICAgICAgMCAgIDAgIC
+AgIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Cursor Left</Name>
+      <UID>xX9b/y/qzkyNZNQ5+pbafQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgMCAwIDAgMCAgICAgICAwICAgIC
+AgICAgMCAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Cursor OK</Name>
+      <UID>9MXtKiWIR0GBpdPcQOIZwg==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAwIDAgICAgICAgICAgICAgIC
+AgIDAgMCAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Cursor Right</Name>
+      <UID>JFXniqtSiUmv+Yf6R8ygJg==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAwIDAgMCAgICAgICAgIDAgIC
+AgICAgMCAwIDAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Cursor Up</Name>
+      <UID>qXRKE8XoXkiVQPp9kkRIvQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAwIDAgICAgICAgMCAwIDAgIC
+AgIDAgMCAwICAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image</Name>
+      <UID>uuJiNS9dIk2IwgtJWVqoOw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAwIDAgICAgICAgICAwIDAgIC
+AgIDAgMCAwIDAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image 1</Name>
+      <UID>JAUgKkNSBkSlf8MtIPc77Q==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMCAgIDAgICAwIDAgMC
+AwICAgMCAgIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image 2</Name>
+      <UID>64oandrANUK2HkD2yyWQMw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAgICAgMCAgIDAgICAgIDAgMC
+AwICAgMCAgIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image 3</Name>
+      <UID>xaE1MgzVQUCn32rx8MhapA==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgMCAwICAgMCAgIDAgICAwICAgIC
+AwICAgMCAgIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image 4</Name>
+      <UID>K0ykO82jBk+4co29WtQpPw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAwICAgMCAgIDAgICAgICAgIC
+AwICAgMCAgIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image Preset</Name>
+      <UID>zLthtDdEL0W4P9fM7YQYqg==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAgIDAgMCAgIDAgICAwIDAgMC
+AgICAgMCAgIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0695 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Image STD</Name>
+      <UID>6wizvP3xfkS6P2AyDUjg6g==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAgICAgICAgICAgIC
+AgICAgMCAwIDAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Input</Name>
+      <UID>NWJMRLJ2MEuecnn8tO6yBA==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAwICAgICAgICAgICAgIDAgIC
+AwIDAgMCAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Input 1 Auto</Name>
+      <UID>+rjhcQG3FkGN10p1S7wx6w==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAwIDAgMCAwICAgICAgICAgIC
+AgICAgICAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Input 1 Component</Name>
+      <UID>ibqIAndKzUWLTVJyqfqwnw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAgICAgICAgICAgMCAgICAgMC
+AwIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Input 1 S-Video</Name>
+      <UID>YC95pk5c4UeTTRYbl770Gg==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.54574012756347656</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgMCAwIDAgMCAwICAgICAwICAgIC
+AgICAgICAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0015 0040 0015 0040 0015 0015 0015 0015 0015 0040 0015 0040 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0040 0015 0040 0015 0040 0015 0040 0015 0040 0015 0015 0015 0015 0015 0040 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0015 0040 0015 0040 0015 0695 0155 0056 0015 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Input 1 Video</Name>
+      <UID>ejofE7vEiU2n0LJqDQN8vQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAwIDAgMCAwICAgICAgIDAgIC
+AgICAgICAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Keystone down</Name>
+      <UID>+iBreAYHKUqY+Rpayi5zvw==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAwIDAgICAgICAgMCAgICAgIC
+AgIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Keystone up</Name>
+      <UID>Ts4QVdtns0CvwJymmYPNaQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgMCAwIDAgICAgICAgMCAwICAgIC
+AgIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Lamp</Name>
+      <UID>DeNzBB2Uk02DldIMmsA40w==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAgIDAgMCAgICAgICAwIDAgMC
+AgICAgMCAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Menu</Name>
+      <UID>BnkqOjVly0eW8S/PeAOk8Q==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAwIDAgMCAgICAgICAwIDAgIC
+AgICAgMCAwIDAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>No Show</Name>
+      <UID>HJlNbyNKn0W49KncFuxpiQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4438838958740234</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgMCAgIDAgICAgICAgMCAgICAgMC
+AgIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AB 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AB</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Power Off</Name>
+      <UID>HYbXDF6kvEqSEzjCvTeZkg==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8877677917480469</double>
+        <double>4.4178962707519531</double>
+        <double>0.57172775268554688</double>
+        <double>1.6372203826904297</double>
+        <double>2.2089481353759766</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgIDAgICAgICAgICAwICAgMCAgIDAgMC
+AwIDAgICAwICAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.763160705566406</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006d 0022 0002 0156 00aa 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 0694 0156 0055 0016 0e3f 
+
+</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Power On</Name>
+      <UID>piGx+SPix0So8D4pM2BmQA==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8877677917480469</double>
+        <double>4.4178962707519531</double>
+        <double>0.57172775268554688</double>
+        <double>1.6372203826904297</double>
+        <double>2.2089481353759766</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwICAgMCAwIDAgMC
+AwIDAgICAwICAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.763160705566406</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006d 0022 0002 0156 00aa 0016 003f 0016 003f 0016 0015 0016 0015 0016 003f 0016 003f 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 0015 0016 003f 0016 0015 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 003f 0016 0015 0016 003f 0016 0015 0016 0694 0156 0055 0016 0e3f
+
+</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Power toggle</Name>
+      <UID>mm0bsT5gF0CO3HxKkR9TdQ==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAwIDAgMC
+AwIDAgMCAwIDAn8ABAJ/</SigData>
+      <NoRepeats>2</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0026 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0695 0155 0056 0016 0E55 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+    <IRPacket xsi:type="ProntoModulatedSignal">
+      <Name>Screen</Name>
+      <UID>mW80ORcboUmIn5IsHcQ+4Q==</UID>
+      <ModulationFreq>38479.853211009176</ModulationFreq>
+      <Lengths>
+        <double>8.8617801666259766</double>
+        <double>4.4698715209960938</double>
+        <double>0.57172775268554688</double>
+        <double>1.6632080078125</double>
+        <double>2.2349357604980469</double>
+      </Lengths>
+      <SigData>AAECAwIDAgICAgIDAgMCAgICAgICAgICAgICAgICAgICAgICAgMCAgICAgICAgICAgMCAwICAgMC
+AwIDAgMCAwICAn8ABAIBfw==</SigData>
+      <NoRepeats>1</NoRepeats>
+      <IntraSigPause>43.789148330688477</IntraSigPause>
+      <ToggleData />
+      <ProntoData>0000 006D 0024 0000 0155 00AC 0016 0040 0016 0040 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0040 0016 0040 0016 0016 0016 0040 0016 0040 0016 0040 0016 0040 0016 0040 0016 0016 0016 0695 0155 0056 0016 00AC</ProntoData>
+      <LengthFuzzValue>0.05</LengthFuzzValue>
+      <MinPauseLength>15</MinPauseLength>
+    </IRPacket>
+  </Signals>
+</AVDevice>

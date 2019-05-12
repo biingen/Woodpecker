@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<application>
+	<Generator>
+	<Device Name="_astro">
+		<Timing>VESA 640x480@60</Timing>
+		<Signal>31.36.30.34</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>VESA 640x480@72</Timing>
+		<Signal>31.36.30.35</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>VESA 640x480@75</Timing>
+		<Signal>31.36.30.36</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>VESA 640x480@85</Timing>
+		<Signal>31.36.30.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>720x400@70</Timing>
+		<Signal>31.38.37.37</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>VESA 720x400@85</Timing>
+		<Signal>31.36.30.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 800x600@56</Timing>
+		<Signal>31.36.30.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 800x600@60</Timing>
+		<Signal>31.36.30.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 800x600@72</Timing>
+		<Signal>31.36.31.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 800x600@75</Timing>
+		<Signal>31.36.31.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 800x600@85</Timing>
+		<Signal>31.36.31.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1024x768@60</Timing>
+		<Signal>31.36.31.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1024x768@70</Timing>
+		<Signal>31.36.31.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1024x768@75</Timing>
+		<Signal>31.36.31.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1024x768@85</Timing>
+		<Signal>31.36.31.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1152x864@75</Timing>
+		<Signal>31.36.32.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x768@60 (Reduced Blanking)</Timing>
+		<Signal>31.36.32.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x768@60</Timing>
+		<Signal>31.36.32.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x768@75</Timing>
+		<Signal>31.36.32.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x768@85</Timing>
+		<Signal>31.36.32.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x960@60</Timing>
+		<Signal>31.36.33.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x960@85</Timing>
+		<Signal>31.36.33.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x1024@60</Timing>
+		<Signal>31.36.33.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x1024@75</Timing>
+		<Signal>31.36.33.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1280x1024@85</Timing>
+		<Signal>31.36.33.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1360x768@60</Timing>
+		<Signal>31.36.33.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1360x768@120</Timing>
+		<Signal>31.36.34.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1400x1050@60  (Reduced Blanking)</Timing>
+		<Signal>31.36.34.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1400x1050@60</Timing>
+		<Signal>31.36.34.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1400x1050@75</Timing>
+		<Signal>31.36.34.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1400x1050@85</Timing>
+		<Signal>31.36.34.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1600x1200@60</Timing>
+		<Signal>31.36.35.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1600x1200@65</Timing>
+		<Signal>31.36.35.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1600x1200@70</Timing>
+		<Signal>31.36.35.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1600x1200@75</Timing>
+		<Signal>31.36.35.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1600x1200@85</Timing>
+		<Signal>31.36.35.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1680x1050@60 (Reduced Blanking)</Timing>
+		<Signal>31.36.35.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1680x1050@60</Timing>
+		<Signal>31.36.35.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1680x1050@75</Timing>
+		<Signal>31.36.35.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1680x1050@85</Timing>
+		<Signal>31.36.36.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1920x1080@60</Timing>
+		<Signal>31.36.38.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1920x1200@60 (Reduced Blanking)</Timing>
+		<Signal>31.36.36.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1920x1200@60</Timing>
+		<Signal>31.36.36.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1920x1200@75</Timing>
+		<Signal>31.36.37.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>VESA 1920x1200@85</Timing>
+		<Signal>31.36.37.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>640x480@66.67 (Mac)</Timing>
+		<Signal>31.39.30.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>832x624@74.55 (Mac)</Timing>
+		<Signal>31.39.31.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1024x768@59.56 (Mac)</Timing>
+		<Signal>31.39.31.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1024x768@74.93 (Mac)</Timing>
+		<Signal>31.39.31.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1152x870@75 (Mac)</Timing>
+		<Signal>31.39.31.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>640x480p@59.94</Timing>
+		<Signal>31.30.30.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>720x480p@59.94</Timing>
+		<Signal>31.30.30.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>720x480p@60</Timing>
+		<Signal>31.30.30.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1280x720p@59.94</Timing>
+		<Signal>31.30.30.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1280x720p@60</Timing>
+		<Signal>31.30.30.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080i@59.94</Timing>
+		<Signal>31.30.30.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080i@60</Timing>
+		<Signal>31.30.31.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080p@24</Timing>
+		<Signal>31.34.32.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080p@59.94</Timing>
+		<Signal>31.30.33.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080p@60</Timing>
+		<Signal>31.30.34.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x480i@59.94</Timing>
+		<Signal>31.30.32.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x480i@60</Timing>
+		<Signal>31.30.32.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x240p@60.05</Timing>
+		<Signal>31.30.32.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x240p@60.11</Timing>
+		<Signal>31.30.32.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x240p@59.83</Timing>
+		<Signal>31.30.32.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x240p@59.89</Timing>
+		<Signal>31.30.33.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1440x480p@59.94</Timing>
+		<Signal>31.30.33.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1440x480p@60</Timing>
+		<Signal>31.30.33.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x480p@59.94</Timing>
+		<Signal>31.30.36.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x480p@60</Timing>
+		<Signal>31.30.37.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>720x576p@50</Timing>
+		<Signal>31.30.34.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1280x720p@50</Timing>
+		<Signal>31.31.36.30</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080i@50</Timing>
+		<Signal>31.30.34.34</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080p@25</Timing>
+		<Signal>31.30.36.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1920x1080p@50</Timing>
+		<Signal>31.30.36.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x576i@50</Timing>
+		<Signal>31.30.35.33</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x288p@50.08</Timing>
+		<Signal>31.30.35.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x288p@49.92</Timing>
+		<Signal>31.30.35.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x288p@49.76</Timing>
+		<Signal>31.30.35.37</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1440x576i@50</Timing>
+		<Signal>31.30.34.35</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>1440x576p@50</Timing>
+		<Signal>31.30.36.31</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>2880x576p@50</Timing>
+		<Signal>31.30.37.33</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>NTSC358</Timing>
+		<Signal>31.39.35.30</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>NTSC443</Timing>
+		<Signal>31.34.31.30</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>PAL</Timing>
+		<Signal>31.39.36.39</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>PAL60</Timing>
+		<Signal>31.35.31.33</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>PALNc</Timing>
+		<Signal>31.35.31.35</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>PALN</Timing>
+		<Signal>31.35.31.34</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>PALM</Timing>
+		<Signal>31.35.31.32</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>SECAM</Timing>
+		<Signal>31.39.36.34</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>EIA1440x480i@59.94</Timing>
+		<Signal>31.30.31.31</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>NTSC_PROG</Timing>
+		<Signal>31.34.30.31</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>EIA1280x720p@24</Timing>
+		<Signal>31.31.30.36</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>EIA1280x720p@30</Timing>
+		<Signal>31.31.30.38</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>EIA1280x720p@50</Timing>
+		<Signal>31.30.34.33</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>EIA1920x1080p@24</Timing>
+		<Signal>31.30.36.35</Signal>
+    </Device>
+    <Device Name="_astro">
+		<Timing>EIA1920x1080p@30</Timing>
+		<Signal>31.30.36.38</Signal>
+    </Device>	
+    <Device Name="_astro">
+		<Timing>4K2K3840x2160p24</Timing>
+		<Signal>31.33.39.31</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>4K2K3840x2160p30</Timing>
+		<Signal>31.33.38.39</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>EIA2840x2160p@50</Timing>
+		<Signal>31.37.35.30</Signal>
+    </Device>
+	<Device Name="_astro">
+		<Timing>EIA2840x2160p@60</Timing>
+		<Signal>31.37.35.32</Signal>
+    </Device>
+	</Generator>
+</application>

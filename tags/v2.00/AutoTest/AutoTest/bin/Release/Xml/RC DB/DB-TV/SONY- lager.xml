@@ -1,0 +1,1714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AVDeviceDB xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AVDevices>
+    <AVDevice>
+      <Name>SONY</Name>
+      <Manufacturer />
+      <DeviceModelNumber />
+      <RemoteModelNumber />
+      <DeviceType>TV</DeviceType>
+      <DecoderClass>default</DecoderClass>
+      <RCCorrection>
+        <useDefault>true</useDefault>
+        <rcCorrVal>0</rcCorrVal>
+      </RCCorrection>
+      <CreateDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </CreateDelta>
+      <DecodeDelta>
+        <useDefault>true</useDefault>
+        <deltaValue>0</deltaValue>
+      </DecodeDelta>
+      <DoubleSignals>true</DoubleSignals>
+      <KeyboardSignals>false</KeyboardSignals>
+      <XMP1Signals>false</XMP1Signals>
+      <Signals>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>.</Name>
+          <UID>0U8YAv5K4EmGEfIVLXhQng==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAECAQIBAgECAQIBAgEBAQIBAQEBAQEBAX8AAQIBAgECAQIBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>23.8385</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>...</Name>
+          <UID>P/fr4h2Z60uudRJqmRY8/g==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.602</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAQEBAQIBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>20.252</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>0</Name>
+          <UID>oPEws+YbD0Op9TWP92O99w==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.599</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAECAQEBAQECAQEBAQEBAQIBAQEBAQEBAX8AAQIBAQEBAQIBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.228</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>1</Name>
+          <UID>VKH+gswoeECu36HFuJ0jqw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQEBAQEBAQEBAQIBAQEBAQEBAX8AAQEBAQEBAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>27.439</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>2</Name>
+          <UID>Jg2kzijQpEuahAcMpdF4aw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.599</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAECAQEBAQEBAQEBAQEBAQIBAQEBAQEBAX8AAQIBAQEBAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.841</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>3</Name>
+          <UID>VNOgTLbJnEWoGRUOO/FGAQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3485</double>
+            <double>0.6</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQEBAQEBAQEBAQIBAQEBAQEBAX8AAQEBAgEBAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.841</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>4</Name>
+          <UID>SAyTedEmTU2yEuufRMNAjA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.602</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAQEBAQIBAQEBAQEBAX8AAQIBAgEBAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.243</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>5</Name>
+          <UID>sjNIg1p1R0q81plyAw9bhw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.599</double>
+            <double>1.1620000000000001</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQEBAQEBAQIBAQEBAQEBAX8AAQEBAQECAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>26.826</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>6</Name>
+          <UID>C1KFQIdFlUebG8U69fvKEQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3455</double>
+            <double>0.599</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAQEBAQIBAQEBAQEBAX8AAQIBAQECAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.228</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>7</Name>
+          <UID>NbaDIGW/zEu3oAJ/fWYLYw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQIBAgEBAQEBAQEBAQIBAQEBAQEBAX8AAQEBAgECAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.228</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>8</Name>
+          <UID>BgwcJ0zaqEeVuF32/YSD2w==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.6</double>
+            <double>1.1655</double>
+          </Lengths>
+          <SigData>AAECAQIBAgEBAQEBAQEBAQIBAQEBAQEBAX8AAQIBAgECAQEBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.63</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>9</Name>
+          <UID>FoQIj+yMDEa8Bzn7vtQcFg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.599</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQEBAQEBAQIBAQEBAQEBAX8AAQEBAQEBAQIBAQEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.841</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>ANT</Name>
+          <UID>mXL+n/cudE+TH7AFKCMw0Q==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3449999999999998</double>
+            <double>0.603</double>
+            <double>1.1575</double>
+          </Lengths>
+          <SigData>AAECAQEBAgECAQEBAQEBAQIBAgECAQEBAgECAQIBAX8AAQIBAQECAQIBAQEBAQEBAgECAQIBAQECAQIBAgEBfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.037</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Aspect</Name>
+          <UID>rDezqCrOyUCBPE+PH3RiiQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3489999999999998</double>
+            <double>0.602</double>
+            <double>1.1644999999999999</double>
+          </Lengths>
+          <SigData>AAECAQEBAgECAQIBAgEBAQEBAQECAQEBAQECAQEBAn8AAQIBAQECAQIBAgECAQEBAQEBAQIBAQEBAQIBAQECfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.6705</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Audio</Name>
+          <UID>5JeUU1RLl0CEDS/esSOGYA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3375000000000004</double>
+            <double>0.602</double>
+            <double>1.1720000000000002</double>
+          </Lengths>
+          <SigData>AAECAQIBAgEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAgECAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>5</NoRepeats>
+          <IntraSigPause>25.049</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Blue</Name>
+          <UID>/X3c1lODUkiGd6FvJ2hXTw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.602</double>
+            <double>1.161</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAQECAQEBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>20.269</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Ch-</Name>
+          <UID>sGJXOb9tR0eygJQo1D8Iqg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.354</double>
+            <double>0.599</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQEBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAQEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.228</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Ch+</Name>
+          <UID>ouhZvyVwpkuyeFZvQPmG3g==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQEBAQEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.826</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>D/A</Name>
+          <UID>HflKiQ/jkUaiNxFjMS4RTQ==</UID>
+          <ModulationFreq>39603</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.602</double>
+            <double>1.1620000000000001</double>
+          </Lengths>
+          <SigData>AAECAQEBAgECAQEBAQEBAQIBAgECAQEBAgECAQIBAX8AAQIBAQECAQIBAQEBAQEBAgECAQIBAQECAQIBAgEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.074</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Display</Name>
+          <UID>T13sVX2CK0GV++4F/Ktepw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.599</double>
+            <double>1.163</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQECAQIBAgEBAQIBAQEBAQEBAX8AAQEBAgEBAQIBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.0365</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Down</Name>
+          <UID>aa1KWs+p2kqZ3JlLMeoNaQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.599</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQIBAgECAQIBAQEBAQEBAX8AAQIBAQECAQEBAgECAQIBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>24.4365</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-0</Name>
+          <UID>jxGPwwfWZ0ireqmFqoYA3w==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-0</Name>
+            <UID>6zHY9Y+3bkSb+3ILSm86+w==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3415</double>
+              <double>0.6</double>
+              <double>1.1620000000000001</double>
+              <double>13.915500000000002</double>
+              <double>13.801</double>
+              <double>14.161</double>
+            </Lengths>
+            <SigData>AAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-0</Name>
+            <UID>p+DelzQCVkqXybM+Ah6PGQ==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.1624999999999999</double>
+              <double>13.915500000000002</double>
+              <double>13.801</double>
+            </Lengths>
+            <SigData>AAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-1</Name>
+          <UID>W/mu7v2Y+ECKOo06DyIABQ==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-1</Name>
+            <UID>3EBVVqSliEOSV/hoY/n+tQ==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3415</double>
+              <double>0.599</double>
+              <double>1.1655</double>
+              <double>15.1115</double>
+              <double>14.995</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-1</Name>
+            <UID>OwFsQ1/i2UuUuhcPwu7OeA==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3405</double>
+              <double>0.599</double>
+              <double>1.163</double>
+              <double>15.1075</double>
+              <double>14.995</double>
+              <double>15.3545</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-2</Name>
+          <UID>5LpUt1Iz8E6fT0M6RUp3pA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3435</double>
+            <double>0.59849999999999992</double>
+            <double>1.1615</double>
+            <double>14.52</double>
+            <double>14.390500000000001</double>
+            <double>14.765500000000001</double>
+          </Lengths>
+          <SigData>AAECAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-3</Name>
+          <UID>O2KGbkGkEE+dus0RpoAyDQ==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-3</Name>
+            <UID>QM1wdDwK6UuTMUGT5meHkw==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.342</double>
+              <double>0.602</double>
+              <double>1.1644999999999999</double>
+              <double>14.519499999999999</double>
+              <double>14.390500000000001</double>
+            </Lengths>
+            <SigData>AAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-3</Name>
+            <UID>6jsxyARaA0Ko4j/BGP+eOw==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3440000000000003</double>
+              <double>0.6015</double>
+              <double>1.1655</double>
+              <double>14.52</double>
+              <double>14.390500000000001</double>
+              <double>14.765</double>
+            </Lengths>
+            <SigData>AAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-4</Name>
+          <UID>L+m1Nvv/VEOVPzHqmzV8vw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3405</double>
+            <double>0.6</double>
+            <double>1.1644999999999999</double>
+            <double>13.915000000000001</double>
+            <double>13.801</double>
+            <double>14.161</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQIBAQEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-5</Name>
+          <UID>P8sAOJ0DrUCPwoEjpm1z3g==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3435</double>
+            <double>0.6005</double>
+            <double>1.1640000000000002</double>
+            <double>14.519499999999999</double>
+            <double>14.390500000000001</double>
+            <double>14.7675</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-6</Name>
+          <UID>1u0CUl8ic025szdjTG9wBA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.343</double>
+            <double>0.603</double>
+            <double>1.1620000000000001</double>
+            <double>13.9135</double>
+            <double>13.801</double>
+            <double>14.1585</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-7</Name>
+          <UID>Q0vOog3zCEC1uLlbc8+fCg==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-7</Name>
+            <UID>hcENxlV3wEeXo3x+YhjStQ==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3444999999999996</double>
+              <double>0.599</double>
+              <double>1.1624999999999999</double>
+              <double>13.915000000000001</double>
+              <double>13.801</double>
+            </Lengths>
+            <SigData>AAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-7</Name>
+            <UID>OeVyHGi9zkiYef24s2ZMmQ==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3444999999999996</double>
+              <double>0.6</double>
+              <double>1.1644999999999999</double>
+              <double>13.915000000000001</double>
+              <double>13.801499999999999</double>
+              <double>14.161</double>
+            </Lengths>
+            <SigData>AAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-8</Name>
+          <UID>4Um9gjgt/UKaMwK8e1L9fg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.6015</double>
+            <double>1.1615</double>
+            <double>13.325999999999999</double>
+            <double>13.199499999999999</double>
+            <double>13.4435</double>
+          </Lengths>
+          <SigData>AAECAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQIBAgEBAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-9</Name>
+          <UID>+CVhSgGPjUuymEJO/RTW2Q==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3415</double>
+            <double>0.59849999999999992</double>
+            <double>1.1620000000000001</double>
+            <double>14.5205</double>
+            <double>14.391</double>
+            <double>14.765500000000001</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-ADVANCE</Name>
+          <UID>eNHsG0KrOEyem0kO58yBxA==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-ADVANCE</Name>
+            <UID>0yZfRB7sv0ahYLLAUZwAdA==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.1615</double>
+              <double>13.915000000000001</double>
+              <double>13.786</double>
+            </Lengths>
+            <SigData>AAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEEAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-ADVANCE</Name>
+            <UID>FXbp11OmO06B9OxpljgF0Q==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.341</double>
+              <double>0.603</double>
+              <double>1.1620000000000001</double>
+              <double>13.915000000000001</double>
+              <double>13.786</double>
+              <double>14.161</double>
+            </Lengths>
+            <SigData>AAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEEAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEFAAEBAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-AUDIO</Name>
+          <UID>iUUFZh+cRE+gevAuJvlIjw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3440000000000003</double>
+            <double>0.6015</double>
+            <double>1.1635</double>
+            <double>13.325999999999999</double>
+            <double>13.1965</double>
+            <double>13.4435</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAgEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-CLEAR</Name>
+          <UID>3QLAl7IP7EulFa55umdY+A==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-CLEAR</Name>
+            <UID>mhFn23PF6kSHHh0/yG8PDw==</UID>
+            <ModulationFreq>520</ModulationFreq>
+            <Lengths>
+              <double>0.0245</double>
+              <double>0.2335</double>
+              <double>0.326</double>
+              <double>1.56</double>
+              <double>0.6005</double>
+              <double>1.1620000000000001</double>
+              <double>12.721</double>
+              <double>2.343</double>
+              <double>12.5915</double>
+              <double>12.966</double>
+            </Lengths>
+            <SigData>AAEBAgMEBQQFBAUEBQQEBAQEBAQEBAUEBAQFBAUEBQQEBAQEBQQEBAQEBQQEBgcEBQQFBAUEBQQEBAQEBAQEBAUEBAQFBAUEBQQEBAQEBQQEBAQEBQQECAcEBQQFBAUEBQQEBAQEBAQEBAUEBAQFBAUEBQQEBAQEBQQEBAQEBQQEBgcEBQQFBAUEBQQEBAQEBAQEBAUEBAQFBAUEBQQEBAQEBQQEBAQEBQQECQcEBQQFBAUEBQQEBAQEBAQEBAUEBAQFBAUEBQQEBAQEBQQEBAQEBQQEfw==</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-CLEAR</Name>
+            <UID>gcsZLcDe3EqSc0zFCaRkAA==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>0.38249999999999995</double>
+              <double>0.6015</double>
+              <double>1.1640000000000002</double>
+              <double>12.721</double>
+              <double>2.3425</double>
+              <double>12.5915</double>
+              <double>12.9665</double>
+            </Lengths>
+            <SigData>AAECAQEBAQECAQEBAQECAQEDBAECAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFBAECAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDBAECAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEGBAECAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-DISPLAY</Name>
+          <UID>Wb8YJ2vJa0SiUK6TC0aRbw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-DISPLAY</Name>
+            <UID>n2eKex93WEyctejlZbc47A==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.341</double>
+              <double>0.6015</double>
+              <double>1.163</double>
+              <double>13.325999999999999</double>
+              <double>13.197000000000001</double>
+              <double>13.4435</double>
+            </Lengths>
+            <SigData>AAEBAQEBAgEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAgEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-DISPLAY</Name>
+            <UID>FaL/EjKIMEeT3zpfsoxOvA==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>0.5995</double>
+              <double>1.161</double>
+              <double>13.327</double>
+              <double>2.3395</double>
+              <double>13.1975</double>
+              <double>13.4445</double>
+            </Lengths>
+            <SigData>AAABAAAAAQAAAAEAAQABAAAAAAABAAAAAAABAAACAwAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAQABAAAAAAABAAAAAAABAAAEAwAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAQABAAAAAAABAAAAAAABAAACAwAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAQABAAAAAAABAAAAAAABAAAFAwAAAAAAAQAAAAEAAAABAAAAAQAAAAEAAQABAAAAAAABAAAAAAABAAB/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-Down</Name>
+          <UID>90OsJ1pO0EOHiCMt4xfptw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.342</double>
+            <double>0.603</double>
+            <double>1.1624999999999999</double>
+            <double>12.132</double>
+            <double>12.003</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-FAST/SLOW/PLAY</Name>
+          <UID>CaaaA0z14ku1JE6UNBsoeg==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-FAST/SLOW/PLAY</Name>
+            <UID>j34DQ2jsmkSttQSZOEFRzg==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.163</double>
+              <double>12.116999999999999</double>
+              <double>12.003</double>
+            </Lengths>
+            <SigData>AAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEEAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-FAST/SLOW/PLAY</Name>
+            <UID>C8P/tk8hrkC+6S3eWC22Dg==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.341</double>
+              <double>0.6015</double>
+              <double>1.1644999999999999</double>
+              <double>12.1175</double>
+              <double>12.003</double>
+              <double>12.3775</double>
+            </Lengths>
+            <SigData>AAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEEAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEDAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQEFAAECAQIBAQECAQIBAgEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAgECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-FFwd</Name>
+          <UID>XZrezxYCukCZ8Lc2vKJmVg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.603</double>
+            <double>1.1615</double>
+            <double>13.325999999999999</double>
+            <double>13.197000000000001</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-Left</Name>
+          <UID>yPjUounxUU6hGQeeunVICw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.603</double>
+            <double>1.1624999999999999</double>
+            <double>11.5275</double>
+            <double>11.4135</double>
+            <double>11.773</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-MENU</Name>
+          <UID>lPePIqxy80GnjRPL4LtZ7Q==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-MENU</Name>
+            <UID>k+61S49vikSbL7+kJl/LwA==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3440000000000003</double>
+              <double>0.6015</double>
+              <double>1.1620000000000001</double>
+              <double>12.72</double>
+              <double>12.607</double>
+              <double>0.7295</double>
+            </Lengths>
+            <SigData>AAECAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAUCAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-MENU</Name>
+            <UID>DKSn5HSrJEOS+/mv8s1hiw==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.6015</double>
+              <double>1.1624999999999999</double>
+              <double>12.7215</double>
+              <double>12.6075</double>
+              <double>0.73</double>
+            </Lengths>
+            <SigData>AAECAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAUCAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-NEXT</Name>
+          <UID>SSnxrdUEUUmxSq8KgT8tDQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3405</double>
+            <double>0.6015</double>
+            <double>1.1635</double>
+            <double>13.325999999999999</double>
+            <double>13.197000000000001</double>
+            <double>13.4435</double>
+          </Lengths>
+          <SigData>AAECAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-OK</Name>
+          <UID>VikgVH9MZ0Ku9BzZts6l8Q==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3435</double>
+            <double>0.6015</double>
+            <double>1.1640000000000002</double>
+            <double>13.325999999999999</double>
+            <double>13.1965</double>
+            <double>13.4435</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQIBAQECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-Pause</Name>
+          <UID>dUi7gNJwrUGQMu/HjIhuoQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.159</double>
+            <double>12.7215</double>
+            <double>12.6075</double>
+          </Lengths>
+          <SigData>AAECAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-PICTURE NAVI</Name>
+          <UID>uSJipwvXBE2PL5YNuvVgPA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.339</double>
+            <double>0.602</double>
+            <double>1.1620000000000001</double>
+            <double>13.915500000000002</double>
+            <double>13.801</double>
+            <double>14.160499999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQEBAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-Play</Name>
+          <UID>xHIopbtWhUKWYhNJZMxznA==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Play</Name>
+            <UID>pxJqKE9zIkaJ0wiP/NiG3A==</UID>
+            <ModulationFreq>282</ModulationFreq>
+            <Lengths>
+              <double>0.0245</double>
+              <double>13.337</double>
+              <double>2.3415</double>
+              <double>0.6005</double>
+              <double>1.1644999999999999</double>
+              <double>13.443</double>
+            </Lengths>
+            <SigData>AAECAwMDBAMDAwMDBAMEAwMDAwMEAwMDBAMEAwQDAwMDAwQDAwMDAwQDAwUCAwMDBAMDAwMDBAMEAwMDAwMEAwMDBAMEAwQDAwMDAwQDAwMDAwQDA38=</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Play</Name>
+            <UID>tqRgwN0XD0mQmoEfzFzE0A==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.346</double>
+              <double>0.59849999999999992</double>
+              <double>1.165</double>
+              <double>13.325999999999999</double>
+              <double>13.1965</double>
+              <double>13.4435</double>
+            </Lengths>
+            <SigData>AAEBAQIBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQIBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-Power</Name>
+          <UID>nGuw3HI6Ok+Xd3jQWVSL7Q==</UID>
+          <ModulationFreq>39506</ModulationFreq>
+          <Lengths>
+            <double>2.3415</double>
+            <double>0.6015</double>
+            <double>1.163</double>
+            <double>13.325999999999999</double>
+            <double>13.1965</double>
+            <double>13.4435</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAgEBAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-PREV</Name>
+          <UID>yiPKzmhZHEO6gkkFDN27xw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-PREV</Name>
+            <UID>S5BCG+hYt0q/8ctKzH5SZQ==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.1644999999999999</double>
+              <double>13.915000000000001</double>
+              <double>13.801499999999999</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-PREV</Name>
+            <UID>1JbmWe5tQU+JyJIV2WZ6+w==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.341</double>
+              <double>0.603</double>
+              <double>1.1620000000000001</double>
+              <double>13.915500000000002</double>
+              <double>13.802999999999999</double>
+              <double>14.161</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-REPLAY</Name>
+          <UID>oAYLHJibLkGg6uuBpOnzRg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3425</double>
+            <double>0.6</double>
+            <double>1.1640000000000002</double>
+            <double>12.7215</double>
+            <double>12.6075</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgECAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgECAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAQECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-RETURN</Name>
+          <UID>oNEOxi0diE2ceI5qZi49Fw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-RETURN</Name>
+            <UID>plINF8F+Q0aU9PG0XGx4cg==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.1624999999999999</double>
+              <double>13.325999999999999</double>
+              <double>13.197000000000001</double>
+            </Lengths>
+            <SigData>AAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-RETURN</Name>
+            <UID>tu8nHkdBLUa+IlDAVrW3/A==</UID>
+            <ModulationFreq>39506</ModulationFreq>
+            <Lengths>
+              <double>2.3435</double>
+              <double>0.6015</double>
+              <double>1.1640000000000002</double>
+              <double>13.325999999999999</double>
+              <double>13.1965</double>
+              <double>13.4435</double>
+            </Lengths>
+            <SigData>AAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQIBAgECAQEBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-Rewind</Name>
+          <UID>/n+ButugUEihWRxL4c9kdQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.342</double>
+            <double>0.603</double>
+            <double>1.1635</double>
+            <double>13.915500000000002</double>
+            <double>13.801499999999999</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQEBAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-RIght</Name>
+          <UID>lphQ6obV8ECmRynpaDwf6w==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-RIght</Name>
+            <UID>/fEFa23EQ0SkVKk6rHg43Q==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3425</double>
+              <double>0.603</double>
+              <double>1.1620000000000001</double>
+              <double>12.132499999999999</double>
+              <double>12.003</double>
+            </Lengths>
+            <SigData>AAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-RIght</Name>
+            <UID>kAnc6xHTkUGKZNE4zgOO+Q==</UID>
+            <ModulationFreq>39506</ModulationFreq>
+            <Lengths>
+              <double>2.3405</double>
+              <double>0.6015</double>
+              <double>1.163</double>
+              <double>12.132</double>
+              <double>12.003</double>
+              <double>12.378</double>
+            </Lengths>
+            <SigData>AAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAgECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-Stop</Name>
+          <UID>PPlPUxX0dE+bIJRPog/v7g==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Stop</Name>
+            <UID>fEfV6V3rXEaYxtZMaUe2QQ==</UID>
+            <ModulationFreq>39506</ModulationFreq>
+            <Lengths>
+              <double>2.3645</double>
+              <double>0.599</double>
+              <double>1.163</double>
+              <double>13.3265</double>
+              <double>13.1965</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Stop</Name>
+            <UID>9dZqmJckLUqHrjSxaIUgmw==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.341</double>
+              <double>0.6015</double>
+              <double>1.1635</double>
+              <double>13.325999999999999</double>
+              <double>13.1965</double>
+              <double>13.4435</double>
+            </Lengths>
+            <SigData>AAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQECAQIBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-SUBTITLE</Name>
+          <UID>89qXX4cgK0KvxHWn5wlZ6g==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3435</double>
+            <double>0.603</double>
+            <double>1.1635</double>
+            <double>12.722000000000001</double>
+            <double>12.609499999999999</double>
+            <double>12.965000000000002</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQIBAQEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQIBAQEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQIBAQEBAQEBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-TIMI/TEXT</Name>
+          <UID>vA9tbndTM0ype3LJeDa4Xw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.603</double>
+            <double>1.1640000000000002</double>
+            <double>13.915500000000002</double>
+            <double>13.8035</double>
+            <double>14.161</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQEBAQECAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQEBAQECAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAEBAQEBAQECAQEBAgEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-TOP MENU</Name>
+          <UID>NlVspo3/80KbddfaP3tSKg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.342</double>
+            <double>0.603</double>
+            <double>1.1620000000000001</double>
+            <double>13.325999999999999</double>
+            <double>13.1965</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAEBAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAEBAQIBAQECAQIBAQEBAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-TV INPUT</Name>
+          <UID>YrLAWEcGjEu/orAqGKUn0A==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.343</double>
+            <double>0.599</double>
+            <double>1.1605</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAgEBAQIBAQEBAQEBAX8AAQIBAQECAQEBAQECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>5</NoRepeats>
+          <IntraSigPause>25.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-TV-POWER</Name>
+          <UID>sqCjFZeowUuIDkmwGq2wwQ==</UID>
+          <ModulationFreq>39506</ModulationFreq>
+          <Lengths>
+            <double>2.3449999999999998</double>
+            <double>0.6</double>
+            <double>1.1620000000000001</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAQECAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.738500000000002</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="DoubleSignal">
+          <Name>DVD-Up</Name>
+          <UID>VJ+gzDhDR06NXxWM2kFxmw==</UID>
+          <Signal1 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Up</Name>
+            <UID>ejuRL4+IDk+EkL7JD40Y1w==</UID>
+            <ModulationFreq>39800</ModulationFreq>
+            <Lengths>
+              <double>2.3449999999999998</double>
+              <double>0.6015</double>
+              <double>1.163</double>
+              <double>12.132</double>
+              <double>12.003</double>
+              <double>12.3775</double>
+            </Lengths>
+            <SigData>AAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal1>
+          <Signal2 xsi:type="RedRat3ModulatedSignal">
+            <Name>DVD-Up</Name>
+            <UID>9d0NdvF/aEiqvk11r7q8sg==</UID>
+            <ModulationFreq>39506</ModulationFreq>
+            <Lengths>
+              <double>2.343</double>
+              <double>0.603</double>
+              <double>1.165</double>
+              <double>12.1335</double>
+              <double>12.003</double>
+              <double>12.3775</double>
+            </Lengths>
+            <SigData>AAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEEAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEFAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQEDAAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgECAQEBAQECAQEBAQECAQF/</SigData>
+            <NoRepeats>0</NoRepeats>
+            <IntraSigPause>0</IntraSigPause>
+            <ToggleData />
+          </Signal2>
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-VOL-</Name>
+          <UID>cKTduluFxkSj61zax5pRjw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAgEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>25.7405</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>DVD-VOL+</Name>
+          <UID>EjSqq7DwPk22UrF+xjVQvg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.599</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQEBAgEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>26.345</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>EPG/Guide</Name>
+          <UID>xAEQLjlxcE++iOnW8Sc1lA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAQECAQEBAQECAQEBAQECAQEBAn8AAQIBAgEBAQIBAgEBAQIBAQEBAQIBAQEBAQIBAQECfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>19.6705</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Exit</Name>
+          <UID>ZFXVmNI4/0W1RoszYXplXA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.351</double>
+            <double>0.602</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAgECAQIBAQEBAQEBAX8AAQIBAgEBAQEBAQECAQIBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>5</NoRepeats>
+          <IntraSigPause>25.049</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Fast Reword</Name>
+          <UID>ovlfnRCzCUu2OGKnmRl/mA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgECAQIBAQEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAQECAQIBAgEBAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.6705</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Favorite</Name>
+          <UID>cSYVK18WxUaY/aK/6e5sQw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.346</double>
+            <double>0.6015</double>
+            <double>1.1620000000000001</double>
+            <double>17.9805</double>
+          </Lengths>
+          <SigData>AAEBAQIBAgEBAQIBAgECAQIBAgECAQEBAgECAQIBAQMAAQEBAgECAQEBAgECAQIBAgECAQIBAQECAQIBAgEBAwABAQECAQIBAQECAQIBAgECAQIBAgEBAQIBAgECAQF/</SigData>
+          <NoRepeats>0</NoRepeats>
+          <IntraSigPause>0</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Green</Name>
+          <UID>jr9RcVT83EqcwYsqZt1s0A==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.602</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAEBAQIBAgEBAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAgECAQEBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.671</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Guide</Name>
+          <UID>0BFvu28BhUu2j74nWOfZiQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3455</double>
+            <double>0.602</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAQECAQEBAQECAQEBAQECAQEBAn8AAQIBAgEBAQIBAgEBAQIBAQEBAQIBAQEBAQIBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.662</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Home</Name>
+          <UID>11zNcGPJLUCtV2rH99GEiw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.6</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQEBAQEBAgECAQIBAQEBAQEBAX8AAQEBAQEBAQEBAQECAQIBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>26.228</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>i-Manual</Name>
+          <UID>GaFijahR90KmZ3VSuSYusQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAgECAQEBAgEBAQIBAgEBAQEBAX8AAQIBAgEBAQIBAgECAQIBAQECAQEBAgECAQEBAQEBfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.0735</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Info</Name>
+          <UID>4XK3zNHhLESEJS2JfmqoHg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQECAQIBAgEBAQIBAQEBAQEBAX8AAQEBAgEBAQIBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.0495</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Input</Name>
+          <UID>4JM57Itq6k6G0p3bX16VQA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3375000000000004</double>
+            <double>0.6</double>
+            <double>1.1724999999999999</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAgEBAQIBAQEBAQEBAX8AAQIBAQECAQEBAQECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.63</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Internet Video</Name>
+          <UID>qQGuCPL8J0ORLeGkBwgvjw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3465000000000003</double>
+            <double>0.599</double>
+            <double>1.1620000000000001</double>
+          </Lengths>
+          <SigData>AAECAQEBAQECAQIBAgECAQEBAgEBAQIBAgEBAQEBAX8AAQIBAQEBAQIBAgECAQIBAQECAQEBAgECAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.6715</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Jump</Name>
+          <UID>SF1nOcfsaEKq6j7L77Xi3g==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3444999999999996</double>
+            <double>0.6</double>
+            <double>1.1615</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAgEBAQIBAQEBAQEBAX8AAQIBAgEBAQIBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>24.4035</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Left</Name>
+          <UID>qA+VFN5N4U6Axpf12A7ymg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.599</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQIBAgEBAQIBAQEBAQEBAX8AAQEBAQECAQEBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.6305</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Mute</Name>
+          <UID>glGuHmSh4UyHu4AeN/r2wA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQIBAQEBAQIBAQEBAQEBAX8AAQEBAQECAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>26.243</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Next</Name>
+          <UID>aIMKJJaApEyJCSwx5n/+eg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.602</double>
+            <double>1.1615</double>
+          </Lengths>
+          <SigData>AAECAQEBAgECAQIBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQIBAQECAQIBAgECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>18.477</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Ok</Name>
+          <UID>QP8q19b+XEiGk0OFUIYNHA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.351</double>
+            <double>0.599</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAgECAQIBAQEBAQEBAX8AAQIBAQECAQEBAQECAQIBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.034</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Options</Name>
+          <UID>p+LEZLbMDUCEERr+4VcimQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQIBAgEBAQIBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAgECAQEBAgECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.072499999999998</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Power</Name>
+          <UID>Q5J1EwwNDEGpbtrJFGFJBA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.599</double>
+            <double>1.163</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAQECAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.6475</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Prev.</Name>
+          <UID>csJvri79J0ezFxp4GvGcMA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.603</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgECAQIBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAQECAQIBAgECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.073</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Red</Name>
+          <UID>/JVsKyigk06hmI2ydhC89w==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.602</double>
+            <double>1.1640000000000002</double>
+          </Lengths>
+          <SigData>AAECAQEBAgEBAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQIBAQECAQEBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.671</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Return</Name>
+          <UID>uV8pSQGNv0mvcFB+jBjlGA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.602</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQIBAgEBAQEBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.6705</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Rewind</Name>
+          <UID>lB+9Fr1vf06mtd2dIT733Q==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.603</double>
+            <double>1.1624999999999999</double>
+          </Lengths>
+          <SigData>AAECAQIBAQECAQIBAQEBAQIBAgECAQEBAgEBAQEBAn8AAQIBAgEBAQIBAgEBAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>4</NoRepeats>
+          <IntraSigPause>19.073</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Right</Name>
+          <UID>V1cbDo5DzEGxhY+o3pUC6A==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQIBAgEBAQIBAQEBAQEBAX8AAQIBAgEBAQEBAgECAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>25.032</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Scene</Name>
+          <UID>XKNX5j6qskOPI2lMRKgneA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.348</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQIBAgECAQEBAgEBAQIBAgEBAQEBAX8AAQEBAQEBAQIBAgECAQIBAQECAQEBAgECAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>20.2695</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Stop</Name>
+          <UID>nHfliRl3fkWZXb1qKKS6kw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3449999999999998</double>
+            <double>0.602</double>
+            <double>1.1620000000000001</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQIBAQEBAQIBAgECAQEBAgEBAQEBAn8AAQEBAQEBAQIBAgEBAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>20.269</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Sync Menu</Name>
+          <UID>da2FmH3dvEKoQvsdGh0mxQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3475</double>
+            <double>0.599</double>
+            <double>1.1615</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQECAQIBAQECAQEBAgEBAQIBAgEBAQEBAX8AAQEBAQEBAQIBAgEBAQIBAQECAQEBAgECAQEBAQEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>20.865499999999997</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>THF ATRE</Name>
+          <UID>x7BaGEIqsUGqapAkudltxQ==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.6</double>
+            <double>1.1635</double>
+          </Lengths>
+          <SigData>AAEBAQEBAQEBAQEBAgECAQIBAgECAQEBAgECAQIBAX8AAQEBAQEBAQEBAQECAQIBAgECAQIBAQECAQIBAgEBfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.671999999999997</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Up</Name>
+          <UID>naR3IwkXA02lhBQ/jO2uZw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3365</double>
+            <double>0.602</double>
+            <double>1.156</double>
+          </Lengths>
+          <SigData>AAEBAQEBAgEBAQIBAgECAQIBAQEBAQEBAX8AAQEBAQECAQEBAgECAQIBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.032</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Vol-</Name>
+          <UID>ADXOeoUu2U+Ic6HPtNF9yA==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3485</double>
+            <double>0.6</double>
+            <double>1.165</double>
+          </Lengths>
+          <SigData>AAECAQIBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQIBAgEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>25.6325</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Vol+</Name>
+          <UID>QUrJluD8tUS7McOZlqkDaw==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.347</double>
+            <double>0.599</double>
+            <double>1.165</double>
+          </Lengths>
+          <SigData>AAEBAQIBAQEBAQIBAQEBAQIBAQEBAQEBAX8AAQEBAgEBAQEBAgEBAQEBAgEBAQEBAQEBfw==</SigData>
+          <NoRepeats>2</NoRepeats>
+          <IntraSigPause>26.2455</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+        <IRPacket xsi:type="RedRat3ModulatedSignal">
+          <Name>Yellow</Name>
+          <UID>3b9MmcYIcEWFlVULjGDfqg==</UID>
+          <ModulationFreq>39800</ModulationFreq>
+          <Lengths>
+            <double>2.3505000000000003</double>
+            <double>0.603</double>
+            <double>1.161</double>
+          </Lengths>
+          <SigData>AAECAQIBAgEBAQEBAgEBAQIBAgECAQEBAgEBAQEBAn8AAQIBAgECAQEBAQECAQEBAgECAQIBAQECAQEBAQECfw==</SigData>
+          <NoRepeats>3</NoRepeats>
+          <IntraSigPause>19.072499999999998</IntraSigPause>
+          <ToggleData />
+        </IRPacket>
+      </Signals>
+    </AVDevice>
+  </AVDevices>
+</AVDeviceDB>
