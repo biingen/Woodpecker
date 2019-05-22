@@ -6093,7 +6093,8 @@ namespace AutoTest
 
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1" ? true : false;
-                
+                button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1" ? true : false;
+
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
                 {
@@ -6773,7 +6774,7 @@ namespace AutoTest
             CloseAutobox();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button_Input_Click(object sender, EventArgs e)
         {
             //UInt32 gpio_input_value;
             //MyBlueRat.Get_GPIO_Input(out gpio_input_value);
@@ -6820,7 +6821,7 @@ namespace AutoTest
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button_Output_Click(object sender, EventArgs e)
         {
             //string GPIO = "01010101";
             //byte GPIO_B = Convert.ToByte(GPIO, 2);
@@ -7376,6 +7377,13 @@ namespace AutoTest
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.Red;
                 Console.WriteLine("Enable the Breakfunction");
             }
+        }
+
+        private void button_Network_Click(object sender, EventArgs e)
+        {
+            string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
+            string port = ini12.INIRead(MainSettingPath, "Network", "Port", "");
+
         }
     }
 

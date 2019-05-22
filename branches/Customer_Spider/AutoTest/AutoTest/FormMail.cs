@@ -432,14 +432,14 @@ namespace AutoTest
             {
                 //發送Email
                 MySmtp.Send("'TP_DQA_Test'<tpdqatest@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
-                MessageBox.Show("The GMail system is normal on the network environment.");
+                MessageBox.Show("The Gmail system is normal on the network environment.");
                 return true;
             }
             catch (Exception)
             {
-                MessageBox.Show("The GMail system is abnormal on the network environment.");
+                MessageBox.Show("The Gmail system is abnormal on the network environment.");
                 SendMailcheckBox.Checked = false;
-                GamilcheckBox.Checked = false;
+                GmailcheckBox.Checked = false;
                 return false;
             }
         }
@@ -469,13 +469,13 @@ namespace AutoTest
                     textBox_TotalTestTime.Enabled = true;
                     textBox_TeamViewerID.Enabled = true;
                     textBox_TeamViewerPassWord.Enabled = true;
-                    GamilcheckBox.Visible = true;
+                    GmailcheckBox.Visible = true;
                 }
                 else
                 {
                     MessageBox.Show("Please check the network status !");
                     SendMailcheckBox.Checked = false;
-                    GamilcheckBox.Checked = false;
+                    GmailcheckBox.Checked = false;
                 }
             }
             else
@@ -499,17 +499,17 @@ namespace AutoTest
                 textBox_TeamViewerID.Enabled = false;
                 textBox_TeamViewerPassWord.Enabled = false;
                 label_ErrorMessage.Text = "";
-                GamilcheckBox.Visible = false;
+                GmailcheckBox.Visible = false;
             }
         }
 
         private void GamilcheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (SendMailcheckBox.Checked == true && GamilcheckBox.Checked == true)
+            if (SendMailcheckBox.Checked == true && GmailcheckBox.Checked == true)
             {
                 ConnectGMailTW();
             }
-            else if (SendMailcheckBox.Checked == false && GamilcheckBox.Checked == true)
+            else if (SendMailcheckBox.Checked == false && GmailcheckBox.Checked == true)
             {
                 MessageBox.Show("Please check the Mail function first.");
             }

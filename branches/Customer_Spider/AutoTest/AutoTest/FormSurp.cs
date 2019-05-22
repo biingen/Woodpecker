@@ -53,8 +53,17 @@ namespace AutoTest
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CloseBtn_Click(object sender, EventArgs e)
         {
+            if (IPtextBox.Text != "")
+            {
+                ini12.INIWrite(MainSettingPath, "Network", "IP", IPtextBox.Text);
+            }
+
+            if (PorttextBox.Text != "")
+            {
+                ini12.INIWrite(MainSettingPath, "Network", "Port", PorttextBox.Text);
+            }
             Close();
         }
     }

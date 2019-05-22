@@ -58,7 +58,7 @@
             this.labelTeamViewerID = new System.Windows.Forms.Label();
             this.textBox_TeamViewerPassWord = new System.Windows.Forms.TextBox();
             this.labelTeamViewerPassWord = new System.Windows.Forms.Label();
-            this.GamilcheckBox = new System.Windows.Forms.CheckBox();
+            this.GmailcheckBox = new System.Windows.Forms.CheckBox();
             this.label_ErrorMessage = new System.Windows.Forms.Label();
             this.pictureBox_From = new System.Windows.Forms.PictureBox();
             this.pictureBox_To = new System.Windows.Forms.PictureBox();
@@ -345,13 +345,12 @@
             // 
             this.lebalNetworkPrompt.AutoSize = true;
             this.lebalNetworkPrompt.ForeColor = System.Drawing.Color.Red;
-            this.lebalNetworkPrompt.Location = new System.Drawing.Point(34, 56);
+            this.lebalNetworkPrompt.Location = new System.Drawing.Point(35, 75);
             this.lebalNetworkPrompt.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lebalNetworkPrompt.Name = "lebalNetworkPrompt";
-            this.lebalNetworkPrompt.Size = new System.Drawing.Size(238, 45);
+            this.lebalNetworkPrompt.Size = new System.Drawing.Size(214, 30);
             this.lebalNetworkPrompt.TabIndex = 78;
-            this.lebalNetworkPrompt.Text = "Mail function only works with Google Mail. \r\nIf you can\'t confirm if you can use " +
-    "gmail,\r\nYou can use the \"GMail check\" function.";
+            this.lebalNetworkPrompt.Text = "Use this function to check \ryour Internet can support Gmail or not.";
             // 
             // textBox_TeamViewerID
             // 
@@ -399,20 +398,20 @@
             this.labelTeamViewerPassWord.Text = "TeamViewer PassWord :";
             this.labelTeamViewerPassWord.Visible = false;
             // 
-            // GamilcheckBox
+            // GmailcheckBox
             // 
-            this.GamilcheckBox.AutoSize = true;
-            this.GamilcheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.GamilcheckBox.ForeColor = System.Drawing.Color.DimGray;
-            this.GamilcheckBox.Location = new System.Drawing.Point(38, 110);
-            this.GamilcheckBox.Margin = new System.Windows.Forms.Padding(2);
-            this.GamilcheckBox.Name = "GamilcheckBox";
-            this.GamilcheckBox.Size = new System.Drawing.Size(126, 24);
-            this.GamilcheckBox.TabIndex = 83;
-            this.GamilcheckBox.Text = "GMail check";
-            this.GamilcheckBox.UseVisualStyleBackColor = true;
-            this.GamilcheckBox.Visible = false;
-            this.GamilcheckBox.CheckedChanged += new System.EventHandler(this.GamilcheckBox_CheckedChanged);
+            this.GmailcheckBox.AutoSize = true;
+            this.GmailcheckBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.GmailcheckBox.ForeColor = System.Drawing.Color.DimGray;
+            this.GmailcheckBox.Location = new System.Drawing.Point(38, 110);
+            this.GmailcheckBox.Margin = new System.Windows.Forms.Padding(2);
+            this.GmailcheckBox.Name = "GmailcheckBox";
+            this.GmailcheckBox.Size = new System.Drawing.Size(126, 24);
+            this.GmailcheckBox.TabIndex = 83;
+            this.GmailcheckBox.Text = "Gmail check";
+            this.GmailcheckBox.UseVisualStyleBackColor = true;
+            this.GmailcheckBox.Visible = false;
+            this.GmailcheckBox.CheckedChanged += new System.EventHandler(this.GamilcheckBox_CheckedChanged);
             // 
             // label_ErrorMessage
             // 
@@ -461,7 +460,7 @@
             this.Controls.Add(this.pictureBox_To);
             this.Controls.Add(this.pictureBox_From);
             this.Controls.Add(this.label_ErrorMessage);
-            this.Controls.Add(this.GamilcheckBox);
+            this.Controls.Add(this.GmailcheckBox);
             this.Controls.Add(this.textBox_TeamViewerPassWord);
             this.Controls.Add(this.labelTeamViewerPassWord);
             this.Controls.Add(this.textBox_TeamViewerID);
@@ -536,7 +535,7 @@
         private System.Windows.Forms.Label labelTeamViewerID;
         private System.Windows.Forms.TextBox textBox_TeamViewerPassWord;
         private System.Windows.Forms.Label labelTeamViewerPassWord;
-        private System.Windows.Forms.CheckBox GamilcheckBox;
+        private System.Windows.Forms.CheckBox GmailcheckBox;
         private System.Windows.Forms.Label label_ErrorMessage;
         private System.Windows.Forms.PictureBox pictureBox_From;
         private System.Windows.Forms.PictureBox pictureBox_To;
