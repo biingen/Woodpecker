@@ -20,6 +20,7 @@ namespace AutoTest
         private string RcPath = Application.StartupPath + "\\RC.ini";
         private string RcConfigFolder = Application.StartupPath + "\\RcConfig\\";
         private RedRatDBParser RedRatData = new RedRatDBParser();
+        System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
         private void Sand_Key(string RcKey)
         {
@@ -39,6 +40,39 @@ namespace AutoTest
             else if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
             {
                 lForm1.Autocommand_RedRat("FormRc", RcKey);
+            }
+
+            if (StartRecord == true)
+            {
+                lForm1.button_Start.Enabled = false;
+                if (RcKey == "up" || RcKey == "down" || RcKey == "left" || RcKey == "right")
+                {
+                    string keyname = "";
+                    for (int i = 0; i < Global.Rc_List.Count; i++)
+                    {
+                        if (Global.Rc_List[i].ToUpper() == RcKey.ToUpper())
+                        {
+                            keyname = Global.Rc_List[i];
+                        }
+                    }
+                    lForm1.DataGridView_Schedule.Rows.Add(keyname);
+                    lForm1.DataGridView_Schedule.FirstDisplayedScrollingRowIndex = lForm1.DataGridView_Schedule.Rows.Count - 1;
+                }
+                else
+                {
+                    lForm1.DataGridView_Schedule.Rows.Add(RcKey);
+                    lForm1.DataGridView_Schedule.FirstDisplayedScrollingRowIndex = lForm1.DataGridView_Schedule.Rows.Count - 1;
+                }
+
+                if (sw.IsRunning == true)
+                {
+                    lForm1.DataGridView_Schedule.Rows[lForm1.DataGridView_Schedule.RowCount - 3].Cells[9].Value = sw.ElapsedMilliseconds.ToString();
+                    sw.Restart();
+                }
+                else
+                {
+                    sw.Start();
+                }
             }
         }
 
@@ -585,6 +619,23 @@ namespace AutoTest
                     comboBoxRcNumber.Items.Add(item.Name);
                 }
                 comboBoxRcNumber.SelectedIndex = 0;
+            }
+        }
+
+        bool StartRecord = false;
+        private void pictureBox_Record_Click(object sender, EventArgs e)
+        {
+            if (StartRecord == true)
+            {
+                sw.Stop();
+                pictureBox_Record.Image = Properties.Resources.record_off;
+                StartRecord = false;
+                MessageBox.Show("Save the script before press START button.", "Hint", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else if (StartRecord == false)
+            {
+                pictureBox_Record.Image = Properties.Resources.record_on;
+                StartRecord = true;
             }
         }
     }

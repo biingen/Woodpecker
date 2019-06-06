@@ -94,7 +94,6 @@ namespace AutoTest
             this.label_TestTime = new System.Windows.Forms.Label();
             this.label_TestTime_Value = new System.Windows.Forms.Label();
             this.button_InsertRow = new System.Windows.Forms.Button();
-            this.panel_VirtualRC = new System.Windows.Forms.Panel();
             this.panel_AcUsb = new System.Windows.Forms.Panel();
             this.groupBox_Usb = new System.Windows.Forms.GroupBox();
             this.label_Usb2 = new System.Windows.Forms.Label();
@@ -294,7 +293,7 @@ namespace AutoTest
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(75, 18);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 2.16.3";
+            this.label_FwVersion.Text = "Ver. 2.17.0";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -650,7 +649,7 @@ namespace AutoTest
             this.button_TimeLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_TimeLine.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_TimeLine.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_TimeLine.Location = new System.Drawing.Point(771, 446);
+            this.button_TimeLine.Location = new System.Drawing.Point(771, 444);
             this.button_TimeLine.Margin = new System.Windows.Forms.Padding(2);
             this.button_TimeLine.Name = "button_TimeLine";
             this.button_TimeLine.Size = new System.Drawing.Size(81, 25);
@@ -667,12 +666,12 @@ namespace AutoTest
             this.button_SaveSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button_SaveSchedule.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_SaveSchedule.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SaveSchedule.Location = new System.Drawing.Point(973, 446);
+            this.button_SaveSchedule.Location = new System.Drawing.Point(975, 444);
             this.button_SaveSchedule.Margin = new System.Windows.Forms.Padding(2);
             this.button_SaveSchedule.Name = "button_SaveSchedule";
-            this.button_SaveSchedule.Size = new System.Drawing.Size(115, 25);
+            this.button_SaveSchedule.Size = new System.Drawing.Size(120, 25);
             this.button_SaveSchedule.TabIndex = 47;
-            this.button_SaveSchedule.Text = "SAVE SCHDULE";
+            this.button_SaveSchedule.Text = "SAVE SCHEDULE";
             this.button_SaveSchedule.UseVisualStyleBackColor = false;
             this.button_SaveSchedule.Click += new System.EventHandler(this.WriteBtn_Click);
             // 
@@ -813,7 +812,7 @@ namespace AutoTest
             this.labelGPIO_Input.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelGPIO_Input.ForeColor = System.Drawing.Color.MediumSlateBlue;
             this.labelGPIO_Input.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelGPIO_Input.Location = new System.Drawing.Point(590, 446);
+            this.labelGPIO_Input.Location = new System.Drawing.Point(590, 444);
             this.labelGPIO_Input.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelGPIO_Input.Name = "labelGPIO_Input";
             this.labelGPIO_Input.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -873,7 +872,7 @@ namespace AutoTest
             this.button_InsertRow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button_InsertRow.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_InsertRow.Font = new System.Drawing.Font("Microsoft JhengHei UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_InsertRow.Location = new System.Drawing.Point(857, 446);
+            this.button_InsertRow.Location = new System.Drawing.Point(856, 444);
             this.button_InsertRow.Margin = new System.Windows.Forms.Padding(2);
             this.button_InsertRow.Name = "button_InsertRow";
             this.button_InsertRow.Size = new System.Drawing.Size(115, 25);
@@ -881,16 +880,6 @@ namespace AutoTest
             this.button_InsertRow.Text = "INSERT A ROW";
             this.button_InsertRow.UseVisualStyleBackColor = false;
             this.button_InsertRow.Click += new System.EventHandler(this.button_insert_a_row_Click);
-            // 
-            // panel_VirtualRC
-            // 
-            this.panel_VirtualRC.AutoScroll = true;
-            this.panel_VirtualRC.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel_VirtualRC.Location = new System.Drawing.Point(144, 443);
-            this.panel_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
-            this.panel_VirtualRC.Name = "panel_VirtualRC";
-            this.panel_VirtualRC.Size = new System.Drawing.Size(950, 109);
-            this.panel_VirtualRC.TabIndex = 92;
             // 
             // panel_AcUsb
             // 
@@ -1366,12 +1355,11 @@ namespace AutoTest
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.button_VirtualRC);
-            this.Controls.Add(this.panel_VirtualRC);
+            this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.panelVideo);
-            this.Controls.Add(this.comboBox_CameraDevice);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft JhengHei UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1445,7 +1433,6 @@ namespace AutoTest
         private System.Windows.Forms.PictureBox ClosePicBox;
         private System.Windows.Forms.PictureBox MiniPicBox;
         protected internal System.Windows.Forms.Button button_SaveSchedule;
-        protected internal System.Windows.Forms.Button button_Start;
         protected internal System.Windows.Forms.Button button_Schedule1;
         protected internal System.Windows.Forms.Button button_Schedule2;
         protected internal System.Windows.Forms.Button button_Schedule3;
@@ -1486,8 +1473,6 @@ namespace AutoTest
         private System.Windows.Forms.Label label_TestTime;
         private System.Windows.Forms.Label label_TestTime_Value;
         protected internal System.Windows.Forms.Button button_InsertRow;
-        private System.Windows.Forms.Panel panel_VirtualRC;
-        private SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
@@ -1511,6 +1496,8 @@ namespace AutoTest
         private System.Windows.Forms.Label label_Ac2;
         private System.Windows.Forms.Label label_Ac1;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
+        public SafeDataGridView DataGridView_Schedule;
+        public System.Windows.Forms.Button button_Start;
     }
 }
 

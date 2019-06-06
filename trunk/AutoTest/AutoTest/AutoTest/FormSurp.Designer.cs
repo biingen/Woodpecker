@@ -36,7 +36,7 @@
             // 
             // pictureHW
             // 
-            this.pictureHW.Image = global::AutoTest.Properties.Resources.Tia;
+            this.pictureHW.Image = global::AutoTest.Properties.Resources.Surprise;
             this.pictureHW.Location = new System.Drawing.Point(19, 17);
             this.pictureHW.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureHW.Name = "pictureHW";

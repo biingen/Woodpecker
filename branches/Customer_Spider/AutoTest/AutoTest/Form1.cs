@@ -3896,7 +3896,7 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort1.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3920,7 +3920,7 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort2.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3944,7 +3944,7 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort3.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -4173,6 +4173,7 @@ namespace AutoTest
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
                             MyBlueRat.Set_GPIO_Output(GPIO_B);
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                         }
                         #endregion
 
@@ -4210,7 +4211,7 @@ namespace AutoTest
                                 {
                                     string str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "SXP CMD";
+                                    label_Command.Text = "(SXP CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     serialPort2.Write(bytes, 0, bytes.Length);
                                 }
                                 catch (Exception ex)
@@ -4715,7 +4716,18 @@ namespace AutoTest
                             }
                         }
                         #endregion
-                        
+
+                        #region -- Remark --
+                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[10].Value.ToString() != "")
+                        {
+                            label_Remark.Text = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[10].Value.ToString();
+                        }
+                        else
+                        {
+                            label_Remark.Text = "";
+                        }
+                        #endregion
+
                         //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
                         //MyExportText.Start();
 
@@ -5049,6 +5061,7 @@ namespace AutoTest
             }
 
             label_Command.Text = "Completed!";
+            label_Remark.Text = "";
             ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
@@ -6449,7 +6462,7 @@ namespace AutoTest
             {
                 int j = Int32.Parse(TextLine.Split(',').Length.ToString());
 
-                if (j == 11 || j == 10)
+                if ((j == 12 || j == 11) || (j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                     long RepeatTime = 0;

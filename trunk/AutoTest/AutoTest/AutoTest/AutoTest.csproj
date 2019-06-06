@@ -305,6 +305,7 @@
     <None Include="Resources\OFF.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Record_On.png" />
     <None Include="Resources\Surprise.jpg" />
   </ItemGroup>
   <ItemGroup>

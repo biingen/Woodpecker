@@ -13,7 +13,6 @@ namespace AutoTest
 {
     class Add_ons
     {
-        string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MonkeyTestPath = Application.StartupPath + "\\Monkey_Test.ini";
 
         #region MonketTest指令
@@ -285,8 +284,8 @@ namespace AutoTest
         public void USB_Read()
         {
             //預設AutoBox沒接上
-            ini12.INIWrite(MainSettingPath, "Device", "AutoboxExist", "0");
-            ini12.INIWrite(MainSettingPath, "Device", "AutoboxPort", "");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
@@ -348,7 +347,7 @@ namespace AutoTest
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
                         //Camera存在
-                        ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "1");
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
                     #endregion
 
@@ -375,9 +374,9 @@ namespace AutoTest
                         
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxVerson", "1");
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "1");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
                     #endregion
@@ -405,9 +404,9 @@ namespace AutoTest
                         
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxVerson", "2");
-                            ini12.INIWrite(MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
                     #endregion
@@ -449,17 +448,17 @@ namespace AutoTest
                                    "Times0", "Times1", "Times2", "Times3", "Times4", "Times5", "Times6", "Times7", "Times8", "Times9",
                                    "Display0", "Display1", "Display2", "Display3", "Display4", "Display5", "Display6", "Display7", "Display8", "Display9" };
 
-            if (File.Exists(MainSettingPath) == false)
+            if (File.Exists(Global.MainSettingPath) == false)
             {
                 for (int i = 0; i < Device.Length; i++)
                 {
                     if (i == (Device.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Device", Device[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Device", Device[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Device", Device[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Device", Device[i], "");
                     }
                 }
 
@@ -467,11 +466,11 @@ namespace AutoTest
                 {
                     if (i == (RedRat.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "RedRat", RedRat[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "RedRat", RedRat[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "");
                     }
                 }
 
@@ -479,11 +478,11 @@ namespace AutoTest
                 {
                     if (i == (Camera.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Camera", Camera[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Camera", Camera[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Camera", Camera[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Camera", Camera[i], "");
                     }
                 }
 
@@ -491,11 +490,11 @@ namespace AutoTest
                 {
                     if (i == (Comport.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Comport", Comport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Comport", Comport[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Comport", Comport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Comport", Comport[i], "");
                     }
                 }
 
@@ -503,11 +502,11 @@ namespace AutoTest
                 {
                     if (i == (ExtComport.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "ExtComport", ExtComport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "ExtComport", ExtComport[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "ExtComport", ExtComport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "ExtComport", ExtComport[i], "");
                     }
                 }
 
@@ -515,11 +514,11 @@ namespace AutoTest
                 {
                     if (i == (Record.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Record", Record[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Record", Record[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Record", Record[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Record", Record[i], "");
                     }
                 }
 
@@ -527,11 +526,11 @@ namespace AutoTest
                 {
                     if (i == (Schedule1.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule1", Schedule1[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule1", Schedule1[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule1", Schedule1[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule1", Schedule1[i], "");
                     }
                 }
 
@@ -539,11 +538,11 @@ namespace AutoTest
                 {
                     if (i == (Schedule2.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule2", Schedule2[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule2", Schedule2[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule2", Schedule2[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule2", Schedule2[i], "");
                     }
                 }
 
@@ -551,11 +550,11 @@ namespace AutoTest
                 {
                     if (i == (Schedule3.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule3", Schedule3[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule3", Schedule3[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule3", Schedule3[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule3", Schedule3[i], "");
                     }
                 }
 
@@ -563,11 +562,11 @@ namespace AutoTest
                 {
                     if (i == (Schedule4.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule4", Schedule4[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule4", Schedule4[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule4", Schedule4[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule4", Schedule4[i], "");
                     }
                 }
 
@@ -575,11 +574,11 @@ namespace AutoTest
                 {
                     if (i == (Schedule5.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule5", Schedule5[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule5", Schedule5[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "Schedule5", Schedule5[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Schedule5", Schedule5[i], "");
                     }
                 }
 
@@ -587,15 +586,106 @@ namespace AutoTest
                 {
                     if (i == (LogSearch.Length - 1))
                     {
-                        ini12.INIWrite(MainSettingPath, "LogSearch", LogSearch[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "LogSearch", LogSearch[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(MainSettingPath, "LogSearch", LogSearch[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "LogSearch", LogSearch[i], "");
+                    }
                     }
                 }
             }
             #endregion
+
+        #region -- 創建Mail.ini --
+        public void CreateMailConfig()
+        {
+            string[] SendMail = { "value" };
+            string[] DataInfo = { "TestCaseNumber", "Result", "NGfrequency", "CreateTime", "CloseTime", "ProjectNumber" };
+            string[] TotalTestTime = { "value", "value1", "value2", "value3", "value4", "value5", "How Long" };
+            string[] TestCase = { "TestCase1", "TestCase2", "TestCase3", "TestCase4", "TestCase5" };
+            string[] MailInfo = { "From", "To", "ProjectName", "ModelName", "Version", "Tester", "TeamViewerID", "TeamViewerPassWord" };
+
+            if (File.Exists(Global.MailSettingPath) == false)
+            {
+                for (int i = 0; i < SendMail.Length; i++)
+                {
+                    if (i == (SendMail.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "");
+                    }
+                }
+
+                for (int i = 0; i < DataInfo.Length; i++)
+                {
+                    if (i == (DataInfo.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "");
+                    }
+                }
+
+                for (int i = 0; i < TotalTestTime.Length; i++)
+                {
+                    if (i == (TotalTestTime.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "");
+                    }
+                }
+
+                for (int i = 0; i < TestCase.Length; i++)
+                {
+                    if (i == (TestCase.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "");
+                    }
+                }
+
+                for (int i = 0; i < MailInfo.Length; i++)
+                {
+                    if (i == (MailInfo.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "");
+                    }
+                }
+            }
+        }
+        #endregion
+
+        public void CreateRcConfig()
+        {
+            string[] Setting = { "SelectRcLastTime", "SelectRcLastTimePath" };
+
+            for (int i = 0; i < Setting.Length; i++)
+            {
+                if (i == (Setting.Length - 1))
+                {
+                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "" + Environment.NewLine + Environment.NewLine);
+                }
+                else
+                {
+                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "");
+                }
+            }
         }
     }
 }

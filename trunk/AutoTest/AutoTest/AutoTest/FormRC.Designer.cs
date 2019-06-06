@@ -82,9 +82,11 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.comboBoxRcNumber = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox_Record = new System.Windows.Forms.PictureBox();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Record)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -687,6 +689,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pictureBox_Record);
             this.groupBox1.Controls.Add(this.buttonDelete);
             this.groupBox1.Controls.Add(this.buttonAdd);
             this.groupBox1.Controls.Add(this.comboBoxRcNumber);
@@ -697,6 +700,17 @@
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SETTING";
+            // 
+            // pictureBox_Record
+            // 
+            this.pictureBox_Record.Image = global::AutoTest.Properties.Resources.record_off;
+            this.pictureBox_Record.Location = new System.Drawing.Point(155, 23);
+            this.pictureBox_Record.Name = "pictureBox_Record";
+            this.pictureBox_Record.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox_Record.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_Record.TabIndex = 61;
+            this.pictureBox_Record.TabStop = false;
+            this.pictureBox_Record.Click += new System.EventHandler(this.pictureBox_Record_Click);
             // 
             // buttonDelete
             // 
@@ -787,6 +801,7 @@
             this.Load += new System.EventHandler(this.FormRC_Load);
             this.Shown += new System.EventHandler(this.FormRC_Shown);
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Record)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -848,5 +863,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.PictureBox pictureBox_Record;
     }
 }

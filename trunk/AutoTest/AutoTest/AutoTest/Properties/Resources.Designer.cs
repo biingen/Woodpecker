@@ -133,6 +133,26 @@ namespace AutoTest.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap record_off {
+            get {
+                object obj = ResourceManager.GetObject("record_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
+        internal static System.Drawing.Bitmap record_on {
+            get {
+                object obj = ResourceManager.GetObject("record_on", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap StartAutoBox {
             get {
                 object obj = ResourceManager.GetObject("StartAutoBox", resourceCulture);
@@ -155,7 +175,7 @@ namespace AutoTest.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Switch_Off_AC {
             get {
-                object obj = ResourceManager.GetObject("Switch Off AC", resourceCulture);
+                object obj = ResourceManager.GetObject("Switch_Off_AC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -165,7 +185,7 @@ namespace AutoTest.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Switch_On_AC {
             get {
-                object obj = ResourceManager.GetObject("Switch On AC", resourceCulture);
+                object obj = ResourceManager.GetObject("Switch_On_AC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -175,7 +195,7 @@ namespace AutoTest.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Switch_to_PC {
             get {
-                object obj = ResourceManager.GetObject("Switch to PC", resourceCulture);
+                object obj = ResourceManager.GetObject("Switch_to_PC", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -185,17 +205,7 @@ namespace AutoTest.Properties {
         /// </summary>
         internal static System.Drawing.Bitmap Switch_to_TV {
             get {
-                object obj = ResourceManager.GetObject("Switch to TV", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
-        /// </summary>
-        internal static System.Drawing.Bitmap Tia {
-            get {
-                object obj = ResourceManager.GetObject("Tia", resourceCulture);
+                object obj = ResourceManager.GetObject("Switch_to_TV", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
