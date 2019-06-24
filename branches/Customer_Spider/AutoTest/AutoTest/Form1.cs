@@ -24,6 +24,8 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using USBClassLibrary;
+using System.Net.Sockets;
+using System.Net;
 
 namespace AutoTest
 {
@@ -119,10 +121,6 @@ namespace AutoTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //電源及相機預設圖片
-            pictureBox_AcPower.Image = Properties.Resources.OFF;
-            pictureBox_Camera.Image = Properties.Resources.OFF;
-
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
@@ -152,6 +150,7 @@ namespace AutoTest
             else
             {
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                pictureBox_AcPower.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")
@@ -889,7 +888,11 @@ namespace AutoTest
                 }
                 else
                 {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step - 1].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                                    Font,
+                                    FontColor,
+                                    new PointF(5, 360));
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
                                     new PointF(5, 400));
@@ -897,6 +900,10 @@ namespace AutoTest
             }
             else
             {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                                Font,
+                                FontColor,
+                                new PointF(5, 360));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
@@ -1824,12 +1831,25 @@ namespace AutoTest
                     index++;
                     data_to_read--;
                 }
-                
-                string text = Encoding.ASCII.GetString(dataset);
-                //DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox1.AppendText(text);
+
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox1.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox1.AppendText(text);
+                }
 
                 //string hex = ByteToHexStr(dataset);
                 //File.AppendAllText(@"C:\WriteText.txt", text);
@@ -1913,11 +1933,28 @@ namespace AutoTest
                     data_to_read--;
                 }
 
-                string text = Encoding.ASCII.GetString(dataset);
-                DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox2.AppendText(text);
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox2.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox2.AppendText(text);
+                }
+
+/*
+
+*/  
 
                 //string hex = ByteToHexStr(dataset);
                 //serialPort2.DiscardInBuffer();
@@ -2020,11 +2057,24 @@ namespace AutoTest
                     data_to_read--;
                 }
 
-                string text = Encoding.ASCII.GetString(dataset);
-                DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox3.AppendText(text);
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox3.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox3.AppendText(text);
+                }
 
                 //string hex = ByteToHexStr(dataset);
                 //serialPort3.DiscardInBuffer();
@@ -3896,7 +3946,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort1.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox1.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3920,7 +3973,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort2.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox2.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3944,7 +4000,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort3.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox3.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -4213,6 +4272,10 @@ namespace AutoTest
                                     byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                     label_Command.Text = "(SXP CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     serialPort2.Write(bytes, 0, bytes.Length);
+                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
+                                    textBox2.AppendText(text);
                                 }
                                 catch (Exception ex)
                                 {
@@ -7395,7 +7458,20 @@ namespace AutoTest
         private void button_Network_Click(object sender, EventArgs e)
         {
             string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
-            string port = ini12.INIRead(MainSettingPath, "Network", "Port", "");
+            int port = int.Parse(ini12.INIRead(MainSettingPath, "Network", "Port", ""));
+
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(ip, port); // 1.設定 IP:Port 2.連線至伺服器
+            NetworkStream stream = new NetworkStream(socket);
+            StreamReader sr = new StreamReader(stream);
+            StreamWriter sw = new StreamWriter(stream);
+
+            sw.WriteLine("你好伺服器，我是客戶端。"); // 將資料寫入緩衝
+            sw.Flush(); // 刷新緩衝並將資料上傳到伺服器
+
+            Console.WriteLine("從伺服器接收的資料： " + sr.ReadLine());
+
+            Console.ReadLine();
 
         }
     }
@@ -7417,6 +7493,10 @@ namespace AutoTest
 
     public class Global//全域變數//
     {
+        public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
+        public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
+
         public static int Scheduler_Row = 0;
         public static List<string> VID = new List<string> { };
         public static List<string> PID = new List<string> { };

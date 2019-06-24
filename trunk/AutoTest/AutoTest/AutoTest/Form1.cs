@@ -145,6 +145,7 @@ namespace AutoTest
             else
             {
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                pictureBox_AcPower.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")

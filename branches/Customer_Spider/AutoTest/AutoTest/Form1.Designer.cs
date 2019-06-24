@@ -301,7 +301,7 @@ namespace AutoTest
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 2.16.5";
+            this.label_FwVersion.Text = "Ver. 2.17.1";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -1566,7 +1566,6 @@ namespace AutoTest
         private System.Windows.Forms.Label label_TestTime_Value;
         protected internal System.Windows.Forms.Button button_InsertRow;
         private System.Windows.Forms.Panel panel_VirtualRC;
-        private SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.Panel panel_AcUsb;
         private System.Windows.Forms.GroupBox groupBox_Ac;
         private System.Windows.Forms.GroupBox groupBox_Usb;
@@ -1596,6 +1595,7 @@ namespace AutoTest
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        public SafeDataGridView DataGridView_Schedule;
     }
 }
 

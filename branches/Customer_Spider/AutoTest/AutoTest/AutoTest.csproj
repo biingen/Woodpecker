@@ -64,7 +64,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>AutoTest.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>33BEEAC36430672DAC6506EA9F211A1B48E9199D</ManifestCertificateThumbprint>
@@ -86,9 +87,7 @@
   <PropertyGroup />
   <PropertyGroup />
   <PropertyGroup />
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
@@ -306,6 +305,7 @@
     <None Include="Resources\OFF.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Record_On.png" />
     <None Include="Resources\Surprise.jpg" />
   </ItemGroup>
   <ItemGroup>
