@@ -134,6 +134,8 @@ namespace AutoTest
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label_ext_board = new System.Windows.Forms.Label();
+            this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -153,6 +155,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -301,7 +304,7 @@ namespace AutoTest
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 2.16.5";
+            this.label_FwVersion.Text = "Ver. 2.17.2";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -1398,6 +1401,30 @@ namespace AutoTest
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
             // 
+            // label_ext_board
+            // 
+            this.label_ext_board.AutoSize = true;
+            this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ext_board.ForeColor = System.Drawing.Color.Black;
+            this.label_ext_board.Location = new System.Drawing.Point(361, 18);
+            this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_ext_board.Name = "label_ext_board";
+            this.label_ext_board.Size = new System.Drawing.Size(73, 17);
+            this.label_ext_board.TabIndex = 100;
+            this.label_ext_board.Text = "Ext_Board";
+            // 
+            // pictureBox_ext_board
+            // 
+            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 19);
+            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
+            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_ext_board.TabIndex = 99;
+            this.pictureBox_ext_board.TabStop = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1405,6 +1432,8 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.Controls.Add(this.label_ext_board);
+            this.Controls.Add(this.pictureBox_ext_board);
             this.Controls.Add(this.button_Network);
             this.Controls.Add(this.button_SerialPort3);
             this.Controls.Add(this.panel_AcUsb);
@@ -1484,6 +1513,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1566,7 +1596,6 @@ namespace AutoTest
         private System.Windows.Forms.Label label_TestTime_Value;
         protected internal System.Windows.Forms.Button button_InsertRow;
         private System.Windows.Forms.Panel panel_VirtualRC;
-        private SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.Panel panel_AcUsb;
         private System.Windows.Forms.GroupBox groupBox_Ac;
         private System.Windows.Forms.GroupBox groupBox_Usb;
@@ -1596,6 +1625,9 @@ namespace AutoTest
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
+        public SafeDataGridView DataGridView_Schedule;
+        private System.Windows.Forms.Label label_ext_board;
+        private System.Windows.Forms.PictureBox pictureBox_ext_board;
     }
 }
 

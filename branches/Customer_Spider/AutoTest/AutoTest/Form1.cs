@@ -24,6 +24,9 @@ using System.Timers;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using USBClassLibrary;
+using System.Net.Sockets;
+using System.Net;
+//using NationalInstruments.DAQmx;
 
 namespace AutoTest
 {
@@ -61,7 +64,6 @@ namespace AutoTest
         private long TestTime = 0;
         private string videostring = "";
         private string srtstring = "";
-
 
         //宣告於keyword使用
         private Queue<byte> LogQueue1 = new Queue<byte>();
@@ -119,10 +121,6 @@ namespace AutoTest
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //電源及相機預設圖片
-            pictureBox_AcPower.Image = Properties.Resources.OFF;
-            pictureBox_Camera.Image = Properties.Resources.OFF;
-
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
@@ -152,6 +150,8 @@ namespace AutoTest
             else
             {
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                pictureBox_AcPower.Image = Properties.Resources.OFF;
+                pictureBox_ext_board.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")
@@ -889,7 +889,11 @@ namespace AutoTest
                 }
                 else
                 {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step - 1].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                                    Font,
+                                    FontColor,
+                                    new PointF(5, 360));
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
                                     new PointF(5, 400));
@@ -897,6 +901,10 @@ namespace AutoTest
             }
             else
             {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                                Font,
+                                FontColor,
+                                new PointF(5, 360));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
@@ -1494,6 +1502,23 @@ namespace AutoTest
                 float v = temp_version;
                 label_BoxVersion.Text = "_" + (v / 100).ToString();
 
+                // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
+                MyBlueRat.Force_Init_BlueRat();
+                MyBlueRat.Reset_SX1509();
+
+                byte SX1509_detect_status;
+                SX1509_detect_status = MyBlueRat.TEST_Detect_SX1509();
+
+                if (SX1509_detect_status == 3)
+                {
+                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                    // Error, need to check SX1509 connection
+                }
+                else
+                {
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                }
+
                 hCOM = MyBlueRat.ReturnSafeFileHandle();
                 BlueRat_UART_Exception_status = false;
                 UpdateRCFunctionButtonAfterConnection();
@@ -1824,12 +1849,26 @@ namespace AutoTest
                     index++;
                     data_to_read--;
                 }
-                
-                string text = Encoding.ASCII.GetString(dataset);
-                //DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox1.AppendText(text);
+
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox1.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox1.AppendText(text);
+                }
 
                 //string hex = ByteToHexStr(dataset);
                 //File.AppendAllText(@"C:\WriteText.txt", text);
@@ -1913,11 +1952,29 @@ namespace AutoTest
                     data_to_read--;
                 }
 
-                string text = Encoding.ASCII.GetString(dataset);
-                DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox2.AppendText(text);
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox2.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox2.AppendText(text);
+                }
+
+/*
+
+*/  
 
                 //string hex = ByteToHexStr(dataset);
                 //serialPort2.DiscardInBuffer();
@@ -2020,11 +2077,25 @@ namespace AutoTest
                     data_to_read--;
                 }
 
-                string text = Encoding.ASCII.GetString(dataset);
-                DateTime.Now.ToShortTimeString();
-                DateTime dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox3.AppendText(text);
+                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                {
+                    // hex to string
+                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                    textBox3.AppendText(hexValues);
+                }
+                else
+                {
+                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                    string text = Encoding.ASCII.GetString(dataset);
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                    textBox3.AppendText(text);
+                }
 
                 //string hex = ByteToHexStr(dataset);
                 //serialPort3.DiscardInBuffer();
@@ -3512,6 +3583,7 @@ namespace AutoTest
             }
             #endregion
 
+            Console.WriteLine("Schedule Start");
             for (int j = 1; j < Global.Schedule_Loop + 1; j++)
             {
                 Global.caption_Num = 0;
@@ -3554,9 +3626,11 @@ namespace AutoTest
                         #region -- _cmd --
                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_cmd")
                         {
+                            Console.WriteLine("cmd start");
                             #region -- 拍照 --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_shot")
                             {
+                                Console.WriteLine("shot start");
                                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
                                     Global.caption_Num++;
@@ -3575,6 +3649,7 @@ namespace AutoTest
                             #region -- 錄影 --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString() == "_start")
                             {
+                                Console.WriteLine("record start");
                                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
                                     if (VideoRecording == false)
@@ -3595,6 +3670,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString() == "_stop")
                             {
+                                Console.WriteLine("record stop");
                                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
                                     if (VideoRecording == true)       //判斷是不是正在錄影
@@ -3613,6 +3689,7 @@ namespace AutoTest
                             #endregion
 
                             #region -- AC SWITCH OLD --
+                            Console.WriteLine("ac on");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_on")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
@@ -3649,7 +3726,7 @@ namespace AutoTest
                                     MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
-
+                            Console.WriteLine("ac off");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_off")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
@@ -3689,6 +3766,7 @@ namespace AutoTest
                             #endregion
 
                             #region -- AC SWITCH --
+                            Console.WriteLine("ac switch");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_AC1_ON")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
@@ -3787,6 +3865,7 @@ namespace AutoTest
                             #region -- USB SWITCH --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB1_TV")
                             {
+                                Console.WriteLine("usb1 tv switch");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
@@ -3809,6 +3888,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB1_PC")
                             {
+                                Console.WriteLine("usb1 pc switch");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
@@ -3832,6 +3912,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB2_TV")
                             {
+                                Console.WriteLine("usb2 tv switch");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
@@ -3854,6 +3935,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB2_PC")
                             {
+                                Console.WriteLine("usb2 pc switch");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
@@ -3881,6 +3963,7 @@ namespace AutoTest
                         #region -- COM PORT --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log1")
                         {
+                            Console.WriteLine("log 1");
                             if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                             {
                                 switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
@@ -3896,7 +3979,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort1.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox1.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3905,6 +3991,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log2")
                         {
+                            Console.WriteLine("log 2");
                             if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                             {
                                 switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
@@ -3920,7 +4007,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort2.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox2.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3929,6 +4019,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log3")
                         {
+                            Console.WriteLine("log 3");
                             if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                             {
                                 switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
@@ -3944,7 +4035,10 @@ namespace AutoTest
                                     default:
                                         //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
-                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        serialPort3.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
+                                        textBox3.AppendText(text);
                                         break;
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -3955,6 +4049,7 @@ namespace AutoTest
                         #region -- Astro Timing --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_astro")
                         {
+                            Console.WriteLine("Astro Timing");
                             try
                             {
                                 // Astro指令
@@ -4006,6 +4101,7 @@ namespace AutoTest
                         #region -- Quantum Timing --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_quantum")
                         {
+                            Console.WriteLine("Quantum Timing");
                             try
                             {
                                 // Quantum指令檔案匯入
@@ -4094,6 +4190,7 @@ namespace AutoTest
                         #region -- Dektec --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_dektec")
                         {
+                            Console.WriteLine("Dektec");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString() == "_start")
                             {
                                 string StreamName = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
@@ -4129,6 +4226,7 @@ namespace AutoTest
                         #region -- 命令提示 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_DOS")
                         {
+                            Console.WriteLine("DOS");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
                             {
                                 string Command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -4164,11 +4262,13 @@ namespace AutoTest
                         #region -- GPIO_INPUT_OUTPUT --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_IO_Input")
                         {
+                            Console.WriteLine("GPIO_INPUT");
                             IO_INPUT();
                         }
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_IO_Output")
                         {
+                            Console.WriteLine("GPIO_Output");
                             //string GPIO = "01010101";
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
@@ -4177,9 +4277,119 @@ namespace AutoTest
                         }
                         #endregion
 
+                        #region -- Extend_GPIO_OUTPUT --
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_WaterTemp")
+                        {
+                            Console.WriteLine("WaterTemp_OUTPUT");
+                            //string GPIO = "01010101";
+                            string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                            for (int i = 0; i < 9; i++)
+                            {
+                                MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8-i,1)));
+                                Thread.Sleep(50);
+                            }
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                        }
+
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_FuelDisplay")
+                        {
+                            Console.WriteLine("FuelDipslay_OUTPUT");
+                            string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                            for (int i=0; i<9; i++)
+                            {
+                                MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i + 16), Convert.ToByte(GPIO.Substring(8 - i, 1)));
+                                Thread.Sleep(50);
+                            }
+
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                        }
+
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_Temp")
+                        {
+                            Console.WriteLine("Temp_OUTPUT");
+                            //string GPIO = "01010101";
+                            string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                            int GPIO_B = int.Parse(GPIO);
+                            if (GPIO_B >= -20 && GPIO_B < -17)
+                                MyBlueRat.Set_MCP42xxx(224);
+                            else if (GPIO_B >= -17 && GPIO_B < -12)
+                                MyBlueRat.Set_MCP42xxx(172);
+                            else if (GPIO_B >= -12 && GPIO_B < -7)
+                                MyBlueRat.Set_MCP42xxx(130);
+                            else if (GPIO_B >= -7 && GPIO_B < -2)
+                                MyBlueRat.Set_MCP42xxx(101);
+                            else if (GPIO_B >= -2 && GPIO_B < 3)
+                                MyBlueRat.Set_MCP42xxx(78);
+                            else if (GPIO_B >= 3 && GPIO_B < 8)
+                                MyBlueRat.Set_MCP42xxx(61);
+                            else if (GPIO_B >= 8 && GPIO_B < 13)
+                                MyBlueRat.Set_MCP42xxx(47);
+                            else if (GPIO_B >= 13 && GPIO_B < 18)
+                                MyBlueRat.Set_MCP42xxx(36);
+                            else if (GPIO_B >= 18 && GPIO_B < 23)
+                                MyBlueRat.Set_MCP42xxx(29);
+                            else if (GPIO_B >= 23 && GPIO_B < 28)
+                                MyBlueRat.Set_MCP42xxx(23);
+                            else if (GPIO_B >= 28 && GPIO_B < 33)
+                                MyBlueRat.Set_MCP42xxx(19);
+                            else if (GPIO_B >= 33 && GPIO_B < 38)
+                                MyBlueRat.Set_MCP42xxx(15);
+                            else if (GPIO_B >= 38 && GPIO_B < 43)
+                                MyBlueRat.Set_MCP42xxx(12);
+                            else if (GPIO_B >= 43 && GPIO_B < 48)
+                                MyBlueRat.Set_MCP42xxx(10);
+                            else if (GPIO_B >= 48 && GPIO_B <= 50)
+                                MyBlueRat.Set_MCP42xxx(8);
+                            Thread.Sleep(50);
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                        }
+                        #endregion
+
+                        #region -- Push_Release_Function--
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_FuncKey")
+                        {
+                            try
+                            {
+                                for (int k = 0; k < stime; k++)
+                                {
+                                    string str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                    byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    label_Command.Text = "(Push CMD)" + str;
+                                    serialPort2.Write(bytes, 0, bytes.Length);
+                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                    // DateTime dt = DateTime.Now;
+                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
+                                    str = str.Replace(" ", "");
+                                    string text = str + "\r\n";
+                                    textBox2.AppendText(text);
+                                    Thread.Sleep(int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
+                                    int length = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Length;
+                                    string status = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(length - 4, 1);
+                                    if (status == "0")
+                                        str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, length - 4) + "1" + " 0D";
+                                    else if (status == "1")
+                                        str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, length - 4) + "0" + " 0D";
+                                    bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    label_Command.Text = "(Release CMD)" + str;
+                                    serialPort2.Write(bytes, 0, bytes.Length);
+                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                    str = str.Replace(" ", "");
+                                    text = str + "\r\n";
+                                    textBox2.AppendText(text);
+                                    Thread.Sleep(1000);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+                        }
+                        #endregion
+
                         #region -- MonkeyTest --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_MonkeyTest")
                         {
+                            Console.WriteLine("MonkeyTest");
                             Add_ons MonkeyTest = new Add_ons();
                             MonkeyTest.MonkeyTest();
                             MonkeyTest.CreateExcelFile();
@@ -4189,6 +4399,7 @@ namespace AutoTest
                         #region -- Factory Command 控制 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
                         {
+                            Console.WriteLine("Factory Command");
                             if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1" &&
                                 DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() == "_save")
                             {
@@ -4213,6 +4424,12 @@ namespace AutoTest
                                     byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                     label_Command.Text = "(SXP CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     serialPort2.Write(bytes, 0, bytes.Length);
+                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                    // DateTime dt = DateTime.Now;
+                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
+                                    str = str.Replace(" ", "");
+                                    string text = str + "\r\n";
+                                    textBox2.AppendText(text);
                                 }
                                 catch (Exception ex)
                                 {
@@ -4232,6 +4449,7 @@ namespace AutoTest
                              DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 7 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 3) == "_PB")
                         {
                             {
+                                Console.WriteLine("IO CMD");
                                 switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(3, 2))
                                 {
                                     #region -- PA10 --
@@ -4427,6 +4645,150 @@ namespace AutoTest
                                 }
                             }
                         }
+                        #endregion
+
+                        #region -- NI IO Input --
+/*
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 13 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 11) == "_EXT_Input_")    
+                        {
+                            Console.WriteLine("NI IO Input");
+                            switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(11, 2))
+                            {
+                                case "P0":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P1":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P2":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                            }
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                        }
+                        #endregion
+
+                        #region -- NI IO Output --
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 14 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 12) == "_EXT_Output_")
+                        {
+                            Console.WriteLine("NI IO Output");
+                            switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(12, 2))
+                            {
+                                case "P0":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P1":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P2":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
+
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                            }
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                        }
+*/               
                         #endregion
 
                         #region -- Audio Debounce --
@@ -5725,13 +6087,24 @@ namespace AutoTest
             RCDB.Items.Add("_quantum");
             RCDB.Items.Add("_dektec");
             RCDB.Items.Add("_DOS");
-            RCDB.Items.Add("_IO_Output");
-            RCDB.Items.Add("_IO_Input");
             RCDB.Items.Add("_SXP");
             RCDB.Items.Add("_audio_debounce");
             RCDB.Items.Add("_pwm1");
             RCDB.Items.Add("_pwm2");
             RCDB.Items.Add("_pwm3");
+            RCDB.Items.Add("------------------------");
+            RCDB.Items.Add("_IO_Output");
+            RCDB.Items.Add("_IO_Input");
+            //RCDB.Items.Add("_EXT_Output_P0");
+            //RCDB.Items.Add("_EXT_Output_P1");
+            //RCDB.Items.Add("_EXT_Output_P2");
+            //RCDB.Items.Add("_EXT_Input_P0");
+            //RCDB.Items.Add("_EXT_Input_P1");
+            //RCDB.Items.Add("_EXT_Input_P2");
+            RCDB.Items.Add("_FuncKey");
+            RCDB.Items.Add("_WaterTemp");
+            RCDB.Items.Add("_FuelDisplay");
+            RCDB.Items.Add("_Temp");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_PA10_0");
             RCDB.Items.Add("_PA10_1");
@@ -6462,7 +6835,7 @@ namespace AutoTest
             {
                 int j = Int32.Parse(TextLine.Split(',').Length.ToString());
 
-                if ((j == 12 || j == 11) || (j == 11 || j == 10))
+                if ((j == 12 || j == 11))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                     long RepeatTime = 0;
@@ -7395,7 +7768,20 @@ namespace AutoTest
         private void button_Network_Click(object sender, EventArgs e)
         {
             string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
-            string port = ini12.INIRead(MainSettingPath, "Network", "Port", "");
+            int port = int.Parse(ini12.INIRead(MainSettingPath, "Network", "Port", ""));
+
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(ip, port); // 1.設定 IP:Port 2.連線至伺服器
+            NetworkStream stream = new NetworkStream(socket);
+            StreamReader sr = new StreamReader(stream);
+            StreamWriter sw = new StreamWriter(stream);
+
+            sw.WriteLine("你好伺服器，我是客戶端。"); // 將資料寫入緩衝
+            sw.Flush(); // 刷新緩衝並將資料上傳到伺服器
+
+            Console.WriteLine("從伺服器接收的資料： " + sr.ReadLine());
+
+            Console.ReadLine();
 
         }
     }
@@ -7417,6 +7803,10 @@ namespace AutoTest
 
     public class Global//全域變數//
     {
+        public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
+        public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
+
         public static int Scheduler_Row = 0;
         public static List<string> VID = new List<string> { };
         public static List<string> PID = new List<string> { };

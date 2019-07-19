@@ -21,7 +21,7 @@ namespace AutoTest
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-/*
+
             //Thread to show splash window
             Thread thUI = new Thread(new ThreadStart(ShowSplashWindow))
             {
@@ -30,7 +30,7 @@ namespace AutoTest
                 IsBackground = true
             };
             thUI.Start();
-*/
+
             //Thread to load time-consuming resources.
             Thread th = new Thread(new ThreadStart(LoadResources))
             {
@@ -39,13 +39,13 @@ namespace AutoTest
             };
             th.Start();
             th.Join();
-/*            
+            
             if (SplashForm != null)
             {
                 SplashForm.Invoke(new MethodInvoker(delegate { SplashForm.Close(); }));
             }
             thUI.Join();
-*/
+
             Application.Run(new Form1());
         }
 
@@ -61,7 +61,7 @@ namespace AutoTest
             {
                 if (SplashForm != null)
                 {SplashForm.Invoke(new MethodInvoker(delegate 
-                        {SplashForm.labelMark.Text = "AutoTest";}));}
+                        {SplashForm.labelMark.Text = "Spider";}));}
                 Thread.Sleep(100);
             }
             

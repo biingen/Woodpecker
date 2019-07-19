@@ -274,6 +274,22 @@ namespace AutoTest
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort3_PortName_Value.Enabled = false;
                 }
+                if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        checkBox_Displayhex.Checked = true;
+                    }
+                    else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0")
+                    {
+                        checkBox_Displayhex.Checked = false;
+                    }
+                }
+                else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "0")
+                {
+                    checkBox_Displayhex.Checked = false;
+                }
+
             }
             else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "0")
             {
@@ -470,6 +486,18 @@ namespace AutoTest
                 comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort3_PortName_Value.Enabled = false;
                 SerialPortCheck();
+            }
+        }
+
+        private void checkBox_Displayhex_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_Displayhex.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "0");
             }
         }
 
