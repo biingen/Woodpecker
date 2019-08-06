@@ -26,6 +26,7 @@ using System.Xml.Linq;
 using USBClassLibrary;
 using System.Net.Sockets;
 using System.Net;
+using Can_Reader_Lib;
 //using NationalInstruments.DAQmx;
 
 namespace AutoTest
@@ -101,6 +102,8 @@ namespace AutoTest
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        private CAN_Reader MYCanReader = new CAN_Reader();
+
         public Form1()
         {
             InitializeComponent();
@@ -152,6 +155,7 @@ namespace AutoTest
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
+                pictureBox_canbus.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")
@@ -231,7 +235,18 @@ namespace AutoTest
                 button_SerialPort3.Visible = false;
             }
 
+            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
+            {
+                button_CanbusPort.Visible = true;
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
+                button_CanbusPort.Visible = false;
+            }
+
             LoadRCDB();
+            ConnectCanBus();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -793,12 +808,12 @@ namespace AutoTest
         }
 
         //執行緒控制 txtbox3
-        private delegate void UpdateUICallBack6(string value, Control ctl);
+        private delegate void UpdateUICallBack5(string value, Control ctl);
         private void Txtbox3(string value, Control ctl)
         {
             if (InvokeRequired)
             {
-                UpdateUICallBack6 uu = new UpdateUICallBack6(Txtbox3);
+                UpdateUICallBack5 uu = new UpdateUICallBack5(Txtbox3);
                 Invoke(uu, value, ctl);
             }
             else
@@ -1553,6 +1568,30 @@ namespace AutoTest
             }
         }
 
+        protected void ConnectCanBus()
+        {
+            uint status;
+
+            status = MYCanReader.Connect();
+            if (status == 1)
+            {
+                status = MYCanReader.StartCAN();
+                if (status == 1)
+                {
+                    timer_canbus.Enabled = true;
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+        }
+
         public void Autocommand_RedRat(string Caller,string SigData)
         {
             string redcon = "";
@@ -2265,6 +2304,35 @@ namespace AutoTest
             */
             MYFILE.Close();
             Txtbox3("", textBox3);
+        }
+        #endregion
+
+        #region -- 儲存CANbus的log --
+        private void CanbusRS232save()
+        {
+            string fName = "";
+
+            // 讀取ini中的路徑
+            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            string t = fName + "\\_CANbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+
+            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+            MYFILE.Write(textBox_canbus.Text);
+            /*
+            Console.WriteLine("Save Log By Queue");
+            while (LogQueue3.Count > 0)
+            {
+                char temp_char;
+                byte temp_byte;
+
+                temp_byte = LogQueue3.Dequeue();
+                temp_char = (char)temp_byte;
+
+                MYFILE.Write(temp_char);
+            }
+            */
+            MYFILE.Close();
+            textBox_canbus.Text = "";
         }
         #endregion
 
@@ -6480,6 +6548,7 @@ namespace AutoTest
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1" ? true : false;
                 button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1" ? true : false;
+                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1" ? true : false;
 
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
@@ -6619,6 +6688,12 @@ namespace AutoTest
             OpenSerialPort3();
             Controls.Add(textBox3);
             textBox3.BringToFront();
+        }
+
+        private void button_canbus_Click(object sender, EventArgs e)
+        {
+            Controls.Add(textBox_canbus);
+            textBox_canbus.BringToFront();
         }
 
         private void Button_TabScheduler_Click(object sender, EventArgs e) => DataGridView_Schedule.BringToFront();
@@ -7783,6 +7858,46 @@ namespace AutoTest
 
             Console.ReadLine();
 
+        }
+
+        unsafe private void timer_canbus_Tick(object sender, EventArgs e)
+        {
+            UInt32 res = new UInt32();
+
+            res = MYCanReader.ReceiveData();
+
+            if (res == 0)
+            {
+                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                {
+                    timer_canbus.Enabled = false;
+                    MYCanReader.StopCAN();
+                    MYCanReader.Disconnect();
+
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+
+                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+
+                    return;
+                }
+                return;
+            }
+
+            uint ID = 0, DLC = 0;
+            const int DATA_LEN = 8;
+            byte[] DATA = new byte[DATA_LEN];
+
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                String str = "";
+                for (UInt32 i = 0; i < res; i++)
+                {
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                    textBox_canbus.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n");
+                }
+            }
         }
     }
 

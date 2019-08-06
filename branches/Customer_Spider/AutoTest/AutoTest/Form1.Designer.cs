@@ -136,6 +136,11 @@ namespace AutoTest
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label_ext_board = new System.Windows.Forms.Label();
             this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
+            this.timer_canbus = new System.Windows.Forms.Timer(this.components);
+            this.label_canbus = new System.Windows.Forms.Label();
+            this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
+            this.textBox_canbus = new System.Windows.Forms.TextBox();
+            this.button_CanbusPort = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -156,6 +161,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -313,7 +319,7 @@ namespace AutoTest
             this.button_SerialPort1.BackColor = System.Drawing.Color.Transparent;
             this.button_SerialPort1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort1.Location = new System.Drawing.Point(963, 300);
+            this.button_SerialPort1.Location = new System.Drawing.Point(963, 260);
             this.button_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort1.Name = "button_SerialPort1";
             this.button_SerialPort1.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -328,7 +334,7 @@ namespace AutoTest
             this.button_SerialPort2.BackColor = System.Drawing.Color.Transparent;
             this.button_SerialPort2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort2.Location = new System.Drawing.Point(963, 348);
+            this.button_SerialPort2.Location = new System.Drawing.Point(963, 308);
             this.button_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort2.Name = "button_SerialPort2";
             this.button_SerialPort2.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -705,7 +711,7 @@ namespace AutoTest
             this.button_Camera.BackColor = System.Drawing.Color.Transparent;
             this.button_Camera.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Camera.Location = new System.Drawing.Point(963, 245);
+            this.button_Camera.Location = new System.Drawing.Point(963, 205);
             this.button_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.button_Camera.Name = "button_Camera";
             this.button_Camera.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1210,7 +1216,7 @@ namespace AutoTest
             this.button_SerialPort3.BackColor = System.Drawing.Color.Transparent;
             this.button_SerialPort3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort3.Location = new System.Drawing.Point(963, 394);
+            this.button_SerialPort3.Location = new System.Drawing.Point(963, 354);
             this.button_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort3.Name = "button_SerialPort3";
             this.button_SerialPort3.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1410,9 +1416,9 @@ namespace AutoTest
             this.label_ext_board.Location = new System.Drawing.Point(361, 18);
             this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ext_board.Name = "label_ext_board";
-            this.label_ext_board.Size = new System.Drawing.Size(73, 17);
+            this.label_ext_board.Size = new System.Drawing.Size(72, 17);
             this.label_ext_board.TabIndex = 100;
-            this.label_ext_board.Text = "Ext_Board";
+            this.label_ext_board.Text = "Ext_board";
             // 
             // pictureBox_ext_board
             // 
@@ -1425,6 +1431,64 @@ namespace AutoTest
             this.pictureBox_ext_board.TabIndex = 99;
             this.pictureBox_ext_board.TabStop = false;
             // 
+            // timer_canbus
+            // 
+            this.timer_canbus.Interval = 250;
+            this.timer_canbus.Tick += new System.EventHandler(this.timer_canbus_Tick);
+            // 
+            // label_canbus
+            // 
+            this.label_canbus.AutoSize = true;
+            this.label_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_canbus.ForeColor = System.Drawing.Color.Black;
+            this.label_canbus.Location = new System.Drawing.Point(460, 19);
+            this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_canbus.Name = "label_canbus";
+            this.label_canbus.Size = new System.Drawing.Size(67, 17);
+            this.label_canbus.TabIndex = 102;
+            this.label_canbus.Text = "CAN_bus";
+            // 
+            // pictureBox_canbus
+            // 
+            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_canbus.Location = new System.Drawing.Point(447, 20);
+            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_canbus.Name = "pictureBox_canbus";
+            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_canbus.TabIndex = 101;
+            this.pictureBox_canbus.TabStop = false;
+            // 
+            // textBox_canbus
+            // 
+            this.textBox_canbus.BackColor = System.Drawing.Color.Black;
+            this.textBox_canbus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_canbus.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_canbus.ForeColor = System.Drawing.Color.White;
+            this.textBox_canbus.Location = new System.Drawing.Point(7, 48);
+            this.textBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_canbus.Multiline = true;
+            this.textBox_canbus.Name = "textBox_canbus";
+            this.textBox_canbus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_canbus.Size = new System.Drawing.Size(950, 400);
+            this.textBox_canbus.TabIndex = 103;
+            // 
+            // button_CanbusPort
+            // 
+            this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
+            this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_CanbusPort.Location = new System.Drawing.Point(963, 403);
+            this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
+            this.button_CanbusPort.Name = "button_CanbusPort";
+            this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button_CanbusPort.Size = new System.Drawing.Size(130, 35);
+            this.button_CanbusPort.TabIndex = 104;
+            this.button_CanbusPort.Text = "CAN bus Port";
+            this.button_CanbusPort.UseVisualStyleBackColor = false;
+            this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1432,6 +1496,9 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.Controls.Add(this.button_CanbusPort);
+            this.Controls.Add(this.label_canbus);
+            this.Controls.Add(this.pictureBox_canbus);
             this.Controls.Add(this.label_ext_board);
             this.Controls.Add(this.pictureBox_ext_board);
             this.Controls.Add(this.button_Network);
@@ -1473,6 +1540,7 @@ namespace AutoTest
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
             this.Controls.Add(this.DataGridView_Schedule);
+            this.Controls.Add(this.textBox_canbus);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.panelVideo);
@@ -1514,6 +1582,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1628,6 +1697,11 @@ namespace AutoTest
         public SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.Label label_ext_board;
         private System.Windows.Forms.PictureBox pictureBox_ext_board;
+        private System.Windows.Forms.Timer timer_canbus;
+        private System.Windows.Forms.Label label_canbus;
+        private System.Windows.Forms.PictureBox pictureBox_canbus;
+        private System.Windows.Forms.TextBox textBox_canbus;
+        private System.Windows.Forms.Button button_CanbusPort;
     }
 }
 

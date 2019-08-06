@@ -286,6 +286,7 @@ namespace AutoTest
             //預設AutoBox沒接上
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
@@ -408,6 +409,24 @@ namespace AutoTest
                             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
                             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
+                    }
+                    #endregion
+
+                    #region 偵測CANbus
+                    if (deviceId.IndexOf("&0&2", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                        deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------Canbus------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "1");
                     }
                     #endregion
                 }

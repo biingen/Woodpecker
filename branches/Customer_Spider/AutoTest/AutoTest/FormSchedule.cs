@@ -175,6 +175,15 @@ namespace AutoTest
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
             }
 
+            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
+            {
+                checkBox_canbus.Checked = true;
+            }
+            else
+            {
+                checkBox_canbus.Checked = false;
+            }
+
             if (ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "") == "1")
             {
                 checkBox_ScheduleAutoStart.Checked = true;
@@ -931,6 +940,20 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "0");
+            }
+        }
+
+        private void checkBox_canbus_CheckedChanged(object sender, EventArgs e)
+        {
+            //自動跑CANbusLog//
+            if (checkBox_canbus.Checked == true)
+            {
+
+                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
             }
         }
     }

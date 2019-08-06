@@ -85,6 +85,7 @@
             this.pictureBox_Schedule4Loop = new System.Windows.Forms.PictureBox();
             this.pictureBox_Schedule5Loop = new System.Windows.Forms.PictureBox();
             this.checkBox_ScheduleAutoStart = new System.Windows.Forms.CheckBox();
+            this.checkBox_canbus = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule1Loop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule5)).BeginInit();
@@ -786,6 +787,20 @@
             this.checkBox_ScheduleAutoStart.UseVisualStyleBackColor = true;
             this.checkBox_ScheduleAutoStart.CheckedChanged += new System.EventHandler(this.checkBox_ScheduleAutoStart_CheckedChanged);
             // 
+            // checkBox_canbus
+            // 
+            this.checkBox_canbus.AutoSize = true;
+            this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_canbus.ForeColor = System.Drawing.Color.MediumPurple;
+            this.checkBox_canbus.Location = new System.Drawing.Point(221, 408);
+            this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_canbus.Name = "checkBox_canbus";
+            this.checkBox_canbus.Size = new System.Drawing.Size(105, 19);
+            this.checkBox_canbus.TabIndex = 131;
+            this.checkBox_canbus.Text = "CANbus Mode";
+            this.checkBox_canbus.UseVisualStyleBackColor = true;
+            this.checkBox_canbus.CheckedChanged += new System.EventHandler(this.checkBox_canbus_CheckedChanged);
+            // 
             // FormSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -794,6 +809,7 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.Ivory;
             this.ClientSize = new System.Drawing.Size(658, 494);
+            this.Controls.Add(this.checkBox_canbus);
             this.Controls.Add(this.checkBox_ScheduleAutoStart);
             this.Controls.Add(this.pictureBox_Schedule5Loop);
             this.Controls.Add(this.pictureBox_Schedule4Loop);
@@ -928,5 +944,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Schedule4Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule5Loop;
         private System.Windows.Forms.CheckBox checkBox_ScheduleAutoStart;
+        private System.Windows.Forms.CheckBox checkBox_canbus;
     }
 }
