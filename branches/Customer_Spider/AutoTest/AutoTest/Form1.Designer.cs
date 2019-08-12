@@ -122,6 +122,15 @@ namespace AutoTest
             this.serialPort3 = new System.IO.Ports.SerialPort(this.components);
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button_Network = new System.Windows.Forms.Button();
+            this.label_ext_board = new System.Windows.Forms.Label();
+            this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
+            this.timer_canbus = new System.Windows.Forms.Timer(this.components);
+            this.label_canbus = new System.Windows.Forms.Label();
+            this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
+            this.textBox_canbus = new System.Windows.Forms.TextBox();
+            this.button_CanbusPort = new System.Windows.Forms.Button();
+            this.button_recordSch = new System.Windows.Forms.Button();
+            this.textBox_recordSch = new System.Windows.Forms.TextBox();
             this.DataGridView_Schedule = new AutoTest.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -134,13 +143,6 @@ namespace AutoTest
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label_ext_board = new System.Windows.Forms.Label();
-            this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
-            this.timer_canbus = new System.Windows.Forms.Timer(this.components);
-            this.label_canbus = new System.Windows.Forms.Label();
-            this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
-            this.textBox_canbus = new System.Windows.Forms.TextBox();
-            this.button_CanbusPort = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -159,9 +161,9 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -282,7 +284,7 @@ namespace AutoTest
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.DarkOrange;
-            this.TimeLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.TimeLabel.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(318, 703);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1257,6 +1259,112 @@ namespace AutoTest
             this.button_Network.Visible = false;
             this.button_Network.Click += new System.EventHandler(this.button_Network_Click);
             // 
+            // label_ext_board
+            // 
+            this.label_ext_board.AutoSize = true;
+            this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ext_board.ForeColor = System.Drawing.Color.Black;
+            this.label_ext_board.Location = new System.Drawing.Point(361, 18);
+            this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_ext_board.Name = "label_ext_board";
+            this.label_ext_board.Size = new System.Drawing.Size(72, 17);
+            this.label_ext_board.TabIndex = 100;
+            this.label_ext_board.Text = "Ext_board";
+            // 
+            // pictureBox_ext_board
+            // 
+            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 19);
+            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
+            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_ext_board.TabIndex = 99;
+            this.pictureBox_ext_board.TabStop = false;
+            // 
+            // timer_canbus
+            // 
+            this.timer_canbus.Interval = 250;
+            this.timer_canbus.Tick += new System.EventHandler(this.timer_canbus_Tick);
+            // 
+            // label_canbus
+            // 
+            this.label_canbus.AutoSize = true;
+            this.label_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_canbus.ForeColor = System.Drawing.Color.Black;
+            this.label_canbus.Location = new System.Drawing.Point(460, 19);
+            this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_canbus.Name = "label_canbus";
+            this.label_canbus.Size = new System.Drawing.Size(67, 17);
+            this.label_canbus.TabIndex = 102;
+            this.label_canbus.Text = "CAN_bus";
+            // 
+            // pictureBox_canbus
+            // 
+            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_canbus.Location = new System.Drawing.Point(447, 20);
+            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_canbus.Name = "pictureBox_canbus";
+            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_canbus.TabIndex = 101;
+            this.pictureBox_canbus.TabStop = false;
+            // 
+            // textBox_canbus
+            // 
+            this.textBox_canbus.BackColor = System.Drawing.Color.Black;
+            this.textBox_canbus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_canbus.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_canbus.ForeColor = System.Drawing.Color.White;
+            this.textBox_canbus.Location = new System.Drawing.Point(7, 48);
+            this.textBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_canbus.Multiline = true;
+            this.textBox_canbus.Name = "textBox_canbus";
+            this.textBox_canbus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_canbus.Size = new System.Drawing.Size(950, 400);
+            this.textBox_canbus.TabIndex = 103;
+            // 
+            // button_CanbusPort
+            // 
+            this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
+            this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_CanbusPort.Location = new System.Drawing.Point(963, 403);
+            this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
+            this.button_CanbusPort.Name = "button_CanbusPort";
+            this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button_CanbusPort.Size = new System.Drawing.Size(130, 35);
+            this.button_CanbusPort.TabIndex = 104;
+            this.button_CanbusPort.Text = "CAN bus Port";
+            this.button_CanbusPort.UseVisualStyleBackColor = false;
+            this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
+            // 
+            // button_recordSch
+            // 
+            this.button_recordSch.Location = new System.Drawing.Point(1001, 99);
+            this.button_recordSch.Name = "button_recordSch";
+            this.button_recordSch.Size = new System.Drawing.Size(75, 23);
+            this.button_recordSch.TabIndex = 105;
+            this.button_recordSch.Text = "Record_Schedule";
+            this.button_recordSch.UseVisualStyleBackColor = true;
+            this.button_recordSch.Click += new System.EventHandler(this.button_recordSch_Click);
+            // 
+            // textBox_recordSch
+            // 
+            this.textBox_recordSch.BackColor = System.Drawing.Color.Black;
+            this.textBox_recordSch.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_recordSch.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_recordSch.ForeColor = System.Drawing.Color.White;
+            this.textBox_recordSch.Location = new System.Drawing.Point(9, 49);
+            this.textBox_recordSch.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_recordSch.Multiline = true;
+            this.textBox_recordSch.Name = "textBox_recordSch";
+            this.textBox_recordSch.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_recordSch.Size = new System.Drawing.Size(950, 400);
+            this.textBox_recordSch.TabIndex = 106;
+            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
@@ -1407,88 +1515,6 @@ namespace AutoTest
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
             // 
-            // label_ext_board
-            // 
-            this.label_ext_board.AutoSize = true;
-            this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
-            this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ext_board.ForeColor = System.Drawing.Color.Black;
-            this.label_ext_board.Location = new System.Drawing.Point(361, 18);
-            this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_ext_board.Name = "label_ext_board";
-            this.label_ext_board.Size = new System.Drawing.Size(72, 17);
-            this.label_ext_board.TabIndex = 100;
-            this.label_ext_board.Text = "Ext_board";
-            // 
-            // pictureBox_ext_board
-            // 
-            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 19);
-            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
-            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_ext_board.TabIndex = 99;
-            this.pictureBox_ext_board.TabStop = false;
-            // 
-            // timer_canbus
-            // 
-            this.timer_canbus.Interval = 250;
-            this.timer_canbus.Tick += new System.EventHandler(this.timer_canbus_Tick);
-            // 
-            // label_canbus
-            // 
-            this.label_canbus.AutoSize = true;
-            this.label_canbus.BackColor = System.Drawing.Color.Transparent;
-            this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_canbus.ForeColor = System.Drawing.Color.Black;
-            this.label_canbus.Location = new System.Drawing.Point(460, 19);
-            this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_canbus.Name = "label_canbus";
-            this.label_canbus.Size = new System.Drawing.Size(67, 17);
-            this.label_canbus.TabIndex = 102;
-            this.label_canbus.Text = "CAN_bus";
-            // 
-            // pictureBox_canbus
-            // 
-            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(447, 20);
-            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_canbus.Name = "pictureBox_canbus";
-            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_canbus.TabIndex = 101;
-            this.pictureBox_canbus.TabStop = false;
-            // 
-            // textBox_canbus
-            // 
-            this.textBox_canbus.BackColor = System.Drawing.Color.Black;
-            this.textBox_canbus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_canbus.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.textBox_canbus.Location = new System.Drawing.Point(7, 48);
-            this.textBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_canbus.Multiline = true;
-            this.textBox_canbus.Name = "textBox_canbus";
-            this.textBox_canbus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_canbus.Size = new System.Drawing.Size(950, 400);
-            this.textBox_canbus.TabIndex = 103;
-            // 
-            // button_CanbusPort
-            // 
-            this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
-            this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(963, 403);
-            this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
-            this.button_CanbusPort.Name = "button_CanbusPort";
-            this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_CanbusPort.Size = new System.Drawing.Size(130, 35);
-            this.button_CanbusPort.TabIndex = 104;
-            this.button_CanbusPort.Text = "CAN bus Port";
-            this.button_CanbusPort.UseVisualStyleBackColor = false;
-            this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1496,6 +1522,7 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.Controls.Add(this.button_recordSch);
             this.Controls.Add(this.button_CanbusPort);
             this.Controls.Add(this.label_canbus);
             this.Controls.Add(this.pictureBox_canbus);
@@ -1540,11 +1567,12 @@ namespace AutoTest
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
             this.Controls.Add(this.DataGridView_Schedule);
+            this.Controls.Add(this.textBox_recordSch);
             this.Controls.Add(this.textBox_canbus);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.comboBox_CameraDevice);
+            this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.textBox3);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1580,9 +1608,9 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1702,6 +1730,8 @@ namespace AutoTest
         private System.Windows.Forms.PictureBox pictureBox_canbus;
         private System.Windows.Forms.TextBox textBox_canbus;
         private System.Windows.Forms.Button button_CanbusPort;
+        private System.Windows.Forms.Button button_recordSch;
+        private System.Windows.Forms.TextBox textBox_recordSch;
     }
 }
 
