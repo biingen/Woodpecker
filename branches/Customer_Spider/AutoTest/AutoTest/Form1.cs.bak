@@ -2227,34 +2227,6 @@ namespace AutoTest
         }
         #endregion
 
-		 #region -- Show schedule & CAN log --
-        private void CheckResult()
-        {
-            string[] stringSeparators = new string[] { "\r\n" };
-            string[] textArray = textBox_TestLog.Text.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string lines in textArray)
-            {
-                if (lines.Contains(",")) //Schedule log
-                {
-                    string[] lines_sch = lines.Split(',');
-                    Console.WriteLine("Command: " + lines_sch[10]);
-                }
-                else //Canbus log
-                {
-                    string lines_CAN_ID = lines.Substring(lines.IndexOf("ID:") + 3, 3).Trim();
-                    Console.WriteLine("CAN_ID: " + lines_CAN_ID);
-                    string lines_CAN_DATA = lines.Substring(lines.IndexOf("Data: ") + 6).Trim();
-                    Console.WriteLine("CAN_DATA: " + lines_CAN_DATA);
-
-                    string[] hexValuesSplit = lines_CAN_DATA.Split(' ');
-                    foreach (string hex in hexValuesSplit)
-                    {
-                        Console.WriteLine("Hex after split: " + hex);
-                    }
-                }
-            }
-        }
-        #endregion
         #region -- 儲存SerialPort1的log --
         private void Rs232save()
         {
@@ -3736,10 +3708,8 @@ namespace AutoTest
                         {
                             Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
                         }
-                        string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        textBox_recordSch.AppendText(sch_log_text);
-                        
-                        textBox_TestLog.AppendText(sch_log_text);
+
+                        textBox_recordSch.AppendText("[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n");
                         #endregion
 
                         #region -- _cmd --
@@ -6698,7 +6668,6 @@ namespace AutoTest
             OpenSerialPort1();
             Controls.Add(textBox1);
             textBox1.BringToFront();
-            Global.TEXTBOX_FOCUS = 1;
         }
 
         private void Com2Btn_Click(object sender, EventArgs e)
@@ -6706,7 +6675,6 @@ namespace AutoTest
             OpenSerialPort2();
             Controls.Add(textBox2);
             textBox2.BringToFront();
-            Global.TEXTBOX_FOCUS = 2;
         }
 
         private void Com3Btn_Click(object sender, EventArgs e)
@@ -6714,29 +6682,18 @@ namespace AutoTest
             OpenSerialPort3();
             Controls.Add(textBox3);
             textBox3.BringToFront();
-            Global.TEXTBOX_FOCUS = 3;
         }
 
         private void button_recordSch_Click(object sender, EventArgs e)
         {
             Controls.Add(textBox_recordSch);
             textBox_recordSch.BringToFront();
-            Global.TEXTBOX_FOCUS = 4;
         }
 
         private void button_canbus_Click(object sender, EventArgs e)
         {
             Controls.Add(textBox_canbus);
             textBox_canbus.BringToFront();
-            Global.TEXTBOX_FOCUS = 5;
-        }
-
-        private void button_TestLog_Click(object sender, EventArgs e)
-        {
-            Controls.Add(textBox_TestLog);
-            textBox_TestLog.BringToFront();
-            Global.TEXTBOX_FOCUS = 6;
-            CheckResult();
         }
 
         private void Button_TabScheduler_Click(object sender, EventArgs e) => DataGridView_Schedule.BringToFront();
@@ -7938,66 +7895,9 @@ namespace AutoTest
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    textBox_canbus.AppendText(canbus_log_text);
-
-					textBox_TestLog.AppendText(canbus_log_text);
+                    textBox_canbus.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n");
                 }
             }
-        }
-
-        //Select & copy log from textbox
-        private void Button_Copy_Click(object sender, EventArgs e)
-        {
-            uint canBusStatus;
-            canBusStatus = MYCanReader.Connect();
-
-            if (Global.TEXTBOX_FOCUS == 1)
-            {
-                if (textBox1.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
-                {
-                    CopyLog(textBox1);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 2)
-            {
-                if (textBox2.SelectionLength == 0)
-                {
-                    CopyLog(textBox2);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 3)
-            {
-                if (textBox_canbus.SelectionLength == 0)
-                {
-                    CopyLog(textBox3);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 4)
-            {
-                CopyLog(textBox_recordSch);
-            }
-
-            //copy schedule log (might be removed in near future)
-            else if (Global.TEXTBOX_FOCUS == 5)
-            {
-                CopyLog(textBox_canbus);
-            }
-
-            else if (Global.TEXTBOX_FOCUS == 6)
-            {
-                CopyLog(textBox_TestLog);
-            }
-        }
-
-        
-        public void CopyLog(TextBox tb)
-        {
-            //Select all text in the text box.
-            tb.Focus();
-            tb.SelectAll();
-            // Copy the contents of the control to the Clipboard.
-            tb.Copy();
         }
     }
 
@@ -8085,7 +7985,6 @@ namespace AutoTest
         public static int Break_Out_Schedule = 0;//定時器中斷變數//
         public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
         public static bool FormRC = false;
-        public static int TEXTBOX_FOCUS = 0;
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
     }

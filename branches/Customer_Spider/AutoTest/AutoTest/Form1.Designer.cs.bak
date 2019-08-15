@@ -131,9 +131,6 @@ namespace AutoTest
             this.button_CanbusPort = new System.Windows.Forms.Button();
             this.button_recordSch = new System.Windows.Forms.Button();
             this.textBox_recordSch = new System.Windows.Forms.TextBox();
-            this.textBox_TestLog = new System.Windows.Forms.TextBox();
-            this.button_TestLog = new System.Windows.Forms.Button();
-            this.button_Copy = new System.Windows.Forms.Button();
             this.DataGridView_Schedule = new AutoTest.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -785,7 +782,7 @@ namespace AutoTest
             this.button_Input.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_Input.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Input.Location = new System.Drawing.Point(1025, 490);
+            this.button_Input.Location = new System.Drawing.Point(996, 472);
             this.button_Input.Margin = new System.Windows.Forms.Padding(2);
             this.button_Input.Name = "button_Input";
             this.button_Input.Size = new System.Drawing.Size(80, 25);
@@ -802,7 +799,7 @@ namespace AutoTest
             this.button_Output.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_Output.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Output.Location = new System.Drawing.Point(1025, 527);
+            this.button_Output.Location = new System.Drawing.Point(996, 510);
             this.button_Output.Margin = new System.Windows.Forms.Padding(2);
             this.button_Output.Name = "button_Output";
             this.button_Output.Size = new System.Drawing.Size(80, 25);
@@ -1333,22 +1330,22 @@ namespace AutoTest
             // 
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(1054, 403);
+            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.button_CanbusPort.Location = new System.Drawing.Point(963, 403);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_CanbusPort.Name = "button_CanbusPort";
             this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_CanbusPort.Size = new System.Drawing.Size(39, 23);
+            this.button_CanbusPort.Size = new System.Drawing.Size(130, 35);
             this.button_CanbusPort.TabIndex = 104;
-            this.button_CanbusPort.Text = "CAN";
+            this.button_CanbusPort.Text = "CAN bus Port";
             this.button_CanbusPort.UseVisualStyleBackColor = false;
             this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
             // 
             // button_recordSch
             // 
-            this.button_recordSch.Location = new System.Drawing.Point(963, 403);
+            this.button_recordSch.Location = new System.Drawing.Point(1001, 99);
             this.button_recordSch.Name = "button_recordSch";
-            this.button_recordSch.Size = new System.Drawing.Size(77, 23);
+            this.button_recordSch.Size = new System.Drawing.Size(75, 23);
             this.button_recordSch.TabIndex = 105;
             this.button_recordSch.Text = "Record_Schedule";
             this.button_recordSch.UseVisualStyleBackColor = true;
@@ -1360,47 +1357,13 @@ namespace AutoTest
             this.textBox_recordSch.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_recordSch.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_recordSch.ForeColor = System.Drawing.Color.White;
-            this.textBox_recordSch.Location = new System.Drawing.Point(7, 48);
+            this.textBox_recordSch.Location = new System.Drawing.Point(9, 49);
             this.textBox_recordSch.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_recordSch.Multiline = true;
             this.textBox_recordSch.Name = "textBox_recordSch";
             this.textBox_recordSch.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox_recordSch.Size = new System.Drawing.Size(950, 400);
             this.textBox_recordSch.TabIndex = 106;
-            // 
-            // textBox_TestLog
-            // 
-            this.textBox_TestLog.BackColor = System.Drawing.Color.Black;
-            this.textBox_TestLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_TestLog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TestLog.ForeColor = System.Drawing.Color.White;
-            this.textBox_TestLog.Location = new System.Drawing.Point(7, 48);
-            this.textBox_TestLog.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_TestLog.Multiline = true;
-            this.textBox_TestLog.Name = "textBox_TestLog";
-            this.textBox_TestLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_TestLog.Size = new System.Drawing.Size(950, 400);
-            this.textBox_TestLog.TabIndex = 107;
-            // 
-            // button_TestLog
-            // 
-            this.button_TestLog.Location = new System.Drawing.Point(1012, 115);
-            this.button_TestLog.Name = "button_TestLog";
-            this.button_TestLog.Size = new System.Drawing.Size(80, 23);
-            this.button_TestLog.TabIndex = 108;
-            this.button_TestLog.Text = "TestLog";
-            this.button_TestLog.UseVisualStyleBackColor = true;
-            this.button_TestLog.Click += new System.EventHandler(this.button_TestLog_Click);
-            // 
-            // button_Copy
-            // 
-            this.button_Copy.Location = new System.Drawing.Point(1012, 144);
-            this.button_Copy.Name = "button_Copy";
-            this.button_Copy.Size = new System.Drawing.Size(80, 23);
-            this.button_Copy.TabIndex = 109;
-            this.button_Copy.Text = "COPY LOG";
-            this.button_Copy.UseVisualStyleBackColor = true;
-            this.button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // DataGridView_Schedule
             // 
@@ -1552,6 +1515,30 @@ namespace AutoTest
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
             // 
+			// textBox_TestLog
+            // 
+            this.textBox_TestLog.BackColor = System.Drawing.Color.Black;
+            this.textBox_TestLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_TestLog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_TestLog.ForeColor = System.Drawing.Color.White;
+            this.textBox_TestLog.Location = new System.Drawing.Point(6, 44);
+            this.textBox_TestLog.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_TestLog.Multiline = true;
+            this.textBox_TestLog.Name = "textBox_TestLog";
+            this.textBox_TestLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_TestLog.Size = new System.Drawing.Size(950, 400);
+            this.textBox_TestLog.TabIndex = 107;
+            // 
+            // button_TestLog
+            // 
+            this.button_TestLog.Location = new System.Drawing.Point(1001, 147);
+            this.button_TestLog.Name = "button_TestLog";
+            this.button_TestLog.Size = new System.Drawing.Size(75, 23);
+            this.button_TestLog.TabIndex = 108;
+            this.button_TestLog.Text = "TestLog";
+            this.button_TestLog.UseVisualStyleBackColor = true;
+            this.button_TestLog.Click += new System.EventHandler(this.button_TestLog_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1559,8 +1546,7 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
-            this.Controls.Add(this.button_Copy);
-            this.Controls.Add(this.button_TestLog);
+			this.Controls.Add(this.button_TestLog);
             this.Controls.Add(this.button_recordSch);
             this.Controls.Add(this.button_CanbusPort);
             this.Controls.Add(this.label_canbus);
@@ -1605,8 +1591,6 @@ namespace AutoTest
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox_TestLog);
             this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_recordSch);
             this.Controls.Add(this.textBox_canbus);
@@ -1614,6 +1598,8 @@ namespace AutoTest
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
+            this.Controls.Add(this.textBox3);
+			this.Controls.Add(this.textBox_TestLog);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -1774,7 +1760,6 @@ namespace AutoTest
         private System.Windows.Forms.TextBox textBox_recordSch;
 		public System.Windows.Forms.TextBox textBox_TestLog;
         private System.Windows.Forms.Button button_TestLog;
-        private System.Windows.Forms.Button button_Copy;
     }
 }
 
