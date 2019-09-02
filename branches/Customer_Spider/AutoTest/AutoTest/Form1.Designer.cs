@@ -284,7 +284,7 @@ namespace AutoTest
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.DarkOrange;
-            this.TimeLabel.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.TimeLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(318, 703);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1331,21 +1331,21 @@ namespace AutoTest
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(963, 403);
+            this.button_CanbusPort.Location = new System.Drawing.Point(1028, 398);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_CanbusPort.Name = "button_CanbusPort";
             this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_CanbusPort.Size = new System.Drawing.Size(130, 35);
+            this.button_CanbusPort.Size = new System.Drawing.Size(65, 22);
             this.button_CanbusPort.TabIndex = 104;
-            this.button_CanbusPort.Text = "CAN bus Port";
+            this.button_CanbusPort.Text = "CANbus";
             this.button_CanbusPort.UseVisualStyleBackColor = false;
             this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
             // 
             // button_recordSch
             // 
-            this.button_recordSch.Location = new System.Drawing.Point(1001, 99);
+            this.button_recordSch.Location = new System.Drawing.Point(964, 398);
             this.button_recordSch.Name = "button_recordSch";
-            this.button_recordSch.Size = new System.Drawing.Size(75, 23);
+            this.button_recordSch.Size = new System.Drawing.Size(61, 42);
             this.button_recordSch.TabIndex = 105;
             this.button_recordSch.Text = "Record_Schedule";
             this.button_recordSch.UseVisualStyleBackColor = true;
