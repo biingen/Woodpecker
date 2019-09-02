@@ -410,6 +410,7 @@ C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+<<<<<<< HEAD
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
@@ -452,3 +453,45 @@ C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojAssemblyReference.cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CoreCompileInputs.cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CopyComplete
+=======
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\BlueRatLibrary.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\CheckDisk.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DirectX.Capture.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\DShowNET.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\jini.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NationalInstruments.Common.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NationalInstruments.DAQmx.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXmlFormats.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\RedRat.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\USBClassLibrary.dll
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.xml
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OOXML.xml
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\NPOI.OpenXml4Net.xml
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojAssemblyReference.cache
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.ResolveComReference.cache
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form1.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormRC.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormScriptHelper.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormLog.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMonkeyTest.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Form_DGV_Autobox.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormMail.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSchedule.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormSurp.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.FormTabControl.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.frm_Splash.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Properties.Resources.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.Setting.resources
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.cache
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CoreCompileInputs.cache
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CopyComplete
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
+D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
+>>>>>>> 1c4b4aa25516cd0e9e45dc1f6dd32082c2a90057
