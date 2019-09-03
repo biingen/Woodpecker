@@ -4149,218 +4149,216 @@ namespace AutoTest
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                             }
                         }
+                        #endregion
 
+                        #region -- Ascii --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_ascii")
                         {
                             if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "$$")
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
                                 {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox1.Text = ""; //清除textbox1
-                                            break;
+                                    case "_clear":
+                                        textBox1.Text = ""; //清除textbox1
+                                        break;
 
-                                        case "_save":
-                                            Rs232save(); //存檔rs232
-                                            break;
+                                    case "_save":
+                                        Rs232save(); //存檔rs232
+                                        break;
 
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\r"); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox1.AppendText(text);
-                                            break;
-                                    }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox1.AppendText(text);
+                                        break;
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "^^")
-                                {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox1.Text = ""; //清除textbox1
-                                            break;
-
-                                        case "_save":
-                                            Rs232save(); //存檔rs232
-                                            break;
-
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n"); //發送數據 Rs232 + \n
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox1.AppendText(text);
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox1.Text = ""; //清除textbox1
-                                            break;
-
-                                        case "_save":
-                                            Rs232save(); //存檔rs232
-                                            break;
-
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort1.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
-                                            textBox1.AppendText(text);
-                                            break;
-                                    }
-                                }
-                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                             }
                             else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "$$")
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
                                 {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox2.Text = ""; //清除textbox1
-                                            break;
+                                    case "_clear":
+                                        textBox2.Text = ""; //清除textbox2
+                                        break;
 
-                                        case "_save":
-                                            ExtRs232save(); //存檔rs232
-                                            break;
+                                    case "_save":
+                                        ExtRs232save(); //存檔rs232
+                                        break;
 
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\r"); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox2.AppendText(text);
-                                            break;
-                                    }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                        break;
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "^^")
-                                {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox2.Text = ""; //清除textbox1
-                                            break;
-
-                                        case "_save":
-                                            ExtRs232save(); //存檔rs232
-                                            break;
-
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n"); //發送數據 Rs232 + \n
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox2.AppendText(text);
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox2.Text = ""; //清除textbox1
-                                            break;
-
-                                        case "_save":
-                                            ExtRs232save(); //存檔rs232
-                                            break;
-
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort2.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
-                                            textBox2.AppendText(text);
-                                            break;
-                                    }
-                                }
-                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                             }
                             else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "$$")
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
                                 {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox3.Text = ""; //清除textbox1
-                                            break;
+                                    case "_clear":
+                                        textBox3.Text = ""; //清除textbox3
+                                        break;
 
-                                        case "_save":
-                                            TriRs232save(); //存檔rs232
-                                            break;
+                                    case "_save":
+                                        TriRs232save(); //存檔rs232
+                                        break;
 
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\r"); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox3.AppendText(text);
-                                            break;
-                                    }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                        break;
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, 2) == "^^")
+                            }
+                        }
+
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_ascii_a")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
                                 {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox3.Text = ""; //清除textbox1
-                                            break;
+                                    case "_clear":
+                                        textBox1.Text = ""; //清除textbox1
+                                        break;
 
-                                        case "_save":
-                                            TriRs232save(); //存檔rs232
-                                            break;
+                                    case "_save":
+                                        Rs232save(); //存檔rs232
+                                        break;
 
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n"); //發送數據 Rs232 + \n
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(3) + "\n";
-                                            textBox3.AppendText(text);
-                                            break;
-                                    }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox1.AppendText(text);
+                                        break;
                                 }
-                                else
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
                                 {
-                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
-                                    {
-                                        case "_clear":
-                                            textBox3.Text = ""; //清除textbox1
-                                            break;
+                                    case "_clear":
+                                        textBox2.Text = ""; //清除textbox2
+                                        break;
 
-                                        case "_save":
-                                            TriRs232save(); //存檔rs232
-                                            break;
+                                    case "_save":
+                                        ExtRs232save(); //存檔rs232
+                                        break;
 
-                                        default:
-                                            //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                            // string str = Convert.ToString(data);
-                                            serialPort3.WriteLine(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()); //發送數據 Rs232 + \r
-                                            DateTime dt = DateTime.Now;
-                                            string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n";
-                                            textBox3.AppendText(text);
-                                            break;
-                                    }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                        break;
                                 }
-                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
+                                {
+                                    case "_clear":
+                                        textBox3.Text = ""; //清除textbox3
+                                        break;
+
+                                    case "_save":
+                                        TriRs232save(); //存檔rs232
+                                        break;
+
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                        break;
+                                }
+                            }
+                        }
+
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_ascii_d")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
+                                {
+                                    case "_clear":
+                                        textBox1.Text = ""; //清除textbox1
+                                        break;
+
+                                    case "_save":
+                                        Rs232save(); //存檔rs232
+                                        break;
+
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox1.AppendText(text);
+                                        break;
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
+                                {
+                                    case "_clear":
+                                        textBox2.Text = ""; //清除textbox2
+                                        break;
+
+                                    case "_save":
+                                        ExtRs232save(); //存檔rs232
+                                        break;
+
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                        break;
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                            {
+                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString())
+                                {
+                                    case "_clear":
+                                        textBox3.Text = ""; //清除textbox3
+                                        break;
+
+                                    case "_save":
+                                        TriRs232save(); //存檔rs232
+                                        break;
+
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                        break;
+                                }
                             }
                         }
                         #endregion
@@ -6398,6 +6396,8 @@ namespace AutoTest
             RCDB.Items.Add("_log2");
             RCDB.Items.Add("_log3");
             RCDB.Items.Add("_ascii");
+            RCDB.Items.Add("_ascii_a");
+            RCDB.Items.Add("_ascii_d");
             RCDB.Items.Add("_astro");
             RCDB.Items.Add("_quantum");
             RCDB.Items.Add("_dektec");
