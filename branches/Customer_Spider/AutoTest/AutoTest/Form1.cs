@@ -6694,7 +6694,17 @@ namespace AutoTest
                             LogThread2.Start();
                         }
                     }
-                    
+
+                    if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                    {
+                        OpenSerialPort3();
+                        textBox3.Text = "";//清空serialport3//
+                    }
+
+                    textBox_recordSch.Text = "";
+                    textBox_canbus.Text = "";
+                    textBox_TestLog.Text = "";
+
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數

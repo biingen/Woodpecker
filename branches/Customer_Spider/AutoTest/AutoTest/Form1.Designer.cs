@@ -287,7 +287,7 @@ namespace AutoTest
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.DarkOrange;
-            this.TimeLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.TimeLabel.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(318, 703);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1333,7 +1333,6 @@ namespace AutoTest
             // 
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-
             this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_CanbusPort.Location = new System.Drawing.Point(1054, 403);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
@@ -1350,6 +1349,7 @@ namespace AutoTest
             this.button_recordSch.Location = new System.Drawing.Point(964, 398);
             this.button_recordSch.Name = "button_recordSch";
             this.button_recordSch.Size = new System.Drawing.Size(61, 42);
+            this.button_recordSch.TabIndex = 110;
             this.button_recordSch.Text = "Record_Schedule";
             this.button_recordSch.UseVisualStyleBackColor = true;
             this.button_recordSch.Click += new System.EventHandler(this.button_recordSch_Click);
@@ -1605,8 +1605,6 @@ namespace AutoTest
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox_TestLog);
             this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_recordSch);
             this.Controls.Add(this.textBox_canbus);
@@ -1614,6 +1612,8 @@ namespace AutoTest
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.textBox_TestLog);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
