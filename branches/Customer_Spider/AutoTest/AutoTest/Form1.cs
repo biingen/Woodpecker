@@ -4601,6 +4601,10 @@ namespace AutoTest
                                     Thread.Sleep(50);
                                 }
                             }
+                            else
+                            {
+                                MessageBox.Show("Please check the value equal nine.");
+                            }
                             label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                         }
 
@@ -4614,6 +4618,10 @@ namespace AutoTest
                                     MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i + 16), Convert.ToByte(GPIO.Substring(8 - i, 1)));
                                     Thread.Sleep(50);
                                 }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Please check the value equal nine.");
                             }
                             label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                         }
