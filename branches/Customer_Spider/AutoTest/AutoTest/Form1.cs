@@ -4591,10 +4591,9 @@ namespace AutoTest
                         #region -- Extend_GPIO_OUTPUT --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_WaterTemp")
                         {
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString().Length == 9)
+                            string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString(); // GPIO = "010101010";
+                            if (GPIO.Length == 9)
                             {
-                                //string GPIO = "01010101";
-                                string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                                 for (int i = 0; i < 9; i++)
                                 {
                                     MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8 - i, 1)));
@@ -4611,7 +4610,7 @@ namespace AutoTest
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_FuelDisplay")
                         {
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString().Length == 9)
+                            if (GPIO.Length == 9)
                             {
                                 for (int i = 0; i < 9; i++)
                                 {

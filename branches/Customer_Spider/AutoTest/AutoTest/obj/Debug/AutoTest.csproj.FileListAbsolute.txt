@@ -410,7 +410,6 @@ C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.GenerateResource.Cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\GIT_AUO\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
-<<<<<<< HEAD
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
@@ -453,7 +452,6 @@ C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csprojAssemblyReference.cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CoreCompileInputs.cache
 C:\Drive\One\OneDrive - ems.niu.edu.tw\DQA\02_Smart Test\Auto Kit\Backup\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CopyComplete
-=======
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe.config
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.exe
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\bin\Debug\Spider.pdb
@@ -494,4 +492,3 @@ D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csp
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\AutoTest.csproj.CopyComplete
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.exe
 D:\Repo\Spider\branches\Customer_Spider\AutoTest\AutoTest\obj\Debug\Spider.pdb
->>>>>>> 1c4b4aa25516cd0e9e45dc1f6dd32082c2a90057
