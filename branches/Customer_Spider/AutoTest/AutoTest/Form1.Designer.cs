@@ -129,8 +129,8 @@ namespace AutoTest
             this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
             this.textBox_canbus = new System.Windows.Forms.TextBox();
             this.button_CanbusPort = new System.Windows.Forms.Button();
-            this.button_recordSch = new System.Windows.Forms.Button();
-            this.textBox_recordSch = new System.Windows.Forms.TextBox();
+            this.button_kline = new System.Windows.Forms.Button();
+            this.textBox_kline = new System.Windows.Forms.TextBox();
             this.textBox_TestLog = new System.Windows.Forms.TextBox();
             this.button_TestLog = new System.Windows.Forms.Button();
             this.button_Copy = new System.Windows.Forms.Button();
@@ -146,6 +146,9 @@ namespace AutoTest
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label_kline = new System.Windows.Forms.Label();
+            this.pictureBox_kline = new System.Windows.Forms.PictureBox();
+            this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -167,6 +170,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_kline)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -1334,7 +1338,7 @@ namespace AutoTest
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(1054, 403);
+            this.button_CanbusPort.Location = new System.Drawing.Point(1054, 402);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_CanbusPort.Name = "button_CanbusPort";
             this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1344,29 +1348,29 @@ namespace AutoTest
             this.button_CanbusPort.UseVisualStyleBackColor = false;
             this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
             // 
-            // button_recordSch
+            // button_kline
             // 
-            this.button_recordSch.Location = new System.Drawing.Point(964, 398);
-            this.button_recordSch.Name = "button_recordSch";
-            this.button_recordSch.Size = new System.Drawing.Size(61, 42);
-            this.button_recordSch.TabIndex = 110;
-            this.button_recordSch.Text = "Record_Schedule";
-            this.button_recordSch.UseVisualStyleBackColor = true;
-            this.button_recordSch.Click += new System.EventHandler(this.button_recordSch_Click);
+            this.button_kline.Location = new System.Drawing.Point(1009, 403);
+            this.button_kline.Name = "button_kline";
+            this.button_kline.Size = new System.Drawing.Size(40, 22);
+            this.button_kline.TabIndex = 110;
+            this.button_kline.Text = "Kline";
+            this.button_kline.UseVisualStyleBackColor = true;
+            this.button_kline.Click += new System.EventHandler(this.Button_kline_Click);
             // 
-            // textBox_recordSch
+            // textBox_kline
             // 
-            this.textBox_recordSch.BackColor = System.Drawing.Color.Black;
-            this.textBox_recordSch.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_recordSch.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_recordSch.ForeColor = System.Drawing.Color.White;
-            this.textBox_recordSch.Location = new System.Drawing.Point(7, 48);
-            this.textBox_recordSch.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_recordSch.Multiline = true;
-            this.textBox_recordSch.Name = "textBox_recordSch";
-            this.textBox_recordSch.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_recordSch.Size = new System.Drawing.Size(950, 400);
-            this.textBox_recordSch.TabIndex = 106;
+            this.textBox_kline.BackColor = System.Drawing.Color.Black;
+            this.textBox_kline.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_kline.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_kline.ForeColor = System.Drawing.Color.White;
+            this.textBox_kline.Location = new System.Drawing.Point(7, 48);
+            this.textBox_kline.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_kline.Multiline = true;
+            this.textBox_kline.Name = "textBox_kline";
+            this.textBox_kline.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_kline.Size = new System.Drawing.Size(950, 400);
+            this.textBox_kline.TabIndex = 106;
             // 
             // textBox_TestLog
             // 
@@ -1552,6 +1556,35 @@ namespace AutoTest
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
             // 
+            // label_kline
+            // 
+            this.label_kline.AutoSize = true;
+            this.label_kline.BackColor = System.Drawing.Color.Transparent;
+            this.label_kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_kline.ForeColor = System.Drawing.Color.Black;
+            this.label_kline.Location = new System.Drawing.Point(550, 19);
+            this.label_kline.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_kline.Name = "label_kline";
+            this.label_kline.Size = new System.Drawing.Size(47, 17);
+            this.label_kline.TabIndex = 112;
+            this.label_kline.Text = "K_line";
+            // 
+            // pictureBox_kline
+            // 
+            this.pictureBox_kline.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_kline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_kline.Location = new System.Drawing.Point(537, 20);
+            this.pictureBox_kline.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_kline.Name = "pictureBox_kline";
+            this.pictureBox_kline.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_kline.TabIndex = 111;
+            this.pictureBox_kline.TabStop = false;
+            // 
+            // timer_kline
+            // 
+            this.timer_kline.Interval = 250;
+            this.timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1559,9 +1592,11 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.Controls.Add(this.label_kline);
+            this.Controls.Add(this.pictureBox_kline);
             this.Controls.Add(this.button_Copy);
             this.Controls.Add(this.button_TestLog);
-            this.Controls.Add(this.button_recordSch);
+            this.Controls.Add(this.button_kline);
             this.Controls.Add(this.button_CanbusPort);
             this.Controls.Add(this.label_canbus);
             this.Controls.Add(this.pictureBox_canbus);
@@ -1606,7 +1641,7 @@ namespace AutoTest
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
             this.Controls.Add(this.DataGridView_Schedule);
-            this.Controls.Add(this.textBox_recordSch);
+            this.Controls.Add(this.textBox_kline);
             this.Controls.Add(this.textBox_canbus);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox2);
@@ -1651,6 +1686,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_kline)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1770,11 +1806,14 @@ namespace AutoTest
         private System.Windows.Forms.PictureBox pictureBox_canbus;
         private System.Windows.Forms.TextBox textBox_canbus;
         private System.Windows.Forms.Button button_CanbusPort;
-        private System.Windows.Forms.Button button_recordSch;
-        private System.Windows.Forms.TextBox textBox_recordSch;
+        private System.Windows.Forms.Button button_kline;
+        private System.Windows.Forms.TextBox textBox_kline;
 		public System.Windows.Forms.TextBox textBox_TestLog;
         private System.Windows.Forms.Button button_TestLog;
         private System.Windows.Forms.Button button_Copy;
+        private System.Windows.Forms.Label label_kline;
+        private System.Windows.Forms.PictureBox pictureBox_kline;
+        private System.Windows.Forms.Timer timer_kline;
     }
 }
 

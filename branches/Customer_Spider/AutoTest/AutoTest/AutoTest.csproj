@@ -175,6 +175,7 @@
   <ItemGroup>
     <Compile Include="add_ons.cs" />
     <Compile Include="CAN_Read.cs" />
+    <Compile Include="Kline_Read.cs" />
     <Compile Include="FormRC.cs">
       <SubType>Form</SubType>
     </Compile>

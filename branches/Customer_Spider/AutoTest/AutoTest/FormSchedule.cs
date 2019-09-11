@@ -956,5 +956,19 @@ namespace AutoTest
                 ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
             }
         }
+
+        private void checkBox_kline_CheckedChanged(object sender, EventArgs e)
+        {
+            //自動跑KlineLog//
+            if (checkBox_kline.Checked == true)
+            {
+
+                ini12.INIWrite(MainSettingPath, "Record", "KlineLog", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Record", "KlineLog", "0");
+            }
+        }
     }
 }

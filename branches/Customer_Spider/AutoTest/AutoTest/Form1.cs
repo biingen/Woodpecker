@@ -27,6 +27,11 @@ using USBClassLibrary;
 using System.Net.Sockets;
 using System.Net;
 using Can_Reader_Lib;
+using BlockMessageLibrary;
+using DTC_ABS;
+using DTC_OBD;
+using MySerialLibrary;
+using KWP_2000;
 //using NationalInstruments.DAQmx;
 
 namespace AutoTest
@@ -87,6 +92,10 @@ namespace AutoTest
         private int Nowpoint;
         private bool Breakfunction = false;
         //private const int CS_DROPSHADOW = 0x20000;      //宣告陰影參數
+
+        private MySerial MySerialPort = new MySerial();
+        private List<BlockMessage> MyBlockMessageList = new List<BlockMessage>();
+        private ProcessBlockMessage MyProcessBlockMessage = new ProcessBlockMessage();
 
         //拖動無窗體的控件>>>>>>>>>>>>>>>>>>>>
         [DllImport("user32.dll")]
@@ -156,6 +165,7 @@ namespace AutoTest
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
+                pictureBox_kline.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")
@@ -238,17 +248,26 @@ namespace AutoTest
             if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
             {
                 button_CanbusPort.Visible = true;
-                button_recordSch.Visible = true;
             }
             else
             {
                 ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
                 button_CanbusPort.Visible = false;
-                button_recordSch.Visible = false;
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Record", "KlineLog", "") == "1")
+            {
+                button_kline.Visible = true;
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Record", "KlineLog", "0");
+                button_kline.Visible = false;
             }
 
             LoadRCDB();
             ConnectCanBus();
+            ConnectKline();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -1594,6 +1613,25 @@ namespace AutoTest
             }
         }
 
+        protected void ConnectKline()
+        {
+            string Kline_Exist = ini12.INIRead(MainSettingPath, "Device", "KlineExist", "");
+
+            if (Kline_Exist == "1")
+            {
+                string curItem = ini12.INIRead(MainSettingPath, "Device", "KlinePort", "");
+                if (MySerialPort.OpenPort(curItem) == true)
+                {
+                    //BlueRat_UART_Exception_status = false;
+                    timer_kline.Enabled = true;
+                }
+                else
+                {
+                    timer_kline.Enabled = false;
+                }
+            }
+        }
+
         public void Autocommand_RedRat(string Caller,string SigData)
         {
             string redcon = "";
@@ -1980,7 +2018,6 @@ namespace AutoTest
         }
         #endregion
 
-
         #region -- 接受SerialPort2資料 --
         private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -2227,7 +2264,7 @@ namespace AutoTest
         }
         #endregion
 
-		 #region -- Show schedule & CAN log --
+		#region -- Show schedule & CAN log --
         private void CheckResult()
         {
             string[] stringSeparators = new string[] { "\r\n" };
@@ -2255,6 +2292,7 @@ namespace AutoTest
             }
         }
         #endregion
+
         #region -- 儲存SerialPort1的log --
         private void Rs232save()
         {
@@ -3737,7 +3775,6 @@ namespace AutoTest
                             Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        textBox_recordSch.AppendText(sch_log_text);
                         
                         textBox_TestLog.AppendText(sch_log_text);
                         #endregion
@@ -6708,7 +6745,7 @@ namespace AutoTest
                         textBox3.Text = "";//清空serialport3//
                     }
 
-                    textBox_recordSch.Text = "";
+                    textBox_kline.Text = "";
                     textBox_canbus.Text = "";
                     textBox_TestLog.Text = "";
 
@@ -6955,13 +6992,6 @@ namespace AutoTest
             Controls.Add(textBox3);
             textBox3.BringToFront();
             Global.TEXTBOX_FOCUS = 3;
-        }
-
-        private void button_recordSch_Click(object sender, EventArgs e)
-        {
-            Controls.Add(textBox_recordSch);
-            textBox_recordSch.BringToFront();
-            Global.TEXTBOX_FOCUS = 4;
         }
 
         private void button_canbus_Click(object sender, EventArgs e)
@@ -8215,7 +8245,7 @@ namespace AutoTest
             }
             else if (Global.TEXTBOX_FOCUS == 4)
             {
-                CopyLog(textBox_recordSch);
+                CopyLog(textBox_kline);
             }
 
             //copy schedule log (might be removed in near future)
@@ -8229,7 +8259,6 @@ namespace AutoTest
                 CopyLog(textBox_TestLog);
             }
         }
-
         
         public void CopyLog(TextBox tb)
         {
@@ -8238,6 +8267,62 @@ namespace AutoTest
             tb.SelectAll();
             // Copy the contents of the control to the Clipboard.
             tb.Copy();
+        }
+
+        private void Button_kline_Click(object sender, EventArgs e)
+        {
+            Controls.Add(textBox_kline);
+            textBox_kline.BringToFront();
+            Global.TEXTBOX_FOCUS = 4;
+        }
+
+        private void Timer_kline_Tick(object sender, EventArgs e)
+        {
+            // Regularly polling request message
+            while (MySerialPort.KLineBlockMessageList.Count() > 0)
+            {
+                // Pop 1st KLine Block Message
+                BlockMessage in_message = MySerialPort.KLineBlockMessageList[0];
+                MySerialPort.KLineBlockMessageList.RemoveAt(0);
+
+                // Display debug message on RichTextBox
+                String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
+                MySerialPort.KLineRawDataInStringList.RemoveAt(0);
+                DisplayKLineBlockMessage(textBox_kline, "raw_input: " + raw_data_in_string);
+                DisplayKLineBlockMessage(textBox_kline, "In - " + in_message.GenerateDebugString());
+
+                // Process input Kline message and generate output KLine message
+                KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
+                BlockMessage out_message = new BlockMessage();
+
+                //Use_Random_DTC(kwp_2000_process);  // Random Test
+                //Use_Fixed_DTC_from_HQ(kwp_2000_process);  // Simulate response from a ECU device
+                //Scan_DTC_from_UI(kwp_2000_process);  // Scan Checkbox status and add DTC into queue
+
+                // Generate output block message according to input message and DTC codes
+                kwp_2000_process.ProcessMessage(in_message, ref out_message);
+
+                // Convert output block message to List<byte> so that it can be sent via UART
+                List<byte> output_data;
+                out_message.GenerateSerialOutput(out output_data);
+
+                // NOTE: because we will also receive all data sent by us, we need to tell UART to skip all data to be sent by SendToSerial
+                MySerialPort.Add_ECU_Filtering_Data(output_data);
+                MySerialPort.Enable_ECU_Filtering(true);
+                // Send output KLine message via UART (after some delay)
+                Thread.Sleep((KWP_2000_Process.min_delay_before_response - 1));
+                MySerialPort.SendToSerial(output_data.ToArray());
+
+                // Show output KLine message for debug purpose
+                DisplayKLineBlockMessage(textBox_kline, "Out - " + out_message.GenerateDebugString());
+            }
+        }
+
+        private void DisplayKLineBlockMessage(TextBox rtb, String msg)
+        {
+            String current_time_str = DateTime.Now.ToString("[HH:mm:ss.fff] ");
+            rtb.AppendText(current_time_str + msg + "\n");
+            rtb.ScrollToCaret();
         }
     }
 
