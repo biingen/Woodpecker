@@ -165,7 +165,6 @@ namespace AutoTest
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-                pictureBox_kline.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Comport", "PortName", "") == "")
@@ -255,13 +254,13 @@ namespace AutoTest
                 button_CanbusPort.Visible = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "KlineLog", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
             {
                 button_kline.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "KlineLog", "0");
+                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
                 button_kline.Visible = false;
             }
 
@@ -1615,11 +1614,11 @@ namespace AutoTest
 
         protected void ConnectKline()
         {
-            string Kline_Exist = ini12.INIRead(MainSettingPath, "Device", "KlineExist", "");
+            string Kline_Exist = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
 
             if (Kline_Exist == "1")
             {
-                string curItem = ini12.INIRead(MainSettingPath, "Device", "KlinePort", "");
+                string curItem = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
                 if (MySerialPort.OpenPort(curItem) == true)
                 {
                     //BlueRat_UART_Exception_status = false;
@@ -6745,7 +6744,12 @@ namespace AutoTest
                         textBox3.Text = "";//清空serialport3//
                     }
 
-                    textBox_kline.Text = "";
+                    if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+                    {
+                        ConnectKline();
+                        textBox_kline.Text = ""; //清空kline//
+                    }
+
                     textBox_canbus.Text = "";
                     textBox_TestLog.Text = "";
 
@@ -6850,6 +6854,7 @@ namespace AutoTest
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1" ? true : false;
                 button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1" ? true : false;
                 button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1" ? true : false;
+                button_kline.Visible = ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1" ? true : false;
 
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)

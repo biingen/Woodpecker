@@ -146,8 +146,6 @@ namespace AutoTest
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label_kline = new System.Windows.Forms.Label();
-            this.pictureBox_kline = new System.Windows.Forms.PictureBox();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
@@ -170,7 +168,6 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_kline)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -1556,30 +1553,6 @@ namespace AutoTest
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
             // 
-            // label_kline
-            // 
-            this.label_kline.AutoSize = true;
-            this.label_kline.BackColor = System.Drawing.Color.Transparent;
-            this.label_kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_kline.ForeColor = System.Drawing.Color.Black;
-            this.label_kline.Location = new System.Drawing.Point(550, 19);
-            this.label_kline.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_kline.Name = "label_kline";
-            this.label_kline.Size = new System.Drawing.Size(47, 17);
-            this.label_kline.TabIndex = 112;
-            this.label_kline.Text = "K_line";
-            // 
-            // pictureBox_kline
-            // 
-            this.pictureBox_kline.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_kline.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_kline.Location = new System.Drawing.Point(537, 20);
-            this.pictureBox_kline.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_kline.Name = "pictureBox_kline";
-            this.pictureBox_kline.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_kline.TabIndex = 111;
-            this.pictureBox_kline.TabStop = false;
-            // 
             // timer_kline
             // 
             this.timer_kline.Interval = 250;
@@ -1592,8 +1565,6 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
-            this.Controls.Add(this.label_kline);
-            this.Controls.Add(this.pictureBox_kline);
             this.Controls.Add(this.button_Copy);
             this.Controls.Add(this.button_TestLog);
             this.Controls.Add(this.button_kline);
@@ -1686,7 +1657,6 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_kline)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1811,8 +1781,6 @@ namespace AutoTest
 		public System.Windows.Forms.TextBox textBox_TestLog;
         private System.Windows.Forms.Button button_TestLog;
         private System.Windows.Forms.Button button_Copy;
-        private System.Windows.Forms.Label label_kline;
-        private System.Windows.Forms.PictureBox pictureBox_kline;
         private System.Windows.Forms.Timer timer_kline;
     }
 }
