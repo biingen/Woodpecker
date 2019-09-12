@@ -111,7 +111,13 @@ namespace AutoTest
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
+
+        //Klite error code
+        public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
+        public int kline_send = 0;
+        public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
 
         public Form1()
         {
@@ -4399,6 +4405,97 @@ namespace AutoTest
                         }
                         #endregion
 
+                        #region -- K-Line --
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_ABS")
+                        {
+                            try
+                            {
+                                // K-lite ABS指令檔案匯入
+                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                if (System.IO.File.Exists(xmlfile) == true)
+                                {
+                                    var allDTC = XDocument.Load(xmlfile).Root.Element("ABS_ErrorCode").Elements("DTC");
+                                    foreach (var ErrorCode in allDTC)
+                                    {
+                                        if (ErrorCode.Attribute("Name").Value == "_ABS")
+                                        {
+                                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() == ErrorCode.Element("DTC_D").Value)
+                                            {
+                                                UInt16 int_abs_code = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value,16);
+                                                byte abs_code_high = Convert.ToByte(int_abs_code >> 8);
+                                                byte abs_code_low = Convert.ToByte(int_abs_code & 0xff);
+                                                byte abs_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value,16);
+                                                ABS_error_list.Add(new DTC_Data(abs_code_high,abs_code_low,abs_code_status));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Content include other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
+                            }
+                            catch (Exception Ex)
+                            {
+                                MessageBox.Show("Transmit the Astro command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                            }
+                        }
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_OBD")
+                        {
+                            try
+                            {
+                                // K-lite OBD指令檔案匯入
+                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                if (System.IO.File.Exists(xmlfile) == true)
+                                {
+                                    var allDTC = XDocument.Load(xmlfile).Root.Element("OBD_ErrorCode").Elements("DTC");
+                                    foreach (var ErrorCode in allDTC)
+                                    {
+                                        if (ErrorCode.Attribute("Name").Value == "_OBD")
+                                        {
+                                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() == ErrorCode.Element("DTC_D").Value)
+                                            {
+                                                UInt16 obd_code_int16 = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value, 16);
+                                                byte obd_code_high = Convert.ToByte(obd_code_int16 >> 8);
+                                                byte obd_code_low = Convert.ToByte(obd_code_int16 & 0xff);
+                                                byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
+                                                OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
+                                            }
+                                         }
+                                        else
+                                        {
+                                            MessageBox.Show("Content include other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                            }
+                            catch (Exception Ex)
+                            {
+                                MessageBox.Show("Transmit the Astro command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                            }
+                        }
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_SEND")
+                        {
+                            kline_send = 1;
+                        }
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_CLEAR")
+                        {
+                            kline_send = 0;
+                            ABS_error_list.Clear();
+                            OBD_error_list.Clear();
+                        }
+                        #endregion
+
                         #region -- Astro Timing --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_astro")
                         {
@@ -5004,145 +5101,145 @@ namespace AutoTest
                         #endregion
 
                         #region -- NI IO Input --
-/*
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 13 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 11) == "_EXT_Input_")    
-                        {
-                            switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(11, 2))
-                            {
-                                case "P0":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                        /*
+                                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 13 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 11) == "_EXT_Input_")    
+                                                {
+                                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(11, 2))
+                                                    {
+                                                        case "P0":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P1":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                        case "P1":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P2":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                        case "P2":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                            }
-                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
-                        }
-                        #endregion
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                    }
+                                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                                                }
+                                                #endregion
 
-                        #region -- NI IO Output --
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 14 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 12) == "_EXT_Output_")
-                        {
-                            switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(12, 2))
-                            {
-                                case "P0":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                                #region -- NI IO Output --
+                                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 14 && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 12) == "_EXT_Output_")
+                                                {
+                                                    switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(12, 2))
+                                                    {
+                                                        case "P0":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P1":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                        case "P1":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P2":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                        case "P2":
+                                                            try
+                                                            {
+                                                                using (Task digitalWriteTask = new Task())
+                                                                {
+                                                                    //  Create an Digital Output channel and name it.
+                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                            }
-                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
-                        }
-*/               
+                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                                                    //  of digital data on demand, so no timeout is necessary.
+                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()));
+                                                                }
+                                                            }
+                                                            catch (Exception ex)
+                                                            {
+                                                                MessageBox.Show(ex.Message);
+                                                            }
+                                                            break;
+                                                    }
+                                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
+                                                }
+                        */
                         #endregion
 
                         #region -- Audio Debounce --
@@ -5323,7 +5420,7 @@ namespace AutoTest
                                 }
                                 else if (int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString(), out result) == true)
                                 {
-                                    if (int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()) >=0 && int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()) <= 100)
+                                    if (int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()) >= 0 && int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString()) <= 100)
                                     {
                                         pwm_output = "set pwm_percent " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                         serialPort1.WriteLine(pwm_output);
@@ -6441,6 +6538,10 @@ namespace AutoTest
             RCDB.Items.Add("_ascii");
             RCDB.Items.Add("_ascii_a");
             RCDB.Items.Add("_ascii_d");
+            RCDB.Items.Add("_K_ABS");
+            RCDB.Items.Add("_K_OBD");
+            RCDB.Items.Add("_K_SEND");
+            RCDB.Items.Add("_K_CLEAR");
             RCDB.Items.Add("_astro");
             RCDB.Items.Add("_quantum");
             RCDB.Items.Add("_dektec");
@@ -8293,8 +8394,8 @@ namespace AutoTest
                 // Display debug message on RichTextBox
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
-                DisplayKLineBlockMessage(textBox_kline, "raw_input: " + raw_data_in_string);
-                DisplayKLineBlockMessage(textBox_kline, "In - " + in_message.GenerateDebugString());
+                DisplayKLineBlockMessage(textBox_kline, "raw_input: " + raw_data_in_string + "\n\r");
+                DisplayKLineBlockMessage(textBox_kline, "In - " + in_message.GenerateDebugString() + "\n\r");
 
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
@@ -8303,6 +8404,23 @@ namespace AutoTest
                 //Use_Random_DTC(kwp_2000_process);  // Random Test
                 //Use_Fixed_DTC_from_HQ(kwp_2000_process);  // Simulate response from a ECU device
                 //Scan_DTC_from_UI(kwp_2000_process);  // Scan Checkbox status and add DTC into queue
+                if(kline_send==1)
+                {
+                    foreach(var dtc in ABS_error_list)
+                    {
+                        kwp_2000_process.ABS_DTC_Queue_Add(dtc);
+                    }
+                    foreach (var dtc in OBD_error_list)
+                    {
+                        kwp_2000_process.OBD_DTC_Queue_Add(dtc);
+                    }
+                }
+                else
+                {
+                    kwp_2000_process.ABS_DTC_Queue_Clear();
+                    kwp_2000_process.OBD_DTC_Queue_Clear();
+                }
+
 
                 // Generate output block message according to input message and DTC codes
                 kwp_2000_process.ProcessMessage(in_message, ref out_message);
@@ -8319,7 +8437,7 @@ namespace AutoTest
                 MySerialPort.SendToSerial(output_data.ToArray());
 
                 // Show output KLine message for debug purpose
-                DisplayKLineBlockMessage(textBox_kline, "Out - " + out_message.GenerateDebugString());
+                DisplayKLineBlockMessage(textBox_kline, "Out - " + out_message.GenerateDebugString() + "\n\r");
             }
         }
 

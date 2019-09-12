@@ -9,11 +9,18 @@ using DTC_OBD;
 
 namespace KWP_2000
 {
-    class DTC_Data
+    public class DTC_Data
     {
         private byte dtc_high;
         private byte dtc_low;
         private byte status_of_dtc;
+
+        public DTC_Data()
+        {
+            dtc_high = 0;
+            dtc_low = 0;
+            status_of_dtc = 0;
+        }
 
         public DTC_Data(byte high, byte low, byte status)
         {
@@ -124,6 +131,11 @@ namespace KWP_2000
             ABS_DTC_Data_Queue.Enqueue(new DTC_Data((byte)(dtc >> 8), (byte)(dtc & 0xff), lamp_status));
         }
 
+        public void ABS_DTC_Queue_Add(DTC_Data dtc_data)
+        {
+            ABS_DTC_Data_Queue.Enqueue(dtc_data);
+        }
+
         public void OBD_DTC_Queue_Clear()
         {
             OBD_DTC_Data_Queue.Clear();
@@ -138,6 +150,11 @@ namespace KWP_2000
         {
             uint dtc = (uint) new_dtc.DTC;
             OBD_DTC_Data_Queue.Enqueue(new DTC_Data((byte)(dtc >> 8), (byte)(dtc & 0xff), lamp_status));
+        }
+
+        public void OBD_DTC_Queue_Add(DTC_Data dtc_data)
+        {
+            OBD_DTC_Data_Queue.Enqueue(dtc_data);
         }
 
         private List<byte> GenerateQueuedResponseData_ABS()
