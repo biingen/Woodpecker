@@ -115,8 +115,8 @@ namespace AutoTest
         private CAN_Reader MYCanReader = new CAN_Reader();
 
         //Klite error code
-        public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
         public int kline_send = 0;
+        public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
 
         public Form1()
@@ -272,7 +272,6 @@ namespace AutoTest
 
             LoadRCDB();
             ConnectCanBus();
-            ConnectKline();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -4436,13 +4435,13 @@ namespace AutoTest
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("DTC code file not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
-                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
+                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show("Transmit the Astro command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString());
                             }
                         }
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_OBD")
@@ -4475,13 +4474,13 @@ namespace AutoTest
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("DTC code file not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show("Transmit the Astro command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString());
                             }
                         }
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_SEND")
@@ -6770,6 +6769,7 @@ namespace AutoTest
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
+                    MySerialPort.ClosePort();
 
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
@@ -6913,6 +6913,14 @@ namespace AutoTest
             if (serialPort2.IsOpen == true)
             {
                 CloseSerialPort2();
+            }
+            if (serialPort3.IsOpen == true)
+            {
+                CloseSerialPort3();
+            }
+            if (MySerialPort.IsPortOpened() == true)
+            {
+                MySerialPort.ClosePort();
             }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
