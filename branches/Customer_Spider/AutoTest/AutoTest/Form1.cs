@@ -3752,17 +3752,17 @@ namespace AutoTest
                         GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                         Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
 
-                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString() != "")
+                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString(), out stime) == true)
                             stime = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString()); // 次數
                         else
                             stime = 1;
 
-                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "")
+                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString(), out sRepeat) == true)
                             sRepeat = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()); // 停止時間
                         else
                             sRepeat = 0;
 
-                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString() != "")
+                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString(), out SysDelay) == true)
                             SysDelay = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString()); // 指令停止時間
                         else
                             SysDelay = 0;
@@ -4426,10 +4426,6 @@ namespace AutoTest
                                                 byte abs_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value,16);
                                                 ABS_error_list.Add(new DTC_Data(abs_code_high,abs_code_low,abs_code_status));
                                             }
-                                            else
-                                            {
-                                                MessageBox.Show("Content include unsupported code", "ABS code unsupported Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                            }
                                         }
                                         else
                                         {
@@ -4468,10 +4464,6 @@ namespace AutoTest
                                                 byte obd_code_low = Convert.ToByte(obd_code_int16 & 0xff);
                                                 byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
                                                 OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
-                                            }
-                                            else
-                                            {
-                                                MessageBox.Show("Content include unsupported code", "OBD code unsupported Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }
                                         }
                                         else
@@ -5840,6 +5832,7 @@ namespace AutoTest
                 button_Setting.Enabled = true;
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
+                MySerialPort.ClosePort();//關閉Kline//
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
@@ -5889,6 +5882,7 @@ namespace AutoTest
             CloseDtplay();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
+            MySerialPort.ClosePort();//關閉Kline//
         }
         #endregion
 
@@ -6777,7 +6771,7 @@ namespace AutoTest
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
-                    MySerialPort.ClosePort();
+                    MySerialPort.ClosePort();//關閉Kline//
 
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
