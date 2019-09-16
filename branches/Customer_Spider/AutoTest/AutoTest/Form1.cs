@@ -4426,6 +4426,10 @@ namespace AutoTest
                                                 byte abs_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value,16);
                                                 ABS_error_list.Add(new DTC_Data(abs_code_high,abs_code_low,abs_code_status));
                                             }
+                                            else
+                                            {
+                                                MessageBox.Show("Content include unsupported code", "ABS code unsupported Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
                                         }
                                         else
                                         {
@@ -4465,7 +4469,11 @@ namespace AutoTest
                                                 byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
                                                 OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
                                             }
-                                         }
+                                            else
+                                            {
+                                                MessageBox.Show("Content include unsupported code", "OBD code unsupported Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
+                                        }
                                         else
                                         {
                                             MessageBox.Show("Content include other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
