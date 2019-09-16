@@ -1617,25 +1617,6 @@ namespace AutoTest
             }
         }
 
-        protected void ConnectKline()
-        {
-            string Kline_Exist = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
-
-            if (Kline_Exist == "1")
-            {
-                string curItem = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
-                if (MySerialPort.OpenPort(curItem) == true)
-                {
-                    //BlueRat_UART_Exception_status = false;
-                    timer_kline.Enabled = true;
-                }
-                else
-                {
-                    timer_kline.Enabled = false;
-                }
-            }
-        }
-
         public void Autocommand_RedRat(string Caller,string SigData)
         {
             string redcon = "";
@@ -1909,10 +1890,44 @@ namespace AutoTest
             }
         }
 
-        protected void CloseSerialPort3()        // 關閉RS232 Port2
+        protected void CloseSerialPort3()        // 關閉RS232 Port3
         {
             serialPort3.Dispose();
             serialPort3.Close();
+        }
+        #endregion
+
+        #region -- KlinePort Setup --
+        protected void OpenKlinePort()
+        {
+            try
+            {
+                string Kline_Exist = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
+
+                if (Kline_Exist == "1" && MySerialPort.IsPortOpened() == false)
+                {
+                    string curItem = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+                    if (MySerialPort.OpenPort(curItem) == true)
+                    {
+                        //BlueRat_UART_Exception_status = false;
+                        timer_kline.Enabled = true;
+                    }
+                    else
+                    {
+                        timer_kline.Enabled = false;
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message.ToString(), "KlinePort Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        protected void CloseKlinePort()        // 關閉RS232 Port3
+        {
+            MySerialPort.Dispose();
+            MySerialPort.ClosePort();
         }
         #endregion
 
@@ -6771,7 +6786,6 @@ namespace AutoTest
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
-                    MySerialPort.ClosePort();//關閉Kline//
 
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
@@ -6849,7 +6863,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
-                        ConnectKline();
+                        OpenKlinePort();
                         textBox_kline.Text = ""; //清空kline//
                     }
 
@@ -6922,7 +6936,7 @@ namespace AutoTest
             }
             if (MySerialPort.IsPortOpened() == true)
             {
-                MySerialPort.ClosePort();
+                CloseKlinePort();
             }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -7108,6 +7122,14 @@ namespace AutoTest
             Controls.Add(textBox3);
             textBox3.BringToFront();
             Global.TEXTBOX_FOCUS = 3;
+        }
+
+        private void Button_kline_Click(object sender, EventArgs e)
+        {
+            OpenKlinePort();
+            Controls.Add(textBox_kline);
+            textBox_kline.BringToFront();
+            Global.TEXTBOX_FOCUS = 4;
         }
 
         private void button_canbus_Click(object sender, EventArgs e)
@@ -8383,13 +8405,6 @@ namespace AutoTest
             tb.SelectAll();
             // Copy the contents of the control to the Clipboard.
             tb.Copy();
-        }
-
-        private void Button_kline_Click(object sender, EventArgs e)
-        {
-            Controls.Add(textBox_kline);
-            textBox_kline.BringToFront();
-            Global.TEXTBOX_FOCUS = 4;
         }
 
         private void Timer_kline_Tick(object sender, EventArgs e)
