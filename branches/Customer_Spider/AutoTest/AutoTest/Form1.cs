@@ -3789,9 +3789,16 @@ namespace AutoTest
                         DateTime sch_dt = DateTime.Now;
 
                         Schedule_log = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
-                        for (int i = 1; i< 11; i++)
+                        try
                         {
-                            Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
+                            for (int i = 1; i < 11; i++)
+                            {
+                                Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
+                            }
+                        }
+                        catch (Exception Ex)
+                        {
+                            MessageBox.Show(Ex.Message.ToString());
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
                         
@@ -4823,35 +4830,108 @@ namespace AutoTest
                                 for (int k = 0; k < stime; k++)
                                 {
                                     string str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                     label_Command.Text = "(Push CMD)" + str;
-                                    serialPort2.Write(bytes, 0, bytes.Length);
+                                    if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort1.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort1.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort1.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox1.AppendText(text);
+                                    }
+                                    else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort2.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort2.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort2.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox2.AppendText(text);
+                                    }
+                                    else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort3.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort3.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort3.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox3.AppendText(text);
+                                    }
                                     label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    // DateTime dt = DateTime.Now;
-                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
-                                    str = str.Replace(" ", "");
-                                    string text = str + "\r\n";
-                                    textBox2.AppendText(text);
-                                    Thread.Sleep(int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
-                                    int length = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Length;
-                                    string status = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(length - 4, 1);
+
+                                    Thread.Sleep(sRepeat);
+                                    int length = str.Length;
+                                    string status = str.Substring(length - 1, 1);
                                     if (status == "0")
-                                        str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, length - 4) + "1" + " 0D";
+                                        str = str.Substring(0, length - 1) + "1";
                                     else if (status == "1")
-                                        str = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Substring(0, length - 4) + "0" + " 0D";
-                                    bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        str = str.Substring(0, length - 1) + "0";
                                     label_Command.Text = "(Release CMD)" + str;
-                                    serialPort2.Write(bytes, 0, bytes.Length);
+                                    if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort1.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort1.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort1.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox1.AppendText(text);
+                                    }
+                                    else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort2.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort2.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort2.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox2.AppendText(text);
+                                    }
+                                    else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                                    {
+                                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "n")
+                                            serialPort3.Write(str + "\n");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "r")
+                                            serialPort3.Write(str + "\r");
+                                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "nr")
+                                            serialPort3.Write(str + "\n\r");
+                                        else
+                                            MessageBox.Show("Command don't have the end-of-line code", "Command code Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + str + "\r\n";
+                                        textBox3.AppendText(text);
+                                    }
                                     label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    str = str.Replace(" ", "");
-                                    text = str + "\r\n";
-                                    textBox2.AppendText(text);
                                     Thread.Sleep(1000);
                                 }
                             }
-                            catch (Exception ex)
+                            catch (Exception Ex)
                             {
-                                Console.WriteLine(ex);
+                                MessageBox.Show(Ex.Message.ToString());
                             }
                         }
                         #endregion
