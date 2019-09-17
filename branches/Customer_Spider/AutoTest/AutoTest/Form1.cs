@@ -8304,7 +8304,23 @@ namespace AutoTest
                                               DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
                         DataGridView_Schedule.RefreshEdit();
                     }
+
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times")
+                    {
+                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                        targetColumn.MaxInputLength = 8;
+                    }
+
+                    if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times")
+                    {
+                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                        targetColumn.MaxInputLength = 9;
+                    }
                 }
+
+                
             }
             catch (Exception error)
             {

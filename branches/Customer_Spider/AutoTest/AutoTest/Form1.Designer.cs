@@ -135,6 +135,7 @@ namespace AutoTest
             this.button_TestLog = new System.Windows.Forms.Button();
             this.button_Copy = new System.Windows.Forms.Button();
             this.DataGridView_Schedule = new AutoTest.SafeDataGridView();
+            this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,7 +147,6 @@ namespace AutoTest
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1454,6 +1454,11 @@ namespace AutoTest
             this.DataGridView_Schedule.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.DataGridView1_EditingControlShowing);
             this.DataGridView_Schedule.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_Schedule_RowHeaderMouseDoubleClick);
             // 
+            // timer_kline
+            // 
+            this.timer_kline.Interval = 250;
+            this.timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
+            // 
             // Column1
             // 
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -1468,8 +1473,9 @@ namespace AutoTest
             // Column2
             // 
             this.Column2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column2.FillWeight = 50.18447F;
+            this.Column2.FillWeight = 60F;
             this.Column2.HeaderText = "Times";
+            this.Column2.MaxInputLength = 9;
             this.Column2.Name = "Column2";
             this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
@@ -1534,7 +1540,7 @@ namespace AutoTest
             // Column9
             // 
             this.Column9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column9.FillWeight = 160.2744F;
+            this.Column9.FillWeight = 150F;
             this.Column9.HeaderText = ">Quantum Color Space\r\n>Frequency";
             this.Column9.Name = "Column9";
             this.Column9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -1552,11 +1558,6 @@ namespace AutoTest
             this.Column11.HeaderText = "Remark";
             this.Column11.Name = "Column11";
             this.Column11.Visible = false;
-            // 
-            // timer_kline
-            // 
-            this.timer_kline.Interval = 250;
-            this.timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
             // 
             // Form1
             // 
@@ -1757,17 +1758,6 @@ namespace AutoTest
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button_Network;
         private System.Windows.Forms.Label label_Remark;
-        private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
         public SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.Label label_ext_board;
         private System.Windows.Forms.PictureBox pictureBox_ext_board;
@@ -1782,6 +1772,17 @@ namespace AutoTest
         private System.Windows.Forms.Button button_TestLog;
         private System.Windows.Forms.Button button_Copy;
         private System.Windows.Forms.Timer timer_kline;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column11;
     }
 }
 
