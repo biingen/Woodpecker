@@ -13,7 +13,7 @@ namespace MySerialLibrary
     {
         // static member/function to shared aross all MySerial
         static protected Dictionary<string, Object> MySerialDictionary = new Dictionary<string, Object>();
-
+        static Object myserial_serial_obj = new Object();
         // Private member
         private SerialPort _serialPort;
 
@@ -190,7 +190,7 @@ namespace MySerialLibrary
         {
             // Find out which serial port --> which myserial
             SerialPort sp = (SerialPort)sender;
-            MySerialDictionary.TryGetValue(sp.PortName, out Object myserial_serial_obj);
+            MySerialDictionary.TryGetValue(sp.PortName, out myserial_serial_obj);
             MySerial myserial = (MySerial)myserial_serial_obj;
             //Rx_char_buffer_QUEUE
             int buf_len = sp.BytesToRead;
@@ -239,7 +239,7 @@ namespace MySerialLibrary
         {
             // Find out which serial port --> which myserial
             SerialPort sp = (SerialPort)sender;
-            MySerialDictionary.TryGetValue(sp.PortName, out Object myserial_serial_obj);
+            MySerialDictionary.TryGetValue(sp.PortName, out myserial_serial_obj);
             MySerial myserial = (MySerial)myserial_serial_obj;
 
             while ( sp.BytesToRead > 0 )
