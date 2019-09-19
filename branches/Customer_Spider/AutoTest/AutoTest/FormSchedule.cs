@@ -20,8 +20,7 @@ namespace AutoTest
         {
             textBox_Schedule1.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
             textBox_Schedule1Loop.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
-            comboBox_Kline.DataSource = System.IO.Ports.SerialPort.GetPortNames();
-
+            
             if (ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "") != "")
             {
                 if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "")) == 1)
@@ -175,28 +174,6 @@ namespace AutoTest
             {
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
             }
-
-            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
-            {
-                checkBox_canbus.Checked = true;
-            }
-            else
-            {
-                checkBox_canbus.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
-            {
-                checkBox_Kline.Checked = true;
-                comboBox_Kline.Enabled = true;
-            }
-            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0")
-            {
-                checkBox_Kline.Checked = false;
-                comboBox_Kline.Enabled = false;
-            }
-
-            comboBox_Kline.Text = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
 
             if (ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "") == "1")
             {
@@ -954,48 +931,6 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "0");
-            }
-        }
-
-        private void checkBox_canbus_CheckedChanged(object sender, EventArgs e)
-        {
-            //自動跑CANbusLog//
-            if (checkBox_canbus.Checked == true)
-            {
-
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
-            }
-        }
-
-        private void CheckBox_Kline_CheckedChanged(object sender, EventArgs e)
-        {
-            //自動跑KlineLog//
-            if (checkBox_Kline.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "1");
-                comboBox_Kline.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
-                comboBox_Kline.Enabled = false;
-            }
-        }
-
-        private void ComboBox_Kline_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //自動跑KlineLog//
-            if (checkBox_Kline.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Kline", "PortName", comboBox_Kline.Text.Trim());
-            }
-            else
-            {
-
             }
         }
     }

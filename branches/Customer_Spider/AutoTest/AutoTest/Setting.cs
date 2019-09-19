@@ -149,6 +149,7 @@ namespace AutoTest
                 ini12.INIWrite(MainSettingPath, "Comport", "DataBit", "8");
                 ini12.INIWrite(MainSettingPath, "Comport", "StopBits", "One");
                 ini12.INIWrite(MainSettingPath, "Comport", "PortName", comboBox_SerialPort1_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "Comport", "VirtualName", comboBox_SerialPort1_VirtualPortName_Value.Text);
             }
 
             //SerialPort2//
@@ -158,6 +159,7 @@ namespace AutoTest
                 ini12.INIWrite(MainSettingPath, "ExtComport", "DataBit", "8");
                 ini12.INIWrite(MainSettingPath, "ExtComport", "StopBits", "One");
                 ini12.INIWrite(MainSettingPath, "ExtComport", "PortName", comboBox_SerialPort2_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "ExtComport", "VirtualName", comboBox_SerialPort2_VirtualPortName_Value.Text);
             }
 
             //SerialPort3//
@@ -167,6 +169,7 @@ namespace AutoTest
                 ini12.INIWrite(MainSettingPath, "TriComport", "DataBit", "8");
                 ini12.INIWrite(MainSettingPath, "TriComport", "StopBits", "One");
                 ini12.INIWrite(MainSettingPath, "TriComport", "PortName", comboBox_SerialPort3_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "TriComport", "VirtualName", comboBox_SerialPort3_VirtualPortName_Value.Text);
             }
         }
 
@@ -177,9 +180,16 @@ namespace AutoTest
             {
                 textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
+            else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "")
+            {
+                Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Image");
+                textBox_ImagePath.Text = System.Windows.Forms.Application.StartupPath + "\\Image";
+                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
+            }
             else
             {
                 textBox_ImagePath.Text = "";
+                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
                 pictureBox_ImagePath.Image = Properties.Resources.ERROR;
             }
             
@@ -188,9 +198,16 @@ namespace AutoTest
             {
                 textBox_LogPath.Text = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             }
+            else if (ini12.INIRead(MainSettingPath, "Record", "LogPath", "") == "")
+            {
+                Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Log");
+                textBox_LogPath.Text = System.Windows.Forms.Application.StartupPath + "\\Log";
+                ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
+            }
             else
             {
                 textBox_LogPath.Text = "";
+                ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
                 pictureBox_LogPath.Image = Properties.Resources.ERROR;
             }
 
@@ -227,6 +244,16 @@ namespace AutoTest
                 pictureBox_DosPath.Image = Properties.Resources.ERROR;
             }
 
+
+            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
+            {
+                checkBox_canbus.Checked = true;
+            }
+            else
+            {
+                checkBox_canbus.Checked = false;
+            }
+
             #region -- SerialPort --
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
@@ -235,16 +262,19 @@ namespace AutoTest
                 comboBox_SerialPort1_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort2_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort3_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
+                comboBox_KlinePort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
 
                 if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                 {
                     checkBox_SerialPort1.Checked = true;
+                    comboBox_SerialPort1_VirtualPortName_Value.Enabled = true;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort1_PortName_Value.Enabled = true;
                 }
                 else if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "0")
                 {
                     checkBox_SerialPort1.Checked = false;
+                    comboBox_SerialPort1_VirtualPortName_Value.Enabled = false;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort1_PortName_Value.Enabled = false;
                 }
@@ -252,12 +282,14 @@ namespace AutoTest
                 if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                 {
                     checkBox_SerialPort2.Checked = true;
+                    comboBox_SerialPort2_VirtualPortName_Value.Enabled = true;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort2_PortName_Value.Enabled = true;
                 }
                 else if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "0")
                 {
                     checkBox_SerialPort2.Checked = false;
+                    comboBox_SerialPort2_VirtualPortName_Value.Enabled = false;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort2_PortName_Value.Enabled = false;
                 }
@@ -265,12 +297,14 @@ namespace AutoTest
                 if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                 {
                     checkBox_SerialPort3.Checked = true;
+                    comboBox_SerialPort3_VirtualPortName_Value.Enabled = true;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort3_PortName_Value.Enabled = true;
                 }
                 else if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "0")
                 {
                     checkBox_SerialPort3.Checked = false;
+                    comboBox_SerialPort3_VirtualPortName_Value.Enabled = false;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort3_PortName_Value.Enabled = false;
                 }
@@ -295,26 +329,44 @@ namespace AutoTest
             {
                 checkBox_SerialPort1.Checked = false;
                 checkBox_SerialPort1.Enabled = false;
+                comboBox_SerialPort1_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort1_PortName_Value.Enabled = false;
 
                 checkBox_SerialPort2.Checked = false;
                 checkBox_SerialPort2.Enabled = false;
+                comboBox_SerialPort2_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort2_PortName_Value.Enabled = false;
 
                 checkBox_SerialPort3.Checked = false;
                 checkBox_SerialPort3.Enabled = false;
+                comboBox_SerialPort3_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort3_PortName_Value.Enabled = false;
             }
-            
+
+            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+            {
+                checkBox_Kline.Checked = true;
+                comboBox_KlinePort_PortName_Value.Enabled = true;
+            }
+            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0")
+            {
+                checkBox_Kline.Checked = false;
+                comboBox_KlinePort_PortName_Value.Enabled = false;
+            }
+
+            comboBox_SerialPort1_VirtualPortName_Value.Text = ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "");
             comboBox_SerialPort1_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Comport", "BaudRate", "");
             comboBox_SerialPort1_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Comport", "PortName", "");
+            comboBox_SerialPort2_VirtualPortName_Value.Text = ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "");
             comboBox_SerialPort2_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", "");
             comboBox_SerialPort2_PortName_Value.Text = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
+            comboBox_SerialPort3_VirtualPortName_Value.Text = ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "");
             comboBox_SerialPort3_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", "");
             comboBox_SerialPort3_PortName_Value.Text = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
+            comboBox_KlinePort_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
             #endregion
 
             #region -- Redrat --
@@ -440,6 +492,7 @@ namespace AutoTest
             if (checkBox_SerialPort1.Checked == true)
             {
                 ini12.INIWrite(MainSettingPath, "Comport", "Checked", "1");
+                comboBox_SerialPort1_VirtualPortName_Value.Enabled = true;
                 comboBox_SerialPort1_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort1_PortName_Value.Enabled = true;
                 SerialPortCheck();
@@ -447,6 +500,7 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MainSettingPath, "Comport", "Checked", "0");
+                comboBox_SerialPort1_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort1_PortName_Value.Enabled = false;
                 SerialPortCheck();
@@ -458,6 +512,7 @@ namespace AutoTest
             if (checkBox_SerialPort2.Checked == true)
             {
                 ini12.INIWrite(MainSettingPath, "ExtComport", "Checked", "1");
+                comboBox_SerialPort2_VirtualPortName_Value.Enabled = true;
                 comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort2_PortName_Value.Enabled = true;
                 SerialPortCheck();
@@ -465,6 +520,7 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MainSettingPath, "ExtComport", "Checked", "0");
+                comboBox_SerialPort2_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort2_PortName_Value.Enabled = false;
                 SerialPortCheck();
@@ -476,6 +532,7 @@ namespace AutoTest
             if (checkBox_SerialPort3.Checked == true)
             {
                 ini12.INIWrite(MainSettingPath, "TriComport", "Checked", "1");
+                comboBox_SerialPort3_VirtualPortName_Value.Enabled = true;
                 comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort3_PortName_Value.Enabled = true;
                 SerialPortCheck();
@@ -483,6 +540,7 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MainSettingPath, "TriComport", "Checked", "0");
+                comboBox_SerialPort3_VirtualPortName_Value.Enabled = false;
                 comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort3_PortName_Value.Enabled = false;
                 SerialPortCheck();
@@ -511,13 +569,21 @@ namespace AutoTest
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
-                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
+                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text) ||
+                        (comboBox_SerialPort1_VirtualPortName_Value.Text == comboBox_SerialPort2_VirtualPortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
-                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
+                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text) ||
+                        (comboBox_SerialPort1_VirtualPortName_Value.Text == comboBox_SerialPort3_VirtualPortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Kline.Checked == true &&
+                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
@@ -540,13 +606,21 @@ namespace AutoTest
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort1.Checked == true &&
-                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
+                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text) ||
+                        (comboBox_SerialPort2_VirtualPortName_Value.Text == comboBox_SerialPort1_VirtualPortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
-                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
+                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text) ||
+                        (comboBox_SerialPort2_VirtualPortName_Value.Text == comboBox_SerialPort3_VirtualPortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Kline.Checked == true &&
+                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
@@ -569,13 +643,21 @@ namespace AutoTest
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort1.Checked == true &&
-                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
+                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text) ||
+                        (comboBox_SerialPort3_VirtualPortName_Value.Text == comboBox_SerialPort1_VirtualPortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
-                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
+                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text) ||
+                        (comboBox_SerialPort3_VirtualPortName_Value.Text == comboBox_SerialPort2_VirtualPortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Kline.Checked == true &&
+                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "SerialPort duplicate";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
@@ -590,11 +672,47 @@ namespace AutoTest
                 pictureBox_SerialPort3.Image = null;
             }
 
+            if (checkBox_Kline.Checked == true)
+            {
+                if (comboBox_KlinePort_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                {
+                    label_ErrorMessage.Text = "SerialPort don't select " + ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
+                    pictureBox_klinePort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort1.Checked == true &&
+                        (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_klinePort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort2.Checked == true &&
+                        (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_klinePort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Kline.Checked == true &&
+                        (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    pictureBox_klinePort.Image = Properties.Resources.ERROR;
+                }
+                else
+                {
+                    pictureBox_klinePort.Image = null;
+                }
+            }
+            else if (checkBox_SerialPort3.Checked == false)
+            {
+                pictureBox_klinePort.Image = null;
+            }
+
             if (pictureBox_SerialPort1.Image == null &&
                 pictureBox_SerialPort2.Image == null &&
-                pictureBox_SerialPort3.Image == null)
+                pictureBox_SerialPort3.Image == null &&
+                pictureBox_klinePort.Image == null)
             {
-                label_ErrorMessage.Text = "";
+                label_ErrorMessage.Text = ""; // SerialPort save behavior on FormTabControl.cs file.
             }
         }
 
@@ -715,6 +833,57 @@ namespace AutoTest
         private void comboBox_SerialPort3_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "TriComport", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
+        }
+
+        private void comboBox_SerialPort1_VirtualPortName_Value_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SerialPortCheck();
+        }
+
+        private void comboBox_SerialPort2_VirtualPortName_Value_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SerialPortCheck();
+        }
+
+        private void comboBox_SerialPort3_VirtualPortName_Value_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SerialPortCheck();
+        }
+
+        private void checkBox_Kline_CheckedChanged(object sender, EventArgs e)
+        {
+            //自動跑KlineLog//
+            if (checkBox_Kline.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "1");
+                comboBox_KlinePort_PortName_Value.Enabled = true;
+                SerialPortCheck();
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
+                comboBox_KlinePort_PortName_Value.Enabled = false;
+                SerialPortCheck();
+            }
+        }
+
+        private void comboBox_Kline_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SerialPortCheck();
+        }
+
+        private void checkBox_canbus_CheckedChanged(object sender, EventArgs e)
+        {
+            //自動跑CANbusLog//
+            if (checkBox_canbus.Checked == true)
+            {
+
+                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
+            }
         }
     }
 }

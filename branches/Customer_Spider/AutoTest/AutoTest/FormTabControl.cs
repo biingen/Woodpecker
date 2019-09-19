@@ -224,9 +224,13 @@ namespace AutoTest
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         private void FormTabControl_FormClosed(object sender, FormClosedEventArgs e)
         {
+            ini12.INIWrite(MainSettingPath, "Comport", "VirtualName", FormSetting.comboBox_SerialPort1_VirtualPortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "ExtComport", "VirtualName", FormSetting.comboBox_SerialPort2_VirtualPortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "TriComport", "VirtualName", FormSetting.comboBox_SerialPort3_VirtualPortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "Comport", "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "ExtComport", "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "TriComport", "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Kline", "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
         }
     }
 }

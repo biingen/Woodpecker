@@ -85,9 +85,6 @@
             this.pictureBox_Schedule4Loop = new System.Windows.Forms.PictureBox();
             this.pictureBox_Schedule5Loop = new System.Windows.Forms.PictureBox();
             this.checkBox_ScheduleAutoStart = new System.Windows.Forms.CheckBox();
-            this.checkBox_canbus = new System.Windows.Forms.CheckBox();
-            this.checkBox_Kline = new System.Windows.Forms.CheckBox();
-            this.comboBox_Kline = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule1Loop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule5)).BeginInit();
@@ -789,47 +786,6 @@
             this.checkBox_ScheduleAutoStart.UseVisualStyleBackColor = true;
             this.checkBox_ScheduleAutoStart.CheckedChanged += new System.EventHandler(this.checkBox_ScheduleAutoStart_CheckedChanged);
             // 
-            // checkBox_canbus
-            // 
-            this.checkBox_canbus.AutoSize = true;
-            this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_canbus.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_canbus.Location = new System.Drawing.Point(221, 408);
-            this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_canbus.Name = "checkBox_canbus";
-            this.checkBox_canbus.Size = new System.Drawing.Size(105, 19);
-            this.checkBox_canbus.TabIndex = 131;
-            this.checkBox_canbus.Text = "CANbus Mode";
-            this.checkBox_canbus.UseVisualStyleBackColor = true;
-            this.checkBox_canbus.CheckedChanged += new System.EventHandler(this.checkBox_canbus_CheckedChanged);
-            // 
-            // checkBox_Kline
-            // 
-            this.checkBox_Kline.AutoSize = true;
-            this.checkBox_Kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Kline.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_Kline.Location = new System.Drawing.Point(23, 408);
-            this.checkBox_Kline.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Kline.Name = "checkBox_Kline";
-            this.checkBox_Kline.Size = new System.Drawing.Size(92, 19);
-            this.checkBox_Kline.TabIndex = 132;
-            this.checkBox_Kline.Text = "Kline Mode:";
-            this.checkBox_Kline.UseVisualStyleBackColor = true;
-            this.checkBox_Kline.CheckedChanged += new System.EventHandler(this.CheckBox_Kline_CheckedChanged);
-            // 
-            // comboBox_Kline
-            // 
-            this.comboBox_Kline.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Kline.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox_Kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox_Kline.FormattingEnabled = true;
-            this.comboBox_Kline.Location = new System.Drawing.Point(116, 411);
-            this.comboBox_Kline.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
-            this.comboBox_Kline.Name = "comboBox_Kline";
-            this.comboBox_Kline.Size = new System.Drawing.Size(65, 23);
-            this.comboBox_Kline.TabIndex = 133;
-            this.comboBox_Kline.SelectedIndexChanged += new System.EventHandler(this.ComboBox_Kline_SelectedIndexChanged);
-            // 
             // FormSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -838,9 +794,6 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.Ivory;
             this.ClientSize = new System.Drawing.Size(658, 494);
-            this.Controls.Add(this.comboBox_Kline);
-            this.Controls.Add(this.checkBox_Kline);
-            this.Controls.Add(this.checkBox_canbus);
             this.Controls.Add(this.checkBox_ScheduleAutoStart);
             this.Controls.Add(this.pictureBox_Schedule5Loop);
             this.Controls.Add(this.pictureBox_Schedule4Loop);
@@ -975,8 +928,5 @@
         private System.Windows.Forms.PictureBox pictureBox_Schedule4Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule5Loop;
         private System.Windows.Forms.CheckBox checkBox_ScheduleAutoStart;
-        private System.Windows.Forms.CheckBox checkBox_canbus;
-        private System.Windows.Forms.CheckBox checkBox_Kline;
-        internal System.Windows.Forms.ComboBox comboBox_Kline;
     }
 }
