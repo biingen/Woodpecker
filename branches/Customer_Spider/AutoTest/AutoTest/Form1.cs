@@ -6693,6 +6693,7 @@ namespace AutoTest
             int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
             int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
             int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
 
             if (filters.VideoInputDevices.Count < VideoNum || 
                 filters.AudioInputDevices.Count < AudioNum)
@@ -6703,6 +6704,15 @@ namespace AutoTest
             else
             {
                 capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
+                try
+                {
+                    capture.FrameSize = new Size(int.Parse(Resolution[0]), int.Parse(Resolution[1]));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Please setting the supported resolution!", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                }
                 capture.CaptureComplete += new EventHandler(OnCaptureComplete);
             }
 
