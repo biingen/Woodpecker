@@ -916,6 +916,8 @@ namespace AutoTest
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
+            int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
             if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_cmd")
@@ -925,18 +927,18 @@ namespace AutoTest
                     bitMap_g.DrawString("  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
-                                    new PointF(5, 400));
+                                    new PointF(5, YPoint - 80));
                 }
                 else
                 {
                     bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
                                     Font,
                                     FontColor,
-                                    new PointF(5, 360));
+                                    new PointF(5, YPoint - 120));
                     bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
-                                    new PointF(5, 400));
+                                    new PointF(5, YPoint - 80));
                 }
             }
             else
@@ -944,18 +946,18 @@ namespace AutoTest
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
                                 Font,
                                 FontColor,
-                                new PointF(5, 360));
+                                new PointF(5, YPoint - 120));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                     Font,
                                     FontColor,
-                                    new PointF(5, 400));
+                                    new PointF(5, YPoint - 80));
             }
             
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text, 
                                 Font, 
                                 FontColor, 
-                                new PointF(5, 440));
+                                new PointF(5, YPoint - 40));
 
             Font.Dispose();
             FontColor.Dispose();
