@@ -6712,8 +6712,43 @@ namespace AutoTest
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Please setting the supported resolution!", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                    Console.Write("Please setting the supported resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    try
+                    {
+                        capture.FrameSize = new Size(1920, 1080);
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                    }
+                    catch (Exception ex1)
+                    {
+                        Console.Write("Please setting the supported resolution!\n\r", ex1.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        try
+                        {
+                            capture.FrameSize = new Size(1280, 720);
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                        }
+                        catch (Exception ex2)
+                        {
+                            Console.Write("Please setting the supported resolution!\n\r", ex2.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            try
+                            {
+                                capture.FrameSize = new Size(640, 480);
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                            }
+                            catch (Exception ex3)
+                            {
+                                Console.Write("Please setting the supported resolution!\n\r", ex3.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                try
+                                {
+                                    capture.FrameSize = new Size(320, 240);
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                }
+                                catch (Exception ex4)
+                                {
+                                    Console.Write("Please setting the supported resolution!\n\r", ex4.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
+                            }
+                        }
+                    }
                 }
                 capture.CaptureComplete += new EventHandler(OnCaptureComplete);
             }

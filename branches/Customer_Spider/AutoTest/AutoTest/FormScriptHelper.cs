@@ -60,6 +60,44 @@ namespace AutoTest
                     CmdList.Add("_clear");
                     break;
 
+                case "_ascii + >Video Recording\r\n>Dektec":
+                    CmdList.Add("A");
+                    CmdList.Add("B");
+                    CmdList.Add("C");
+                    CmdList.Add("D");
+                    CmdList.Add("E");
+                    break;
+
+                case "_ascii + >AC/USB Switch\r\n>Stream Name":
+                    CmdList.Add("\n");
+                    CmdList.Add("\r");
+                    CmdList.Add("\n\r");
+                    break;
+
+                case "_ascii + >Timing\r\n>TV System":
+                    CmdList.Add("_save");
+                    CmdList.Add("_clear");
+                    break;
+
+                case "_HEX + >Video Recording\r\n>Dektec":
+                    CmdList.Add("A");
+                    CmdList.Add("B");
+                    CmdList.Add("C");
+                    CmdList.Add("D");
+                    CmdList.Add("E");
+                    break;
+
+                case "_HEX + >AC/USB Switch\r\n>Stream Name":
+                    CmdList.Add("0A");
+                    CmdList.Add("0D");
+                    CmdList.Add("0A 0D");
+                    break;
+
+                case "_HEX + >Timing\r\n>TV System":
+                    CmdList.Add("_save");
+                    CmdList.Add("_clear");
+                    break;
+
                 case "_PA + >SerialPort\r\n>IO & Keyword":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
