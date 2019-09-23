@@ -3829,7 +3829,7 @@ namespace AutoTest
                             #endregion
 
                             #region -- 錄影 --
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString() == "_start")
+                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_start")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
@@ -3849,7 +3849,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString() == "_stop")
+                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_stop")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
@@ -4040,7 +4040,7 @@ namespace AutoTest
                             #endregion
 
                             #region -- USB SWITCH --
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB1_TV")
+                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB1_DUT")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
@@ -4052,7 +4052,7 @@ namespace AutoTest
                                         {
                                             {
                                                 USBState = false;
-                                                label_Command.Text = "USB1 => TV";
+                                                label_Command.Text = "USB1 => DUT";
                                             }
                                         }
                                     }
@@ -4085,7 +4085,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB2_TV")
+                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_USB2_DUT")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
@@ -4097,7 +4097,7 @@ namespace AutoTest
                                         {
                                             {
                                                 USBState = false;
-                                                label_Command.Text = "USB2 => TV";
+                                                label_Command.Text = "USB2 => DUT";
                                             }
                                         }
                                     }
@@ -4231,21 +4231,21 @@ namespace AutoTest
                                     {
                                         textBox1.Text = ""; //清除textbox1
                                     }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\r")
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
                                     {
                                         serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
                                         DateTime dt = DateTime.Now;
                                         string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                         textBox1.AppendText(text);
                                     }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n")
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
                                     {
                                         serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
                                         DateTime dt = DateTime.Now;
                                         string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                         textBox1.AppendText(text);
                                     }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n\r")
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
                                     {
                                         serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
                                         DateTime dt = DateTime.Now;
@@ -4268,21 +4268,21 @@ namespace AutoTest
                                 {
                                     textBox2.Text = ""; //清除textbox2
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\r")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
                                 {
                                     serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                     textBox2.AppendText(text);
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
                                 {
                                     serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                     textBox2.AppendText(text);
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n\r")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
                                 {
                                     serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
                                     DateTime dt = DateTime.Now;
@@ -4304,21 +4304,21 @@ namespace AutoTest
                                 {
                                     textBox3.Text = ""; //清除textbox2
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\r")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
                                 {
                                     serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                     textBox3.AppendText(text);
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
                                 {
                                     serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
                                     textBox3.AppendText(text);
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "\n\r")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
                                 {
                                     serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
                                     DateTime dt = DateTime.Now;
@@ -4345,34 +4345,14 @@ namespace AutoTest
                                     {
                                         textBox1.Text = ""; //清除textbox1
                                     }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A")
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
                                     {
-                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
+                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                         byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                         label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                        serialPort1.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A
+                                        serialPort1.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
-                                        textBox1.AppendText(text);
-                                    }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0D")
-                                    {
-                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                        byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                        serialPort1.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0D
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                        textBox1.AppendText(text);
-                                    }
-                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A0D")
-                                    {
-                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
-                                        byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                        serialPort1.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A0D
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
                                         textBox1.AppendText(text);
                                     }
                                 }
@@ -4391,34 +4371,14 @@ namespace AutoTest
                                 {
                                     textBox2.Text = ""; //清除textbox2
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
                                 {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
+                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                     label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A
+                                    serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
-                                    textBox2.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0D")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0D
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                    textBox2.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A0D")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A0D
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
+                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
                                     textBox2.AppendText(text);
                                 }
                             }
@@ -4436,34 +4396,14 @@ namespace AutoTest
                                 {
                                     textBox3.Text = ""; //清除textbox3
                                 }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A")
+                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
                                 {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
+                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                     byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
                                     label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A
+                                    serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A";
-                                    textBox3.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0D")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0D
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0D";
-                                    textBox3.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "0x0A0D")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232 + 0x0A0D
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + " 0A 0D";
+                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
                                     textBox3.AppendText(text);
                                 }
                             }
@@ -5404,27 +5344,122 @@ namespace AutoTest
                         #endregion
 
                         #region -- Keyword Search --
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length >= 9 &&
-                                 DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(0, 9) == "_keyword_")
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_keyword")
                         {
-                            if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length == 11)
+                            switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())
                             {
-                                if (Global.keyword_10 == "true")
-                                {
-                                    KeywordCommand();
-                                }
-                                else
-                                {
-                                    SysDelay = 0;
-                                }
-                                Global.keyword_10 = "false";
-                            }
-                            else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Length == 10)
-                            {
-                                switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Substring(9, 1))
-                                {
-                                    case "1":
-                                        if (Global.keyword_1 == "true")
+                                case "1":
+                                    if (Global.keyword_1 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_1 = "false";
+                                    break;
+
+                                case "2":
+                                    if (Global.keyword_2 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_2 = "false";
+                                    break;
+
+                                case "3":
+                                    if (Global.keyword_3 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_3 = "false";
+                                    break;
+
+                                case "4":
+                                    if (Global.keyword_4 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_4 = "false";
+                                    break;
+
+                                case "5":
+                                    if (Global.keyword_5 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_5 = "false";
+                                    break;
+
+                                case "6":
+                                    if (Global.keyword_6 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_6 = "false";
+                                    break;
+
+                                case "7":
+                                    if (Global.keyword_7 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_7 = "false";
+                                    break;
+
+                                case "8":
+                                    if (Global.keyword_8 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_8 = "false";
+                                    break;
+
+                                case "9":
+                                    if (Global.keyword_9 == "true")
+                                    {
+                                        KeywordCommand();
+                                    }
+                                    else
+                                    {
+                                        SysDelay = 0;
+                                    }
+                                    Global.keyword_9 = "false";
+                                    break;
+
+                                default:
+                                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString() == "10")
+                                    {
+                                        if (Global.keyword_10 == "true")
                                         {
                                             KeywordCommand();
                                         }
@@ -5432,109 +5467,11 @@ namespace AutoTest
                                         {
                                             SysDelay = 0;
                                         }
-                                        Global.keyword_1 = "false";
-                                        break;
+                                        Global.keyword_10 = "false";
+                                    }
+                                    Console.WriteLine("keyword not found_schedule");
+                                    break;
 
-                                    case "2":
-                                        if (Global.keyword_2 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_2 = "false";
-                                        break;
-
-                                    case "3":
-                                        if (Global.keyword_3 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_3 = "false";
-                                        break;
-
-                                    case "4":
-                                        if (Global.keyword_4 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_4 = "false";
-                                        break;
-
-                                    case "5":
-                                        if (Global.keyword_5 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_5 = "false";
-                                        break;
-
-                                    case "6":
-                                        if (Global.keyword_6 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_6 = "false";
-                                        break;
-
-                                    case "7":
-                                        if (Global.keyword_7 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_7 = "false";
-                                        break;
-
-                                    case "8":
-                                        if (Global.keyword_8 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_8 = "false";
-                                        break;
-
-                                    case "9":
-                                        if (Global.keyword_9 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_9 = "false";
-                                        break;
-
-                                    default:
-                                        Console.WriteLine("keyword not found_schedule");
-                                        break;
-                                }
                             }
                         }
                         #endregion
@@ -6717,9 +6654,9 @@ namespace AutoTest
 
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_cmd");
-            RCDB.Items.Add("_log1");
-            RCDB.Items.Add("_log2");
-            RCDB.Items.Add("_log3");
+            //RCDB.Items.Add("_log1");
+            //RCDB.Items.Add("_log2");
+            //RCDB.Items.Add("_log3");
             RCDB.Items.Add("_ascii");
             RCDB.Items.Add("_HEX");
             RCDB.Items.Add("_K_ABS");
@@ -6762,16 +6699,7 @@ namespace AutoTest
             RCDB.Items.Add("_PB07_0");
             RCDB.Items.Add("_PB07_1");
             RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_keyword_1");
-            RCDB.Items.Add("_keyword_2");
-            RCDB.Items.Add("_keyword_3");
-            RCDB.Items.Add("_keyword_4");
-            RCDB.Items.Add("_keyword_5");
-            RCDB.Items.Add("_keyword_6");
-            RCDB.Items.Add("_keyword_7");
-            RCDB.Items.Add("_keyword_8");
-            RCDB.Items.Add("_keyword_9");
-            RCDB.Items.Add("_keyword_10");
+            RCDB.Items.Add("_keyword");
 
             //RCDB.Items.Add("_MonkeyTest");
         }
@@ -8355,14 +8283,18 @@ namespace AutoTest
                 if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Picture" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Video Recording\r\n>Dektec" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">AC/USB Switch\r\n>Stream Name" ||
 
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_log1" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO & Keyword" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_log2" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO & Keyword")
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">AC/USB Switch\r\n>Stream Name" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd")
                 {
                     formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
                     formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8376,9 +8308,9 @@ namespace AutoTest
                 if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 3)
                 {
                     if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3) == "_PA" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO & Keyword" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3) == "_PB" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO & Keyword")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd")
                     {
                         formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3);
                         formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8393,7 +8325,9 @@ namespace AutoTest
                 if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
                 {
                     if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8) == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO & Keyword")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8) == "_keyword" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd")
                     {
                         formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8);
                         formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8418,13 +8352,11 @@ namespace AutoTest
                         targetColumn.MaxInputLength = 9;
                     }
                 }
-
-                
             }
             catch (Exception error)
             {
                 Console.WriteLine(error);
-                MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                MessageBox.Show("Command is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
             }
             
         }

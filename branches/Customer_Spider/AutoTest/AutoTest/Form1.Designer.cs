@@ -1335,7 +1335,7 @@ namespace AutoTest
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(1318, 502);
+            this.button_CanbusPort.Location = new System.Drawing.Point(1318, 504);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_CanbusPort.Name = "button_CanbusPort";
             this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1348,7 +1348,7 @@ namespace AutoTest
             // button_kline
             // 
             this.button_kline.Location = new System.Drawing.Point(1261, 504);
-            this.button_kline.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_kline.Margin = new System.Windows.Forms.Padding(4);
             this.button_kline.Name = "button_kline";
             this.button_kline.Size = new System.Drawing.Size(50, 28);
             this.button_kline.TabIndex = 110;
@@ -1387,7 +1387,7 @@ namespace AutoTest
             // button_TestLog
             // 
             this.button_TestLog.Location = new System.Drawing.Point(1265, 144);
-            this.button_TestLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_TestLog.Margin = new System.Windows.Forms.Padding(4);
             this.button_TestLog.Name = "button_TestLog";
             this.button_TestLog.Size = new System.Drawing.Size(100, 29);
             this.button_TestLog.TabIndex = 108;
@@ -1398,7 +1398,7 @@ namespace AutoTest
             // button_Copy
             // 
             this.button_Copy.Location = new System.Drawing.Point(1265, 180);
-            this.button_Copy.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_Copy.Margin = new System.Windows.Forms.Padding(4);
             this.button_Copy.Name = "button_Copy";
             this.button_Copy.Size = new System.Drawing.Size(100, 29);
             this.button_Copy.TabIndex = 109;
@@ -1461,7 +1461,7 @@ namespace AutoTest
             // 
             this.Column1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column1.FillWeight = 100.4199F;
-            this.Column1.HeaderText = "RC Key";
+            this.Column1.HeaderText = "Command";
             this.Column1.MaxDropDownItems = 20;
             this.Column1.Name = "Column1";
             this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -1481,7 +1481,7 @@ namespace AutoTest
             // 
             this.Column3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column3.FillWeight = 50.18447F;
-            this.Column3.HeaderText = "Delay";
+            this.Column3.HeaderText = "Interval";
             this.Column3.Name = "Column3";
             this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
@@ -1498,7 +1498,7 @@ namespace AutoTest
             // 
             this.Column5.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column5.FillWeight = 130.2147F;
-            this.Column5.HeaderText = ">Video Recording\r\n>Dektec";
+            this.Column5.HeaderText = "COM PORT";
             this.Column5.Name = "Column5";
             this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column5.ToolTipText = "_start, _stop";
@@ -1507,7 +1507,7 @@ namespace AutoTest
             // 
             this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column6.FillWeight = 120.2417F;
-            this.Column6.HeaderText = ">SerialPort\r\n>IO & Keyword";
+            this.Column6.HeaderText = ">SerialPort\r\n>IO comd";
             this.Column6.Name = "Column6";
             this.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column6.ToolTipText = "SerialPort: _save, _clear\r\nIO: _stop, _pause, _ac_restart, _accumulate, _mail, _s" +
@@ -1528,7 +1528,7 @@ namespace AutoTest
             // 
             this.Column8.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column8.FillWeight = 105.9228F;
-            this.Column8.HeaderText = ">Timing\r\n>TV System";
+            this.Column8.HeaderText = "Function";
             this.Column8.Name = "Column8";
             this.Column8.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column8.ToolTipText = "ATSC, CMMB, DAB, DTMB\r\nDVBT, DVBS, DVBS2_16APSK, DVBS2_32APSK, DVBS2_8PSK, DVBS2_" +
@@ -1539,7 +1539,7 @@ namespace AutoTest
             // 
             this.Column9.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column9.FillWeight = 150F;
-            this.Column9.HeaderText = ">Quantum Color Space\r\n>Frequency";
+            this.Column9.HeaderText = "Sub-func.";
             this.Column9.Name = "Column9";
             this.Column9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
@@ -1547,7 +1547,7 @@ namespace AutoTest
             // 
             this.Column10.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column10.FillWeight = 47.6081F;
-            this.Column10.HeaderText = "Delay";
+            this.Column10.HeaderText = "Wait";
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
