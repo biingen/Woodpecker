@@ -705,7 +705,7 @@ namespace AutoTest
                     pictureBox_klinePort.Image = null;
                 }
             }
-            else if (checkBox_SerialPort3.Checked == false)
+            else if (checkBox_Kline.Checked == false)
             {
                 pictureBox_klinePort.Image = null;
             }

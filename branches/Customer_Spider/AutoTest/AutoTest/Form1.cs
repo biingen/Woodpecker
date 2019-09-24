@@ -4254,80 +4254,80 @@ namespace AutoTest
                                     }
                                 }
                             }
-                        }
 
-                        if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
+                            if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
                                 {
-                                    ExtRs232save(); //存檔rs232
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
-                                {
-                                    textBox2.Text = ""; //清除textbox2
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
-                                {
-                                    serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox2.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
-                                {
-                                    serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox2.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
-                                {
-                                    serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox2.AppendText(text);
+                                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                    {
+                                        ExtRs232save(); //存檔rs232
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
+                                    {
+                                        textBox2.Text = ""; //清除textbox2
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
+                                    {
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
+                                    {
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
+                                    {
+                                        serialPort2.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox2.AppendText(text);
+                                    }
                                 }
                             }
-                        }
 
-                        if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
+                            if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
                                 {
-                                    TriRs232save(); //存檔rs232
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
-                                {
-                                    textBox3.Text = ""; //清除textbox2
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
-                                {
-                                    serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox3.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
-                                {
-                                    serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox3.AppendText(text);
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
-                                {
-                                    serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
-                                    textBox3.AppendText(text);
+                                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                    {
+                                        TriRs232save(); //存檔rs232
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
+                                    {
+                                        textBox3.Text = ""; //清除textbox2
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\r")
+                                    {
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
+                                    {
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n"); //發送數據 Rs232 + \n
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n\r")
+                                    {
+                                        serialPort3.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r"); //發送數據 Rs232 + \n\r
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        textBox3.AppendText(text);
+                                    }
                                 }
                             }
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                         }
-
                         #endregion
 
                         #region -- Hex --
@@ -4349,7 +4349,6 @@ namespace AutoTest
                                     {
                                         string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                         byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                                         serialPort1.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
                                         string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
@@ -4357,56 +4356,55 @@ namespace AutoTest
                                     }
                                 }
                             }
-                        }
 
-                        if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
+                            if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
                                 {
-                                    ExtRs232save(); //存檔rs232
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
-                                {
-                                    textBox2.Text = ""; //清除textbox2
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
-                                    textBox2.AppendText(text);
+                                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                    {
+                                        ExtRs232save(); //存檔rs232
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
+                                    {
+                                        textBox2.Text = ""; //清除textbox2
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
+                                    {
+                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                        byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        serialPort2.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
+                                        textBox2.AppendText(text);
+                                    }
                                 }
                             }
-                        }
 
-                        if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
+                            if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                             {
-                                if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString())
                                 {
-                                    TriRs232save(); //存檔rs232
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
-                                {
-                                    textBox3.Text = ""; //清除textbox3
-                                }
-                                else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
-                                {
-                                    string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(HEX CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                                    serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
-                                    textBox3.AppendText(text);
+                                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_save")
+                                    {
+                                        TriRs232save(); //存檔rs232
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() == "_clear")
+                                    {
+                                        textBox3.Text = ""; //清除textbox3
+                                    }
+                                    else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() != "")
+                                    {
+                                        string hexValues = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
+                                        byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        serialPort3.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n";
+                                        textBox3.AppendText(text);
+                                    }
                                 }
                             }
+                            label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
                         }
                         #endregion
 
@@ -5908,7 +5906,6 @@ namespace AutoTest
                 button_Setting.Enabled = true;
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
-                MySerialPort.ClosePort();//關閉Kline//
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
@@ -5958,7 +5955,6 @@ namespace AutoTest
             CloseDtplay();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
-            MySerialPort.ClosePort();//關閉Kline//
         }
         #endregion
 
@@ -6624,7 +6620,14 @@ namespace AutoTest
 
             if (capture.PreviewWindow == null)
             {
-                capture.PreviewWindow = panelVideo;
+                try
+                {
+                    capture.PreviewWindow = panelVideo;
+                }
+                catch (Exception ex)
+                {
+                    Console.Write("Please setting the supported resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             else
             {
