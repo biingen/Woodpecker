@@ -93,10 +93,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlueRatLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BlueRatLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
@@ -175,6 +171,8 @@
   <ItemGroup>
     <Compile Include="add_ons.cs" />
     <Compile Include="BlockMessage.cs" />
+    <Compile Include="BlueRat.cs" />
+    <Compile Include="BlueRatSerial.cs" />
     <Compile Include="CAN_Read.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
@@ -308,6 +306,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="RedRatDBParser.cs" />
     <Compile Include="Setting.cs">
       <SubType>Form</SubType>
     </Compile>

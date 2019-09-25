@@ -4236,6 +4236,7 @@ namespace AutoTest
                                         serialPort1.Write(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r"); //發送數據 Rs232 + \r
                                         DateTime dt = DateTime.Now;
                                         string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\n\r";
+                                        Console.WriteLine(text); // For debug Get_GPIO_Input(). It can be removed after debug.
                                         textBox1.AppendText(text);
                                     }
                                     else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == @"\n")
