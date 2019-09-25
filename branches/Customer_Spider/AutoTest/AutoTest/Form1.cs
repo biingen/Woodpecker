@@ -5953,6 +5953,25 @@ namespace AutoTest
             button_Schedule1.PerformClick();
             timer1.Stop();
             CloseDtplay();
+            if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
+            {
+                CloseSerialPort1();
+            }
+
+            if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
+            {
+                CloseSerialPort2();
+            }
+
+            if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+            {
+                CloseSerialPort3();
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+            {
+                CloseKlinePort();
+            }
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
         }
