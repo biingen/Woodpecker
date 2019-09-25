@@ -4761,7 +4761,7 @@ namespace AutoTest
                             label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                         }
 
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_Temp")
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_Temperature")
                         {
                             //string GPIO = "01010101";
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -6579,7 +6579,6 @@ namespace AutoTest
             int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
             int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
             int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
 
             if (filters.VideoInputDevices.Count < VideoNum || 
                 filters.AudioInputDevices.Count < AudioNum)
@@ -6592,43 +6591,44 @@ namespace AutoTest
                 capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
                 try
                 {
-                    capture.FrameSize = new Size(int.Parse(Resolution[0]), int.Parse(Resolution[1]));
+                    capture.FrameSize = new Size(2304, 1296);
+                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304 x 1296");
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("Please setting the supported resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Console.Write("Webcam can't supported the 2304*1296 resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     try
                     {
                         capture.FrameSize = new Size(1920, 1080);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920 x 1080");
                     }
                     catch (Exception ex1)
                     {
-                        Console.Write("Please setting the supported resolution!\n\r", ex1.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Console.Write("Webcam can't supported the 1920*1080 resolution!\n\r", ex1.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         try
                         {
                             capture.FrameSize = new Size(1280, 720);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280 x 720");
                         }
                         catch (Exception ex2)
                         {
-                            Console.Write("Please setting the supported resolution!\n\r", ex2.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Console.Write("Webcam can't supported the 1280*720 resolution!\n\r", ex2.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                             try
                             {
                                 capture.FrameSize = new Size(640, 480);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640 x 480");
                             }
                             catch (Exception ex3)
                             {
-                                Console.Write("Please setting the supported resolution!\n\r", ex3.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Console.Write("Webcam can't supported the 640*480 resolution!\n\r", ex3.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 try
                                 {
                                     capture.FrameSize = new Size(320, 240);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320 x 240");
                                 }
                                 catch (Exception ex4)
                                 {
-                                    Console.Write("Please setting the supported resolution!\n\r", ex4.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Console.Write("Webcam can't supported the 320*240 resolution!\n\r", ex4.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                         }
@@ -6706,7 +6706,7 @@ namespace AutoTest
             RCDB.Items.Add("_FuncKey");
             RCDB.Items.Add("_WaterTemp");
             RCDB.Items.Add("_FuelDisplay");
-            RCDB.Items.Add("_Temp");
+            RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_PA10_0");
             RCDB.Items.Add("_PA10_1");

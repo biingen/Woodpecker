@@ -409,8 +409,7 @@ namespace AutoTest
             {
                 comboBox_CameraDevice.Enabled = true;
                 comboBox_CameraAudio.Enabled = true;
-                comboBox_CameraResolution.Enabled = true;
-
+                
                 Filters filters = new Filters();
                 Filter f;
 
@@ -450,13 +449,12 @@ namespace AutoTest
                     ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
                     ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
                 }
-                comboBox_CameraResolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+                label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
             }
             else
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
-                comboBox_CameraResolution.Enabled = false;
             }
             #endregion
 
@@ -887,11 +885,6 @@ namespace AutoTest
             {
                 ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
             }
-        }
-
-        private void comboBox_CameraResolution_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", comboBox_CameraResolution.Text);
         }
     }
 }
