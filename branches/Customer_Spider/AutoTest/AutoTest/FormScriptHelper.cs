@@ -28,13 +28,7 @@ namespace AutoTest
 
             switch (RCKey + " + " + HeaderText)
             {
-                case "_cmd + Picture":
-                    CmdList.Add("_shot");
-                    CmdList.Add("_start");
-                    CmdList.Add("_stop");
-                    break;
-
-                case "_ascii + COM PORT":
+                case "_ascii + COM PORT/Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
                     CmdList.Add("C");
@@ -42,7 +36,7 @@ namespace AutoTest
                     CmdList.Add("E");
                     break;
 
-                case "_cmd + >AC/USB Switch\r\n>Stream Name":
+                case "_cmd + AC/USB Switch":
                     CmdList.Add("_off");
                     CmdList.Add("_on");
                     CmdList.Add("_AC1_ON");
@@ -55,18 +49,18 @@ namespace AutoTest
                     CmdList.Add("_USB2_PC");
                     break;
 
-                case "_ascii + >SerialPort\r\n>IO comd":
+                case "_ascii + >SerialPort\r\n>I/O comd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
 
-                case "_ascii + >AC/USB Switch\r\n>Stream Name":
+                case "_ascii + AC/USB Switch":
                     CmdList.Add(@"\n");
                     CmdList.Add(@"\r");
                     CmdList.Add(@"\n\r");
                     break;
 
-                case "_HEX + COM PORT":
+                case "_HEX + COM PORT/Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
                     CmdList.Add("C");
@@ -74,12 +68,27 @@ namespace AutoTest
                     CmdList.Add("E");
                     break;
 
-                case "_HEX + >SerialPort\r\n>IO comd":
+                case "_HEX + >SerialPort\r\n>I/O comd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
 
-                case "_PA + >SerialPort\r\n>IO comd":
+                case "_Pin + COM PORT/Pin":
+                    CmdList.Add("_PA10_0");
+                    CmdList.Add("_PA10_1");
+                    CmdList.Add("_PA11_0");
+                    CmdList.Add("_PA11_1");
+                    CmdList.Add("_PA14_0");
+                    CmdList.Add("_PA14_1");
+                    CmdList.Add("_PA15_0");
+                    CmdList.Add("_PA15_1");
+                    CmdList.Add("_PB01_0");
+                    CmdList.Add("_PB01_1");
+                    CmdList.Add("_PB07_0");
+                    CmdList.Add("_PB07_1");
+                    break;
+
+                case "_Pin + >SerialPort\r\n>I/O comd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
@@ -90,18 +99,20 @@ namespace AutoTest
                     CmdList.Add("_logcmd");
                     break;
 
-                case "_PB + >SerialPort\r\n>IO comd":
-                    CmdList.Add("_pause");
-                    CmdList.Add("_stop");
-                    CmdList.Add("_restart");
-                    CmdList.Add("_shot");
-                    CmdList.Add("_accumulate");
-                    CmdList.Add("_mail");
-                    CmdList.Add("_rc_");
-                    CmdList.Add("_logcmd");
+                case "_keyword + >Times\r\n>Keyword#":
+                    CmdList.Add("1");
+                    CmdList.Add("2");
+                    CmdList.Add("3");
+                    CmdList.Add("4");
+                    CmdList.Add("5");
+                    CmdList.Add("6");
+                    CmdList.Add("7");
+                    CmdList.Add("8");
+                    CmdList.Add("9");
+                    CmdList.Add("10");
                     break;
 
-                case "_keyword + >SerialPort\r\n>IO comd":
+                case "_keyword + >SerialPort\r\n>I/O comd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
