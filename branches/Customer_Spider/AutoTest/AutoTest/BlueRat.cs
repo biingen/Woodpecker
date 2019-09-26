@@ -45,6 +45,7 @@ namespace BlueRatLibrary
         // Static private variable
         private static int BlueRatInstanceNumber = 0;
         //private static List<string> BlueRatCOMPortString = new List<string>();
+
         static string in_str;
         static int total_us;
         static UInt32 sensor_input_value;
@@ -218,8 +219,14 @@ namespace BlueRatLibrary
 
         private ENUM_RETRY_RESULT SendCmd_WaitReadLine(List<byte> cmd_list, out string result_string, int timeout_time = 16)
         {
-            ENUM_RETRY_RESULT result_status;
+            ENUM_RETRY_RESULT result_status = ENUM_RETRY_RESULT.ENUM_ERROR_BLUERAT_IS_CLOSED;
             result_string = "";
+
+            // Exit immediately when serial port is closed
+            if (MyBlueRatSerial.Serial_PortConnection() == true)
+            {
+                return ENUM_RETRY_RESULT.ENUM_ERROR_BLUERAT_IS_CLOSED;
+            }
 
             MyBlueRatSerial.Start_ReadLine();
             if (MyBlueRatSerial.BlueRatSendToSerial(cmd_list.ToArray()) == false)
@@ -234,6 +241,11 @@ namespace BlueRatLibrary
                 if (each_delay_time < 1) each_delay_time = 1;
                 do
                 {
+                    if (MyBlueRatSerial.Serial_PortConnection() == true)
+                    {
+                        return ENUM_RETRY_RESULT.ENUM_ERROR_BLUERAT_IS_CLOSED;
+                    }
+
                     HomeMade_Delay(each_delay_time);
                     if (MyBlueRatSerial.ReadLine_Ready() == true)
                     {
@@ -481,7 +493,7 @@ namespace BlueRatLibrary
             // Debug purpose
             if (result_status >= ENUM_RETRY_RESULT.ENUM_MAX_RETRY_PLUS_1)
             {
-                Console.WriteLine("Get_SW_Version Error: " + result_status.ToString() + " -- " + in_str);
+                Console.WriteLine("Get_Command_Version Error: " + result_status.ToString() + " -- " + in_str);
             }
 
             return bRet;
@@ -490,11 +502,11 @@ namespace BlueRatLibrary
         public bool Get_GPIO_Input(out UInt32 GPIO_Read_Data)
         {
             bool bRet = false;
-            const int default_timeout_time = 40;
+            const int default_timeout_time_Get_GPIO_Input = 40;
             ENUM_RETRY_RESULT result_status;
 
             GPIO_Read_Data = 0xffffffff;
-            result_status = SendCmd_WaitReadLine(Prepare_Send_Input_CMD(Convert.ToByte(ENUM_CMD_STATUS.ENUM_CMD_GET_GPIO_INPUT)), out in_str, default_timeout_time);
+            result_status = SendCmd_WaitReadLine(Prepare_Send_Input_CMD(Convert.ToByte(ENUM_CMD_STATUS.ENUM_CMD_GET_GPIO_INPUT)), out in_str, default_timeout_time_Get_GPIO_Input);
             if (result_status < ENUM_RETRY_RESULT.ENUM_MAX_RETRY_PLUS_1)
             {
                 if (in_str.Contains(_CMD_GPIO_INPUT_RETURN_HEADER_))
@@ -526,7 +538,7 @@ namespace BlueRatLibrary
             // Debug purpose
             if (result_status >= ENUM_RETRY_RESULT.ENUM_MAX_RETRY_PLUS_1)
             {
-                Console.WriteLine("Get_SW_Version Error: " + result_status.ToString() + " -- " + in_str);
+                Console.WriteLine("Get_GPIO_Input Error: " + result_status.ToString() + " -- " + in_str);
             }
 
             return bRet;
@@ -1639,6 +1651,7 @@ namespace BlueRatLibrary
             ENUM_ERROR_AT_READLINE = 0x100,
             ENUM_ERROR_AT_COMPARE,
             ENUM_ERROR_AT_SEND_COMMAND,
+            ENUM_ERROR_BLUERAT_IS_CLOSED,
         };
 
         // 單純回應"HI"的指令,可用來試試看系統是否還有在接受指令 -- 目前不對外開放
