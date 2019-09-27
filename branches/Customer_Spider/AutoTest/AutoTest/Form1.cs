@@ -8474,19 +8474,14 @@ namespace AutoTest
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>I/O comd" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>I/O comd" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd" ||
 
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT/Pin" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>I/O comd" ||
-                    
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times\r\n>Keyword#" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>I/O comd")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd")
                 {
                     formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
                     formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8497,31 +8492,14 @@ namespace AutoTest
                     DataGridView_Schedule.RefreshEdit();
                 }
 
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 3)
+                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
                 {
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3) == "_PA" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3) == "_PB" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd")
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
+                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd")
                     {
-                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 3);
-                        formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
-                        formScriptHelper.ShowDialog();
-
-                        DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
-                                              DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
-                        DataGridView_Schedule.RefreshEdit();
-                    }
-                }
-
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 7)
-                {
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8) == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8) == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort\r\n>IO comd")
-                    {
-                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 8);
+                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
                         formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
                         formScriptHelper.ShowDialog();
 
@@ -8531,14 +8509,14 @@ namespace AutoTest
                     }
 
                     if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
                     {
                         DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
                         targetColumn.MaxInputLength = 8;
                     }
 
                     if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Times")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
                     {
                         DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
                         targetColumn.MaxInputLength = 9;

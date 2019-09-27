@@ -49,7 +49,7 @@ namespace AutoTest
                     CmdList.Add("_USB2_PC");
                     break;
 
-                case "_ascii + >SerialPort\r\n>I/O comd":
+                case "_ascii + >SerialPort >I/O comd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
@@ -68,7 +68,7 @@ namespace AutoTest
                     CmdList.Add("E");
                     break;
 
-                case "_HEX + >SerialPort\r\n>I/O comd":
+                case "_HEX + >SerialPort >I/O comd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
@@ -88,7 +88,7 @@ namespace AutoTest
                     CmdList.Add("_PB07_1");
                     break;
 
-                case "_Pin + >SerialPort\r\n>I/O comd":
+                case "_Pin + >SerialPort >I/O comd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
@@ -99,7 +99,7 @@ namespace AutoTest
                     CmdList.Add("_logcmd");
                     break;
 
-                case "_keyword + >Times\r\n>Keyword#":
+                case "_keyword + >Times >Keyword#":
                     CmdList.Add("1");
                     CmdList.Add("2");
                     CmdList.Add("3");
@@ -112,7 +112,7 @@ namespace AutoTest
                     CmdList.Add("10");
                     break;
 
-                case "_keyword + >SerialPort\r\n>I/O comd":
+                case "_keyword + >SerialPort >I/O comd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
