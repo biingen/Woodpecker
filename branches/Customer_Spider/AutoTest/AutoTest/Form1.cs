@@ -1686,7 +1686,7 @@ namespace AutoTest
                 int rc_duration = MyBlueRat.SendOneRC(RedRatData) / 1000 + 1;
                 RedRatDBViewer_Delay(rc_duration);
                 /*
-                int SysDelay = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString());
+                int SysDelay = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString());
                 if (SysDelay <= rc_duration)
                 {
                     RedRatDBViewer_Delay(rc_duration);
@@ -3779,7 +3779,7 @@ namespace AutoTest
                         else
                             sRepeat = 0;
 
-                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString(), out SysDelay) == true)
+                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString(), out SysDelay) == true)
                             SysDelay = int.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()); // 指令停止時間
                         else
                             SysDelay = 0;
@@ -4635,7 +4635,7 @@ namespace AutoTest
                                     default:
                                         break;
                                 }
-                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString();
+                                label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString();
                             }
                             catch (Exception Ex)
                             {
@@ -7646,13 +7646,13 @@ namespace AutoTest
                     button_Start.Enabled = true;
                     for (int z = 0; z < DataGridView_Schedule.Rows.Count - 1; z++)
                     {
-                        if (DataGridView_Schedule.Rows[z].Cells[9].Value.ToString() != "")
+                        if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString() != "")
                         {
                             if (DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
                             {
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
-                            TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[9].Value.ToString()) + RepeatTime);
+                            TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
                             RepeatTime = 0;
                         }
                     }       //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
