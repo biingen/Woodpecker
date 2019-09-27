@@ -76,6 +76,8 @@ namespace AutoTest
         private Queue<byte> SaveLogQueue1 = new Queue<byte>();
         private Queue<byte> SearchLogQueue2 = new Queue<byte>();
         private Queue<byte> SaveLogQueue2 = new Queue<byte>();
+        private Queue<byte> SearchLogQueue3 = new Queue<byte>();
+        private Queue<byte> SaveLogQueue3 = new Queue<byte>();
         private char Keyword_SerialPort_1_temp_char;
         private byte Keyword_SerialPort_1_temp_byte;
         private char Keyword_SerialPort_2_temp_char;
@@ -2179,7 +2181,7 @@ namespace AutoTest
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    LogQueue3.Enqueue(dataset[index]);
+                    SearchLogQueue3.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -3262,9 +3264,9 @@ namespace AutoTest
 
             while (StartButtonPressed == true)
             {
-                while (LogQueue3.Count > 0)
+                while (SearchLogQueue3.Count > 0)
                 {
-                    Keyword_SerialPort_3_temp_byte = LogQueue3.Dequeue();
+                    Keyword_SerialPort_3_temp_byte = SearchLogQueue3.Dequeue();
                     Keyword_SerialPort_3_temp_char = (char)Keyword_SerialPort_3_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
@@ -4304,7 +4306,7 @@ namespace AutoTest
                                     }
                                     else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_clear")
                                     {
-                                        textBox3.Text = ""; //清除textbox2
+                                        textBox3.Text = ""; //清除textbox3
                                     }
                                     else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() != "" && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == @"\r")
                                     {
@@ -4915,7 +4917,7 @@ namespace AutoTest
                                             }
                                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_clear")
                                             {
-                                                textBox3.Text = ""; //清除textbox2
+                                                textBox3.Text = ""; //清除textbox3
                                             }
                                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() != "" && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == @"\r")
                                             {
@@ -5052,7 +5054,7 @@ namespace AutoTest
                                             }
                                             else if (reverse == "_clear")
                                             {
-                                                textBox3.Text = ""; //清除textbox2
+                                                textBox3.Text = ""; //清除textbox3
                                             }
                                             else if (reverse != "" && DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == @"\r")
                                             {
@@ -6765,7 +6767,7 @@ namespace AutoTest
                 try
                 {
                     capture.FrameSize = new Size(2304, 1296);
-                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304 x 1296");
+                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
                 }
                 catch (Exception ex)
                 {
@@ -6773,7 +6775,7 @@ namespace AutoTest
                     try
                     {
                         capture.FrameSize = new Size(1920, 1080);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920 x 1080");
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
                     }
                     catch (Exception ex1)
                     {
@@ -6781,7 +6783,7 @@ namespace AutoTest
                         try
                         {
                             capture.FrameSize = new Size(1280, 720);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280 x 720");
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
                         }
                         catch (Exception ex2)
                         {
@@ -6789,7 +6791,7 @@ namespace AutoTest
                             try
                             {
                                 capture.FrameSize = new Size(640, 480);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640 x 480");
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
                             }
                             catch (Exception ex3)
                             {
@@ -6797,7 +6799,7 @@ namespace AutoTest
                                 try
                                 {
                                     capture.FrameSize = new Size(320, 240);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320 x 240");
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
                                 }
                                 catch (Exception ex4)
                                 {
