@@ -3793,14 +3793,14 @@ namespace AutoTest
                         Schedule_log = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
                         try
                         {
-                            for (int i = 1; i < 11; i++)
+                            for (int i = 1; i < 10; i++)
                             {
                                 Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
                             }
                         }
                         catch (Exception Ex)
                         {
-                            MessageBox.Show(Ex.Message.ToString());
+                            MessageBox.Show(Ex.Message.ToString(), "The length incurrect on run schedule.");
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
 
