@@ -4076,7 +4076,7 @@ namespace AutoTest
                         #endregion
 
                         #region -- 拍照 --
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_shot")
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_shot")
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
@@ -4094,7 +4094,7 @@ namespace AutoTest
                         #endregion
 
                         #region -- 錄影 --
-                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_rc_start")
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_start")
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
@@ -4114,7 +4114,7 @@ namespace AutoTest
                             }
                         }
 
-                        if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString() == "_rc_stop")
+                        else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_stop")
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
@@ -6846,43 +6846,48 @@ namespace AutoTest
             }
 
             RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_cmd");
-            //RCDB.Items.Add("_log1");
-            //RCDB.Items.Add("_log2");
-            //RCDB.Items.Add("_log3");
-            RCDB.Items.Add("_ascii");
             RCDB.Items.Add("_HEX");
+            RCDB.Items.Add("_ascii");
+            RCDB.Items.Add("_FuncKey");
             RCDB.Items.Add("_K_ABS");
             RCDB.Items.Add("_K_OBD");
             RCDB.Items.Add("_K_SEND");
             RCDB.Items.Add("_K_CLEAR");
-            RCDB.Items.Add("_astro");
-            RCDB.Items.Add("_quantum");
+            RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_dektec");
+            RCDB.Items.Add("_shot");
+            RCDB.Items.Add("_rc_start");
+            RCDB.Items.Add("_rc_stop");
+            RCDB.Items.Add("_cmd");
             RCDB.Items.Add("_DOS");
-            RCDB.Items.Add("_SXP");
+            RCDB.Items.Add("------------------------");
+            RCDB.Items.Add("_WaterTemp");
+            RCDB.Items.Add("_FuelDisplay");
+            RCDB.Items.Add("_IO_Output");
+            RCDB.Items.Add("_IO_Input");
             RCDB.Items.Add("_audio_debounce");
+            RCDB.Items.Add("_Pin");
+            RCDB.Items.Add("_keyword");
+            RCDB.Items.Add("------------------------");
+            RCDB.Items.Add("_quantum");
+            RCDB.Items.Add("_astro");
+            RCDB.Items.Add("_dektec");
+            //RCDB.Items.Add("------------------------");
+            //RCDB.Items.Add("_SXP");
+            //RCDB.Items.Add("_log1");
+            //RCDB.Items.Add("_log2");
+            //RCDB.Items.Add("_log3");
             //RCDB.Items.Add("_pwm1");
             //RCDB.Items.Add("_pwm2");
             //RCDB.Items.Add("_pwm3");
-            RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_IO_Output");
-            RCDB.Items.Add("_IO_Input");
+            //RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("_EXT_Output_P0");
             //RCDB.Items.Add("_EXT_Output_P1");
             //RCDB.Items.Add("_EXT_Output_P2");
             //RCDB.Items.Add("_EXT_Input_P0");
             //RCDB.Items.Add("_EXT_Input_P1");
             //RCDB.Items.Add("_EXT_Input_P2");
-            RCDB.Items.Add("_FuncKey");
-            RCDB.Items.Add("_WaterTemp");
-            RCDB.Items.Add("_FuelDisplay");
-            RCDB.Items.Add("_Temperature");
-            RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_Pin");
-            RCDB.Items.Add("_keyword");
-
+            //RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("_MonkeyTest");
         }
         #endregion
