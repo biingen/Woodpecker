@@ -72,9 +72,10 @@ namespace AutoTest
         private string srtstring = "";
 
         //宣告於keyword使用
-        private Queue<byte> LogQueue1 = new Queue<byte>();
-        private Queue<byte> LogQueue2 = new Queue<byte>();
-        private Queue<byte> LogQueue3 = new Queue<byte>();
+        private Queue<byte> SearchLogQueue1 = new Queue<byte>();
+        private Queue<byte> SaveLogQueue1 = new Queue<byte>();
+        private Queue<byte> SearchLogQueue2 = new Queue<byte>();
+        private Queue<byte> SaveLogQueue2 = new Queue<byte>();
         private char Keyword_SerialPort_1_temp_char;
         private byte Keyword_SerialPort_1_temp_byte;
         private char Keyword_SerialPort_2_temp_char;
@@ -920,7 +921,7 @@ namespace AutoTest
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_cmd")
+            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
             {
                 if (Global.Schedule_Step == 0)
                 {
@@ -931,7 +932,7 @@ namespace AutoTest
                 }
                 else
                 {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
                                     Font,
                                     FontColor,
                                     new PointF(5, YPoint - 120));
@@ -943,7 +944,7 @@ namespace AutoTest
             }
             else
             {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[10].Value.ToString(),
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
@@ -1654,7 +1655,7 @@ namespace AutoTest
             catch (Exception Ex)
             {
                 Console.WriteLine(Ex);
-                MessageBox.Show("Transmit RC signal fail !", Ex.Message.ToString());
+                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail !");
             }
         }
 
@@ -1701,7 +1702,7 @@ namespace AutoTest
             catch (Exception Ex)
             {
                 Console.WriteLine(Ex);
-                MessageBox.Show("Transmit RC signal fail !", Ex.Message.ToString());
+                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail !");
             }
         }
 
@@ -1810,7 +1811,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
             }
         }
 
@@ -1849,7 +1850,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
             }
         }
 
@@ -1888,7 +1889,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort3 Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "SerialPort3 Error");
             }
         }
 
@@ -1922,7 +1923,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "KlinePort Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
             }
         }
 
@@ -1937,15 +1938,17 @@ namespace AutoTest
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data_to_read = serialPort1.BytesToRead;
+
             if (data_to_read > 0)
             {
                 byte[] dataset = new byte[data_to_read];
 
                 serialPort1.Read(dataset, 0, data_to_read);
+
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    LogQueue1.Enqueue(dataset[index]);
+                    SearchLogQueue1.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -2051,7 +2054,7 @@ namespace AutoTest
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    LogQueue2.Enqueue(dataset[index]);
+                    SearchLogQueue2.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -2327,12 +2330,12 @@ namespace AutoTest
             MYFILE.Write(textBox1.Text);
             /*
             Console.WriteLine("Save Log By Queue");
-            while (LogQueue1.Count > 0)
+            while (SearchLogQueue1.Count > 0)
             {
                 char temp_char;
                 byte temp_byte;
 
-                temp_byte = LogQueue1.Dequeue();
+                temp_byte = SearchLogQueue1.Dequeue();
                 temp_char = (char)temp_byte;
 
                 MYFILE.Write(temp_char);
@@ -2356,12 +2359,12 @@ namespace AutoTest
             MYFILE.Write(textBox2.Text);
             /*
             Console.WriteLine("Save Log By Queue");
-            while (LogQueue2.Count > 0)
+            while (SearchLogQueue2.Count > 0)
             {
                 char temp_char;
                 byte temp_byte;
 
-                temp_byte = LogQueue2.Dequeue();
+                temp_byte = SearchLogQueue2.Dequeue();
                 temp_char = (char)temp_byte;
 
                 MYFILE.Write(temp_char);
@@ -2441,9 +2444,9 @@ namespace AutoTest
 
             while (StartButtonPressed == true)
             {
-               while (LogQueue1.Count > 0)
+               while (SearchLogQueue1.Count > 0)
                 {
-                    Keyword_SerialPort_1_temp_byte = LogQueue1.Dequeue();
+                    Keyword_SerialPort_1_temp_byte = SearchLogQueue1.Dequeue();
                     Keyword_SerialPort_1_temp_char = (char)Keyword_SerialPort_1_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
@@ -2850,9 +2853,9 @@ namespace AutoTest
 
             while (StartButtonPressed == true)
             {
-                while (LogQueue2.Count > 0)
+                while (SearchLogQueue2.Count > 0)
                 {
-                    Keyword_SerialPort_2_temp_byte = LogQueue2.Dequeue();
+                    Keyword_SerialPort_2_temp_byte = SearchLogQueue2.Dequeue();
                     Keyword_SerialPort_2_temp_char = (char)Keyword_SerialPort_2_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
@@ -3800,7 +3803,7 @@ namespace AutoTest
                         }
                         catch (Exception Ex)
                         {
-                            MessageBox.Show(Ex.Message.ToString(), "The length incurrect on run schedule.");
+                            MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect !");
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
 
@@ -4451,7 +4454,7 @@ namespace AutoTest
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error !");
                             }
                         }
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_OBD")
@@ -4490,7 +4493,7 @@ namespace AutoTest
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString(), "Kline_OBD library error !");
                             }
                         }
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_SEND")
@@ -4551,7 +4554,7 @@ namespace AutoTest
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show("Transmit the Astro command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
                             }
                         }
                         #endregion
@@ -4639,7 +4642,7 @@ namespace AutoTest
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show("Transmit the Quantum command fail ! \nPlease check the serialPort1 setting and voltage equal 3.3V.", Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
                             }
                         }
                         #endregion
@@ -5087,7 +5090,7 @@ namespace AutoTest
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString());
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
                             }
                         }
                         #endregion
@@ -5500,7 +5503,6 @@ namespace AutoTest
                                 MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                                 Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                                 Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
-
                             }
                             else
                             {
@@ -6767,7 +6769,7 @@ namespace AutoTest
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("Webcam can't supported the 2304*1296 resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Console.Write(ex.Message.ToString(), "Webcam can't supported the 2304*1296 resolution!\n\r");
                     try
                     {
                         capture.FrameSize = new Size(1920, 1080);
@@ -6775,7 +6777,7 @@ namespace AutoTest
                     }
                     catch (Exception ex1)
                     {
-                        Console.Write("Webcam can't supported the 1920*1080 resolution!\n\r", ex1.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Console.Write(ex1.Message.ToString(), "Webcam can't supported the 1920*1080 resolution!\n\r");
                         try
                         {
                             capture.FrameSize = new Size(1280, 720);
@@ -6783,7 +6785,7 @@ namespace AutoTest
                         }
                         catch (Exception ex2)
                         {
-                            Console.Write("Webcam can't supported the 1280*720 resolution!\n\r", ex2.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            Console.Write(ex2.Message.ToString(), "Webcam can't supported the 1280*720 resolution!\n\r");
                             try
                             {
                                 capture.FrameSize = new Size(640, 480);
@@ -6791,7 +6793,7 @@ namespace AutoTest
                             }
                             catch (Exception ex3)
                             {
-                                Console.Write("Webcam can't supported the 640*480 resolution!\n\r", ex3.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                Console.Write(ex3.Message.ToString(), "Webcam can't supported the 640*480 resolution!\n\r");
                                 try
                                 {
                                     capture.FrameSize = new Size(320, 240);
@@ -6799,7 +6801,7 @@ namespace AutoTest
                                 }
                                 catch (Exception ex4)
                                 {
-                                    Console.Write("Webcam can't supported the 320*240 resolution!\n\r", ex4.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    Console.Write(ex4.Message.ToString(), "Webcam can't supported the 320*240 resolution!\n\r");
                                 }
                             }
                         }
@@ -6816,7 +6818,7 @@ namespace AutoTest
                 }
                 catch (Exception ex)
                 {
-                    Console.Write("Please setting the supported resolution!\n\r", ex.Message.ToString(), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Console.Write(ex.Message.ToString(), "Please setting the supported resolution!\n\r");
                 }
             }
             else
@@ -8153,7 +8155,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "GP0_GP1_AC_ON Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "GP0_GP1_AC_ON Error");
             }
             PowerState = true;
             pictureBox_AcPower.Image = Properties.Resources.ON;
@@ -8217,7 +8219,7 @@ namespace AutoTest
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "GP2_GP3_USB_PC Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Ex.Message.ToString(), "GP2_GP3_USB_PC Error");
             }
             USBState = true;
         }
