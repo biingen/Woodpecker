@@ -4971,8 +4971,8 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-
+                                    //label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
+                                    
                                     Thread.Sleep(sRepeat);
                                     int length = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Length;
                                     string status = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Substring(length - 1, 1);
@@ -4982,6 +4982,7 @@ namespace AutoTest
                                     else if (status == "1")
                                         reverse = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Substring(0, length - 1) + "0";
                                     label_Command.Text = "(Release CMD)" + reverse;
+
                                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
@@ -5108,8 +5109,8 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-                                    Thread.Sleep(1000);
+                                    //label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
+                                    Thread.Sleep(500);
                                 }
                             }
                             catch (Exception Ex)

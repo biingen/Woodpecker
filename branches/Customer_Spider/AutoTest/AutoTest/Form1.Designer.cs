@@ -1384,7 +1384,7 @@ namespace AutoTest
             // 
             // button_TestLog
             // 
-            this.button_TestLog.Location = new System.Drawing.Point(1012, 115);
+            this.button_TestLog.Location = new System.Drawing.Point(1013, 76);
             this.button_TestLog.Name = "button_TestLog";
             this.button_TestLog.Size = new System.Drawing.Size(80, 23);
             this.button_TestLog.TabIndex = 108;
@@ -1394,7 +1394,7 @@ namespace AutoTest
             // 
             // button_Copy
             // 
-            this.button_Copy.Location = new System.Drawing.Point(1012, 144);
+            this.button_Copy.Location = new System.Drawing.Point(1012, 105);
             this.button_Copy.Name = "button_Copy";
             this.button_Copy.Size = new System.Drawing.Size(80, 23);
             this.button_Copy.TabIndex = 109;
