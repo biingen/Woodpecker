@@ -850,7 +850,38 @@ namespace AutoTest
             }
         }
 
+        //執行緒控制 txtbox1 to append
+        public delegate void UpdateUICallBack_textbox_append(TextBox ctl, string value);
+        public void PortTextBoxAppend(TextBox ctl, string value)
+        {
+            if (ctl.InvokeRequired)
+            {
+                ctl.Invoke(new UpdateUICallBack_textbox_append(PortTextBoxAppend), new object[] { ctl, value });
+            }
+            else
+            {
+                ctl.AppendText(value);
+            }
+        }
+
+        //public delegate void ControlStringConsumer(Control control, string text);  // defines a delegate type
+
+        //public void SetText(Control control, string text)
+        //{
+        //    if (control.InvokeRequired)
+        //    {
+        //        control.Invoke(new ControlStringConsumer(SetText), new object[] { control, text });  // invoking itself
+        //    }
+        //    else
+        //    {
+        //        control.Text = text;      // the "functional part", executing only on the main thread
+        //    }
+        //}
+
         #region -- 拍照 --
+        /// <summary>
+        /// 
+        /// </summary>
         private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
 
         private void Myshot()
