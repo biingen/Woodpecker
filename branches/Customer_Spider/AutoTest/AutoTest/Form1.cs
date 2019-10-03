@@ -1969,35 +1969,65 @@ namespace AutoTest
 
         #region -- 接受SerialPort1資料 --
 
-        Queue<byte> log_serial_port1 = new Queue<byte>();
+        public class SerialReceivedData
+        {
+            private List<Byte> data;
+            private DateTime time_stamp;
+            public void SetData(List<Byte> d) { data = d; }
+            public void SetTimeStamp(DateTime t) { time_stamp = t; }
+            public List<Byte> GetData() { return data; }
+            public DateTime GetTimeStamp() { return time_stamp; }
+        }
+
+        public class SerialPortDataContainer
+        {
+            static public Dictionary<string, Object> SerialPortDictionary = new Dictionary<string, Object>();
+            public Queue<SerialReceivedData> data_queue;
+            public List<SerialReceivedData> received_data = new List<SerialReceivedData>(); // just-received and to be processed
+            public List<SerialReceivedData> log_data= new List<SerialReceivedData>(); // processed and stored for log_save
+        }
+
+        public SerialPortDataContainer serial_data_container = new SerialPortDataContainer();
+        public Queue<SerialReceivedData> queue_log_serial_port1 = new Queue<SerialReceivedData>();
+        public SerialPortDataContainer data_container_serial_port1 = new SerialPortDataContainer();
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            int data_to_read = serialPort1.BytesToRead;
+            //Object myserial_serial_obj;
+            SerialPort sp = (SerialPort)sender;
+            //SerialPortDictionary.TryGetValue(sp.PortName, out myserial_serial_obj);
+            //SpiderSerial myserial = (SpiderSerial)myserial_serial_obj;
+
+            int data_to_read = sp.BytesToRead;
 
             if (data_to_read > 0)
             {
-                byte[] dataset = new byte[data_to_read];
+                Byte[] dataset = new Byte[data_to_read];
                 serialPort1.Read(dataset, 0, data_to_read);
+                List<Byte> data_list = dataset.ToList();
 
-                int index = 0;
-                while (data_to_read > 0)
-                {
-                    SearchLogQueue1.Enqueue(dataset[index]);
-                    index++;
-                    data_to_read--;
-                }
+                SerialReceivedData enqueue_data = new SerialReceivedData();
+                enqueue_data.SetData(data_list);
+                enqueue_data.SetTimeStamp(DateTime.Now);
+                queue_log_serial_port1.Enqueue(enqueue_data);
+            }
 
-                DateTime dt;
+            if (queue_log_serial_port1.Count > 0)
+            {
+                SerialReceivedData dequeue_data = queue_log_serial_port1.Dequeue();
+                Byte[] dataset = dequeue_data.GetData().ToArray();
+                DateTime dt = dequeue_data.GetTimeStamp();
+
+                // The following code is almost the same as before
                 if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                 {
                     // hex to string
                     string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                    DateTime.Now.ToShortTimeString();
-                    dt = DateTime.Now;
+                    //DateTime.Now.ToShortTimeString();
+                    //dt = DateTime.Now;
 
                     // Joseph
                     hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                                                                                                                                   // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                     textBox1.AppendText(hexValues);
                     // End
 
@@ -2015,86 +2045,9 @@ namespace AutoTest
                     textBox1.AppendText(text);
                 }
 
-                //byte[] byteArray = System.Text.Encoding.ASCII.GetBytes(dt.ToString("yyyy/MM/dd HH:mm:ss"));
-                //List<byte> dt_list_byte = new List<byte>(byteArray);
-                //foreach (byte chr in dt_list_byte)
-                //{
-                //   log_serial_port1.Enqueue(chr);
-                //}
-                //data_to_read = index;
-                //index = 0;
-                //while (data_to_read > 0)
-                //{
-                //    log_serial_port1.Enqueue(dataset[index]);
-                //    index++;
-                //    data_to_read--;
-                //}
-
-                //string hex = ByteToHexStr(dataset);
-                //File.AppendAllText(@"C:\WriteText.txt", text);
-                /*
-                //serialPort1.DiscardInBuffer();
-                //serialPort1.DiscardOutBuffer();
-                ///////////////////////////////////////////////先暫時拿掉此功能，因為_save可能會導致程式死當
-                string hex = ByteToHexStr(dataset);
-                if (DataGridView1.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
-                {
-                    if (hex.Substring(0, 2) == "0E")
-                    {
-                        textBox1.AppendText("RX: " + hex);
-                        Console.WriteLine("1---" + "RX: " + hex);
-
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                        {
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox1.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox1.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-                            else
-                            {
-                                textBox1.AppendText(hex);
-                                Console.WriteLine("2---" + hex);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        textBox1.AppendText(hex);
-                        Console.WriteLine("3---" + hex);
-                        if(hex.Substring(hex.Length - 2) == "A5")
-                        if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                        {
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-
-                        if (hex == "A5")
-                        {
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-                    }
-                }
-                else
-                    textBox1.AppendText(text);
-                */
             }
 
-
-        }
+        } //
         #endregion
 
         #region -- 接受SerialPort2資料 --
