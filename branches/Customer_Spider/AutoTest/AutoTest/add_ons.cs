@@ -451,13 +451,13 @@ namespace AutoTest
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
+            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "CANbusExist", "KlineExist", "DOS", "RunAfterStartUp" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
-            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
+            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "Resolution", "AudioIndex", "AudioNumber", "AudioName" };
             string[] Comport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] ExtComport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] TriComport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
+            string[] ExtComport = { "Checked", "PortName", "VirtualName", "BaudRate", "DataBit", "StopBits" };
+            string[] TriComport = { "Checked", "PortName", "VirtualName", "BaudRate", "DataBit", "StopBits" };
+            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "CANbusLog" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
