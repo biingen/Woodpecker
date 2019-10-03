@@ -2018,6 +2018,16 @@ namespace AutoTest
                 DateTime dt = dequeue_data.GetTimeStamp();
 
                 // The following code is almost the same as before
+
+                int index = 0;
+                data_to_read = dequeue_data.GetData().Count;
+                while (data_to_read > 0)
+                {
+                    SearchLogQueue1.Enqueue(dataset[index]);
+                    index++;
+                    data_to_read--;
+                }
+                
                 if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                 {
                     // hex to string
