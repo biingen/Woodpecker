@@ -2009,6 +2009,9 @@ namespace AutoTest
             SerialPortDataContainer.SerialPortDictionary.TryGetValue(sp.PortName, out serial_data_obj);
             SerialPortDataContainer serial_port_data = (SerialPortDataContainer)serial_data_obj;
 
+            if (serial_port_data == null)
+                return;
+
             int data_to_read = sp.BytesToRead;
 
             if (data_to_read > 0)
@@ -2024,6 +2027,8 @@ namespace AutoTest
             }
 
             SerialPortDataContainer.data_available = true;
+            //test();
+            
         } //
 
         //
@@ -2031,12 +2036,16 @@ namespace AutoTest
         //
         private void Timer_rs232_data_recevied_Tick(object sender, EventArgs e)
         {
+
+        //}
+        //private void test()
+        //{
             if (SerialPortDataContainer.data_available == true)
             {
                 foreach (var port in SerialPortDataContainer.SerialPortDictionary)
                 {
                     SerialPortDataContainer serial_port_data = (SerialPortDataContainer)port.Value;
-                    if (serial_port_data.data_queue.Count > 0)
+                    while (serial_port_data.data_queue.Count > 0)
                     {
                         SerialReceivedData dequeue_data = serial_port_data.data_queue.Dequeue();
                         Byte[] dataset = dequeue_data.GetData().ToArray();
