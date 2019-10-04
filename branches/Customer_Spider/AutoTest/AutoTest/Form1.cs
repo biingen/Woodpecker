@@ -152,14 +152,14 @@ namespace AutoTest
                 this.Width = 1120;
             }
 
-            if (Pub_Setting.Device_AutoboxExist == "1")
+            if (Public_Setting.Device_AutoboxExist == "1")
             {
-                if (Pub_Setting.Device_AutoboxVerson == "1")
+                if (Public_Setting.Device_AutoboxVerson == "1")
                 {
                     ConnectAutoBox1();
                 }
 
-                if (Pub_Setting.Device_AutoboxVerson == "2")
+                if (Public_Setting.Device_AutoboxVerson == "2")
                 {
                     ConnectAutoBox2();
                 }
@@ -176,13 +176,14 @@ namespace AutoTest
                 pictureBox_canbus.Image = Properties.Resources.OFF;
             }
 
-            if (Pub_Setting.Comport_PortName == "")
+            if (Public_Setting.Comport_PortName == "")
             {
                 string[] DefaultCom = System.IO.Ports.SerialPort.GetPortNames();
-                ini12.INIWrite(MainSettingPath, "Comport", "PortName", DefaultCom.Last());
+                Public_Setting.Comport_PortName = DefaultCom.Last();
+                Private_Setting.Config_Save();
             }
 
-            if (Pub_Setting.Device_RedRatExist == "1")
+            if (Public_Setting.Device_RedRatExist == "1")
             {
                 OpenRedRat3();
             }
@@ -191,30 +192,32 @@ namespace AutoTest
                 pictureBox_RedRat.Image = Properties.Resources.OFF;
             }
 
-            if (Pub_Setting.Device_CameraExist == "1")
+            if (Public_Setting.Device_CameraExist == "1")
             {
                 pictureBox_Camera.Image = Properties.Resources.ON;
                 filters = new Filters();
                 Filter f;
 
                 comboBox_CameraDevice.Enabled = true;
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+                Public_Setting.Camera_VideoNumber = filters.VideoInputDevices.Count.ToString();
+                Private_Setting.Config_Save();
 
                 for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                 {
                     f = filters.VideoInputDevices[c];
                     comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == Pub_Setting.Camera_VideoName)
+                    if (f.Name == Public_Setting.Camera_VideoName)
                     {
-                        comboBox_CameraDevice.Text = Pub_Setting.Camera_VideoName;
+                        comboBox_CameraDevice.Text = Public_Setting.Camera_VideoName;
                     }
                 }
 
                 if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
                 {
                     comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    Public_Setting.Camera_VideoIndex = comboBox_CameraDevice.SelectedIndex.ToString();
+                    Public_Setting.Camera_VideoName = comboBox_CameraDevice.Text;
+                    Private_Setting.Config_Save();
                 }
                 comboBox_CameraDevice.Enabled = false;
             }
@@ -223,53 +226,58 @@ namespace AutoTest
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            if (Pub_Setting.Comport_Checked == "1")
+            if (Public_Setting.Comport_Checked == "1")
             {
                 button_SerialPort1.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Comport", "Checked", "0");
+                Public_Setting.Comport_Checked = "0";
+                Private_Setting.Config_Save();
                 button_SerialPort1.Visible = false;
             }
 
-            if (Pub_Setting.ExtComport_Checked == "1")
+            if (Public_Setting.ExtComport_Checked == "1")
             {
                 button_SerialPort2.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "ExtComport", "Checked", "0");
+                Public_Setting.ExtComport_Checked = "0";
+                Private_Setting.Config_Save();
                 button_SerialPort2.Visible = false;
             }
 
-            if (Pub_Setting.TriComport_Checked == "1")
+            if (Public_Setting.TriComport_Checked == "1")
             {
                 button_SerialPort3.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "TriComport", "Checked", "0");
+                Public_Setting.TriComport_Checked = "0";
+                Private_Setting.Config_Save();
                 button_SerialPort3.Visible = false;
             }
 
-            if (Pub_Setting.Record_CANbusLog == "1")
+            if (Public_Setting.Record_CANbusLog == "1")
             {
                 button_CanbusPort.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
+                Public_Setting.Record_CANbusLog = "0";
+                Private_Setting.Config_Save();
                 button_CanbusPort.Visible = false;
             }
 
-            if (Pub_Setting.Kline_Checked == "1")
+            if (Public_Setting.Kline_Checked == "1")
             {
                 button_kline.Visible = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
+                Public_Setting.Kline_Checked = "0";
+                Private_Setting.Config_Save();
                 button_kline.Visible = false;
             }
 
@@ -715,13 +723,15 @@ namespace AutoTest
 
         private void RedratConnect()        //TO DO: Inset your connection code here
         {
-            ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "1");
+            Public_Setting.Device_RedRatExist = "1";
+            Private_Setting.Config_Save();
             pictureBox_RedRat.Image = Properties.Resources.ON;
         }
 
         private void RedratDisconnect()     //TO DO: Insert your disconnection code here
         {
-            ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "0");
+            Public_Setting.Device_RedRatExist = "0";
+            Private_Setting.Config_Save();
             pictureBox_RedRat.Image = Properties.Resources.OFF;
         }
 
@@ -729,7 +739,8 @@ namespace AutoTest
         {
             if (ini12.INIRead(MainSettingPath, "Device", "Name", "") != "")
             {
-                ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "1");
+                Public_Setting.Device_CameraExist = "1";
+                Private_Setting.Config_Save();
                 pictureBox_Camera.Image = Properties.Resources.ON;
                 if (StartButtonPressed == false)
                     button_Camera.Enabled = true;
@@ -738,7 +749,8 @@ namespace AutoTest
 
         private void CameraDisconnect()     //TO DO: Insert your disconnection code here
         {
-            ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "0");
+            Public_Setting.Device_CameraExist = "0";
+            Private_Setting.Config_Save();
             pictureBox_Camera.Image = Properties.Resources.OFF;
             if (StartButtonPressed == false)
                 button_Camera.Enabled = false;
@@ -900,7 +912,7 @@ namespace AutoTest
         private void CaptureDone(System.Drawing.Bitmap e)
         {
             capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
-            string fName = Pub_Setting.Record_VideoPath;
+            string fName = Public_Setting.Record_VideoPath;
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
             //圖片印字>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -908,10 +920,10 @@ namespace AutoTest
             newBitmap = CloneBitmap(e);
             pictureBox4.Image = newBitmap;
 
-            if (Pub_Setting.Record_CompareChoose == "1")
+            if (Public_Setting.Record_CompareChoose == "1")
             {
                 // Create Compare folder
-                string comparePath = Pub_Setting.Record_VideoPath;
+                string comparePath = Public_Setting.Record_VideoPath;
                 //string ngPath = fName + "\\" + ngFolder;
                 string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
                 if (Global.caption_Num == 0)
@@ -950,7 +962,7 @@ namespace AutoTest
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = Pub_Setting.Camera_Resolution.Split('*');
+            string[] Resolution = Public_Setting.Camera_Resolution.Split('*');
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
@@ -1528,7 +1540,7 @@ namespace AutoTest
         protected void OpenRedRat3()
         {
             int dev = 0;
-            string intdev = Pub_Setting.RedRat_Index;
+            string intdev = Public_Setting.RedRat_Index;
 
             if (intdev != "-1")
                 dev = int.Parse(intdev);
@@ -1554,7 +1566,7 @@ namespace AutoTest
         private void ConnectAutoBox1()
         {   // RS232 Setting
             Spider_serialPort.StopBits = System.IO.Ports.StopBits.One;
-            Spider_serialPort.PortName = Pub_Setting.Device_AutoboxPort;
+            Spider_serialPort.PortName = Public_Setting.Device_AutoboxPort;
             //serialPort3.BaudRate = int.Parse(ini12.INIRead(sPath, "SerialPort", "Baudrate", ""));
             if (Spider_serialPort.IsOpen == false)
             {
@@ -1571,7 +1583,7 @@ namespace AutoTest
         private void ConnectAutoBox2()
         {
             uint temp_version;
-            string curItem = Pub_Setting.Device_AutoboxPort;
+            string curItem = Public_Setting.Device_AutoboxPort;
             if (MyBlueRat.Connect(curItem) == true)
             {
                 temp_version = MyBlueRat.FW_VER;
@@ -1612,7 +1624,7 @@ namespace AutoTest
 
         private void DisconnectAutoBox2()
         {
-            if (Pub_Setting.Device_AutoboxExist == "1")
+            if (Public_Setting.Device_AutoboxExist == "1")
             {
                 if (MyBlueRat.Disconnect() == true)
                 {
@@ -1661,7 +1673,7 @@ namespace AutoTest
             if (Caller == "Form1")
             {
                 RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-                redcon = Pub_Setting.RedRat_Brands;
+                redcon = Public_Setting.RedRat_Brands;
             }
             else if (Caller == "FormRc")
             {
@@ -1700,7 +1712,7 @@ namespace AutoTest
                 if (Caller == "Form1")
                 {
                     RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-                    RedRatData.RedRatSelectDevice(Pub_Setting.RedRat_Brands);
+                    RedRatData.RedRatSelectDevice(Public_Setting.RedRat_Brands);
                 }
                 else if (Caller == "FormRc")
                 {
@@ -1831,7 +1843,7 @@ namespace AutoTest
                             serialPort1.StopBits = StopBits.Two;
                             break;
                     }
-                    serialPort1.PortName = Pub_Setting.Comport_PortName;
+                    serialPort1.PortName = Public_Setting.Comport_PortName;
                     serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Comport", "BaudRate", ""));
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = (Parity)0;
@@ -1938,7 +1950,7 @@ namespace AutoTest
         {
             try
             {
-                string Kline_Exist = Pub_Setting.Kline_Checked;
+                string Kline_Exist = Public_Setting.Kline_Checked;
 
                 if (Kline_Exist == "1" && MySerialPort.IsPortOpened() == false)
                 {
@@ -2534,7 +2546,8 @@ namespace AutoTest
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Public_Setting.LogSearch_Nowvalue = i.ToString();
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -2547,7 +2560,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -2596,7 +2609,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -2717,7 +2730,8 @@ namespace AutoTest
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Public_Setting.LogSearch_Nowvalue = i.ToString();
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -2730,7 +2744,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -2779,7 +2793,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -2944,6 +2958,7 @@ namespace AutoTest
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -2956,7 +2971,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -3005,7 +3020,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -3126,6 +3141,7 @@ namespace AutoTest
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -3138,7 +3154,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -3187,7 +3203,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -3353,6 +3369,7 @@ namespace AutoTest
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -3365,7 +3382,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -3414,7 +3431,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -3535,6 +3552,7 @@ namespace AutoTest
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Private_Setting.Config_Save();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
                                         if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
                                             && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
@@ -3547,7 +3565,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
                                     {
                                         byte[] val1;
@@ -3596,7 +3614,7 @@ namespace AutoTest
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && Pub_Setting.Device_AutoboxExist == "1"
+                                        && Public_Setting.Device_AutoboxExist == "1"
                                         && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
                                     {
                                         byte[] val1 = new byte[2];
@@ -3745,7 +3763,8 @@ namespace AutoTest
                 else
                 {
                     Directory.CreateDirectory(compareFolder);
-                    ini12.INIWrite(MainSettingPath, "Record", "ComparePath", compareFolder);
+                    Public_Setting.Record_ComparePath = compareFolder;
+                    Private_Setting.Config_Save();
                 }
                 // 匯出csv記錄檔
                 string csvFile = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + Global.Schedule_Number + ".csv";
@@ -3807,7 +3826,8 @@ namespace AutoTest
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
-                ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
+                Public_Setting.DataInfo_CreateTime = string.Format("{0:R}", DateTime.Now);
+                Private_Setting.Config_Save();
 
                 lock (this)
                 {
@@ -3871,7 +3891,7 @@ namespace AutoTest
                             #region -- AC SWITCH OLD --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_on")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
                                     {
@@ -3907,7 +3927,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_off")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
                                     {
@@ -3946,7 +3966,7 @@ namespace AutoTest
                             #region -- AC SWITCH --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC1_ON")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
                                     {
@@ -3969,7 +3989,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC1_OFF")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
                                     {
@@ -3993,7 +4013,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC2_ON")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP1_Enable(hCOM, 1) == true)
                                     {
@@ -4016,7 +4036,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC2_OFF")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP1_Enable(hCOM, 1) == true)
                                     {
@@ -4042,7 +4062,7 @@ namespace AutoTest
                             #region -- USB SWITCH --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB1_DUT")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
                                     {
@@ -4064,7 +4084,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB1_PC")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
                                     {
@@ -4087,7 +4107,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB2_DUT")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
                                     {
@@ -4109,7 +4129,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB2_PC")
                             {
-                                if (Pub_Setting.Device_AutoboxExist == "1")
+                                if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
                                     {
@@ -4136,7 +4156,7 @@ namespace AutoTest
                         #region -- 拍照 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_shot")
                         {
-                            if (Pub_Setting.Device_CameraExist == "1")
+                            if (Public_Setting.Device_CameraExist == "1")
                             {
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
@@ -4154,7 +4174,7 @@ namespace AutoTest
                         #region -- 錄影 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_start")
                         {
-                            if (Pub_Setting.Device_CameraExist == "1")
+                            if (Public_Setting.Device_CameraExist == "1")
                             {
                                 if (VideoRecording == false)
                                 {
@@ -4174,7 +4194,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_stop")
                         {
-                            if (Pub_Setting.Device_CameraExist == "1")
+                            if (Public_Setting.Device_CameraExist == "1")
                             {
                                 if (VideoRecording == true)       //判斷是不是正在錄影
                                 {
@@ -4194,7 +4214,7 @@ namespace AutoTest
                                                 #region -- COM PORT --
                                                 else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log1")
                                                 {
-                                                    if (Pub_Setting.Comport_Checked == "1")
+                                                    if (Public_Setting.Comport_Checked == "1")
                                                     {
                                                         switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString())
                                                         {
@@ -4221,7 +4241,7 @@ namespace AutoTest
 
                                                 else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log2")
                                                 {
-                                                    if (Pub_Setting.ExtComport_Checked == "1")
+                                                    if (Public_Setting.ExtComport_Checked == "1")
                                                     {
                                                         switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString())
                                                         {
@@ -4248,7 +4268,7 @@ namespace AutoTest
 
                                                 else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_log3")
                                                 {
-                                                    if (Pub_Setting.TriComport_Checked == "1")
+                                                    if (Public_Setting.TriComport_Checked == "1")
                                                     {
                                                         switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString())
                                                         {
@@ -4277,7 +4297,7 @@ namespace AutoTest
                         #region -- Ascii --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_ascii")
                         {
-                            if (Pub_Setting.Comport_Checked == "1")
+                            if (Public_Setting.Comport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4313,7 +4333,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (Pub_Setting.ExtComport_Checked == "1")
+                            if (Public_Setting.ExtComport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4349,7 +4369,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (Pub_Setting.TriComport_Checked == "1")
+                            if (Public_Setting.TriComport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4391,7 +4411,7 @@ namespace AutoTest
                         #region -- Hex --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_HEX")
                         {
-                            if (Pub_Setting.Comport_Checked == "1")
+                            if (Public_Setting.Comport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4417,7 +4437,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (Pub_Setting.ExtComport_Checked == "1")
+                            if (Public_Setting.ExtComport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4443,7 +4463,7 @@ namespace AutoTest
                                 }
                             }
 
-                            if (Pub_Setting.TriComport_Checked == "1")
+                            if (Public_Setting.TriComport_Checked == "1")
                             {
                                 if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
@@ -4876,7 +4896,7 @@ namespace AutoTest
                                 for (int k = 0; k < stime; k++)
                                 {
                                     label_Command.Text = "(Push CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-                                    if (Pub_Setting.Comport_Checked == "1")
+                                    if (Public_Setting.Comport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -4918,7 +4938,7 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    else if (Pub_Setting.ExtComport_Checked == "1")
+                                    else if (Public_Setting.ExtComport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -4960,7 +4980,7 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    else if (Pub_Setting.TriComport_Checked == "1")
+                                    else if (Public_Setting.TriComport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -5014,7 +5034,7 @@ namespace AutoTest
                                         reverse = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Substring(0, length - 1) + "0";
                                     label_Command.Text = "(Release CMD)" + reverse;
 
-                                    if (Pub_Setting.Comport_Checked == "1")
+                                    if (Public_Setting.Comport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -5056,7 +5076,7 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    else if (Pub_Setting.ExtComport_Checked == "1")
+                                    else if (Public_Setting.ExtComport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -5098,7 +5118,7 @@ namespace AutoTest
                                             }
                                         }
                                     }
-                                    else if (Pub_Setting.TriComport_Checked == "1")
+                                    else if (Public_Setting.TriComport_Checked == "1")
                                     {
                                         if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                         {
@@ -5163,7 +5183,7 @@ namespace AutoTest
                                                 #region -- Factory Command 控制 --
                                                 else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
                                                 {
-                                                    if (Pub_Setting.ExtComport_Checked == "1" &&
+                                                    if (Public_Setting.ExtComport_Checked == "1" &&
                                                         DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                                     {
                                                         string fName = "";
@@ -5178,7 +5198,7 @@ namespace AutoTest
                                                         Txtbox2("", textBox2);
                                                     }
 
-                                                    if (Pub_Setting.ExtComport_Checked == "1" &&
+                                                    if (Public_Setting.ExtComport_Checked == "1" &&
                                                         DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() != "_save")
                                                     {
                                                         try
@@ -5706,7 +5726,7 @@ namespace AutoTest
                         #region -- PWM1 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm1")
                         {
-                            if (Pub_Setting.Comport_Checked == "1")
+                            if (Public_Setting.Comport_Checked == "1")
                             {
                                 string pwm_output;
                                 int result = 0;
@@ -5740,7 +5760,7 @@ namespace AutoTest
                         #region -- PWM2 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm2")
                         {
-                            if (Pub_Setting.ExtComport_Checked == "1")
+                            if (Public_Setting.ExtComport_Checked == "1")
                             {
                                 string pwm_output;
                                 int result = 0;
@@ -5774,7 +5794,7 @@ namespace AutoTest
                         #region -- PWM3 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm3")
                         {
-                            if (Pub_Setting.TriComport_Checked == "1")
+                            if (Public_Setting.TriComport_Checked == "1")
                             {
                                 string pwm_output;
                                 int result = 0;
@@ -5812,12 +5832,12 @@ namespace AutoTest
                             {
                                 label_Command.Text = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
                                 label_Remark.Text = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString();
-                                if (Pub_Setting.Device_RedRatExist == "1")
+                                if (Public_Setting.Device_RedRatExist == "1")
                                 {
                                     //執行小紅鼠指令
                                     Autocommand_RedRat("Form1", DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString());
                                 }
-                                else if (Pub_Setting.Device_AutoboxExist == "1")
+                                else if (Public_Setting.Device_AutoboxExist == "1")
                                 {
                                     //執行小藍鼠指令
                                     Autocommand_BlueRat("Form1", DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString());
@@ -5847,7 +5867,8 @@ namespace AutoTest
                         //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
                         //MyExportText.Start();
 
-                        ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
+                        Public_Setting.DataInfo_CloseTime = string.Format("{0:R}", DateTime.Now);
+                        Private_Setting.Config_Save();
 
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
@@ -5959,7 +5980,7 @@ namespace AutoTest
             {
                 if (StartButtonPressed == true)
                 {
-                    if (Pub_Setting.Device_CameraExist == "1")
+                    if (Public_Setting.Device_CameraExist == "1")
                     {
                         if (VideoRecording == false)
                         {
@@ -6047,18 +6068,19 @@ namespace AutoTest
             {
                 if (Global.Schedule_2_Exist == 1 && Global.Schedule_Number == 1)
                 {
-                    if (Pub_Setting.Schedule2_OnTimeStart == "1" && StartButtonPressed == true)       //定時器時間未到進入等待<<<<<<<<<<<<<<
+                    if (Public_Setting.Schedule2_OnTimeStart == "1" && StartButtonPressed == true)       //定時器時間未到進入等待<<<<<<<<<<<<<<
                     {
                         if (Global.Break_Out_Schedule == 0)
                         {
-                            while (Pub_Setting.Schedule2_Timer != TimeLabel2.Text)
+                            while (Public_Setting.Schedule2_Timer != TimeLabel2.Text)
                             {
                                 ScheduleWait.WaitOne();
                             }
                             ScheduleWait.Set();
                         }
                     }       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                    ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
+                    Public_Setting.Schedule1_OnTimeStart = "0";
+                    Private_Setting.Config_Save();
                     button_Schedule2.PerformClick();
                     MyRunCamd();
                 }
@@ -6066,18 +6088,19 @@ namespace AutoTest
                     Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 1 ||
                     Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 2)
                 {
-                    if (Pub_Setting.Schedule3_OnTimeStart == "1" && StartButtonPressed == true)
+                    if (Public_Setting.Schedule3_OnTimeStart == "1" && StartButtonPressed == true)
                     {
                         if (Global.Break_Out_Schedule == 0)
                         {
-                            while (Pub_Setting.Schedule3_Timer != TimeLabel2.Text)
+                            while (Public_Setting.Schedule3_Timer != TimeLabel2.Text)
                             {
                                 ScheduleWait.WaitOne();
                             }
                             ScheduleWait.Set();
                         }
                     }
-                    ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
+                    Public_Setting.Schedule2_OnTimeStart = "0";
+                    Private_Setting.Config_Save();
                     button_Schedule3.PerformClick();
                     MyRunCamd();
                 }
@@ -6086,18 +6109,19 @@ namespace AutoTest
                     Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 2 ||
                     Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 3)
                 {
-                    if (Pub_Setting.Schedule4_OnTimeStart == "1" && StartButtonPressed == true)
+                    if (Public_Setting.Schedule4_OnTimeStart == "1" && StartButtonPressed == true)
                     {
                         if (Global.Break_Out_Schedule == 0)
                         {
-                            while (Pub_Setting.Schedule4_Timer != TimeLabel2.Text)
+                            while (Public_Setting.Schedule4_Timer != TimeLabel2.Text)
                             {
                                 ScheduleWait.WaitOne();
                             }
                             ScheduleWait.Set();
                         }
                     }
-                    ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
+                    Public_Setting.Schedule3_OnTimeStart = "0";
+                    Private_Setting.Config_Save();
                     button_Schedule4.PerformClick();
                     MyRunCamd();
                 }
@@ -6107,18 +6131,19 @@ namespace AutoTest
                     Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 3 ||
                     Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 4)
                 {
-                    if (Pub_Setting.Schedule5_OnTimeStart == "1" && StartButtonPressed == true)
+                    if (Public_Setting.Schedule5_OnTimeStart == "1" && StartButtonPressed == true)
                     {
                         if (Global.Break_Out_Schedule == 0)
                         {
-                            while (Pub_Setting.Schedule5_Timer != TimeLabel2.Text)
+                            while (Public_Setting.Schedule5_Timer != TimeLabel2.Text)
                             {
                                 ScheduleWait.WaitOne();
                             }
                             ScheduleWait.Set();
                         }
                     }
-                    ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
+                    Public_Setting.Schedule4_OnTimeStart = "0";
+                    Private_Setting.Config_Save();
                     button_Schedule5.PerformClick();
                     MyRunCamd();
                 }
@@ -6129,14 +6154,15 @@ namespace AutoTest
             if (StartButtonPressed == false)//按下STOP讓schedule結束//
             {
                 Global.Break_Out_MyRunCamd = 1;
-                ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
+                Public_Setting.DataInfo_CloseTime = string.Format("{0:R}", DateTime.Now);
+                Private_Setting.Config_Save();
                 UpdateUI("START", button_Start);
                 button_Start.Enabled = true;
                 button_Setting.Enabled = true;
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
 
-                if (Pub_Setting.Device_CameraExist == "1")
+                if (Public_Setting.Device_CameraExist == "1")
                 {
                     _captureInProgress = false;
                     OnOffCamera();
@@ -6160,7 +6186,7 @@ namespace AutoTest
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
 
-                if (Pub_Setting.Device_CameraExist == "1")
+                if (Public_Setting.Device_CameraExist == "1")
                 {
                     _captureInProgress = false;
                     OnOffCamera();
@@ -6179,25 +6205,26 @@ namespace AutoTest
             label_Command.Text = "Completed!";
             label_Remark.Text = "";
             ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
+            Private_Setting.Config_Save();
             button_Schedule1.PerformClick();
             timer1.Stop();
             CloseDtplay();
-            if (Pub_Setting.Comport_Checked == "1")
+            if (Public_Setting.Comport_Checked == "1")
             {
                 CloseSerialPort1();
             }
 
-            if (Pub_Setting.ExtComport_Checked == "1")
+            if (Public_Setting.ExtComport_Checked == "1")
             {
                 CloseSerialPort2();
             }
 
-            if (Pub_Setting.TriComport_Checked == "1")
+            if (Public_Setting.TriComport_Checked == "1")
             {
                 CloseSerialPort3();
             }
 
-            if (Pub_Setting.Kline_Checked == "1")
+            if (Public_Setting.Kline_Checked == "1")
             {
                 CloseKlinePort();
             }
@@ -6255,12 +6282,12 @@ namespace AutoTest
                 int length = rc_key.Length - 4;
                 String rc_key_substring = rc_key.Substring(startIndex, length);
 
-                if (Pub_Setting.Device_RedRatExist == "1")
+                if (Public_Setting.Device_RedRatExist == "1")
                 {
                     Autocommand_RedRat("Form1", rc_key_substring);
                     label_Command.Text = rc_key_substring;
                 }
-                else if (Pub_Setting.Device_AutoboxExist == "1")
+                else if (Public_Setting.Device_AutoboxExist == "1")
                 {
                     Autocommand_BlueRat("Form1", rc_key_substring);
                     label_Command.Text = rc_key_substring;
@@ -6273,11 +6300,11 @@ namespace AutoTest
                 int length = log_cmd.Length - 8;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
 
-                if (Pub_Setting.Comport_Checked == "1")
+                if (Public_Setting.Comport_Checked == "1")
                 {
                     serialPort1.WriteLine(log_cmd_substring);
                 }
-                else if (Pub_Setting.ExtComport_Checked == "1")
+                else if (Public_Setting.ExtComport_Checked == "1")
                 {
                     serialPort2.WriteLine(log_cmd_substring);
                 }
@@ -6360,12 +6387,12 @@ namespace AutoTest
                 int length = rc_key.Length - 4;
                 String rc_key_substring = rc_key.Substring(startIndex, length);
 
-                if (Pub_Setting.Device_RedRatExist == "1")
+                if (Public_Setting.Device_RedRatExist == "1")
                 {
                     Autocommand_RedRat("Form1", rc_key_substring);
                     label_Command.Text = rc_key_substring;
                 }
-                else if (Pub_Setting.Device_AutoboxExist == "1")
+                else if (Public_Setting.Device_AutoboxExist == "1")
                 {
                     Autocommand_BlueRat("Form1", rc_key_substring);
                     label_Command.Text = rc_key_substring;
@@ -6378,11 +6405,11 @@ namespace AutoTest
                 int length = log_cmd.Length - 8;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
 
-                if (Pub_Setting.Comport_Checked == "1")
+                if (Public_Setting.Comport_Checked == "1")
                 {
                     serialPort1.WriteLine(log_cmd_substring);
                 }
-                else if (Pub_Setting.ExtComport_Checked == "1")
+                else if (Public_Setting.ExtComport_Checked == "1")
                 {
                     serialPort2.WriteLine(log_cmd_substring);
                 }
@@ -6821,7 +6848,8 @@ namespace AutoTest
                 try
                 {
                     capture.FrameSize = new Size(2304, 1296);
-                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                    Public_Setting.Camera_Resolution = "2304*1296";
+                    Private_Setting.Config_Save();
                 }
                 catch (Exception ex)
                 {
@@ -6829,7 +6857,8 @@ namespace AutoTest
                     try
                     {
                         capture.FrameSize = new Size(1920, 1080);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                        Public_Setting.Camera_Resolution = "1920*1080";
+                        Private_Setting.Config_Save();
                     }
                     catch (Exception ex1)
                     {
@@ -6837,7 +6866,8 @@ namespace AutoTest
                         try
                         {
                             capture.FrameSize = new Size(1280, 720);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                            Public_Setting.Camera_Resolution = "1280*720";
+                            Private_Setting.Config_Save();
                         }
                         catch (Exception ex2)
                         {
@@ -6845,7 +6875,8 @@ namespace AutoTest
                             try
                             {
                                 capture.FrameSize = new Size(640, 480);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                Public_Setting.Camera_Resolution = "640*480";
+                                Private_Setting.Config_Save();
                             }
                             catch (Exception ex3)
                             {
@@ -6853,7 +6884,8 @@ namespace AutoTest
                                 try
                                 {
                                     capture.FrameSize = new Size(320, 240);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    Public_Setting.Camera_Resolution = "320*240";
+                                    Private_Setting.Config_Save();
                                 }
                                 catch (Exception ex4)
                                 {
@@ -6887,11 +6919,11 @@ namespace AutoTest
         private void LoadRCDB()
         {
             RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-            RedRatData.RedRatSelectDevice(Pub_Setting.RedRat_Brands);
+            RedRatData.RedRatSelectDevice(Public_Setting.RedRat_Brands);
 
             DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
 
-            string devicename = Pub_Setting.RedRat_Brands;
+            string devicename = Public_Setting.RedRat_Brands;
             if (RedRatData.RedRatSelectDevice(devicename))
             {
                 RCDB.Items.AddRange(RedRatData.RedRatGetRCNameList().ToArray());
@@ -7024,18 +7056,18 @@ namespace AutoTest
 
         private void Sand_Key(int i)
         {
-            if (Pub_Setting.Device_AutoboxExist == "1")
+            if (Public_Setting.Device_AutoboxExist == "1")
             {
-                if (Pub_Setting.Device_RedRatExist == "1")
+                if (Public_Setting.Device_RedRatExist == "1")
                 {
                     Autocommand_RedRat("Form1", Buttons[i - 1].Text);
                 }
-                else if (Pub_Setting.Device_AutoboxVerson == "2")
+                else if (Public_Setting.Device_AutoboxVerson == "2")
                 {
                     Autocommand_BlueRat("Form1", Buttons[i - 1].Text);
                 }
             }
-            else if (Pub_Setting.Device_RedRatExist == "1")
+            else if (Public_Setting.Device_RedRatExist == "1")
             {
                 Autocommand_RedRat("Form1", Buttons[i - 1].Text);
             }
@@ -7101,9 +7133,9 @@ namespace AutoTest
             Global.IO_PB7_0_COUNT = 0;
             Global.IO_PB7_1_COUNT = 0;
 
-            AutoBox_Status = Pub_Setting.Device_AutoboxExist == "1" ? true : false;
+            AutoBox_Status = Public_Setting.Device_AutoboxExist == "1" ? true : false;
 
-            if (Pub_Setting.Device_CameraExist == "1")
+            if (Public_Setting.Device_CameraExist == "1")
             {
                 if (!_captureInProgress)
                 {
@@ -7128,7 +7160,7 @@ namespace AutoTest
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
 
-                    if (Pub_Setting.Comport_Checked == "1")
+                    if (Public_Setting.Comport_Checked == "1")
                     {
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
@@ -7137,7 +7169,7 @@ namespace AutoTest
                         }
                     }
 
-                    if (Pub_Setting.ExtComport_Checked == "1")
+                    if (Public_Setting.ExtComport_Checked == "1")
                     {
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
@@ -7174,7 +7206,7 @@ namespace AutoTest
                     */
                     Global.Break_Out_MyRunCamd = 0;
 
-                    if (Pub_Setting.Comport_Checked == "1")
+                    if (Public_Setting.Comport_Checked == "1")
                     {
                         OpenSerialPort1();
                         textBox1.Text = "";//清空serialport1//
@@ -7185,7 +7217,7 @@ namespace AutoTest
                         }
                     }
 
-                    if (Pub_Setting.ExtComport_Checked == "1")
+                    if (Public_Setting.ExtComport_Checked == "1")
                     {
                         OpenSerialPort2();
                         textBox2.Text = "";//清空serialport2//
@@ -7196,13 +7228,13 @@ namespace AutoTest
                         }
                     }
 
-                    if (Pub_Setting.TriComport_Checked == "1")
+                    if (Public_Setting.TriComport_Checked == "1")
                     {
                         OpenSerialPort3();
                         textBox3.Text = "";//清空serialport3//
                     }
 
-                    if (Pub_Setting.Kline_Checked == "1")
+                    if (Public_Setting.Kline_Checked == "1")
                     {
                         OpenKlinePort();
                         textBox_kline.Text = ""; //清空kline//
@@ -7211,7 +7243,8 @@ namespace AutoTest
                     textBox_canbus.Text = "";
                     textBox_TestLog.Text = "";
 
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    Public_Setting.LogSearch_StartTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                    Private_Setting.Config_Save();
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數
                     button_Start.Text = "STOP";
@@ -7260,7 +7293,7 @@ namespace AutoTest
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
-            Global.RCDB = Pub_Setting.RedRat_Brands;
+            Global.RCDB = Public_Setting.RedRat_Brands;
 
             //如果serialport開著則先關閉//
             if (serialPort1.IsOpen == true)
@@ -7283,7 +7316,7 @@ namespace AutoTest
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
-                if (Pub_Setting.RedRat_Brands != Global.RCDB)
+                if (Public_Setting.RedRat_Brands != Global.RCDB)
                 {
                     DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
                     RCDB.Items.Clear();
@@ -7293,7 +7326,7 @@ namespace AutoTest
                     //LoadVirtualRC();
                 }
 
-                if (Pub_Setting.Device_RedRatExist == "1")
+                if (Public_Setting.Device_RedRatExist == "1")
                 {
                     OpenRedRat3();
                     pictureBox_RedRat.Image = Properties.Resources.ON;
@@ -7303,7 +7336,7 @@ namespace AutoTest
                     pictureBox_RedRat.Image = Properties.Resources.OFF;
                 }
 
-                if (Pub_Setting.Device_CameraExist == "1")
+                if (Public_Setting.Device_CameraExist == "1")
                 {
                     pictureBox_Camera.Image = Properties.Resources.ON;
                     _captureInProgress = false;
@@ -7316,11 +7349,11 @@ namespace AutoTest
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                 }
 
-                button_SerialPort1.Visible = Pub_Setting.Comport_Checked == "1" ? true : false;
-                button_SerialPort2.Visible = Pub_Setting.ExtComport_Checked == "1" ? true : false;
-                button_SerialPort3.Visible = Pub_Setting.TriComport_Checked == "1" ? true : false;
-                button_CanbusPort.Visible = Pub_Setting.Record_CANbusLog == "1" ? true : false;
-                button_kline.Visible = Pub_Setting.Kline_Checked == "1" ? true : false;
+                button_SerialPort1.Visible = Public_Setting.Comport_Checked == "1" ? true : false;
+                button_SerialPort2.Visible = Public_Setting.ExtComport_Checked == "1" ? true : false;
+                button_SerialPort3.Visible = Public_Setting.TriComport_Checked == "1" ? true : false;
+                button_CanbusPort.Visible = Public_Setting.Record_CANbusLog == "1" ? true : false;
+                button_kline.Visible = Public_Setting.Kline_Checked == "1" ? true : false;
 
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
@@ -7347,48 +7380,48 @@ namespace AutoTest
             TimeLabel2.Text = string.Format("{0:yyyy-MM-dd  HH:mm:ss}", dt);
 
             #region -- schedule timer --
-            if (Pub_Setting.Schedule1_OnTimeStart == "1")
-                labelSch1Timer.Text = "Schedule 1 will start at" + "\r\n" + Pub_Setting.Schedule1_Timer;
-            else if (Pub_Setting.Schedule1_OnTimeStart == "0")
+            if (Public_Setting.Schedule1_OnTimeStart == "1")
+                labelSch1Timer.Text = "Schedule 1 will start at" + "\r\n" + Public_Setting.Schedule1_Timer;
+            else if (Public_Setting.Schedule1_OnTimeStart == "0")
                 labelSch1Timer.Text = "";
 
-            if (Pub_Setting.Schedule2_OnTimeStart == "1")
-                labelSch2Timer.Text = "Schedule 2 will start at" + "\r\n" + Pub_Setting.Schedule2_Timer;
-            else if (Pub_Setting.Schedule2_OnTimeStart == "0")
+            if (Public_Setting.Schedule2_OnTimeStart == "1")
+                labelSch2Timer.Text = "Schedule 2 will start at" + "\r\n" + Public_Setting.Schedule2_Timer;
+            else if (Public_Setting.Schedule2_OnTimeStart == "0")
                 labelSch2Timer.Text = "";
 
-            if (Pub_Setting.Schedule3_OnTimeStart == "1")
-                labelSch3Timer.Text = "Schedule 3 will start at" + "\r\n" + Pub_Setting.Schedule3_Timer;
-            else if (Pub_Setting.Schedule3_OnTimeStart == "0")
+            if (Public_Setting.Schedule3_OnTimeStart == "1")
+                labelSch3Timer.Text = "Schedule 3 will start at" + "\r\n" + Public_Setting.Schedule3_Timer;
+            else if (Public_Setting.Schedule3_OnTimeStart == "0")
                 labelSch3Timer.Text = "";
 
-            if (Pub_Setting.Schedule4_OnTimeStart == "1")
-                labelSch4Timer.Text = "Schedule 4 will start at" + "\r\n" + Pub_Setting.Schedule4_Timer;
-            else if (Pub_Setting.Schedule4_OnTimeStart == "0")
+            if (Public_Setting.Schedule4_OnTimeStart == "1")
+                labelSch4Timer.Text = "Schedule 4 will start at" + "\r\n" + Public_Setting.Schedule4_Timer;
+            else if (Public_Setting.Schedule4_OnTimeStart == "0")
                 labelSch4Timer.Text = "";
 
-            if (Pub_Setting.Schedule5_OnTimeStart == "1")
-                labelSch5Timer.Text = "Schedule 5 will start at" + "\r\n" + Pub_Setting.Schedule5_Timer;
-            else if (Pub_Setting.Schedule5_OnTimeStart == "0")
+            if (Public_Setting.Schedule5_OnTimeStart == "1")
+                labelSch5Timer.Text = "Schedule 5 will start at" + "\r\n" + Public_Setting.Schedule5_Timer;
+            else if (Public_Setting.Schedule5_OnTimeStart == "0")
                 labelSch5Timer.Text = "";
 
-            if (Pub_Setting.Schedule1_OnTimeStart == "1" &&
-                Pub_Setting.Schedule1_Timer == TimeLabel2.Text)
+            if (Public_Setting.Schedule1_OnTimeStart == "1" &&
+                Public_Setting.Schedule1_Timer == TimeLabel2.Text)
                 button_Start.PerformClick();
-            if (Pub_Setting.Schedule2_OnTimeStart == "1" &&
-                Pub_Setting.Schedule2_Timer == TimeLabel2.Text &&
+            if (Public_Setting.Schedule2_OnTimeStart == "1" &&
+                Public_Setting.Schedule2_Timer == TimeLabel2.Text &&
                 timeCount != 0)
                 Global.Break_Out_Schedule = 1;
-            if (Pub_Setting.Schedule3_OnTimeStart == "1" &&
-                Pub_Setting.Schedule3_Timer == TimeLabel2.Text &&
+            if (Public_Setting.Schedule3_OnTimeStart == "1" &&
+                Public_Setting.Schedule3_Timer == TimeLabel2.Text &&
                 timeCount != 0)
                 Global.Break_Out_Schedule = 1;
-            if (Pub_Setting.Schedule4_OnTimeStart == "1" &&
-                Pub_Setting.Schedule4_Timer == TimeLabel2.Text &&
+            if (Public_Setting.Schedule4_OnTimeStart == "1" &&
+                Public_Setting.Schedule4_Timer == TimeLabel2.Text &&
                 timeCount != 0)
                 Global.Break_Out_Schedule = 1;
-            if (Pub_Setting.Schedule5_OnTimeStart == "1" &&
-                Pub_Setting.Schedule5_Timer == TimeLabel2.Text &&
+            if (Public_Setting.Schedule5_OnTimeStart == "1" &&
+                Public_Setting.Schedule5_Timer == TimeLabel2.Text &&
                 timeCount != 0)
                 Global.Break_Out_Schedule = 1;
             #endregion
@@ -7420,12 +7453,12 @@ namespace AutoTest
         private void CloseAutobox()
         {
             FormIsClosing = true;
-            if (Pub_Setting.Device_AutoboxVerson == "1")
+            if (Public_Setting.Device_AutoboxVerson == "1")
             {
                 DisconnectAutoBox1();
             }
 
-            if (Pub_Setting.Device_AutoboxVerson == "2")
+            if (Public_Setting.Device_AutoboxVerson == "2")
             {
                 DisconnectAutoBox2();
             }
@@ -7598,9 +7631,10 @@ namespace AutoTest
             button_Schedule4.Enabled = true;
             button_Schedule5.Enabled = true;
             ReadSch();
-            ini12.INIWrite(MailPath, "Data Info", "TestCaseNumber", "0");
-            ini12.INIWrite(MailPath, "Data Info", "Result", "N/A");
-            ini12.INIWrite(MailPath, "Data Info", "NGfrequency", "0");
+            Public_Setting.DataInfo_TestCaseNumber = "0";
+            Public_Setting.DataInfo_Result = "N/A";
+            Public_Setting.DataInfo_NGfrequency = "0";
+            Private_Setting.Config_Save();
         }
         private void SchBtn2_Click(object sender, EventArgs e)          ////////////Schedule2
         {
@@ -7806,29 +7840,34 @@ namespace AutoTest
                     }
                 }
                 label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-                ini12.INIWrite(MailPath, "Total Test Time", "value", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                Public_Setting.TotalTestTime_value = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
+                Private_Setting.Config_Save();
 
                 // 寫入每個Schedule test time
                 if (Global.Schedule_Number == 1)
-                    ini12.INIWrite(MailPath, "Total Test Time", "value1", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                {
+                    Public_Setting.TotalTestTime_value1 = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
+                    Private_Setting.Config_Save();
+                }
 
                 if (StartButtonPressed == true)
                 {
                     switch (Global.Schedule_Number)
                     {
                         case 2:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value2", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            Public_Setting.TotalTestTime_value2 = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
                             break;
                         case 3:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value3", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            Public_Setting.TotalTestTime_value3 = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
                             break;
                         case 4:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value4", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            Public_Setting.TotalTestTime_value4 = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
                             break;
                         case 5:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value5", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            Public_Setting.TotalTestTime_value5 = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
                             break;
                     }
+                    Private_Setting.Config_Save();
                 }
             }
             catch
@@ -7959,7 +7998,8 @@ namespace AutoTest
             }
 
             label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-            ini12.INIWrite(MailPath, "Total Test Time", "How Long", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+            Public_Setting.TotalTestTime_HowLong = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
+            Private_Setting.Config_Save();
         }
 
         private void TimerPanelbutton_Click(object sender, EventArgs e)
@@ -8605,7 +8645,8 @@ namespace AutoTest
 
         private void comboBox_CameraDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+            Public_Setting.Camera_VideoIndex = comboBox_CameraDevice.SelectedIndex.ToString();
+            Private_Setting.Config_Save();
             if (_captureInProgress == true)
             {
                 capture.Stop();
@@ -8687,8 +8728,8 @@ namespace AutoTest
 
                     pictureBox_canbus.Image = Properties.Resources.OFF;
 
-                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
-
+                    Public_Setting.Device_CANbusExist = "0";
+                    Private_Setting.Config_Save();
                     return;
                 }
                 return;
