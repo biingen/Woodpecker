@@ -135,6 +135,7 @@ namespace AutoTest
             this.button_TestLog = new System.Windows.Forms.Button();
             this.button_Copy = new System.Windows.Forms.Button();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
+            this.timer_rs232_data_recevied = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new AutoTest.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -287,7 +288,7 @@ namespace AutoTest
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.DarkOrange;
-            this.TimeLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.TimeLabel.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(318, 703);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1407,6 +1408,12 @@ namespace AutoTest
             this.timer_kline.Interval = 250;
             this.timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
             // 
+            // timer_rs232_data_recevied
+            // 
+            this.timer_rs232_data_recevied.Enabled = true;
+            this.timer_rs232_data_recevied.Interval = 1;
+            this.timer_rs232_data_recevied.Tick += new System.EventHandler(this.Timer_rs232_data_recevied_Tick);
+            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
@@ -1771,6 +1778,7 @@ namespace AutoTest
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.Timer timer_rs232_data_recevied;
     }
 }
 
