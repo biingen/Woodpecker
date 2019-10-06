@@ -100,9 +100,11 @@ namespace AutoTest
         private static string Schedule5_Timer = ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");
         private static string Schedule5_Path = ini12.INIRead(MainSettingPath, "Schedule5", "Path", "");
 
+        private static string LogSearch_TextNum = ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "");
         private static string LogSearch_StartTime = ini12.INIRead(MainSettingPath, "LogSearch", "StartTime", "");
         private static string LogSearch_Comport1 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "");
         private static string LogSearch_Comport2 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "");
+        private static string LogSearch_Comport3 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "");
         private static string LogSearch_Camerarecord = ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "");
         private static string LogSearch_Camerashot = ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "");
         private static string LogSearch_Sendmail = ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "");
@@ -145,6 +147,8 @@ namespace AutoTest
 
         private static string Kline_Checked = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
         private static string Kline_PortName = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+
+        public static string Displayhex_Checked = ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "");
         #endregion
 
         #region -- Mail.ini --
@@ -156,6 +160,7 @@ namespace AutoTest
         private static string DataInfo_CreateTime = ini12.INIRead(MailSettingPath, "Data Info", "CreateTime", "");
         private static string DataInfo_CloseTime = ini12.INIRead(MailSettingPath, "Data Info", "CloseTime", "");
         private static string DataInfo_ProjectNumber = ini12.INIRead(MailSettingPath, "Data Info", "ProjectNumber", "");
+        private static string DataInfo_Reboot = ini12.INIRead(MailSettingPath, "Data Info", "Reboot", "");
 
         private static string TotalTestTime_value = ini12.INIRead(MailSettingPath, "Total Test Time", "value", "");
         private static string TotalTestTime_value1 = ini12.INIRead(MailSettingPath, "Total Test Time", "value1", "");
@@ -457,9 +462,11 @@ namespace AutoTest
         public static string Schedule5_Timer = ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");
         public static string Schedule5_Path = ini12.INIRead(MainSettingPath, "Schedule5", "Path", "");
 
+        public static string LogSearch_TextNum = ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "");
         public static string LogSearch_StartTime = ini12.INIRead(MainSettingPath, "LogSearch", "StartTime", "");
         public static string LogSearch_Comport1 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "");
         public static string LogSearch_Comport2 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "");
+        public static string LogSearch_Comport3 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "");
         public static string LogSearch_Camerarecord = ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "");
         public static string LogSearch_Camerashot = ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "");
         public static string LogSearch_Sendmail = ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "");
@@ -502,6 +509,8 @@ namespace AutoTest
 
         public static string Kline_Checked = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
         public static string Kline_PortName = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+
+        public static string Displayhex_Checked = ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "");
         #endregion
 
         #region -- Mail.ini --
@@ -513,6 +522,7 @@ namespace AutoTest
         public static string DataInfo_CreateTime = ini12.INIRead(MailSettingPath, "Data Info", "CreateTime", "");
         public static string DataInfo_CloseTime = ini12.INIRead(MailSettingPath, "Data Info", "CloseTime", "");
         public static string DataInfo_ProjectNumber = ini12.INIRead(MailSettingPath, "Data Info", "ProjectNumber", "");
+        public static string DataInfo_Reboot = ini12.INIRead(MailSettingPath, "Data Info", "Reboot", "");
 
         public static string TotalTestTime_value = ini12.INIRead(MailSettingPath, "Total Test Time", "value", "");
         public static string TotalTestTime_value1 = ini12.INIRead(MailSettingPath, "Total Test Time", "value1", "");
