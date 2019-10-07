@@ -1412,7 +1412,7 @@ namespace AutoTest
             // 
             this.timer_rs232_data_recevied.Enabled = true;
             this.timer_rs232_data_recevied.Interval = 1;
-            this.timer_rs232_data_recevied.Tick += new System.EventHandler(this.Timer_rs232_data_recevied_Tick);
+            // this.timer_rs232_data_recevied.Tick += new System.EventHandler(this.Timer_rs232_data_recevied_Tick);
             // 
             // DataGridView_Schedule
             // 

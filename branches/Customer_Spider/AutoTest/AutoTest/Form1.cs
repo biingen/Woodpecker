@@ -1843,6 +1843,8 @@ namespace AutoTest
 
                     sp.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
                     sp.Open();
+                    Thread DataThread = new Thread(new ThreadStart(test));
+                    DataThread.Start();
                 }
             }
             catch (Exception Ex)
@@ -2024,73 +2026,94 @@ namespace AutoTest
                 enqueue_data.SetData(data_list);
                 enqueue_data.SetTimeStamp(DateTime.Now);
                 serial_port_data.data_queue.Enqueue(enqueue_data);
+                SerialPortDataContainer.data_available = true;
+                Thread DataThread = new Thread(new ThreadStart(test));
+                DataThread.Start();
             }
 
-            SerialPortDataContainer.data_available = true;
-            //test();
-            
+            //if (SerialPortDataContainer.data_available == true)
+            //{
+            //Thread DataThread = new Thread(new ThreadStart(test));
+            //    DataThread.Start();
+            //}
+            //else
+            //{
+            //    DataThread.Abort();
+            //}
+
         } //
 
         //
         // Form UI portion of RS232 data are relocated here.
         //
-        private void Timer_rs232_data_recevied_Tick(object sender, EventArgs e)
-        {
+        //private void Timer_rs232_data_recevied_Tick(object sender, EventArgs e)
+        //{
 
         //}
-        //private void test()
-        //{
-            if (SerialPortDataContainer.data_available == true)
+
+        bool test_is_running = false;
+
+        private void test()
+        {
+            while (test_is_running == true) { Thread.Sleep(1); }
+            
+            //while (true)
             {
-                foreach (var port in SerialPortDataContainer.SerialPortDictionary)
+                test_is_running = true;
+                if (SerialPortDataContainer.data_available == true)
                 {
-                    SerialPortDataContainer serial_port_data = (SerialPortDataContainer)port.Value;
-                    while (serial_port_data.data_queue.Count > 0)
+                    SerialPortDataContainer.data_available = false;
+                    foreach (var port in SerialPortDataContainer.SerialPortDictionary)
                     {
-                        SerialReceivedData dequeue_data = serial_port_data.data_queue.Dequeue();
-                        Byte[] dataset = dequeue_data.GetData().ToArray();
-                        DateTime dt = dequeue_data.GetTimeStamp();
-
-                        // The following code is almost the same as before
-
-                        int index = 0;
-                        int data_to_read = dequeue_data.GetData().Count;
-                        while (data_to_read > 0)
+                        SerialPortDataContainer serial_port_data = (SerialPortDataContainer)port.Value;
+                        while (serial_port_data.data_queue.Count > 0)
                         {
-                            serial_port_data.log_data.Enqueue(dataset[index]);
-                            index++;
-                            data_to_read--;
-                        }
+                            SerialReceivedData dequeue_data = serial_port_data.data_queue.Dequeue();
+                            Byte[] dataset = dequeue_data.GetData().ToArray();
+                            DateTime dt = dequeue_data.GetTimeStamp();
 
-                        if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                        {
-                            // hex to string
-                            string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                            //DateTime.Now.ToShortTimeString();
-                            //dt = DateTime.Now;
+                            // The following code is almost the same as before
 
-                            // Joseph
-                            hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                                                                                                                           // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                            textBox1.AppendText(hexValues);
-                            // End
+                            int index = 0;
+                            int data_to_read = dequeue_data.GetData().Count;
+                            while (data_to_read > 0)
+                            {
+                                serial_port_data.log_data.Enqueue(dataset[index]);
+                                index++;
+                                data_to_read--;
+                            }
 
-                            // Jeremy
-                            // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                            // textBox1.AppendText(hexValues + "\r\n");
-                            // End
-                        }
-                        else
-                        {
-                            // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                            string text = Encoding.ASCII.GetString(dataset);
-                            dt = DateTime.Now;
-                            text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                            textBox1.AppendText(text);
+                            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                            {
+                                // hex to string
+                                string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                                //DateTime.Now.ToShortTimeString();
+                                //dt = DateTime.Now;
+
+                                // Joseph
+                                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                                textBox1.AppendText(hexValues);
+                                // End
+
+                                // Jeremy
+                                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                                // textBox1.AppendText(hexValues + "\r\n");
+                                // End
+                            }
+                            else
+                            {
+                                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                                string text = Encoding.ASCII.GetString(dataset);
+                                dt = DateTime.Now;
+                                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                textBox1.AppendText(text);
+                            }
                         }
                     }
                 }
             }
+            test_is_running = false; 
         }
 
         #endregion
