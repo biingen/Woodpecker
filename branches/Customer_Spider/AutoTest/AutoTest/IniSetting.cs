@@ -70,6 +70,41 @@ namespace AutoTest
         private static string Record_FootprintMode = ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "");
         private static string Record_CANbusLog = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "");
 
+        private static string[] Schedule_Exist = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "") };
+
+        private static string[] Schedule_Loop = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Loop", "") };
+
+        private static string[] Schedule_OnTimeStart = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") };
+
+        private static string[] Schedule_Timer = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") };
+
+        private static string[] Schedule_Path = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Path", "") };
+
         private static string Schedule1_Exist = ini12.INIRead(MainSettingPath, "Schedule1", "Exist", "");
         private static string Schedule1_Loop = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
         private static string Schedule1_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "");
@@ -114,6 +149,36 @@ namespace AutoTest
         private static string LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
         private static string LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
         private static string LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
+        private static string[] LogSearch_Text = {  ini12.INIRead(MainSettingPath, "LogSearch", "Text0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text9", "") };
+        private static string[] LogSearch_Times = {  ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times9", "") };
+        private static string[] LogSearch_Display = {  ini12.INIRead(MainSettingPath, "LogSearch", "Display0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display9", "") };
         private static string LogSearch_Text0 = ini12.INIRead(MainSettingPath, "LogSearch", "Text0", "");
         private static string LogSearch_Text1 = ini12.INIRead(MainSettingPath, "LogSearch", "Text1", "");
         private static string LogSearch_Text2 = ini12.INIRead(MainSettingPath, "LogSearch", "Text2", "");
@@ -432,6 +497,41 @@ namespace AutoTest
         public static string Record_FootprintMode = ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "");
         public static string Record_CANbusLog = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "");
 
+        public static string[] Schedule_Exist = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Exist", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "") };
+
+        public static string[] Schedule_Loop = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Loop", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Loop", "") };
+
+        public static string[] Schedule_OnTimeStart = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") };
+
+        public static string[] Schedule_Timer = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Timer", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") };
+
+        public static string[] Schedule_Path = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Schedule1", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule2", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule3", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule4", "Path", ""),
+                                                  ini12.INIRead(MainSettingPath, "Schedule5", "Path", "") };
+
         public static string Schedule1_Exist = ini12.INIRead(MainSettingPath, "Schedule1", "Exist", "");
         public static string Schedule1_Loop = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
         public static string Schedule1_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "");
@@ -476,6 +576,36 @@ namespace AutoTest
         public static string LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
         public static string LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
         public static string LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
+        public static string [] LogSearch_Text = {  ini12.INIRead(MainSettingPath, "LogSearch", "Text0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Text9", "") };
+        public static string[] LogSearch_Times = {  ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times9", "") };
+        public static string[] LogSearch_Display = {  ini12.INIRead(MainSettingPath, "LogSearch", "Display0", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display1", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display2", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display3", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display4", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display5", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display6", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display7", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display8", ""),
+                                                    ini12.INIRead(MainSettingPath, "LogSearch", "Display9", "") };
         public static string LogSearch_Text0 = ini12.INIRead(MainSettingPath, "LogSearch", "Text0", "");
         public static string LogSearch_Text1 = ini12.INIRead(MainSettingPath, "LogSearch", "Text1", "");
         public static string LogSearch_Text2 = ini12.INIRead(MainSettingPath, "LogSearch", "Text2", "");

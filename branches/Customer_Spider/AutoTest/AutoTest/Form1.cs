@@ -95,7 +95,10 @@ namespace AutoTest
         private int Nowpoint;
         private bool Breakfunction = false;
         //private const int CS_DROPSHADOW = 0x20000;      //宣告陰影參數
+        private int Schedule_CurrentNumber = 2;
+        private int Schedule_MaxNumber = 5;
 
+        //Kline參數
         private MySerial MySerialPort = new MySerial();
         private List<BlockMessage> MyBlockMessageList = new List<BlockMessage>();
         private ProcessBlockMessage MyProcessBlockMessage = new ProcessBlockMessage();
@@ -285,9 +288,9 @@ namespace AutoTest
             ConnectCanBus();
 
             List<string> SchExist = new List<string> { };
-            for (int i = 2; i < 6; i++)
+            for (int i = Schedule_CurrentNumber; i < Schedule_MaxNumber + 1; i++)
             {
-                SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
+                SchExist.Add(Public_Setting.Schedule_Exist[i]);
             }
 
             if (SchExist[0] != "")
@@ -1716,7 +1719,7 @@ namespace AutoTest
                 }
                 else if (Caller == "FormRc")
                 {
-                    string SelectRcLastTimePath = ini12.INIRead(RcPath, "Setting", "SelectRcLastTimePath", "");
+                    string SelectRcLastTimePath = Public_Setting.Setting_SelectRcLastTimePath;
                     RedRatData.RedRatLoadSignalDB(ini12.INIRead(SelectRcLastTimePath, "Info", "DBFile", ""));
                     RedRatData.RedRatSelectDevice(ini12.INIRead(SelectRcLastTimePath, "Info", "Brands", ""));
                 }
@@ -2523,8 +2526,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
                                 {
@@ -2704,8 +2707,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
 
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
@@ -2934,8 +2937,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
                                 {
@@ -3115,8 +3118,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
                                 {
@@ -3345,8 +3348,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
                                 {
@@ -3526,8 +3529,8 @@ namespace AutoTest
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                string compare_string = Public_Setting.LogSearch_Text[i];
+                                int compare_num = Convert.ToInt32(Public_Setting.LogSearch_Times[i]);
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1)
                                 {
@@ -7150,6 +7153,7 @@ namespace AutoTest
                 Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
                 Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
                 Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
+                Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
@@ -7356,9 +7360,9 @@ namespace AutoTest
                 button_kline.Visible = Public_Setting.Kline_Checked == "1" ? true : false;
 
                 List<string> SchExist = new List<string> { };
-                for (int i = 2; i < 6; i++)
+                for (int i = Schedule_CurrentNumber; i < Schedule_MaxNumber + 1; i++)
                 {
-                    SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
+                    SchExist.Add(Public_Setting.Schedule_Exist[i]);
                 }
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
@@ -7580,7 +7584,7 @@ namespace AutoTest
 
             System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
             sfd.Filter = "CSV files (*.csv)|*.csv";
-            sfd.FileName = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
+            sfd.FileName = Public_Setting.Schedule_Path[Global.Schedule_Number];
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 using (System.IO.StreamWriter sw = new System.IO.StreamWriter(sfd.FileName, false))
@@ -7702,8 +7706,8 @@ namespace AutoTest
         {
             // Console.WriteLine(Global.Schedule_Num);
             // 戴入Schedule CSV 檔
-            string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
-            string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
+            string SchedulePath = Public_Setting.Schedule_Path[Global.Schedule_Number];
+            string ScheduleExist = Public_Setting.Schedule_Exist[Global.Schedule_Number];
 
             string TextLine = "";
             string[] SplitLine;
