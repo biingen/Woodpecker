@@ -235,6 +235,12 @@ namespace AutoTest
         private static string TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
         private static string TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
 
+        private static string[] TestCase_Total = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase1", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase2", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase3", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase4", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase5", "") };
         private static string TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
         private static string TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
         private static string TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");
@@ -374,6 +380,10 @@ namespace AutoTest
             Private_Setting.TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
             Private_Setting.TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
 
+            for (int i = Global.Schedule_CurrentNumber - 1; i < Global.Schedule_MaxNumber + 1; i++)
+            {
+                Private_Setting.TestCase_Total[i] = ini12.INIRead(MainSettingPath, "Test Case", "TestCase" + i, "");
+            }
             Private_Setting.TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
             Private_Setting.TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
             Private_Setting.TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");
@@ -508,6 +518,10 @@ namespace AutoTest
             Public_Setting.TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
             Public_Setting.TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
 
+            for (int i = Global.Schedule_CurrentNumber - 1; i < Global.Schedule_MaxNumber + 1; i++)
+            {
+                Private_Setting.TestCase_Total[i] = ini12.INIRead(MainSettingPath, "Test Case", "TestCase" + i, "");
+            }
             Public_Setting.TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
             Public_Setting.TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
             Public_Setting.TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");
@@ -899,6 +913,12 @@ namespace AutoTest
         public static string TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
         public static string TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
 
+        public static string[] TestCase_Total = { "0",
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase1", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase2", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase3", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase4", ""),
+                                                  ini12.INIRead(MainSettingPath, "Test Case", "TestCase5", "") };
         public static string TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
         public static string TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
         public static string TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");

@@ -185,11 +185,11 @@ namespace AutoTest
             }
 
             #region Timer
-            if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") != "")
+            if (Public_Setting.Schedule_OnTimeStart[1] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_OnTimeStart[1]) == 1)
                 {
-                    dateTimePicker_Sch1.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Timer", "");       //Schedule1 Timer
+                    dateTimePicker_Sch1.Text = Public_Setting.Schedule_Timer[1];       //Schedule1 Timer
                     checkBox_Timer1.Checked = true;
                     dateTimePicker_Sch1.Enabled = true;
                 }
@@ -201,16 +201,16 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[1] = "0";
                 checkBox_Timer1.Checked = false;
                 dateTimePicker_Sch1.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") != "")
+            if (Public_Setting.Schedule_OnTimeStart[2] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_OnTimeStart[2]) == 1)
                 {
-                    dateTimePicker_Sch2.Text = ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "");       //Schedule2 Timer
+                    dateTimePicker_Sch2.Text = Public_Setting.Schedule_Timer[2];       //Schedule2 Timer
                     checkBox_Timer2.Checked = true;
                     dateTimePicker_Sch2.Enabled = true;
                 }
@@ -222,17 +222,17 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[2] = "0";
                 checkBox_Timer2.Checked = false;
                 dateTimePicker_Sch2.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") != "")
+            if (Public_Setting.Schedule_OnTimeStart[3] != "")
             {
 
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_OnTimeStart[3]) == 1)
                 {
-                    dateTimePicker_Sch3.Text = ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "");       //Schedule3 Timer
+                    dateTimePicker_Sch3.Text = Public_Setting.Schedule_Timer[3];       //Schedule3 Timer
                     checkBox_Timer3.Checked = true;
                     dateTimePicker_Sch3.Enabled = true;
                 }
@@ -244,17 +244,17 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[3] = "0";
                 checkBox_Timer3.Checked = false;
                 dateTimePicker_Sch3.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") != "")
+            if (Public_Setting.Schedule_OnTimeStart[4] != "")
             {
 
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_OnTimeStart[4]) == 1)
                 {
-                    dateTimePicker_Sch4.Text = ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "");       //Schedule4 Timer
+                    dateTimePicker_Sch4.Text = Public_Setting.Schedule_Timer[4];       //Schedule4 Timer
                     checkBox_Timer4.Checked = true;
                     dateTimePicker_Sch4.Enabled = true;
                 }
@@ -266,17 +266,17 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[4] = "0";
                 checkBox_Timer4.Checked = false;
                 dateTimePicker_Sch4.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") != "")
+            if (Public_Setting.Schedule_OnTimeStart[5] != "")
             {
 
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_OnTimeStart[5]) == 1)
                 {
-                    dateTimePicker_Sch5.Text = ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");       //Schedule5 Timer
+                    dateTimePicker_Sch5.Text = Public_Setting.Schedule_Timer[5];       //Schedule5 Timer
                     checkBox_Timer5.Checked = true;
                     dateTimePicker_Sch5.Enabled = true;
                 }
@@ -288,7 +288,7 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[5] = "0";
                 checkBox_Timer5.Checked = false;
                 dateTimePicker_Sch5.Enabled = false;
             }
@@ -439,9 +439,9 @@ namespace AutoTest
             DateTime dt5 = Convert.ToDateTime(dateTimePicker_Sch5.Text);
 
             #region Schedule2偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1")
+            if (Public_Setting.Schedule_OnTimeStart[2] == "1")
             {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt2) > 0)
+                if (Public_Setting.Schedule_OnTimeStart[1] == "1" && DateTime.Compare(dt1, dt2) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule2 Timer Error !";
                 }
@@ -449,13 +449,13 @@ namespace AutoTest
             #endregion
 
             #region Schedule3偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1")
+            if (Public_Setting.Schedule_OnTimeStart[3] == "1")
             {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt3) > 0)
+                if (Public_Setting.Schedule_OnTimeStart[1] == "1" && DateTime.Compare(dt1, dt3) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule3 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt3) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[2] == "1" && DateTime.Compare(dt2, dt3) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule3 Timer Error !";
                 }
@@ -463,17 +463,17 @@ namespace AutoTest
             #endregion
 
             #region Schedule4偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1")
+            if (Public_Setting.Schedule_OnTimeStart[4] == "1")
             {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt4) > 0)
+                if (Public_Setting.Schedule_OnTimeStart[1] == "1" && DateTime.Compare(dt1, dt4) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule4 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt4) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[2] == "1" && DateTime.Compare(dt2, dt4) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule4 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && DateTime.Compare(dt3, dt4) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[3] == "1" && DateTime.Compare(dt3, dt4) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule4 Timer Error !";
                 }
@@ -481,21 +481,21 @@ namespace AutoTest
             #endregion
 
             #region Schedule5偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1")
+            if (Public_Setting.Schedule_OnTimeStart[5] == "1")
             {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt5) > 0)
+                if (Public_Setting.Schedule_OnTimeStart[1] == "1" && DateTime.Compare(dt1, dt5) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule5 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt5) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[2] == "1" && DateTime.Compare(dt2, dt5) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule5 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && DateTime.Compare(dt3, dt5) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[3] == "1" && DateTime.Compare(dt3, dt5) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule5 Timer Error !";
                 }
-                else if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" && DateTime.Compare(dt4, dt5) > 0)
+                else if (Public_Setting.Schedule_OnTimeStart[4] == "1" && DateTime.Compare(dt4, dt5) > 0)
                 {
                     label_ErrorMessage.Text = "Schedule5 Timer Error !";
                 }
@@ -510,12 +510,12 @@ namespace AutoTest
         {
             if (checkBox_Timer1.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "1");
+                Public_Setting.Schedule_OnTimeStart[1] = "1";
                 dateTimePicker_Sch1.Enabled = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[1] = "0";
                 dateTimePicker_Sch1.Enabled = false;
             }
         }
@@ -523,12 +523,12 @@ namespace AutoTest
         {
             if (checkBox_Timer2.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "1");
+                Public_Setting.Schedule_OnTimeStart[2] = "1";
                 dateTimePicker_Sch2.Enabled = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[2] = "0";
                 dateTimePicker_Sch2.Enabled = false;
             }
         }
@@ -536,12 +536,12 @@ namespace AutoTest
         {
             if (checkBox_Timer3.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "1");
+                Public_Setting.Schedule_OnTimeStart[3] = "1";
                 dateTimePicker_Sch3.Enabled = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[3] = "0";
                 dateTimePicker_Sch3.Enabled = false;
             }
         }
@@ -549,12 +549,12 @@ namespace AutoTest
         {
             if (checkBox_Timer4.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "1");
+                Public_Setting.Schedule_OnTimeStart[4] = "1";
                 dateTimePicker_Sch4.Enabled = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[4] = "0";
                 dateTimePicker_Sch4.Enabled = false;
             }
         }
@@ -562,12 +562,12 @@ namespace AutoTest
         {
             if (checkBox_Timer5.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "1");
+                Public_Setting.Schedule_OnTimeStart[5] = "1";
                 dateTimePicker_Sch5.Enabled = true;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "0");
+                Public_Setting.Schedule_OnTimeStart[5] = "0";
                 dateTimePicker_Sch5.Enabled = false;
             }
         }
@@ -581,9 +581,9 @@ namespace AutoTest
         {
             if (File.Exists(textBox_Schedule1.Text.Trim()) == true)
             {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "Path", textBox_Schedule1.Text.Trim());
-                ini12.INIWrite(MainSettingPath, "Schedule1", "Exist", "1");
-                ini12.INIWrite(MailPath, "Test Case", "TestCase1", Path.GetFileNameWithoutExtension(textBox_Schedule1.Text.Trim()));
+                Public_Setting.Schedule_Path[1] = textBox_Schedule1.Text.Trim();
+                Public_Setting.Schedule_Exist[1] = "1";
+                Public_Setting.TestCase_Total[1] = Path.GetFileNameWithoutExtension(textBox_Schedule1.Text.Trim());
 
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule1.Image = null;
@@ -604,7 +604,7 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "Loop", textBox_Schedule1Loop.Text.Trim());
+                Public_Setting.Schedule_Loop[1] = textBox_Schedule1Loop.Text.Trim();
 
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule1Loop.Image = null;

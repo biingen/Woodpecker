@@ -43,16 +43,6 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
-      <assemblyIdentity name="NationalInstruments.MStudioCLM" version="17.5.40.49152" publicKeyToken="DC6AD606294FC298" language="neutral" processorArchitecture="msil" />
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
-      <assemblyIdentity name="NationalInstruments.NiLmClientDLL" version="17.5.40.49152" publicKeyToken="DC6AD606294FC298" language="neutral" processorArchitecture="msil" />
-    </dependentAssembly>
-  </dependency>
-  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="BlueRatLibrary.dll" size="40960">
       <assemblyIdentity name="BlueRatLibrary" version="1.0.2.1" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -149,6 +139,30 @@
     </dependentAssembly>
   </dependency>
   <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NationalInstruments.MStudioCLM.dll" size="21384">
+      <assemblyIdentity name="NationalInstruments.MStudioCLM" version="17.5.40.49152" publicKeyToken="DC6AD606294FC298" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>kBQP4yCfw7WCV11yl+fAYTYk7WcFQlL7Zo43i68hXvY=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NationalInstruments.NiLmClientDLL.dll" size="45960">
+      <assemblyIdentity name="NationalInstruments.NiLmClientDLL" version="17.5.40.49152" publicKeyToken="DC6AD606294FC298" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>iWJoScVRsl+ZZmEcVPNisZCdxH6YWE4CrQ+Ai87OZx4=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NPOI.dll" size="1677824">
       <assemblyIdentity name="NPOI" version="2.2.0.0" publicKeyToken="0DF73EC7942B34E1" language="neutral" processorArchitecture="msil" />
       <hash>
@@ -209,14 +223,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Spider.exe" size="1448960">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Spider.exe" size="1447936">
       <assemblyIdentity name="Spider" version="0.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>MY2ccdxTPO9PpYV4CRz4N7uFH3zfRUJzM/58Hdali6U=</dsig:DigestValue>
+        <dsig:DigestValue>PdfIzCn628pLHUeyqp9a7tFX/3DlKLl82pSxywgjxF0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
