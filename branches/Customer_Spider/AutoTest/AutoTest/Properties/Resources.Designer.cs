@@ -83,9 +83,29 @@ namespace AutoTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Computer {
+            get {
+                object obj = ResourceManager.GetObject("Computer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ERROR {
             get {
                 object obj = ResourceManager.GetObject("ERROR", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ic_computer_black_48dp {
+            get {
+                object obj = ResourceManager.GetObject("ic_computer_black_48dp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -120,6 +120,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\jini.dll</HintPath>
     </Reference>
+    <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="NationalInstruments.Common, Version=17.5.40.49153, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -293,6 +297,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -381,6 +386,8 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\ic_computer_black_48dp.png" />
+    <None Include="Resources\Computer.png" />
     <Content Include="Spider.ico" />
     <None Include="Resources\Switch to TV.png" />
     <None Include="Resources\Switch to PC.png" />

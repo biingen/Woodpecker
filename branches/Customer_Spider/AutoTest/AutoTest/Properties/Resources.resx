@@ -118,29 +118,38 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Switch_to_TV" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Switch to TV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mini2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\mini2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="ON" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ON.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Surprise" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Surprise.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Switch_On_AC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Switch On AC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="close1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Switch_Off_AC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Switch Off AC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="record_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Record_On.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Switch_to_PC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Switch to PC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="mini2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\mini2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="StartAutoBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\StartAutoBox.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="record_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\record_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="close2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Switch_Off_AC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Switch Off AC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="TV_Screen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\TV Screen.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -151,19 +160,16 @@
   <data name="ERROR" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ERROR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Switch_On_AC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Switch On AC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ic_computer_black_48dp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ic_computer_black_48dp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="OFF" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\OFF.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Switch_to_PC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Switch to PC.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Switch_to_TV" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Switch to TV.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="record_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\record_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="record_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Record_On.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Computer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Computer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
