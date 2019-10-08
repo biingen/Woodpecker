@@ -177,7 +177,15 @@ namespace Can_Reader_Lib
                 m_devtype = default_devtype;
                 m_devind = default_devint;
                 m_canind = default_canind;
-                connection_status = VCI_OpenDevice(m_devtype, m_devind, 0);
+                try
+                {
+                    connection_status = VCI_OpenDevice(m_devtype, m_devind, 0);
+                }
+                catch (DllNotFoundException Ex)
+                {
+                    Console.WriteLine(Ex.ToString());
+                    MessageBox.Show(Ex.Message.ToString(), "Canbus can't start !");
+                }
                 if (connection_status == 1)
                 {
                     VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
