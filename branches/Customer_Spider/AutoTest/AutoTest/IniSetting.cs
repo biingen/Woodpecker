@@ -256,183 +256,420 @@ namespace AutoTest
         private static string Setting_SelectRcLastTimePath = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTimePath", "");
         #endregion
 
-        public static void Config_Save()
+        #region -- Config_ReadAll --
+        public static void Config_ReadAll()
+        {
+            string MainSettingPath = Application.StartupPath + "\\Config.ini";
+            string MailSettingPath = Application.StartupPath + "\\Mail.ini";
+            string RcSettingPath = Application.StartupPath + "\\RC.ini";
+            #region -- Private_Setting --
+            #region -- Config.ini --
+            Private_Setting.Device_AutoboxExist = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "");
+            Private_Setting.Device_AutoboxVerson = ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "");
+            Private_Setting.Device_AutoboxPort = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
+            Private_Setting.Device_CameraExist = ini12.INIRead(MainSettingPath, "Device", "CameraExist", "");
+            Private_Setting.Device_RedRatExist = ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "");
+            Private_Setting.Device_CANbusExist = ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "");
+            Private_Setting.Device_KlineExist = ini12.INIRead(MainSettingPath, "Device", "KlineExist", "");
+            Private_Setting.Cmd_DOS = ini12.INIRead(MainSettingPath, "Device", "DOS", "");
+            Private_Setting.Cmd_RunAfterStartUp = ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "");
+
+            Private_Setting.RedRat_Index = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", "");
+            Private_Setting.RedRat_DBFile = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
+            Private_Setting.RedRat_Brands = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
+            Private_Setting.RedRat_SerialNumber = ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", "");
+
+            Private_Setting.Camera_VideoIndex = ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "");
+            Private_Setting.Camera_VideoNumber = ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "");
+            Private_Setting.Camera_VideoName = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+            Private_Setting.Camera_Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+            Private_Setting.Camera_AudioIndex = ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "");
+            Private_Setting.Camera_AudioNumber = ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "");
+            Private_Setting.Camera_AudioName = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+
+            Private_Setting.Comport_Checked = ini12.INIRead(MainSettingPath, "Comport", "Checked", "");
+            Private_Setting.Comport_PortName = ini12.INIRead(MainSettingPath, "Comport", "PortName", "");
+            Private_Setting.Comport_VirtualName = ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "");
+            Private_Setting.Comport_BaudRate = ini12.INIRead(MainSettingPath, "Comport", "BaudRate", "");
+            Private_Setting.Comport_DataBit = ini12.INIRead(MainSettingPath, "Comport", "DataBit", "");
+            Private_Setting.Comport_StopBits = ini12.INIRead(MainSettingPath, "Comport", "StopBits", "");
+
+            Private_Setting.ExtComport_Checked = ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "");
+            Private_Setting.ExtComport_PortName = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
+            Private_Setting.ExtComport_VirtualName = ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "");
+            Private_Setting.ExtComport_BaudRate = ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", "");
+            Private_Setting.ExtComport_DataBit = ini12.INIRead(MainSettingPath, "ExtComport", "DataBit", "");
+            Private_Setting.ExtComport_StopBits = ini12.INIRead(MainSettingPath, "ExtComport", "StopBits", "");
+
+            Private_Setting.TriComport_Checked = ini12.INIRead(MainSettingPath, "TriComport", "Checked", "");
+            Private_Setting.TriComport_PortName = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
+            Private_Setting.TriComport_VirtualName = ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "");
+            Private_Setting.TriComport_BaudRate = ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", "");
+            Private_Setting.TriComport_DataBit = ini12.INIRead(MainSettingPath, "TriComport", "DataBit", "");
+            Private_Setting.TriComport_StopBits = ini12.INIRead(MainSettingPath, "TriComport", "StopBits", "");
+
+            Private_Setting.Record_VideoPath = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+            Private_Setting.Record_LogPath = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            Private_Setting.Record_Generator = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+            Private_Setting.Record_CompareChoose = ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "");
+            Private_Setting.Record_CompareDifferent = ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", "");
+            Private_Setting.Record_ComparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
+            Private_Setting.Record_EachVideo = ini12.INIRead(MainSettingPath, "Record", "EachVideo", "");
+            Private_Setting.Record_ImportDB = ini12.INIRead(MainSettingPath, "Record", "ImportDB", "");
+            Private_Setting.Record_FootprintMode = ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "");
+            Private_Setting.Record_CANbusLog = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "");
+
+            for (int i = Global.Schedule_CurrentNumber - 1; i < Global.Schedule_MaxNumber + 1; i++)
+            {
+                Private_Setting.Schedule_Exist[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", "");
+                Private_Setting.Schedule_Loop[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Loop", "");
+                Private_Setting.Schedule_OnTimeStart[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "OnTimeStart", "");
+                Private_Setting.Schedule_Timer[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Timer", "");
+                Private_Setting.Schedule_Path[i] = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
+            }
+
+            Private_Setting.LogSearch_TextNum = ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "");
+            Private_Setting.LogSearch_StartTime = ini12.INIRead(MainSettingPath, "LogSearch", "StartTime", "");
+            Private_Setting.LogSearch_Comport1 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "");
+            Private_Setting.LogSearch_Comport2 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "");
+            Private_Setting.LogSearch_Comport3 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "");
+            Private_Setting.LogSearch_Camerarecord = ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "");
+            Private_Setting.LogSearch_Camerashot = ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "");
+            Private_Setting.LogSearch_Sendmail = ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "");
+            Private_Setting.LogSearch_Savelog = ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "");
+            Private_Setting.LogSearch_Showmessage = ini12.INIRead(MainSettingPath, "LogSearch", "Showmessage", "");
+            Private_Setting.LogSearch_ACcontrol = ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "");
+            Private_Setting.LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
+            Private_Setting.LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
+            Private_Setting.LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
+            for (int i = Global.keyword_StartNumber; i < Global.keyword_EndNumber; i++)
+            {
+                Private_Setting.LogSearch_Text[i] = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
+                Private_Setting.LogSearch_Times[i] = ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times" + i, "");
+                Private_Setting.LogSearch_Display[i] = ini12.INIRead(MainSettingPath, "LogSearch", "Display" + i, "");
+            }
+
+            Private_Setting.Kline_Checked = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
+            Private_Setting.Kline_PortName = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+
+            Private_Setting.Displayhex_Checked = ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "");
+            #endregion
+
+            #region -- Mail.ini --
+            Private_Setting.SendMail_value = ini12.INIRead(MailSettingPath, "Send Mail", "value", "");
+
+            Private_Setting.DataInfo_TestCaseNumber = ini12.INIRead(MailSettingPath, "Data Info", "TestCaseNumber", "");
+            Private_Setting.DataInfo_Result = ini12.INIRead(MailSettingPath, "Data Info", "Result", "");
+            Private_Setting.DataInfo_NGfrequency = ini12.INIRead(MailSettingPath, "Data Info", "NGfrequency", "");
+            Private_Setting.DataInfo_CreateTime = ini12.INIRead(MailSettingPath, "Data Info", "CreateTime", "");
+            Private_Setting.DataInfo_CloseTime = ini12.INIRead(MailSettingPath, "Data Info", "CloseTime", "");
+            Private_Setting.DataInfo_ProjectNumber = ini12.INIRead(MailSettingPath, "Data Info", "ProjectNumber", "");
+            Private_Setting.DataInfo_Reboot = ini12.INIRead(MailSettingPath, "Data Info", "Reboot", "");
+
+            Private_Setting.TotalTestTime_value = ini12.INIRead(MailSettingPath, "Total Test Time", "value", "");
+            Private_Setting.TotalTestTime_value1 = ini12.INIRead(MailSettingPath, "Total Test Time", "value1", "");
+            Private_Setting.TotalTestTime_value2 = ini12.INIRead(MailSettingPath, "Total Test Time", "value2", "");
+            Private_Setting.TotalTestTime_value3 = ini12.INIRead(MailSettingPath, "Total Test Time", "value3", "");
+            Private_Setting.TotalTestTime_value4 = ini12.INIRead(MailSettingPath, "Total Test Time", "value4", "");
+            Private_Setting.TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
+            Private_Setting.TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
+
+            Private_Setting.TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
+            Private_Setting.TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
+            Private_Setting.TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");
+            Private_Setting.TestCase_TestCase4 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase4", "");
+            Private_Setting.TestCase_TestCase5 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase5", "");
+
+            Private_Setting.MailInfo_From = ini12.INIRead(MailSettingPath, "Mail Info", "From", "");
+            Private_Setting.MailInfo_To = ini12.INIRead(MailSettingPath, "Mail Info", "To", "");
+            Private_Setting.MailInfo_ProjectName = ini12.INIRead(MailSettingPath, "Mail Info", "ProjectName", "");
+            Private_Setting.MailInfo_ModelName = ini12.INIRead(MailSettingPath, "Mail Info", "ModelName", "");
+            Private_Setting.MailInfo_Version = ini12.INIRead(MailSettingPath, "Mail Info", "Version", "");
+            Private_Setting.MailInfo_Tester = ini12.INIRead(MailSettingPath, "Mail Info", "Tester", "");
+            Private_Setting.MailInfo_TeamViewerID = ini12.INIRead(MailSettingPath, "Mail Info", "TeamViewerID", "");
+            Private_Setting.MailInfo_TeamViewerPassWord = ini12.INIRead(MailSettingPath, "Mail Info", "TeamViewerPassWord", "");
+            #endregion
+
+            #region -- RC.ini --
+            Private_Setting.Setting_SelectRcLastTime = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTime", "");
+            Private_Setting.Setting_SelectRcLastTimePath = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTimePath", "");
+            #endregion
+            #endregion
+
+            #region -- Public_Setting --
+            #region -- Config.ini --
+            Public_Setting.Device_AutoboxExist = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "");
+            Public_Setting.Device_AutoboxVerson = ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "");
+            Public_Setting.Device_AutoboxPort = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
+            Public_Setting.Device_CameraExist = ini12.INIRead(MainSettingPath, "Device", "CameraExist", "");
+            Public_Setting.Device_RedRatExist = ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "");
+            Public_Setting.Device_CANbusExist = ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "");
+            Public_Setting.Device_KlineExist = ini12.INIRead(MainSettingPath, "Device", "KlineExist", "");
+            Public_Setting.Cmd_DOS = ini12.INIRead(MainSettingPath, "Device", "DOS", "");
+            Public_Setting.Cmd_RunAfterStartUp = ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "");
+
+            Public_Setting.RedRat_Index = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", "");
+            Public_Setting.RedRat_DBFile = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
+            Public_Setting.RedRat_Brands = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
+            Public_Setting.RedRat_SerialNumber = ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", "");
+
+            Public_Setting.Camera_VideoIndex = ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "");
+            Public_Setting.Camera_VideoNumber = ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "");
+            Public_Setting.Camera_VideoName = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+            Public_Setting.Camera_Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+            Public_Setting.Camera_AudioIndex = ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "");
+            Public_Setting.Camera_AudioNumber = ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "");
+            Public_Setting.Camera_AudioName = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+
+            Public_Setting.Comport_Checked = ini12.INIRead(MainSettingPath, "Comport", "Checked", "");
+            Public_Setting.Comport_PortName = ini12.INIRead(MainSettingPath, "Comport", "PortName", "");
+            Public_Setting.Comport_VirtualName = ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "");
+            Public_Setting.Comport_BaudRate = ini12.INIRead(MainSettingPath, "Comport", "BaudRate", "");
+            Public_Setting.Comport_DataBit = ini12.INIRead(MainSettingPath, "Comport", "DataBit", "");
+            Public_Setting.Comport_StopBits = ini12.INIRead(MainSettingPath, "Comport", "StopBits", "");
+
+            Public_Setting.ExtComport_Checked = ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "");
+            Public_Setting.ExtComport_PortName = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
+            Public_Setting.ExtComport_VirtualName = ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "");
+            Public_Setting.ExtComport_BaudRate = ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", "");
+            Public_Setting.ExtComport_DataBit = ini12.INIRead(MainSettingPath, "ExtComport", "DataBit", "");
+            Public_Setting.ExtComport_StopBits = ini12.INIRead(MainSettingPath, "ExtComport", "StopBits", "");
+
+            Public_Setting.TriComport_Checked = ini12.INIRead(MainSettingPath, "TriComport", "Checked", "");
+            Public_Setting.TriComport_PortName = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
+            Public_Setting.TriComport_VirtualName = ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "");
+            Public_Setting.TriComport_BaudRate = ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", "");
+            Public_Setting.TriComport_DataBit = ini12.INIRead(MainSettingPath, "TriComport", "DataBit", "");
+            Public_Setting.TriComport_StopBits = ini12.INIRead(MainSettingPath, "TriComport", "StopBits", "");
+
+            Public_Setting.Record_VideoPath = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+            Public_Setting.Record_LogPath = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            Public_Setting.Record_Generator = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+            Public_Setting.Record_CompareChoose = ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "");
+            Public_Setting.Record_CompareDifferent = ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", "");
+            Public_Setting.Record_ComparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
+            Public_Setting.Record_EachVideo = ini12.INIRead(MainSettingPath, "Record", "EachVideo", "");
+            Public_Setting.Record_ImportDB = ini12.INIRead(MainSettingPath, "Record", "ImportDB", "");
+            Public_Setting.Record_FootprintMode = ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "");
+            Public_Setting.Record_CANbusLog = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "");
+
+            for (int i = Global.Schedule_CurrentNumber - 1; i < Global.Schedule_MaxNumber + 1; i++)
+            {
+                Public_Setting.Schedule_Exist[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", "");
+                Public_Setting.Schedule_Loop[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Loop", "");
+                Public_Setting.Schedule_OnTimeStart[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "OnTimeStart", "");
+                Public_Setting.Schedule_Timer[i] = ini12.INIRead(MainSettingPath, "Schedule" + i, "Timer", "");
+                Public_Setting.Schedule_Path[i] = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
+            }
+
+            Public_Setting.LogSearch_TextNum = ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "");
+            Public_Setting.LogSearch_StartTime = ini12.INIRead(MainSettingPath, "LogSearch", "StartTime", "");
+            Public_Setting.LogSearch_Comport1 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "");
+            Public_Setting.LogSearch_Comport2 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "");
+            Public_Setting.LogSearch_Comport3 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "");
+            Public_Setting.LogSearch_Camerarecord = ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "");
+            Public_Setting.LogSearch_Camerashot = ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "");
+            Public_Setting.LogSearch_Sendmail = ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "");
+            Public_Setting.LogSearch_Savelog = ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "");
+            Public_Setting.LogSearch_Showmessage = ini12.INIRead(MainSettingPath, "LogSearch", "Showmessage", "");
+            Public_Setting.LogSearch_ACcontrol = ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "");
+            Public_Setting.LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
+            Public_Setting.LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
+            Public_Setting.LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
+            for (int i = Global.keyword_StartNumber; i < Global.keyword_EndNumber; i++)
+            {
+                Public_Setting.LogSearch_Text[i] = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
+                Public_Setting.LogSearch_Times[i] = ini12.INIRead(MainSettingPath, "LogSearch", "LogSearch_Times" + i, "");
+                Public_Setting.LogSearch_Display[i] = ini12.INIRead(MainSettingPath, "LogSearch", "Display" + i, "");
+            }
+
+            Public_Setting.Kline_Checked = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
+            Public_Setting.Kline_PortName = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+
+            Public_Setting.Displayhex_Checked = ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "");
+            #endregion
+
+            #region -- Mail.ini --
+            Public_Setting.SendMail_value = ini12.INIRead(MailSettingPath, "Send Mail", "value", "");
+
+            Public_Setting.DataInfo_TestCaseNumber = ini12.INIRead(MailSettingPath, "Data Info", "TestCaseNumber", "");
+            Public_Setting.DataInfo_Result = ini12.INIRead(MailSettingPath, "Data Info", "Result", "");
+            Public_Setting.DataInfo_NGfrequency = ini12.INIRead(MailSettingPath, "Data Info", "NGfrequency", "");
+            Public_Setting.DataInfo_CreateTime = ini12.INIRead(MailSettingPath, "Data Info", "CreateTime", "");
+            Public_Setting.DataInfo_CloseTime = ini12.INIRead(MailSettingPath, "Data Info", "CloseTime", "");
+            Public_Setting.DataInfo_ProjectNumber = ini12.INIRead(MailSettingPath, "Data Info", "ProjectNumber", "");
+            Public_Setting.DataInfo_Reboot = ini12.INIRead(MailSettingPath, "Data Info", "Reboot", "");
+
+            Public_Setting.TotalTestTime_value = ini12.INIRead(MailSettingPath, "Total Test Time", "value", "");
+            Public_Setting.TotalTestTime_value1 = ini12.INIRead(MailSettingPath, "Total Test Time", "value1", "");
+            Public_Setting.TotalTestTime_value2 = ini12.INIRead(MailSettingPath, "Total Test Time", "value2", "");
+            Public_Setting.TotalTestTime_value3 = ini12.INIRead(MailSettingPath, "Total Test Time", "value3", "");
+            Public_Setting.TotalTestTime_value4 = ini12.INIRead(MailSettingPath, "Total Test Time", "value4", "");
+            Public_Setting.TotalTestTime_value5 = ini12.INIRead(MailSettingPath, "Total Test Time", "value5", "");
+            Public_Setting.TotalTestTime_HowLong = ini12.INIRead(MailSettingPath, "Total Test Time", "How Long", "");
+
+            Public_Setting.TestCase_TestCase1 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase1", "");
+            Public_Setting.TestCase_TestCase2 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase2", "");
+            Public_Setting.TestCase_TestCase3 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase3", "");
+            Public_Setting.TestCase_TestCase4 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase4", "");
+            Public_Setting.TestCase_TestCase5 = ini12.INIRead(MailSettingPath, "Test Case", "TestCase5", "");
+
+            Public_Setting.MailInfo_From = ini12.INIRead(MailSettingPath, "Mail Info", "From", "");
+            Public_Setting.MailInfo_To = ini12.INIRead(MailSettingPath, "Mail Info", "To", "");
+            Public_Setting.MailInfo_ProjectName = ini12.INIRead(MailSettingPath, "Mail Info", "ProjectName", "");
+            Public_Setting.MailInfo_ModelName = ini12.INIRead(MailSettingPath, "Mail Info", "ModelName", "");
+            Public_Setting.MailInfo_Version = ini12.INIRead(MailSettingPath, "Mail Info", "Version", "");
+            Public_Setting.MailInfo_Tester = ini12.INIRead(MailSettingPath, "Mail Info", "Tester", "");
+            Public_Setting.MailInfo_TeamViewerID = ini12.INIRead(MailSettingPath, "Mail Info", "TeamViewerID", "");
+            Public_Setting.MailInfo_TeamViewerPassWord = ini12.INIRead(MailSettingPath, "Mail Info", "TeamViewerPassWord", "");
+            #endregion
+
+            #region -- RC.ini --
+            Public_Setting.Setting_SelectRcLastTime = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTime", "");
+            Public_Setting.Setting_SelectRcLastTimePath = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTimePath", "");
+            #endregion
+            #endregion
+        }
+        #endregion
+
+        #region -- Config_SaveAll --
+        public static void Config_SaveAll()
         {
             string MainSettingPath = Application.StartupPath + "\\Config.ini";
             string MailSettingPath = Application.StartupPath + "\\Mail.ini";
             string RcSettingPath = Application.StartupPath + "\\RC.ini";
 
             #region -- Config.ini --
-            ini12.INIWrite(MainSettingPath, "Device", "AutoboxExist", Public_Setting.Device_AutoboxExist);
-            ini12.INIWrite(MainSettingPath, "Device", "AutoboxVerson", Public_Setting.Device_AutoboxVerson);
-            ini12.INIWrite(MainSettingPath, "Device", "AutoboxPort", Public_Setting.Device_AutoboxPort);
-            ini12.INIWrite(MainSettingPath, "Device", "CameraExist", Public_Setting.Device_CameraExist);
-            ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", Public_Setting.Device_RedRatExist);
-            ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", Public_Setting.Device_CANbusExist);
-            ini12.INIWrite(MainSettingPath, "Device", "KlineExist", Public_Setting.Device_KlineExist);
-            ini12.INIWrite(MainSettingPath, "Device", "DOS", Public_Setting.Cmd_DOS);
-            ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", Public_Setting.Cmd_RunAfterStartUp);
+            if (Public_Setting.Device_AutoboxExist != Private_Setting.Device_AutoboxExist) ini12.INIWrite(MainSettingPath, "Device", "AutoboxExist", Public_Setting.Device_AutoboxExist);
+            if (Public_Setting.Device_AutoboxVerson != Private_Setting.Device_AutoboxVerson) ini12.INIWrite(MainSettingPath, "Device", "AutoboxVerson", Public_Setting.Device_AutoboxVerson);
+            if (Public_Setting.Device_AutoboxPort != Private_Setting.Device_AutoboxPort) ini12.INIWrite(MainSettingPath, "Device", "AutoboxPort", Public_Setting.Device_AutoboxPort);
+            if (Public_Setting.Device_CameraExist != Private_Setting.Device_CameraExist) ini12.INIWrite(MainSettingPath, "Device", "CameraExist", Public_Setting.Device_CameraExist);
+            if (Public_Setting.Device_RedRatExist != Private_Setting.Device_RedRatExist) ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", Public_Setting.Device_RedRatExist);
+            if (Public_Setting.Device_CANbusExist != Private_Setting.Device_CANbusExist) ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", Public_Setting.Device_CANbusExist);
+            if (Public_Setting.Device_KlineExist != Private_Setting.Device_KlineExist) ini12.INIWrite(MainSettingPath, "Device", "KlineExist", Public_Setting.Device_KlineExist);
+            if (Public_Setting.Cmd_DOS != Private_Setting.Cmd_DOS) ini12.INIWrite(MainSettingPath, "Device", "DOS", Public_Setting.Cmd_DOS);
+            if (Public_Setting.Cmd_RunAfterStartUp != Private_Setting.Cmd_RunAfterStartUp) ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", Public_Setting.Cmd_RunAfterStartUp);
 
-            ini12.INIWrite(MainSettingPath, "RedRat", "RedRatIndex", Public_Setting.RedRat_Index);
-            ini12.INIWrite(MainSettingPath, "RedRat", "DBFile", Public_Setting.RedRat_DBFile);
-            ini12.INIWrite(MainSettingPath, "RedRat", "Brands", Public_Setting.RedRat_Brands);
-            ini12.INIWrite(MainSettingPath, "RedRat", "SerialNumber", Public_Setting.RedRat_SerialNumber);
+            if (Public_Setting.RedRat_Index != Private_Setting.RedRat_Index) ini12.INIWrite(MainSettingPath, "RedRat", "RedRatIndex", Public_Setting.RedRat_Index);
+            if (Public_Setting.RedRat_DBFile != Private_Setting.RedRat_DBFile) ini12.INIWrite(MainSettingPath, "RedRat", "DBFile", Public_Setting.RedRat_DBFile);
+            if (Public_Setting.RedRat_Brands != Private_Setting.RedRat_Brands) ini12.INIWrite(MainSettingPath, "RedRat", "Brands", Public_Setting.RedRat_Brands);
+            if (Public_Setting.RedRat_SerialNumber != Private_Setting.RedRat_SerialNumber) ini12.INIWrite(MainSettingPath, "RedRat", "SerialNumber", Public_Setting.RedRat_SerialNumber);
 
-            ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", Public_Setting.Camera_VideoIndex);
-            ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", Public_Setting.Camera_VideoNumber);
-            ini12.INIWrite(MainSettingPath, "Camera", "VideoName", Public_Setting.Camera_VideoName);
-            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", Public_Setting.Camera_Resolution);
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", Public_Setting.Camera_AudioIndex);
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", Public_Setting.Camera_AudioNumber);
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", Public_Setting.Camera_AudioName);
+            if (Public_Setting.Camera_VideoIndex != Private_Setting.Camera_VideoIndex) ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", Public_Setting.Camera_VideoIndex);
+            if (Public_Setting.Camera_VideoNumber != Private_Setting.Camera_VideoNumber) ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", Public_Setting.Camera_VideoNumber);
+            if (Public_Setting.Camera_VideoName != Private_Setting.Camera_VideoName) ini12.INIWrite(MainSettingPath, "Camera", "VideoName", Public_Setting.Camera_VideoName);
+            if (Public_Setting.Camera_Resolution != Private_Setting.Camera_Resolution) ini12.INIWrite(MainSettingPath, "Camera", "Resolution", Public_Setting.Camera_Resolution);
+            if (Public_Setting.Camera_AudioIndex != Private_Setting.Camera_AudioIndex) ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", Public_Setting.Camera_AudioIndex);
+            if (Public_Setting.Camera_AudioNumber != Private_Setting.Camera_AudioNumber) ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", Public_Setting.Camera_AudioNumber);
+            if (Public_Setting.Camera_AudioName != Private_Setting.Camera_AudioName) ini12.INIWrite(MainSettingPath, "Camera", "AudioName", Public_Setting.Camera_AudioName);
 
-            ini12.INIWrite(MainSettingPath, "Comport", "Checked", Public_Setting.Comport_Checked);
-            ini12.INIWrite(MainSettingPath, "Comport", "PortName", Public_Setting.Comport_PortName);
-            ini12.INIWrite(MainSettingPath, "Comport", "VirtualName", Public_Setting.Comport_VirtualName);
-            ini12.INIWrite(MainSettingPath, "Comport", "BaudRate", Public_Setting.Comport_BaudRate);
-            ini12.INIWrite(MainSettingPath, "Comport", "DataBit", Public_Setting.Comport_DataBit);
-            ini12.INIWrite(MainSettingPath, "Comport", "StopBits", Public_Setting.Comport_StopBits);
+            if (Public_Setting.Comport_Checked != Private_Setting.Comport_Checked) ini12.INIWrite(MainSettingPath, "Comport", "Checked", Public_Setting.Comport_Checked);
+            if (Public_Setting.Comport_PortName != Private_Setting.Comport_PortName) ini12.INIWrite(MainSettingPath, "Comport", "PortName", Public_Setting.Comport_PortName);
+            if (Public_Setting.Comport_VirtualName != Private_Setting.Comport_VirtualName) ini12.INIWrite(MainSettingPath, "Comport", "VirtualName", Public_Setting.Comport_VirtualName);
+            if (Public_Setting.Comport_BaudRate != Private_Setting.Comport_BaudRate) ini12.INIWrite(MainSettingPath, "Comport", "BaudRate", Public_Setting.Comport_BaudRate);
+            if (Public_Setting.Comport_DataBit != Private_Setting.Comport_DataBit) ini12.INIWrite(MainSettingPath, "Comport", "DataBit", Public_Setting.Comport_DataBit);
+            if (Public_Setting.Comport_StopBits != Private_Setting.Comport_StopBits) ini12.INIWrite(MainSettingPath, "Comport", "StopBits", Public_Setting.Comport_StopBits);
 
-            ini12.INIWrite(MainSettingPath, "ExtComport", "Checked", Public_Setting.ExtComport_Checked);
-            ini12.INIWrite(MainSettingPath, "ExtComport", "PortName", Public_Setting.ExtComport_PortName);
-            ini12.INIWrite(MainSettingPath, "ExtComport", "VirtualName", Public_Setting.ExtComport_VirtualName);
-            ini12.INIWrite(MainSettingPath, "ExtComport", "BaudRate", Public_Setting.ExtComport_BaudRate);
-            ini12.INIWrite(MainSettingPath, "ExtComport", "DataBit", Public_Setting.ExtComport_DataBit);
-            ini12.INIWrite(MainSettingPath, "ExtComport", "StopBits", Public_Setting.ExtComport_StopBits);
+            if (Public_Setting.ExtComport_Checked != Private_Setting.ExtComport_Checked) ini12.INIWrite(MainSettingPath, "ExtComport", "Checked", Public_Setting.ExtComport_Checked);
+            if (Public_Setting.ExtComport_PortName != Private_Setting.ExtComport_PortName) ini12.INIWrite(MainSettingPath, "ExtComport", "PortName", Public_Setting.ExtComport_PortName);
+            if (Public_Setting.ExtComport_VirtualName != Private_Setting.ExtComport_VirtualName) ini12.INIWrite(MainSettingPath, "ExtComport", "VirtualName", Public_Setting.ExtComport_VirtualName);
+            if (Public_Setting.ExtComport_BaudRate != Private_Setting.ExtComport_BaudRate) ini12.INIWrite(MainSettingPath, "ExtComport", "BaudRate", Public_Setting.ExtComport_BaudRate);
+            if (Public_Setting.ExtComport_DataBit != Private_Setting.ExtComport_DataBit) ini12.INIWrite(MainSettingPath, "ExtComport", "DataBit", Public_Setting.ExtComport_DataBit);
+            if (Public_Setting.ExtComport_StopBits != Private_Setting.ExtComport_StopBits) ini12.INIWrite(MainSettingPath, "ExtComport", "StopBits", Public_Setting.ExtComport_StopBits);
 
-            ini12.INIWrite(MainSettingPath, "TriComport", "Checked", Public_Setting.TriComport_Checked);
-            ini12.INIWrite(MainSettingPath, "TriComport", "PortName", Public_Setting.TriComport_PortName);
-            ini12.INIWrite(MainSettingPath, "TriComport", "VirtualName", Public_Setting.TriComport_VirtualName);
-            ini12.INIWrite(MainSettingPath, "TriComport", "BaudRate", Public_Setting.TriComport_BaudRate);
-            ini12.INIWrite(MainSettingPath, "TriComport", "DataBit", Public_Setting.TriComport_DataBit);
-            ini12.INIWrite(MainSettingPath, "TriComport", "StopBits", Public_Setting.TriComport_StopBits);
+            if (Public_Setting.TriComport_Checked != Private_Setting.TriComport_Checked) ini12.INIWrite(MainSettingPath, "TriComport", "Checked", Public_Setting.TriComport_Checked);
+            if (Public_Setting.TriComport_PortName != Private_Setting.TriComport_PortName) ini12.INIWrite(MainSettingPath, "TriComport", "PortName", Public_Setting.TriComport_PortName);
+            if (Public_Setting.TriComport_VirtualName != Private_Setting.TriComport_VirtualName) ini12.INIWrite(MainSettingPath, "TriComport", "VirtualName", Public_Setting.TriComport_VirtualName);
+            if (Public_Setting.TriComport_BaudRate != Private_Setting.TriComport_BaudRate) ini12.INIWrite(MainSettingPath, "TriComport", "BaudRate", Public_Setting.TriComport_BaudRate);
+            if (Public_Setting.TriComport_DataBit != Private_Setting.TriComport_DataBit) ini12.INIWrite(MainSettingPath, "TriComport", "DataBit", Public_Setting.TriComport_DataBit);
+            if (Public_Setting.TriComport_StopBits != Private_Setting.TriComport_StopBits) ini12.INIWrite(MainSettingPath, "TriComport", "StopBits", Public_Setting.TriComport_StopBits);
 
-            ini12.INIWrite(MainSettingPath, "Record", "VideoPath", Public_Setting.Record_VideoPath);
-            ini12.INIWrite(MainSettingPath, "Record", "LogPath", Public_Setting.Record_LogPath);
-            ini12.INIWrite(MainSettingPath, "Record", "Generator", Public_Setting.Record_Generator);
-            ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", Public_Setting.Record_CompareChoose);
-            ini12.INIWrite(MainSettingPath, "Record", "CompareDifferent", Public_Setting.Record_CompareDifferent);
-            ini12.INIWrite(MainSettingPath, "Record", "EachVideo", Public_Setting.Record_EachVideo);
-            ini12.INIWrite(MainSettingPath, "Record", "ImportDB", Public_Setting.Record_ImportDB);
-            ini12.INIWrite(MainSettingPath, "Record", "Footprint Mode", Public_Setting.Record_FootprintMode);
-            ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", Public_Setting.Record_CANbusLog);
+            if (Public_Setting.Record_VideoPath != Private_Setting.Record_VideoPath) ini12.INIWrite(MainSettingPath, "Record", "VideoPath", Public_Setting.Record_VideoPath);
+            if (Public_Setting.Record_LogPath != Private_Setting.Record_LogPath) ini12.INIWrite(MainSettingPath, "Record", "LogPath", Public_Setting.Record_LogPath);
+            if (Public_Setting.Record_Generator != Private_Setting.Record_Generator) ini12.INIWrite(MainSettingPath, "Record", "Generator", Public_Setting.Record_Generator);
+            if (Public_Setting.Record_CompareChoose != Private_Setting.Record_CompareChoose) ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", Public_Setting.Record_CompareChoose);
+            if (Public_Setting.Record_CompareDifferent != Private_Setting.Record_CompareDifferent) ini12.INIWrite(MainSettingPath, "Record", "CompareDifferent", Public_Setting.Record_CompareDifferent);
+            if (Public_Setting.Record_EachVideo != Private_Setting.Record_EachVideo) ini12.INIWrite(MainSettingPath, "Record", "EachVideo", Public_Setting.Record_EachVideo);
+            if (Public_Setting.Record_ImportDB != Private_Setting.Record_ImportDB) ini12.INIWrite(MainSettingPath, "Record", "ImportDB", Public_Setting.Record_ImportDB);
+            if (Public_Setting.Record_FootprintMode != Private_Setting.Record_FootprintMode) ini12.INIWrite(MainSettingPath, "Record", "Footprint Mode", Public_Setting.Record_FootprintMode);
+            if (Public_Setting.Record_CANbusLog != Private_Setting.Record_CANbusLog) ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", Public_Setting.Record_CANbusLog);
 
-            ini12.INIWrite(MainSettingPath, "Schedule1", "Exist", Public_Setting.Schedule1_Exist);
-            ini12.INIWrite(MainSettingPath, "Schedule1", "Loop", Public_Setting.Schedule1_Loop);
-            ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", Public_Setting.Schedule1_OnTimeStart);
-            ini12.INIWrite(MainSettingPath, "Schedule1", "Timer", Public_Setting.Schedule1_Timer);
-            ini12.INIWrite(MainSettingPath, "Schedule1", "Path", Public_Setting.Schedule1_Path);
+            for (int i = Global.Schedule_CurrentNumber - 1; i < Global.Schedule_MaxNumber + 1; i++)
+            {
+                if (Public_Setting.Schedule_Exist[i] != Private_Setting.Schedule_Exist[i]) ini12.INIWrite(MainSettingPath, "Schedule" + i, "Exist", Public_Setting.Schedule_Exist[i]);
+                if (Public_Setting.Schedule_Loop[i] != Private_Setting.Schedule_Loop[i]) ini12.INIWrite(MainSettingPath, "Schedule" + i, "Loop", Public_Setting.Schedule_Loop[i]);
+                if (Public_Setting.Schedule_OnTimeStart[i] != Private_Setting.Schedule_OnTimeStart[i]) ini12.INIWrite(MainSettingPath, "Schedule" + i, "OnTimeStart", Public_Setting.Schedule_OnTimeStart[i]);
+                if (Public_Setting.Schedule_Timer[i] != Private_Setting.Schedule_Timer[i]) ini12.INIWrite(MainSettingPath, "Schedule" + i, "Timer", Public_Setting.Schedule_Timer[i]);
+                if (Public_Setting.Schedule_Path[i] != Private_Setting.Schedule_Path[i]) ini12.INIWrite(MainSettingPath, "Schedule" + i, "Path", Public_Setting.Schedule_Path[i]);
+            }
+ 
+            if (Public_Setting.LogSearch_StartTime != Private_Setting.LogSearch_StartTime) ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", Public_Setting.LogSearch_StartTime);
+            if (Public_Setting.LogSearch_Comport1 != Private_Setting.LogSearch_Comport1) ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", Public_Setting.LogSearch_Comport1);
+            if (Public_Setting.LogSearch_Comport2 != Private_Setting.LogSearch_Comport2) ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", Public_Setting.LogSearch_Comport2);
+            if (Public_Setting.LogSearch_Comport3 != Private_Setting.LogSearch_Comport3) ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", Public_Setting.LogSearch_Comport3);
+            if (Public_Setting.LogSearch_Camerarecord != Private_Setting.LogSearch_Camerarecord) ini12.INIWrite(MainSettingPath, "LogSearch", "Camerarecord", Public_Setting.LogSearch_Camerarecord);
+            if (Public_Setting.LogSearch_Camerashot != Private_Setting.LogSearch_Camerashot) ini12.INIWrite(MainSettingPath, "LogSearch", "Camerashot", Public_Setting.LogSearch_Camerashot);
+            if (Public_Setting.LogSearch_Sendmail != Private_Setting.LogSearch_Sendmail) ini12.INIWrite(MainSettingPath, "LogSearch", "Sendmail", Public_Setting.LogSearch_Sendmail);
+            if (Public_Setting.LogSearch_Savelog != Private_Setting.LogSearch_Savelog) ini12.INIWrite(MainSettingPath, "LogSearch", "Savelog", Public_Setting.LogSearch_Savelog);
+            if (Public_Setting.LogSearch_Showmessage != Private_Setting.LogSearch_Showmessage) ini12.INIWrite(MainSettingPath, "LogSearch", "Showmessage", Public_Setting.LogSearch_Showmessage);
+            if (Public_Setting.LogSearch_ACcontrol != Private_Setting.LogSearch_ACcontrol) ini12.INIWrite(MainSettingPath, "LogSearch", "ACcontrol", Public_Setting.LogSearch_ACcontrol);
+            if (Public_Setting.LogSearch_Stop != Private_Setting.LogSearch_Stop) ini12.INIWrite(MainSettingPath, "LogSearch", "Stop", Public_Setting.LogSearch_Stop);
+            if (Public_Setting.LogSearch_ACOFF != Private_Setting.LogSearch_ACOFF) ini12.INIWrite(MainSettingPath, "LogSearch", "AC OFF", Public_Setting.LogSearch_ACOFF);
+            if (Public_Setting.LogSearch_Nowvalue != Private_Setting.LogSearch_Nowvalue) ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", Public_Setting.LogSearch_Nowvalue);
+            for (int i = Global.keyword_StartNumber; i < Global.keyword_EndNumber; i++)
+            {
+                if (Public_Setting.LogSearch_Text[i] != Private_Setting.LogSearch_Text[i]) ini12.INIWrite(MainSettingPath, "LogSearch", "Text" + i, Public_Setting.LogSearch_Text[i]);
+                if (Public_Setting.LogSearch_Times[i] != Private_Setting.LogSearch_Times[i]) ini12.INIWrite(MainSettingPath, "LogSearch", "Times" + i, Public_Setting.LogSearch_Times[i]);
+                if (Public_Setting.LogSearch_Display[i] != Private_Setting.LogSearch_Display[i]) ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, Public_Setting.LogSearch_Display[i]);
+            }
 
-            ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", Public_Setting.Schedule2_Exist);
-            ini12.INIWrite(MainSettingPath, "Schedule2", "Loop", Public_Setting.Schedule2_Loop);
-            ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", Public_Setting.Schedule2_OnTimeStart);
-            ini12.INIWrite(MainSettingPath, "Schedule2", "Timer", Public_Setting.Schedule2_Timer);
-            ini12.INIWrite(MainSettingPath, "Schedule2", "Path", Public_Setting.Schedule2_Path);
-
-            ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", Public_Setting.Schedule3_Exist);
-            ini12.INIWrite(MainSettingPath, "Schedule3", "Loop", Public_Setting.Schedule3_Loop);
-            ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", Public_Setting.Schedule3_OnTimeStart);
-            ini12.INIWrite(MainSettingPath, "Schedule3", "Timer", Public_Setting.Schedule3_Timer);
-            ini12.INIWrite(MainSettingPath, "Schedule3", "Path", Public_Setting.Schedule3_Path);
-
-            ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", Public_Setting.Schedule4_Exist);
-            ini12.INIWrite(MainSettingPath, "Schedule4", "Loop", Public_Setting.Schedule4_Loop);
-            ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", Public_Setting.Schedule4_OnTimeStart);
-            ini12.INIWrite(MainSettingPath, "Schedule4", "Timer", Public_Setting.Schedule4_Timer);
-            ini12.INIWrite(MainSettingPath, "Schedule4", "Path", Public_Setting.Schedule4_Path);
-
-            ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", Public_Setting.Schedule5_Exist);
-            ini12.INIWrite(MainSettingPath, "Schedule5", "Loop", Public_Setting.Schedule5_Loop);
-            ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", Public_Setting.Schedule5_OnTimeStart);
-            ini12.INIWrite(MainSettingPath, "Schedule5", "Timer", Public_Setting.Schedule5_Timer);
-            ini12.INIWrite(MainSettingPath, "Schedule5", "Path", Public_Setting.Schedule5_Path);
-
-            ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", Public_Setting.LogSearch_StartTime);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", Public_Setting.LogSearch_Comport1);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", Public_Setting.LogSearch_Comport2);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Camerarecord", Public_Setting.LogSearch_Camerarecord);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Camerashot", Public_Setting.LogSearch_Camerashot);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Sendmail", Public_Setting.LogSearch_Sendmail);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Savelog", Public_Setting.LogSearch_Savelog);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Showmessage", Public_Setting.LogSearch_Showmessage);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "ACcontrol", Public_Setting.LogSearch_ACcontrol);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Stop", Public_Setting.LogSearch_Stop);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "AC OFF", Public_Setting.LogSearch_ACOFF);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", Public_Setting.LogSearch_Nowvalue);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text0", Public_Setting.LogSearch_Text0);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text1", Public_Setting.LogSearch_Text1);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text2", Public_Setting.LogSearch_Text2);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text3", Public_Setting.LogSearch_Text3);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text4", Public_Setting.LogSearch_Text4);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text5", Public_Setting.LogSearch_Text5);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text6", Public_Setting.LogSearch_Text6);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text7", Public_Setting.LogSearch_Text7);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text8", Public_Setting.LogSearch_Text8);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Text9", Public_Setting.LogSearch_Text9);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times0", Public_Setting.LogSearch_Times0);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times1", Public_Setting.LogSearch_Times1);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times2", Public_Setting.LogSearch_Times2);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times3", Public_Setting.LogSearch_Times3);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times4", Public_Setting.LogSearch_Times4);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times5", Public_Setting.LogSearch_Times5);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times6", Public_Setting.LogSearch_Times6);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times7", Public_Setting.LogSearch_Times7);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times8", Public_Setting.LogSearch_Times8);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Times9", Public_Setting.LogSearch_Times9);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display0", Public_Setting.LogSearch_Display0);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display1", Public_Setting.LogSearch_Display1);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display2", Public_Setting.LogSearch_Display2);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display3", Public_Setting.LogSearch_Display3);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display4", Public_Setting.LogSearch_Display4);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display5", Public_Setting.LogSearch_Display5);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display6", Public_Setting.LogSearch_Display6);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display7", Public_Setting.LogSearch_Display7);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display8", Public_Setting.LogSearch_Display8);
-            ini12.INIWrite(MainSettingPath, "LogSearch", "Display9", Public_Setting.LogSearch_Display9);
-
-            ini12.INIWrite(MainSettingPath, "Kline", "Checked", Public_Setting.Kline_Checked);
-            ini12.INIWrite(MainSettingPath, "Kline", "PortName", Public_Setting.Kline_PortName);
+            if (Public_Setting.Kline_Checked != Private_Setting.Kline_Checked) ini12.INIWrite(MainSettingPath, "Kline", "Checked", Public_Setting.Kline_Checked);
+            if (Public_Setting.Kline_PortName != Private_Setting.Kline_PortName) ini12.INIWrite(MainSettingPath, "Kline", "PortName", Public_Setting.Kline_PortName);
             #endregion
 
             #region -- Mail.ini --
-            ini12.INIWrite(MailSettingPath, "Send Mail", "value", Public_Setting.SendMail_value);
+            if (Public_Setting.SendMail_value != Private_Setting.SendMail_value) ini12.INIWrite(MailSettingPath, "Send Mail", "value", Public_Setting.SendMail_value);
 
-            ini12.INIWrite(MailSettingPath, "Data Info", "TestCaseNumber", Public_Setting.DataInfo_TestCaseNumber);
-            ini12.INIWrite(MailSettingPath, "Data Info", "Result", Public_Setting.DataInfo_Result);
-            ini12.INIWrite(MailSettingPath, "Data Info", "NGfrequency", Public_Setting.DataInfo_NGfrequency);
-            ini12.INIWrite(MailSettingPath, "Data Info", "CreateTime", Public_Setting.DataInfo_CreateTime);
-            ini12.INIWrite(MailSettingPath, "Data Info", "CloseTime", Public_Setting.DataInfo_CloseTime);
-            ini12.INIWrite(MailSettingPath, "Data Info", "ProjectNumber", Public_Setting.DataInfo_ProjectNumber);
+            if (Public_Setting.DataInfo_TestCaseNumber != Private_Setting.DataInfo_TestCaseNumber) ini12.INIWrite(MailSettingPath, "Data Info", "TestCaseNumber", Public_Setting.DataInfo_TestCaseNumber);
+            if (Public_Setting.DataInfo_Result != Private_Setting.DataInfo_Result) ini12.INIWrite(MailSettingPath, "Data Info", "Result", Public_Setting.DataInfo_Result);
+            if (Public_Setting.DataInfo_NGfrequency != Private_Setting.DataInfo_NGfrequency) ini12.INIWrite(MailSettingPath, "Data Info", "NGfrequency", Public_Setting.DataInfo_NGfrequency);
+            if (Public_Setting.DataInfo_CreateTime != Private_Setting.DataInfo_CreateTime) ini12.INIWrite(MailSettingPath, "Data Info", "CreateTime", Public_Setting.DataInfo_CreateTime);
+            if (Public_Setting.DataInfo_CloseTime != Private_Setting.DataInfo_CloseTime) ini12.INIWrite(MailSettingPath, "Data Info", "CloseTime", Public_Setting.DataInfo_CloseTime);
+            if (Public_Setting.DataInfo_ProjectNumber != Private_Setting.DataInfo_ProjectNumber) ini12.INIWrite(MailSettingPath, "Data Info", "ProjectNumber", Public_Setting.DataInfo_ProjectNumber);
 
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value", Public_Setting.TotalTestTime_value);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value1", Public_Setting.TotalTestTime_value1);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value2", Public_Setting.TotalTestTime_value2);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value3", Public_Setting.TotalTestTime_value3);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value4", Public_Setting.TotalTestTime_value4);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "value5", Public_Setting.TotalTestTime_value5);
-            ini12.INIWrite(MailSettingPath, "Total Test Time", "How Long", Public_Setting.TotalTestTime_HowLong);
+            if (Public_Setting.TotalTestTime_value != Private_Setting.TotalTestTime_value) ini12.INIWrite(MailSettingPath, "Total Test Time", "value", Public_Setting.TotalTestTime_value);
+            if (Public_Setting.TotalTestTime_value1 != Private_Setting.TotalTestTime_value1) ini12.INIWrite(MailSettingPath, "Total Test Time", "value1", Public_Setting.TotalTestTime_value1);
+            if (Public_Setting.TotalTestTime_value2 != Private_Setting.TotalTestTime_value2) ini12.INIWrite(MailSettingPath, "Total Test Time", "value2", Public_Setting.TotalTestTime_value2);
+            if (Public_Setting.TotalTestTime_value3 != Private_Setting.TotalTestTime_value3) ini12.INIWrite(MailSettingPath, "Total Test Time", "value3", Public_Setting.TotalTestTime_value3);
+            if (Public_Setting.TotalTestTime_value4 != Private_Setting.TotalTestTime_value4) ini12.INIWrite(MailSettingPath, "Total Test Time", "value4", Public_Setting.TotalTestTime_value4);
+            if (Public_Setting.TotalTestTime_value5 != Private_Setting.TotalTestTime_value5) ini12.INIWrite(MailSettingPath, "Total Test Time", "value5", Public_Setting.TotalTestTime_value5);
+            if (Public_Setting.TotalTestTime_HowLong != Private_Setting.TotalTestTime_HowLong) ini12.INIWrite(MailSettingPath, "Total Test Time", "How Long", Public_Setting.TotalTestTime_HowLong);
 
-            ini12.INIWrite(MailSettingPath, "Test Case", "TestCase1", Public_Setting.TestCase_TestCase1);
-            ini12.INIWrite(MailSettingPath, "Test Case", "TestCase2", Public_Setting.TestCase_TestCase2);
-            ini12.INIWrite(MailSettingPath, "Test Case", "TestCase3", Public_Setting.TestCase_TestCase3);
-            ini12.INIWrite(MailSettingPath, "Test Case", "TestCase4", Public_Setting.TestCase_TestCase4);
-            ini12.INIWrite(MailSettingPath, "Test Case", "TestCase5", Public_Setting.TestCase_TestCase5);
+            if (Public_Setting.TestCase_TestCase1 != Private_Setting.TestCase_TestCase1) ini12.INIWrite(MailSettingPath, "Test Case", "TestCase1", Public_Setting.TestCase_TestCase1);
+            if (Public_Setting.TestCase_TestCase2 != Private_Setting.TestCase_TestCase2) ini12.INIWrite(MailSettingPath, "Test Case", "TestCase2", Public_Setting.TestCase_TestCase2);
+            if (Public_Setting.TestCase_TestCase3 != Private_Setting.TestCase_TestCase3) ini12.INIWrite(MailSettingPath, "Test Case", "TestCase3", Public_Setting.TestCase_TestCase3);
+            if (Public_Setting.TestCase_TestCase4 != Private_Setting.TestCase_TestCase4) ini12.INIWrite(MailSettingPath, "Test Case", "TestCase4", Public_Setting.TestCase_TestCase4);
+            if (Public_Setting.TestCase_TestCase5 != Private_Setting.TestCase_TestCase5) ini12.INIWrite(MailSettingPath, "Test Case", "TestCase5", Public_Setting.TestCase_TestCase5);
 
-            ini12.INIWrite(MailSettingPath, "Mail Info", "From", Public_Setting.MailInfo_From);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "To", Public_Setting.MailInfo_To);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "ProjectName", Public_Setting.MailInfo_ProjectName);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "ModelName", Public_Setting.MailInfo_ModelName);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "Version", Public_Setting.MailInfo_Version);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "Tester", Public_Setting.MailInfo_Tester);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "TeamViewerID", Public_Setting.MailInfo_TeamViewerID);
-            ini12.INIWrite(MailSettingPath, "Mail Info", "TeamViewerPassWord", Public_Setting.MailInfo_TeamViewerPassWord);
+            if (Public_Setting.MailInfo_From != Private_Setting.MailInfo_From) ini12.INIWrite(MailSettingPath, "Mail Info", "From", Public_Setting.MailInfo_From);
+            if (Public_Setting.MailInfo_To != Private_Setting.MailInfo_To) ini12.INIWrite(MailSettingPath, "Mail Info", "To", Public_Setting.MailInfo_To);
+            if (Public_Setting.MailInfo_ProjectName != Private_Setting.MailInfo_ProjectName) ini12.INIWrite(MailSettingPath, "Mail Info", "ProjectName", Public_Setting.MailInfo_ProjectName);
+            if (Public_Setting.MailInfo_ModelName != Private_Setting.MailInfo_ModelName) ini12.INIWrite(MailSettingPath, "Mail Info", "ModelName", Public_Setting.MailInfo_ModelName);
+            if (Public_Setting.MailInfo_Version != Private_Setting.MailInfo_Version) ini12.INIWrite(MailSettingPath, "Mail Info", "Version", Public_Setting.MailInfo_Version);
+            if (Public_Setting.MailInfo_Tester != Private_Setting.MailInfo_Tester) ini12.INIWrite(MailSettingPath, "Mail Info", "Tester", Public_Setting.MailInfo_Tester);
+            if (Public_Setting.MailInfo_TeamViewerID != Private_Setting.MailInfo_TeamViewerID) ini12.INIWrite(MailSettingPath, "Mail Info", "TeamViewerID", Public_Setting.MailInfo_TeamViewerID);
+            if (Public_Setting.MailInfo_TeamViewerPassWord != Private_Setting.MailInfo_TeamViewerPassWord) ini12.INIWrite(MailSettingPath, "Mail Info", "TeamViewerPassWord", Public_Setting.MailInfo_TeamViewerPassWord);
             #endregion
 
             #region -- RC.ini --
-            ini12.INIWrite(RcSettingPath, "Setting", "SelectRcLastTime", Public_Setting.Setting_SelectRcLastTime);
-            ini12.INIWrite(RcSettingPath, "Setting", "SelectRcLastTimePath", Public_Setting.Setting_SelectRcLastTimePath);
+            if (Public_Setting.Setting_SelectRcLastTime != Private_Setting.Setting_SelectRcLastTime) ini12.INIWrite(RcSettingPath, "Setting", "SelectRcLastTime", Public_Setting.Setting_SelectRcLastTime);
+            if (Public_Setting.Setting_SelectRcLastTimePath != Private_Setting.Setting_SelectRcLastTimePath) ini12.INIWrite(RcSettingPath, "Setting", "SelectRcLastTimePath", Public_Setting.Setting_SelectRcLastTimePath);
             #endregion
+
+            Config_ReadAll();
         }
+
+        #endregion
     }
 
     class Public_Setting
@@ -576,7 +813,7 @@ namespace AutoTest
         public static string LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
         public static string LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
         public static string LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
-        public static string [] LogSearch_Text = {  ini12.INIRead(MainSettingPath, "LogSearch", "Text0", ""),
+        public static string[] LogSearch_Text = {  ini12.INIRead(MainSettingPath, "LogSearch", "Text0", ""),
                                                     ini12.INIRead(MainSettingPath, "LogSearch", "Text1", ""),
                                                     ini12.INIRead(MainSettingPath, "LogSearch", "Text2", ""),
                                                     ini12.INIRead(MainSettingPath, "LogSearch", "Text3", ""),
@@ -682,6 +919,7 @@ namespace AutoTest
         public static string Setting_SelectRcLastTime = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTime", "");
         public static string Setting_SelectRcLastTimePath = ini12.INIRead(RcSettingPath, "Setting", "SelectRcLastTimePath", "");
         #endregion
-    } 
+
+    }
 }
 

@@ -18,16 +18,16 @@ namespace AutoTest
 
         private void FormSchedule_Load(object sender, EventArgs e)
         {
-            textBox_Schedule1.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
-            textBox_Schedule1Loop.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
-            
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "") != "")
+            textBox_Schedule1.Text = Public_Setting.Schedule_Path[1];
+            textBox_Schedule1Loop.Text = Public_Setting.Schedule_Loop[1];
+
+            if (Public_Setting.Schedule_Exist[2] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_Exist[2]) == 1)
                 {
                     checkBox_Schedule2.Checked = true;
-                    textBox_Schedule2.Text = ini12.INIRead(MainSettingPath, "Schedule2", "Path", "");
-                    textBox_Schedule2Loop.Text = ini12.INIRead(MainSettingPath, "Schedule2", "Loop", "");
+                    textBox_Schedule2.Text = Public_Setting.Schedule_Path[2];
+                    textBox_Schedule2Loop.Text = Public_Setting.Schedule_Loop[2];
                 }
                 else
                 {
@@ -40,8 +40,8 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", "0");
-                ini12.INIWrite(MainSettingPath, "Schedule2", "Loop", "0");
+                Public_Setting.Schedule_Exist[2] = "0";
+                Public_Setting.Schedule_Loop[2] = "0";
                 checkBox_Schedule2.Checked = false;
                 button_Schedule2.Enabled = false;
                 textBox_Schedule2.Enabled = false;
@@ -49,13 +49,13 @@ namespace AutoTest
                 checkBox_Timer2.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "Exist", "") != "")
+            if (Public_Setting.Schedule_Exist[3] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule3", "Exist", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_Exist[3]) == 1)
                 {
                     checkBox_Schedule3.Checked = true;
-                    textBox_Schedule3.Text = ini12.INIRead(MainSettingPath, "Schedule3", "Path", "");
-                    textBox_Schedule3Loop.Text = ini12.INIRead(MainSettingPath, "Schedule3", "Loop", "");
+                    textBox_Schedule3.Text = Public_Setting.Schedule_Path[3];
+                    textBox_Schedule3Loop.Text = Public_Setting.Schedule_Loop[3];
                 }
                 else
                 {
@@ -68,8 +68,8 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "0");
-                ini12.INIWrite(MainSettingPath, "Schedule3", "Loop", "0");
+                Public_Setting.Schedule_Exist[3] = "0";
+                Public_Setting.Schedule_Loop[3] = "0";
                 checkBox_Schedule3.Checked = false;
                 button_Schedule3.Enabled = false;
                 textBox_Schedule3.Enabled = false;
@@ -77,13 +77,13 @@ namespace AutoTest
                 checkBox_Timer3.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "Exist", "") != "")
+            if (Public_Setting.Schedule_Exist[4] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule4", "Exist", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_Exist[4]) == 1)
                 {
                     checkBox_Schedule4.Checked = true;
-                    textBox_Schedule4.Text = ini12.INIRead(MainSettingPath, "Schedule4", "Path", "");
-                    textBox_Schedule4Loop.Text = ini12.INIRead(MainSettingPath, "Schedule4", "Loop", "");
+                    textBox_Schedule4.Text = Public_Setting.Schedule_Path[4];
+                    textBox_Schedule4Loop.Text = Public_Setting.Schedule_Loop[4];
                 }
                 else
                 {
@@ -96,8 +96,8 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "0");
-                ini12.INIWrite(MainSettingPath, "Schedule4", "Loop", "0");
+                Public_Setting.Schedule_Exist[4] = "0";
+                Public_Setting.Schedule_Loop[4] = "0";
                 checkBox_Schedule4.Checked = false;
                 button_Schedule4.Enabled = false;
                 textBox_Schedule4.Enabled = false;
@@ -105,13 +105,13 @@ namespace AutoTest
                 checkBox_Timer4.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "") != "")
+            if (Public_Setting.Schedule_Exist[5] != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "")) == 1)
+                if (int.Parse(Public_Setting.Schedule_Exist[5]) == 1)
                 {
                     checkBox_Schedule5.Checked = true;
-                    textBox_Schedule5.Text = ini12.INIRead(MainSettingPath, "Schedule5", "Path", "");
-                    textBox_Schedule5Loop.Text = ini12.INIRead(MainSettingPath, "Schedule5", "Loop", "");
+                    textBox_Schedule5.Text = Public_Setting.Schedule_Path[5];
+                    textBox_Schedule5Loop.Text = Public_Setting.Schedule_Loop[5];
                 }
                 else
                 {
@@ -124,8 +124,8 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "0");
-                ini12.INIWrite(MainSettingPath, "Schedule5", "Loop", "0");
+                Public_Setting.Schedule_Exist[5] = "0";
+                Public_Setting.Schedule_Loop[5] = "0";
                 checkBox_Schedule5.Checked = false;
                 button_Schedule5.Enabled = false;
                 textBox_Schedule5.Enabled = false;
@@ -133,13 +133,13 @@ namespace AutoTest
                 checkBox_Timer5.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") != "")
+            if (Public_Setting.Record_CompareChoose != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "")) == 1)
+                if (int.Parse(Public_Setting.Record_CompareChoose) == 1)
                 {
                     checkBox_Similarity.Checked = true;
                     comboBox_Similarity.Enabled = true;
-                    comboBox_Similarity.Text = (100 - int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", ""))).ToString() + "%";
+                    comboBox_Similarity.Text = (100 - int.Parse(Public_Setting.Record_CompareDifferent)).ToString() + "%";
                 }
                 else
                 {
@@ -149,12 +149,12 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", "0");
+                Public_Setting.Record_CompareChoose = "0";
                 checkBox_Similarity.Checked = false;
                 comboBox_Similarity.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1")
+            if (Public_Setting.Record_FootprintMode == "1")
             {
                 checkBox_FootprintMode.Checked = true;
             }
@@ -163,19 +163,19 @@ namespace AutoTest
                 checkBox_FootprintMode.Checked = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") != "")
+            if (Public_Setting.Record_EachVideo != "")
             {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Record", "EachVideo", "")) == 1)
+                if (int.Parse(Public_Setting.Record_EachVideo) == 1)
                     checkBox_VideoRecord.Checked = true;
                 else
                     checkBox_VideoRecord.Checked = false;
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
+                Public_Setting.Record_EachVideo = "0";
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "") == "1")
+            if (Public_Setting.Cmd_RunAfterStartUp == "1")
             {
                 checkBox_ScheduleAutoStart.Checked = true;
             }
@@ -619,7 +619,7 @@ namespace AutoTest
                 textBox_Schedule2.Enabled = false;
                 textBox_Schedule2Loop.Enabled = false;
 
-                ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", "0");
+                Public_Setting.Schedule_Exist[2] = "0";
                 Global.Schedule_2_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase2", "");
@@ -684,7 +684,7 @@ namespace AutoTest
                 textBox_Schedule3.Enabled = false;
                 textBox_Schedule3Loop.Enabled = false;
 
-                ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "0");
+                Public_Setting.Schedule_Exist[3] = "0";
                 Global.Schedule_3_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase3", "");
@@ -749,7 +749,7 @@ namespace AutoTest
                 textBox_Schedule4.Enabled = false;
                 textBox_Schedule4Loop.Enabled = false;
 
-                ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "0");
+                Public_Setting.Schedule_Exist[4] = "0";
                 Global.Schedule_4_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase4", "");
@@ -814,7 +814,7 @@ namespace AutoTest
                 textBox_Schedule5.Enabled = false;
                 textBox_Schedule5Loop.Enabled = false;
 
-                ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "0");
+                Public_Setting.Schedule_Exist[5] = "0";
                 Global.Schedule_5_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase5", "");
@@ -916,7 +916,7 @@ namespace AutoTest
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
+                Public_Setting.Record_EachVideo = "0";
             }
         }
 
