@@ -1952,6 +1952,7 @@ namespace AutoTest
                 while (data_to_read > 0)
                 {
                     SearchLogQueue1.Enqueue(dataset[index]);
+                    SaveLogQueue1.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -2079,6 +2080,7 @@ namespace AutoTest
                 while (data_to_read > 0)
                 {
                     SearchLogQueue2.Enqueue(dataset[index]);
+                    SaveLogQueue2.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -2204,6 +2206,7 @@ namespace AutoTest
                 while (data_to_read > 0)
                 {
                     SearchLogQueue3.Enqueue(dataset[index]);
+                    SaveLogQueue3.Enqueue(dataset[index]);
                     index++;
                     data_to_read--;
                 }
@@ -2351,20 +2354,20 @@ namespace AutoTest
             string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
 
             StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(textBox1.Text);
-            /*
+            // MYFILE.Write(textBox1.Text);
+            
             Console.WriteLine("Save Log By Queue");
-            while (SearchLogQueue1.Count > 0)
+            while (SaveLogQueue1.Count > 0)
             {
                 char temp_char;
                 byte temp_byte;
 
-                temp_byte = SearchLogQueue1.Dequeue();
+                temp_byte = SaveLogQueue1.Dequeue();
                 temp_char = (char)temp_byte;
 
                 MYFILE.Write(temp_char);
             }
-            */
+            
             MYFILE.Close();
             Txtbox1("", textBox1);
         }
@@ -2383,12 +2386,12 @@ namespace AutoTest
             MYFILE.Write(textBox2.Text);
             /*
             Console.WriteLine("Save Log By Queue");
-            while (SearchLogQueue2.Count > 0)
+            while (SaveLogQueue2.Count > 0)
             {
                 char temp_char;
                 byte temp_byte;
 
-                temp_byte = SearchLogQueue2.Dequeue();
+                temp_byte = SaveLogQueue2.Dequeue();
                 temp_char = (char)temp_byte;
 
                 MYFILE.Write(temp_char);
@@ -2412,12 +2415,12 @@ namespace AutoTest
             MYFILE.Write(textBox3.Text);
             /*
             Console.WriteLine("Save Log By Queue");
-            while (LogQueue3.Count > 0)
+            while (SaveLogQueue3.Count > 0)
             {
                 char temp_char;
                 byte temp_byte;
 
-                temp_byte = LogQueue3.Dequeue();
+                temp_byte = SaveLogQueue3.Dequeue();
                 temp_char = (char)temp_byte;
 
                 MYFILE.Write(temp_char);
@@ -2654,7 +2657,7 @@ namespace AutoTest
                             my_string = "";
                         }
                         #endregion
-
+/*
                         #region \r
                         else if ((Keyword_SerialPort_1_temp_char == '\r'))
                         {
@@ -2837,7 +2840,7 @@ namespace AutoTest
                             my_string = "";
                         }
                         #endregion
-
+*/
                         else
                         {
                             my_string = my_string + Keyword_SerialPort_1_temp_char;
@@ -6151,25 +6154,6 @@ namespace AutoTest
             button_Schedule1.PerformClick();
             timer1.Stop();
             CloseDtplay();
-            if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
-            {
-                CloseSerialPort1();
-            }
-
-            if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
-            {
-                CloseSerialPort2();
-            }
-
-            if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
-            {
-                CloseSerialPort3();
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
-            {
-                CloseKlinePort();
-            }
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
         }
@@ -7087,6 +7071,7 @@ namespace AutoTest
                 Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
                 Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
                 Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
+                Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
@@ -7112,6 +7097,15 @@ namespace AutoTest
                         {
                             LogThread2.Abort();
                             //Log2Data.Abort();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread3.Abort();
+                            //Log3Data.Abort();
                         }
                     }
 
@@ -7143,6 +7137,19 @@ namespace AutoTest
                     */
                     Global.Break_Out_MyRunCamd = 0;
 
+                     textBox_canbus.Text = "";
+                    textBox_TestLog.Text = "";
+
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    MainThread.Start();       // 啟動執行緒
+                    timer1.Start();     //開始倒數
+                    button_Start.Text = "STOP";
+
+                    StartButtonPressed = true;
+                    button_Setting.Enabled = false;
+                    button_Pause.Enabled = true;
+                    button_SaveSchedule.Enabled = false;
+
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
                         OpenSerialPort1();
@@ -7169,6 +7176,11 @@ namespace AutoTest
                     {
                         OpenSerialPort3();
                         textBox3.Text = "";//清空serialport3//
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread3.IsBackground = true;
+                            LogThread3.Start();
+                        }
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
@@ -7176,19 +7188,6 @@ namespace AutoTest
                         OpenKlinePort();
                         textBox_kline.Text = ""; //清空kline//
                     }
-
-                    textBox_canbus.Text = "";
-                    textBox_TestLog.Text = "";
-
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                    MainThread.Start();       // 啟動執行緒
-                    timer1.Start();     //開始倒數
-                    button_Start.Text = "STOP";
-
-                    StartButtonPressed = true;
-                    button_Setting.Enabled = false;
-                    button_Pause.Enabled = true;
-                    button_SaveSchedule.Enabled = false;
                 }
             }
 
@@ -8952,6 +8951,36 @@ namespace AutoTest
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalSeconds).ToString();
+        }
+
+        public static byte[] ConvertToNtp(DateTime datetime)
+        {
+            ulong milliseconds = (ulong)((datetime - new DateTime(1900, 1, 1)).TotalMilliseconds);
+
+            ulong intpart = 0, fractpart = 0;
+            var ntpData = new byte[8];
+
+            intpart = milliseconds / 1000;
+            fractpart = ((milliseconds % 1000) * 0x100000000L) / 1000;
+
+            //Debug.WriteLine("intpart:      " + intpart);
+            //Debug.WriteLine("fractpart:    " + fractpart);
+            //Debug.WriteLine("milliseconds: " + milliseconds);
+
+            var temp = intpart;
+            for (var i = 3; i >= 0; i--)
+            {
+                ntpData[i] = (byte)(temp % 256);
+                temp = temp / 256;
+            }
+
+            temp = fractpart;
+            for (var i = 7; i >= 4; i--)
+            {
+                ntpData[i] = (byte)(temp % 256);
+                temp = temp / 256;
+            }
+            return ntpData;
         }
     }
 }
