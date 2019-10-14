@@ -3843,6 +3843,7 @@ namespace AutoTest
                             #region -- AC SWITCH OLD --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_on")
                             {
+                                Console.WriteLine("AC SWITCH OLD: _on");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
@@ -3879,6 +3880,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_off")
                             {
+                                Console.WriteLine("AC SWITCH OLD: _off");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
@@ -3918,6 +3920,7 @@ namespace AutoTest
                             #region -- AC SWITCH --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC1_ON")
                             {
+                                Console.WriteLine("AC SWITCH: _AC1_ON");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
@@ -3941,6 +3944,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC1_OFF")
                             {
+                                Console.WriteLine("AC SWITCH: _AC1_OFF");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP0_Enable(hCOM, 1) == true)
@@ -3965,6 +3969,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC2_ON")
                             {
+                                Console.WriteLine("AC SWITCH: _AC2_ON");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP1_Enable(hCOM, 1) == true)
@@ -3988,6 +3993,7 @@ namespace AutoTest
                             }
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_AC2_OFF")
                             {
+                                Console.WriteLine("AC SWITCH: _AC2_OFF");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP1_Enable(hCOM, 1) == true)
@@ -4014,6 +4020,7 @@ namespace AutoTest
                             #region -- USB SWITCH --
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB1_DUT")
                             {
+                                Console.WriteLine("USB SWITCH: _USB1_DUT");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
@@ -4036,6 +4043,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB1_PC")
                             {
+                                Console.WriteLine("USB SWITCH: _USB1_PC");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP2_Enable(hCOM, 1) == true)
@@ -4059,6 +4067,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB2_DUT")
                             {
+                                Console.WriteLine("USB SWITCH: _USB2_DUT");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
@@ -4081,6 +4090,7 @@ namespace AutoTest
                             }
                             else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_USB2_PC")
                             {
+                                Console.WriteLine("USB SWITCH: _USB2_PC");
                                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                 {
                                     if (PL2303_GP3_Enable(hCOM, 1) == true)
@@ -4108,6 +4118,7 @@ namespace AutoTest
                         #region -- 拍照 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_shot")
                         {
+                            Console.WriteLine("Take Picture: _shot");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 Global.caption_Num++;
@@ -4126,6 +4137,7 @@ namespace AutoTest
                         #region -- 錄影 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_start")
                         {
+                            Console.WriteLine("Take Record: _rc_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 if (VideoRecording == false)
@@ -4146,6 +4158,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_rc_stop")
                         {
+                            Console.WriteLine("Take Record: _rc_stop");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 if (VideoRecording == true)       //判斷是不是正在錄影
@@ -4253,6 +4266,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Ascii Log: _Comport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         Rs232save(); //存檔rs232
@@ -4289,6 +4303,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Ascii Log: _ExtComport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         ExtRs232save(); //存檔rs232
@@ -4325,6 +4340,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Ascii Log: _TriComport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         TriRs232save(); //存檔rs232
@@ -4367,6 +4383,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "Comport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Hex Log: _Comport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         Rs232save(); //存檔rs232
@@ -4393,6 +4410,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "ExtComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Hex Log: _ExtComport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         ExtRs232save(); //存檔rs232
@@ -4419,6 +4437,7 @@ namespace AutoTest
                             {
                                 if (ini12.INIRead(MainSettingPath, "TriComport", "VirtualName", "") == DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString())
                                 {
+                                    Console.WriteLine("Hex Log: _TriComport");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() == "_save")
                                     {
                                         TriRs232save(); //存檔rs232
@@ -4447,6 +4466,7 @@ namespace AutoTest
                         #region -- K-Line --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_ABS")
                         {
+                            Console.WriteLine("K-line control: _K_ABS");
                             try
                             {
                                 // K-lite ABS指令檔案匯入
@@ -4486,6 +4506,7 @@ namespace AutoTest
                         }
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_K_OBD")
                         {
+                            Console.WriteLine("K-line control: _K_OBD");
                             try
                             {
                                 // K-lite OBD指令檔案匯入
@@ -4538,6 +4559,7 @@ namespace AutoTest
                         #region -- Astro Timing --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_astro")
                         {
+                            Console.WriteLine("Astro control: _astro");
                             try
                             {
                                 // Astro指令
@@ -4589,6 +4611,7 @@ namespace AutoTest
                         #region -- Quantum Timing --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_quantum")
                         {
+                            Console.WriteLine("Quantum control: _quantum");
                             try
                             {
                                 // Quantum指令檔案匯入
@@ -4679,6 +4702,7 @@ namespace AutoTest
                         {
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_start")
                             {
+                                Console.WriteLine("Dektec control: _start");
                                 string StreamName = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
                                 string TvSystem = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString();
                                 string Freq = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
@@ -4704,6 +4728,7 @@ namespace AutoTest
 
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString() == "_stop")
                             {
+                                Console.WriteLine("Dektec control: _stop");
                                 CloseDtplay();
                             }
                         }
@@ -4712,6 +4737,7 @@ namespace AutoTest
                         #region -- 命令提示 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_DOS")
                         {
+                            Console.WriteLine("DOS command: _DOS");
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString() != "")
                             {
                                 string Command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
@@ -4747,11 +4773,13 @@ namespace AutoTest
                         #region -- GPIO_INPUT_OUTPUT --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_IO_Input")
                         {
+                            Console.WriteLine("GPIO control: _IO_Input");
                             IO_INPUT();
                         }
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_IO_Output")
                         {
+                            Console.WriteLine("GPIO control: _IO_Output");
                             //string GPIO = "01010101";
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
@@ -4763,6 +4791,7 @@ namespace AutoTest
                         #region -- Extend_GPIO_OUTPUT --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_WaterTemp")
                         {
+                            Console.WriteLine("Extend GPIO control: _WaterTemp");
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString(); // GPIO = "010101010";
                             if (GPIO.Length == 9)
                             {
@@ -4781,6 +4810,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_FuelDisplay")
                         {
+                            Console.WriteLine("Extend GPIO control: _FuelDisplay");
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
                             if (GPIO.Length == 9)
                             {
@@ -4799,6 +4829,7 @@ namespace AutoTest
 
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_Temperature")
                         {
+                            Console.WriteLine("Extend GPIO control: _Temperature");
                             //string GPIO = "01010101";
                             string GPIO = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
                             int GPIO_B = int.Parse(GPIO);
@@ -4847,6 +4878,7 @@ namespace AutoTest
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
+                                    Console.WriteLine("Extend GPIO control: _FuncKey:" + k + " times");
                                     label_Command.Text = "(Push CMD)" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
                                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                                     {
@@ -4975,7 +5007,7 @@ namespace AutoTest
                                         }
                                     }
                                     //label_Command.Text = "(" + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() + ") " + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-                                    
+                                    Console.WriteLine("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
                                     Thread.Sleep(sRepeat);
                                     int length = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Length;
                                     string status = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Substring(length - 1, 1);
@@ -5126,6 +5158,7 @@ namespace AutoTest
                         #region -- MonkeyTest --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_MonkeyTest")
                         {
+                            Console.WriteLine("Android control: _MonkeyTest");
                             Add_ons MonkeyTest = new Add_ons();
                             MonkeyTest.MonkeyTest();
                             MonkeyTest.CreateExcelFile();
@@ -5188,6 +5221,7 @@ namespace AutoTest
                                 {
                                     #region -- PA10 --
                                     case "10":
+                                        Console.WriteLine("IO CMD: PA10");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(10, 1) == "0")
                                         {
@@ -5223,6 +5257,7 @@ namespace AutoTest
 
                                     #region -- PA11 --
                                     case "11":
+                                        Console.WriteLine("IO CMD: PA11");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(8, 1) == "0")
                                         {
@@ -5254,6 +5289,7 @@ namespace AutoTest
 
                                     #region -- PA14 --
                                     case "14":
+                                        Console.WriteLine("IO CMD: PA14");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(6, 1) == "0")
                                         {
@@ -5285,6 +5321,7 @@ namespace AutoTest
 
                                     #region -- PA15 --
                                     case "15":
+                                        Console.WriteLine("IO CMD: PA15");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(4, 1) == "0")
                                         {
@@ -5316,6 +5353,7 @@ namespace AutoTest
 
                                     #region -- PB01 --
                                     case "01":
+                                        Console.WriteLine("IO CMD: PB01");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(2, 1) == "0")
                                         {
@@ -5348,6 +5386,7 @@ namespace AutoTest
 
                                     #region -- PB07 --
                                     case "07":
+                                        Console.WriteLine("IO CMD: PB07");
                                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(0, 1) == "0")
                                         {
@@ -5524,6 +5563,7 @@ namespace AutoTest
                         #region -- Audio Debounce --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_audio_debounce")
                         {
+                            Console.WriteLine("Audio Detect: _audio_debounce");
                             bool Debounce_Time_PB1, Debounce_Time_PB7;
                             if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "")
                             {
@@ -5548,6 +5588,7 @@ namespace AutoTest
                             switch (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())
                             {
                                 case "1":
+                                    Console.WriteLine("Keyword Search: 1");
                                     if (Global.keyword_1 == "true")
                                     {
                                         KeywordCommand();
@@ -5560,6 +5601,7 @@ namespace AutoTest
                                     break;
 
                                 case "2":
+                                    Console.WriteLine("Keyword Search: 2");
                                     if (Global.keyword_2 == "true")
                                     {
                                         KeywordCommand();
@@ -5572,6 +5614,7 @@ namespace AutoTest
                                     break;
 
                                 case "3":
+                                    Console.WriteLine("Keyword Search: 3");
                                     if (Global.keyword_3 == "true")
                                     {
                                         KeywordCommand();
@@ -5584,6 +5627,7 @@ namespace AutoTest
                                     break;
 
                                 case "4":
+                                    Console.WriteLine("Keyword Search: 4");
                                     if (Global.keyword_4 == "true")
                                     {
                                         KeywordCommand();
@@ -5596,6 +5640,7 @@ namespace AutoTest
                                     break;
 
                                 case "5":
+                                    Console.WriteLine("Keyword Search: 5");
                                     if (Global.keyword_5 == "true")
                                     {
                                         KeywordCommand();
@@ -5608,6 +5653,7 @@ namespace AutoTest
                                     break;
 
                                 case "6":
+                                    Console.WriteLine("Keyword Search: 6");
                                     if (Global.keyword_6 == "true")
                                     {
                                         KeywordCommand();
@@ -5620,6 +5666,7 @@ namespace AutoTest
                                     break;
 
                                 case "7":
+                                    Console.WriteLine("Keyword Search: 7");
                                     if (Global.keyword_7 == "true")
                                     {
                                         KeywordCommand();
@@ -5632,6 +5679,7 @@ namespace AutoTest
                                     break;
 
                                 case "8":
+                                    Console.WriteLine("Keyword Search: 8");
                                     if (Global.keyword_8 == "true")
                                     {
                                         KeywordCommand();
@@ -5644,6 +5692,7 @@ namespace AutoTest
                                     break;
 
                                 case "9":
+                                    Console.WriteLine("Keyword Search: 9");
                                     if (Global.keyword_9 == "true")
                                     {
                                         KeywordCommand();
@@ -5656,6 +5705,7 @@ namespace AutoTest
                                     break;
 
                                 default:
+                                    Console.WriteLine("Keyword Search: 10");
                                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString() == "10")
                                     {
                                         if (Global.keyword_10 == "true")
@@ -5678,6 +5728,7 @@ namespace AutoTest
                         #region -- PWM1 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm1")
                         {
+                            Console.WriteLine("PWM Control: _pwm1");
                             if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -5712,6 +5763,7 @@ namespace AutoTest
                         #region -- PWM2 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm2")
                         {
+                            Console.WriteLine("PWM Control: _pwm2");
                             if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -5746,6 +5798,7 @@ namespace AutoTest
                         #region -- PWM3 --
                         else if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_pwm3")
                         {
+                            Console.WriteLine("PWM Control: _pwm3");
                             if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -5780,6 +5833,7 @@ namespace AutoTest
                         #region -- 遙控器指令 --
                         else
                         {
+                            Console.WriteLine("Remote Control: TV_rc_key");
                             for (int k = 0; k < stime; k++)
                             {
                                 label_Command.Text = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
@@ -5926,7 +5980,7 @@ namespace AutoTest
                 Global.Loop_Number++;
             }
 
-            #region -- Video Record --
+            #region -- Each video record when completed the schedule --
             if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") == "1")
             {
                 if (StartButtonPressed == true)
@@ -7137,7 +7191,7 @@ namespace AutoTest
                     */
                     Global.Break_Out_MyRunCamd = 0;
 
-                     textBox_canbus.Text = "";
+                    textBox_canbus.Text = "";
                     textBox_TestLog.Text = "";
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
@@ -7154,7 +7208,7 @@ namespace AutoTest
                     {
                         OpenSerialPort1();
                         textBox1.Text = "";//清空serialport1//
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
                             LogThread1.IsBackground = true;
                             LogThread1.Start();
@@ -7165,7 +7219,7 @@ namespace AutoTest
                     {
                         OpenSerialPort2();
                         textBox2.Text = "";//清空serialport2//
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
                             LogThread2.Start();
@@ -7176,7 +7230,7 @@ namespace AutoTest
                     {
                         OpenSerialPort3();
                         textBox3.Text = "";//清空serialport3//
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
                             LogThread3.Start();

@@ -76,6 +76,7 @@
             this.pictureBox_Keyword9 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Keyword8 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Keyword7 = new System.Windows.Forms.PictureBox();
+            this.checkBox_SerialPort3 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword2)).BeginInit();
@@ -665,12 +666,27 @@
             this.pictureBox_Keyword7.TabIndex = 130;
             this.pictureBox_Keyword7.TabStop = false;
             // 
+            // checkBox_SerialPort3
+            // 
+            this.checkBox_SerialPort3.AutoSize = true;
+            this.checkBox_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_SerialPort3.ForeColor = System.Drawing.Color.DimGray;
+            this.checkBox_SerialPort3.Location = new System.Drawing.Point(457, 34);
+            this.checkBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
+            this.checkBox_SerialPort3.Size = new System.Drawing.Size(90, 19);
+            this.checkBox_SerialPort3.TabIndex = 131;
+            this.checkBox_SerialPort3.Text = "SerialPort 3";
+            this.checkBox_SerialPort3.UseVisualStyleBackColor = true;
+            this.checkBox_SerialPort3.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort3_CheckedChanged);
+            // 
             // FormLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Ivory;
             this.ClientSize = new System.Drawing.Size(658, 494);
+            this.Controls.Add(this.checkBox_SerialPort3);
             this.Controls.Add(this.pictureBox_Keyword7);
             this.Controls.Add(this.pictureBox_Keyword8);
             this.Controls.Add(this.pictureBox_Keyword9);
@@ -789,5 +805,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Keyword9;
         private System.Windows.Forms.PictureBox pictureBox_Keyword8;
         private System.Windows.Forms.PictureBox pictureBox_Keyword7;
+        private System.Windows.Forms.CheckBox checkBox_SerialPort3;
     }
 }
