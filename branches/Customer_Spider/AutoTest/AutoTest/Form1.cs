@@ -2325,7 +2325,7 @@ namespace AutoTest
                 if (lines.Contains(",")) //Schedule log
                 {
                     string[] lines_sch = lines.Split(',');
-                    Console.WriteLine("Command: " + lines_sch[10]);
+                    Console.WriteLine("Command: " + lines_sch[9]);
                 }
                 else //Canbus log
                 {
@@ -8777,6 +8777,18 @@ namespace AutoTest
             else if (Global.TEXTBOX_FOCUS == 6)
             {
                 CopyLog(textBox_TestLog);
+                string fName = "";
+
+                // 讀取ini中的路徑
+                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
+
+                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                MYFILE.Write(textBox_TestLog.Text);
+                MYFILE.Close();
+
+                System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
+                System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
             }
         }
 
