@@ -1805,6 +1805,7 @@ namespace AutoTest
                     serialPort1.DataBits = 8;
                     serialPort1.Parity = (Parity)0;
                     serialPort1.ReceivedBytesThreshold = 1;
+                    serialPort1.ReadTimeout = 2000;
                     // serialPort1.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                     serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
@@ -1843,6 +1844,7 @@ namespace AutoTest
                     }
                     serialPort2.PortName = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
                     serialPort2.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", ""));
+                    serialPort2.ReadTimeout = 2000;
                     // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                     serialPort2.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
@@ -1882,6 +1884,7 @@ namespace AutoTest
                     }
                     serialPort3.PortName = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
                     serialPort3.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", ""));
+                    serialPort3.ReadTimeout = 2000;
                     // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                     serialPort3.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
