@@ -1727,30 +1727,39 @@ namespace AutoTest
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
         private static void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
+            Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
+
+            Console.WriteLine("RedRatDBViewer_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             aTimer.Elapsed += new ElapsedEventHandler(RedRatDBViewer_Delay_OnTimedEvent);
             RedRatDBViewer_Delay_TimeOutIndicator = false;
             aTimer.Enabled = true;
+            aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
+                Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
                 if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
                     Global.Break_Out_MyRunCamd = 0;
+                    Console.WriteLine("Break_Out_MyRunCamd = 0");
                     break;
                 }
             }
+
             aTimer.Stop();
             aTimer.Dispose();
+            Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
+
 
         private void Log(string msg)
         {
@@ -2358,7 +2367,7 @@ namespace AutoTest
 
             StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
             // MYFILE.Write(textBox1.Text);
-            
+
             Console.WriteLine("Save Log By Queue");
             while (SaveLogQueue1.Count > 0)
             {
@@ -2370,7 +2379,7 @@ namespace AutoTest
 
                 MYFILE.Write(temp_char);
             }
-            
+
             MYFILE.Close();
             Txtbox1("", textBox1);
         }
@@ -2660,190 +2669,190 @@ namespace AutoTest
                             my_string = "";
                         }
                         #endregion
-/*
-                        #region \r
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
-                        {
-                            for (int i = 0; i < compare_paremeter; i++)
-                            {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
-                                int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
-                                string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
-
-                                if (Convert.ToInt32(ewords.Length - 1) >= 1)
-                                {
-                                    compare_number[i] = compare_number[i] + (ewords.Length - 1);
-                                    //Console.WriteLine(compare_string + ": " + compare_number[i]);
-
-                                    //////////////////////////////////////////////////////////////////////Create the compare csv file////////////////////
-                                    if (System.IO.File.Exists(csvFile) == false)
-                                    {
-                                        StreamWriter sw1 = new StreamWriter(csvFile, false, Encoding.UTF8);
-                                        sw1.WriteLine("Key words, Setting times, Search times, Time");
-                                        sw1.Dispose();
-                                    }
-                                    StreamWriter sw2 = new StreamWriter(csvFile, true);
-                                    sw2.Write(compare_string + ",");
-                                    sw2.Write(compare_num + ",");
-                                    sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                                    sw2.Close();
-
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
-                                    if (compare_number[i] > compare_num && send_status[i] == false)
-                                    {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
-                                        {
-                                            FormMail FormMail = new FormMail();
-                                            FormMail.logsend();
-                                            send_status[i] = true;
-                                        }
-                                    }
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
-                                    if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
-                                    {
-                                        byte[] val1;
-                                        val1 = new byte[2];
-                                        val1[0] = 0;
-
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
-                                        if (!jSuccess)
-                                        {
-                                            Log("GP0 output enable FAILED.");
-                                        }
-                                        else
-                                        {
-                                            uint val;
-                                            val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                            if (bSuccess)
-                                            {
+                        /*
+                                                #region \r
+                                                else if ((Keyword_SerialPort_1_temp_char == '\r'))
                                                 {
-                                                    PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    for (int i = 0; i < compare_paremeter; i++)
+                                                    {
+                                                        string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
+                                                        int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
+                                                        string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
+
+                                                        if (Convert.ToInt32(ewords.Length - 1) >= 1)
+                                                        {
+                                                            compare_number[i] = compare_number[i] + (ewords.Length - 1);
+                                                            //Console.WriteLine(compare_string + ": " + compare_number[i]);
+
+                                                            //////////////////////////////////////////////////////////////////////Create the compare csv file////////////////////
+                                                            if (System.IO.File.Exists(csvFile) == false)
+                                                            {
+                                                                StreamWriter sw1 = new StreamWriter(csvFile, false, Encoding.UTF8);
+                                                                sw1.WriteLine("Key words, Setting times, Search times, Time");
+                                                                sw1.Dispose();
+                                                            }
+                                                            StreamWriter sw2 = new StreamWriter(csvFile, true);
+                                                            sw2.Write(compare_string + ",");
+                                                            sw2.Write(compare_num + ",");
+                                                            sw2.Write(compare_number[i] + ",");
+                                                            sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                                            sw2.Close();
+
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
+                                                            if (compare_number[i] > compare_num && send_status[i] == false)
+                                                            {
+                                                                ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                                                ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
+                                                                if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
+                                                                    && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
+                                                                    && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                                                {
+                                                                    FormMail FormMail = new FormMail();
+                                                                    FormMail.logsend();
+                                                                    send_status[i] = true;
+                                                                }
+                                                            }
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
+                                                            if (compare_number[i] % compare_num == 0
+                                                                && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
+                                                                && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                                            {
+                                                                byte[] val1;
+                                                                val1 = new byte[2];
+                                                                val1[0] = 0;
+
+                                                                bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                                                if (!jSuccess)
+                                                                {
+                                                                    Log("GP0 output enable FAILED.");
+                                                                }
+                                                                else
+                                                                {
+                                                                    uint val;
+                                                                    val = (uint)int.Parse("0");
+                                                                    bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                                    if (bSuccess)
+                                                                    {
+                                                                        {
+                                                                            PowerState = false;
+                                                                            pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                System.Threading.Thread.Sleep(5000);
+
+                                                                jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                                                if (!jSuccess)
+                                                                {
+                                                                    Log("GP0 output enable FAILED.");
+                                                                }
+                                                                else
+                                                                {
+                                                                    uint val;
+                                                                    val = (uint)int.Parse("1");
+                                                                    bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                                    if (bSuccess)
+                                                                    {
+                                                                        {
+                                                                            PowerState = true;
+                                                                            pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
+                                                            if (compare_number[i] % compare_num == 0
+                                                                && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
+                                                                && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                                            {
+                                                                byte[] val1 = new byte[2];
+                                                                val1[0] = 0;
+                                                                uint val = (uint)int.Parse("0");
+
+                                                                bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
+                                                                bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+
+                                                                bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
+                                                                bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+
+                                                                PowerState = false;
+
+                                                                pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                            }
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
+                                                            if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                                            {
+                                                                string fName = "";
+
+                                                                // 讀取ini中的路徑
+                                                                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                                                                string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+
+                                                                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                                                                MYFILE.Write(textBox1.Text);
+                                                                MYFILE.Close();
+                                                                Txtbox1("", textBox1);
+                                                            }
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
+                                                            if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                                            {
+                                                                button_Start.PerformClick();
+                                                            }
+                                                            ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
+                                                            if (compare_number[i] % compare_num == 0)
+                                                            {
+                                                                int keyword_numer = i + 1;
+                                                                switch (keyword_numer)
+                                                                {
+                                                                    case 1:
+                                                                        Global.keyword_1 = "true";
+                                                                        break;
+
+                                                                    case 2:
+                                                                        Global.keyword_2 = "true";
+                                                                        break;
+
+                                                                    case 3:
+                                                                        Global.keyword_3 = "true";
+                                                                        break;
+
+                                                                    case 4:
+                                                                        Global.keyword_4 = "true";
+                                                                        break;
+
+                                                                    case 5:
+                                                                        Global.keyword_5 = "true";
+                                                                        break;
+
+                                                                    case 6:
+                                                                        Global.keyword_6 = "true";
+                                                                        break;
+
+                                                                    case 7:
+                                                                        Global.keyword_7 = "true";
+                                                                        break;
+
+                                                                    case 8:
+                                                                        Global.keyword_8 = "true";
+                                                                        break;
+
+                                                                    case 9:
+                                                                        Global.keyword_9 = "true";
+                                                                        break;
+
+                                                                    case 10:
+                                                                        Global.keyword_10 = "true";
+                                                                        break;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    //textBox1.AppendText(my_string + '\r');
+                                                    my_string = "";
                                                 }
-                                            }
-                                        }
-
-                                        System.Threading.Thread.Sleep(5000);
-
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
-                                        if (!jSuccess)
-                                        {
-                                            Log("GP0 output enable FAILED.");
-                                        }
-                                        else
-                                        {
-                                            uint val;
-                                            val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                            if (bSuccess)
-                                            {
-                                                {
-                                                    PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
-                                                }
-                                            }
-                                        }
-                                    }
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
-                                    if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
-                                    {
-                                        byte[] val1 = new byte[2];
-                                        val1[0] = 0;
-                                        uint val = (uint)int.Parse("0");
-
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
-
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
-
-                                        PowerState = false;
-
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
-                                    }
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
-                                    {
-                                        string fName = "";
-
-                                        // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                                        StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(textBox1.Text);
-                                        MYFILE.Close();
-                                        Txtbox1("", textBox1);
-                                    }
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
-                                    {
-                                        button_Start.PerformClick();
-                                    }
-                                    ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
-                                    if (compare_number[i] % compare_num == 0)
-                                    {
-                                        int keyword_numer = i + 1;
-                                        switch (keyword_numer)
-                                        {
-                                            case 1:
-                                                Global.keyword_1 = "true";
-                                                break;
-
-                                            case 2:
-                                                Global.keyword_2 = "true";
-                                                break;
-
-                                            case 3:
-                                                Global.keyword_3 = "true";
-                                                break;
-
-                                            case 4:
-                                                Global.keyword_4 = "true";
-                                                break;
-
-                                            case 5:
-                                                Global.keyword_5 = "true";
-                                                break;
-
-                                            case 6:
-                                                Global.keyword_6 = "true";
-                                                break;
-
-                                            case 7:
-                                                Global.keyword_7 = "true";
-                                                break;
-
-                                            case 8:
-                                                Global.keyword_8 = "true";
-                                                break;
-
-                                            case 9:
-                                                Global.keyword_9 = "true";
-                                                break;
-
-                                            case 10:
-                                                Global.keyword_10 = "true";
-                                                break;
-                                        }
-                                    }
-                                }
-                            }
-                            //textBox1.AppendText(my_string + '\r');
-                            my_string = "";
-                        }
-                        #endregion
-*/
+                                                #endregion
+                        */
                         else
                         {
                             my_string = my_string + Keyword_SerialPort_1_temp_char;
@@ -3788,7 +3797,7 @@ namespace AutoTest
                 {
                     for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
                     {
-                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
+                        //IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
 
@@ -3799,7 +3808,9 @@ namespace AutoTest
                             break;
                         }
 
+                        Console.WriteLine("Datagridview highlight.");
                         GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                        Console.WriteLine("Datagridview scollbar.");
                         Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
 
                         if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString() != "" && int.TryParse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString(), out stime) == true)
@@ -3823,6 +3834,7 @@ namespace AutoTest
                         DateTime.Now.ToShortTimeString();
                         DateTime sch_dt = DateTime.Now;
 
+                        Console.WriteLine("Record Schedule.");
                         Schedule_log = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
                         try
                         {
@@ -5875,21 +5887,26 @@ namespace AutoTest
 
                         //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
                         //MyExportText.Start();
-
+                        Console.WriteLine("CloseTime record.");
                         ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
+
 
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
+                            Console.WriteLine("Break schedule.");
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
                             break;
                         }
 
                         Nowpoint = DataGridView_Schedule.Rows[Global.Scheduler_Row].Index;
+                        Console.WriteLine("Nowpoint record: " + Nowpoint);
                         if (Breakfunction == true)
                         {
+                            Console.WriteLine("Breakfunction.");
                             if (Breakpoint == Nowpoint)
                             {
+                                Console.WriteLine("Breakpoint = Nowpoint");
                                 button_Pause.PerformClick();
                             }
                         }
@@ -5902,12 +5919,14 @@ namespace AutoTest
                         else
                         {
                             RedRatDBViewer_Delay(SysDelay);
+                            Console.WriteLine("RedRatDBViewer_Delay.");
                         }
 
                         #region -- 足跡模式 --
                         //假如足跡模式打開則會append足跡上去
                         if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1" && SysDelay != 0)
                         {
+                            Console.WriteLine("Footprint Mode.");
                             //檔案不存在則加入標題
                             if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
                             {
@@ -5942,6 +5961,7 @@ namespace AutoTest
                             }
                         }
                         #endregion
+                        Console.WriteLine("End.");
                     }
 
                     #region -- Import database --
@@ -5980,6 +6000,7 @@ namespace AutoTest
                     }
                     #endregion
                 }
+                Console.WriteLine("Loop_Number: " + Global.Loop_Number);
                 Global.Loop_Number++;
             }
 
