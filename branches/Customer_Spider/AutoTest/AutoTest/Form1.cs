@@ -122,6 +122,12 @@ namespace AutoTest
         public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
 
+        //Serial Port parameter
+        public delegate void AddDataDelegate(String myString);
+        public AddDataDelegate myDelegate1;
+        public AddDataDelegate myDelegate2;
+        public AddDataDelegate myDelegate3;
+
         public Form1()
         {
             InitializeComponent();
@@ -226,6 +232,9 @@ namespace AutoTest
             if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
             {
                 button_SerialPort1.Visible = true;
+                this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
+                this.myDelegate2 = new AddDataDelegate(AddDataMethod2);
+                this.myDelegate3 = new AddDataDelegate(AddDataMethod3);
             }
             else
             {
@@ -1722,10 +1731,33 @@ namespace AutoTest
                 }
             }
         }
+/*
+        static async System.Threading.Tasks.Task Delay(int iSecond)
+        {
+            await System.Threading.Tasks.Task.Delay(iSecond);
+        }
+
+        async Task RedRatDBViewer_Delay(int delay_ms)
+        {
+            try
+            {
+                await Delay(delay_ms);
+                //System.Threading.Thread.Sleep(delay_ms);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+*/
 
         // 這個主程式專用的delay的內部資料與function
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
-        private static void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
+        private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
             Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
             RedRatDBViewer_Delay_TimeOutIndicator = true;
@@ -1733,11 +1765,12 @@ namespace AutoTest
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
-
             Console.WriteLine("RedRatDBViewer_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
+            //aTimer.Interval = delay_ms;
             aTimer.Elapsed += new ElapsedEventHandler(RedRatDBViewer_Delay_OnTimedEvent);
+            aTimer.SynchronizingObject = this.TimeLabel2;
             RedRatDBViewer_Delay_TimeOutIndicator = false;
             aTimer.Enabled = true;
             aTimer.Start();
@@ -1949,380 +1982,170 @@ namespace AutoTest
         #endregion
 
         #region -- 接受SerialPort1資料 --
+        byte[] dataset1 = new byte[0];
+        byte[] dataset2 = new byte[0];
+        byte[] dataset3 = new byte[0];
+        public void AddDataMethod1(String myString)
+        {
+            DateTime dt;
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // hex to string
+                string hexValues = BitConverter.ToString(dataset1).Replace("-", "");
+                DateTime.Now.ToShortTimeString();
+                dt = DateTime.Now;
 
-        Queue<byte> log_serial_port1 = new Queue<byte>();
+                // Joseph
+                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                textBox1.AppendText(hexValues);
+                // End
+
+                // Jeremy
+                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                // textBox1.AppendText(hexValues + "\r\n");
+                // End
+            }
+            else
+            {
+                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                string text = Encoding.ASCII.GetString(dataset1);
+                dt = DateTime.Now;
+                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                textBox1.AppendText(text);
+            }
+        }
+
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data_to_read = serialPort1.BytesToRead;
 
             if (data_to_read > 0)
             {
-                byte[] dataset = new byte[data_to_read];
-                serialPort1.Read(dataset, 0, data_to_read);
+                dataset1 = new byte[data_to_read];
+                serialPort1.Read(dataset1, 0, data_to_read);
 
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    SearchLogQueue1.Enqueue(dataset[index]);
-                    SaveLogQueue1.Enqueue(dataset[index]);
+                    SearchLogQueue1.Enqueue(dataset1[index]);
+                    SaveLogQueue1.Enqueue(dataset1[index]);
                     index++;
                     data_to_read--;
                 }
 
-                DateTime dt;
-                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                {
-                    // hex to string
-                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                    DateTime.Now.ToShortTimeString();
-                    dt = DateTime.Now;
-
-                    // Joseph
-                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                    textBox1.AppendText(hexValues);
-                    // End
-
-                    // Jeremy
-                    // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                    // textBox1.AppendText(hexValues + "\r\n");
-                    // End
-                }
-                else
-                {
-                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                    string text = Encoding.ASCII.GetString(dataset);
-                    dt = DateTime.Now;
-                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    textBox1.AppendText(text);
-                }
-
-                //byte[] byteArray = System.Text.Encoding.ASCII.GetBytes(dt.ToString("yyyy/MM/dd HH:mm:ss"));
-                //List<byte> dt_list_byte = new List<byte>(byteArray);
-                //foreach (byte chr in dt_list_byte)
-                //{
-                //   log_serial_port1.Enqueue(chr);
-                //}
-                //data_to_read = index;
-                //index = 0;
-                //while (data_to_read > 0)
-                //{
-                //    log_serial_port1.Enqueue(dataset[index]);
-                //    index++;
-                //    data_to_read--;
-                //}
-
-                //string hex = ByteToHexStr(dataset);
-                //File.AppendAllText(@"C:\WriteText.txt", text);
-                /*
-                //serialPort1.DiscardInBuffer();
-                //serialPort1.DiscardOutBuffer();
-                ///////////////////////////////////////////////先暫時拿掉此功能，因為_save可能會導致程式死當
-                string hex = ByteToHexStr(dataset);
-                if (DataGridView1.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
-                {
-                    if (hex.Substring(0, 2) == "0E")
-                    {
-                        textBox1.AppendText("RX: " + hex);
-                        Console.WriteLine("1---" + "RX: " + hex);
-
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                        {
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox1.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox1.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-                            else
-                            {
-                                textBox1.AppendText(hex);
-                                Console.WriteLine("2---" + hex);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        textBox1.AppendText(hex);
-                        Console.WriteLine("3---" + hex);
-                        if(hex.Substring(hex.Length - 2) == "A5")
-                        if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                        {
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-
-                        if (hex == "A5")
-                        {
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox1.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox1.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-                    }
-                }
-                else
-                    textBox1.AppendText(text);
-                */
+                string s = serialPort1.ReadExisting();
+                textBox1.Invoke(this.myDelegate1, new Object[] { s });
             }
-
-
         }
         #endregion
 
         #region -- 接受SerialPort2資料 --
+        public void AddDataMethod2(String myString)
+        {
+            DateTime dt;
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // hex to string
+                string hexValues = BitConverter.ToString(dataset2).Replace("-", "");
+                DateTime.Now.ToShortTimeString();
+                dt = DateTime.Now;
+
+                // Joseph
+                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                textBox2.AppendText(hexValues);
+                // End
+
+                // Jeremy
+                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                // textBox1.AppendText(hexValues + "\r\n");
+                // End
+            }
+            else
+            {
+                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                string text = Encoding.ASCII.GetString(dataset2);
+                dt = DateTime.Now;
+                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                textBox2.AppendText(text);
+            }
+        }
+
         private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data_to_read = serialPort2.BytesToRead;
             if (data_to_read > 0)
             {
-                byte[] dataset = new byte[data_to_read];
+                dataset2 = new byte[data_to_read];
 
-                serialPort2.Read(dataset, 0, data_to_read);
+                serialPort2.Read(dataset2, 0, data_to_read);
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    SearchLogQueue2.Enqueue(dataset[index]);
-                    SaveLogQueue2.Enqueue(dataset[index]);
+                    SearchLogQueue2.Enqueue(dataset2[index]);
+                    SaveLogQueue2.Enqueue(dataset2[index]);
                     index++;
                     data_to_read--;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                {
-                    // hex to string
-                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                    textBox2.AppendText(hexValues);
-                }
-                else
-                {
-                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                    string text = Encoding.ASCII.GetString(dataset);
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    textBox2.AppendText(text);
-                }
-
-                /*
-
-                */
-
-                //string hex = ByteToHexStr(dataset);
-                //serialPort2.DiscardInBuffer();
-                //serialPort2.DiscardOutBuffer();
-                /*///////////////////////////////////////////////先暫時拿掉此功能，因為_save可能會導致程式死當
-                if (DataGridView1.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
-                {
-                    if (hex.Substring(0, 2) == "0E")
-                    {
-                        textBox2.AppendText("RX: " + hex);
-                        Console.WriteLine("1---" + "RX: " + hex);
-
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                        {
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox2.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox2.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox2.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-                            else
-                            {
-                                textBox2.AppendText(hex);
-                                Console.WriteLine("2---" + hex);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        textBox2.AppendText(hex);
-                        Console.WriteLine("3---" + hex);
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox2.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox2.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox2.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-
-                        if (hex == "A5")
-                        {
-                            textBox2.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox2.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox2.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-                    }
-                }
-                else
-                {
-                    textBox2.AppendText(text);
-
-                    //textBox2.AppendText(text.Replace(Environment.NewLine, "<br>"));
-                    /*
-                    if (text.Length >= 2)
-                    {
-                        //Console.WriteLine(text.Substring(text.Length - 2));
-                        if (text.Replace(Environment.NewLine, "\n\r").Substring(text.Length - 2) == "\n\r")
-                        {
-                            textBox2.AppendText("[" + DateTime.Now.ToString("ddd MMM d hh:mm:ss yyyy", new CultureInfo("en-US")) + "] ");
-                            textBox2.AppendText(text);
-                            Console.WriteLine("=================================");
-                        }
-                        else
-                            textBox2.AppendText(text);
-                    }
-                    else
-                    {
-                        textBox2.AppendText(text);
-                    }
-                    //
-                }
-                */
+                string s = serialPort2.ReadExisting();
+                textBox2.Invoke(this.myDelegate2, new Object[] { s });
             }
         }
         #endregion
 
         #region -- 接受SerialPort3資料 --
+        public void AddDataMethod3(String myString)
+        {
+            DateTime dt;
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // hex to string
+                string hexValues = BitConverter.ToString(dataset3).Replace("-", "");
+                DateTime.Now.ToShortTimeString();
+                dt = DateTime.Now;
+
+                // Joseph
+                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                textBox3.AppendText(hexValues);
+                // End
+
+                // Jeremy
+                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                // textBox1.AppendText(hexValues + "\r\n");
+                // End
+            }
+            else
+            {
+                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                string text = Encoding.ASCII.GetString(dataset3);
+                dt = DateTime.Now;
+                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                textBox3.AppendText(text);
+            }
+        }
+
         private void SerialPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data_to_read = serialPort3.BytesToRead;
             if (data_to_read > 0)
             {
-                byte[] dataset = new byte[data_to_read];
+                dataset3 = new byte[data_to_read];
 
-                serialPort3.Read(dataset, 0, data_to_read);
+                serialPort3.Read(dataset3, 0, data_to_read);
                 int index = 0;
                 while (data_to_read > 0)
                 {
-                    SearchLogQueue3.Enqueue(dataset[index]);
-                    SaveLogQueue3.Enqueue(dataset[index]);
+                    SearchLogQueue3.Enqueue(dataset3[index]);
+                    SaveLogQueue3.Enqueue(dataset3[index]);
                     index++;
                     data_to_read--;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                {
-                    // hex to string
-                    string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                    textBox3.AppendText(hexValues);
-                }
-                else
-                {
-                    // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                    string text = Encoding.ASCII.GetString(dataset);
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                    textBox3.AppendText(text);
-                }
-
-                //string hex = ByteToHexStr(dataset);
-                //serialPort3.DiscardInBuffer();
-                //serialPort3.DiscardOutBuffer();
-                /*///////////////////////////////////////////////先暫時拿掉此功能，因為_save可能會導致程式死當
-                if (DataGridView1.Rows[Global.Scheduler_Row].Cells[0].Value.ToString() == "_SXP")
-                {
-                    if (hex.Substring(0, 2) == "0E")
-                    {
-                        textBox3.AppendText("RX: " + hex);
-                        Console.WriteLine("1---" + "RX: " + hex);
-
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                        {
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox3.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox3.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox3.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-                            else
-                            {
-                                textBox3.AppendText(hex);
-                                Console.WriteLine("2---" + hex);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        textBox3.AppendText(hex);
-                        Console.WriteLine("3---" + hex);
-                        if (hex.Substring(hex.Length - 2) == "A5")
-                            if (hex.Length >= 4 && hex.Substring(hex.Length - 4) == "A5A5")
-                            {
-                                textBox3.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                                textBox3.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                                textBox3.AppendText("\r\n");
-                                Console.WriteLine("\r\n");
-                            }
-
-                        if (hex == "A5")
-                        {
-                            textBox3.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                            textBox3.AppendText("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            Console.WriteLine("TX: " + DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString() + "\r\n");
-                            textBox3.AppendText("\r\n");
-                            Console.WriteLine("\r\n");
-                        }
-                    }
-                }
-                else
-                {
-                    textBox3.AppendText(text);
-
-                    //textBox3.AppendText(text.Replace(Environment.NewLine, "<br>"));
-                    /*
-                    if (text.Length >= 2)
-                    {
-                        //Console.WriteLine(text.Substring(text.Length - 2));
-                        if (text.Replace(Environment.NewLine, "\n\r").Substring(text.Length - 2) == "\n\r")
-                        {
-                            textBox3.AppendText("[" + DateTime.Now.ToString("ddd MMM d hh:mm:ss yyyy", new CultureInfo("en-US")) + "] ");
-                            textBox3.AppendText(text);
-                            Console.WriteLine("=================================");
-                        }
-                        else
-                            textBox3.AppendText(text);
-                    }
-                    else
-                    {
-                        textBox3.AppendText(text);
-                    }
-                    //
-                }
-                */
+                string s = serialPort3.ReadExisting();
+                textBox3.Invoke(this.myDelegate3, new Object[] { s });
             }
         }
         #endregion
@@ -3797,7 +3620,7 @@ namespace AutoTest
                 {
                     for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
                     {
-                        //IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
+                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
 
@@ -7388,9 +7211,7 @@ namespace AutoTest
         //系統時間
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            DateTime dt = DateTime.Now;
-            TimeLabel.Text = string.Format("{0:R}", dt);
-            TimeLabel2.Text = string.Format("{0:yyyy-MM-dd  HH:mm:ss}", dt);
+
 
             #region -- schedule timer --
             if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1")
@@ -9071,6 +8892,26 @@ namespace AutoTest
                 temp = temp / 256;
             }
             return ntpData;
+        }
+    }
+
+    class TimerCustom : System.Timers.Timer
+    {
+        public Queue<int> queue = new Queue<int>();
+
+        public object lockMe = new object();
+
+        /// <summary>
+        /// 为保持连贯性，默认锁住两个
+        /// </summary>
+        public long lockNum = 0;
+
+        public TimerCustom()
+        {
+            for (int i = 0; i < short.MaxValue; i++)
+            {
+                queue.Enqueue(i);
+            }
         }
     }
 }
