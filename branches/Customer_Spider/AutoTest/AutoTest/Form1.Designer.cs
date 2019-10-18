@@ -109,24 +109,13 @@ namespace AutoTest
             this.pictureBox_Ac2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Ac1 = new System.Windows.Forms.PictureBox();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
-            this.pictureBox_BlueRat = new System.Windows.Forms.PictureBox();
-            this.MiniPicBox = new System.Windows.Forms.PictureBox();
-            this.ClosePicBox = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_AcPower = new System.Windows.Forms.PictureBox();
-            this.pictureBox_Camera = new System.Windows.Forms.PictureBox();
-            this.pictureBox_RedRat = new System.Windows.Forms.PictureBox();
-            this.panelVideo = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.button_SerialPort3 = new System.Windows.Forms.Button();
             this.serialPort3 = new System.IO.Ports.SerialPort(this.components);
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button_Network = new System.Windows.Forms.Button();
             this.label_ext_board = new System.Windows.Forms.Label();
-            this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
             this.timer_canbus = new System.Windows.Forms.Timer(this.components);
             this.label_canbus = new System.Windows.Forms.Label();
-            this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
             this.textBox_canbus = new System.Windows.Forms.TextBox();
             this.button_CanbusPort = new System.Windows.Forms.Button();
             this.button_kline = new System.Windows.Forms.Button();
@@ -146,6 +135,17 @@ namespace AutoTest
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
+            this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
+            this.pictureBox_BlueRat = new System.Windows.Forms.PictureBox();
+            this.MiniPicBox = new System.Windows.Forms.PictureBox();
+            this.ClosePicBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_AcPower = new System.Windows.Forms.PictureBox();
+            this.pictureBox_Camera = new System.Windows.Forms.PictureBox();
+            this.pictureBox_RedRat = new System.Windows.Forms.PictureBox();
+            this.panelVideo = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -155,6 +155,9 @@ namespace AutoTest
             this.groupBox_Ac.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BlueRat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MiniPicBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).BeginInit();
@@ -164,9 +167,6 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -1112,110 +1112,6 @@ namespace AutoTest
             this.comboBox_CameraDevice.TabIndex = 95;
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
             // 
-            // pictureBox_BlueRat
-            // 
-            this.pictureBox_BlueRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_BlueRat.Location = new System.Drawing.Point(11, 18);
-            this.pictureBox_BlueRat.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_BlueRat.Name = "pictureBox_BlueRat";
-            this.pictureBox_BlueRat.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_BlueRat.TabIndex = 84;
-            this.pictureBox_BlueRat.TabStop = false;
-            // 
-            // MiniPicBox
-            // 
-            this.MiniPicBox.Image = global::AutoTest.Properties.Resources.mini1;
-            this.MiniPicBox.Location = new System.Drawing.Point(1404, 8);
-            this.MiniPicBox.Margin = new System.Windows.Forms.Padding(2);
-            this.MiniPicBox.Name = "MiniPicBox";
-            this.MiniPicBox.Size = new System.Drawing.Size(34, 26);
-            this.MiniPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.MiniPicBox.TabIndex = 61;
-            this.MiniPicBox.TabStop = false;
-            this.MiniPicBox.Visible = false;
-            this.MiniPicBox.Click += new System.EventHandler(this.MiniPicBox_Click);
-            this.MiniPicBox.MouseEnter += new System.EventHandler(this.MiniPicBox_Enter);
-            this.MiniPicBox.MouseLeave += new System.EventHandler(this.MiniPicBox_Leave);
-            // 
-            // ClosePicBox
-            // 
-            this.ClosePicBox.Image = global::AutoTest.Properties.Resources.close1;
-            this.ClosePicBox.Location = new System.Drawing.Point(1404, 8);
-            this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
-            this.ClosePicBox.Name = "ClosePicBox";
-            this.ClosePicBox.Size = new System.Drawing.Size(34, 26);
-            this.ClosePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.ClosePicBox.TabIndex = 60;
-            this.ClosePicBox.TabStop = false;
-            this.ClosePicBox.Visible = false;
-            this.ClosePicBox.Click += new System.EventHandler(this.ClosePicBox_Click);
-            this.ClosePicBox.MouseEnter += new System.EventHandler(this.ClosePicBox_Enter);
-            this.ClosePicBox.MouseLeave += new System.EventHandler(this.ClosePicBox_Leave);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Location = new System.Drawing.Point(1404, 34);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(585, 435);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 38;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox_AcPower
-            // 
-            this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_AcPower.Location = new System.Drawing.Point(275, 18);
-            this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_AcPower.Name = "pictureBox_AcPower";
-            this.pictureBox_AcPower.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_AcPower.TabIndex = 35;
-            this.pictureBox_AcPower.TabStop = false;
-            // 
-            // pictureBox_Camera
-            // 
-            this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(187, 18);
-            this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_Camera.Name = "pictureBox_Camera";
-            this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_Camera.TabIndex = 33;
-            this.pictureBox_Camera.TabStop = false;
-            // 
-            // pictureBox_RedRat
-            // 
-            this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_RedRat.Location = new System.Drawing.Point(99, 18);
-            this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_RedRat.Name = "pictureBox_RedRat";
-            this.pictureBox_RedRat.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_RedRat.TabIndex = 31;
-            this.pictureBox_RedRat.TabStop = false;
-            // 
-            // panelVideo
-            // 
-            this.panelVideo.BackColor = System.Drawing.Color.Black;
-            this.panelVideo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelVideo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelVideo.Image = global::AutoTest.Properties.Resources.TV_Screen;
-            this.panelVideo.Location = new System.Drawing.Point(7, 48);
-            this.panelVideo.Margin = new System.Windows.Forms.Padding(2);
-            this.panelVideo.Name = "panelVideo";
-            this.panelVideo.Size = new System.Drawing.Size(950, 400);
-            this.panelVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.panelVideo.TabIndex = 28;
-            this.panelVideo.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Location = new System.Drawing.Point(523, 131);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(522, 390);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 38;
-            this.pictureBox5.TabStop = false;
-            // 
             // button_SerialPort3
             // 
             this.button_SerialPort3.BackColor = System.Drawing.Color.Transparent;
@@ -1275,17 +1171,6 @@ namespace AutoTest
             this.label_ext_board.TabIndex = 100;
             this.label_ext_board.Text = "Ext_board";
             // 
-            // pictureBox_ext_board
-            // 
-            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 18);
-            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
-            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_ext_board.TabIndex = 99;
-            this.pictureBox_ext_board.TabStop = false;
-            // 
             // timer_canbus
             // 
             this.timer_canbus.Interval = 250;
@@ -1303,17 +1188,6 @@ namespace AutoTest
             this.label_canbus.Size = new System.Drawing.Size(67, 17);
             this.label_canbus.TabIndex = 102;
             this.label_canbus.Text = "CAN_bus";
-            // 
-            // pictureBox_canbus
-            // 
-            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(444, 18);
-            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_canbus.Name = "pictureBox_canbus";
-            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_canbus.TabIndex = 101;
-            this.pictureBox_canbus.TabStop = false;
             // 
             // textBox_canbus
             // 
@@ -1390,6 +1264,7 @@ namespace AutoTest
             this.button_TestLog.TabIndex = 108;
             this.button_TestLog.Text = "TestLog";
             this.button_TestLog.UseVisualStyleBackColor = true;
+            this.button_TestLog.Visible = false;
             this.button_TestLog.Click += new System.EventHandler(this.button_TestLog_Click);
             // 
             // button_Copy
@@ -1508,7 +1383,7 @@ namespace AutoTest
             // Column6
             // 
             this.Column6.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Column6.HeaderText = "Sub-func.";
+            this.Column6.HeaderText = "Sub-function";
             this.Column6.MinimumWidth = 100;
             this.Column6.Name = "Column6";
             this.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -1547,6 +1422,132 @@ namespace AutoTest
             this.Column10.MinimumWidth = 100;
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // pictureBox_canbus
+            // 
+            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_canbus.Location = new System.Drawing.Point(444, 18);
+            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_canbus.Name = "pictureBox_canbus";
+            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_canbus.TabIndex = 101;
+            this.pictureBox_canbus.TabStop = false;
+            // 
+            // pictureBox_ext_board
+            // 
+            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 18);
+            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
+            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_ext_board.TabIndex = 99;
+            this.pictureBox_ext_board.TabStop = false;
+            // 
+            // pictureBox_BlueRat
+            // 
+            this.pictureBox_BlueRat.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_BlueRat.Location = new System.Drawing.Point(11, 18);
+            this.pictureBox_BlueRat.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_BlueRat.Name = "pictureBox_BlueRat";
+            this.pictureBox_BlueRat.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_BlueRat.TabIndex = 84;
+            this.pictureBox_BlueRat.TabStop = false;
+            // 
+            // MiniPicBox
+            // 
+            this.MiniPicBox.Image = global::AutoTest.Properties.Resources.mini1;
+            this.MiniPicBox.Location = new System.Drawing.Point(1404, 8);
+            this.MiniPicBox.Margin = new System.Windows.Forms.Padding(2);
+            this.MiniPicBox.Name = "MiniPicBox";
+            this.MiniPicBox.Size = new System.Drawing.Size(34, 26);
+            this.MiniPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.MiniPicBox.TabIndex = 61;
+            this.MiniPicBox.TabStop = false;
+            this.MiniPicBox.Visible = false;
+            this.MiniPicBox.Click += new System.EventHandler(this.MiniPicBox_Click);
+            this.MiniPicBox.MouseEnter += new System.EventHandler(this.MiniPicBox_Enter);
+            this.MiniPicBox.MouseLeave += new System.EventHandler(this.MiniPicBox_Leave);
+            // 
+            // ClosePicBox
+            // 
+            this.ClosePicBox.Image = global::AutoTest.Properties.Resources.close1;
+            this.ClosePicBox.Location = new System.Drawing.Point(1404, 8);
+            this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
+            this.ClosePicBox.Name = "ClosePicBox";
+            this.ClosePicBox.Size = new System.Drawing.Size(34, 26);
+            this.ClosePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ClosePicBox.TabIndex = 60;
+            this.ClosePicBox.TabStop = false;
+            this.ClosePicBox.Visible = false;
+            this.ClosePicBox.Click += new System.EventHandler(this.ClosePicBox_Click);
+            this.ClosePicBox.MouseEnter += new System.EventHandler(this.ClosePicBox_Enter);
+            this.ClosePicBox.MouseLeave += new System.EventHandler(this.ClosePicBox_Leave);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Location = new System.Drawing.Point(1404, 34);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(585, 435);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 38;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox_AcPower
+            // 
+            this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_AcPower.Location = new System.Drawing.Point(275, 18);
+            this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_AcPower.Name = "pictureBox_AcPower";
+            this.pictureBox_AcPower.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_AcPower.TabIndex = 35;
+            this.pictureBox_AcPower.TabStop = false;
+            // 
+            // pictureBox_Camera
+            // 
+            this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_Camera.Location = new System.Drawing.Point(187, 18);
+            this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_Camera.Name = "pictureBox_Camera";
+            this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_Camera.TabIndex = 33;
+            this.pictureBox_Camera.TabStop = false;
+            // 
+            // pictureBox_RedRat
+            // 
+            this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_RedRat.Location = new System.Drawing.Point(99, 18);
+            this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_RedRat.Name = "pictureBox_RedRat";
+            this.pictureBox_RedRat.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_RedRat.TabIndex = 31;
+            this.pictureBox_RedRat.TabStop = false;
+            // 
+            // panelVideo
+            // 
+            this.panelVideo.BackColor = System.Drawing.Color.Black;
+            this.panelVideo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelVideo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelVideo.Image = global::AutoTest.Properties.Resources.TV_Screen;
+            this.panelVideo.Location = new System.Drawing.Point(7, 48);
+            this.panelVideo.Margin = new System.Windows.Forms.Padding(2);
+            this.panelVideo.Name = "panelVideo";
+            this.panelVideo.Size = new System.Drawing.Size(950, 400);
+            this.panelVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.panelVideo.TabIndex = 28;
+            this.panelVideo.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Location = new System.Drawing.Point(523, 131);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(522, 390);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 38;
+            this.pictureBox5.TabStop = false;
             // 
             // Form1
             // 
@@ -1635,6 +1636,9 @@ namespace AutoTest
             this.groupBox_Ac.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BlueRat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MiniPicBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).EndInit();
@@ -1644,9 +1648,6 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
