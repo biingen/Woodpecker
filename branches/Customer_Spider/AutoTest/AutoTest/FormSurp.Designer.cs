@@ -1,4 +1,4 @@
-﻿namespace AutoTest
+﻿namespace Woodpecker
 {
     partial class FormSurp
     {
@@ -79,7 +79,7 @@
             // 
             // pictureHW
             // 
-            this.pictureHW.Image = global::AutoTest.Properties.Resources.Surprise;
+            this.pictureHW.Image = global::Woodpecker.Properties.Resources.Surprise;
             this.pictureHW.Location = new System.Drawing.Point(14, 14);
             this.pictureHW.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureHW.Name = "pictureHW";

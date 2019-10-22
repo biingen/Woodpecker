@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net.NetworkInformation;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormMail : Form
     {
@@ -174,10 +174,7 @@ namespace AutoTest
             }
 
             string RCDBPath = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
-            if (File.Exists(RCDBPath))
-            {
-                msg.Attachments.Add(GetAttachmentRCDB(Path.GetFileName(RCDBPath), System.Text.Encoding.UTF8));
-            }
+            msg.Attachments.Add(GetAttachmentRCDB(Path.GetFileName(RCDBPath), System.Text.Encoding.UTF8));
 
             //建立 SmtpClient 物件 並設定 Gmail的smtp主機及Port 
 

@@ -2,10 +2,12 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using MaterialSkin.Controls;
+using MaterialSkin;
 
-namespace AutoTest
+namespace Woodpecker
 {
-    public partial class FormTabControl : Form
+    public partial class FormTabControl : MaterialForm
     {
         public FormTabControl()
         {

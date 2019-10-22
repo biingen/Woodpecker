@@ -1,4 +1,4 @@
-﻿namespace AutoTest
+﻿namespace Woodpecker
 {
     partial class frm_Splash
     {
@@ -50,7 +50,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::AutoTest.Properties.Resources.StartAutoBox;
+            this.pictureBox1.BackgroundImage = global::Woodpecker.Properties.Resources.StartAutoBox;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.Location = new System.Drawing.Point(2, 2);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
