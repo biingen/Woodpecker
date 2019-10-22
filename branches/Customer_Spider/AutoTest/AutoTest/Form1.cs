@@ -40,6 +40,7 @@ namespace AutoTest
     {
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
+        private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
         private string MailPath = Application.StartupPath + "\\Mail.ini";
@@ -1803,12 +1804,11 @@ namespace AutoTest
             {
                 // hex to string
                 string hexValues = BitConverter.ToString(dataset1).Replace("-", "");
-                DateTime.Now.ToShortTimeString();
                 dt = DateTime.Now;
 
                 // Joseph
                 hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                 textBox1.AppendText(hexValues);
                 // End
 
@@ -1821,6 +1821,7 @@ namespace AutoTest
             {
                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                 string text = Encoding.ASCII.GetString(dataset1);
+
                 dt = DateTime.Now;
                 text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
                 textBox1.AppendText(text);
@@ -1830,11 +1831,15 @@ namespace AutoTest
 
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            //int data = 500;
+
             try
             {
                 int data_to_read = serialPort1.BytesToRead;
                 if (data_to_read > 0)
                 {
+                    //if (data_to_read > data)
+                    //    data_to_read = data;
                     dataset1 = new byte[data_to_read];
                     serialPort1.Read(dataset1, 0, data_to_read);
 
@@ -1847,7 +1852,12 @@ namespace AutoTest
                         data_to_read--;
                     }
 
-                    string s = serialPort1.ReadExisting();
+                    //ThreadStart ts = new ThreadStart(Th1);
+                    //Thread t = new Thread(ts);
+                    //t.Start();
+                    //SerialPortTxtbox1(Encoding.ASCII.GetString(dataset1), textBox1);
+                    //textBoxBuffer.Put(Encoding.ASCII.GetString(dataset1));
+                    string s = "";
                     textBox1.Invoke(this.myDelegate1, new Object[] { s });
                 }
             }
@@ -1856,6 +1866,35 @@ namespace AutoTest
                 Console.WriteLine(ex.Message);
             }
         }
+        /*
+        void Th1()
+        {
+                SerialPortTxtbox1(Encoding.ASCII.GetString(dataset1), textBox1);
+                Thread.Sleep(1);
+        }
+
+        //委派 txtbox1
+        private delegate void UpdateUISerialPort1(string value, Control ctrl);
+        private void SerialPortTxtbox1(string value, Control ctrl)
+        {
+            if (ctrl == null || value == null) return;
+            if (ctrl.InvokeRequired)
+            {
+                UpdateUISerialPort1 uu = new UpdateUISerialPort1(SerialPortTxtbox1);
+                this.Invoke(uu, value, ctrl);
+            }
+            else
+            {
+                if (ctrl == textBox1)
+                {
+                    DateTime dt;
+                    dt = DateTime.Now;
+                    value = value.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                    textBox1.AppendText(value);
+                }
+            }
+        }
+        */
         #endregion
 
         #region -- 接受SerialPort2資料 --
@@ -1871,7 +1910,7 @@ namespace AutoTest
 
                 // Joseph
                 hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                 textBox2.AppendText(hexValues);
                 // End
 
@@ -1910,7 +1949,7 @@ namespace AutoTest
                         data_to_read--;
                     }
 
-                    string s = serialPort2.ReadExisting();
+                    string s = "";
                     textBox2.Invoke(this.myDelegate2, new Object[] { s });
                 }
             }
@@ -1918,8 +1957,6 @@ namespace AutoTest
             {
                 Console.WriteLine(ex.Message);
             }
-
-
         }
         #endregion
 
@@ -1975,7 +2012,7 @@ namespace AutoTest
                         data_to_read--;
                     }
 
-                    string s = serialPort3.ReadExisting();
+                    string s = "";
                     textBox3.Invoke(this.myDelegate3, new Object[] { s });
                 }
             }
@@ -2025,8 +2062,8 @@ namespace AutoTest
             string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
 
             StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            // MYFILE.Write(textBox1.Text);
-
+            MYFILE.Write(textBox1.Text);
+            /*
             Console.WriteLine("Save Log By Queue");
             while (SaveLogQueue1.Count > 0)
             {
@@ -2038,7 +2075,7 @@ namespace AutoTest
 
                 MYFILE.Write(temp_char);
             }
-
+            */
             MYFILE.Close();
             Txtbox1("", textBox1);
         }
@@ -6904,7 +6941,8 @@ namespace AutoTest
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
                         OpenSerialPort1();
-                        textBox1.Text = string.Empty;//清空serialport1//
+                        textBox1.Clear();
+                        //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
                             LogThread1.IsBackground = true;
@@ -6915,7 +6953,8 @@ namespace AutoTest
                     if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                     {
                         OpenSerialPort2();
-                        textBox2.Text = string.Empty;//清空serialport2//
+                        textBox2.Clear();
+                        //textBox2.Text = string.Empty;//清空serialport2//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -6926,6 +6965,7 @@ namespace AutoTest
                     if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                     {
                         OpenSerialPort3();
+                        textBox3.Clear();
                         textBox3.Text = string.Empty;//清空serialport3//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
