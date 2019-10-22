@@ -40,7 +40,7 @@ namespace AutoTest
     {
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
-        private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
+        //private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
         private string MailPath = Application.StartupPath + "\\Mail.ini";
