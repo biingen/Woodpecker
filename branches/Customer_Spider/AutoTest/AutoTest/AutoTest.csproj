@@ -93,7 +93,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BlueRatLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="BlueRatLibrary, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>

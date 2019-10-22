@@ -174,7 +174,10 @@ namespace AutoTest
             }
 
             string RCDBPath = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
-            msg.Attachments.Add(GetAttachmentRCDB(Path.GetFileName(RCDBPath), System.Text.Encoding.UTF8));
+            if (File.Exists(RCDBPath))
+            {
+                msg.Attachments.Add(GetAttachmentRCDB(Path.GetFileName(RCDBPath), System.Text.Encoding.UTF8));
+            }
 
             //建立 SmtpClient 物件 並設定 Gmail的smtp主機及Port 
 
