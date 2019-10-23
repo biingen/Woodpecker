@@ -1,4 +1,4 @@
-﻿namespace Woodpecker
+﻿namespace AutoTest
 {
     partial class FormTabControl
     {
@@ -225,7 +225,7 @@
             // 
             this.ClosePicBox.BackColor = System.Drawing.Color.Transparent;
             this.ClosePicBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClosePicBox.Image = global::Woodpecker.Properties.Resources.close1;
+            this.ClosePicBox.Image = global::AutoTest.Properties.Resources.close1;
             this.ClosePicBox.Location = new System.Drawing.Point(699, -7);
             this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
             this.ClosePicBox.Name = "ClosePicBox";

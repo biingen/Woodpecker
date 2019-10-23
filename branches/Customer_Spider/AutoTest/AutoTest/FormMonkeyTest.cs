@@ -10,12 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using MaterialSkin;
 
-namespace Woodpecker
+namespace AutoTest
 {
-    public partial class FormMonkeyTest : MaterialForm
+    public partial class FormMonkeyTest : Form
     {
         public FormMonkeyTest()
         {
@@ -278,26 +276,6 @@ namespace Woodpecker
 
             //p.WaitForExit();
             //p.Close();
-        }
-
-        private void groupBoxConnectMode_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxMonkeyPath_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelMonkeyPath_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboxQcProName_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

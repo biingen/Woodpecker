@@ -1,4 +1,4 @@
-﻿namespace Woodpecker
+﻿namespace AutoTest
 {
     partial class FormSchedule
     {

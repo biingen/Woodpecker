@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Woodpecker
+namespace AutoTest
 {
     public partial class FormScriptHelper : Form
     {

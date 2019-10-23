@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
-using Woodpecker;
+using AutoTest;
 
-namespace Woodpecker
+namespace AutoTest
 {
     static class Program
     {

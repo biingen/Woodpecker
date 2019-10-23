@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace Woodpecker
+namespace AutoTest
 {
     public partial class FormRC : Form
     {

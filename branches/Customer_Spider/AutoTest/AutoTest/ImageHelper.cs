@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 
-namespace Woodpecker
+namespace AutoTest
 {
     class ImageHelper
     {

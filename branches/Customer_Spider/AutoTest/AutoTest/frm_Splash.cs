@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Woodpecker
+namespace AutoTest
 {
     public partial class frm_Splash : Form
     {

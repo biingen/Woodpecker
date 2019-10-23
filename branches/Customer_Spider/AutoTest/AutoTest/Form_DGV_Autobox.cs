@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-namespace Woodpecker
+namespace AutoTest
 {
     public partial class Form_DGV_Autobox : Form
     {
