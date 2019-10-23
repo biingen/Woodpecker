@@ -450,7 +450,7 @@
             this.label_KeywordNum.Name = "label_KeywordNum";
             this.label_KeywordNum.Size = new System.Drawing.Size(284, 18);
             this.label_KeywordNum.TabIndex = 110;
-            this.label_KeywordNum.Text = "How many keywords you want to search: ";
+            this.label_KeywordNum.Text = "How many keywords do you want to search: ";
             // 
             // checkBox_Stop
             // 
@@ -490,7 +490,7 @@
             this.label_SerialSelect.Name = "label_SerialSelect";
             this.label_SerialSelect.Size = new System.Drawing.Size(281, 18);
             this.label_SerialSelect.TabIndex = 113;
-            this.label_SerialSelect.Text = "Do you need to search keywords of port: ";
+            this.label_SerialSelect.Text = "Please select the port for keyword search: ";
             // 
             // checkBox_SerialPort2
             // 
