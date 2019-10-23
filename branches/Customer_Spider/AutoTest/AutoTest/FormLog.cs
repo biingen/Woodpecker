@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormLog : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace AutoTest
+﻿namespace Woodpecker
 {
     partial class FormScriptHelper
     {

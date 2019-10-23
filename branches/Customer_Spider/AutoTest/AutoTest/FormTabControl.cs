@@ -3,7 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormTabControl : Form
     {

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net.NetworkInformation;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormMail : Form
     {

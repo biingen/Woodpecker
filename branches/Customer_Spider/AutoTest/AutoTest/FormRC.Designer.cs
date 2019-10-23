@@ -1,4 +1,4 @@
-﻿namespace AutoTest
+﻿namespace Woodpecker
 {
     partial class FormRC
     {
@@ -703,7 +703,7 @@
             // 
             // pictureBox_Record
             // 
-            this.pictureBox_Record.Image = global::AutoTest.Properties.Resources.record_off;
+            this.pictureBox_Record.Image = global::Woodpecker.Properties.Resources.record_off;
             this.pictureBox_Record.Location = new System.Drawing.Point(155, 23);
             this.pictureBox_Record.Name = "pictureBox_Record";
             this.pictureBox_Record.Size = new System.Drawing.Size(25, 25);
