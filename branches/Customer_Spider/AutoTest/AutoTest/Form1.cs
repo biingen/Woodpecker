@@ -6470,6 +6470,7 @@ namespace AutoTest
 
                 srtWriter.WriteLine(starttime + ",001" + " --> " + endtime + ",000");
                 srtWriter.WriteLine(label_Command.Text + "     " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                srtWriter.WriteLine(label_Remark.Text);
                 srtWriter.WriteLine("");
                 srtWriter.WriteLine("");
                 srtWriter.Close();
