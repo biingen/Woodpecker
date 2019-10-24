@@ -121,6 +121,7 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_Displayhex);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_canbus);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_KlinePort_PortName_Value);
@@ -607,7 +608,7 @@
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Displayhex.ForeColor = System.Drawing.Color.DeepSkyBlue;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(288, 558);
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(328, 244);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(62, 22);
@@ -991,7 +992,6 @@
             this.BackColor = System.Drawing.Color.Ivory;
             this.ClientSize = new System.Drawing.Size(822, 618);
             this.ControlBox = false;
-            this.Controls.Add(this.checkBox_Displayhex);
             this.Controls.Add(this.pictureBox_DosPath);
             this.Controls.Add(this.pictureBox_GeneratorPath);
             this.Controls.Add(this.pictureBox_RcDbPath);

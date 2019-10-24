@@ -73,6 +73,7 @@ namespace AutoTest
         private string srtstring = "";
 
         //宣告於keyword使用
+        public Queue<SerialReceivedData> data_queue;
         private Queue<byte> SearchLogQueue1 = new Queue<byte>();
         private Queue<byte> SaveLogQueue1 = new Queue<byte>();
         private Queue<byte> SearchLogQueue2 = new Queue<byte>();
@@ -1794,6 +1795,16 @@ namespace AutoTest
         #endregion
 
         #region -- 接受SerialPort1資料 --
+        public class SerialReceivedData
+        {
+            private List<Byte> data;
+            private DateTime time_stamp;
+            public void SetData(List<Byte> d) { data = d; }
+            public void SetTimeStamp(DateTime t) { time_stamp = t; }
+            public List<Byte> GetData() { return data; }
+            public DateTime GetTimeStamp() { return time_stamp; }
+        }
+
         byte[] dataset1 = new byte[0];
         byte[] dataset2 = new byte[0];
         byte[] dataset3 = new byte[0];

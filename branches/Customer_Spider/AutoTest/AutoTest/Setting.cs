@@ -219,7 +219,7 @@ namespace AutoTest
             else
             {
                 textBox_RcDbPath.Text = "";
-                pictureBox_RcDbPath.Image = Properties.Resources.ERROR;
+                //pictureBox_RcDbPath.Image = Properties.Resources.ERROR;
             }
 
             //Generator欄位//
@@ -230,7 +230,7 @@ namespace AutoTest
             else
             {
                 textBox_GeneratorPath.Text = "";
-                pictureBox_GeneratorPath.Image = Properties.Resources.ERROR;
+                //pictureBox_GeneratorPath.Image = Properties.Resources.ERROR;
             }
 
             //DOS欄位//
@@ -241,7 +241,7 @@ namespace AutoTest
             else
             {
                 textBox_DosPath.Text = "";
-                pictureBox_DosPath.Image = Properties.Resources.ERROR;
+                //pictureBox_DosPath.Image = Properties.Resources.ERROR;
             }
 
 
