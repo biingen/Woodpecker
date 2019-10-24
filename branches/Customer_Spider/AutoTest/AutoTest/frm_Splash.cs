@@ -12,7 +12,7 @@ namespace Woodpecker
 
         private void frm_Splash_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Properties.Resources.StartAutoBox;
+            pictureBox1.Image = Properties.Resources.Loading_WPK;
         }
     }
 }

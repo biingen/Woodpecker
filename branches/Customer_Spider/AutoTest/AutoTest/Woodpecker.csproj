@@ -12,7 +12,7 @@
     <AssemblyName>Woodpecker</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>Spider.ico</ApplicationIcon>
+    <ApplicationIcon>Woodpecker.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -386,9 +386,11 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Woodpecker.ico" />
     <None Include="Resources\ic_computer_black_48dp.png" />
     <None Include="Resources\Computer.png" />
-    <Content Include="Spider.ico" />
+    <None Include="Resources\Loading_WPK.gif" />
+    <None Include="Resources\WPK.png" />
     <None Include="Resources\Switch to TV.png" />
     <None Include="Resources\Switch to PC.png" />
     <None Include="Resources\Switch Off AC.png" />

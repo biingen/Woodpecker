@@ -113,6 +113,16 @@ namespace Woodpecker.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Loading_WPK {
+            get {
+                object obj = ResourceManager.GetObject("Loading_WPK", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap mini1 {
             get {
                 object obj = ResourceManager.GetObject("mini1", resourceCulture);
@@ -166,16 +176,6 @@ namespace Woodpecker.Properties {
         internal static System.Drawing.Bitmap record_on {
             get {
                 object obj = ResourceManager.GetObject("record_on", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap StartAutoBox {
-            get {
-                object obj = ResourceManager.GetObject("StartAutoBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
