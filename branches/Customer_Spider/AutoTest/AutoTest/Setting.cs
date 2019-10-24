@@ -1,8 +1,10 @@
 ﻿using DirectX.Capture;
 using jini;
+using MaterialSkin;
 using RedRat.RedRat3;
 using RedRat.RedRat3.USB;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -17,6 +19,7 @@ namespace Woodpecker
         public Setting()
         {
             InitializeComponent();
+            setStyle();
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -41,7 +44,47 @@ namespace Woodpecker
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void setStyle()
+        {
+            // Button design
+            List<Button> buttonsList = new List<Button> { button_Save, button_ImagePath, button_LogPath, button_RcDbPath, button_GeneratorPath, button_DosPath };
+            foreach (Button buttonsAll in buttonsList)
+            {
+                buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                buttonsAll.FlatAppearance.BorderSize = 1;
+                buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+            }
+        }
+
+        private void button_ImagePath_Click(object sender, EventArgs e)
+        {
+            //Save Video Path
+            folderBrowserDialog1.ShowDialog();
+            if (folderBrowserDialog1.SelectedPath == "")
+            {
+                materialSingleLineTextField1.Text = materialSingleLineTextField1.Text;
+            }
+            else
+            {
+                materialSingleLineTextField1.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void button_LogPath_Click(object sender, EventArgs e)
+        {
+            //log file save path
+            folderBrowserDialog2.ShowDialog();
+            if (folderBrowserDialog2.SelectedPath == "")
+            {
+                textBox_LogPath.Text = textBox_LogPath.Text;
+            }
+            else
+            {
+                textBox_LogPath.Text = folderBrowserDialog2.SelectedPath;
+            }
+        }
+
+        private void button_RcDbPath_Click(object sender, EventArgs e)
         {
             // RedRat3 Command Path
             openFileDialog2.Filter = "XML files (*.xml)|*.xml";
@@ -58,7 +101,7 @@ namespace Woodpecker
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button_GeneratorPath_Click(object sender, EventArgs e)
         {
             // Generator Command Path
             openFileDialog1.Filter = "XML files (*.xml)|*.xml";
@@ -73,35 +116,7 @@ namespace Woodpecker
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //Save Video Path
-            folderBrowserDialog1.ShowDialog();
-            if (folderBrowserDialog1.SelectedPath == "")
-            {
-                textBox_ImagePath.Text = textBox_ImagePath.Text;
-            }
-            else
-            {
-                textBox_ImagePath.Text = folderBrowserDialog1.SelectedPath;
-            }
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            //log file save path
-            folderBrowserDialog2.ShowDialog();
-            if (folderBrowserDialog2.SelectedPath == "")
-            {
-                textBox_LogPath.Text = textBox_LogPath.Text;
-            }
-            else
-            {
-                textBox_LogPath.Text = folderBrowserDialog2.SelectedPath;
-            }
-        }
-
-        private void buttonDosWorkingDirectory_Click(object sender, EventArgs e)
+        private void button_DosPath_Click(object sender, EventArgs e)
         {
             folderBrowserDialog3.ShowDialog();
             if (folderBrowserDialog3.SelectedPath == "")
@@ -117,7 +132,7 @@ namespace Woodpecker
         public void OkBtn_Click(object sender, EventArgs e)
         {
             //Image Path//
-            ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Record", "VideoPath", materialSingleLineTextField1.Text.Trim());
 
             //Log Path//
             ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
@@ -178,18 +193,18 @@ namespace Woodpecker
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
-                textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+                materialSingleLineTextField1.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
             else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "")
             {
                 Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Image");
-                textBox_ImagePath.Text = System.Windows.Forms.Application.StartupPath + "\\Image";
-                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
+                materialSingleLineTextField1.Text = System.Windows.Forms.Application.StartupPath + "\\Image";
+                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", materialSingleLineTextField1.Text.Trim());
             }
             else
             {
-                textBox_ImagePath.Text = "";
-                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
+                materialSingleLineTextField1.Text = "";
+                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", materialSingleLineTextField1.Text.Trim());
                 pictureBox_ImagePath.Image = Properties.Resources.ERROR;
             }
             
@@ -719,9 +734,9 @@ namespace Woodpecker
 
         private void textBox_ImagePath_TextChanged(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox_ImagePath.Text.Trim()) == true)
+            if (Directory.Exists(materialSingleLineTextField1.Text.Trim()) == true)
             {
-                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
+                ini12.INIWrite(MainSettingPath, "Record", "VideoPath", materialSingleLineTextField1.Text.Trim());
                 pictureBox_ImagePath.Image = null;
             }
             else

@@ -38,16 +38,17 @@
             this.ScheduleSettingBtn = new System.Windows.Forms.Button();
             this.MailSettingBtn = new System.Windows.Forms.Button();
             this.LogSettingBtn = new System.Windows.Forms.Button();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.buttonMonkeyTest = new System.Windows.Forms.Button();
+            this.ClosePicBox = new System.Windows.Forms.PictureBox();
+            this.tabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage_MainSetting = new System.Windows.Forms.TabPage();
             this.tabPage_MultiSchedule = new System.Windows.Forms.TabPage();
             this.tabPage_Mail = new System.Windows.Forms.TabPage();
             this.tabPage_KeywordSearch = new System.Windows.Forms.TabPage();
-            this.buttonMonkeyTest = new System.Windows.Forms.Button();
-            this.ClosePicBox = new System.Windows.Forms.PictureBox();
+            this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.menuStrip1.SuspendLayout();
-            this.tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).BeginInit();
+            this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -98,7 +99,7 @@
             // 
             this.MainSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.MainSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MainSettingBtn.Location = new System.Drawing.Point(9, 101);
+            this.MainSettingBtn.Location = new System.Drawing.Point(15, 167);
             this.MainSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MainSettingBtn.Name = "MainSettingBtn";
             this.MainSettingBtn.Size = new System.Drawing.Size(128, 31);
@@ -111,7 +112,7 @@
             // 
             this.ScheduleSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ScheduleSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ScheduleSettingBtn.Location = new System.Drawing.Point(9, 135);
+            this.ScheduleSettingBtn.Location = new System.Drawing.Point(15, 201);
             this.ScheduleSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleSettingBtn.Name = "ScheduleSettingBtn";
             this.ScheduleSettingBtn.Size = new System.Drawing.Size(128, 31);
@@ -124,7 +125,7 @@
             // 
             this.MailSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.MailSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MailSettingBtn.Location = new System.Drawing.Point(9, 170);
+            this.MailSettingBtn.Location = new System.Drawing.Point(15, 236);
             this.MailSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MailSettingBtn.Name = "MailSettingBtn";
             this.MailSettingBtn.Size = new System.Drawing.Size(128, 31);
@@ -137,7 +138,7 @@
             // 
             this.LogSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.LogSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.LogSettingBtn.Location = new System.Drawing.Point(9, 204);
+            this.LogSettingBtn.Location = new System.Drawing.Point(15, 270);
             this.LogSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.LogSettingBtn.Name = "LogSettingBtn";
             this.LogSettingBtn.Size = new System.Drawing.Size(128, 31);
@@ -146,72 +147,11 @@
             this.LogSettingBtn.UseVisualStyleBackColor = true;
             this.LogSettingBtn.Click += new System.EventHandler(this.LogSettingBtn_Click);
             // 
-            // tabControl
-            // 
-            this.tabControl.Controls.Add(this.tabPage_MainSetting);
-            this.tabControl.Controls.Add(this.tabPage_MultiSchedule);
-            this.tabControl.Controls.Add(this.tabPage_Mail);
-            this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
-            this.tabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.tabControl.Location = new System.Drawing.Point(9, 9);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(2);
-            this.tabControl.Multiline = true;
-            this.tabControl.Name = "tabControl";
-            this.tabControl.Padding = new System.Drawing.Point(50, 3);
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(664, 541);
-            this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
-            this.tabControl.TabIndex = 1;
-            // 
-            // tabPage_MainSetting
-            // 
-            this.tabPage_MainSetting.Location = new System.Drawing.Point(4, 26);
-            this.tabPage_MainSetting.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage_MainSetting.Name = "tabPage_MainSetting";
-            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage_MainSetting.Size = new System.Drawing.Size(656, 511);
-            this.tabPage_MainSetting.TabIndex = 0;
-            this.tabPage_MainSetting.Text = "Main Setting";
-            this.tabPage_MainSetting.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_MultiSchedule
-            // 
-            this.tabPage_MultiSchedule.Location = new System.Drawing.Point(4, 26);
-            this.tabPage_MultiSchedule.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage_MultiSchedule.Name = "tabPage_MultiSchedule";
-            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage_MultiSchedule.Size = new System.Drawing.Size(656, 511);
-            this.tabPage_MultiSchedule.TabIndex = 1;
-            this.tabPage_MultiSchedule.Text = "Schedule";
-            this.tabPage_MultiSchedule.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_Mail
-            // 
-            this.tabPage_Mail.Location = new System.Drawing.Point(4, 26);
-            this.tabPage_Mail.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage_Mail.Name = "tabPage_Mail";
-            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage_Mail.Size = new System.Drawing.Size(656, 511);
-            this.tabPage_Mail.TabIndex = 2;
-            this.tabPage_Mail.Text = "Mail";
-            this.tabPage_Mail.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_KeywordSearch
-            // 
-            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 26);
-            this.tabPage_KeywordSearch.Margin = new System.Windows.Forms.Padding(2);
-            this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
-            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(656, 511);
-            this.tabPage_KeywordSearch.TabIndex = 3;
-            this.tabPage_KeywordSearch.Text = "Keyword";
-            this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
-            // 
             // buttonMonkeyTest
             // 
             this.buttonMonkeyTest.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonMonkeyTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonMonkeyTest.Location = new System.Drawing.Point(9, 238);
+            this.buttonMonkeyTest.Location = new System.Drawing.Point(15, 304);
             this.buttonMonkeyTest.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMonkeyTest.Name = "buttonMonkeyTest";
             this.buttonMonkeyTest.Size = new System.Drawing.Size(128, 31);
@@ -237,12 +177,78 @@
             this.ClosePicBox.MouseEnter += new System.EventHandler(this.ClosePicBox_Enter);
             this.ClosePicBox.MouseLeave += new System.EventHandler(this.ClosePicBox_Leave);
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage_MainSetting);
+            this.tabControl.Controls.Add(this.tabPage_MultiSchedule);
+            this.tabControl.Controls.Add(this.tabPage_Mail);
+            this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
+            this.tabControl.Depth = 0;
+            this.tabControl.Location = new System.Drawing.Point(12, 102);
+            this.tabControl.MouseState = MaterialSkin.MouseState.HOVER;
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(661, 516);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPage_MainSetting
+            // 
+            this.tabPage_MainSetting.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_MainSetting.Name = "tabPage_MainSetting";
+            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_MainSetting.Size = new System.Drawing.Size(653, 488);
+            this.tabPage_MainSetting.TabIndex = 0;
+            this.tabPage_MainSetting.Text = "Main Settings";
+            this.tabPage_MainSetting.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_MultiSchedule
+            // 
+            this.tabPage_MultiSchedule.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_MultiSchedule.Name = "tabPage_MultiSchedule";
+            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_MultiSchedule.Size = new System.Drawing.Size(653, 488);
+            this.tabPage_MultiSchedule.TabIndex = 1;
+            this.tabPage_MultiSchedule.Text = "Schedule";
+            this.tabPage_MultiSchedule.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_Mail
+            // 
+            this.tabPage_Mail.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_Mail.Name = "tabPage_Mail";
+            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_Mail.Size = new System.Drawing.Size(653, 488);
+            this.tabPage_Mail.TabIndex = 2;
+            this.tabPage_Mail.Text = "Mail";
+            this.tabPage_Mail.UseVisualStyleBackColor = true;
+            // 
+            // tabPage_KeywordSearch
+            // 
+            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 24);
+            this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
+            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(653, 488);
+            this.tabPage_KeywordSearch.TabIndex = 3;
+            this.tabPage_KeywordSearch.Text = "Keyword";
+            this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
+            // 
+            // materialTabSelector1
+            // 
+            this.materialTabSelector1.BaseTabControl = this.tabControl;
+            this.materialTabSelector1.Depth = 0;
+            this.materialTabSelector1.Location = new System.Drawing.Point(-1, 63);
+            this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialTabSelector1.Name = "materialTabSelector1";
+            this.materialTabSelector1.Size = new System.Drawing.Size(686, 33);
+            this.materialTabSelector1.TabIndex = 0;
+            this.materialTabSelector1.Text = "materialTabSelector1";
+            // 
             // FormTabControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Ivory;
-            this.ClientSize = new System.Drawing.Size(682, 558);
+            this.ClientSize = new System.Drawing.Size(685, 619);
+            this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.ClosePicBox);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.MailSettingBtn);
@@ -252,7 +258,6 @@
             this.Controls.Add(this.buttonMonkeyTest);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -260,15 +265,15 @@
             this.MinimizeBox = false;
             this.Name = "FormTabControl";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "SETTING";
+            this.Text = "Settings";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormTabControl_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormTabControl_FormClosed);
             this.Load += new System.EventHandler(this.FormTabControl_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gPanelTitleBack_MouseDown);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).EndInit();
+            this.tabControl.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,8 +291,9 @@
         private System.Windows.Forms.PictureBox ClosePicBox;
         private System.Windows.Forms.Button MailSettingBtn;
         private System.Windows.Forms.Button LogSettingBtn;
-        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.Button buttonMonkeyTest;
+        private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
+        private MaterialSkin.Controls.MaterialTabControl tabControl;
         private System.Windows.Forms.TabPage tabPage_MainSetting;
         private System.Windows.Forms.TabPage tabPage_MultiSchedule;
         private System.Windows.Forms.TabPage tabPage_Mail;

@@ -134,9 +134,7 @@ namespace Woodpecker
         public Form1()
         {
             InitializeComponent();
-
             setStyle();
-           
 
             //USB Connection//
             USBPort = new USBClass();
@@ -169,9 +167,19 @@ namespace Woodpecker
                                                             button_VirtualRC, button_InsertRow, button_SaveSchedule, button_TestLog, button_Copy};
             foreach (Button buttonsAll in buttonsList)
             {
-                buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                buttonsAll.FlatAppearance.BorderSize = 3;
-                buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                if (buttonsAll.Enabled == true)
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                    buttonsAll.FlatAppearance.BorderSize = 3;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                }
+                else
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                    buttonsAll.FlatAppearance.BorderSize = 3;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                }
+                
             }
 
             //Datagridview design
@@ -391,6 +399,8 @@ namespace Woodpecker
             CheckForIllegalCrossThreadCalls = false;
             TopMost = true;
             TopMost = false;
+
+            setStyle();
         }
 
         #region -- USB Detect --
@@ -7132,6 +7142,8 @@ namespace Woodpecker
             FormTabControl.Dispose();
             button_Schedule1.Enabled = true;
             button_Schedule1.PerformClick();
+
+            setStyle();
         }
 
         //系統時間
@@ -8658,6 +8670,11 @@ namespace Woodpecker
             button_Camera.FlatAppearance.BorderColor = Color.FromArgb(242, 242, 242);
             button_Camera.FlatAppearance.BorderSize = 3;
             button_Camera.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
+        }
+
+        private void panel_VirtualRC_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 
