@@ -599,7 +599,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_Schedule1Loop.Text) || textBox_Schedule1Loop.Text == "0")
             {
-                label_ErrorMessage.Text = "Schedule1 loop is empty";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 1";
                 pictureBox_Schedule1Loop.Image = Properties.Resources.ERROR;
             }
             else
@@ -657,7 +657,7 @@ namespace Woodpecker
             }
             else
             {
-                label_ErrorMessage.Text = "Schedule2 .csv file not exist";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 2";
                 pictureBox_Schedule2.Image = Properties.Resources.ERROR;
             }
         }
@@ -731,7 +731,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_Schedule3Loop.Text) || textBox_Schedule3Loop.Text == "0")
             {
-                label_ErrorMessage.Text = "Schedule3 loop is empty";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 3";
                 pictureBox_Schedule3Loop.Image = Properties.Resources.ERROR;
             }
             else
@@ -796,7 +796,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_Schedule4Loop.Text) || textBox_Schedule4Loop.Text == "0")
             {
-                label_ErrorMessage.Text = "Schedule4 loop is empty";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 4";
                 pictureBox_Schedule4Loop.Image = Properties.Resources.ERROR;
             }
             else
@@ -861,7 +861,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_Schedule5Loop.Text) || textBox_Schedule5Loop.Text == "0")
             {
-                label_ErrorMessage.Text = "Schedule5 loop is empty";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 5";
                 pictureBox_Schedule5Loop.Image = Properties.Resources.ERROR;
             }
             else
