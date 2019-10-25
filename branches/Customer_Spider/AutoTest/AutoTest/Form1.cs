@@ -1639,8 +1639,11 @@ namespace AutoTest
         }
 
         #region -- SerialPort1 Setup --
-        protected void OpenSerialPort1()
+        protected SerialPortDataContainer OpenSerialPort1(SerialPort sp)
         {
+            SerialPortDataContainer sp_data = new SerialPortDataContainer();
+            sp_data.serial_port = sp;
+            SerialPortDataContainer.SerialPortDictionary.Add(sp.PortName, sp_data);
             try
             {
                 if (serialPort1.IsOpen == false)
@@ -1671,6 +1674,7 @@ namespace AutoTest
             {
                 MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
             }
+            return sp_data;
         }
 
         protected void CloseSerialPort1()
@@ -1805,6 +1809,23 @@ namespace AutoTest
             public DateTime GetTimeStamp() { return time_stamp; }
         }
 
+        public class SerialPortDataContainer
+        {
+            static public Dictionary<string, Object> SerialPortDictionary;
+            static public bool data_available;
+            public SerialPort serial_port;
+            public Queue<SerialReceivedData> data_queue;
+            //public List<SerialReceivedData> received_data = new List<SerialReceivedData>(); // just-received and to be processed
+            public Queue<Byte> log_data; // processed and stored for log_save
+            public SerialPortDataContainer()
+            {
+                SerialPortDictionary = new Dictionary<string, Object>();
+                data_queue = new Queue<SerialReceivedData>();
+                log_data = new Queue<Byte>();
+                data_available = false;
+            }
+        }
+
         byte[] dataset1 = new byte[0];
         byte[] dataset2 = new byte[0];
         byte[] dataset3 = new byte[0];
@@ -1840,9 +1861,17 @@ namespace AutoTest
             Thread.Sleep(1);
         }
 
+        public SerialPortDataContainer SerialPortA = new SerialPortDataContainer();
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             //int data = 500;
+            Object serial_data_obj;
+            SerialPort sp = (SerialPort)sender;
+            SerialPortDataContainer.SerialPortDictionary.TryGetValue(sp.PortName, out serial_data_obj);
+            SerialPortDataContainer serial_port_data = (SerialPortDataContainer)serial_data_obj;
+
+            if (serial_port_data == null)
+                return;
 
             try
             {
@@ -1851,25 +1880,22 @@ namespace AutoTest
                 {
                     //if (data_to_read > data)
                     //    data_to_read = data;
-                    dataset1 = new byte[data_to_read];
-                    serialPort1.Read(dataset1, 0, data_to_read);
+                    Byte[] dataset = new byte[data_to_read];
+                    serialPort1.Read(dataset, 0, data_to_read);
+                    List<Byte> data_list = dataset.ToList();
 
-                    int index = 0;
-                    while (data_to_read > 0)
-                    {
-                        SearchLogQueue1.Enqueue(dataset1[index]);
-                        SaveLogQueue1.Enqueue(dataset1[index]);
-                        index++;
-                        data_to_read--;
-                    }
+                    SerialReceivedData enqueue_data = new SerialReceivedData();
+                    enqueue_data.SetData(data_list);
+                    enqueue_data.SetTimeStamp(DateTime.Now);
+                    serial_port_data.data_queue.Enqueue(enqueue_data);
+                    SerialPortDataContainer.data_available = true;
 
-                    //ThreadStart ts = new ThreadStart(Th1);
-                    //Thread t = new Thread(ts);
-                    //t.Start();
+                    Thread DataThread = new Thread(new ThreadStart(test));
+                    DataThread.Start();
                     //SerialPortTxtbox1(Encoding.ASCII.GetString(dataset1), textBox1);
                     //textBoxBuffer.Put(Encoding.ASCII.GetString(dataset1));
-                    string s = "";
-                    textBox1.Invoke(this.myDelegate1, new Object[] { s });
+                    //string s = "";
+                    //textBox1.Invoke(this.myDelegate1, new Object[] { s });
                 }
             }
             catch (Exception ex)
@@ -1906,6 +1932,73 @@ namespace AutoTest
             }
         }
         */
+
+        bool test_is_running = false;
+
+        private void test()
+        {
+            while (test_is_running == true) { Thread.Sleep(1); }
+
+            //while (true)
+            {
+                test_is_running = true;
+                if (SerialPortDataContainer.data_available == true)
+                {
+                    SerialPortDataContainer.data_available = false;
+                    foreach (var port in SerialPortDataContainer.SerialPortDictionary)
+                    {
+                        SerialPortDataContainer serial_port_data = (SerialPortDataContainer)port.Value;
+                        while (serial_port_data.data_queue.Count > 0)
+                        {
+                            SerialReceivedData dequeue_data = serial_port_data.data_queue.Dequeue();
+                            Byte[] dataset = dequeue_data.GetData().ToArray();
+                            DateTime dt = dequeue_data.GetTimeStamp();
+
+                            // The following code is almost the same as before
+
+                            int index = 0;
+                            int data_to_read = dequeue_data.GetData().Count;
+                            while (data_to_read > 0)
+                            {
+                                serial_port_data.log_data.Enqueue(dataset[index]);
+                                index++;
+                                data_to_read--;
+                            }
+                            
+                            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                            {
+                                // hex to string
+                                string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                                //DateTime.Now.ToShortTimeString();
+                                //dt = DateTime.Now;
+
+                                // Joseph
+                                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                                textBox1.AppendText(hexValues);
+                                // End
+
+                                // Jeremy
+                                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                                // textBox1.AppendText(hexValues + "\r\n");
+                                // End
+                            }
+                            else
+                            {
+                                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                                string text = Encoding.ASCII.GetString(dataset);
+                                dt = DateTime.Now;
+                                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                textBox1.AppendText(text);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+            test_is_running = false;
+        }
+
         #endregion
 
         #region -- 接受SerialPort2資料 --
@@ -6952,7 +7045,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
-                        OpenSerialPort1();
+                        SerialPortA = OpenSerialPort1(serialPort1);
                         textBox1.Clear();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
@@ -7212,7 +7305,7 @@ namespace AutoTest
 
         private void Com1Btn_Click(object sender, EventArgs e)
         {
-            OpenSerialPort1();
+            OpenSerialPort1(serialPort1);
             Controls.Add(textBox1);
             textBox1.BringToFront();
             Global.TEXTBOX_FOCUS = 1;
