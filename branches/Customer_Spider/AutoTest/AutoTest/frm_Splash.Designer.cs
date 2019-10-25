@@ -39,10 +39,10 @@
             this.labelMark.BackColor = System.Drawing.Color.Transparent;
             this.labelMark.Font = new System.Drawing.Font("Microsoft JhengHei UI", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelMark.ForeColor = System.Drawing.Color.White;
-            this.labelMark.Location = new System.Drawing.Point(-8, 2);
+            this.labelMark.Location = new System.Drawing.Point(-6, 2);
             this.labelMark.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelMark.Name = "labelMark";
-            this.labelMark.Size = new System.Drawing.Size(170, 49);
+            this.labelMark.Size = new System.Drawing.Size(136, 39);
             this.labelMark.TabIndex = 1;
             this.labelMark.Text = "Spider";
             this.labelMark.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -62,11 +62,11 @@
             // 
             // frm_Splash
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(532, 340);
+            this.ClientSize = new System.Drawing.Size(536, 348);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.labelMark);
             this.DoubleBuffered = true;
