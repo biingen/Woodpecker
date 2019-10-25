@@ -446,7 +446,7 @@ namespace Woodpecker
             this.button_VirtualRC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_VirtualRC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_VirtualRC.ForeColor = System.Drawing.Color.White;
-            this.button_VirtualRC.Location = new System.Drawing.Point(0, 49);
+            this.button_VirtualRC.Location = new System.Drawing.Point(2, 50);
             this.button_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
             this.button_VirtualRC.Name = "button_VirtualRC";
             this.button_VirtualRC.Size = new System.Drawing.Size(111, 30);
@@ -1602,7 +1602,7 @@ namespace Woodpecker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.BackColor = System.Drawing.Color.White;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
             this.Controls.Add(this.button_Start);

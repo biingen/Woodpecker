@@ -93,7 +93,7 @@
             // 
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button1.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button1.Location = new System.Drawing.Point(11, 11);
+            this.button1.Location = new System.Drawing.Point(11, 74);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(70, 25);
             this.button1.TabIndex = 0;
@@ -104,7 +104,7 @@
             // 
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button2.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button2.Location = new System.Drawing.Point(163, 11);
+            this.button2.Location = new System.Drawing.Point(163, 74);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(70, 25);
             this.button2.TabIndex = 2;
@@ -115,7 +115,7 @@
             // 
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button3.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button3.Location = new System.Drawing.Point(11, 42);
+            this.button3.Location = new System.Drawing.Point(11, 105);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(70, 25);
             this.button3.TabIndex = 3;
@@ -126,7 +126,7 @@
             // 
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button4.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button4.Location = new System.Drawing.Point(87, 42);
+            this.button4.Location = new System.Drawing.Point(87, 105);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(70, 25);
             this.button4.TabIndex = 9;
@@ -137,7 +137,7 @@
             // 
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button5.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button5.Location = new System.Drawing.Point(163, 42);
+            this.button5.Location = new System.Drawing.Point(163, 105);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(70, 25);
             this.button5.TabIndex = 8;
@@ -148,7 +148,7 @@
             // 
             this.button6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button6.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button6.Location = new System.Drawing.Point(11, 73);
+            this.button6.Location = new System.Drawing.Point(11, 136);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(70, 25);
             this.button6.TabIndex = 6;
@@ -159,7 +159,7 @@
             // 
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button7.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button7.Location = new System.Drawing.Point(87, 73);
+            this.button7.Location = new System.Drawing.Point(87, 136);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(70, 25);
             this.button7.TabIndex = 15;
@@ -170,7 +170,7 @@
             // 
             this.button8.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button8.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button8.Location = new System.Drawing.Point(163, 73);
+            this.button8.Location = new System.Drawing.Point(163, 136);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(70, 25);
             this.button8.TabIndex = 14;
@@ -181,7 +181,7 @@
             // 
             this.button9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button9.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button9.Location = new System.Drawing.Point(11, 104);
+            this.button9.Location = new System.Drawing.Point(11, 167);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(70, 25);
             this.button9.TabIndex = 12;
@@ -192,7 +192,7 @@
             // 
             this.comboBox12.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox12.FormattingEnabled = true;
-            this.comboBox12.Location = new System.Drawing.Point(163, 241);
+            this.comboBox12.Location = new System.Drawing.Point(163, 304);
             this.comboBox12.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox12.Name = "comboBox12";
             this.comboBox12.Size = new System.Drawing.Size(70, 25);
@@ -204,7 +204,7 @@
             // 
             this.comboBox11.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Location = new System.Drawing.Point(11, 241);
+            this.comboBox11.Location = new System.Drawing.Point(11, 304);
             this.comboBox11.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox11.Name = "comboBox11";
             this.comboBox11.Size = new System.Drawing.Size(70, 25);
@@ -216,7 +216,7 @@
             // 
             this.comboBox10.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox10.FormattingEnabled = true;
-            this.comboBox10.Location = new System.Drawing.Point(163, 104);
+            this.comboBox10.Location = new System.Drawing.Point(163, 167);
             this.comboBox10.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox10.Name = "comboBox10";
             this.comboBox10.Size = new System.Drawing.Size(70, 25);
@@ -228,7 +228,7 @@
             // 
             this.comboBox9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox9.FormattingEnabled = true;
-            this.comboBox9.Location = new System.Drawing.Point(11, 104);
+            this.comboBox9.Location = new System.Drawing.Point(11, 167);
             this.comboBox9.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox9.Name = "comboBox9";
             this.comboBox9.Size = new System.Drawing.Size(70, 25);
@@ -240,7 +240,7 @@
             // 
             this.comboBox8.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Location = new System.Drawing.Point(163, 73);
+            this.comboBox8.Location = new System.Drawing.Point(163, 136);
             this.comboBox8.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox8.Name = "comboBox8";
             this.comboBox8.Size = new System.Drawing.Size(70, 25);
@@ -252,7 +252,7 @@
             // 
             this.comboBox7.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Location = new System.Drawing.Point(87, 73);
+            this.comboBox7.Location = new System.Drawing.Point(87, 136);
             this.comboBox7.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox7.Name = "comboBox7";
             this.comboBox7.Size = new System.Drawing.Size(70, 25);
@@ -264,7 +264,7 @@
             // 
             this.comboBox6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Location = new System.Drawing.Point(11, 73);
+            this.comboBox6.Location = new System.Drawing.Point(11, 136);
             this.comboBox6.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(70, 25);
@@ -276,7 +276,7 @@
             // 
             this.comboBox5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox5.FormattingEnabled = true;
-            this.comboBox5.Location = new System.Drawing.Point(163, 42);
+            this.comboBox5.Location = new System.Drawing.Point(163, 105);
             this.comboBox5.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(70, 25);
@@ -288,7 +288,7 @@
             // 
             this.comboBox4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Location = new System.Drawing.Point(87, 42);
+            this.comboBox4.Location = new System.Drawing.Point(87, 105);
             this.comboBox4.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(70, 25);
@@ -300,7 +300,7 @@
             // 
             this.comboBox3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(11, 42);
+            this.comboBox3.Location = new System.Drawing.Point(11, 105);
             this.comboBox3.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(70, 25);
@@ -312,7 +312,7 @@
             // 
             this.comboBox2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(163, 11);
+            this.comboBox2.Location = new System.Drawing.Point(163, 74);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(70, 25);
@@ -324,7 +324,7 @@
             // 
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button12.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button12.Location = new System.Drawing.Point(163, 241);
+            this.button12.Location = new System.Drawing.Point(163, 304);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(70, 25);
             this.button12.TabIndex = 22;
@@ -335,7 +335,7 @@
             // 
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button11.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button11.Location = new System.Drawing.Point(11, 241);
+            this.button11.Location = new System.Drawing.Point(11, 304);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(70, 25);
             this.button11.TabIndex = 21;
@@ -346,7 +346,7 @@
             // 
             this.button10.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button10.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button10.Location = new System.Drawing.Point(163, 104);
+            this.button10.Location = new System.Drawing.Point(163, 167);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(70, 25);
             this.button10.TabIndex = 20;
@@ -357,7 +357,7 @@
             // 
             this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(11, 11);
+            this.comboBox1.Location = new System.Drawing.Point(11, 74);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(70, 25);
@@ -367,7 +367,7 @@
             // 
             // button_Edit
             // 
-            this.button_Edit.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Edit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Edit.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.button_Edit.Location = new System.Drawing.Point(36, 23);
             this.button_Edit.Margin = new System.Windows.Forms.Padding(2);
@@ -383,7 +383,7 @@
             this.comboBox17.DropDownWidth = 98;
             this.comboBox17.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox17.FormattingEnabled = true;
-            this.comboBox17.Location = new System.Drawing.Point(87, 173);
+            this.comboBox17.Location = new System.Drawing.Point(87, 236);
             this.comboBox17.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox17.Name = "comboBox17";
             this.comboBox17.Size = new System.Drawing.Size(70, 25);
@@ -395,7 +395,7 @@
             // 
             this.comboBox16.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox16.FormattingEnabled = true;
-            this.comboBox16.Location = new System.Drawing.Point(163, 311);
+            this.comboBox16.Location = new System.Drawing.Point(163, 374);
             this.comboBox16.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox16.Name = "comboBox16";
             this.comboBox16.Size = new System.Drawing.Size(70, 25);
@@ -407,7 +407,7 @@
             // 
             this.button17.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button17.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button17.Location = new System.Drawing.Point(87, 160);
+            this.button17.Location = new System.Drawing.Point(87, 223);
             this.button17.Name = "button17";
             this.button17.Size = new System.Drawing.Size(70, 50);
             this.button17.TabIndex = 55;
@@ -418,7 +418,7 @@
             // 
             this.button16.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button16.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button16.Location = new System.Drawing.Point(163, 311);
+            this.button16.Location = new System.Drawing.Point(163, 374);
             this.button16.Name = "button16";
             this.button16.Size = new System.Drawing.Size(70, 25);
             this.button16.TabIndex = 54;
@@ -429,7 +429,7 @@
             // 
             this.comboBox15.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox15.FormattingEnabled = true;
-            this.comboBox15.Location = new System.Drawing.Point(11, 311);
+            this.comboBox15.Location = new System.Drawing.Point(11, 374);
             this.comboBox15.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox15.Name = "comboBox15";
             this.comboBox15.Size = new System.Drawing.Size(70, 25);
@@ -441,7 +441,7 @@
             // 
             this.comboBox14.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox14.FormattingEnabled = true;
-            this.comboBox14.Location = new System.Drawing.Point(163, 280);
+            this.comboBox14.Location = new System.Drawing.Point(163, 343);
             this.comboBox14.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox14.Name = "comboBox14";
             this.comboBox14.Size = new System.Drawing.Size(70, 25);
@@ -453,7 +453,7 @@
             // 
             this.button15.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button15.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button15.Location = new System.Drawing.Point(11, 311);
+            this.button15.Location = new System.Drawing.Point(11, 374);
             this.button15.Name = "button15";
             this.button15.Size = new System.Drawing.Size(70, 25);
             this.button15.TabIndex = 51;
@@ -464,7 +464,7 @@
             // 
             this.button14.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button14.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button14.Location = new System.Drawing.Point(163, 280);
+            this.button14.Location = new System.Drawing.Point(163, 343);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(70, 25);
             this.button14.TabIndex = 50;
@@ -475,7 +475,7 @@
             // 
             this.buttonDigitalDot.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigitalDot.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigitalDot.Location = new System.Drawing.Point(163, 444);
+            this.buttonDigitalDot.Location = new System.Drawing.Point(163, 507);
             this.buttonDigitalDot.Name = "buttonDigitalDot";
             this.buttonDigitalDot.Size = new System.Drawing.Size(70, 25);
             this.buttonDigitalDot.TabIndex = 49;
@@ -487,7 +487,7 @@
             // 
             this.buttonDigital6.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital6.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital6.Location = new System.Drawing.Point(163, 383);
+            this.buttonDigital6.Location = new System.Drawing.Point(163, 446);
             this.buttonDigital6.Name = "buttonDigital6";
             this.buttonDigital6.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital6.TabIndex = 48;
@@ -499,7 +499,7 @@
             // 
             this.buttonDigital9.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital9.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital9.Location = new System.Drawing.Point(163, 413);
+            this.buttonDigital9.Location = new System.Drawing.Point(163, 476);
             this.buttonDigital9.Name = "buttonDigital9";
             this.buttonDigital9.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital9.TabIndex = 47;
@@ -511,7 +511,7 @@
             // 
             this.buttonDigital3.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital3.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital3.Location = new System.Drawing.Point(163, 353);
+            this.buttonDigital3.Location = new System.Drawing.Point(163, 416);
             this.buttonDigital3.Name = "buttonDigital3";
             this.buttonDigital3.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital3.TabIndex = 46;
@@ -523,7 +523,7 @@
             // 
             this.buttonDigital8.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital8.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital8.Location = new System.Drawing.Point(87, 413);
+            this.buttonDigital8.Location = new System.Drawing.Point(87, 476);
             this.buttonDigital8.Name = "buttonDigital8";
             this.buttonDigital8.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital8.TabIndex = 45;
@@ -535,7 +535,7 @@
             // 
             this.buttonDigital5.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital5.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital5.Location = new System.Drawing.Point(87, 383);
+            this.buttonDigital5.Location = new System.Drawing.Point(87, 446);
             this.buttonDigital5.Name = "buttonDigital5";
             this.buttonDigital5.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital5.TabIndex = 44;
@@ -547,7 +547,7 @@
             // 
             this.buttonDigital0.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital0.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital0.Location = new System.Drawing.Point(87, 444);
+            this.buttonDigital0.Location = new System.Drawing.Point(87, 507);
             this.buttonDigital0.Name = "buttonDigital0";
             this.buttonDigital0.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital0.TabIndex = 43;
@@ -559,7 +559,7 @@
             // 
             this.buttonDigital7.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital7.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital7.Location = new System.Drawing.Point(11, 413);
+            this.buttonDigital7.Location = new System.Drawing.Point(11, 476);
             this.buttonDigital7.Name = "buttonDigital7";
             this.buttonDigital7.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital7.TabIndex = 42;
@@ -571,7 +571,7 @@
             // 
             this.buttonDigital4.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital4.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital4.Location = new System.Drawing.Point(11, 383);
+            this.buttonDigital4.Location = new System.Drawing.Point(11, 446);
             this.buttonDigital4.Name = "buttonDigital4";
             this.buttonDigital4.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital4.TabIndex = 41;
@@ -583,7 +583,7 @@
             // 
             this.buttonDigital2.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital2.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital2.Location = new System.Drawing.Point(87, 353);
+            this.buttonDigital2.Location = new System.Drawing.Point(87, 416);
             this.buttonDigital2.Name = "buttonDigital2";
             this.buttonDigital2.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital2.TabIndex = 40;
@@ -595,7 +595,7 @@
             // 
             this.buttonDigital1.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDigital1.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDigital1.Location = new System.Drawing.Point(11, 353);
+            this.buttonDigital1.Location = new System.Drawing.Point(11, 416);
             this.buttonDigital1.Name = "buttonDigital1";
             this.buttonDigital1.Size = new System.Drawing.Size(70, 25);
             this.buttonDigital1.TabIndex = 39;
@@ -607,7 +607,7 @@
             // 
             this.comboBox13.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox13.FormattingEnabled = true;
-            this.comboBox13.Location = new System.Drawing.Point(11, 280);
+            this.comboBox13.Location = new System.Drawing.Point(11, 343);
             this.comboBox13.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox13.Name = "comboBox13";
             this.comboBox13.Size = new System.Drawing.Size(70, 25);
@@ -619,7 +619,7 @@
             // 
             this.button13.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button13.Font = new System.Drawing.Font("Microsoft JhengHei UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button13.Location = new System.Drawing.Point(11, 280);
+            this.button13.Location = new System.Drawing.Point(11, 343);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(70, 25);
             this.button13.TabIndex = 38;
@@ -630,7 +630,7 @@
             // 
             this.buttonRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonRight.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonRight.Location = new System.Drawing.Point(163, 160);
+            this.buttonRight.Location = new System.Drawing.Point(163, 223);
             this.buttonRight.Name = "buttonRight";
             this.buttonRight.Size = new System.Drawing.Size(70, 50);
             this.buttonRight.TabIndex = 37;
@@ -642,7 +642,7 @@
             // 
             this.buttonLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonLeft.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonLeft.Location = new System.Drawing.Point(11, 160);
+            this.buttonLeft.Location = new System.Drawing.Point(11, 223);
             this.buttonLeft.Name = "buttonLeft";
             this.buttonLeft.Size = new System.Drawing.Size(70, 50);
             this.buttonLeft.TabIndex = 36;
@@ -654,7 +654,7 @@
             // 
             this.buttonDown.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonDown.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonDown.Location = new System.Drawing.Point(87, 216);
+            this.buttonDown.Location = new System.Drawing.Point(87, 279);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(70, 50);
             this.buttonDown.TabIndex = 35;
@@ -666,7 +666,7 @@
             // 
             this.buttonUp.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonUp.Font = new System.Drawing.Font("Microsoft JhengHei UI", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonUp.Location = new System.Drawing.Point(87, 104);
+            this.buttonUp.Location = new System.Drawing.Point(87, 167);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(70, 50);
             this.buttonUp.TabIndex = 34;
@@ -689,12 +689,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.pictureBox_Record);
             this.groupBox1.Controls.Add(this.buttonDelete);
             this.groupBox1.Controls.Add(this.buttonAdd);
             this.groupBox1.Controls.Add(this.comboBoxRcNumber);
             this.groupBox1.Controls.Add(this.button_Edit);
-            this.groupBox1.Location = new System.Drawing.Point(11, 475);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(11, 539);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(222, 85);
             this.groupBox1.TabIndex = 59;
@@ -714,6 +716,7 @@
             // 
             // buttonDelete
             // 
+            this.buttonDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDelete.Location = new System.Drawing.Point(124, 23);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(25, 25);
@@ -724,6 +727,7 @@
             // 
             // buttonAdd
             // 
+            this.buttonAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonAdd.Location = new System.Drawing.Point(6, 23);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(25, 25);
@@ -737,7 +741,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(245, 572);
+            this.ClientSize = new System.Drawing.Size(245, 634);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.comboBox17);
             this.Controls.Add(this.comboBox12);
@@ -789,7 +793,6 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button4);
             this.Font = new System.Drawing.Font("Microsoft JhengHei UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
