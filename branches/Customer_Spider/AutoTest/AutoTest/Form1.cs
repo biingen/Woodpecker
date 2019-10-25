@@ -339,20 +339,13 @@ namespace Woodpecker
             if (SchExist[0] != "")
             {
                 if (SchExist[0] == "0")
-                {
-                    button_Schedule1.Visible = false;
                     button_Schedule2.Visible = false;
-                }
                 else
-                {
-                    button_Schedule1.Visible = true;
                     button_Schedule2.Visible = true;
-                }
             }
             else
             {
                 SchExist[0] = "0";
-                button_Schedule1.Visible = false;
                 button_Schedule2.Visible = false;
             }
 
@@ -395,7 +388,6 @@ namespace Woodpecker
                 button_Schedule5.Visible = false;
             }
 
-            Global.Schedule_1_Exist = int.Parse(SchExist[0]);
             Global.Schedule_2_Exist = int.Parse(SchExist[0]);
             Global.Schedule_3_Exist = int.Parse(SchExist[1]);
             Global.Schedule_4_Exist = int.Parse(SchExist[2]);
@@ -7140,7 +7132,7 @@ namespace Woodpecker
                 {
                     SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
                 }
-                button_Schedule1.Visible = SchExist[0] == "0" ? false : true;
+                
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
