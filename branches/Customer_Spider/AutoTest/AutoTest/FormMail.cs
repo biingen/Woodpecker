@@ -313,6 +313,7 @@ namespace Woodpecker
             {
                 if (int.Parse(ini12.INIRead(MailPath, "Send Mail", "value", "")) == 1)
                 {
+                    lebalNetworkPrompt.Visible = true;
                     SendMailcheckBox.Checked = true;
                     textBox_From.Enabled = true;
                     textBox_To.Enabled = true;
@@ -332,6 +333,7 @@ namespace Woodpecker
                 }
                 else
                 {
+                    lebalNetworkPrompt.Visible = false;
                     SendMailcheckBox.Checked = false;
                     textBox_From.Enabled = false;
                     textBox_To.Enabled = false;
@@ -353,6 +355,7 @@ namespace Woodpecker
             else
             {
                 ini12.INIWrite(MailPath, "Send Mail", "value", "0");
+                lebalNetworkPrompt.Visible = false;
                 SendMailcheckBox.Checked = false;
                 textBox_From.Enabled = false;
                 textBox_To.Enabled = false;
@@ -473,6 +476,18 @@ namespace Woodpecker
                     textBox_TeamViewerID.Enabled = true;
                     textBox_TeamViewerPassWord.Enabled = true;
                     GmailcheckBox.Visible = true;
+                    lebalNetworkPrompt.Visible = true;
+
+                    if (string.IsNullOrEmpty(textBox_To.Text))
+                    {
+                        label_ErrorMessage.Text = "Recipient must exist !";
+                        pictureBox_To.Image = Properties.Resources.ERROR;
+                    }
+                    else
+                    {
+                        label_ErrorMessage.Text = "";
+                        pictureBox_To.Image = null;
+                    }
                 }
                 else
                 {
@@ -503,6 +518,18 @@ namespace Woodpecker
                 textBox_TeamViewerPassWord.Enabled = false;
                 label_ErrorMessage.Text = "";
                 GmailcheckBox.Visible = false;
+                lebalNetworkPrompt.Visible = false;
+
+                if (string.IsNullOrEmpty(textBox_To.Text))
+                {
+                    label_ErrorMessage.Text = "Recipient must exist !";
+                    pictureBox_To.Image = Properties.Resources.ERROR;
+                }
+                else
+                {
+                    label_ErrorMessage.Text = "";
+                    pictureBox_To.Image = null;
+                }
             }
         }
 
@@ -522,8 +549,8 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_From.Text))
             {
-                label_ErrorMessage.Text = "Sender must exist !";
-                pictureBox_From.Image = Properties.Resources.ERROR;
+                //label_ErrorMessage.Text = "Sender must exist !";
+                //pictureBox_From.Image = Properties.Resources.ERROR;
             }
             else
             {

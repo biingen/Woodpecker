@@ -184,7 +184,7 @@ namespace Can_Reader_Lib
                 catch (DllNotFoundException Ex)
                 {
                     Console.WriteLine(Ex.ToString());
-                    MessageBox.Show(Ex.Message.ToString(), "CAN-bus error!");
+                    MessageBox.Show("CAN-bus error!", Ex.Message.ToString());
                 }
                 if (connection_status == 1)
                 {

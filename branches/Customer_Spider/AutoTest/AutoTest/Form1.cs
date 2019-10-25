@@ -7136,6 +7136,7 @@ namespace Woodpecker
                 {
                     SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
                 }
+                
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
