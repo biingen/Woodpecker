@@ -477,6 +477,17 @@ namespace Woodpecker
                     textBox_TeamViewerPassWord.Enabled = true;
                     GmailcheckBox.Visible = true;
                     lebalNetworkPrompt.Visible = true;
+
+                    if (string.IsNullOrEmpty(textBox_To.Text))
+                    {
+                        label_ErrorMessage.Text = "Recipient must exist !";
+                        pictureBox_To.Image = Properties.Resources.ERROR;
+                    }
+                    else
+                    {
+                        label_ErrorMessage.Text = "";
+                        pictureBox_To.Image = null;
+                    }
                 }
                 else
                 {
@@ -508,6 +519,17 @@ namespace Woodpecker
                 label_ErrorMessage.Text = "";
                 GmailcheckBox.Visible = false;
                 lebalNetworkPrompt.Visible = false;
+
+                if (string.IsNullOrEmpty(textBox_To.Text))
+                {
+                    label_ErrorMessage.Text = "Recipient must exist !";
+                    pictureBox_To.Image = Properties.Resources.ERROR;
+                }
+                else
+                {
+                    label_ErrorMessage.Text = "";
+                    pictureBox_To.Image = null;
+                }
             }
         }
 
