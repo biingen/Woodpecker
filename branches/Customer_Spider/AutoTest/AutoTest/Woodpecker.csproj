@@ -386,11 +386,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\WPK.png" />
+    <None Include="Resources\WPK1.png" />
     <Content Include="Woodpecker.ico" />
     <None Include="Resources\ic_computer_black_48dp.png" />
     <None Include="Resources\Computer.png" />
     <None Include="Resources\Loading_WPK.gif" />
-    <None Include="Resources\WPK.png" />
     <None Include="Resources\Switch to TV.png" />
     <None Include="Resources\Switch to PC.png" />
     <None Include="Resources\Switch Off AC.png" />

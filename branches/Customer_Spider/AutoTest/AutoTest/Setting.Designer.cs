@@ -131,9 +131,9 @@
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort2_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort2_BaudRate);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort1_BaudRate);
-            this.GroupBox_Rs232.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.GroupBox_Rs232.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GroupBox_Rs232.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.GroupBox_Rs232.Location = new System.Drawing.Point(259, 185);
+            this.GroupBox_Rs232.Location = new System.Drawing.Point(259, 178);
             this.GroupBox_Rs232.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBox_Rs232.Name = "GroupBox_Rs232";
             this.GroupBox_Rs232.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -146,7 +146,7 @@
             // 
             this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_klinePort.Location = new System.Drawing.Point(335, 169);
+            this.pictureBox_klinePort.Location = new System.Drawing.Point(338, 179);
             this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_klinePort.Name = "pictureBox_klinePort";
             this.pictureBox_klinePort.Size = new System.Drawing.Size(23, 23);
@@ -159,7 +159,7 @@
             this.checkBox_canbus.AutoSize = true;
             this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.checkBox_canbus.Location = new System.Drawing.Point(182, 195);
+            this.checkBox_canbus.Location = new System.Drawing.Point(188, 205);
             this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_canbus.Name = "checkBox_canbus";
             this.checkBox_canbus.Size = new System.Drawing.Size(70, 19);
@@ -174,7 +174,7 @@
             this.comboBox_KlinePort_PortName_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_KlinePort_PortName_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_KlinePort_PortName_Value.FormattingEnabled = true;
-            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(262, 169);
+            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(268, 179);
             this.comboBox_KlinePort_PortName_Value.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.comboBox_KlinePort_PortName_Value.Name = "comboBox_KlinePort_PortName_Value";
             this.comboBox_KlinePort_PortName_Value.Size = new System.Drawing.Size(65, 23);
@@ -186,7 +186,7 @@
             this.checkBox_Kline.AutoSize = true;
             this.checkBox_Kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Kline.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Kline.Location = new System.Drawing.Point(182, 170);
+            this.checkBox_Kline.Location = new System.Drawing.Point(188, 180);
             this.checkBox_Kline.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Kline.Name = "checkBox_Kline";
             this.checkBox_Kline.Size = new System.Drawing.Size(79, 19);
@@ -207,7 +207,7 @@
             "C",
             "D",
             "E"});
-            this.comboBox_SerialPort3_VirtualPortName_Value.Location = new System.Drawing.Point(98, 175);
+            this.comboBox_SerialPort3_VirtualPortName_Value.Location = new System.Drawing.Point(104, 175);
             this.comboBox_SerialPort3_VirtualPortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort3_VirtualPortName_Value.Name = "comboBox_SerialPort3_VirtualPortName_Value";
             this.comboBox_SerialPort3_VirtualPortName_Value.Size = new System.Drawing.Size(41, 23);
@@ -218,7 +218,7 @@
             // 
             this.pictureBox_SerialPort3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(141, 178);
+            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(147, 178);
             this.pictureBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort3.Name = "pictureBox_SerialPort3";
             this.pictureBox_SerialPort3.Size = new System.Drawing.Size(23, 23);
@@ -238,7 +238,7 @@
             "C",
             "D",
             "E"});
-            this.comboBox_SerialPort2_VirtualPortName_Value.Location = new System.Drawing.Point(98, 97);
+            this.comboBox_SerialPort2_VirtualPortName_Value.Location = new System.Drawing.Point(104, 97);
             this.comboBox_SerialPort2_VirtualPortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort2_VirtualPortName_Value.Name = "comboBox_SerialPort2_VirtualPortName_Value";
             this.comboBox_SerialPort2_VirtualPortName_Value.Size = new System.Drawing.Size(41, 23);
@@ -249,7 +249,7 @@
             // 
             this.pictureBox_SerialPort2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(141, 100);
+            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(147, 100);
             this.pictureBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort2.Name = "pictureBox_SerialPort2";
             this.pictureBox_SerialPort2.Size = new System.Drawing.Size(23, 23);
@@ -269,7 +269,7 @@
             "C",
             "D",
             "E"});
-            this.comboBox_SerialPort1_VirtualPortName_Value.Location = new System.Drawing.Point(98, 19);
+            this.comboBox_SerialPort1_VirtualPortName_Value.Location = new System.Drawing.Point(104, 19);
             this.comboBox_SerialPort1_VirtualPortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort1_VirtualPortName_Value.Name = "comboBox_SerialPort1_VirtualPortName_Value";
             this.comboBox_SerialPort1_VirtualPortName_Value.Size = new System.Drawing.Size(41, 23);
@@ -280,7 +280,7 @@
             // 
             this.pictureBox_SerialPort1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(141, 19);
+            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(147, 19);
             this.pictureBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort1.Name = "pictureBox_SerialPort1";
             this.pictureBox_SerialPort1.Size = new System.Drawing.Size(23, 23);
@@ -292,7 +292,7 @@
             // 
             this.checkBox_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort3.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort3.Location = new System.Drawing.Point(6, 180);
+            this.checkBox_SerialPort3.Location = new System.Drawing.Point(12, 180);
             this.checkBox_SerialPort3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
             this.checkBox_SerialPort3.Size = new System.Drawing.Size(91, 18);
@@ -328,7 +328,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort3_PortName_Value.Location = new System.Drawing.Point(98, 201);
+            this.comboBox_SerialPort3_PortName_Value.Location = new System.Drawing.Point(104, 201);
             this.comboBox_SerialPort3_PortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort3_PortName_Value.Name = "comboBox_SerialPort3_PortName_Value";
             this.comboBox_SerialPort3_PortName_Value.Size = new System.Drawing.Size(66, 23);
@@ -357,7 +357,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(98, 227);
+            this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(104, 227);
             this.comboBox_SerialPort3_BaudRate_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort3_BaudRate_Value.Name = "comboBox_SerialPort3_BaudRate_Value";
             this.comboBox_SerialPort3_BaudRate_Value.Size = new System.Drawing.Size(66, 23);
@@ -369,7 +369,7 @@
             this.label_SerialPort3_PortName.AutoSize = true;
             this.label_SerialPort3_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort3_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort3_PortName.Location = new System.Drawing.Point(22, 206);
+            this.label_SerialPort3_PortName.Location = new System.Drawing.Point(28, 206);
             this.label_SerialPort3_PortName.Name = "label_SerialPort3_PortName";
             this.label_SerialPort3_PortName.Size = new System.Drawing.Size(63, 15);
             this.label_SerialPort3_PortName.TabIndex = 59;
@@ -380,7 +380,7 @@
             this.label_SerialPort3_BaudRate.AutoSize = true;
             this.label_SerialPort3_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort3_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort3_BaudRate.Location = new System.Drawing.Point(22, 230);
+            this.label_SerialPort3_BaudRate.Location = new System.Drawing.Point(28, 230);
             this.label_SerialPort3_BaudRate.Name = "label_SerialPort3_BaudRate";
             this.label_SerialPort3_BaudRate.Size = new System.Drawing.Size(62, 15);
             this.label_SerialPort3_BaudRate.TabIndex = 61;
@@ -390,7 +390,7 @@
             // 
             this.checkBox_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort2.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort2.Location = new System.Drawing.Point(6, 102);
+            this.checkBox_SerialPort2.Location = new System.Drawing.Point(12, 102);
             this.checkBox_SerialPort2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_SerialPort2.Name = "checkBox_SerialPort2";
             this.checkBox_SerialPort2.Size = new System.Drawing.Size(91, 18);
@@ -403,7 +403,7 @@
             // 
             this.checkBox_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort1.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort1.Location = new System.Drawing.Point(6, 21);
+            this.checkBox_SerialPort1.Location = new System.Drawing.Point(12, 21);
             this.checkBox_SerialPort1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_SerialPort1.Name = "checkBox_SerialPort1";
             this.checkBox_SerialPort1.Size = new System.Drawing.Size(91, 18);
@@ -434,7 +434,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(98, 71);
+            this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(104, 71);
             this.comboBox_SerialPort1_BaudRate_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort1_BaudRate_Value.Name = "comboBox_SerialPort1_BaudRate_Value";
             this.comboBox_SerialPort1_BaudRate_Value.Size = new System.Drawing.Size(66, 23);
@@ -468,7 +468,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort1_PortName_Value.Location = new System.Drawing.Point(98, 45);
+            this.comboBox_SerialPort1_PortName_Value.Location = new System.Drawing.Point(104, 45);
             this.comboBox_SerialPort1_PortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort1_PortName_Value.Name = "comboBox_SerialPort1_PortName_Value";
             this.comboBox_SerialPort1_PortName_Value.Size = new System.Drawing.Size(66, 23);
@@ -480,7 +480,7 @@
             this.label_SerialPort1_PortName.AutoSize = true;
             this.label_SerialPort1_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort1_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort1_PortName.Location = new System.Drawing.Point(22, 48);
+            this.label_SerialPort1_PortName.Location = new System.Drawing.Point(28, 48);
             this.label_SerialPort1_PortName.Name = "label_SerialPort1_PortName";
             this.label_SerialPort1_PortName.Size = new System.Drawing.Size(63, 15);
             this.label_SerialPort1_PortName.TabIndex = 8;
@@ -513,7 +513,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort2_PortName_Value.Location = new System.Drawing.Point(98, 123);
+            this.comboBox_SerialPort2_PortName_Value.Location = new System.Drawing.Point(104, 123);
             this.comboBox_SerialPort2_PortName_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort2_PortName_Value.Name = "comboBox_SerialPort2_PortName_Value";
             this.comboBox_SerialPort2_PortName_Value.Size = new System.Drawing.Size(66, 23);
@@ -542,7 +542,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(98, 149);
+            this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(104, 149);
             this.comboBox_SerialPort2_BaudRate_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_SerialPort2_BaudRate_Value.Name = "comboBox_SerialPort2_BaudRate_Value";
             this.comboBox_SerialPort2_BaudRate_Value.Size = new System.Drawing.Size(66, 23);
@@ -554,7 +554,7 @@
             this.label_SerialPort2_PortName.AutoSize = true;
             this.label_SerialPort2_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort2_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort2_PortName.Location = new System.Drawing.Point(22, 131);
+            this.label_SerialPort2_PortName.Location = new System.Drawing.Point(28, 131);
             this.label_SerialPort2_PortName.Name = "label_SerialPort2_PortName";
             this.label_SerialPort2_PortName.Size = new System.Drawing.Size(63, 15);
             this.label_SerialPort2_PortName.TabIndex = 3;
@@ -565,7 +565,7 @@
             this.label_SerialPort2_BaudRate.AutoSize = true;
             this.label_SerialPort2_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort2_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort2_BaudRate.Location = new System.Drawing.Point(22, 152);
+            this.label_SerialPort2_BaudRate.Location = new System.Drawing.Point(28, 152);
             this.label_SerialPort2_BaudRate.Name = "label_SerialPort2_BaudRate";
             this.label_SerialPort2_BaudRate.Size = new System.Drawing.Size(62, 15);
             this.label_SerialPort2_BaudRate.TabIndex = 6;
@@ -576,7 +576,7 @@
             this.label_SerialPort1_BaudRate.AutoSize = true;
             this.label_SerialPort1_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort1_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort1_BaudRate.Location = new System.Drawing.Point(22, 74);
+            this.label_SerialPort1_BaudRate.Location = new System.Drawing.Point(28, 74);
             this.label_SerialPort1_BaudRate.Name = "label_SerialPort1_BaudRate";
             this.label_SerialPort1_BaudRate.Size = new System.Drawing.Size(62, 15);
             this.label_SerialPort1_BaudRate.TabIndex = 2;
@@ -585,8 +585,8 @@
             // checkBox_Displayhex
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(357, 454);
+            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(357, 461);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
@@ -628,13 +628,13 @@
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraDevice);
             this.groupBox_Camera.Controls.Add(this.label_CameraAudio);
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraAudio);
-            this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.groupBox_Camera.Location = new System.Drawing.Point(30, 185);
+            this.groupBox_Camera.Location = new System.Drawing.Point(30, 178);
             this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_Camera.Name = "groupBox_Camera";
             this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_Camera.Size = new System.Drawing.Size(220, 120);
+            this.groupBox_Camera.Size = new System.Drawing.Size(220, 127);
             this.groupBox_Camera.TabIndex = 56;
             this.groupBox_Camera.TabStop = false;
             this.groupBox_Camera.Text = "CAMERA";
@@ -644,7 +644,7 @@
             this.label_resolution.AutoSize = true;
             this.label_resolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_resolution.ForeColor = System.Drawing.Color.White;
-            this.label_resolution.Location = new System.Drawing.Point(106, 92);
+            this.label_resolution.Location = new System.Drawing.Point(123, 96);
             this.label_resolution.Name = "label_resolution";
             this.label_resolution.Size = new System.Drawing.Size(37, 15);
             this.label_resolution.TabIndex = 52;
@@ -655,7 +655,7 @@
             this.label_CameraResolution.AutoSize = true;
             this.label_CameraResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraResolution.ForeColor = System.Drawing.Color.White;
-            this.label_CameraResolution.Location = new System.Drawing.Point(3, 92);
+            this.label_CameraResolution.Location = new System.Drawing.Point(8, 96);
             this.label_CameraResolution.Name = "label_CameraResolution";
             this.label_CameraResolution.Size = new System.Drawing.Size(66, 15);
             this.label_CameraResolution.TabIndex = 51;
@@ -666,7 +666,7 @@
             this.label_CameraDevice.AutoSize = true;
             this.label_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraDevice.ForeColor = System.Drawing.Color.White;
-            this.label_CameraDevice.Location = new System.Drawing.Point(6, 28);
+            this.label_CameraDevice.Location = new System.Drawing.Point(6, 31);
             this.label_CameraDevice.Name = "label_CameraDevice";
             this.label_CameraDevice.Size = new System.Drawing.Size(44, 15);
             this.label_CameraDevice.TabIndex = 42;
@@ -678,7 +678,7 @@
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(51, 25);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(51, 28);
             this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
             this.comboBox_CameraDevice.Size = new System.Drawing.Size(165, 23);
@@ -691,7 +691,7 @@
             this.label_CameraAudio.AutoSize = true;
             this.label_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraAudio.ForeColor = System.Drawing.Color.White;
-            this.label_CameraAudio.Location = new System.Drawing.Point(8, 60);
+            this.label_CameraAudio.Location = new System.Drawing.Point(8, 66);
             this.label_CameraAudio.Name = "label_CameraAudio";
             this.label_CameraAudio.Size = new System.Drawing.Size(38, 15);
             this.label_CameraAudio.TabIndex = 49;
@@ -703,7 +703,7 @@
             this.comboBox_CameraAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraAudio.FormattingEnabled = true;
-            this.comboBox_CameraAudio.Location = new System.Drawing.Point(51, 57);
+            this.comboBox_CameraAudio.Location = new System.Drawing.Point(51, 63);
             this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
             this.comboBox_CameraAudio.Size = new System.Drawing.Size(165, 23);
@@ -718,13 +718,13 @@
             this.groupBox_RcDB.Controls.Add(this.comboBox_TvBrands);
             this.groupBox_RcDB.Controls.Add(this.label_SelectRedrat);
             this.groupBox_RcDB.Controls.Add(this.comboBox__SelectRedrat);
-            this.groupBox_RcDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.groupBox_RcDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_RcDB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.groupBox_RcDB.Location = new System.Drawing.Point(30, 323);
+            this.groupBox_RcDB.Location = new System.Drawing.Point(30, 309);
             this.groupBox_RcDB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_RcDB.Name = "groupBox_RcDB";
             this.groupBox_RcDB.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_RcDB.Size = new System.Drawing.Size(220, 120);
+            this.groupBox_RcDB.Size = new System.Drawing.Size(220, 127);
             this.groupBox_RcDB.TabIndex = 57;
             this.groupBox_RcDB.TabStop = false;
             this.groupBox_RcDB.Text = "RC DB";
@@ -734,7 +734,7 @@
             this.label_TvBrands.AutoSize = true;
             this.label_TvBrands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_TvBrands.ForeColor = System.Drawing.Color.White;
-            this.label_TvBrands.Location = new System.Drawing.Point(7, 20);
+            this.label_TvBrands.Location = new System.Drawing.Point(7, 23);
             this.label_TvBrands.Name = "label_TvBrands";
             this.label_TvBrands.Size = new System.Drawing.Size(63, 15);
             this.label_TvBrands.TabIndex = 40;
@@ -746,7 +746,7 @@
             this.comboBox_TvBrands.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_TvBrands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_TvBrands.FormattingEnabled = true;
-            this.comboBox_TvBrands.Location = new System.Drawing.Point(10, 37);
+            this.comboBox_TvBrands.Location = new System.Drawing.Point(10, 40);
             this.comboBox_TvBrands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_TvBrands.Name = "comboBox_TvBrands";
             this.comboBox_TvBrands.Size = new System.Drawing.Size(204, 23);
@@ -759,7 +759,7 @@
             this.label_SelectRedrat.AutoSize = true;
             this.label_SelectRedrat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SelectRedrat.ForeColor = System.Drawing.Color.White;
-            this.label_SelectRedrat.Location = new System.Drawing.Point(7, 68);
+            this.label_SelectRedrat.Location = new System.Drawing.Point(7, 71);
             this.label_SelectRedrat.Name = "label_SelectRedrat";
             this.label_SelectRedrat.Size = new System.Drawing.Size(81, 15);
             this.label_SelectRedrat.TabIndex = 44;
@@ -771,7 +771,7 @@
             this.comboBox__SelectRedrat.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox__SelectRedrat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox__SelectRedrat.FormattingEnabled = true;
-            this.comboBox__SelectRedrat.Location = new System.Drawing.Point(10, 86);
+            this.comboBox__SelectRedrat.Location = new System.Drawing.Point(10, 89);
             this.comboBox__SelectRedrat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox__SelectRedrat.Name = "comboBox__SelectRedrat";
             this.comboBox__SelectRedrat.Size = new System.Drawing.Size(204, 23);
@@ -831,7 +831,7 @@
             // 
             this.pictureBox_GeneratorPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_GeneratorPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(492, 114);
+            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(493, 114);
             this.pictureBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_GeneratorPath.Name = "pictureBox_GeneratorPath";
             this.pictureBox_GeneratorPath.Size = new System.Drawing.Size(23, 23);
@@ -843,7 +843,7 @@
             // 
             this.pictureBox_RcDbPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_RcDbPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(492, 82);
+            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(493, 82);
             this.pictureBox_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_RcDbPath.Name = "pictureBox_RcDbPath";
             this.pictureBox_RcDbPath.Size = new System.Drawing.Size(23, 23);
@@ -855,7 +855,7 @@
             // 
             this.pictureBox_LogPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_LogPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_LogPath.Location = new System.Drawing.Point(492, 50);
+            this.pictureBox_LogPath.Location = new System.Drawing.Point(493, 50);
             this.pictureBox_LogPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_LogPath.Name = "pictureBox_LogPath";
             this.pictureBox_LogPath.Size = new System.Drawing.Size(23, 23);
@@ -867,7 +867,7 @@
             // 
             this.pictureBox_ImagePath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ImagePath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_ImagePath.Location = new System.Drawing.Point(492, 16);
+            this.pictureBox_ImagePath.Location = new System.Drawing.Point(493, 16);
             this.pictureBox_ImagePath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ImagePath.Name = "pictureBox_ImagePath";
             this.pictureBox_ImagePath.Size = new System.Drawing.Size(23, 23);
@@ -897,7 +897,7 @@
             this.button_ImagePath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_ImagePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_ImagePath.ForeColor = System.Drawing.Color.White;
-            this.button_ImagePath.Location = new System.Drawing.Point(522, 16);
+            this.button_ImagePath.Location = new System.Drawing.Point(525, 16);
             this.button_ImagePath.Margin = new System.Windows.Forms.Padding(2);
             this.button_ImagePath.Name = "button_ImagePath";
             this.button_ImagePath.Size = new System.Drawing.Size(106, 25);
@@ -913,7 +913,7 @@
             this.button_LogPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_LogPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_LogPath.ForeColor = System.Drawing.Color.White;
-            this.button_LogPath.Location = new System.Drawing.Point(522, 48);
+            this.button_LogPath.Location = new System.Drawing.Point(525, 48);
             this.button_LogPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_LogPath.Name = "button_LogPath";
             this.button_LogPath.Size = new System.Drawing.Size(106, 25);
@@ -929,7 +929,7 @@
             this.button_RcDbPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_RcDbPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_RcDbPath.ForeColor = System.Drawing.Color.White;
-            this.button_RcDbPath.Location = new System.Drawing.Point(522, 80);
+            this.button_RcDbPath.Location = new System.Drawing.Point(525, 80);
             this.button_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_RcDbPath.Name = "button_RcDbPath";
             this.button_RcDbPath.Size = new System.Drawing.Size(106, 25);
@@ -945,7 +945,7 @@
             this.button_GeneratorPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_GeneratorPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_GeneratorPath.ForeColor = System.Drawing.Color.White;
-            this.button_GeneratorPath.Location = new System.Drawing.Point(522, 112);
+            this.button_GeneratorPath.Location = new System.Drawing.Point(525, 112);
             this.button_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_GeneratorPath.Name = "button_GeneratorPath";
             this.button_GeneratorPath.Size = new System.Drawing.Size(106, 25);
@@ -961,7 +961,7 @@
             this.button_DosPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_DosPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_DosPath.ForeColor = System.Drawing.Color.White;
-            this.button_DosPath.Location = new System.Drawing.Point(522, 144);
+            this.button_DosPath.Location = new System.Drawing.Point(524, 144);
             this.button_DosPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_DosPath.Name = "button_DosPath";
             this.button_DosPath.Size = new System.Drawing.Size(106, 25);
@@ -975,7 +975,7 @@
             this.textBox_ImagePath.BackColor = System.Drawing.Color.White;
             this.textBox_ImagePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_ImagePath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_ImagePath.Location = new System.Drawing.Point(33, 18);
+            this.textBox_ImagePath.Location = new System.Drawing.Point(30, 18);
             this.textBox_ImagePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_ImagePath.Name = "textBox_ImagePath";
             this.textBox_ImagePath.Size = new System.Drawing.Size(454, 21);

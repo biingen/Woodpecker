@@ -1,5 +1,6 @@
 ﻿using jini;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -14,6 +15,28 @@ namespace Woodpecker
         public FormSchedule()
         {
             InitializeComponent();
+        }
+
+        private void setStyle()
+        {
+            // Button design
+            List<Button> buttonsList = new List<Button> { button_Schedule1, button_Schedule2, button_Schedule3, button_Schedule4, button_Schedule5};
+
+            foreach (Button buttonsAll in buttonsList)
+            {
+                if (buttonsAll.Enabled == true)
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                }
+                else
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                }
+            }
         }
 
         private void FormSchedule_Load(object sender, EventArgs e)
@@ -293,6 +316,8 @@ namespace Woodpecker
                 dateTimePicker_Sch5.Enabled = false;
             }
             #endregion
+
+            setStyle();
         }
 
         #region LoadSchBtn
@@ -342,168 +367,6 @@ namespace Woodpecker
                 textBox_Schedule5.Text = SchOpen5.FileName;
         }
         #endregion
-        
-        public void SaveSchBtn_Click(object sender, EventArgs e)
-        {
-            if (checkBox_Schedule3.Checked == true)
-            {
-                if (System.IO.File.Exists(textBox_Schedule3.Text.Trim()) == true)
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule3", "Path", textBox_Schedule3.Text.Trim());
-                    ini12.INIWrite(MailPath, "Test Case", "TestCase3", Path.GetFileNameWithoutExtension(textBox_Schedule3.Text.Trim()));
-                    ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "1");
-                    Global.Schedule_3_Exist = 1;
-                }
-                else
-                {
-                    label_ErrorMessage.Text = "Schedule3 csv file not exist !";
-                }
-
-                if (string.IsNullOrEmpty(textBox_Schedule3Loop.Text) || textBox_Schedule3Loop.Text == "0")
-                {
-                    label_ErrorMessage.Text = "Schedule3 Loop error !";
-                }
-                else
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule3", "Loop", textBox_Schedule3Loop.Text.Trim());
-                }
-            }
-
-            if (checkBox_Schedule4.Checked == true)
-            {
-                if (System.IO.File.Exists(textBox_Schedule4.Text.Trim()) == true)
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule4", "Path", textBox_Schedule4.Text.Trim());
-                    ini12.INIWrite(MailPath, "Test Case", "TestCase4", Path.GetFileNameWithoutExtension(textBox_Schedule4.Text.Trim()));
-                    ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "1");
-                    Global.Schedule_4_Exist = 1;
-                }
-                else
-                {
-                    label_ErrorMessage.Text = "Schedule4 csv file not exist !";
-                }
-
-                if (string.IsNullOrEmpty(textBox_Schedule4Loop.Text) || textBox_Schedule4Loop.Text == "0")
-                {
-                    label_ErrorMessage.Text = "Schedule4 Loop error !";
-                }
-                else
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule4", "Loop", textBox_Schedule4Loop.Text.Trim());
-                }
-            }
-
-            if (checkBox_Schedule5.Checked == true)
-            {
-                if (System.IO.File.Exists(textBox_Schedule5.Text.Trim()) == true)
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule5", "Path", textBox_Schedule5.Text.Trim());
-                    ini12.INIWrite(MailPath, "Test Case", "TestCase5", Path.GetFileNameWithoutExtension(textBox_Schedule5.Text.Trim()));
-                    ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "1");
-                    Global.Schedule_5_Exist = 1;
-                }
-                else
-                {
-                    label_ErrorMessage.Text = "Schedule5 csv file not exist !";
-                }
-
-                if (string.IsNullOrEmpty(textBox_Schedule5Loop.Text) || textBox_Schedule5Loop.Text == "0")
-                {
-                    label_ErrorMessage.Text = "Schedule5 Loop error !";
-                }
-                else
-                {
-                    ini12.INIWrite(MainSettingPath, "Schedule5", "Loop", textBox_Schedule5Loop.Text.Trim());
-                }
-            }
-
-            if (Global.FormSchedule == false)
-            {
-            }
-            else
-            {
-                for (int i = 1; i < 6; i++)
-                    Global.Total_Loop += int.Parse(ini12.INIRead(MainSettingPath, "Schedule" + i, "Loop", ""));
-            }
-
-            ini12.INIWrite(MainSettingPath, "Schedule1", "Timer", dateTimePicker_Sch1.Text.Trim() + ":00");
-            ini12.INIWrite(MainSettingPath, "Schedule2", "Timer", dateTimePicker_Sch2.Text.Trim() + ":00");
-            ini12.INIWrite(MainSettingPath, "Schedule3", "Timer", dateTimePicker_Sch3.Text.Trim() + ":00");
-            ini12.INIWrite(MainSettingPath, "Schedule4", "Timer", dateTimePicker_Sch4.Text.Trim() + ":00");
-            ini12.INIWrite(MainSettingPath, "Schedule5", "Timer", dateTimePicker_Sch5.Text.Trim() + ":00");
-
-            DateTime dt1 = Convert.ToDateTime(dateTimePicker_Sch1.Text);
-            DateTime dt2 = Convert.ToDateTime(dateTimePicker_Sch2.Text);
-            DateTime dt3 = Convert.ToDateTime(dateTimePicker_Sch3.Text);
-            DateTime dt4 = Convert.ToDateTime(dateTimePicker_Sch4.Text);
-            DateTime dt5 = Convert.ToDateTime(dateTimePicker_Sch5.Text);
-
-            #region Schedule2偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1")
-            {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt2) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule2 Timer Error !";
-                }
-            }
-            #endregion
-
-            #region Schedule3偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1")
-            {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt3) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule3 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt3) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule3 Timer Error !";
-                }
-            }
-            #endregion
-
-            #region Schedule4偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1")
-            {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt4) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule4 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt4) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule4 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && DateTime.Compare(dt3, dt4) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule4 Timer Error !";
-                }
-            }
-            #endregion
-
-            #region Schedule5偵錯
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1")
-            {
-                if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" && DateTime.Compare(dt1, dt5) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule5 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && DateTime.Compare(dt2, dt5) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule5 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && DateTime.Compare(dt3, dt5) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule5 Timer Error !";
-                }
-                else if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" && DateTime.Compare(dt4, dt5) > 0)
-                {
-                    label_ErrorMessage.Text = "Schedule5 Timer Error !";
-                }
-            }
-            #endregion
-        }
-
-        
 
         #region checkBoxTimer
         private void checkBoxTimer1_CheckedChanged(object sender, EventArgs e)
@@ -573,10 +436,6 @@ namespace Woodpecker
         }
         #endregion
 
-        
-
-        
-
         private void textBox_Schedule1_TextChanged(object sender, EventArgs e)
         {
             if (File.Exists(textBox_Schedule1.Text.Trim()) == true)
@@ -641,6 +500,7 @@ namespace Woodpecker
                 textBox_Schedule2Loop.Enabled = true;
                 checkBox_Timer2.Enabled = true;
             }
+            setStyle();
         }
 
         private void textBox_Schedule2_TextChanged(object sender, EventArgs e)
@@ -706,6 +566,7 @@ namespace Woodpecker
                 textBox_Schedule3Loop.Enabled = true;
                 checkBox_Timer3.Enabled = true;
             }
+            setStyle();
         }
 
         private void textBox_Schedule3_TextChanged(object sender, EventArgs e)
@@ -771,6 +632,7 @@ namespace Woodpecker
                 textBox_Schedule4Loop.Enabled = true;
                 checkBox_Timer4.Enabled = true;
             }
+            setStyle();
         }
 
         private void textBox_Schedule4_TextChanged(object sender, EventArgs e)
@@ -836,6 +698,7 @@ namespace Woodpecker
                 textBox_Schedule5Loop.Enabled = true;
                 checkBox_Timer5.Enabled = true;
             }
+            setStyle();
         }
 
         private void textBox_Schedule5_TextChanged(object sender, EventArgs e)

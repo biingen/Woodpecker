@@ -45,7 +45,6 @@
             this.button_Schedule4 = new System.Windows.Forms.Button();
             this.textBox_Schedule3 = new System.Windows.Forms.TextBox();
             this.button_Schedule3 = new System.Windows.Forms.Button();
-            this.SaveSchBtn = new System.Windows.Forms.Button();
             this.textBox_Schedule2 = new System.Windows.Forms.TextBox();
             this.textBox_Schedule1 = new System.Windows.Forms.TextBox();
             this.button_Schedule2 = new System.Windows.Forms.Button();
@@ -100,14 +99,14 @@
             // checkBox_VideoRecord
             // 
             this.checkBox_VideoRecord.AutoSize = true;
-            this.checkBox_VideoRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_VideoRecord.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_VideoRecord.Location = new System.Drawing.Point(375, 385);
+            this.checkBox_VideoRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_VideoRecord.ForeColor = System.Drawing.Color.White;
+            this.checkBox_VideoRecord.Location = new System.Drawing.Point(380, 392);
             this.checkBox_VideoRecord.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_VideoRecord.Name = "checkBox_VideoRecord";
-            this.checkBox_VideoRecord.Size = new System.Drawing.Size(228, 19);
+            this.checkBox_VideoRecord.Size = new System.Drawing.Size(241, 20);
             this.checkBox_VideoRecord.TabIndex = 81;
-            this.checkBox_VideoRecord.Text = "Video Record after Schedule finished";
+            this.checkBox_VideoRecord.Text = "Video record after schedule finished";
             this.checkBox_VideoRecord.UseVisualStyleBackColor = true;
             this.checkBox_VideoRecord.CheckedChanged += new System.EventHandler(this.RecVideo_CheckedChanged);
             // 
@@ -116,8 +115,8 @@
             this.label_Schedule5Loop.AutoSize = true;
             this.label_Schedule5Loop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label_Schedule5Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Schedule5Loop.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Schedule5Loop.Location = new System.Drawing.Point(515, 343);
+            this.label_Schedule5Loop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_Schedule5Loop.Location = new System.Drawing.Point(520, 343);
             this.label_Schedule5Loop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Schedule5Loop.Name = "label_Schedule5Loop";
             this.label_Schedule5Loop.Size = new System.Drawing.Size(35, 15);
@@ -129,8 +128,8 @@
             this.label_Schedule4Loop.AutoSize = true;
             this.label_Schedule4Loop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label_Schedule4Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Schedule4Loop.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Schedule4Loop.Location = new System.Drawing.Point(515, 271);
+            this.label_Schedule4Loop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_Schedule4Loop.Location = new System.Drawing.Point(520, 271);
             this.label_Schedule4Loop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Schedule4Loop.Name = "label_Schedule4Loop";
             this.label_Schedule4Loop.Size = new System.Drawing.Size(35, 15);
@@ -142,8 +141,8 @@
             this.label_Schedule3Loop.AutoSize = true;
             this.label_Schedule3Loop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label_Schedule3Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Schedule3Loop.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Schedule3Loop.Location = new System.Drawing.Point(515, 198);
+            this.label_Schedule3Loop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_Schedule3Loop.Location = new System.Drawing.Point(520, 198);
             this.label_Schedule3Loop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Schedule3Loop.Name = "label_Schedule3Loop";
             this.label_Schedule3Loop.Size = new System.Drawing.Size(35, 15);
@@ -155,8 +154,8 @@
             this.label_Schedule2Loop.AutoSize = true;
             this.label_Schedule2Loop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label_Schedule2Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Schedule2Loop.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Schedule2Loop.Location = new System.Drawing.Point(515, 126);
+            this.label_Schedule2Loop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_Schedule2Loop.Location = new System.Drawing.Point(520, 126);
             this.label_Schedule2Loop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Schedule2Loop.Name = "label_Schedule2Loop";
             this.label_Schedule2Loop.Size = new System.Drawing.Size(35, 15);
@@ -168,8 +167,8 @@
             this.label_Schedule1Loop.AutoSize = true;
             this.label_Schedule1Loop.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.label_Schedule1Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Schedule1Loop.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Schedule1Loop.Location = new System.Drawing.Point(515, 55);
+            this.label_Schedule1Loop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_Schedule1Loop.Location = new System.Drawing.Point(520, 55);
             this.label_Schedule1Loop.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Schedule1Loop.Name = "label_Schedule1Loop";
             this.label_Schedule1Loop.Size = new System.Drawing.Size(35, 15);
@@ -180,7 +179,7 @@
             // 
             this.textBox_Schedule5Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Schedule5Loop.ForeColor = System.Drawing.Color.Crimson;
-            this.textBox_Schedule5Loop.Location = new System.Drawing.Point(553, 341);
+            this.textBox_Schedule5Loop.Location = new System.Drawing.Point(558, 341);
             this.textBox_Schedule5Loop.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule5Loop.MaxLength = 5;
             this.textBox_Schedule5Loop.Name = "textBox_Schedule5Loop";
@@ -193,7 +192,7 @@
             // 
             this.textBox_Schedule4Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Schedule4Loop.ForeColor = System.Drawing.Color.Crimson;
-            this.textBox_Schedule4Loop.Location = new System.Drawing.Point(553, 268);
+            this.textBox_Schedule4Loop.Location = new System.Drawing.Point(558, 268);
             this.textBox_Schedule4Loop.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule4Loop.MaxLength = 5;
             this.textBox_Schedule4Loop.Name = "textBox_Schedule4Loop";
@@ -206,7 +205,7 @@
             // 
             this.textBox_Schedule3Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Schedule3Loop.ForeColor = System.Drawing.Color.Crimson;
-            this.textBox_Schedule3Loop.Location = new System.Drawing.Point(553, 196);
+            this.textBox_Schedule3Loop.Location = new System.Drawing.Point(558, 196);
             this.textBox_Schedule3Loop.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule3Loop.MaxLength = 5;
             this.textBox_Schedule3Loop.Name = "textBox_Schedule3Loop";
@@ -219,7 +218,7 @@
             // 
             this.textBox_Schedule2Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Schedule2Loop.ForeColor = System.Drawing.Color.Crimson;
-            this.textBox_Schedule2Loop.Location = new System.Drawing.Point(553, 123);
+            this.textBox_Schedule2Loop.Location = new System.Drawing.Point(558, 123);
             this.textBox_Schedule2Loop.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule2Loop.MaxLength = 5;
             this.textBox_Schedule2Loop.Name = "textBox_Schedule2Loop";
@@ -232,7 +231,7 @@
             // 
             this.textBox_Schedule1Loop.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_Schedule1Loop.ForeColor = System.Drawing.Color.Crimson;
-            this.textBox_Schedule1Loop.Location = new System.Drawing.Point(553, 52);
+            this.textBox_Schedule1Loop.Location = new System.Drawing.Point(558, 52);
             this.textBox_Schedule1Loop.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule1Loop.MaxLength = 5;
             this.textBox_Schedule1Loop.Name = "textBox_Schedule1Loop";
@@ -246,7 +245,7 @@
             // textBox_Schedule5
             // 
             this.textBox_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Schedule5.Location = new System.Drawing.Point(40, 313);
+            this.textBox_Schedule5.Location = new System.Drawing.Point(45, 313);
             this.textBox_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Schedule5.Name = "textBox_Schedule5";
             this.textBox_Schedule5.Size = new System.Drawing.Size(570, 21);
@@ -255,9 +254,10 @@
             // 
             // button_Schedule5
             // 
-            this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule5.Location = new System.Drawing.Point(40, 341);
+            this.button_Schedule5.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule5.Location = new System.Drawing.Point(45, 341);
             this.button_Schedule5.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.button_Schedule5.Name = "button_Schedule5";
             this.button_Schedule5.Size = new System.Drawing.Size(77, 23);
@@ -269,7 +269,7 @@
             // textBox_Schedule4
             // 
             this.textBox_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Schedule4.Location = new System.Drawing.Point(40, 240);
+            this.textBox_Schedule4.Location = new System.Drawing.Point(45, 240);
             this.textBox_Schedule4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 24);
             this.textBox_Schedule4.Name = "textBox_Schedule4";
             this.textBox_Schedule4.Size = new System.Drawing.Size(570, 21);
@@ -278,9 +278,10 @@
             // 
             // button_Schedule4
             // 
-            this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule4.Location = new System.Drawing.Point(40, 268);
+            this.button_Schedule4.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule4.Location = new System.Drawing.Point(45, 268);
             this.button_Schedule4.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.button_Schedule4.Name = "button_Schedule4";
             this.button_Schedule4.Size = new System.Drawing.Size(77, 23);
@@ -292,7 +293,7 @@
             // textBox_Schedule3
             // 
             this.textBox_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Schedule3.Location = new System.Drawing.Point(40, 168);
+            this.textBox_Schedule3.Location = new System.Drawing.Point(45, 168);
             this.textBox_Schedule3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 24);
             this.textBox_Schedule3.Name = "textBox_Schedule3";
             this.textBox_Schedule3.Size = new System.Drawing.Size(570, 21);
@@ -301,9 +302,10 @@
             // 
             // button_Schedule3
             // 
-            this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule3.Location = new System.Drawing.Point(40, 196);
+            this.button_Schedule3.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule3.Location = new System.Drawing.Point(45, 196);
             this.button_Schedule3.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.button_Schedule3.Name = "button_Schedule3";
             this.button_Schedule3.Size = new System.Drawing.Size(77, 23);
@@ -312,25 +314,10 @@
             this.button_Schedule3.UseVisualStyleBackColor = true;
             this.button_Schedule3.Click += new System.EventHandler(this.LoadSchBtn3_Click);
             // 
-            // SaveSchBtn
-            // 
-            this.SaveSchBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.SaveSchBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.SaveSchBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.SaveSchBtn.Location = new System.Drawing.Point(631, 474);
-            this.SaveSchBtn.Margin = new System.Windows.Forms.Padding(2, 2, 24, 2);
-            this.SaveSchBtn.Name = "SaveSchBtn";
-            this.SaveSchBtn.Size = new System.Drawing.Size(78, 36);
-            this.SaveSchBtn.TabIndex = 64;
-            this.SaveSchBtn.Text = "SAVE";
-            this.SaveSchBtn.UseVisualStyleBackColor = true;
-            this.SaveSchBtn.Visible = false;
-            this.SaveSchBtn.Click += new System.EventHandler(this.SaveSchBtn_Click);
-            // 
             // textBox_Schedule2
             // 
             this.textBox_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Schedule2.Location = new System.Drawing.Point(40, 95);
+            this.textBox_Schedule2.Location = new System.Drawing.Point(45, 95);
             this.textBox_Schedule2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 24);
             this.textBox_Schedule2.Name = "textBox_Schedule2";
             this.textBox_Schedule2.Size = new System.Drawing.Size(570, 21);
@@ -340,7 +327,7 @@
             // textBox_Schedule1
             // 
             this.textBox_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Schedule1.Location = new System.Drawing.Point(40, 23);
+            this.textBox_Schedule1.Location = new System.Drawing.Point(45, 23);
             this.textBox_Schedule1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 24);
             this.textBox_Schedule1.Name = "textBox_Schedule1";
             this.textBox_Schedule1.Size = new System.Drawing.Size(570, 21);
@@ -349,9 +336,10 @@
             // 
             // button_Schedule2
             // 
-            this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule2.Location = new System.Drawing.Point(40, 123);
+            this.button_Schedule2.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule2.Location = new System.Drawing.Point(45, 123);
             this.button_Schedule2.Margin = new System.Windows.Forms.Padding(2, 16, 2, 2);
             this.button_Schedule2.Name = "button_Schedule2";
             this.button_Schedule2.Size = new System.Drawing.Size(77, 23);
@@ -362,9 +350,10 @@
             // 
             // button_Schedule1
             // 
-            this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule1.Location = new System.Drawing.Point(40, 52);
+            this.button_Schedule1.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule1.Location = new System.Drawing.Point(45, 52);
             this.button_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule1.Name = "button_Schedule1";
             this.button_Schedule1.Size = new System.Drawing.Size(77, 23);
@@ -397,7 +386,7 @@
             // 
             this.checkBox_Schedule2.AutoSize = true;
             this.checkBox_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Schedule2.Location = new System.Drawing.Point(23, 99);
+            this.checkBox_Schedule2.Location = new System.Drawing.Point(28, 99);
             this.checkBox_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Schedule2.Name = "checkBox_Schedule2";
             this.checkBox_Schedule2.Size = new System.Drawing.Size(15, 14);
@@ -409,7 +398,7 @@
             // 
             this.checkBox_Schedule3.AutoSize = true;
             this.checkBox_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Schedule3.Location = new System.Drawing.Point(23, 172);
+            this.checkBox_Schedule3.Location = new System.Drawing.Point(28, 172);
             this.checkBox_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Schedule3.Name = "checkBox_Schedule3";
             this.checkBox_Schedule3.Size = new System.Drawing.Size(15, 14);
@@ -421,7 +410,7 @@
             // 
             this.checkBox_Schedule4.AutoSize = true;
             this.checkBox_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Schedule4.Location = new System.Drawing.Point(23, 244);
+            this.checkBox_Schedule4.Location = new System.Drawing.Point(28, 244);
             this.checkBox_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Schedule4.Name = "checkBox_Schedule4";
             this.checkBox_Schedule4.Size = new System.Drawing.Size(15, 14);
@@ -433,7 +422,7 @@
             // 
             this.checkBox_Schedule5.AutoSize = true;
             this.checkBox_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Schedule5.Location = new System.Drawing.Point(23, 317);
+            this.checkBox_Schedule5.Location = new System.Drawing.Point(28, 317);
             this.checkBox_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Schedule5.Name = "checkBox_Schedule5";
             this.checkBox_Schedule5.Size = new System.Drawing.Size(15, 14);
@@ -444,12 +433,12 @@
             // checkBox_Similarity
             // 
             this.checkBox_Similarity.AutoSize = true;
-            this.checkBox_Similarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Similarity.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_Similarity.Location = new System.Drawing.Point(23, 385);
+            this.checkBox_Similarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_Similarity.ForeColor = System.Drawing.Color.White;
+            this.checkBox_Similarity.Location = new System.Drawing.Point(28, 392);
             this.checkBox_Similarity.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Similarity.Name = "checkBox_Similarity";
-            this.checkBox_Similarity.Size = new System.Drawing.Size(79, 19);
+            this.checkBox_Similarity.Size = new System.Drawing.Size(84, 20);
             this.checkBox_Similarity.TabIndex = 91;
             this.checkBox_Similarity.Text = "Similarity:";
             this.checkBox_Similarity.UseVisualStyleBackColor = true;
@@ -473,7 +462,7 @@
             "20%",
             "10%",
             "0%"});
-            this.comboBox_Similarity.Location = new System.Drawing.Point(116, 384);
+            this.comboBox_Similarity.Location = new System.Drawing.Point(109, 391);
             this.comboBox_Similarity.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.comboBox_Similarity.Name = "comboBox_Similarity";
             this.comboBox_Similarity.Size = new System.Drawing.Size(65, 23);
@@ -486,7 +475,7 @@
             this.checkBox_Timer1.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Timer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Timer1.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer1.Location = new System.Drawing.Point(353, 57);
+            this.checkBox_Timer1.Location = new System.Drawing.Point(358, 57);
             this.checkBox_Timer1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Timer1.Name = "checkBox_Timer1";
             this.checkBox_Timer1.Size = new System.Drawing.Size(15, 14);
@@ -500,7 +489,7 @@
             this.dateTimePicker_Sch1.CustomFormat = "yyyy-MM-dd  HH:mm";
             this.dateTimePicker_Sch1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.dateTimePicker_Sch1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch1.Location = new System.Drawing.Point(370, 52);
+            this.dateTimePicker_Sch1.Location = new System.Drawing.Point(375, 52);
             this.dateTimePicker_Sch1.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_Sch1.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
             this.dateTimePicker_Sch1.Name = "dateTimePicker_Sch1";
@@ -515,7 +504,7 @@
             this.checkBox_Timer2.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Timer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Timer2.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer2.Location = new System.Drawing.Point(353, 127);
+            this.checkBox_Timer2.Location = new System.Drawing.Point(358, 127);
             this.checkBox_Timer2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Timer2.Name = "checkBox_Timer2";
             this.checkBox_Timer2.Size = new System.Drawing.Size(15, 14);
@@ -529,7 +518,7 @@
             this.dateTimePicker_Sch2.CustomFormat = "yyyy-MM-dd  HH:mm";
             this.dateTimePicker_Sch2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.dateTimePicker_Sch2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch2.Location = new System.Drawing.Point(370, 123);
+            this.dateTimePicker_Sch2.Location = new System.Drawing.Point(375, 123);
             this.dateTimePicker_Sch2.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_Sch2.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
             this.dateTimePicker_Sch2.Name = "dateTimePicker_Sch2";
@@ -544,7 +533,7 @@
             this.checkBox_Timer3.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Timer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Timer3.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer3.Location = new System.Drawing.Point(353, 200);
+            this.checkBox_Timer3.Location = new System.Drawing.Point(358, 200);
             this.checkBox_Timer3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Timer3.Name = "checkBox_Timer3";
             this.checkBox_Timer3.Size = new System.Drawing.Size(15, 14);
@@ -558,7 +547,7 @@
             this.dateTimePicker_Sch3.CustomFormat = "yyyy-MM-dd  HH:mm";
             this.dateTimePicker_Sch3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.dateTimePicker_Sch3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch3.Location = new System.Drawing.Point(370, 196);
+            this.dateTimePicker_Sch3.Location = new System.Drawing.Point(375, 196);
             this.dateTimePicker_Sch3.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_Sch3.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
             this.dateTimePicker_Sch3.Name = "dateTimePicker_Sch3";
@@ -573,7 +562,7 @@
             this.checkBox_Timer4.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Timer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Timer4.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer4.Location = new System.Drawing.Point(353, 274);
+            this.checkBox_Timer4.Location = new System.Drawing.Point(358, 274);
             this.checkBox_Timer4.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Timer4.Name = "checkBox_Timer4";
             this.checkBox_Timer4.Size = new System.Drawing.Size(15, 14);
@@ -588,7 +577,7 @@
             this.checkBox_Timer5.BackColor = System.Drawing.Color.Transparent;
             this.checkBox_Timer5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Timer5.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer5.Location = new System.Drawing.Point(353, 346);
+            this.checkBox_Timer5.Location = new System.Drawing.Point(358, 346);
             this.checkBox_Timer5.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Timer5.Name = "checkBox_Timer5";
             this.checkBox_Timer5.Size = new System.Drawing.Size(15, 14);
@@ -602,7 +591,7 @@
             this.dateTimePicker_Sch4.CustomFormat = "yyyy-MM-dd  HH:mm";
             this.dateTimePicker_Sch4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.dateTimePicker_Sch4.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch4.Location = new System.Drawing.Point(370, 269);
+            this.dateTimePicker_Sch4.Location = new System.Drawing.Point(375, 269);
             this.dateTimePicker_Sch4.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_Sch4.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
             this.dateTimePicker_Sch4.Name = "dateTimePicker_Sch4";
@@ -616,7 +605,7 @@
             this.dateTimePicker_Sch5.CustomFormat = "yyyy-MM-dd  HH:mm";
             this.dateTimePicker_Sch5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.dateTimePicker_Sch5.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch5.Location = new System.Drawing.Point(370, 343);
+            this.dateTimePicker_Sch5.Location = new System.Drawing.Point(375, 343);
             this.dateTimePicker_Sch5.Margin = new System.Windows.Forms.Padding(2);
             this.dateTimePicker_Sch5.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
             this.dateTimePicker_Sch5.Name = "dateTimePicker_Sch5";
@@ -628,14 +617,14 @@
             // checkBox_FootprintMode
             // 
             this.checkBox_FootprintMode.AutoSize = true;
-            this.checkBox_FootprintMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_FootprintMode.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_FootprintMode.Location = new System.Drawing.Point(221, 385);
+            this.checkBox_FootprintMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_FootprintMode.ForeColor = System.Drawing.Color.White;
+            this.checkBox_FootprintMode.Location = new System.Drawing.Point(226, 392);
             this.checkBox_FootprintMode.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.checkBox_FootprintMode.Name = "checkBox_FootprintMode";
-            this.checkBox_FootprintMode.Size = new System.Drawing.Size(109, 19);
+            this.checkBox_FootprintMode.Size = new System.Drawing.Size(117, 20);
             this.checkBox_FootprintMode.TabIndex = 117;
-            this.checkBox_FootprintMode.Text = "Footprint Mode";
+            this.checkBox_FootprintMode.Text = "Footprint mode";
             this.checkBox_FootprintMode.UseVisualStyleBackColor = true;
             this.checkBox_FootprintMode.CheckedChanged += new System.EventHandler(this.checkBoxFootprintMode_CheckedChanged);
             // 
@@ -645,7 +634,7 @@
             this.label_ErrorMessage.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.label_ErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_ErrorMessage.ForeColor = System.Drawing.Color.Red;
-            this.label_ErrorMessage.Location = new System.Drawing.Point(12, 446);
+            this.label_ErrorMessage.Location = new System.Drawing.Point(23, 447);
             this.label_ErrorMessage.Name = "label_ErrorMessage";
             this.label_ErrorMessage.Size = new System.Drawing.Size(83, 29);
             this.label_ErrorMessage.TabIndex = 118;
@@ -656,7 +645,7 @@
             // 
             this.pictureBox_Schedule1Loop.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule1Loop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule1Loop.Location = new System.Drawing.Point(614, 53);
+            this.pictureBox_Schedule1Loop.Location = new System.Drawing.Point(619, 53);
             this.pictureBox_Schedule1Loop.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule1Loop.Name = "pictureBox_Schedule1Loop";
             this.pictureBox_Schedule1Loop.Size = new System.Drawing.Size(23, 23);
@@ -668,7 +657,7 @@
             // 
             this.pictureBox_Schedule2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule2.Location = new System.Drawing.Point(614, 95);
+            this.pictureBox_Schedule2.Location = new System.Drawing.Point(619, 95);
             this.pictureBox_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule2.Name = "pictureBox_Schedule2";
             this.pictureBox_Schedule2.Size = new System.Drawing.Size(23, 23);
@@ -680,7 +669,7 @@
             // 
             this.pictureBox_Schedule5.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule5.Location = new System.Drawing.Point(614, 313);
+            this.pictureBox_Schedule5.Location = new System.Drawing.Point(619, 313);
             this.pictureBox_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule5.Name = "pictureBox_Schedule5";
             this.pictureBox_Schedule5.Size = new System.Drawing.Size(23, 23);
@@ -692,7 +681,7 @@
             // 
             this.pictureBox_Schedule4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule4.Location = new System.Drawing.Point(614, 240);
+            this.pictureBox_Schedule4.Location = new System.Drawing.Point(619, 240);
             this.pictureBox_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule4.Name = "pictureBox_Schedule4";
             this.pictureBox_Schedule4.Size = new System.Drawing.Size(23, 23);
@@ -704,7 +693,7 @@
             // 
             this.pictureBox_Schedule3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule3.Location = new System.Drawing.Point(614, 168);
+            this.pictureBox_Schedule3.Location = new System.Drawing.Point(619, 168);
             this.pictureBox_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule3.Name = "pictureBox_Schedule3";
             this.pictureBox_Schedule3.Size = new System.Drawing.Size(23, 23);
@@ -716,7 +705,7 @@
             // 
             this.pictureBox_Schedule1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule1.Location = new System.Drawing.Point(614, 23);
+            this.pictureBox_Schedule1.Location = new System.Drawing.Point(619, 23);
             this.pictureBox_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule1.Name = "pictureBox_Schedule1";
             this.pictureBox_Schedule1.Size = new System.Drawing.Size(23, 23);
@@ -728,7 +717,7 @@
             // 
             this.pictureBox_Schedule2Loop.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule2Loop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule2Loop.Location = new System.Drawing.Point(614, 123);
+            this.pictureBox_Schedule2Loop.Location = new System.Drawing.Point(619, 123);
             this.pictureBox_Schedule2Loop.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule2Loop.Name = "pictureBox_Schedule2Loop";
             this.pictureBox_Schedule2Loop.Size = new System.Drawing.Size(23, 23);
@@ -740,7 +729,7 @@
             // 
             this.pictureBox_Schedule3Loop.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule3Loop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule3Loop.Location = new System.Drawing.Point(614, 196);
+            this.pictureBox_Schedule3Loop.Location = new System.Drawing.Point(619, 196);
             this.pictureBox_Schedule3Loop.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule3Loop.Name = "pictureBox_Schedule3Loop";
             this.pictureBox_Schedule3Loop.Size = new System.Drawing.Size(23, 23);
@@ -752,7 +741,7 @@
             // 
             this.pictureBox_Schedule4Loop.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule4Loop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule4Loop.Location = new System.Drawing.Point(614, 268);
+            this.pictureBox_Schedule4Loop.Location = new System.Drawing.Point(619, 268);
             this.pictureBox_Schedule4Loop.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule4Loop.Name = "pictureBox_Schedule4Loop";
             this.pictureBox_Schedule4Loop.Size = new System.Drawing.Size(23, 23);
@@ -764,7 +753,7 @@
             // 
             this.pictureBox_Schedule5Loop.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Schedule5Loop.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Schedule5Loop.Location = new System.Drawing.Point(614, 341);
+            this.pictureBox_Schedule5Loop.Location = new System.Drawing.Point(619, 341);
             this.pictureBox_Schedule5Loop.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Schedule5Loop.Name = "pictureBox_Schedule5Loop";
             this.pictureBox_Schedule5Loop.Size = new System.Drawing.Size(23, 23);
@@ -775,14 +764,14 @@
             // checkBox_ScheduleAutoStart
             // 
             this.checkBox_ScheduleAutoStart.AutoSize = true;
-            this.checkBox_ScheduleAutoStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_ScheduleAutoStart.ForeColor = System.Drawing.Color.MediumPurple;
-            this.checkBox_ScheduleAutoStart.Location = new System.Drawing.Point(375, 408);
+            this.checkBox_ScheduleAutoStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_ScheduleAutoStart.ForeColor = System.Drawing.Color.White;
+            this.checkBox_ScheduleAutoStart.Location = new System.Drawing.Point(380, 415);
             this.checkBox_ScheduleAutoStart.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_ScheduleAutoStart.Name = "checkBox_ScheduleAutoStart";
-            this.checkBox_ScheduleAutoStart.Size = new System.Drawing.Size(133, 19);
+            this.checkBox_ScheduleAutoStart.Size = new System.Drawing.Size(201, 20);
             this.checkBox_ScheduleAutoStart.TabIndex = 130;
-            this.checkBox_ScheduleAutoStart.Text = "Schedule Auto Start";
+            this.checkBox_ScheduleAutoStart.Text = "Schedules start automatically";
             this.checkBox_ScheduleAutoStart.UseVisualStyleBackColor = true;
             this.checkBox_ScheduleAutoStart.CheckedChanged += new System.EventHandler(this.checkBox_ScheduleAutoStart_CheckedChanged);
             // 
@@ -792,7 +781,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
-            this.BackColor = System.Drawing.Color.Ivory;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(658, 494);
             this.Controls.Add(this.checkBox_ScheduleAutoStart);
             this.Controls.Add(this.pictureBox_Schedule5Loop);
@@ -840,7 +829,6 @@
             this.Controls.Add(this.button_Schedule4);
             this.Controls.Add(this.textBox_Schedule3);
             this.Controls.Add(this.button_Schedule3);
-            this.Controls.Add(this.SaveSchBtn);
             this.Controls.Add(this.textBox_Schedule2);
             this.Controls.Add(this.textBox_Schedule1);
             this.Controls.Add(this.button_Schedule2);
@@ -888,7 +876,6 @@
         private System.Windows.Forms.Button button_Schedule4;
         private System.Windows.Forms.TextBox textBox_Schedule3;
         private System.Windows.Forms.Button button_Schedule3;
-        private System.Windows.Forms.Button SaveSchBtn;
         private System.Windows.Forms.TextBox textBox_Schedule2;
         private System.Windows.Forms.TextBox textBox_Schedule1;
         private System.Windows.Forms.Button button_Schedule2;

@@ -164,19 +164,20 @@ namespace Woodpecker
 
             // Button design
             List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort1, button_SerialPort2, button_SerialPort3, button_AcUsb,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_TestLog, button_Copy};
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_TestLog, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
+                                                            button_Schedule4, button_Schedule5};
             foreach (Button buttonsAll in buttonsList)
             {
                 if (buttonsAll.Enabled == true)
                 {
                     buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                    buttonsAll.FlatAppearance.BorderSize = 3;
+                    buttonsAll.FlatAppearance.BorderSize = 1;
                     buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
                 }
                 else
                 {
                     buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
-                    buttonsAll.FlatAppearance.BorderSize = 3;
+                    buttonsAll.FlatAppearance.BorderSize = 1;
                     buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
                 }
                 
@@ -193,6 +194,9 @@ namespace Woodpecker
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.TopLevel = true;
+            this.TopMost = true;
+
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
@@ -7564,6 +7568,7 @@ namespace Woodpecker
                     MessageBox.Show("This csv file format error", "File Format Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            setStyle();
         }
         #endregion
 
