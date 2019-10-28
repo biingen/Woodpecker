@@ -146,6 +146,8 @@ namespace AutoTest
             this.pictureBox_RedRat = new System.Windows.Forms.PictureBox();
             this.panelVideo = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.comboBox_savelog = new System.Windows.Forms.ComboBox();
+            this.button_savelog = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1549,6 +1551,31 @@ namespace AutoTest
             this.pictureBox5.TabIndex = 38;
             this.pictureBox5.TabStop = false;
             // 
+            // comboBox_savelog
+            // 
+            this.comboBox_savelog.FormattingEnabled = true;
+            this.comboBox_savelog.Items.AddRange(new object[] {
+            "SerialPort1",
+            "SerialPort2",
+            "SerialPort3",
+            "Canbus",
+            "S+CPort",
+            "KlinePort"});
+            this.comboBox_savelog.Location = new System.Drawing.Point(1014, 137);
+            this.comboBox_savelog.Name = "comboBox_savelog";
+            this.comboBox_savelog.Size = new System.Drawing.Size(76, 21);
+            this.comboBox_savelog.TabIndex = 111;
+            // 
+            // button_savelog
+            // 
+            this.button_savelog.Location = new System.Drawing.Point(1016, 165);
+            this.button_savelog.Name = "button_savelog";
+            this.button_savelog.Size = new System.Drawing.Size(74, 25);
+            this.button_savelog.TabIndex = 112;
+            this.button_savelog.Text = "Save Log";
+            this.button_savelog.UseVisualStyleBackColor = true;
+            this.button_savelog.Click += new System.EventHandler(this.button_savelog_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1556,6 +1583,8 @@ namespace AutoTest
             this.BackColor = System.Drawing.Color.Ivory;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.Controls.Add(this.button_savelog);
+            this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Copy);
             this.Controls.Add(this.button_TestLog);
             this.Controls.Add(this.button_kline);
@@ -1772,6 +1801,8 @@ namespace AutoTest
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        private System.Windows.Forms.ComboBox comboBox_savelog;
+        private System.Windows.Forms.Button button_savelog;
     }
 }
 

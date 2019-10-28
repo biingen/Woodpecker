@@ -73,13 +73,10 @@ namespace AutoTest
         private string srtstring = "";
 
         //宣告於keyword使用
-        public Queue<SerialReceivedData> data_queue;
+        //public Queue<SerialReceivedData> data_queue;
         private Queue<byte> SearchLogQueue1 = new Queue<byte>();
-        private Queue<byte> SaveLogQueue1 = new Queue<byte>();
         private Queue<byte> SearchLogQueue2 = new Queue<byte>();
-        private Queue<byte> SaveLogQueue2 = new Queue<byte>();
         private Queue<byte> SearchLogQueue3 = new Queue<byte>();
-        private Queue<byte> SaveLogQueue3 = new Queue<byte>();
         private char Keyword_SerialPort_1_temp_char;
         private byte Keyword_SerialPort_1_temp_byte;
         private char Keyword_SerialPort_2_temp_char;
@@ -127,8 +124,7 @@ namespace AutoTest
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        public AddDataDelegate myDelegate2;
-        public AddDataDelegate myDelegate3;
+        private String log1_text, log2_text, log3_text, canbus_text, kline_text, sc_text;
 
         public Form1()
         {
@@ -234,7 +230,7 @@ namespace AutoTest
             if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
             {
                 button_SerialPort1.Visible = true;
-                this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
+                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
             }
             else
             {
@@ -245,7 +241,7 @@ namespace AutoTest
             if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
             {
                 button_SerialPort2.Visible = true;
-                this.myDelegate2 = new AddDataDelegate(AddDataMethod2);
+                // this.myDelegate2 = new AddDataDelegate(AddDataMethod2);
             }
             else
             {
@@ -256,7 +252,7 @@ namespace AutoTest
             if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
             {
                 button_SerialPort3.Visible = true;
-                this.myDelegate3 = new AddDataDelegate(AddDataMethod3);
+                // this.myDelegate3 = new AddDataDelegate(AddDataMethod3);
             }
             else
             {
@@ -1638,7 +1634,189 @@ namespace AutoTest
             return returnStr;
         }
 
+        #region -- SerialPort Setup --
+        protected void OpenSerialPort(string Port)
+        {
+            switch (Port)
+            {
+                case "1":
+                    try
+                    {
+                        if (serialPort1.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "Comport", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort1.StopBits = System.IO.Ports.StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort1.StopBits = System.IO.Ports.StopBits.Two;
+                                    break;
+                            }
+                            serialPort1.PortName = ini12.INIRead(MainSettingPath, "Comport", "PortName", "");
+                            serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Comport", "BaudRate", ""));
+                            serialPort1.ReadTimeout = 2000;
+                            // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                            serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
+                            serialPort1.Open();
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort1);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
+                    }
+                    break;
+                case "2":
+                    try
+                    {
+                        if (serialPort2.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "ExtComport", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort2.StopBits = System.IO.Ports.StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort2.StopBits = System.IO.Ports.StopBits.Two;
+                                    break;
+                            }
+                            serialPort2.PortName = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
+                            serialPort2.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", ""));
+                            serialPort2.ReadTimeout = 2000;
+                            // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                            serialPort2.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
+                            serialPort2.Open();
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort2);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
+                    }
+                    break;
+                case "3":
+                    try
+                    {
+                        if (serialPort3.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "TriComport", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort3.StopBits = System.IO.Ports.StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort3.StopBits = System.IO.Ports.StopBits.Two;
+                                    break;
+                            }
+                            serialPort3.PortName = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
+                            serialPort3.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", ""));
+                            serialPort3.ReadTimeout = 2000;
+                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                            serialPort3.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
+                            serialPort3.Open();
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort3);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "SerialPort3 Error");
+                    }
+                    break;
+                case "kline":
+                    try
+                    {
+                        string Kline_Exist = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
+
+                        if (Kline_Exist == "1" && MySerialPort.IsPortOpened() == false)
+                        {
+                            string curItem = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
+                            if (MySerialPort.OpenPort(curItem) == true)
+                            {
+                                //BlueRat_UART_Exception_status = false;
+                                timer_kline.Enabled = true;
+                            }
+                            else
+                            {
+                                timer_kline.Enabled = false;
+                            }
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
+                    }
+                    break;    
+                default:
+                    break;
+            }
+        }
+
+        protected void CloseSerialPort(string Port)
+        {
+            switch (Port)
+            {
+                case "1":
+                    serialPort1.Dispose();
+                    serialPort1.Close();
+                    break;
+                case "2":
+                    serialPort2.Dispose();
+                    serialPort2.Close();
+                    break;
+                case "3":
+                    serialPort3.Dispose();
+                    serialPort3.Close();
+                    break;
+                case "kline":
+                    MySerialPort.Dispose();
+                    MySerialPort.ClosePort();
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
         #region -- SerialPort1 Setup --
+        protected void OpenSerialPort1()
+        {
+            try
+            {
+                if (serialPort1.IsOpen == false)
+                {
+                    string stopbit = ini12.INIRead(MainSettingPath, "Comport", "StopBits", "");
+                    switch (stopbit)
+                    {
+                        case "One":
+                            serialPort1.StopBits = System.IO.Ports.StopBits.One;
+                            break;
+                        case "Two":
+                            serialPort1.StopBits = System.IO.Ports.StopBits.Two;
+                            break;
+                    }
+                    serialPort1.PortName = ini12.INIRead(MainSettingPath, "Comport", "PortName", "");
+                    serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Comport", "BaudRate", ""));
+                    serialPort1.ReadTimeout = 2000;
+                    // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                    serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
+                    serialPort1.Open();
+                    object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort1);
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
+            }
+        }
+/*
         protected SerialPortDataContainer OpenSerialPort1(SerialPort sp)
         {
             SerialPortDataContainer sp_data = new SerialPortDataContainer();
@@ -1676,7 +1854,7 @@ namespace AutoTest
             }
             return sp_data;
         }
-
+*/
         protected void CloseSerialPort1()
         {
             serialPort1.Dispose();
@@ -1684,187 +1862,134 @@ namespace AutoTest
         }
         #endregion
 
-        #region -- SerialPort2 Setup --
-        protected void OpenSerialPort2()
-        {
-            try
-            {
-                if (serialPort2.IsOpen == false)
+        #region -- 接受SerialPort1資料 --
+        /*
+                public class SerialReceivedData
                 {
-                    string stopbit = ini12.INIRead(MainSettingPath, "ExtComport", "StopBits", "");
-                    switch (stopbit)
-                    {
-                        case "One":
-                            serialPort2.StopBits = System.IO.Ports.StopBits.One;
-                            break;
-                        case "Two":
-                            serialPort2.StopBits = System.IO.Ports.StopBits.Two;
-                            break;
-                    }
-                    serialPort2.PortName = ini12.INIRead(MainSettingPath, "ExtComport", "PortName", "");
-                    serialPort2.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "ExtComport", "BaudRate", ""));
-                    serialPort2.ReadTimeout = 2000;
-                    // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
-
-                    serialPort2.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
-                    serialPort2.Open();
-                    object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort2);
+                    private List<Byte> data;
+                    private DateTime time_stamp;
+                    public void SetData(List<Byte> d) { data = d; }
+                    public void SetTimeStamp(DateTime t) { time_stamp = t; }
+                    public List<Byte> GetData() { return data; }
+                    public DateTime GetTimeStamp() { return time_stamp; }
                 }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
-            }
-        }
 
-        protected void CloseSerialPort2()        // 關閉RS232 Port2
-        {
-            serialPort2.Dispose();
-            serialPort2.Close();
-        }
-        #endregion
-
-        #region -- SerialPort3 Setup --
-        protected void OpenSerialPort3()
-        {
-            try
-            {
-                if (serialPort3.IsOpen == false)
+                public class SerialPortDataContainer
                 {
-                    string stopbit = ini12.INIRead(MainSettingPath, "TriComport", "StopBits", "");
-                    switch (stopbit)
+                    static public Dictionary<string, Object> SerialPortDictionary;
+                    static public bool data_available;
+                    public SerialPort serial_port;
+                    public Queue<SerialReceivedData> data_queue;
+                    //public List<SerialReceivedData> received_data = new List<SerialReceivedData>(); // just-received and to be processed
+                    public Queue<Byte> log_data; // processed and stored for log_save
+                    public SerialPortDataContainer()
                     {
-                        case "One":
-                            serialPort3.StopBits = System.IO.Ports.StopBits.One;
-                            break;
-                        case "Two":
-                            serialPort3.StopBits = System.IO.Ports.StopBits.Two;
-                            break;
+                        SerialPortDictionary = new Dictionary<string, Object>();
+                        data_queue = new Queue<SerialReceivedData>();
+                        log_data = new Queue<Byte>();
+                        data_available = false;
                     }
-                    serialPort3.PortName = ini12.INIRead(MainSettingPath, "TriComport", "PortName", "");
-                    serialPort3.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "TriComport", "BaudRate", ""));
-                    serialPort3.ReadTimeout = 2000;
-                    // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
-
-                    serialPort3.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
-                    serialPort3.Open();
-                    object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort3);
                 }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort3 Error");
-            }
-        }
-
-        protected void CloseSerialPort3()        // 關閉RS232 Port3
-        {
-            serialPort3.Dispose();
-            serialPort3.Close();
-        }
-        #endregion
-
-        #region -- KlinePort Setup --
-        protected void OpenKlinePort()
-        {
-            try
-            {
-                string Kline_Exist = ini12.INIRead(MainSettingPath, "Kline", "Checked", "");
-
-                if (Kline_Exist == "1" && MySerialPort.IsPortOpened() == false)
+                byte[] dataset1 = new byte[0];
+                byte[] dataset2 = new byte[0];
+                byte[] dataset3 = new byte[0];
+                public void AddDataMethod1(String myString)
                 {
-                    string curItem = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
-                    if (MySerialPort.OpenPort(curItem) == true)
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                     {
-                        //BlueRat_UART_Exception_status = false;
-                        timer_kline.Enabled = true;
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset1).Replace("-", "");
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                                                                                                                       // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                        textBox1.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox1.AppendText(hexValues + "\r\n");
+                        // End
                     }
                     else
                     {
-                        timer_kline.Enabled = false;
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string text = Encoding.ASCII.GetString(dataset1);
+
+                        dt = DateTime.Now;
+                        text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        textBox1.AppendText(text);
+                    }
+                    Thread.Sleep(1);
+                }
+
+                public SerialPortDataContainer SerialPortA = new SerialPortDataContainer();
+        */
+
+        private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int data_to_read = serialPort1.BytesToRead;
+                if (data_to_read > 0)
+                {
+                    byte[] dataset = new byte[data_to_read];
+
+                    serialPort1.Read(dataset, 0, data_to_read);
+                    int index = 0;
+                    while (data_to_read > 0)
+                    {
+                        SearchLogQueue1.Enqueue(dataset[index]);
+                        index++;
+                        data_to_read--;
+                    }
+                    
+                    // string s = "";
+                    // textBox1.Invoke(this.myDelegate1, new Object[] { s });
+
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                        log1_text = string.Concat(log1_text, hexValues);
+                        // textBox1.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox1.AppendText(hexValues + "\r\n");
+                        // End
+                    }
+                    else
+                    {
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string strValues = Encoding.ASCII.GetString(dataset);
+
+                        dt = DateTime.Now;
+                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log1_text = string.Concat(log1_text, strValues);
+                        // textBox1.AppendText(strValues);
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
+                Console.WriteLine(ex.Message);
             }
         }
-
-        protected void CloseKlinePort()        // 關閉RS232 Port3
-        {
-            MySerialPort.Dispose();
-            MySerialPort.ClosePort();
-        }
-        #endregion
-
-        #region -- 接受SerialPort1資料 --
-        public class SerialReceivedData
-        {
-            private List<Byte> data;
-            private DateTime time_stamp;
-            public void SetData(List<Byte> d) { data = d; }
-            public void SetTimeStamp(DateTime t) { time_stamp = t; }
-            public List<Byte> GetData() { return data; }
-            public DateTime GetTimeStamp() { return time_stamp; }
-        }
-
-        public class SerialPortDataContainer
-        {
-            static public Dictionary<string, Object> SerialPortDictionary;
-            static public bool data_available;
-            public SerialPort serial_port;
-            public Queue<SerialReceivedData> data_queue;
-            //public List<SerialReceivedData> received_data = new List<SerialReceivedData>(); // just-received and to be processed
-            public Queue<Byte> log_data; // processed and stored for log_save
-            public SerialPortDataContainer()
-            {
-                SerialPortDictionary = new Dictionary<string, Object>();
-                data_queue = new Queue<SerialReceivedData>();
-                log_data = new Queue<Byte>();
-                data_available = false;
-            }
-        }
-
-        byte[] dataset1 = new byte[0];
-        byte[] dataset2 = new byte[0];
-        byte[] dataset3 = new byte[0];
-        public void AddDataMethod1(String myString)
-        {
-            DateTime dt;
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-            {
-                // hex to string
-                string hexValues = BitConverter.ToString(dataset1).Replace("-", "");
-                dt = DateTime.Now;
-
-                // Joseph
-                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                textBox1.AppendText(hexValues);
-                // End
-
-                // Jeremy
-                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                // textBox1.AppendText(hexValues + "\r\n");
-                // End
-            }
-            else
-            {
-                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                string text = Encoding.ASCII.GetString(dataset1);
-
-                dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox1.AppendText(text);
-            }
-            Thread.Sleep(1);
-        }
-
-        public SerialPortDataContainer SerialPortA = new SerialPortDataContainer();
+        //Jeremy code
+        /*
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            //int data = 500;
+            int data = 500;
             Object serial_data_obj;
             SerialPort sp = (SerialPort)sender;
             SerialPortDataContainer.SerialPortDictionary.TryGetValue(sp.PortName, out serial_data_obj);
@@ -1903,7 +2028,7 @@ namespace AutoTest
                 Console.WriteLine(ex.Message);
             }
         }
-        /*
+
         void Th1()
         {
                 SerialPortTxtbox1(Encoding.ASCII.GetString(dataset1), textBox1);
@@ -1931,14 +2056,14 @@ namespace AutoTest
                 }
             }
         }
-        */
+
 
         bool test_is_running = false;
 
         private void test()
         {
             while (test_is_running == true) { Thread.Sleep(1); }
-
+            
             //while (true)
             {
                 test_is_running = true;
@@ -1975,7 +2100,8 @@ namespace AutoTest
                                 // Joseph
                                 hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
                                 // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                                textBox1.AppendText(hexValues);
+                                log_text = string.Concat(log_text, hexValues);
+                                // textBox1.AppendText(hexValues);
                                 // End
 
                                 // Jeremy
@@ -1986,10 +2112,12 @@ namespace AutoTest
                             else
                             {
                                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                                string text = Encoding.ASCII.GetString(dataset);
+                                string strValues = Encoding.ASCII.GetString(dataset);
                                 dt = DateTime.Now;
-                                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                textBox1.AppendText(text);
+                                strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                log_text = string.Concat(log_text, strValues);
+
+                                //textBox1.AppendText(text);
                             }
                             
                         }
@@ -1998,42 +2126,10 @@ namespace AutoTest
             }
             test_is_running = false;
         }
-
+        */
         #endregion
 
         #region -- 接受SerialPort2資料 --
-        public void AddDataMethod2(String myString)
-        {
-            DateTime dt;
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-            {
-                // hex to string
-                string hexValues = BitConverter.ToString(dataset2).Replace("-", "");
-                DateTime.Now.ToShortTimeString();
-                dt = DateTime.Now;
-
-                // Joseph
-                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                textBox2.AppendText(hexValues);
-                // End
-
-                // Jeremy
-                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                // textBox1.AppendText(hexValues + "\r\n");
-                // End
-            }
-            else
-            {
-                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                string text = Encoding.ASCII.GetString(dataset2);
-                dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox2.AppendText(text);
-            }
-            Thread.Sleep(1);
-        }
-
         private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -2041,20 +2137,45 @@ namespace AutoTest
                 int data_to_read = serialPort2.BytesToRead;
                 if (data_to_read > 0)
                 {
-                    dataset2 = new byte[data_to_read];
+                    byte [] dataset = new byte[data_to_read];
 
-                    serialPort2.Read(dataset2, 0, data_to_read);
+                    serialPort2.Read(dataset, 0, data_to_read);
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue2.Enqueue(dataset2[index]);
-                        SaveLogQueue2.Enqueue(dataset2[index]);
+                        SearchLogQueue2.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
 
-                    string s = "";
-                    textBox2.Invoke(this.myDelegate2, new Object[] { s });
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        DateTime.Now.ToShortTimeString();
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log2_text = string.Concat(log2_text, hexValues);
+                        // textBox2.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox2.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox2.AppendText(hexValues + "\r\n");
+                        // End
+                    }
+                    else
+                    {
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string strValues = Encoding.ASCII.GetString(dataset);
+                        dt = DateTime.Now;
+                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log2_text = string.Concat(log2_text, strValues);
+                        //textBox2.AppendText(strValues);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2065,38 +2186,6 @@ namespace AutoTest
         #endregion
 
         #region -- 接受SerialPort3資料 --
-        public void AddDataMethod3(String myString)
-        {
-            DateTime dt;
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-            {
-                // hex to string
-                string hexValues = BitConverter.ToString(dataset3).Replace("-", "");
-                DateTime.Now.ToShortTimeString();
-                dt = DateTime.Now;
-
-                // Joseph
-                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                                                                                                               // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                textBox3.AppendText(hexValues);
-                // End
-
-                // Jeremy
-                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                // textBox1.AppendText(hexValues + "\r\n");
-                // End
-            }
-            else
-            {
-                // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                string text = Encoding.ASCII.GetString(dataset3);
-                dt = DateTime.Now;
-                text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                textBox3.AppendText(text);
-            }
-            Thread.Sleep(1);
-        }
-
         private void SerialPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -2104,20 +2193,45 @@ namespace AutoTest
                 int data_to_read = serialPort3.BytesToRead;
                 if (data_to_read > 0)
                 {
-                    dataset3 = new byte[data_to_read];
+                    byte [] dataset = new byte[data_to_read];
 
-                    serialPort3.Read(dataset3, 0, data_to_read);
+                    serialPort3.Read(dataset, 0, data_to_read);
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue3.Enqueue(dataset3[index]);
-                        SaveLogQueue3.Enqueue(dataset3[index]);
+                        SearchLogQueue3.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
 
-                    string s = "";
-                    textBox3.Invoke(this.myDelegate3, new Object[] { s });
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        DateTime.Now.ToShortTimeString();
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log3_text = string.Concat(log3_text, hexValues);
+                        // textBox3.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox3.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox3.AppendText(hexValues + "\r\n");
+                        // End
+                    }
+                    else
+                    {
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string strValues = Encoding.ASCII.GetString(dataset);
+                        dt = DateTime.Now;
+                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log3_text = string.Concat(log3_text, strValues);
+                        //textBox3.AppendText(strValues);
+                    }
                 }
             }
             catch (Exception ex)
@@ -2156,6 +2270,64 @@ namespace AutoTest
         }
         #endregion
 
+        #region -- 儲存SerialPort的log --
+        private void Serialportsave(string Port)
+        {
+            string fName = "";
+
+            // 讀取ini中的路徑
+            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            switch (Port)
+            {
+                case "SerialPort1":
+                    string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log1_text);
+                    MYFILE.Close();
+                    Txtbox1("", textBox1);
+                    log1_text = String.Empty;
+                    break;
+                case "SerialPort2":
+                    t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log2_text);
+                    MYFILE.Close();
+                    Txtbox2("", textBox2);
+                    log2_text = String.Empty;
+                    break;
+                case "SerialPort3":
+                    t = fName + "\\_Log3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log3_text);
+                    MYFILE.Close();
+                    Txtbox3("", textBox3);
+                    log3_text = String.Empty;
+                    break;
+                case "Canbus":
+                    t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(canbus_text);
+                    MYFILE.Close();
+                    canbus_text = String.Empty;
+                    break;
+                case "KlinePort":
+                    t = fName + "\\_Kline_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(kline_text);
+                    MYFILE.Close();
+                    kline_text = String.Empty;
+                    break;
+                case "S+CPort":
+                    t = fName + "\\_SC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(sc_text);
+                    MYFILE.Close();
+                    sc_text = String.Empty;
+                    break;
+            }
+        }
+        #endregion
+
         #region -- 儲存SerialPort1的log --
         private void Rs232save()
         {
@@ -2166,7 +2338,7 @@ namespace AutoTest
             string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
 
             StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(textBox1.Text);
+            MYFILE.Write(log1_text);
             /*
             Console.WriteLine("Save Log By Queue");
             while (SaveLogQueue1.Count > 0)
@@ -2182,64 +2354,7 @@ namespace AutoTest
             */
             MYFILE.Close();
             Txtbox1("", textBox1);
-        }
-        #endregion
-
-        #region -- 儲存SerialPort2的log --
-        private void ExtRs232save()
-        {
-            string fName = "";
-
-            // 讀取ini中的路徑
-            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            string t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(textBox2.Text);
-            /*
-            Console.WriteLine("Save Log By Queue");
-            while (SaveLogQueue2.Count > 0)
-            {
-                char temp_char;
-                byte temp_byte;
-
-                temp_byte = SaveLogQueue2.Dequeue();
-                temp_char = (char)temp_byte;
-
-                MYFILE.Write(temp_char);
-            }
-            */
-            MYFILE.Close();
-            Txtbox2("", textBox2);
-        }
-        #endregion
-
-        #region -- 儲存SerialPort3的log --
-        private void TriRs232save()
-        {
-            string fName = "";
-
-            // 讀取ini中的路徑
-            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            string t = fName + "\\_Log3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(textBox3.Text);
-            /*
-            Console.WriteLine("Save Log By Queue");
-            while (SaveLogQueue3.Count > 0)
-            {
-                char temp_char;
-                byte temp_byte;
-
-                temp_byte = SaveLogQueue3.Dequeue();
-                temp_char = (char)temp_byte;
-
-                MYFILE.Write(temp_char);
-            }
-            */
-            MYFILE.Close();
-            Txtbox3("", textBox3);
+            log1_text = String.Empty;
         }
         #endregion
 
@@ -3660,7 +3775,7 @@ namespace AutoTest
                             MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect !");
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-
+                        sc_text = string.Concat(sc_text, sch_log_text);
                         //textBox_TestLog.AppendText(sch_log_text);
                         #endregion
 
@@ -4096,7 +4211,7 @@ namespace AutoTest
                                     Console.WriteLine("Ascii Log: _Comport");
                                     if (columns_serial == "_save")
                                     {
-                                        Rs232save(); //存檔rs232
+                                        Serialportsave("SerialPort1"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4133,7 +4248,7 @@ namespace AutoTest
                                     Console.WriteLine("Ascii Log: _ExtComport");
                                     if (columns_serial == "_save")
                                     {
-                                        ExtRs232save(); //存檔rs232
+                                        Serialportsave("SerialPort2"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4170,7 +4285,7 @@ namespace AutoTest
                                     Console.WriteLine("Ascii Log: _TriComport");
                                     if (columns_serial == "_save")
                                     {
-                                        TriRs232save(); //存檔rs232
+                                        Serialportsave("SerialPort3"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4213,7 +4328,7 @@ namespace AutoTest
                                     Console.WriteLine("Hex Log: _Comport");
                                     if (columns_serial == "_save")
                                     {
-                                        Rs232save(); //存檔rs232
+                                        Serialportsave("SerialPort1"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4240,7 +4355,7 @@ namespace AutoTest
                                     Console.WriteLine("Hex Log: _ExtComport");
                                     if (columns_serial == "_save")
                                     {
-                                        ExtRs232save(); //存檔rs232
+                                        Serialportsave("SerialPort2"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4267,7 +4382,7 @@ namespace AutoTest
                                     Console.WriteLine("Hex Log: _TriComport");
                                     if (columns_serial == "_save")
                                     {
-                                        TriRs232save(); //存檔rs232
+                                        Serialportsave("SerialPort3"); //存檔rs232
                                     }
                                     else if (columns_serial == "_clear")
                                     {
@@ -4713,7 +4828,7 @@ namespace AutoTest
                                         {
                                             if (columns_serial == "_save")
                                             {
-                                                Rs232save(); //存檔rs232
+                                                Serialportsave("SerialPort1"); //存檔rs232
                                             }
                                             else if (columns_serial == "_clear")
                                             {
@@ -4755,7 +4870,7 @@ namespace AutoTest
                                         {
                                             if (columns_serial == "_save")
                                             {
-                                                ExtRs232save(); //存檔rs232
+                                                Serialportsave("SerialPort2"); //存檔rs232
                                             }
                                             else if (columns_serial == "_clear")
                                             {
@@ -4797,7 +4912,7 @@ namespace AutoTest
                                         {
                                             if (columns_serial == "_save")
                                             {
-                                                TriRs232save(); //存檔rs232
+                                                Serialportsave("SerialPort3"); //存檔rs232
                                             }
                                             else if (columns_serial == "_clear")
                                             {
@@ -4851,7 +4966,7 @@ namespace AutoTest
                                         {
                                             if (reverse == "_save")
                                             {
-                                                Rs232save(); //存檔rs232
+                                                Serialportsave("SerialPort1"); //存檔rs232
                                             }
                                             else if (reverse == "_clear")
                                             {
@@ -4893,7 +5008,7 @@ namespace AutoTest
                                         {
                                             if (reverse == "_save")
                                             {
-                                                ExtRs232save(); //存檔rs232
+                                                Serialportsave("SerialPort2"); //存檔rs232
                                             }
                                             else if (reverse == "_clear")
                                             {
@@ -4935,7 +5050,7 @@ namespace AutoTest
                                         {
                                             if (reverse == "_save")
                                             {
-                                                TriRs232save(); //存檔rs232
+                                                Serialportsave("SerialPort3"); //存檔rs232
                                             }
                                             else if (reverse == "_clear")
                                             {
@@ -7045,7 +7160,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "Comport", "Checked", "") == "1")
                     {
-                        SerialPortA = OpenSerialPort1(serialPort1);
+                        OpenSerialPort("1");
                         textBox1.Clear();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
@@ -7057,7 +7172,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "ExtComport", "Checked", "") == "1")
                     {
-                        OpenSerialPort2();
+                        OpenSerialPort("2");
                         textBox2.Clear();
                         //textBox2.Text = string.Empty;//清空serialport2//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
@@ -7069,7 +7184,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
                     {
-                        OpenSerialPort3();
+                        OpenSerialPort("3");
                         textBox3.Clear();
                         textBox3.Text = string.Empty;//清空serialport3//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
@@ -7081,7 +7196,7 @@ namespace AutoTest
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
-                        OpenKlinePort();
+                        OpenSerialPort("kline");
                         textBox_kline.Text = ""; //清空kline//
                     }
                 }
@@ -7129,19 +7244,19 @@ namespace AutoTest
             //如果serialport開著則先關閉//
             if (serialPort1.IsOpen == true)
             {
-                CloseSerialPort1();
+                CloseSerialPort("1");
             }
             if (serialPort2.IsOpen == true)
             {
-                CloseSerialPort2();
+                CloseSerialPort("2");
             }
             if (serialPort3.IsOpen == true)
             {
-                CloseSerialPort3();
+                CloseSerialPort("3");
             }
             if (MySerialPort.IsPortOpened() == true)
             {
-                CloseKlinePort();
+                CloseSerialPort("kline");
             }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -7305,7 +7420,7 @@ namespace AutoTest
 
         private void Com1Btn_Click(object sender, EventArgs e)
         {
-            OpenSerialPort1(serialPort1);
+            OpenSerialPort("1");
             Controls.Add(textBox1);
             textBox1.BringToFront();
             Global.TEXTBOX_FOCUS = 1;
@@ -7313,7 +7428,7 @@ namespace AutoTest
 
         private void Com2Btn_Click(object sender, EventArgs e)
         {
-            OpenSerialPort2();
+            OpenSerialPort("2");
             Controls.Add(textBox2);
             textBox2.BringToFront();
             Global.TEXTBOX_FOCUS = 2;
@@ -7321,7 +7436,7 @@ namespace AutoTest
 
         private void Com3Btn_Click(object sender, EventArgs e)
         {
-            OpenSerialPort3();
+            OpenSerialPort("3");
             Controls.Add(textBox3);
             textBox3.BringToFront();
             Global.TEXTBOX_FOCUS = 3;
@@ -7329,7 +7444,7 @@ namespace AutoTest
 
         private void Button_kline_Click(object sender, EventArgs e)
         {
-            OpenKlinePort();
+            OpenSerialPort("kline");
             Controls.Add(textBox_kline);
             textBox_kline.BringToFront();
             Global.TEXTBOX_FOCUS = 4;
@@ -8534,6 +8649,34 @@ namespace AutoTest
 
         }
 
+        private void button_savelog_Click(object sender, EventArgs e)
+        {
+            string save_option = comboBox_savelog.Text;
+            switch (save_option)
+            {
+                case "SerialPort1":
+                    Serialportsave("SerialPort1");
+                    break;
+                case "SerialPort2":
+                    Serialportsave("SerialPort2");
+                    break;
+                case "SerialPort3":
+                    Serialportsave("SerialPort3");
+                    break;
+                case "Canbus":
+                    Serialportsave("Canbus");
+                    break;
+                case "S+CPort":
+                    Serialportsave("S+CPort");
+                    break;
+                case "KlinePort":
+                    Serialportsave("KlinePort");
+                    break;
+                default:
+                    break;
+            }
+        }
+
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)
         {
             UInt32 res = new UInt32();
@@ -8570,9 +8713,8 @@ namespace AutoTest
                     DateTime dt = DateTime.Now;
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    textBox_canbus.AppendText(canbus_log_text);
-
-                    textBox_TestLog.AppendText(canbus_log_text);
+                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                    sc_text = string.Concat(sc_text, canbus_log_text);
                 }
             }
         }
@@ -8655,8 +8797,9 @@ namespace AutoTest
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
                 DisplayKLineBlockMessage(textBox_kline, "raw_input: " + raw_data_in_string + "\n\r");
+                kline_text = string.Concat(kline_text, "raw_input: " + raw_data_in_string + "\n\r");
                 DisplayKLineBlockMessage(textBox_kline, "In - " + in_message.GenerateDebugString() + "\n\r");
-
+                kline_text = string.Concat(kline_text, "In - " + in_message.GenerateDebugString() + "\n\r");
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
                 BlockMessage out_message = new BlockMessage();
@@ -8698,6 +8841,7 @@ namespace AutoTest
 
                 // Show output KLine message for debug purpose
                 DisplayKLineBlockMessage(textBox_kline, "Out - " + out_message.GenerateDebugString() + "\n\r");
+                kline_text = string.Concat(kline_text, "Out - " + out_message.GenerateDebugString() + "\n\r");
             }
         }
 
