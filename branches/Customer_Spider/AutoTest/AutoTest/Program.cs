@@ -14,7 +14,7 @@ namespace AutoTest
         /// 應用程式的主要進入點。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             //高Dpi設定
             if (Environment.OSVersion.Version.Major >= 6) { SetProcessDPIAware(); }
@@ -45,8 +45,14 @@ namespace AutoTest
                 SplashForm.Invoke(new MethodInvoker(delegate { SplashForm.Close(); }));
             }
             thUI.Join();
-
-            Application.Run(new Form1());
+            if (args.Length == 0)
+            {
+                Application.Run(new Form1());
+            }
+            else
+            {
+                Application.Run(new Form1(args[0].ToString()));
+            }
         }
 
         public static frm_Splash SplashForm

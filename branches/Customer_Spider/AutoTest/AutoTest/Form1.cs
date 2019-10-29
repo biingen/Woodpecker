@@ -38,6 +38,7 @@ namespace AutoTest
 {
     public partial class Form1 : Form
     {
+        private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
         //private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
@@ -77,6 +78,8 @@ namespace AutoTest
         private Queue<byte> SearchLogQueue1 = new Queue<byte>();
         private Queue<byte> SearchLogQueue2 = new Queue<byte>();
         private Queue<byte> SearchLogQueue3 = new Queue<byte>();
+        private Queue<byte> SearchLogQueue4 = new Queue<byte>();
+        private Queue<byte> SearchLogQueue5 = new Queue<byte>();
         private char Keyword_SerialPort_1_temp_char;
         private byte Keyword_SerialPort_1_temp_byte;
         private char Keyword_SerialPort_2_temp_char;
@@ -124,13 +127,32 @@ namespace AutoTest
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private String log1_text, log2_text, log3_text, canbus_text, kline_text, sc_text;
+        private String log1_text, log2_text, log3_text, log4_text, log5_text, canbus_text, kline_text, schedule_text;
 
         public Form1()
         {
             InitializeComponent();
-
             //USB Connection//
+            USBPort = new USBClass();
+            USBDeviceProperties = new USBClass.DeviceProperties();
+            USBPort.USBDeviceAttached += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceAttached);
+            USBPort.USBDeviceRemoved += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceRemoved);
+            USBPort.RegisterForDeviceChange(true, this);
+            //USBTryBoxConnection();
+            USBTryRedratConnection();
+            USBTryCameraConnection();
+            //MyUSBBoxDeviceConnected = false;
+            MyUSBRedratDeviceConnected = false;
+            MyUSBCameraDeviceConnected = false;
+        }
+
+        public Form1(string value)
+        {
+            InitializeComponent();
+            if (!string.IsNullOrEmpty(value))
+            {
+                _args = value;
+            }
             USBPort = new USBClass();
             USBDeviceProperties = new USBClass.DeviceProperties();
             USBPort.USBDeviceAttached += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceAttached);
@@ -1729,6 +1751,66 @@ namespace AutoTest
                         MessageBox.Show(Ex.Message.ToString(), "SerialPort3 Error");
                     }
                     break;
+                case "4":
+                    try
+                    {
+                        if (serialPort4.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "ForthComport", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort4.StopBits = System.IO.Ports.StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort4.StopBits = System.IO.Ports.StopBits.Two;
+                                    break;
+                            }
+                            serialPort4.PortName = ini12.INIRead(MainSettingPath, "ForthComport", "PortName", "");
+                            serialPort4.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "ForthComport", "BaudRate", ""));
+                            serialPort4.ReadTimeout = 2000;
+                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                            serialPort4.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            serialPort4.Open();
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort3);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "SerialPort4 Error");
+                    }
+                    break;
+                case "5":
+                    try
+                    {
+                        if (serialPort5.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "FivethComport", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort5.StopBits = System.IO.Ports.StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort5.StopBits = System.IO.Ports.StopBits.Two;
+                                    break;
+                            }
+                            serialPort5.PortName = ini12.INIRead(MainSettingPath, "FivethComport", "PortName", "");
+                            serialPort5.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "FivethComport", "BaudRate", ""));
+                            serialPort5.ReadTimeout = 2000;
+                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                            serialPort5.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            serialPort5.Open();
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort3);
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "serialPort5 Error");
+                    }
+                    break;
                 case "kline":
                     try
                     {
@@ -1774,6 +1856,14 @@ namespace AutoTest
                     serialPort3.Dispose();
                     serialPort3.Close();
                     break;
+                case "4":
+                    serialPort4.Dispose();
+                    serialPort4.Close();
+                    break;
+                case "5":
+                    serialPort5.Dispose();
+                    serialPort5.Close();
+                    break;
                 case "kline":
                     MySerialPort.Dispose();
                     MySerialPort.ClosePort();
@@ -1784,7 +1874,7 @@ namespace AutoTest
         }
         #endregion
 
-        #region -- SerialPort1 Setup --
+        #region -- Old SerialPort Setup --
         protected void OpenSerialPort1()
         {
             try
@@ -2241,6 +2331,118 @@ namespace AutoTest
         }
         #endregion
 
+        #region -- 接受SerialPort4資料 --
+        private void SerialPort4_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int data_to_read = serialPort4.BytesToRead;
+                if (data_to_read > 0)
+                {
+                    byte[] dataset = new byte[data_to_read];
+
+                    serialPort4.Read(dataset, 0, data_to_read);
+                    int index = 0;
+                    while (data_to_read > 0)
+                    {
+                        SearchLogQueue4.Enqueue(dataset[index]);
+                        index++;
+                        data_to_read--;
+                    }
+
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        DateTime.Now.ToShortTimeString();
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log4_text = string.Concat(log4_text, hexValues);
+                        // textBox4.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox4.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox4.AppendText(hexValues + "\r\n");
+                        // End
+                    }
+                    else
+                    {
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string strValues = Encoding.ASCII.GetString(dataset);
+                        dt = DateTime.Now;
+                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log4_text = string.Concat(log4_text, strValues);
+                        //textBox4.AppendText(strValues);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+
+        #region -- 接受SerialPort5資料 --
+        private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                int data_to_read = serialPort5.BytesToRead;
+                if (data_to_read > 0)
+                {
+                    byte[] dataset = new byte[data_to_read];
+
+                    serialPort5.Read(dataset, 0, data_to_read);
+                    int index = 0;
+                    while (data_to_read > 0)
+                    {
+                        SearchLogQueue5.Enqueue(dataset[index]);
+                        index++;
+                        data_to_read--;
+                    }
+
+                    DateTime dt;
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        // hex to string
+                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        DateTime.Now.ToShortTimeString();
+                        dt = DateTime.Now;
+
+                        // Joseph
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log5_text = string.Concat(log5_text, hexValues);
+                        // textBox5.AppendText(hexValues);
+                        // End
+
+                        // Jeremy
+                        // textBox5.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox5.AppendText(hexValues + "\r\n");
+                        // End
+                    }
+                    else
+                    {
+                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                        string strValues = Encoding.ASCII.GetString(dataset);
+                        dt = DateTime.Now;
+                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        log5_text = string.Concat(log5_text, strValues);
+                        //textBox5.AppendText(strValues);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+
         #region -- Show schedule & CAN log --
         private void CheckResult()
         {
@@ -2303,6 +2505,20 @@ namespace AutoTest
                     Txtbox3("", textBox3);
                     log3_text = String.Empty;
                     break;
+                case "SerialPort4":
+                    t = fName + "\\_Log4_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log4_text);
+                    MYFILE.Close();
+                    log4_text = String.Empty;
+                    break;
+                case "SerialPort5":
+                    t = fName + "\\_Log5_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log5_text);
+                    MYFILE.Close();
+                    log5_text = String.Empty;
+                    break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
@@ -2317,48 +2533,18 @@ namespace AutoTest
                     MYFILE.Close();
                     kline_text = String.Empty;
                     break;
-                case "S+CPort":
-                    t = fName + "\\_SC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                case "Schedule":
+                    t = fName + "\\_Schedule_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(sc_text);
+                    MYFILE.Write(schedule_text);
                     MYFILE.Close();
-                    sc_text = String.Empty;
+                    schedule_text = String.Empty;
                     break;
             }
         }
         #endregion
 
-        #region -- 儲存SerialPort1的log --
-        private void Rs232save()
-        {
-            string fName = "";
-
-            // 讀取ini中的路徑
-            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(log1_text);
-            /*
-            Console.WriteLine("Save Log By Queue");
-            while (SaveLogQueue1.Count > 0)
-            {
-                char temp_char;
-                byte temp_byte;
-
-                temp_byte = SaveLogQueue1.Dequeue();
-                temp_char = (char)temp_byte;
-
-                MYFILE.Write(temp_char);
-            }
-            */
-            MYFILE.Close();
-            Txtbox1("", textBox1);
-            log1_text = String.Empty;
-        }
-        #endregion
-
-        #region -- 儲存CANbus的log --
+        #region -- Old儲存CANbus的log --
         private void CanbusRS232save()
         {
             string fName = "";
@@ -3614,6 +3800,20 @@ namespace AutoTest
         }
         #endregion
 
+        #region -- 關鍵字比對 - serialport_4 --
+        private void MyLog4Camd()
+        {
+
+        }
+        #endregion
+
+        #region -- 關鍵字比對 - serialport_5 --
+        private void MyLog5Camd()
+        {
+
+        }
+        #endregion
+
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
         {
@@ -3775,7 +3975,7 @@ namespace AutoTest
                             MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect !");
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        sc_text = string.Concat(sc_text, sch_log_text);
+                        schedule_text = string.Concat(schedule_text, sch_log_text);
                         //textBox_TestLog.AppendText(sch_log_text);
                         #endregion
 
@@ -7080,6 +7280,8 @@ namespace AutoTest
                 Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
                 Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
                 Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
+                Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
+                Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
@@ -7191,6 +7393,26 @@ namespace AutoTest
                         {
                             LogThread3.IsBackground = true;
                             LogThread3.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("4");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
+                        {
+                            LogThread4.IsBackground = true;
+                            LogThread4.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "TriComport", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("5");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
+                        {
+                            LogThread5.IsBackground = true;
+                            LogThread5.Start();
                         }
                     }
 
@@ -8663,11 +8885,17 @@ namespace AutoTest
                 case "SerialPort3":
                     Serialportsave("SerialPort3");
                     break;
+                case "SerialPort4":
+                    Serialportsave("SerialPort4");
+                    break;
+                case "SerialPort5":
+                    Serialportsave("SerialPort5");
+                    break;
                 case "Canbus":
                     Serialportsave("Canbus");
                     break;
-                case "S+CPort":
-                    Serialportsave("S+CPort");
+                case "Schedule":
+                    Serialportsave("Schedule");
                     break;
                 case "KlinePort":
                     Serialportsave("KlinePort");
@@ -8714,7 +8942,7 @@ namespace AutoTest
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
-                    sc_text = string.Concat(sc_text, canbus_log_text);
+                    schedule_text = string.Concat(schedule_text, canbus_log_text);
                 }
             }
         }
