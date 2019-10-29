@@ -87,11 +87,11 @@
             // ToLabel
             // 
             this.ToLabel.AutoSize = true;
-            this.ToLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ToLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ToLabel.ForeColor = System.Drawing.Color.White;
             this.ToLabel.Location = new System.Drawing.Point(35, 146);
             this.ToLabel.Name = "ToLabel";
-            this.ToLabel.Size = new System.Drawing.Size(27, 15);
+            this.ToLabel.Size = new System.Drawing.Size(31, 16);
             this.ToLabel.TabIndex = 1;
             this.ToLabel.Text = "To :";
             // 
@@ -140,22 +140,22 @@
             // ProjectLabel
             // 
             this.ProjectLabel.AutoSize = true;
-            this.ProjectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ProjectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProjectLabel.ForeColor = System.Drawing.Color.White;
             this.ProjectLabel.Location = new System.Drawing.Point(316, 35);
             this.ProjectLabel.Name = "ProjectLabel";
-            this.ProjectLabel.Size = new System.Drawing.Size(83, 15);
+            this.ProjectLabel.Size = new System.Drawing.Size(90, 16);
             this.ProjectLabel.TabIndex = 6;
             this.ProjectLabel.Text = "Project name ";
             // 
             // VersionLabel
             // 
             this.VersionLabel.AutoSize = true;
-            this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VersionLabel.ForeColor = System.Drawing.Color.White;
             this.VersionLabel.Location = new System.Drawing.Point(316, 115);
             this.VersionLabel.Name = "VersionLabel";
-            this.VersionLabel.Size = new System.Drawing.Size(73, 15);
+            this.VersionLabel.Size = new System.Drawing.Size(82, 16);
             this.VersionLabel.TabIndex = 7;
             this.VersionLabel.Text = "SW Version ";
             // 
@@ -174,11 +174,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(316, 155);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 15);
+            this.label1.Size = new System.Drawing.Size(50, 16);
             this.label1.TabIndex = 9;
             this.label1.Text = "Tester ";
             // 
@@ -231,11 +231,11 @@
             // ModelLabel
             // 
             this.ModelLabel.AutoSize = true;
-            this.ModelLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.ModelLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModelLabel.ForeColor = System.Drawing.Color.White;
             this.ModelLabel.Location = new System.Drawing.Point(316, 75);
             this.ModelLabel.Name = "ModelLabel";
-            this.ModelLabel.Size = new System.Drawing.Size(80, 15);
+            this.ModelLabel.Size = new System.Drawing.Size(86, 16);
             this.ModelLabel.TabIndex = 67;
             this.ModelLabel.Text = "Model name ";
             // 
@@ -262,11 +262,11 @@
             // label_MailSchedule1
             // 
             this.label_MailSchedule1.AutoSize = true;
-            this.label_MailSchedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_MailSchedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_MailSchedule1.ForeColor = System.Drawing.Color.White;
             this.label_MailSchedule1.Location = new System.Drawing.Point(14, 35);
             this.label_MailSchedule1.Name = "label_MailSchedule1";
-            this.label_MailSchedule1.Size = new System.Drawing.Size(66, 15);
+            this.label_MailSchedule1.Size = new System.Drawing.Size(72, 16);
             this.label_MailSchedule1.TabIndex = 68;
             this.label_MailSchedule1.Text = "Schedule1";
             // 
@@ -318,9 +318,9 @@
             this.SendMailcheckBox.Location = new System.Drawing.Point(38, 26);
             this.SendMailcheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.SendMailcheckBox.Name = "SendMailcheckBox";
-            this.SendMailcheckBox.Size = new System.Drawing.Size(130, 24);
+            this.SendMailcheckBox.Size = new System.Drawing.Size(135, 24);
             this.SendMailcheckBox.TabIndex = 74;
-            this.SendMailcheckBox.Text = "Mail function";
+            this.SendMailcheckBox.Text = "Mail Function";
             this.SendMailcheckBox.UseVisualStyleBackColor = true;
             this.SendMailcheckBox.CheckedChanged += new System.EventHandler(this.SendMailcheckBox_CheckedChanged);
             // 
@@ -449,44 +449,44 @@
             // label_MailSchedule2
             // 
             this.label_MailSchedule2.AutoSize = true;
-            this.label_MailSchedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_MailSchedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_MailSchedule2.ForeColor = System.Drawing.Color.White;
             this.label_MailSchedule2.Location = new System.Drawing.Point(14, 66);
             this.label_MailSchedule2.Name = "label_MailSchedule2";
-            this.label_MailSchedule2.Size = new System.Drawing.Size(66, 15);
+            this.label_MailSchedule2.Size = new System.Drawing.Size(72, 16);
             this.label_MailSchedule2.TabIndex = 93;
             this.label_MailSchedule2.Text = "Schedule2";
             // 
             // label_MailSchedule3
             // 
             this.label_MailSchedule3.AutoSize = true;
-            this.label_MailSchedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_MailSchedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_MailSchedule3.ForeColor = System.Drawing.Color.White;
             this.label_MailSchedule3.Location = new System.Drawing.Point(14, 97);
             this.label_MailSchedule3.Name = "label_MailSchedule3";
-            this.label_MailSchedule3.Size = new System.Drawing.Size(66, 15);
+            this.label_MailSchedule3.Size = new System.Drawing.Size(72, 16);
             this.label_MailSchedule3.TabIndex = 94;
             this.label_MailSchedule3.Text = "Schedule3";
             // 
             // label_MailSchedule4
             // 
             this.label_MailSchedule4.AutoSize = true;
-            this.label_MailSchedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_MailSchedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_MailSchedule4.ForeColor = System.Drawing.Color.White;
             this.label_MailSchedule4.Location = new System.Drawing.Point(14, 128);
             this.label_MailSchedule4.Name = "label_MailSchedule4";
-            this.label_MailSchedule4.Size = new System.Drawing.Size(66, 15);
+            this.label_MailSchedule4.Size = new System.Drawing.Size(72, 16);
             this.label_MailSchedule4.TabIndex = 95;
             this.label_MailSchedule4.Text = "Schedule4";
             // 
             // label_MailSchedule5
             // 
             this.label_MailSchedule5.AutoSize = true;
-            this.label_MailSchedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_MailSchedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_MailSchedule5.ForeColor = System.Drawing.Color.White;
             this.label_MailSchedule5.Location = new System.Drawing.Point(14, 159);
             this.label_MailSchedule5.Name = "label_MailSchedule5";
-            this.label_MailSchedule5.Size = new System.Drawing.Size(66, 15);
+            this.label_MailSchedule5.Size = new System.Drawing.Size(72, 16);
             this.label_MailSchedule5.TabIndex = 96;
             this.label_MailSchedule5.Text = "Schedule5";
             // 
