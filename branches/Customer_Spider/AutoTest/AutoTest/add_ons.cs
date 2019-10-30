@@ -9,7 +9,7 @@ using System.Management;
 using System.Text;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
     class Add_ons
     {

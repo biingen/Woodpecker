@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Net.NetworkInformation;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormMail : Form
     {
@@ -314,61 +314,36 @@ namespace AutoTest
                 if (int.Parse(ini12.INIRead(MailPath, "Send Mail", "value", "")) == 1)
                 {
                     SendMailcheckBox.Checked = true;
-                    textBox_From.Enabled = true;
-                    textBox_To.Enabled = true;
-                    textBox_TestCase1.Enabled = true;
-                    textBox_TestCase2.Enabled = true;
-                    textBox_TestCase3.Enabled = true;
-                    textBox_TestCase4.Enabled = true;
-                    textBox_TestCase5.Enabled = true;
-                    textBox_ProjectNumber.Enabled = true;
-                    textBox_ProjectName.Enabled = true;
-                    textBox_ModelName.Enabled = true;
-                    textBox_Version.Enabled = true;
-                    textBox_Tester.Enabled = true;
-                    textBox_TotalTestTime.Enabled = true;
-                    textBox_TeamViewerID.Enabled = true;
-                    textBox_TeamViewerPassWord.Enabled = true;
+                    ToLabel.Visible = true;
+                    textBox_To.Visible = true;
+                    textBox_To_TextChanged(new TextBox(), new EventArgs());
+                    textBox_TotalTestTime_TextChanged(new TextBox(), new EventArgs());
+                    GroupBox_maileSubject.Visible = true;
+                    GmailcheckBox.Visible = true;
+                    lebalNetworkPrompt.Visible = true;
                 }
                 else
                 {
                     SendMailcheckBox.Checked = false;
-                    textBox_From.Enabled = false;
-                    textBox_To.Enabled = false;
-                    textBox_TestCase1.Enabled = false;
-                    textBox_TestCase2.Enabled = false;
-                    textBox_TestCase3.Enabled = false;
-                    textBox_TestCase4.Enabled = false;
-                    textBox_TestCase5.Enabled = false;
-                    textBox_ProjectNumber.Enabled = false;
-                    textBox_ProjectName.Enabled = false;
-                    textBox_ModelName.Enabled = false;
-                    textBox_Version.Enabled = false;
-                    textBox_Tester.Enabled = false;
-                    textBox_TotalTestTime.Enabled = false;
-                    textBox_TeamViewerID.Enabled = false;
-                    textBox_TeamViewerPassWord.Enabled = false;
+                    ToLabel.Visible = false;
+                    textBox_To.Visible = false;
+                    textBox_To_TextChanged(new TextBox(), new EventArgs());
+                    textBox_TotalTestTime_TextChanged(new TextBox(), new EventArgs());
+                    GroupBox_maileSubject.Visible = false;
+                    GmailcheckBox.Visible = false;
+                    lebalNetworkPrompt.Visible = false;
                 }
             }
             else
             {
                 ini12.INIWrite(MailPath, "Send Mail", "value", "0");
                 SendMailcheckBox.Checked = false;
-                textBox_From.Enabled = false;
-                textBox_To.Enabled = false;
-                textBox_TestCase1.Enabled = false;
-                textBox_TestCase2.Enabled = false;
-                textBox_TestCase3.Enabled = false;
-                textBox_TestCase4.Enabled = false;
-                textBox_TestCase5.Enabled = false;
-                textBox_ProjectNumber.Enabled = false;
-                textBox_ProjectName.Enabled = false;
-                textBox_ModelName.Enabled = false;
-                textBox_Version.Enabled = false;
-                textBox_Tester.Enabled = false;
-                textBox_TotalTestTime.Enabled = false;
-                textBox_TeamViewerID.Enabled = false;
-                textBox_TeamViewerPassWord.Enabled = false;
+                lebalNetworkPrompt.Visible = false;
+                ToLabel.Visible = false;
+                textBox_To.Visible = false;
+                textBox_To_TextChanged(new TextBox(), new EventArgs());
+                textBox_TotalTestTime_TextChanged(new TextBox(), new EventArgs());
+                GroupBox_maileSubject.Visible = false;
             }
 
             textBox_From.Text = ini12.INIRead(MailPath, "Mail Info", "From", "");
@@ -455,24 +430,24 @@ namespace AutoTest
                 if (ConnectGoogleTW() == true)
                 {
                     ini12.INIWrite(MailPath, "Send Mail", "value", "1");
-                    textBox_From.Enabled = true;
-                    textBox_From_TextChanged(new TextBox(), new EventArgs());
-                    textBox_To.Enabled = true;
+                    ToLabel.Visible = true;
+                    textBox_To.Visible = true;
+                    textBox_To_TextChanged(new TextBox(), new EventArgs());
                     textBox_TotalTestTime_TextChanged(new TextBox(), new EventArgs());
-                    textBox_TestCase1.Enabled = true;
-                    textBox_TestCase2.Enabled = true;
-                    textBox_TestCase3.Enabled = true;
-                    textBox_TestCase4.Enabled = true;
-                    textBox_TestCase5.Enabled = true;
-                    textBox_ProjectNumber.Enabled = true;
-                    textBox_ProjectName.Enabled = true;
-                    textBox_ModelName.Enabled = true;
-                    textBox_Version.Enabled = true;
-                    textBox_Tester.Enabled = true;
-                    textBox_TotalTestTime.Enabled = true;
-                    textBox_TeamViewerID.Enabled = true;
-                    textBox_TeamViewerPassWord.Enabled = true;
+                    GroupBox_maileSubject.Visible = true;
                     GmailcheckBox.Visible = true;
+                    lebalNetworkPrompt.Visible = true;
+
+                    if (string.IsNullOrEmpty(textBox_To.Text))
+                    {
+                        label_ErrorMessage.Text = "Recipient must exist !";
+                        pictureBox_To.Image = Properties.Resources.ERROR;
+                    }
+                    else
+                    {
+                        label_ErrorMessage.Text = "";
+                        pictureBox_To.Image = null;
+                    }
                 }
                 else
                 {
@@ -484,25 +459,24 @@ namespace AutoTest
             else
             {
                 ini12.INIWrite(MailPath, "Send Mail", "value", "0");
-                textBox_From.Enabled = false;
-                pictureBox_From.Image = null;
-                textBox_To.Enabled = false;
+                ToLabel.Visible = false;
+                textBox_To.Visible = false;
                 pictureBox_To.Image = null;
-                textBox_TestCase1.Enabled = false;
-                textBox_TestCase2.Enabled = false;
-                textBox_TestCase3.Enabled = false;
-                textBox_TestCase4.Enabled = false;
-                textBox_TestCase5.Enabled = false;
-                textBox_ProjectNumber.Enabled = false;
-                textBox_ProjectName.Enabled = false;
-                textBox_ModelName.Enabled = false;
-                textBox_Version.Enabled = false;
-                textBox_Tester.Enabled = false;
-                textBox_TotalTestTime.Enabled = false;
-                textBox_TeamViewerID.Enabled = false;
-                textBox_TeamViewerPassWord.Enabled = false;
+                GroupBox_maileSubject.Visible = false;
                 label_ErrorMessage.Text = "";
                 GmailcheckBox.Visible = false;
+                lebalNetworkPrompt.Visible = false;
+
+                if (string.IsNullOrEmpty(textBox_To.Text))
+                {
+                    label_ErrorMessage.Text = "Recipient must exist !";
+                    pictureBox_To.Image = Properties.Resources.ERROR;
+                }
+                else
+                {
+                    label_ErrorMessage.Text = "";
+                    pictureBox_To.Image = null;
+                }
             }
         }
 
@@ -522,8 +496,8 @@ namespace AutoTest
         {
             if (string.IsNullOrEmpty(textBox_From.Text))
             {
-                label_ErrorMessage.Text = "Sender must exist !";
-                pictureBox_From.Image = Properties.Resources.ERROR;
+                //label_ErrorMessage.Text = "Sender must exist !";
+                //pictureBox_From.Image = Properties.Resources.ERROR;
             }
             else
             {

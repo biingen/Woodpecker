@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace AutoTest
+namespace Woodpecker
 {
     partial class Form1
     {
@@ -33,10 +33,10 @@ namespace AutoTest
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button_Setting = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button_Start = new System.Windows.Forms.Button();
             this.label_Power = new System.Windows.Forms.Label();
             this.label_Camera = new System.Windows.Forms.Label();
             this.label_RedRat = new System.Windows.Forms.Label();
@@ -90,11 +90,11 @@ namespace AutoTest
             this.button_Output = new System.Windows.Forms.Button();
             this.label_Command = new System.Windows.Forms.Label();
             this.labelGPIO_Input = new System.Windows.Forms.Label();
-            this.label_BoxVersion = new System.Windows.Forms.Label();
             this.label_TestTime = new System.Windows.Forms.Label();
             this.label_TestTime_Value = new System.Windows.Forms.Label();
             this.button_InsertRow = new System.Windows.Forms.Button();
             this.panel_VirtualRC = new System.Windows.Forms.Panel();
+            this.label_BoxVersion = new System.Windows.Forms.Label();
             this.label_Remark = new System.Windows.Forms.Label();
             this.button_AcUsb = new System.Windows.Forms.Button();
             this.panel_AcUsb = new System.Windows.Forms.Panel();
@@ -124,17 +124,7 @@ namespace AutoTest
             this.button_TestLog = new System.Windows.Forms.Button();
             this.button_Copy = new System.Windows.Forms.Button();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
-            this.DataGridView_Schedule = new AutoTest.SafeDataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button_Start = new System.Windows.Forms.Button();
             this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
             this.pictureBox_ext_board = new System.Windows.Forms.PictureBox();
             this.pictureBox_BlueRat = new System.Windows.Forms.PictureBox();
@@ -150,6 +140,17 @@ namespace AutoTest
             this.serialPort4 = new System.IO.Ports.SerialPort(this.components);
             this.serialPort5 = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
+            this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -159,7 +160,6 @@ namespace AutoTest
             this.groupBox_Ac.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BlueRat)).BeginInit();
@@ -171,20 +171,22 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
             // 
             this.button_Setting.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Setting.BackColor = System.Drawing.Color.Transparent;
-            this.button_Setting.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Setting.Location = new System.Drawing.Point(771, 4);
+            this.button_Setting.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Setting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Setting.ForeColor = System.Drawing.Color.White;
+            this.button_Setting.Location = new System.Drawing.Point(861, 79);
             this.button_Setting.Margin = new System.Windows.Forms.Padding(2);
             this.button_Setting.Name = "button_Setting";
-            this.button_Setting.Size = new System.Drawing.Size(85, 40);
+            this.button_Setting.Size = new System.Drawing.Size(103, 30);
             this.button_Setting.TabIndex = 25;
-            this.button_Setting.Text = "SETTING";
+            this.button_Setting.Text = "SETTINGS";
             this.button_Setting.UseVisualStyleBackColor = false;
             this.button_Setting.Click += new System.EventHandler(this.SettingBtn_Click);
             // 
@@ -194,7 +196,7 @@ namespace AutoTest
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(7, 48);
+            this.textBox1.Location = new System.Drawing.Point(14, 121);
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -202,29 +204,13 @@ namespace AutoTest
             this.textBox1.Size = new System.Drawing.Size(950, 400);
             this.textBox1.TabIndex = 24;
             // 
-            // button_Start
-            // 
-            this.button_Start.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Start.BackColor = System.Drawing.Color.Transparent;
-            this.button_Start.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Start.Location = new System.Drawing.Point(667, 4);
-            this.button_Start.Margin = new System.Windows.Forms.Padding(2, 2, 1, 2);
-            this.button_Start.Name = "button_Start";
-            this.button_Start.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_Start.Size = new System.Drawing.Size(85, 40);
-            this.button_Start.TabIndex = 22;
-            this.button_Start.Text = "START";
-            this.button_Start.UseVisualStyleBackColor = false;
-            this.button_Start.Click += new System.EventHandler(this.StartBtn_Click);
-            // 
             // label_Power
             // 
             this.label_Power.AutoSize = true;
             this.label_Power.BackColor = System.Drawing.Color.Transparent;
             this.label_Power.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Power.ForeColor = System.Drawing.Color.Black;
-            this.label_Power.Location = new System.Drawing.Point(288, 17);
+            this.label_Power.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Power.Location = new System.Drawing.Point(296, 86);
             this.label_Power.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Power.Name = "label_Power";
             this.label_Power.Size = new System.Drawing.Size(47, 17);
@@ -236,8 +222,8 @@ namespace AutoTest
             this.label_Camera.AutoSize = true;
             this.label_Camera.BackColor = System.Drawing.Color.Transparent;
             this.label_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Camera.ForeColor = System.Drawing.Color.Black;
-            this.label_Camera.Location = new System.Drawing.Point(200, 17);
+            this.label_Camera.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Camera.Location = new System.Drawing.Point(208, 86);
             this.label_Camera.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Camera.Name = "label_Camera";
             this.label_Camera.Size = new System.Drawing.Size(57, 17);
@@ -249,8 +235,8 @@ namespace AutoTest
             this.label_RedRat.AutoSize = true;
             this.label_RedRat.BackColor = System.Drawing.Color.Transparent;
             this.label_RedRat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_RedRat.ForeColor = System.Drawing.Color.Black;
-            this.label_RedRat.Location = new System.Drawing.Point(112, 17);
+            this.label_RedRat.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_RedRat.Location = new System.Drawing.Point(120, 86);
             this.label_RedRat.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_RedRat.Name = "label_RedRat";
             this.label_RedRat.Size = new System.Drawing.Size(56, 17);
@@ -262,9 +248,9 @@ namespace AutoTest
             this.labellabel_LoopTimes_Value.AutoSize = true;
             this.labellabel_LoopTimes_Value.BackColor = System.Drawing.Color.Transparent;
             this.labellabel_LoopTimes_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labellabel_LoopTimes_Value.ForeColor = System.Drawing.Color.Black;
+            this.labellabel_LoopTimes_Value.ForeColor = System.Drawing.Color.White;
             this.labellabel_LoopTimes_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labellabel_LoopTimes_Value.Location = new System.Drawing.Point(199, 28);
+            this.labellabel_LoopTimes_Value.Location = new System.Drawing.Point(193, 22);
             this.labellabel_LoopTimes_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labellabel_LoopTimes_Value.Name = "labellabel_LoopTimes_Value";
             this.labellabel_LoopTimes_Value.Size = new System.Drawing.Size(65, 24);
@@ -277,9 +263,9 @@ namespace AutoTest
             this.label_LoopNumber_Value.AutoSize = true;
             this.label_LoopNumber_Value.BackColor = System.Drawing.Color.Transparent;
             this.label_LoopNumber_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_LoopNumber_Value.ForeColor = System.Drawing.Color.Black;
+            this.label_LoopNumber_Value.ForeColor = System.Drawing.Color.White;
             this.label_LoopNumber_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_LoopNumber_Value.Location = new System.Drawing.Point(200, 79);
+            this.label_LoopNumber_Value.Location = new System.Drawing.Point(193, 73);
             this.label_LoopNumber_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopNumber_Value.Name = "label_LoopNumber_Value";
             this.label_LoopNumber_Value.Size = new System.Drawing.Size(21, 24);
@@ -312,27 +298,28 @@ namespace AutoTest
             this.label_FwVersion.AutoSize = true;
             this.label_FwVersion.BackColor = System.Drawing.Color.Transparent;
             this.label_FwVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_FwVersion.ForeColor = System.Drawing.Color.Crimson;
+            this.label_FwVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(102)))), ((int)(((byte)(121)))));
             this.label_FwVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_FwVersion.Location = new System.Drawing.Point(12, 84);
-            this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_FwVersion.Location = new System.Drawing.Point(-1, 93);
+            this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 3.00.0";
+            this.label_FwVersion.Text = "Ver. 1.0.01";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
             // button_SerialPort1
             // 
-            this.button_SerialPort1.BackColor = System.Drawing.Color.Transparent;
-            this.button_SerialPort1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort1.Location = new System.Drawing.Point(963, 260);
+            this.button_SerialPort1.BackColor = System.Drawing.SystemColors.Control;
+            this.button_SerialPort1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_SerialPort1.ForeColor = System.Drawing.Color.White;
+            this.button_SerialPort1.Location = new System.Drawing.Point(975, 217);
             this.button_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort1.Name = "button_SerialPort1";
             this.button_SerialPort1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort1.Size = new System.Drawing.Size(130, 35);
+            this.button_SerialPort1.Size = new System.Drawing.Size(110, 30);
             this.button_SerialPort1.TabIndex = 48;
             this.button_SerialPort1.Text = "Serial Port 1";
             this.button_SerialPort1.UseVisualStyleBackColor = false;
@@ -340,14 +327,15 @@ namespace AutoTest
             // 
             // button_SerialPort2
             // 
-            this.button_SerialPort2.BackColor = System.Drawing.Color.Transparent;
-            this.button_SerialPort2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort2.Location = new System.Drawing.Point(963, 308);
+            this.button_SerialPort2.BackColor = System.Drawing.SystemColors.Control;
+            this.button_SerialPort2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_SerialPort2.ForeColor = System.Drawing.Color.White;
+            this.button_SerialPort2.Location = new System.Drawing.Point(975, 265);
             this.button_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort2.Name = "button_SerialPort2";
             this.button_SerialPort2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort2.Size = new System.Drawing.Size(130, 35);
+            this.button_SerialPort2.Size = new System.Drawing.Size(110, 30);
             this.button_SerialPort2.TabIndex = 49;
             this.button_SerialPort2.Text = "Serial Port 2";
             this.button_SerialPort2.UseVisualStyleBackColor = false;
@@ -359,7 +347,7 @@ namespace AutoTest
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(7, 48);
+            this.textBox2.Location = new System.Drawing.Point(14, 121);
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
@@ -369,67 +357,77 @@ namespace AutoTest
             // 
             // button_Schedule1
             // 
-            this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule1.Location = new System.Drawing.Point(963, 75);
+            this.button_Schedule1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule1.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule1.Location = new System.Drawing.Point(964, 499);
             this.button_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule1.Name = "button_Schedule1";
-            this.button_Schedule1.Size = new System.Drawing.Size(23, 20);
+            this.button_Schedule1.Size = new System.Drawing.Size(24, 24);
             this.button_Schedule1.TabIndex = 51;
             this.button_Schedule1.Text = "1";
-            this.button_Schedule1.UseVisualStyleBackColor = true;
+            this.button_Schedule1.UseVisualStyleBackColor = false;
             this.button_Schedule1.Click += new System.EventHandler(this.SchBtn1_Click);
             // 
             // button_Schedule2
             // 
-            this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule2.Location = new System.Drawing.Point(963, 99);
+            this.button_Schedule2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule2.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule2.Location = new System.Drawing.Point(964, 475);
             this.button_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule2.Name = "button_Schedule2";
-            this.button_Schedule2.Size = new System.Drawing.Size(23, 20);
+            this.button_Schedule2.Size = new System.Drawing.Size(24, 24);
             this.button_Schedule2.TabIndex = 52;
             this.button_Schedule2.Text = "2";
-            this.button_Schedule2.UseVisualStyleBackColor = true;
+            this.button_Schedule2.UseVisualStyleBackColor = false;
             this.button_Schedule2.Click += new System.EventHandler(this.SchBtn2_Click);
             // 
             // button_Schedule3
             // 
-            this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule3.Location = new System.Drawing.Point(963, 123);
+            this.button_Schedule3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule3.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule3.Location = new System.Drawing.Point(964, 451);
             this.button_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule3.Name = "button_Schedule3";
-            this.button_Schedule3.Size = new System.Drawing.Size(23, 20);
+            this.button_Schedule3.Size = new System.Drawing.Size(24, 24);
             this.button_Schedule3.TabIndex = 55;
             this.button_Schedule3.Text = "3";
-            this.button_Schedule3.UseVisualStyleBackColor = true;
+            this.button_Schedule3.UseVisualStyleBackColor = false;
             this.button_Schedule3.Click += new System.EventHandler(this.SchBtn3_Click);
             // 
             // button_Schedule4
             // 
-            this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule4.Location = new System.Drawing.Point(963, 147);
+            this.button_Schedule4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule4.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule4.Location = new System.Drawing.Point(964, 427);
             this.button_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule4.Name = "button_Schedule4";
-            this.button_Schedule4.Size = new System.Drawing.Size(23, 20);
+            this.button_Schedule4.Size = new System.Drawing.Size(24, 24);
             this.button_Schedule4.TabIndex = 56;
             this.button_Schedule4.Text = "4";
-            this.button_Schedule4.UseVisualStyleBackColor = true;
+            this.button_Schedule4.UseVisualStyleBackColor = false;
             this.button_Schedule4.Click += new System.EventHandler(this.SchBtn4_Click);
             // 
             // button_Schedule5
             // 
-            this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule5.Location = new System.Drawing.Point(963, 171);
+            this.button_Schedule5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule5.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule5.Location = new System.Drawing.Point(964, 403);
             this.button_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule5.Name = "button_Schedule5";
-            this.button_Schedule5.Size = new System.Drawing.Size(23, 20);
+            this.button_Schedule5.Size = new System.Drawing.Size(24, 24);
             this.button_Schedule5.TabIndex = 57;
             this.button_Schedule5.Text = "5";
-            this.button_Schedule5.UseVisualStyleBackColor = true;
+            this.button_Schedule5.UseVisualStyleBackColor = false;
             this.button_Schedule5.Click += new System.EventHandler(this.SchBtn5_Click);
             // 
             // DataBtn
@@ -447,16 +445,17 @@ namespace AutoTest
             // button_VirtualRC
             // 
             this.button_VirtualRC.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_VirtualRC.BackColor = System.Drawing.Color.Transparent;
+            this.button_VirtualRC.BackColor = System.Drawing.SystemColors.Control;
             this.button_VirtualRC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_VirtualRC.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_VirtualRC.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_VirtualRC.Location = new System.Drawing.Point(15, 47);
-            this.button_VirtualRC.Margin = new System.Windows.Forms.Padding(2, 2, 1, 2);
+            this.button_VirtualRC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_VirtualRC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_VirtualRC.ForeColor = System.Drawing.Color.White;
+            this.button_VirtualRC.Location = new System.Drawing.Point(2, 50);
+            this.button_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
             this.button_VirtualRC.Name = "button_VirtualRC";
-            this.button_VirtualRC.Size = new System.Drawing.Size(95, 25);
+            this.button_VirtualRC.Size = new System.Drawing.Size(111, 30);
             this.button_VirtualRC.TabIndex = 63;
-            this.button_VirtualRC.Text = "VIRTUAL RC";
+            this.button_VirtualRC.Text = "Virtual RC";
             this.button_VirtualRC.UseVisualStyleBackColor = false;
             this.button_VirtualRC.Click += new System.EventHandler(this.button_VirtualRC_Click);
             // 
@@ -482,7 +481,7 @@ namespace AutoTest
             this.labelSch1Timer.AutoSize = true;
             this.labelSch1Timer.BackColor = System.Drawing.Color.Transparent;
             this.labelSch1Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch1Timer.ForeColor = System.Drawing.Color.Black;
+            this.labelSch1Timer.ForeColor = System.Drawing.Color.Gainsboro;
             this.labelSch1Timer.Location = new System.Drawing.Point(16, 13);
             this.labelSch1Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSch1Timer.Name = "labelSch1Timer";
@@ -499,8 +498,8 @@ namespace AutoTest
             this.labelSch2Timer.AutoSize = true;
             this.labelSch2Timer.BackColor = System.Drawing.Color.Transparent;
             this.labelSch2Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch2Timer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.labelSch2Timer.Location = new System.Drawing.Point(16, 61);
+            this.labelSch2Timer.ForeColor = System.Drawing.Color.Gainsboro;
+            this.labelSch2Timer.Location = new System.Drawing.Point(16, 60);
             this.labelSch2Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSch2Timer.Name = "labelSch2Timer";
             this.labelSch2Timer.Size = new System.Drawing.Size(146, 17);
@@ -516,8 +515,8 @@ namespace AutoTest
             this.labelSch5Timer.AutoSize = true;
             this.labelSch5Timer.BackColor = System.Drawing.Color.Transparent;
             this.labelSch5Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch5Timer.ForeColor = System.Drawing.Color.Black;
-            this.labelSch5Timer.Location = new System.Drawing.Point(16, 205);
+            this.labelSch5Timer.ForeColor = System.Drawing.Color.Gainsboro;
+            this.labelSch5Timer.Location = new System.Drawing.Point(16, 201);
             this.labelSch5Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSch5Timer.Name = "labelSch5Timer";
             this.labelSch5Timer.Size = new System.Drawing.Size(146, 17);
@@ -533,8 +532,8 @@ namespace AutoTest
             this.labelSch4Timer.AutoSize = true;
             this.labelSch4Timer.BackColor = System.Drawing.Color.Transparent;
             this.labelSch4Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch4Timer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.labelSch4Timer.Location = new System.Drawing.Point(16, 157);
+            this.labelSch4Timer.ForeColor = System.Drawing.Color.Gainsboro;
+            this.labelSch4Timer.Location = new System.Drawing.Point(16, 154);
             this.labelSch4Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSch4Timer.Name = "labelSch4Timer";
             this.labelSch4Timer.Size = new System.Drawing.Size(146, 17);
@@ -550,8 +549,8 @@ namespace AutoTest
             this.labelSch3Timer.AutoSize = true;
             this.labelSch3Timer.BackColor = System.Drawing.Color.Transparent;
             this.labelSch3Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch3Timer.ForeColor = System.Drawing.Color.Gray;
-            this.labelSch3Timer.Location = new System.Drawing.Point(16, 109);
+            this.labelSch3Timer.ForeColor = System.Drawing.Color.Gainsboro;
+            this.labelSch3Timer.Location = new System.Drawing.Point(16, 107);
             this.labelSch3Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelSch3Timer.Name = "labelSch3Timer";
             this.labelSch3Timer.Size = new System.Drawing.Size(146, 17);
@@ -560,16 +559,18 @@ namespace AutoTest
             // 
             // button_Pause
             // 
-            this.button_Pause.BackColor = System.Drawing.Color.Transparent;
-            this.button_Pause.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Pause.Location = new System.Drawing.Point(872, 4);
-            this.button_Pause.Margin = new System.Windows.Forms.Padding(2, 2, 1, 2);
+            this.button_Pause.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Pause.ForeColor = System.Drawing.Color.White;
+            this.button_Pause.Location = new System.Drawing.Point(764, 79);
+            this.button_Pause.Margin = new System.Windows.Forms.Padding(2);
             this.button_Pause.Name = "button_Pause";
-            this.button_Pause.Size = new System.Drawing.Size(85, 40);
+            this.button_Pause.Size = new System.Drawing.Size(85, 30);
             this.button_Pause.TabIndex = 73;
             this.button_Pause.Text = "PAUSE";
             this.button_Pause.UseVisualStyleBackColor = false;
+            this.button_Pause.EnabledChanged += new System.EventHandler(this.button_Pause_EnabledChanged);
             this.button_Pause.Click += new System.EventHandler(this.PauseButton_Click);
             // 
             // label_ScheduleTime_Value
@@ -577,9 +578,9 @@ namespace AutoTest
             this.label_ScheduleTime_Value.AutoSize = true;
             this.label_ScheduleTime_Value.BackColor = System.Drawing.Color.Transparent;
             this.label_ScheduleTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_ScheduleTime_Value.ForeColor = System.Drawing.Color.Black;
+            this.label_ScheduleTime_Value.ForeColor = System.Drawing.Color.White;
             this.label_ScheduleTime_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_ScheduleTime_Value.Location = new System.Drawing.Point(348, 28);
+            this.label_ScheduleTime_Value.Location = new System.Drawing.Point(343, 22);
             this.label_ScheduleTime_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime_Value.Name = "label_ScheduleTime_Value";
             this.label_ScheduleTime_Value.Size = new System.Drawing.Size(123, 24);
@@ -594,6 +595,7 @@ namespace AutoTest
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.SegLabel4);
             this.panel1.Controls.Add(this.SegLabel3);
@@ -605,7 +607,7 @@ namespace AutoTest
             this.panel1.Controls.Add(this.labelSch5Timer);
             this.panel1.Controls.Add(this.labelSch4Timer);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(771, 206);
+            this.panel1.Location = new System.Drawing.Point(788, 288);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(176, 236);
@@ -617,8 +619,8 @@ namespace AutoTest
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SegLabel4.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel4.ForeColor = System.Drawing.Color.LightSkyBlue;
-            this.SegLabel4.Location = new System.Drawing.Point(11, 175);
+            this.SegLabel4.ForeColor = System.Drawing.Color.Gainsboro;
+            this.SegLabel4.Location = new System.Drawing.Point(11, 180);
             this.SegLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SegLabel4.Name = "SegLabel4";
             this.SegLabel4.Size = new System.Drawing.Size(162, 12);
@@ -631,8 +633,8 @@ namespace AutoTest
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SegLabel3.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel3.ForeColor = System.Drawing.Color.LightSkyBlue;
-            this.SegLabel3.Location = new System.Drawing.Point(11, 127);
+            this.SegLabel3.ForeColor = System.Drawing.Color.Gainsboro;
+            this.SegLabel3.Location = new System.Drawing.Point(11, 133);
             this.SegLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SegLabel3.Name = "SegLabel3";
             this.SegLabel3.Size = new System.Drawing.Size(162, 12);
@@ -645,8 +647,8 @@ namespace AutoTest
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SegLabel2.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel2.ForeColor = System.Drawing.Color.LightSkyBlue;
-            this.SegLabel2.Location = new System.Drawing.Point(11, 79);
+            this.SegLabel2.ForeColor = System.Drawing.Color.Gainsboro;
+            this.SegLabel2.Location = new System.Drawing.Point(11, 86);
             this.SegLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SegLabel2.Name = "SegLabel2";
             this.SegLabel2.Size = new System.Drawing.Size(162, 12);
@@ -659,8 +661,8 @@ namespace AutoTest
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SegLabel1.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SegLabel1.ForeColor = System.Drawing.Color.LightSkyBlue;
-            this.SegLabel1.Location = new System.Drawing.Point(11, 31);
+            this.SegLabel1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.SegLabel1.Location = new System.Drawing.Point(11, 39);
             this.SegLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SegLabel1.Name = "SegLabel1";
             this.SegLabel1.Size = new System.Drawing.Size(162, 12);
@@ -670,14 +672,15 @@ namespace AutoTest
             // button_TimeLine
             // 
             this.button_TimeLine.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_TimeLine.BackColor = System.Drawing.Color.Transparent;
+            this.button_TimeLine.BackColor = System.Drawing.SystemColors.Control;
             this.button_TimeLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_TimeLine.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_TimeLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_TimeLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_TimeLine.Location = new System.Drawing.Point(638, 448);
+            this.button_TimeLine.ForeColor = System.Drawing.Color.White;
+            this.button_TimeLine.Location = new System.Drawing.Point(649, 533);
             this.button_TimeLine.Margin = new System.Windows.Forms.Padding(2);
             this.button_TimeLine.Name = "button_TimeLine";
-            this.button_TimeLine.Size = new System.Drawing.Size(81, 25);
+            this.button_TimeLine.Size = new System.Drawing.Size(92, 30);
             this.button_TimeLine.TabIndex = 77;
             this.button_TimeLine.Text = "TIMELINE";
             this.button_TimeLine.UseVisualStyleBackColor = false;
@@ -687,14 +690,15 @@ namespace AutoTest
             // button_SaveSchedule
             // 
             this.button_SaveSchedule.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_SaveSchedule.BackColor = System.Drawing.Color.Transparent;
+            this.button_SaveSchedule.BackColor = System.Drawing.SystemColors.Control;
             this.button_SaveSchedule.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button_SaveSchedule.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_SaveSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_SaveSchedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SaveSchedule.Location = new System.Drawing.Point(840, 448);
+            this.button_SaveSchedule.ForeColor = System.Drawing.Color.White;
+            this.button_SaveSchedule.Location = new System.Drawing.Point(890, 533);
             this.button_SaveSchedule.Margin = new System.Windows.Forms.Padding(2);
             this.button_SaveSchedule.Name = "button_SaveSchedule";
-            this.button_SaveSchedule.Size = new System.Drawing.Size(115, 25);
+            this.button_SaveSchedule.Size = new System.Drawing.Size(73, 30);
             this.button_SaveSchedule.TabIndex = 47;
             this.button_SaveSchedule.Text = "SAVE SCHDULE";
             this.button_SaveSchedule.UseVisualStyleBackColor = false;
@@ -702,14 +706,15 @@ namespace AutoTest
             // 
             // button_Schedule
             // 
-            this.button_Schedule.BackColor = System.Drawing.Color.Transparent;
-            this.button_Schedule.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Schedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Schedule.Location = new System.Drawing.Point(963, 48);
+            this.button_Schedule.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Schedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Schedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Schedule.ForeColor = System.Drawing.Color.White;
+            this.button_Schedule.Location = new System.Drawing.Point(975, 121);
             this.button_Schedule.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule.Name = "button_Schedule";
             this.button_Schedule.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_Schedule.Size = new System.Drawing.Size(130, 23);
+            this.button_Schedule.Size = new System.Drawing.Size(110, 30);
             this.button_Schedule.TabIndex = 78;
             this.button_Schedule.Text = "Schedule";
             this.button_Schedule.UseVisualStyleBackColor = false;
@@ -717,29 +722,31 @@ namespace AutoTest
             // 
             // button_Camera
             // 
-            this.button_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.button_Camera.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Camera.Location = new System.Drawing.Point(963, 205);
+            this.button_Camera.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Camera.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Camera.ForeColor = System.Drawing.Color.White;
+            this.button_Camera.Location = new System.Drawing.Point(975, 169);
             this.button_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.button_Camera.Name = "button_Camera";
             this.button_Camera.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_Camera.Size = new System.Drawing.Size(130, 40);
+            this.button_Camera.Size = new System.Drawing.Size(110, 30);
             this.button_Camera.TabIndex = 79;
             this.button_Camera.Text = "Camera";
             this.button_Camera.UseVisualStyleBackColor = false;
+            this.button_Camera.EnabledChanged += new System.EventHandler(this.button_Camera_EnabledChanged);
             this.button_Camera.Click += new System.EventHandler(this.Button_TabCamera_Click);
             // 
             // label_LoopTimes
             // 
             this.label_LoopTimes.AutoSize = true;
             this.label_LoopTimes.BackColor = System.Drawing.Color.Transparent;
-            this.label_LoopTimes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_LoopTimes.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_LoopTimes.Location = new System.Drawing.Point(201, 10);
+            this.label_LoopTimes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_LoopTimes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_LoopTimes.Location = new System.Drawing.Point(193, 4);
             this.label_LoopTimes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopTimes.Name = "label_LoopTimes";
-            this.label_LoopTimes.Size = new System.Drawing.Size(72, 13);
+            this.label_LoopTimes.Size = new System.Drawing.Size(88, 16);
             this.label_LoopTimes.TabIndex = 80;
             this.label_LoopTimes.Text = "LOOP TIMES";
             // 
@@ -747,12 +754,12 @@ namespace AutoTest
             // 
             this.label_LoopNumber.AutoSize = true;
             this.label_LoopNumber.BackColor = System.Drawing.Color.Transparent;
-            this.label_LoopNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_LoopNumber.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_LoopNumber.Location = new System.Drawing.Point(201, 61);
+            this.label_LoopNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_LoopNumber.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_LoopNumber.Location = new System.Drawing.Point(193, 55);
             this.label_LoopNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopNumber.Name = "label_LoopNumber";
-            this.label_LoopNumber.Size = new System.Drawing.Size(86, 13);
+            this.label_LoopNumber.Size = new System.Drawing.Size(106, 16);
             this.label_LoopNumber.TabIndex = 81;
             this.label_LoopNumber.Text = "LOOP NUMBER";
             // 
@@ -760,12 +767,12 @@ namespace AutoTest
             // 
             this.label_ScheduleTime.AutoSize = true;
             this.label_ScheduleTime.BackColor = System.Drawing.Color.Transparent;
-            this.label_ScheduleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_ScheduleTime.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_ScheduleTime.Location = new System.Drawing.Point(350, 10);
+            this.label_ScheduleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_ScheduleTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_ScheduleTime.Location = new System.Drawing.Point(344, 4);
             this.label_ScheduleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime.Name = "label_ScheduleTime";
-            this.label_ScheduleTime.Size = new System.Drawing.Size(94, 13);
+            this.label_ScheduleTime.Size = new System.Drawing.Size(116, 16);
             this.label_ScheduleTime.TabIndex = 82;
             this.label_ScheduleTime.Text = "SCHEDULE TIME";
             // 
@@ -774,13 +781,13 @@ namespace AutoTest
             this.label_AutoBox.AutoSize = true;
             this.label_AutoBox.BackColor = System.Drawing.Color.Transparent;
             this.label_AutoBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_AutoBox.ForeColor = System.Drawing.Color.Black;
-            this.label_AutoBox.Location = new System.Drawing.Point(24, 17);
+            this.label_AutoBox.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_AutoBox.Location = new System.Drawing.Point(32, 86);
             this.label_AutoBox.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_AutoBox.Name = "label_AutoBox";
-            this.label_AutoBox.Size = new System.Drawing.Size(60, 17);
+            this.label_AutoBox.Size = new System.Drawing.Size(53, 17);
             this.label_AutoBox.TabIndex = 83;
-            this.label_AutoBox.Text = "AutoBox";
+            this.label_AutoBox.Text = "AutoKit";
             // 
             // button_Input
             // 
@@ -788,8 +795,8 @@ namespace AutoTest
             this.button_Input.BackColor = System.Drawing.Color.Transparent;
             this.button_Input.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_Input.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Input.Location = new System.Drawing.Point(1025, 490);
+            this.button_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Input.Location = new System.Drawing.Point(1002, 582);
             this.button_Input.Margin = new System.Windows.Forms.Padding(2);
             this.button_Input.Name = "button_Input";
             this.button_Input.Size = new System.Drawing.Size(80, 25);
@@ -805,8 +812,8 @@ namespace AutoTest
             this.button_Output.BackColor = System.Drawing.Color.Transparent;
             this.button_Output.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_Output.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Output.Location = new System.Drawing.Point(1025, 527);
+            this.button_Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Output.Location = new System.Drawing.Point(1004, 618);
             this.button_Output.Margin = new System.Windows.Forms.Padding(2);
             this.button_Output.Name = "button_Output";
             this.button_Output.Size = new System.Drawing.Size(80, 25);
@@ -822,7 +829,7 @@ namespace AutoTest
             this.label_Command.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_Command.ForeColor = System.Drawing.Color.Tomato;
             this.label_Command.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Command.Location = new System.Drawing.Point(527, 476);
+            this.label_Command.Location = new System.Drawing.Point(534, 561);
             this.label_Command.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Command.Name = "label_Command";
             this.label_Command.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -837,7 +844,7 @@ namespace AutoTest
             this.labelGPIO_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelGPIO_Input.ForeColor = System.Drawing.Color.MediumSlateBlue;
             this.labelGPIO_Input.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelGPIO_Input.Location = new System.Drawing.Point(457, 448);
+            this.labelGPIO_Input.Location = new System.Drawing.Point(465, 533);
             this.labelGPIO_Input.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelGPIO_Input.Name = "labelGPIO_Input";
             this.labelGPIO_Input.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -847,31 +854,16 @@ namespace AutoTest
             this.labelGPIO_Input.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelGPIO_Input.Visible = false;
             // 
-            // label_BoxVersion
-            // 
-            this.label_BoxVersion.AutoSize = true;
-            this.label_BoxVersion.BackColor = System.Drawing.Color.Transparent;
-            this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_BoxVersion.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_BoxVersion.Location = new System.Drawing.Point(94, 84);
-            this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_BoxVersion.Name = "label_BoxVersion";
-            this.label_BoxVersion.Size = new System.Drawing.Size(44, 17);
-            this.label_BoxVersion.TabIndex = 88;
-            this.label_BoxVersion.Text = "_0.00";
-            this.label_BoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // label_TestTime
             // 
             this.label_TestTime.AutoSize = true;
             this.label_TestTime.BackColor = System.Drawing.Color.Transparent;
-            this.label_TestTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_TestTime.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_TestTime.Location = new System.Drawing.Point(350, 61);
+            this.label_TestTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_TestTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.label_TestTime.Location = new System.Drawing.Point(344, 55);
             this.label_TestTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_TestTime.Name = "label_TestTime";
-            this.label_TestTime.Size = new System.Drawing.Size(64, 13);
+            this.label_TestTime.Size = new System.Drawing.Size(79, 16);
             this.label_TestTime.TabIndex = 90;
             this.label_TestTime.Text = "TEST TIME";
             // 
@@ -880,9 +872,9 @@ namespace AutoTest
             this.label_TestTime_Value.AutoSize = true;
             this.label_TestTime_Value.BackColor = System.Drawing.Color.Transparent;
             this.label_TestTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_TestTime_Value.ForeColor = System.Drawing.Color.Black;
+            this.label_TestTime_Value.ForeColor = System.Drawing.Color.White;
             this.label_TestTime_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_TestTime_Value.Location = new System.Drawing.Point(348, 79);
+            this.label_TestTime_Value.Location = new System.Drawing.Point(343, 73);
             this.label_TestTime_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_TestTime_Value.Name = "label_TestTime_Value";
             this.label_TestTime_Value.Size = new System.Drawing.Size(123, 24);
@@ -893,14 +885,15 @@ namespace AutoTest
             // button_InsertRow
             // 
             this.button_InsertRow.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_InsertRow.BackColor = System.Drawing.Color.Transparent;
+            this.button_InsertRow.BackColor = System.Drawing.SystemColors.Control;
             this.button_InsertRow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.button_InsertRow.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_InsertRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_InsertRow.Location = new System.Drawing.Point(724, 448);
+            this.button_InsertRow.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_InsertRow.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_InsertRow.ForeColor = System.Drawing.Color.White;
+            this.button_InsertRow.Location = new System.Drawing.Point(750, 533);
             this.button_InsertRow.Margin = new System.Windows.Forms.Padding(2);
             this.button_InsertRow.Name = "button_InsertRow";
-            this.button_InsertRow.Size = new System.Drawing.Size(115, 25);
+            this.button_InsertRow.Size = new System.Drawing.Size(131, 30);
             this.button_InsertRow.TabIndex = 91;
             this.button_InsertRow.Text = "INSERT A ROW";
             this.button_InsertRow.UseVisualStyleBackColor = false;
@@ -910,9 +903,10 @@ namespace AutoTest
             // 
             this.panel_VirtualRC.AutoScroll = true;
             this.panel_VirtualRC.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.panel_VirtualRC.BackColor = System.Drawing.Color.Transparent;
+            this.panel_VirtualRC.Controls.Add(this.label_BoxVersion);
             this.panel_VirtualRC.Controls.Add(this.label_Remark);
             this.panel_VirtualRC.Controls.Add(this.label_FwVersion);
-            this.panel_VirtualRC.Controls.Add(this.label_BoxVersion);
             this.panel_VirtualRC.Controls.Add(this.label_ScheduleTime_Value);
             this.panel_VirtualRC.Controls.Add(this.button_AcUsb);
             this.panel_VirtualRC.Controls.Add(this.labellabel_LoopTimes_Value);
@@ -923,11 +917,27 @@ namespace AutoTest
             this.panel_VirtualRC.Controls.Add(this.label_ScheduleTime);
             this.panel_VirtualRC.Controls.Add(this.label_TestTime_Value);
             this.panel_VirtualRC.Controls.Add(this.button_VirtualRC);
-            this.panel_VirtualRC.Location = new System.Drawing.Point(8, 443);
+            this.panel_VirtualRC.Location = new System.Drawing.Point(14, 532);
             this.panel_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
             this.panel_VirtualRC.Name = "panel_VirtualRC";
-            this.panel_VirtualRC.Size = new System.Drawing.Size(950, 109);
+            this.panel_VirtualRC.Size = new System.Drawing.Size(950, 115);
             this.panel_VirtualRC.TabIndex = 92;
+            this.panel_VirtualRC.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_VirtualRC_Paint);
+            // 
+            // label_BoxVersion
+            // 
+            this.label_BoxVersion.AutoSize = true;
+            this.label_BoxVersion.BackColor = System.Drawing.Color.Transparent;
+            this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_BoxVersion.ForeColor = System.Drawing.Color.SteelBlue;
+            this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_BoxVersion.Location = new System.Drawing.Point(89, 93);
+            this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2);
+            this.label_BoxVersion.Name = "label_BoxVersion";
+            this.label_BoxVersion.Size = new System.Drawing.Size(24, 17);
+            this.label_BoxVersion.TabIndex = 100;
+            this.label_BoxVersion.Text = "_2";
+            this.label_BoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_Remark
             // 
@@ -935,7 +945,7 @@ namespace AutoTest
             this.label_Remark.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_Remark.ForeColor = System.Drawing.Color.Tomato;
             this.label_Remark.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Remark.Location = new System.Drawing.Point(519, 70);
+            this.label_Remark.Location = new System.Drawing.Point(519, 72);
             this.label_Remark.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Remark.Name = "label_Remark";
             this.label_Remark.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -947,14 +957,15 @@ namespace AutoTest
             // button_AcUsb
             // 
             this.button_AcUsb.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_AcUsb.BackColor = System.Drawing.Color.Transparent;
+            this.button_AcUsb.BackColor = System.Drawing.SystemColors.Control;
             this.button_AcUsb.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_AcUsb.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_AcUsb.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_AcUsb.Location = new System.Drawing.Point(15, 9);
+            this.button_AcUsb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_AcUsb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_AcUsb.ForeColor = System.Drawing.Color.White;
+            this.button_AcUsb.Location = new System.Drawing.Point(0, 2);
             this.button_AcUsb.Margin = new System.Windows.Forms.Padding(2);
             this.button_AcUsb.Name = "button_AcUsb";
-            this.button_AcUsb.Size = new System.Drawing.Size(130, 25);
+            this.button_AcUsb.Size = new System.Drawing.Size(111, 30);
             this.button_AcUsb.TabIndex = 94;
             this.button_AcUsb.Text = "AC / USB SWITCH";
             this.button_AcUsb.UseVisualStyleBackColor = false;
@@ -962,10 +973,11 @@ namespace AutoTest
             // 
             // panel_AcUsb
             // 
+            this.panel_AcUsb.BackColor = System.Drawing.Color.Transparent;
             this.panel_AcUsb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_AcUsb.Controls.Add(this.groupBox_Usb);
             this.panel_AcUsb.Controls.Add(this.groupBox_Ac);
-            this.panel_AcUsb.Location = new System.Drawing.Point(11, 280);
+            this.panel_AcUsb.Location = new System.Drawing.Point(14, 364);
             this.panel_AcUsb.Margin = new System.Windows.Forms.Padding(2);
             this.panel_AcUsb.Name = "panel_AcUsb";
             this.panel_AcUsb.Size = new System.Drawing.Size(200, 160);
@@ -977,7 +989,7 @@ namespace AutoTest
             this.groupBox_Usb.Controls.Add(this.label_Usb1);
             this.groupBox_Usb.Controls.Add(this.pictureBox_Usb1);
             this.groupBox_Usb.Controls.Add(this.pictureBox_Usb2);
-            this.groupBox_Usb.ForeColor = System.Drawing.Color.MediumVioletRed;
+            this.groupBox_Usb.ForeColor = System.Drawing.Color.Gainsboro;
             this.groupBox_Usb.Location = new System.Drawing.Point(14, 79);
             this.groupBox_Usb.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_Usb.Name = "groupBox_Usb";
@@ -991,8 +1003,8 @@ namespace AutoTest
             // 
             this.label_Usb2.BackColor = System.Drawing.Color.Transparent;
             this.label_Usb2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Usb2.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Usb2.Location = new System.Drawing.Point(76, 16);
+            this.label_Usb2.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Usb2.Location = new System.Drawing.Point(85, 19);
             this.label_Usb2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Usb2.Name = "label_Usb2";
             this.label_Usb2.Size = new System.Drawing.Size(32, 32);
@@ -1004,8 +1016,8 @@ namespace AutoTest
             // 
             this.label_Usb1.BackColor = System.Drawing.Color.Transparent;
             this.label_Usb1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Usb1.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Usb1.Location = new System.Drawing.Point(4, 16);
+            this.label_Usb1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Usb1.Location = new System.Drawing.Point(16, 19);
             this.label_Usb1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Usb1.Name = "label_Usb1";
             this.label_Usb1.Size = new System.Drawing.Size(32, 32);
@@ -1015,8 +1027,8 @@ namespace AutoTest
             // 
             // pictureBox_Usb1
             // 
-            this.pictureBox_Usb1.Image = global::AutoTest.Properties.Resources.Switch_to_PC;
-            this.pictureBox_Usb1.Location = new System.Drawing.Point(40, 16);
+            this.pictureBox_Usb1.Image = global::Woodpecker.Properties.Resources.Switch_to_PC;
+            this.pictureBox_Usb1.Location = new System.Drawing.Point(52, 19);
             this.pictureBox_Usb1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Usb1.Name = "pictureBox_Usb1";
             this.pictureBox_Usb1.Size = new System.Drawing.Size(32, 32);
@@ -1027,8 +1039,8 @@ namespace AutoTest
             // 
             // pictureBox_Usb2
             // 
-            this.pictureBox_Usb2.Image = global::AutoTest.Properties.Resources.Switch_to_PC;
-            this.pictureBox_Usb2.Location = new System.Drawing.Point(112, 16);
+            this.pictureBox_Usb2.Image = global::Woodpecker.Properties.Resources.Switch_to_PC;
+            this.pictureBox_Usb2.Location = new System.Drawing.Point(121, 19);
             this.pictureBox_Usb2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Usb2.Name = "pictureBox_Usb2";
             this.pictureBox_Usb2.Size = new System.Drawing.Size(32, 32);
@@ -1043,7 +1055,7 @@ namespace AutoTest
             this.groupBox_Ac.Controls.Add(this.label_Ac1);
             this.groupBox_Ac.Controls.Add(this.pictureBox_Ac2);
             this.groupBox_Ac.Controls.Add(this.pictureBox_Ac1);
-            this.groupBox_Ac.ForeColor = System.Drawing.Color.MediumVioletRed;
+            this.groupBox_Ac.ForeColor = System.Drawing.Color.Gainsboro;
             this.groupBox_Ac.Location = new System.Drawing.Point(14, 15);
             this.groupBox_Ac.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_Ac.Name = "groupBox_Ac";
@@ -1057,8 +1069,8 @@ namespace AutoTest
             // 
             this.label_Ac2.BackColor = System.Drawing.Color.Transparent;
             this.label_Ac2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Ac2.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Ac2.Location = new System.Drawing.Point(76, 16);
+            this.label_Ac2.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Ac2.Location = new System.Drawing.Point(85, 19);
             this.label_Ac2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Ac2.Name = "label_Ac2";
             this.label_Ac2.Size = new System.Drawing.Size(32, 32);
@@ -1070,8 +1082,8 @@ namespace AutoTest
             // 
             this.label_Ac1.BackColor = System.Drawing.Color.Transparent;
             this.label_Ac1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_Ac1.ForeColor = System.Drawing.Color.DarkCyan;
-            this.label_Ac1.Location = new System.Drawing.Point(4, 16);
+            this.label_Ac1.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Ac1.Location = new System.Drawing.Point(16, 19);
             this.label_Ac1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Ac1.Name = "label_Ac1";
             this.label_Ac1.Size = new System.Drawing.Size(32, 32);
@@ -1081,8 +1093,8 @@ namespace AutoTest
             // 
             // pictureBox_Ac2
             // 
-            this.pictureBox_Ac2.Image = global::AutoTest.Properties.Resources.Switch_On_AC;
-            this.pictureBox_Ac2.Location = new System.Drawing.Point(112, 16);
+            this.pictureBox_Ac2.Image = global::Woodpecker.Properties.Resources.Switch_On_AC;
+            this.pictureBox_Ac2.Location = new System.Drawing.Point(121, 19);
             this.pictureBox_Ac2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Ac2.Name = "pictureBox_Ac2";
             this.pictureBox_Ac2.Size = new System.Drawing.Size(32, 32);
@@ -1093,8 +1105,8 @@ namespace AutoTest
             // 
             // pictureBox_Ac1
             // 
-            this.pictureBox_Ac1.Image = global::AutoTest.Properties.Resources.Switch_On_AC;
-            this.pictureBox_Ac1.Location = new System.Drawing.Point(40, 16);
+            this.pictureBox_Ac1.Image = global::Woodpecker.Properties.Resources.Switch_On_AC;
+            this.pictureBox_Ac1.Location = new System.Drawing.Point(52, 19);
             this.pictureBox_Ac1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Ac1.Name = "pictureBox_Ac1";
             this.pictureBox_Ac1.Size = new System.Drawing.Size(32, 32);
@@ -1109,7 +1121,7 @@ namespace AutoTest
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(707, 48);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(714, 121);
             this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
             this.comboBox_CameraDevice.Size = new System.Drawing.Size(250, 23);
@@ -1118,14 +1130,15 @@ namespace AutoTest
             // 
             // button_SerialPort3
             // 
-            this.button_SerialPort3.BackColor = System.Drawing.Color.Transparent;
-            this.button_SerialPort3.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_SerialPort3.Location = new System.Drawing.Point(963, 354);
+            this.button_SerialPort3.BackColor = System.Drawing.SystemColors.Control;
+            this.button_SerialPort3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_SerialPort3.ForeColor = System.Drawing.Color.White;
+            this.button_SerialPort3.Location = new System.Drawing.Point(975, 313);
             this.button_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort3.Name = "button_SerialPort3";
             this.button_SerialPort3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort3.Size = new System.Drawing.Size(130, 35);
+            this.button_SerialPort3.Size = new System.Drawing.Size(110, 30);
             this.button_SerialPort3.TabIndex = 96;
             this.button_SerialPort3.Text = "Serial Port 3";
             this.button_SerialPort3.UseVisualStyleBackColor = false;
@@ -1137,7 +1150,7 @@ namespace AutoTest
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(7, 48);
+            this.textBox3.Location = new System.Drawing.Point(14, 121);
             this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
@@ -1148,11 +1161,12 @@ namespace AutoTest
             // button_Network
             // 
             this.button_Network.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Network.BackColor = System.Drawing.Color.Transparent;
+            this.button_Network.BackColor = System.Drawing.SystemColors.Control;
             this.button_Network.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.button_Network.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Network.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_Network.Location = new System.Drawing.Point(996, 13);
+            this.button_Network.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Network.ForeColor = System.Drawing.Color.White;
+            this.button_Network.Location = new System.Drawing.Point(1005, 78);
             this.button_Network.Margin = new System.Windows.Forms.Padding(2);
             this.button_Network.Name = "button_Network";
             this.button_Network.Size = new System.Drawing.Size(80, 25);
@@ -1167,8 +1181,8 @@ namespace AutoTest
             this.label_ext_board.AutoSize = true;
             this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ext_board.ForeColor = System.Drawing.Color.Black;
-            this.label_ext_board.Location = new System.Drawing.Point(361, 17);
+            this.label_ext_board.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_ext_board.Location = new System.Drawing.Point(369, 86);
             this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ext_board.Name = "label_ext_board";
             this.label_ext_board.Size = new System.Drawing.Size(72, 17);
@@ -1185,8 +1199,8 @@ namespace AutoTest
             this.label_canbus.AutoSize = true;
             this.label_canbus.BackColor = System.Drawing.Color.Transparent;
             this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_canbus.ForeColor = System.Drawing.Color.Black;
-            this.label_canbus.Location = new System.Drawing.Point(457, 17);
+            this.label_canbus.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_canbus.Location = new System.Drawing.Point(465, 86);
             this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_canbus.Name = "label_canbus";
             this.label_canbus.Size = new System.Drawing.Size(67, 17);
@@ -1199,20 +1213,20 @@ namespace AutoTest
             this.textBox_canbus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_canbus.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.textBox_canbus.Location = new System.Drawing.Point(7, 48);
+            this.textBox_canbus.Location = new System.Drawing.Point(14, 121);
             this.textBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_canbus.Multiline = true;
             this.textBox_canbus.Name = "textBox_canbus";
             this.textBox_canbus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_canbus.Size = new System.Drawing.Size(950, 400);
+            this.textBox_canbus.Size = new System.Drawing.Size(950, 401);
             this.textBox_canbus.TabIndex = 103;
             // 
             // button_CanbusPort
             // 
             this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
             this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(1054, 403);
+            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_CanbusPort.Location = new System.Drawing.Point(1043, 551);
             this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_CanbusPort.Name = "button_CanbusPort";
             this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1224,12 +1238,14 @@ namespace AutoTest
             // 
             // button_kline
             // 
-            this.button_kline.Location = new System.Drawing.Point(1009, 403);
+            this.button_kline.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_kline.Location = new System.Drawing.Point(1000, 551);
             this.button_kline.Name = "button_kline";
             this.button_kline.Size = new System.Drawing.Size(40, 22);
             this.button_kline.TabIndex = 110;
             this.button_kline.Text = "Kline";
-            this.button_kline.UseVisualStyleBackColor = true;
+            this.button_kline.UseVisualStyleBackColor = false;
             this.button_kline.Click += new System.EventHandler(this.Button_kline_Click);
             // 
             // textBox_kline
@@ -1238,12 +1254,12 @@ namespace AutoTest
             this.textBox_kline.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_kline.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_kline.ForeColor = System.Drawing.Color.White;
-            this.textBox_kline.Location = new System.Drawing.Point(7, 48);
+            this.textBox_kline.Location = new System.Drawing.Point(14, 121);
             this.textBox_kline.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_kline.Multiline = true;
             this.textBox_kline.Name = "textBox_kline";
             this.textBox_kline.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_kline.Size = new System.Drawing.Size(950, 400);
+            this.textBox_kline.Size = new System.Drawing.Size(950, 401);
             this.textBox_kline.TabIndex = 106;
             // 
             // textBox_TestLog
@@ -1252,7 +1268,7 @@ namespace AutoTest
             this.textBox_TestLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox_TestLog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox_TestLog.ForeColor = System.Drawing.Color.White;
-            this.textBox_TestLog.Location = new System.Drawing.Point(7, 48);
+            this.textBox_TestLog.Location = new System.Drawing.Point(14, 121);
             this.textBox_TestLog.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_TestLog.Multiline = true;
             this.textBox_TestLog.Name = "textBox_TestLog";
@@ -1262,9 +1278,13 @@ namespace AutoTest
             // 
             // button_TestLog
             // 
-            this.button_TestLog.Location = new System.Drawing.Point(1013, 76);
+            this.button_TestLog.BackColor = System.Drawing.SystemColors.Control;
+            this.button_TestLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_TestLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_TestLog.ForeColor = System.Drawing.Color.White;
+            this.button_TestLog.Location = new System.Drawing.Point(1010, 493);
             this.button_TestLog.Name = "button_TestLog";
-            this.button_TestLog.Size = new System.Drawing.Size(80, 23);
+            this.button_TestLog.Size = new System.Drawing.Size(75, 30);
             this.button_TestLog.TabIndex = 108;
             this.button_TestLog.Text = "TestLog";
             this.button_TestLog.UseVisualStyleBackColor = true;
@@ -1273,12 +1293,16 @@ namespace AutoTest
             // 
             // button_Copy
             // 
-            this.button_Copy.Location = new System.Drawing.Point(1012, 105);
+            this.button_Copy.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Copy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Copy.ForeColor = System.Drawing.Color.White;
+            this.button_Copy.Location = new System.Drawing.Point(1009, 457);
             this.button_Copy.Name = "button_Copy";
-            this.button_Copy.Size = new System.Drawing.Size(80, 23);
+            this.button_Copy.Size = new System.Drawing.Size(75, 30);
             this.button_Copy.TabIndex = 109;
-            this.button_Copy.Text = "COPY LOG";
-            this.button_Copy.UseVisualStyleBackColor = true;
+            this.button_Copy.Text = "Copy Log";
+            this.button_Copy.UseVisualStyleBackColor = false;
             this.button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
@@ -1286,21 +1310,189 @@ namespace AutoTest
             this.timer_kline.Interval = 250;
             this.timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
             // 
+            // button_Start
+            // 
+            this.button_Start.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button_Start.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Start.ForeColor = System.Drawing.Color.White;
+            this.button_Start.Location = new System.Drawing.Point(649, 79);
+            this.button_Start.Margin = new System.Windows.Forms.Padding(2);
+            this.button_Start.Name = "button_Start";
+            this.button_Start.Size = new System.Drawing.Size(103, 30);
+            this.button_Start.TabIndex = 111;
+            this.button_Start.Text = "START";
+            this.button_Start.UseVisualStyleBackColor = false;
+            this.button_Start.Click += new System.EventHandler(this.StartBtn_Click);
+            // 
+            // pictureBox_canbus
+            // 
+            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_canbus.Location = new System.Drawing.Point(448, 90);
+            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_canbus.Name = "pictureBox_canbus";
+            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_canbus.TabIndex = 101;
+            this.pictureBox_canbus.TabStop = false;
+            // 
+            // pictureBox_ext_board
+            // 
+            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(352, 90);
+            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
+            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_ext_board.TabIndex = 99;
+            this.pictureBox_ext_board.TabStop = false;
+            // 
+            // pictureBox_BlueRat
+            // 
+            this.pictureBox_BlueRat.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_BlueRat.Location = new System.Drawing.Point(15, 90);
+            this.pictureBox_BlueRat.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_BlueRat.Name = "pictureBox_BlueRat";
+            this.pictureBox_BlueRat.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_BlueRat.TabIndex = 84;
+            this.pictureBox_BlueRat.TabStop = false;
+            // 
+            // MiniPicBox
+            // 
+            this.MiniPicBox.Image = global::Woodpecker.Properties.Resources.mini1;
+            this.MiniPicBox.Location = new System.Drawing.Point(1404, 8);
+            this.MiniPicBox.Margin = new System.Windows.Forms.Padding(2);
+            this.MiniPicBox.Name = "MiniPicBox";
+            this.MiniPicBox.Size = new System.Drawing.Size(34, 26);
+            this.MiniPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.MiniPicBox.TabIndex = 61;
+            this.MiniPicBox.TabStop = false;
+            this.MiniPicBox.Visible = false;
+            this.MiniPicBox.Click += new System.EventHandler(this.MiniPicBox_Click);
+            this.MiniPicBox.MouseEnter += new System.EventHandler(this.MiniPicBox_Enter);
+            this.MiniPicBox.MouseLeave += new System.EventHandler(this.MiniPicBox_Leave);
+            // 
+            // ClosePicBox
+            // 
+            this.ClosePicBox.Image = global::Woodpecker.Properties.Resources.close1;
+            this.ClosePicBox.Location = new System.Drawing.Point(1404, 8);
+            this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
+            this.ClosePicBox.Name = "ClosePicBox";
+            this.ClosePicBox.Size = new System.Drawing.Size(34, 26);
+            this.ClosePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.ClosePicBox.TabIndex = 60;
+            this.ClosePicBox.TabStop = false;
+            this.ClosePicBox.Visible = false;
+            this.ClosePicBox.Click += new System.EventHandler(this.ClosePicBox_Click);
+            this.ClosePicBox.MouseEnter += new System.EventHandler(this.ClosePicBox_Enter);
+            this.ClosePicBox.MouseLeave += new System.EventHandler(this.ClosePicBox_Leave);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Location = new System.Drawing.Point(1404, 34);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(585, 435);
+            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox4.TabIndex = 38;
+            this.pictureBox4.TabStop = false;
+            // 
+            // pictureBox_AcPower
+            // 
+            this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_AcPower.Location = new System.Drawing.Point(279, 90);
+            this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_AcPower.Name = "pictureBox_AcPower";
+            this.pictureBox_AcPower.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_AcPower.TabIndex = 35;
+            this.pictureBox_AcPower.TabStop = false;
+            // 
+            // pictureBox_Camera
+            // 
+            this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_Camera.Location = new System.Drawing.Point(191, 90);
+            this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_Camera.Name = "pictureBox_Camera";
+            this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_Camera.TabIndex = 33;
+            this.pictureBox_Camera.TabStop = false;
+            // 
+            // pictureBox_RedRat
+            // 
+            this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_RedRat.Location = new System.Drawing.Point(103, 90);
+            this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_RedRat.Name = "pictureBox_RedRat";
+            this.pictureBox_RedRat.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_RedRat.TabIndex = 31;
+            this.pictureBox_RedRat.TabStop = false;
+            // 
+            // panelVideo
+            // 
+            this.panelVideo.BackColor = System.Drawing.Color.Black;
+            this.panelVideo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelVideo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelVideo.Image = global::Woodpecker.Properties.Resources.TV_Screen;
+            this.panelVideo.Location = new System.Drawing.Point(14, 121);
+            this.panelVideo.Margin = new System.Windows.Forms.Padding(2);
+            this.panelVideo.Name = "panelVideo";
+            this.panelVideo.Size = new System.Drawing.Size(950, 400);
+            this.panelVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.panelVideo.TabIndex = 28;
+            this.panelVideo.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.Location = new System.Drawing.Point(523, 131);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Size = new System.Drawing.Size(522, 390);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox5.TabIndex = 38;
+            this.pictureBox5.TabStop = false;
+            // 
+            // button_savelog
+            // 
+            this.button_savelog.Location = new System.Drawing.Point(1008, 408);
+            this.button_savelog.Name = "button_savelog";
+            this.button_savelog.Size = new System.Drawing.Size(74, 25);
+            this.button_savelog.TabIndex = 112;
+            this.button_savelog.Text = "Save Log";
+            this.button_savelog.UseVisualStyleBackColor = true;
+            this.button_savelog.Click += new System.EventHandler(this.button_savelog_Click);
+            // 
+            // comboBox_savelog
+            // 
+            this.comboBox_savelog.FormattingEnabled = true;
+            this.comboBox_savelog.Items.AddRange(new object[] {
+            "SerialPort1",
+            "SerialPort2",
+            "SerialPort3",
+            "SerialPort4",
+            "SerialPort5",
+            "Canbus",
+            "Schedule",
+            "KlinePort"});
+            this.comboBox_savelog.Location = new System.Drawing.Point(1006, 380);
+            this.comboBox_savelog.Name = "comboBox_savelog";
+            this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
+            this.comboBox_savelog.TabIndex = 111;
+            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
             this.DataGridView_Schedule.AllowUserToResizeRows = false;
             this.DataGridView_Schedule.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DataGridView_Schedule.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
-            this.DataGridView_Schedule.BackgroundColor = System.Drawing.Color.Ivory;
-            this.DataGridView_Schedule.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.DataGridView_Schedule.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.DataGridView_Schedule.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.DataGridView_Schedule.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.PaleTurquoise;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.PeachPuff;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.LightGray;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.DataGridView_Schedule.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
@@ -1316,20 +1508,29 @@ namespace AutoTest
             this.Column8,
             this.Column9,
             this.Column10});
-            this.DataGridView_Schedule.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.DataGridView_Schedule.Location = new System.Drawing.Point(7, 48);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DataGridView_Schedule.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGridView_Schedule.EnableHeadersVisualStyles = false;
+            this.DataGridView_Schedule.GridColor = System.Drawing.SystemColors.Control;
+            this.DataGridView_Schedule.Location = new System.Drawing.Point(14, 121);
             this.DataGridView_Schedule.Margin = new System.Windows.Forms.Padding(2);
             this.DataGridView_Schedule.Name = "DataGridView_Schedule";
             this.DataGridView_Schedule.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
             this.DataGridView_Schedule.RowHeadersWidth = 20;
             this.DataGridView_Schedule.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.PeachPuff;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            this.DataGridView_Schedule.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.DataGridView_Schedule.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridView_Schedule.RowTemplate.Height = 24;
-            this.DataGridView_Schedule.Size = new System.Drawing.Size(950, 400);
+            this.DataGridView_Schedule.Size = new System.Drawing.Size(950, 403);
             this.DataGridView_Schedule.TabIndex = 23;
             this.DataGridView_Schedule.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_Schedule_CellMouseDoubleClick);
             this.DataGridView_Schedule.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridView1_DataError);
@@ -1369,12 +1570,13 @@ namespace AutoTest
             // 
             // Column4
             // 
-            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Column4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Column4.FillWeight = 70F;
-            this.Column4.HeaderText = "COM PORT/Pin";
+            this.Column4.HeaderText = ">COM  >Pin";
             this.Column4.MinimumWidth = 70;
             this.Column4.Name = "Column4";
             this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column4.Width = 72;
             // 
             // Column5
             // 
@@ -1396,7 +1598,7 @@ namespace AutoTest
             // 
             this.Column7.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.Column7.FillWeight = 150F;
-            this.Column7.HeaderText = ">SerialPort >I/O comd";
+            this.Column7.HeaderText = ">SerialPort                   >I/O cmd";
             this.Column7.MinimumWidth = 150;
             this.Column7.Name = "Column7";
             this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -1427,168 +1629,16 @@ namespace AutoTest
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // pictureBox_canbus
-            // 
-            this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(444, 18);
-            this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_canbus.Name = "pictureBox_canbus";
-            this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_canbus.TabIndex = 101;
-            this.pictureBox_canbus.TabStop = false;
-            // 
-            // pictureBox_ext_board
-            // 
-            this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(348, 18);
-            this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_ext_board.Name = "pictureBox_ext_board";
-            this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_ext_board.TabIndex = 99;
-            this.pictureBox_ext_board.TabStop = false;
-            // 
-            // pictureBox_BlueRat
-            // 
-            this.pictureBox_BlueRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_BlueRat.Location = new System.Drawing.Point(11, 18);
-            this.pictureBox_BlueRat.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_BlueRat.Name = "pictureBox_BlueRat";
-            this.pictureBox_BlueRat.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_BlueRat.TabIndex = 84;
-            this.pictureBox_BlueRat.TabStop = false;
-            // 
-            // MiniPicBox
-            // 
-            this.MiniPicBox.Image = global::AutoTest.Properties.Resources.mini1;
-            this.MiniPicBox.Location = new System.Drawing.Point(1404, 8);
-            this.MiniPicBox.Margin = new System.Windows.Forms.Padding(2);
-            this.MiniPicBox.Name = "MiniPicBox";
-            this.MiniPicBox.Size = new System.Drawing.Size(34, 26);
-            this.MiniPicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.MiniPicBox.TabIndex = 61;
-            this.MiniPicBox.TabStop = false;
-            this.MiniPicBox.Visible = false;
-            this.MiniPicBox.Click += new System.EventHandler(this.MiniPicBox_Click);
-            this.MiniPicBox.MouseEnter += new System.EventHandler(this.MiniPicBox_Enter);
-            this.MiniPicBox.MouseLeave += new System.EventHandler(this.MiniPicBox_Leave);
-            // 
-            // ClosePicBox
-            // 
-            this.ClosePicBox.Image = global::AutoTest.Properties.Resources.close1;
-            this.ClosePicBox.Location = new System.Drawing.Point(1404, 8);
-            this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
-            this.ClosePicBox.Name = "ClosePicBox";
-            this.ClosePicBox.Size = new System.Drawing.Size(34, 26);
-            this.ClosePicBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.ClosePicBox.TabIndex = 60;
-            this.ClosePicBox.TabStop = false;
-            this.ClosePicBox.Visible = false;
-            this.ClosePicBox.Click += new System.EventHandler(this.ClosePicBox_Click);
-            this.ClosePicBox.MouseEnter += new System.EventHandler(this.ClosePicBox_Enter);
-            this.ClosePicBox.MouseLeave += new System.EventHandler(this.ClosePicBox_Leave);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Location = new System.Drawing.Point(1404, 34);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(585, 435);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 38;
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox_AcPower
-            // 
-            this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_AcPower.Location = new System.Drawing.Point(275, 18);
-            this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_AcPower.Name = "pictureBox_AcPower";
-            this.pictureBox_AcPower.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_AcPower.TabIndex = 35;
-            this.pictureBox_AcPower.TabStop = false;
-            // 
-            // pictureBox_Camera
-            // 
-            this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(187, 18);
-            this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_Camera.Name = "pictureBox_Camera";
-            this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_Camera.TabIndex = 33;
-            this.pictureBox_Camera.TabStop = false;
-            // 
-            // pictureBox_RedRat
-            // 
-            this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_RedRat.Location = new System.Drawing.Point(99, 18);
-            this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_RedRat.Name = "pictureBox_RedRat";
-            this.pictureBox_RedRat.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_RedRat.TabIndex = 31;
-            this.pictureBox_RedRat.TabStop = false;
-            // 
-            // panelVideo
-            // 
-            this.panelVideo.BackColor = System.Drawing.Color.Black;
-            this.panelVideo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelVideo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelVideo.Image = global::AutoTest.Properties.Resources.TV_Screen;
-            this.panelVideo.Location = new System.Drawing.Point(7, 48);
-            this.panelVideo.Margin = new System.Windows.Forms.Padding(2);
-            this.panelVideo.Name = "panelVideo";
-            this.panelVideo.Size = new System.Drawing.Size(950, 400);
-            this.panelVideo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.panelVideo.TabIndex = 28;
-            this.panelVideo.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.Location = new System.Drawing.Point(523, 131);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(522, 390);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox5.TabIndex = 38;
-            this.pictureBox5.TabStop = false;
-            // 
-            // button_savelog
-            // 
-            this.button_savelog.Location = new System.Drawing.Point(1016, 165);
-            this.button_savelog.Name = "button_savelog";
-            this.button_savelog.Size = new System.Drawing.Size(74, 25);
-            this.button_savelog.TabIndex = 112;
-            this.button_savelog.Text = "Save Log";
-            this.button_savelog.UseVisualStyleBackColor = true;
-            this.button_savelog.Click += new System.EventHandler(this.button_savelog_Click);
-            // 
-            // comboBox_savelog
-            // 
-            this.comboBox_savelog.FormattingEnabled = true;
-            this.comboBox_savelog.Items.AddRange(new object[] {
-            "SerialPort1",
-            "SerialPort2",
-            "SerialPort3",
-            "SerialPort4",
-            "SerialPort5",
-            "Canbus",
-            "Schedule",
-            "KlinePort"});
-            this.comboBox_savelog.Location = new System.Drawing.Point(1014, 137);
-            this.comboBox_savelog.Name = "comboBox_savelog";
-            this.comboBox_savelog.Size = new System.Drawing.Size(76, 21);
-            this.comboBox_savelog.TabIndex = 111;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.BackColor = System.Drawing.Color.Ivory;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1104, 554);
+            this.ClientSize = new System.Drawing.Size(1097, 659);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
+            this.Controls.Add(this.button_Start);
             this.Controls.Add(this.button_Copy);
             this.Controls.Add(this.button_TestLog);
             this.Controls.Add(this.button_kline);
@@ -1630,7 +1680,6 @@ namespace AutoTest
             this.Controls.Add(this.pictureBox_AcPower);
             this.Controls.Add(this.pictureBox_Camera);
             this.Controls.Add(this.pictureBox_RedRat);
-            this.Controls.Add(this.button_Start);
             this.Controls.Add(this.TimeLabel2);
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
@@ -1640,19 +1689,18 @@ namespace AutoTest
             this.Controls.Add(this.textBox_canbus);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox_TestLog);
-            this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Controls.Add(this.comboBox_CameraDevice);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1097, 659);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Spider";
+            this.Text = "Woodpecker";
             this.MinimumSizeChanged += new System.EventHandler(this.MiniPicBox_Click);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1669,7 +1717,6 @@ namespace AutoTest
             this.groupBox_Ac.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ac1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_canbus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ext_board)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_BlueRat)).EndInit();
@@ -1681,6 +1728,7 @@ namespace AutoTest
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1721,7 +1769,6 @@ namespace AutoTest
         private System.Windows.Forms.PictureBox ClosePicBox;
         private System.Windows.Forms.PictureBox MiniPicBox;
         protected internal System.Windows.Forms.Button button_SaveSchedule;
-        protected internal System.Windows.Forms.Button button_Start;
         protected internal System.Windows.Forms.Button button_Schedule1;
         protected internal System.Windows.Forms.Button button_Schedule2;
         protected internal System.Windows.Forms.Button button_Schedule3;
@@ -1758,7 +1805,6 @@ namespace AutoTest
         private System.Windows.Forms.Button button_Output;
         private System.Windows.Forms.Label label_Command;
         private System.Windows.Forms.Label labelGPIO_Input;
-        private System.Windows.Forms.Label label_BoxVersion;
         private System.Windows.Forms.Label label_TestTime;
         private System.Windows.Forms.Label label_TestTime_Value;
         protected internal System.Windows.Forms.Button button_InsertRow;
@@ -1809,6 +1855,8 @@ namespace AutoTest
         private System.IO.Ports.SerialPort serialPort4;
         private System.IO.Ports.SerialPort serialPort5;
         private System.Windows.Forms.ComboBox comboBox_savelog;
+        private System.Windows.Forms.Label label_BoxVersion;
+        protected internal System.Windows.Forms.Button button_Start;
     }
 }
 

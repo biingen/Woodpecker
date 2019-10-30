@@ -32,11 +32,13 @@ using DTC_ABS;
 using DTC_OBD;
 using MySerialLibrary;
 using KWP_2000;
+using MaterialSkin.Controls;
+using MaterialSkin;
 //using NationalInstruments.DAQmx;
 
-namespace AutoTest
+namespace Woodpecker
 {
-    public partial class Form1 : Form
+    public partial class Form1 : MaterialForm
     {
         private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
@@ -132,6 +134,7 @@ namespace AutoTest
         public Form1()
         {
             InitializeComponent();
+            setStyle();
             //USB Connection//
             USBPort = new USBClass();
             USBDeviceProperties = new USBClass.DeviceProperties();
@@ -149,6 +152,7 @@ namespace AutoTest
         public Form1(string value)
         {
             InitializeComponent();
+            setStyle();
             if (!string.IsNullOrEmpty(value))
             {
                 _args = value;
@@ -166,8 +170,53 @@ namespace AutoTest
             MyUSBCameraDeviceConnected = false;
         }
 
+        private void setStyle()
+        {
+            // Form design
+            this.MinimumSize = new Size(1097, 659);
+            this.BackColor = Color.FromArgb(18, 18, 18);
+
+            //Init material skin
+            var skinManager = MaterialSkinManager.Instance;
+            skinManager.AddFormToManage(this);
+            skinManager.Theme = MaterialSkinManager.Themes.DARK;
+            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+
+            // Button design
+            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort1, button_SerialPort2, button_SerialPort3, button_AcUsb,
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_TestLog, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
+                                                            button_Schedule4, button_Schedule5};
+            foreach (Button buttonsAll in buttonsList)
+            {
+                if (buttonsAll.Enabled == true)
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                }
+                else
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                }
+                
+            }
+
+            //Datagridview design
+            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
+            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
+            DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
+            DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
+            //DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 153, 153);
+            
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.TopLevel = true;
+            this.TopMost = true;
+
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
@@ -374,6 +423,8 @@ namespace AutoTest
             CheckForIllegalCrossThreadCalls = false;
             TopMost = true;
             TopMost = false;
+
+            setStyle();
         }
 
         #region -- USB Detect --
@@ -7528,6 +7579,7 @@ namespace AutoTest
                 {
                     SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
                 }
+                
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
@@ -7538,6 +7590,8 @@ namespace AutoTest
             FormTabControl.Dispose();
             button_Schedule1.Enabled = true;
             button_Schedule1.PerformClick();
+
+            setStyle();
         }
 
         //系統時間
@@ -7705,7 +7759,7 @@ namespace AutoTest
             string ab_num = label_LoopNumber_Value.Text,                                                        //自動編號
                         ab_p_id = ini12.INIRead(MailPath, "Data Info", "ProjectNumber", ""),                    //Project number
                         ab_c_id = ini12.INIRead(MailPath, "Data Info", "TestCaseNumber", ""),                   //Test case number
-                        ab_result = ini12.INIRead(MailPath, "Data Info", "Result", ""),                         //AutoTest 測試結果
+                        ab_result = ini12.INIRead(MailPath, "Data Info", "Result", ""),                         //Woodpecker 測試結果
                         ab_version = ini12.INIRead(MailPath, "Mail Info", "Version", ""),                       //軟體版號
                         ab_ng = ini12.INIRead(MailPath, "Data Info", "NGfrequency", ""),                        //NG frequency
                         ab_create = ini12.INIRead(MailPath, "Data Info", "CreateTime", ""),                     //測試開始時間
@@ -7736,7 +7790,7 @@ namespace AutoTest
             DataList.Add(ab_mail);
 
             //Form_DGV_Autobox.DataInsert(DataList);
-            //Form_DGV_Autobox.ToCsV(Form_DGV_Autobox.DGV_Autobox, "C:\\AutoTest v2\\Report.xls");
+            //Form_DGV_Autobox.ToCsV(Form_DGV_Autobox.DGV_Autobox, "C:\\Woodpecker v2\\Report.xls");
         }
 
         #region -- 另存Schedule --
@@ -7958,6 +8012,7 @@ namespace AutoTest
                     MessageBox.Show("This csv file format error", "File Format Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            setStyle();
         }
         #endregion
 
@@ -9078,6 +9133,32 @@ namespace AutoTest
             String current_time_str = DateTime.Now.ToString("[HH:mm:ss.fff] ");
             rtb.AppendText(current_time_str + msg + "\n");
             rtb.ScrollToCaret();
+        }
+
+        private void button_Start_EnabledChanged(object sender, EventArgs e)
+        {
+            button_Start.FlatAppearance.BorderColor = Color.FromArgb(242, 242, 242);
+            button_Start.FlatAppearance.BorderSize = 3;
+            button_Start.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
+        }
+
+        private void button_Pause_EnabledChanged(object sender, EventArgs e)
+        {
+            button_Pause.FlatAppearance.BorderColor = Color.FromArgb(242, 242, 242);
+            button_Pause.FlatAppearance.BorderSize = 3;
+            button_Pause.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
+        }
+
+        private void button_Camera_EnabledChanged(object sender, EventArgs e)
+        {
+            button_Camera.FlatAppearance.BorderColor = Color.FromArgb(242, 242, 242);
+            button_Camera.FlatAppearance.BorderSize = 3;
+            button_Camera.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
+        }
+
+        private void panel_VirtualRC_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class FormLog : Form
     {
@@ -108,11 +108,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = false;
-                        checkBox_AcOffOn.Visible = false;
-                        checkBox_Stop.Visible = false;
-                        checkBox_AcOff.Visible = false;
-                        checkBox_SaveLog.Visible = false;
                         break;
 
                     case 1:
@@ -140,11 +135,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 2:
@@ -172,11 +162,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 3:
@@ -204,11 +189,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 4:
@@ -236,11 +216,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 5:
@@ -268,11 +243,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 6:
@@ -300,11 +270,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 7:
@@ -332,11 +297,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 8:
@@ -364,11 +324,6 @@ namespace AutoTest
                         textBox_Times8.Visible = false;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 9:
@@ -396,11 +351,6 @@ namespace AutoTest
                         textBox_Times8.Visible = true;
                         textBox_Keyword9.Visible = false;
                         textBox_Times9.Visible = false;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
 
                     case 10:
@@ -428,11 +378,6 @@ namespace AutoTest
                         textBox_Times8.Visible = true;
                         textBox_Keyword9.Visible = true;
                         textBox_Times9.Visible = true;
-                        checkBox_SendMail.Visible = true;
-                        checkBox_AcOffOn.Visible = true;
-                        checkBox_Stop.Visible = true;
-                        checkBox_AcOff.Visible = true;
-                        checkBox_SaveLog.Visible = true;
                         break;
                 }
             }
@@ -463,11 +408,6 @@ namespace AutoTest
                 textBox_Times8.Visible = false;
                 textBox_Keyword9.Visible = false;
                 textBox_Times9.Visible = false;
-                checkBox_SendMail.Visible = false;
-                checkBox_AcOffOn.Visible = false;
-                checkBox_Stop.Visible = false;
-                checkBox_AcOff.Visible = false;
-                checkBox_SaveLog.Visible = false;
             }
 
             textBox_Keyword0.Text = ini12.INIRead(MainSettingPath, "LogSearch", "Text0", "");
@@ -490,142 +430,6 @@ namespace AutoTest
             textBox_Times8.Text = ini12.INIRead(MainSettingPath, "LogSearch", "Times8", "");
             textBox_Keyword9.Text = ini12.INIRead(MainSettingPath, "LogSearch", "Text9", "");
             textBox_Times9.Text = ini12.INIRead(MainSettingPath, "LogSearch", "Times9", "");
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "")) == 1)
-                {
-                    checkBox_CameraRecord.Checked = true;
-                }
-                else
-                {
-                    checkBox_CameraRecord.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerarecord", "0");
-                checkBox_CameraRecord.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "")) == 1)
-                {
-                    checkBox_CameraShot.Checked = true;
-                }
-                else
-                {
-                    checkBox_CameraShot.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerashot", "0");
-                checkBox_CameraShot.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "")) == 1)
-                {
-                    checkBox_SendMail.Checked = true;
-                }
-                else
-                {
-                    checkBox_SendMail.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Sendmail", "0");
-                checkBox_SendMail.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "")) == 1)
-                {
-                    checkBox_SaveLog.Checked = true;
-                }
-                else
-                {
-                    checkBox_SaveLog.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Savelog", "0");
-                checkBox_SaveLog.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Showmessage", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Showmessage", "")) == 1)
-                {
-                    checkBox_ShowMessage.Checked = true;
-                }
-                else
-                {
-                    checkBox_ShowMessage.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Showmessage", "0");
-                checkBox_ShowMessage.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "")) == 1)
-                {
-                    checkBox_AcOffOn.Checked = true;
-                }
-                else
-                {
-                    checkBox_AcOffOn.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "ACcontrol", "0");
-                checkBox_AcOffOn.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "")) == 1)
-                {
-                    checkBox_Stop.Checked = true;
-                }
-                else
-                {
-                    checkBox_Stop.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Stop", "0");
-                checkBox_Stop.Checked = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "")) == 1)
-                {
-                    checkBox_AcOff.Checked = true;
-                }
-                else
-                {
-                    checkBox_AcOff.Checked = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "AC OFF", "0");
-                checkBox_AcOff.Checked = false;
-            }
         }
 
         private void SaveBtn_Click(object sender, EventArgs e)
@@ -637,13 +441,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword0.Text))
                 {
                     textBox_Keyword0.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times0.Text) || textBox_Times0.Text == "0")
                 {
                     textBox_Times0.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -665,13 +469,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword1.Text))
                 {
                     textBox_Keyword1.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times1.Text) || textBox_Times1.Text == "0")
                 {
                     textBox_Times1.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -693,13 +497,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword2.Text))
                 {
                     textBox_Keyword2.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times2.Text) || textBox_Times2.Text == "0")
                 {
                     textBox_Times2.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -721,13 +525,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword3.Text))
                 {
                     textBox_Keyword3.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times3.Text) || textBox_Times3.Text == "0")
                 {
                     textBox_Times3.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -749,13 +553,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword4.Text))
                 {
                     textBox_Keyword4.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times4.Text) || textBox_Times4.Text == "0")
                 {
                     textBox_Times4.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -777,13 +581,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword5.Text))
                 {
                     textBox_Keyword5.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times5.Text) || textBox_Times5.Text == "0")
                 {
                     textBox_Times5.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -805,13 +609,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword6.Text))
                 {
                     textBox_Keyword6.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times6.Text) || textBox_Times6.Text == "0")
                 {
                     textBox_Times6.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -833,13 +637,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword7.Text))
                 {
                     textBox_Keyword7.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times7.Text) || textBox_Times7.Text == "0")
                 {
                     textBox_Times7.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -861,13 +665,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword8.Text))
                 {
                     textBox_Keyword8.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times8.Text) || textBox_Times8.Text == "0")
                 {
                     textBox_Times8.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -889,13 +693,13 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword9.Text))
                 {
                     textBox_Keyword9.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     Global.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times9.Text) || textBox_Times9.Text == "0")
                 {
                     textBox_Times9.BackColor = System.Drawing.Color.Yellow;
-                    label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                    label_ErrorMessage.Text = "Times cannot be empty!";
                     Global.FormLog = false;
                 }
                 else
@@ -911,7 +715,7 @@ namespace AutoTest
                 textBox_Keyword9.BackColor = default(Color);
                 textBox_Times9.BackColor = default(Color);
             }
-          
+
             if (
                 textBox_Keyword0.BackColor != System.Drawing.Color.Yellow &&
                 textBox_Times0.BackColor != System.Drawing.Color.Yellow &&
@@ -937,108 +741,6 @@ namespace AutoTest
             {
                 label_ErrorMessage.Text = "Save Successfully !";
                 Global.FormLog = true;
-            }            
-        }
-
-        private void Camerarecord_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_CameraRecord.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerarecord", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerarecord", "0");
-            }
-        }
-
-        private void Camerashot_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_CameraShot.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerashot", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Camerashot", "0");
-            }
-        }
-
-        private void Sendmail_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_SendMail.Checked == true)
-            {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "0")
-                {
-                    MessageBox.Show("Please enable the mail function in Mail Setting");
-                    checkBox_SendMail.Checked = false;
-                }
-                else
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Sendmail", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Sendmail", "0");
-            }
-        }
-
-        private void savelog_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_SaveLog.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Savelog", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Savelog", "0");
-            }
-        }
-
-        private void Showmessage_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_ShowMessage.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Showmessage", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Showmessage", "0");
-            }
-        }
-
-        private void ACcontrol_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_AcOffOn.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "ACcontrol", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "ACcontrol", "0");
-            }
-        }
-
-        private void checkBoxStop_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Stop.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Stop", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "Stop", "0");
-            }
-        }
-
-        private void checkBoxAcOff_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_AcOff.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "AC OFF", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "AC OFF", "0");
             }
         }
 
@@ -1052,7 +754,6 @@ namespace AutoTest
                 case 1:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = false;
@@ -1074,18 +775,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 2:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1107,18 +801,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 3:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1140,18 +827,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 4:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1173,18 +853,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 5:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1206,18 +879,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 6:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1239,18 +905,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 7:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1272,18 +931,11 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 8:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1305,18 +957,11 @@ namespace AutoTest
                     textBox_Times7.Visible = true;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 9:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1338,18 +983,11 @@ namespace AutoTest
                     textBox_Times7.Visible = true;
                     textBox_Times8.Visible = true;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 case 10:
                     label_Keyword.Visible = true;
                     label_Times.Visible = true;
-                    label_Do.Visible = true;
 
                     textBox_Keyword0.Visible = true;
                     textBox_Keyword1.Visible = true;
@@ -1371,18 +1009,11 @@ namespace AutoTest
                     textBox_Times7.Visible = true;
                     textBox_Times8.Visible = true;
                     textBox_Times9.Visible = true;
-
-                    checkBox_SendMail.Visible = true;
-                    checkBox_AcOffOn.Visible = true;
-                    checkBox_Stop.Visible = true;
-                    checkBox_AcOff.Visible = true;
-                    checkBox_SaveLog.Visible = true;
                     break;
 
                 default:
                     label_Keyword.Visible = false;
                     label_Times.Visible = false;
-                    label_Do.Visible = false;
 
                     textBox_Keyword0.Visible = false;
                     textBox_Keyword1.Visible = false;
@@ -1404,12 +1035,6 @@ namespace AutoTest
                     textBox_Times7.Visible = false;
                     textBox_Times8.Visible = false;
                     textBox_Times9.Visible = false;
-
-                    checkBox_SendMail.Visible = false;
-                    checkBox_AcOffOn.Visible = false;
-                    checkBox_Stop.Visible = false;
-                    checkBox_AcOff.Visible = false;
-                    checkBox_SaveLog.Visible = false;
                     break;
             }
         }
@@ -1500,13 +1125,13 @@ namespace AutoTest
             if (string.IsNullOrEmpty(textBox_Keyword0.Text))
             {
                 textBox_Keyword0.BackColor = System.Drawing.Color.Yellow;
-                label_ErrorMessage.Text = "Keyword must exist !";
+                label_ErrorMessage.Text = "Keyword cannot be empty!";
                 Global.FormLog = false;
             }
             else if (string.IsNullOrEmpty(textBox_Times0.Text) || textBox_Times0.Text == "0")
             {
                 textBox_Times0.BackColor = System.Drawing.Color.Yellow;
-                label_ErrorMessage.Text = "Times can't equal 0 or null !";
+                label_ErrorMessage.Text = "Times cannot be empty!";
                 Global.FormLog = false;
             }
             else
@@ -1525,7 +1150,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword0.Text))
                 {
                     pictureBox_Keyword0.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1565,7 +1190,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword1.Text))
                 {
                     pictureBox_Keyword1.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1605,7 +1230,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword2.Text))
                 {
                     pictureBox_Keyword2.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1645,7 +1270,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword3.Text))
                 {
                     pictureBox_Keyword3.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1685,7 +1310,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword4.Text))
                 {
                     pictureBox_Keyword4.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1725,7 +1350,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword5.Text))
                 {
                     pictureBox_Keyword5.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1765,7 +1390,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword6.Text))
                 {
                     pictureBox_Keyword6.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1805,7 +1430,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword7.Text))
                 {
                     pictureBox_Keyword7.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1845,7 +1470,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword8.Text))
                 {
                     pictureBox_Keyword8.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else
@@ -1885,7 +1510,7 @@ namespace AutoTest
                 if (string.IsNullOrEmpty(textBox_Keyword9.Text))
                 {
                     pictureBox_Keyword9.Image = Properties.Resources.ERROR;
-                    label_ErrorMessage.Text = "Keyword must exist !";
+                    label_ErrorMessage.Text = "Keyword cannot be empty!";
                     comboBox_KeywordNum.Enabled = false;
                 }
                 else

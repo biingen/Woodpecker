@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class frm_Splash : Form
     {
@@ -12,7 +12,7 @@ namespace AutoTest
 
         private void frm_Splash_Load(object sender, EventArgs e)
         {
-            pictureBox1.Image = Properties.Resources.StartAutoBox;
+            pictureBox1.Image = Properties.Resources.Loading_WPK;
         }
     }
 }

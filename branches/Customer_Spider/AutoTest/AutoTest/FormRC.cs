@@ -1,19 +1,23 @@
 ﻿using BlueRatLibrary;
 using jini;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace AutoTest
+namespace Woodpecker
 {
-    public partial class FormRC : Form
+    public partial class FormRC : MaterialForm
     {
         public FormRC()
         {
             InitializeComponent();
+            setStyle();
         }
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -21,6 +25,38 @@ namespace AutoTest
         private string RcConfigFolder = Application.StartupPath + "\\RcConfig\\";
         private RedRatDBParser RedRatData = new RedRatDBParser();
         System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+        private void setStyle()
+        {
+            // Form design
+            this.MinimumSize = new Size(245, 634);
+            this.BackColor = Color.FromArgb(51, 51, 51);
+
+            //Init material skin
+            var skinManager = MaterialSkinManager.Instance;
+            skinManager.AddFormToManage(this);
+            skinManager.Theme = MaterialSkinManager.Themes.DARK;
+            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+
+            
+            // Button design
+            List<Button> buttonsList = new List<Button> { buttonAdd, button_Edit, buttonDelete};
+            foreach (Button buttonsAll in buttonsList)
+            {
+                if (buttonsAll.Enabled == true)
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                }
+                else
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                }
+            }
+        }
 
         private void Sand_Key(string RcKey)
         {
@@ -157,6 +193,7 @@ namespace AutoTest
             {
                 MessageBox.Show("RC DB is not exists.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            setStyle();
         }
 
         private void LoadRcKeys()

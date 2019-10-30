@@ -1,15 +1,19 @@
 ﻿using jini;
+using MaterialSkin;
+using MaterialSkin.Controls;
 using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace AutoTest
+namespace Woodpecker
 {
-    public partial class FormTabControl : Form
+    public partial class FormTabControl : MaterialForm
     {
         public FormTabControl()
         {
             InitializeComponent();
+            setStyle();
         }
 
         //拖動無窗體的控件>>>>>>>>>>>>>>
@@ -19,8 +23,22 @@ namespace AutoTest
         public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         public const int WM_SYSCOMMAND = 0x0112;
         public const int SC_MOVE = 0xF010;
-        public const int HTCAPTION = 0x0002;        
+        public const int HTCAPTION = 0x0002;
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+        private void setStyle()
+        {
+            // Form design
+            //this.MinimumSize = new Size(1097, 659);
+            this.BackColor = Color.FromArgb(18, 18, 18);
+
+            //Init material skin
+            var skinManager = MaterialSkinManager.Instance;
+            skinManager.AddFormToManage(this);
+            skinManager.Theme = MaterialSkinManager.Themes.DARK;
+            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+        }
 
         private void Add_TabPage(string str, Form myForm)//載入Form到tab
         {

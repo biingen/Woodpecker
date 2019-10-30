@@ -1,8 +1,10 @@
 ﻿using DirectX.Capture;
 using jini;
+using MaterialSkin;
 using RedRat.RedRat3;
 using RedRat.RedRat3.USB;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -10,13 +12,14 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace AutoTest
+namespace Woodpecker
 {
     public partial class Setting : Form
     {
         public Setting()
         {
             InitializeComponent();
+            setStyle();
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -41,7 +44,56 @@ namespace AutoTest
             }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void setStyle()
+        {
+            // Button design
+            List<Button> buttonsList = new List<Button> { button_Save, button_ImagePath, button_LogPath, button_RcDbPath, button_GeneratorPath, button_DosPath };
+            foreach (Button buttonsAll in buttonsList)
+            {
+                if (buttonsAll.Enabled == true)
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                }
+                else
+                {
+                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                    buttonsAll.FlatAppearance.BorderSize = 1;
+                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                }
+            }
+        }
+
+        private void button_ImagePath_Click(object sender, EventArgs e)
+        {
+            //Save Video Path
+            folderBrowserDialog1.ShowDialog();
+            if (folderBrowserDialog1.SelectedPath == "")
+            {
+                textBox_ImagePath.Text = textBox_ImagePath.Text;
+            }
+            else
+            {
+                textBox_ImagePath.Text = folderBrowserDialog1.SelectedPath;
+            }
+        }
+
+        private void button_LogPath_Click(object sender, EventArgs e)
+        {
+            //log file save path
+            folderBrowserDialog2.ShowDialog();
+            if (folderBrowserDialog2.SelectedPath == "")
+            {
+                textBox_LogPath.Text = textBox_LogPath.Text;
+            }
+            else
+            {
+                textBox_LogPath.Text = folderBrowserDialog2.SelectedPath;
+            }
+        }
+
+        private void button_RcDbPath_Click(object sender, EventArgs e)
         {
             // RedRat3 Command Path
             openFileDialog2.Filter = "XML files (*.xml)|*.xml";
@@ -58,7 +110,7 @@ namespace AutoTest
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button_GeneratorPath_Click(object sender, EventArgs e)
         {
             // Generator Command Path
             openFileDialog1.Filter = "XML files (*.xml)|*.xml";
@@ -73,35 +125,7 @@ namespace AutoTest
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //Save Video Path
-            folderBrowserDialog1.ShowDialog();
-            if (folderBrowserDialog1.SelectedPath == "")
-            {
-                textBox_ImagePath.Text = textBox_ImagePath.Text;
-            }
-            else
-            {
-                textBox_ImagePath.Text = folderBrowserDialog1.SelectedPath;
-            }
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            //log file save path
-            folderBrowserDialog2.ShowDialog();
-            if (folderBrowserDialog2.SelectedPath == "")
-            {
-                textBox_LogPath.Text = textBox_LogPath.Text;
-            }
-            else
-            {
-                textBox_LogPath.Text = folderBrowserDialog2.SelectedPath;
-            }
-        }
-
-        private void buttonDosWorkingDirectory_Click(object sender, EventArgs e)
+        private void button_DosPath_Click(object sender, EventArgs e)
         {
             folderBrowserDialog3.ShowDialog();
             if (folderBrowserDialog3.SelectedPath == "")
