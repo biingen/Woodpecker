@@ -236,6 +236,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Form2";
             this.TransparencyKey = System.Drawing.Color.White;
+            this.Deactivate += new System.EventHandler(this.FormScriptHelper_Deactivate);
             this.Load += new System.EventHandler(this.FormScriptHelper_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -28,7 +28,7 @@ namespace Woodpecker
 
             switch (RCKey + " + " + HeaderText)
             {
-                case "_ascii + COM PORT/Pin":
+                case "_ascii + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
                     CmdList.Add("C");
@@ -49,7 +49,7 @@ namespace Woodpecker
                     CmdList.Add("_USB2_PC");
                     break;
 
-                case "_ascii + >SerialPort >I/O comd":
+                case "_ascii + >SerialPort                   >I/O cmd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
@@ -60,7 +60,7 @@ namespace Woodpecker
                     CmdList.Add(@"\n\r");
                     break;
 
-                case "_HEX + COM PORT/Pin":
+                case "_HEX + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
                     CmdList.Add("C");
@@ -68,12 +68,12 @@ namespace Woodpecker
                     CmdList.Add("E");
                     break;
 
-                case "_HEX + >SerialPort >I/O comd":
+                case "_HEX + >SerialPort                   >I/O cmd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");
                     break;
 
-                case "_Pin + COM PORT/Pin":
+                case "_Pin + >COM  >Pin":
                     CmdList.Add("_PA10_0");
                     CmdList.Add("_PA10_1");
                     CmdList.Add("_PA11_0");
@@ -88,7 +88,7 @@ namespace Woodpecker
                     CmdList.Add("_PB07_1");
                     break;
 
-                case "_Pin + >SerialPort >I/O comd":
+                case "_Pin + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
@@ -112,7 +112,7 @@ namespace Woodpecker
                     CmdList.Add("10");
                     break;
 
-                case "_keyword + >SerialPort >I/O comd":
+                case "_keyword + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_restart");
@@ -188,6 +188,11 @@ namespace Woodpecker
             var _point = new System.Drawing.Point(Cursor.Position.X, Cursor.Position.Y);
             Top = _point.Y + 10;
             Left = _point.X - 50;
+        }
+
+        private void FormScriptHelper_Deactivate(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

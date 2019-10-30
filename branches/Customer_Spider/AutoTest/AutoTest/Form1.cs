@@ -763,7 +763,7 @@ namespace Woodpecker
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
-            //圖片印字>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+            //圖片印字
             Bitmap newBitmap = CloneBitmap(e);
             newBitmap = CloneBitmap(e);
             pictureBox4.Image = newBitmap;
@@ -1641,13 +1641,13 @@ namespace Woodpecker
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
         private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
+            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
-            Console.WriteLine("RedRatDBViewer_Delay: Start.");
+            //Console.WriteLine("RedRatDBViewer_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             //aTimer.Interval = delay_ms;
@@ -1658,21 +1658,21 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-                Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
+                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
                 if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
                     Global.Break_Out_MyRunCamd = 0;
-                    Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
                     break;
                 }
             }
 
             aTimer.Stop();
             aTimer.Dispose();
-            Console.WriteLine("RedRatDBViewer_Delay: End.");
+            //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
 
 
@@ -3986,9 +3986,9 @@ namespace Woodpecker
                             break;
                         }
 
-                        Console.WriteLine("Datagridview highlight.");
+                        //Console.WriteLine("Datagridview highlight.");
                         GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                        Console.WriteLine("Datagridview scollbar.");
+                        //Console.WriteLine("Datagridview scollbar.");
                         Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
 
                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
@@ -4328,9 +4328,9 @@ namespace Woodpecker
                         #endregion
 
                         #region -- 錄影 --
-                        else if (columns_command == "_rc_start")
+                        else if (columns_command == "_rec_start")
                         {
-                            Console.WriteLine("Take Record: _rc_start");
+                            Console.WriteLine("Take Record: _rec_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 if (VideoRecording == false)
@@ -4349,9 +4349,9 @@ namespace Woodpecker
                             }
                         }
 
-                        else if (columns_command == "_rc_stop")
+                        else if (columns_command == "_rec_stop")
                         {
-                            Console.WriteLine("Take Record: _rc_stop");
+                            Console.WriteLine("Take Record: _rec_stop");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 if (VideoRecording == true)       //判斷是不是正在錄影
@@ -7126,8 +7126,8 @@ namespace Woodpecker
             RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
-            RCDB.Items.Add("_rc_start");
-            RCDB.Items.Add("_rc_stop");
+            RCDB.Items.Add("_rec_start");
+            RCDB.Items.Add("_rec_stop");
             RCDB.Items.Add("_cmd");
             RCDB.Items.Add("_DOS");
             RCDB.Items.Add("------------------------");
@@ -7324,6 +7324,23 @@ namespace Woodpecker
                 }
             }
 
+            Process p = new Process();
+            string cmd = @"d:\arg_test.py HW AUO RRVC00";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = @"C:\Users\swqe\AppData\Local\Programs\Python\Python37\python.exe";
+            p.StartInfo.Arguments = cmd;
+            p.StartInfo.RedirectStandardInput = true;
+            p.Start();
+            StreamWriter myStreamWriter = p.StandardInput;
+            myStreamWriter.WriteLine(cmd);
+            string output = "";
+            output = p.StandardOutput.ReadLine();
+            Console.WriteLine(output);
+            p.WaitForExit();
+            p.Close();
+
+            
             if (AutoBox_Status == true)//如果電腦有接上AutoBox//
             {
                 button_Schedule1.PerformClick();
@@ -7833,7 +7850,7 @@ namespace Woodpecker
 
         private void button_insert_a_row_Click(object sender, EventArgs e)
         {
-            DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex + 1, new DataGridViewRow());
+            DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
         }
 
         #region -- Form1的Schedule 1~5按鈕功能 --
@@ -8786,20 +8803,20 @@ namespace Woodpecker
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
 
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT/Pin" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT/Pin" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
 
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "COM PORT/Pin" ||
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
                 {
                     formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
                     formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8815,7 +8832,7 @@ namespace Woodpecker
                     if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
                     DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
                     DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort >I/O comd")
+                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
                     {
                         formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
                         formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
@@ -8882,7 +8899,7 @@ namespace Woodpecker
                 DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.Yellow;
                 DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.Red;
                 Breakpoint = Nowpoint;
-                Console.WriteLine("Change the Nowpoint");
+                //Console.WriteLine("Change the Nowpoint");
             }
             else if (Breakfunction == true && Nowpoint == Breakpoint)
             {
@@ -8893,7 +8910,7 @@ namespace Woodpecker
                 DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.PeachPuff;
                 DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.Black;
                 Breakpoint = -1;
-                Console.WriteLine("Disable the Breakfunction");
+                //Console.WriteLine("Disable the Breakfunction");
             }
             else
             {

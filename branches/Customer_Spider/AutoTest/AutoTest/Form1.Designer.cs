@@ -563,10 +563,10 @@ namespace Woodpecker
             this.button_Pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Pause.ForeColor = System.Drawing.Color.White;
-            this.button_Pause.Location = new System.Drawing.Point(764, 79);
+            this.button_Pause.Location = new System.Drawing.Point(754, 79);
             this.button_Pause.Margin = new System.Windows.Forms.Padding(2);
             this.button_Pause.Name = "button_Pause";
-            this.button_Pause.Size = new System.Drawing.Size(85, 30);
+            this.button_Pause.Size = new System.Drawing.Size(103, 30);
             this.button_Pause.TabIndex = 73;
             this.button_Pause.Text = "PAUSE";
             this.button_Pause.UseVisualStyleBackColor = false;
@@ -1317,7 +1317,7 @@ namespace Woodpecker
             this.button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Start.ForeColor = System.Drawing.Color.White;
-            this.button_Start.Location = new System.Drawing.Point(649, 79);
+            this.button_Start.Location = new System.Drawing.Point(647, 79);
             this.button_Start.Margin = new System.Windows.Forms.Padding(2);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(103, 30);
@@ -1454,7 +1454,7 @@ namespace Woodpecker
             // 
             // button_savelog
             // 
-            this.button_savelog.Location = new System.Drawing.Point(1008, 408);
+            this.button_savelog.Location = new System.Drawing.Point(1009, 426);
             this.button_savelog.Name = "button_savelog";
             this.button_savelog.Size = new System.Drawing.Size(74, 25);
             this.button_savelog.TabIndex = 112;
@@ -1474,7 +1474,7 @@ namespace Woodpecker
             "Canbus",
             "Schedule",
             "KlinePort"});
-            this.comboBox_savelog.Location = new System.Drawing.Point(1006, 380);
+            this.comboBox_savelog.Location = new System.Drawing.Point(1006, 397);
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
             this.comboBox_savelog.TabIndex = 111;
@@ -1701,6 +1701,7 @@ namespace Woodpecker
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Woodpecker";
+            this.TopMost = true;
             this.MinimumSizeChanged += new System.EventHandler(this.MiniPicBox_Click);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
