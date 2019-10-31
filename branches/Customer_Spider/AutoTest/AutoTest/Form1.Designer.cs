@@ -181,7 +181,7 @@ namespace Woodpecker
             this.button_Setting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Setting.ForeColor = System.Drawing.Color.White;
-            this.button_Setting.Location = new System.Drawing.Point(1076, 99);
+            this.button_Setting.Location = new System.Drawing.Point(1075, 99);
             this.button_Setting.Margin = new System.Windows.Forms.Padding(2);
             this.button_Setting.Name = "button_Setting";
             this.button_Setting.Size = new System.Drawing.Size(129, 38);
@@ -565,7 +565,7 @@ namespace Woodpecker
             this.button_Pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Pause.ForeColor = System.Drawing.Color.White;
-            this.button_Pause.Location = new System.Drawing.Point(942, 99);
+            this.button_Pause.Location = new System.Drawing.Point(940, 99);
             this.button_Pause.Margin = new System.Windows.Forms.Padding(2);
             this.button_Pause.Name = "button_Pause";
             this.button_Pause.Size = new System.Drawing.Size(129, 38);
@@ -1288,10 +1288,10 @@ namespace Woodpecker
             this.button_TestLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_TestLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_TestLog.ForeColor = System.Drawing.Color.White;
-            this.button_TestLog.Location = new System.Drawing.Point(1262, 616);
+            this.button_TestLog.Location = new System.Drawing.Point(1256, 616);
             this.button_TestLog.Margin = new System.Windows.Forms.Padding(4);
             this.button_TestLog.Name = "button_TestLog";
-            this.button_TestLog.Size = new System.Drawing.Size(94, 38);
+            this.button_TestLog.Size = new System.Drawing.Size(100, 38);
             this.button_TestLog.TabIndex = 108;
             this.button_TestLog.Text = "TestLog";
             this.button_TestLog.UseVisualStyleBackColor = true;
@@ -1304,10 +1304,10 @@ namespace Woodpecker
             this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Copy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Copy.ForeColor = System.Drawing.Color.White;
-            this.button_Copy.Location = new System.Drawing.Point(1261, 571);
+            this.button_Copy.Location = new System.Drawing.Point(1256, 571);
             this.button_Copy.Margin = new System.Windows.Forms.Padding(4);
             this.button_Copy.Name = "button_Copy";
-            this.button_Copy.Size = new System.Drawing.Size(94, 38);
+            this.button_Copy.Size = new System.Drawing.Size(99, 38);
             this.button_Copy.TabIndex = 109;
             this.button_Copy.Text = "Copy Log";
             this.button_Copy.UseVisualStyleBackColor = false;
@@ -1326,7 +1326,7 @@ namespace Woodpecker
             this.button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Start.ForeColor = System.Drawing.Color.White;
-            this.button_Start.Location = new System.Drawing.Point(809, 99);
+            this.button_Start.Location = new System.Drawing.Point(805, 99);
             this.button_Start.Margin = new System.Windows.Forms.Padding(2);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(129, 38);
@@ -1463,24 +1463,27 @@ namespace Woodpecker
             // 
             // button_savelog
             // 
-            this.button_savelog.Location = new System.Drawing.Point(1261, 532);
+            this.button_savelog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
+            this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_savelog.ForeColor = System.Drawing.Color.White;
+            this.button_savelog.Location = new System.Drawing.Point(1258, 532);
             this.button_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.button_savelog.Name = "button_savelog";
-            this.button_savelog.Size = new System.Drawing.Size(92, 31);
+            this.button_savelog.Size = new System.Drawing.Size(95, 31);
             this.button_savelog.TabIndex = 112;
             this.button_savelog.Text = "Save Log";
-            this.button_savelog.UseVisualStyleBackColor = true;
+            this.button_savelog.UseVisualStyleBackColor = false;
             this.button_savelog.Click += new System.EventHandler(this.button_savelog_Click);
             // 
             // comboBox_savelog
             // 
             this.comboBox_savelog.FormattingEnabled = true;
             this.comboBox_savelog.Items.AddRange(new object[] {
-            "PortA",
-            "PortB",
-            "PortC",
-            "PortD",
-            "PortE",
+            "Port A",
+            "Port B",
+            "Port C",
+            "Port D",
+            "Port E",
             "Canbus",
             "Schedule",
             "Kline"});

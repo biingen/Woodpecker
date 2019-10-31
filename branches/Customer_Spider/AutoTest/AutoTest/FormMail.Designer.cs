@@ -76,7 +76,7 @@
             // 
             this.SendMailBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.SendMailBtn.Location = new System.Drawing.Point(48, 509);
-            this.SendMailBtn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SendMailBtn.Margin = new System.Windows.Forms.Padding(4);
             this.SendMailBtn.Name = "SendMailBtn";
             this.SendMailBtn.Size = new System.Drawing.Size(89, 32);
             this.SendMailBtn.TabIndex = 0;
@@ -114,7 +114,7 @@
             // 
             this.textBox_To.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_To.Location = new System.Drawing.Point(105, 180);
-            this.textBox_To.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_To.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_To.Name = "textBox_To";
             this.textBox_To.Size = new System.Drawing.Size(299, 24);
             this.textBox_To.TabIndex = 3;
@@ -124,7 +124,7 @@
             // 
             this.textBox_From.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_From.Location = new System.Drawing.Point(451, 480);
-            this.textBox_From.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox_From.Margin = new System.Windows.Forms.Padding(4);
             this.textBox_From.Name = "textBox_From";
             this.textBox_From.Size = new System.Drawing.Size(299, 24);
             this.textBox_From.TabIndex = 4;
@@ -147,7 +147,7 @@
             this.ProjectLabel.AutoSize = true;
             this.ProjectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ProjectLabel.ForeColor = System.Drawing.Color.White;
-            this.ProjectLabel.Location = new System.Drawing.Point(395, 44);
+            this.ProjectLabel.Location = new System.Drawing.Point(394, 41);
             this.ProjectLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ProjectLabel.Name = "ProjectLabel";
             this.ProjectLabel.Size = new System.Drawing.Size(113, 20);
@@ -159,7 +159,7 @@
             this.VersionLabel.AutoSize = true;
             this.VersionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.VersionLabel.ForeColor = System.Drawing.Color.White;
-            this.VersionLabel.Location = new System.Drawing.Point(395, 144);
+            this.VersionLabel.Location = new System.Drawing.Point(394, 118);
             this.VersionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.VersionLabel.Name = "VersionLabel";
             this.VersionLabel.Size = new System.Drawing.Size(103, 20);
@@ -184,7 +184,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(395, 194);
+            this.label1.Location = new System.Drawing.Point(394, 157);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(62, 20);
@@ -205,7 +205,7 @@
             // textBox_Tester
             // 
             this.textBox_Tester.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Tester.Location = new System.Drawing.Point(506, 189);
+            this.textBox_Tester.Location = new System.Drawing.Point(506, 155);
             this.textBox_Tester.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Tester.Name = "textBox_Tester";
             this.textBox_Tester.Size = new System.Drawing.Size(210, 24);
@@ -215,7 +215,7 @@
             // textBox_Version
             // 
             this.textBox_Version.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Version.Location = new System.Drawing.Point(506, 139);
+            this.textBox_Version.Location = new System.Drawing.Point(506, 116);
             this.textBox_Version.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Version.Name = "textBox_Version";
             this.textBox_Version.Size = new System.Drawing.Size(210, 24);
@@ -242,7 +242,7 @@
             this.ModelLabel.AutoSize = true;
             this.ModelLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModelLabel.ForeColor = System.Drawing.Color.White;
-            this.ModelLabel.Location = new System.Drawing.Point(395, 94);
+            this.ModelLabel.Location = new System.Drawing.Point(394, 80);
             this.ModelLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ModelLabel.Name = "ModelLabel";
             this.ModelLabel.Size = new System.Drawing.Size(105, 20);
@@ -252,7 +252,7 @@
             // textBox_ModelName
             // 
             this.textBox_ModelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_ModelName.Location = new System.Drawing.Point(506, 89);
+            this.textBox_ModelName.Location = new System.Drawing.Point(506, 78);
             this.textBox_ModelName.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_ModelName.Name = "textBox_ModelName";
             this.textBox_ModelName.Size = new System.Drawing.Size(210, 24);
@@ -583,7 +583,7 @@
             this.Controls.Add(this.SendMailBtn);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormMail";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.FormMail_Load);

@@ -32,8 +32,6 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
-            this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
-            this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort5 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort5 = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort5_BaudRate_Value = new System.Windows.Forms.ComboBox();
@@ -65,6 +63,8 @@
             this.label_SerialPort2_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort2_BaudRate = new System.Windows.Forms.Label();
             this.label_SerialPort1_BaudRate = new System.Windows.Forms.Label();
+            this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
+            this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
             this.comboBox_KlinePort_PortName_Value = new System.Windows.Forms.ComboBox();
             this.checkBox_Kline = new System.Windows.Forms.CheckBox();
             this.textBox_RcDbPath = new System.Windows.Forms.TextBox();
@@ -99,12 +99,12 @@
             this.button_DosPath = new System.Windows.Forms.Button();
             this.textBox_ImagePath = new System.Windows.Forms.TextBox();
             this.GroupBox_Rs232.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
             this.groupBox_Camera.SuspendLayout();
             this.groupBox_RcDB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DosPath)).BeginInit();
@@ -159,37 +159,11 @@
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
             // 
-            // checkBox_Displayhex
-            // 
-            this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(454, 551);
-            this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.checkBox_Displayhex.Name = "checkBox_Displayhex";
-            this.checkBox_Displayhex.Size = new System.Drawing.Size(62, 22);
-            this.checkBox_Displayhex.TabIndex = 64;
-            this.checkBox_Displayhex.Text = "Hex";
-            this.checkBox_Displayhex.UseVisualStyleBackColor = true;
-            this.checkBox_Displayhex.Visible = false;
-            this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
-            // 
-            // pictureBox_klinePort
-            // 
-            this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_klinePort.Location = new System.Drawing.Point(756, 550);
-            this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_klinePort.Name = "pictureBox_klinePort";
-            this.pictureBox_klinePort.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_klinePort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_klinePort.TabIndex = 137;
-            this.pictureBox_klinePort.TabStop = false;
-            // 
             // pictureBox_SerialPort5
             // 
             this.pictureBox_SerialPort5.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort5.Location = new System.Drawing.Point(234, 50);
+            this.pictureBox_SerialPort5.Location = new System.Drawing.Point(235, 62);
             this.pictureBox_SerialPort5.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort5.Name = "pictureBox_SerialPort5";
             this.pictureBox_SerialPort5.Size = new System.Drawing.Size(29, 29);
@@ -201,13 +175,14 @@
             // 
             this.checkBox_SerialPort5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort5.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort5.Location = new System.Drawing.Point(241, 23);
+            this.checkBox_SerialPort5.Location = new System.Drawing.Point(241, 35);
             this.checkBox_SerialPort5.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_SerialPort5.Name = "checkBox_SerialPort5";
             this.checkBox_SerialPort5.Size = new System.Drawing.Size(21, 22);
             this.checkBox_SerialPort5.TabIndex = 148;
             this.checkBox_SerialPort5.Text = "SerialPort 5";
             this.checkBox_SerialPort5.UseVisualStyleBackColor = true;
+            this.checkBox_SerialPort5.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort5_CheckedChanged);
             // 
             // comboBox_SerialPort5_BaudRate_Value
             // 
@@ -231,11 +206,12 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort5_BaudRate_Value.Location = new System.Drawing.Point(373, 52);
+            this.comboBox_SerialPort5_BaudRate_Value.Location = new System.Drawing.Point(373, 62);
             this.comboBox_SerialPort5_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort5_BaudRate_Value.Name = "comboBox_SerialPort5_BaudRate_Value";
             this.comboBox_SerialPort5_BaudRate_Value.Size = new System.Drawing.Size(82, 26);
             this.comboBox_SerialPort5_BaudRate_Value.TabIndex = 147;
+            this.comboBox_SerialPort5_BaudRate_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_SerialPort5_BaudRate_Value_SelectedIndexChanged);
             // 
             // comboBox_SerialPort5_PortName_Value
             // 
@@ -264,18 +240,19 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort5_PortName_Value.Location = new System.Drawing.Point(373, 19);
+            this.comboBox_SerialPort5_PortName_Value.Location = new System.Drawing.Point(373, 31);
             this.comboBox_SerialPort5_PortName_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort5_PortName_Value.Name = "comboBox_SerialPort5_PortName_Value";
             this.comboBox_SerialPort5_PortName_Value.Size = new System.Drawing.Size(82, 26);
             this.comboBox_SerialPort5_PortName_Value.TabIndex = 146;
+            this.comboBox_SerialPort5_PortName_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_SerialPort5_PortName_Value_SelectedIndexChanged);
             // 
             // label_SerialPort5_PortName
             // 
             this.label_SerialPort5_PortName.AutoSize = true;
             this.label_SerialPort5_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort5_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort5_PortName.Location = new System.Drawing.Point(265, 24);
+            this.label_SerialPort5_PortName.Location = new System.Drawing.Point(265, 36);
             this.label_SerialPort5_PortName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort5_PortName.Name = "label_SerialPort5_PortName";
             this.label_SerialPort5_PortName.Size = new System.Drawing.Size(107, 18);
@@ -287,7 +264,7 @@
             this.label_SerialPort5_BaudRate.AutoSize = true;
             this.label_SerialPort5_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort5_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort5_BaudRate.Location = new System.Drawing.Point(265, 56);
+            this.label_SerialPort5_BaudRate.Location = new System.Drawing.Point(265, 65);
             this.label_SerialPort5_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort5_BaudRate.Name = "label_SerialPort5_BaudRate";
             this.label_SerialPort5_BaudRate.Size = new System.Drawing.Size(77, 18);
@@ -298,7 +275,7 @@
             // 
             this.pictureBox_SerialPort4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort4.Location = new System.Drawing.Point(6, 254);
+            this.pictureBox_SerialPort4.Location = new System.Drawing.Point(6, 275);
             this.pictureBox_SerialPort4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort4.Name = "pictureBox_SerialPort4";
             this.pictureBox_SerialPort4.Size = new System.Drawing.Size(29, 29);
@@ -310,13 +287,14 @@
             // 
             this.checkBox_SerialPort4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort4.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort4.Location = new System.Drawing.Point(14, 227);
+            this.checkBox_SerialPort4.Location = new System.Drawing.Point(14, 247);
             this.checkBox_SerialPort4.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_SerialPort4.Name = "checkBox_SerialPort4";
             this.checkBox_SerialPort4.Size = new System.Drawing.Size(21, 22);
             this.checkBox_SerialPort4.TabIndex = 141;
             this.checkBox_SerialPort4.Text = "SerialPort 4";
             this.checkBox_SerialPort4.UseVisualStyleBackColor = true;
+            this.checkBox_SerialPort4.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort4_CheckedChanged);
             // 
             // comboBox_SerialPort4_BaudRate_Value
             // 
@@ -340,11 +318,12 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort4_BaudRate_Value.Location = new System.Drawing.Point(146, 258);
+            this.comboBox_SerialPort4_BaudRate_Value.Location = new System.Drawing.Point(146, 276);
             this.comboBox_SerialPort4_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort4_BaudRate_Value.Name = "comboBox_SerialPort4_BaudRate_Value";
             this.comboBox_SerialPort4_BaudRate_Value.Size = new System.Drawing.Size(82, 26);
             this.comboBox_SerialPort4_BaudRate_Value.TabIndex = 140;
+            this.comboBox_SerialPort4_BaudRate_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_SerialPort4_BaudRate_Value_SelectedIndexChanged);
             // 
             // comboBox_SerialPort4_PortName_Value
             // 
@@ -373,18 +352,19 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort4_PortName_Value.Location = new System.Drawing.Point(146, 226);
+            this.comboBox_SerialPort4_PortName_Value.Location = new System.Drawing.Point(146, 245);
             this.comboBox_SerialPort4_PortName_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort4_PortName_Value.Name = "comboBox_SerialPort4_PortName_Value";
             this.comboBox_SerialPort4_PortName_Value.Size = new System.Drawing.Size(82, 26);
             this.comboBox_SerialPort4_PortName_Value.TabIndex = 139;
+            this.comboBox_SerialPort4_PortName_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_SerialPort4_PortName_Value_SelectedIndexChanged);
             // 
             // label_SerialPort4_PortName
             // 
             this.label_SerialPort4_PortName.AutoSize = true;
             this.label_SerialPort4_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort4_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort4_PortName.Location = new System.Drawing.Point(35, 229);
+            this.label_SerialPort4_PortName.Location = new System.Drawing.Point(35, 248);
             this.label_SerialPort4_PortName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort4_PortName.Name = "label_SerialPort4_PortName";
             this.label_SerialPort4_PortName.Size = new System.Drawing.Size(108, 18);
@@ -396,7 +376,7 @@
             this.label_SerialPort4_BaudRate.AutoSize = true;
             this.label_SerialPort4_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort4_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort4_BaudRate.Location = new System.Drawing.Point(35, 261);
+            this.label_SerialPort4_BaudRate.Location = new System.Drawing.Point(35, 279);
             this.label_SerialPort4_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort4_BaudRate.Name = "label_SerialPort4_BaudRate";
             this.label_SerialPort4_BaudRate.Size = new System.Drawing.Size(77, 18);
@@ -408,7 +388,7 @@
             this.checkBox_canbus.AutoSize = true;
             this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.checkBox_canbus.Location = new System.Drawing.Point(246, 225);
+            this.checkBox_canbus.Location = new System.Drawing.Point(246, 237);
             this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_canbus.Name = "checkBox_canbus";
             this.checkBox_canbus.Size = new System.Drawing.Size(91, 22);
@@ -421,7 +401,7 @@
             // 
             this.pictureBox_SerialPort3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(6, 188);
+            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(6, 205);
             this.pictureBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort3.Name = "pictureBox_SerialPort3";
             this.pictureBox_SerialPort3.Size = new System.Drawing.Size(29, 29);
@@ -433,7 +413,7 @@
             // 
             this.pictureBox_SerialPort2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(6, 117);
+            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(6, 135);
             this.pictureBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort2.Name = "pictureBox_SerialPort2";
             this.pictureBox_SerialPort2.Size = new System.Drawing.Size(29, 29);
@@ -445,7 +425,7 @@
             // 
             this.pictureBox_SerialPort1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_SerialPort1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(6, 51);
+            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(6, 62);
             this.pictureBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_SerialPort1.Name = "pictureBox_SerialPort1";
             this.pictureBox_SerialPort1.Size = new System.Drawing.Size(29, 29);
@@ -457,7 +437,7 @@
             // 
             this.checkBox_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort3.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort3.Location = new System.Drawing.Point(14, 162);
+            this.checkBox_SerialPort3.Location = new System.Drawing.Point(14, 178);
             this.checkBox_SerialPort3.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
             this.checkBox_SerialPort3.Size = new System.Drawing.Size(21, 22);
@@ -493,7 +473,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort3_PortName_Value.Location = new System.Drawing.Point(146, 159);
+            this.comboBox_SerialPort3_PortName_Value.Location = new System.Drawing.Point(146, 175);
             this.comboBox_SerialPort3_PortName_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort3_PortName_Value.Name = "comboBox_SerialPort3_PortName_Value";
             this.comboBox_SerialPort3_PortName_Value.Size = new System.Drawing.Size(82, 26);
@@ -522,7 +502,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(146, 192);
+            this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(146, 206);
             this.comboBox_SerialPort3_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort3_BaudRate_Value.Name = "comboBox_SerialPort3_BaudRate_Value";
             this.comboBox_SerialPort3_BaudRate_Value.Size = new System.Drawing.Size(82, 26);
@@ -534,7 +514,7 @@
             this.label_SerialPort3_PortName.AutoSize = true;
             this.label_SerialPort3_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort3_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort3_PortName.Location = new System.Drawing.Point(35, 162);
+            this.label_SerialPort3_PortName.Location = new System.Drawing.Point(35, 178);
             this.label_SerialPort3_PortName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort3_PortName.Name = "label_SerialPort3_PortName";
             this.label_SerialPort3_PortName.Size = new System.Drawing.Size(108, 18);
@@ -546,7 +526,7 @@
             this.label_SerialPort3_BaudRate.AutoSize = true;
             this.label_SerialPort3_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort3_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort3_BaudRate.Location = new System.Drawing.Point(35, 192);
+            this.label_SerialPort3_BaudRate.Location = new System.Drawing.Point(35, 209);
             this.label_SerialPort3_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort3_BaudRate.Name = "label_SerialPort3_BaudRate";
             this.label_SerialPort3_BaudRate.Size = new System.Drawing.Size(77, 18);
@@ -557,7 +537,7 @@
             // 
             this.checkBox_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort2.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort2.Location = new System.Drawing.Point(14, 93);
+            this.checkBox_SerialPort2.Location = new System.Drawing.Point(14, 107);
             this.checkBox_SerialPort2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_SerialPort2.Name = "checkBox_SerialPort2";
             this.checkBox_SerialPort2.Size = new System.Drawing.Size(21, 22);
@@ -570,7 +550,7 @@
             // 
             this.checkBox_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_SerialPort1.ForeColor = System.Drawing.Color.White;
-            this.checkBox_SerialPort1.Location = new System.Drawing.Point(14, 24);
+            this.checkBox_SerialPort1.Location = new System.Drawing.Point(14, 38);
             this.checkBox_SerialPort1.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_SerialPort1.Name = "checkBox_SerialPort1";
             this.checkBox_SerialPort1.Size = new System.Drawing.Size(21, 22);
@@ -601,7 +581,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(146, 53);
+            this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(146, 66);
             this.comboBox_SerialPort1_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort1_BaudRate_Value.Name = "comboBox_SerialPort1_BaudRate_Value";
             this.comboBox_SerialPort1_BaudRate_Value.Size = new System.Drawing.Size(82, 26);
@@ -635,7 +615,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort1_PortName_Value.Location = new System.Drawing.Point(146, 21);
+            this.comboBox_SerialPort1_PortName_Value.Location = new System.Drawing.Point(146, 35);
             this.comboBox_SerialPort1_PortName_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort1_PortName_Value.Name = "comboBox_SerialPort1_PortName_Value";
             this.comboBox_SerialPort1_PortName_Value.Size = new System.Drawing.Size(82, 26);
@@ -647,7 +627,7 @@
             this.label_SerialPort1_PortName.AutoSize = true;
             this.label_SerialPort1_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort1_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort1_PortName.Location = new System.Drawing.Point(35, 25);
+            this.label_SerialPort1_PortName.Location = new System.Drawing.Point(35, 39);
             this.label_SerialPort1_PortName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort1_PortName.Name = "label_SerialPort1_PortName";
             this.label_SerialPort1_PortName.Size = new System.Drawing.Size(106, 18);
@@ -681,7 +661,7 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboBox_SerialPort2_PortName_Value.Location = new System.Drawing.Point(146, 88);
+            this.comboBox_SerialPort2_PortName_Value.Location = new System.Drawing.Point(146, 105);
             this.comboBox_SerialPort2_PortName_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort2_PortName_Value.Name = "comboBox_SerialPort2_PortName_Value";
             this.comboBox_SerialPort2_PortName_Value.Size = new System.Drawing.Size(82, 26);
@@ -710,7 +690,7 @@
             "230400",
             "460800",
             "921600"});
-            this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(146, 121);
+            this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(146, 136);
             this.comboBox_SerialPort2_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort2_BaudRate_Value.Name = "comboBox_SerialPort2_BaudRate_Value";
             this.comboBox_SerialPort2_BaudRate_Value.Size = new System.Drawing.Size(82, 26);
@@ -722,7 +702,7 @@
             this.label_SerialPort2_PortName.AutoSize = true;
             this.label_SerialPort2_PortName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort2_PortName.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort2_PortName.Location = new System.Drawing.Point(35, 94);
+            this.label_SerialPort2_PortName.Location = new System.Drawing.Point(35, 108);
             this.label_SerialPort2_PortName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort2_PortName.Name = "label_SerialPort2_PortName";
             this.label_SerialPort2_PortName.Size = new System.Drawing.Size(107, 18);
@@ -734,7 +714,7 @@
             this.label_SerialPort2_BaudRate.AutoSize = true;
             this.label_SerialPort2_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort2_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort2_BaudRate.Location = new System.Drawing.Point(35, 121);
+            this.label_SerialPort2_BaudRate.Location = new System.Drawing.Point(35, 139);
             this.label_SerialPort2_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort2_BaudRate.Name = "label_SerialPort2_BaudRate";
             this.label_SerialPort2_BaudRate.Size = new System.Drawing.Size(77, 18);
@@ -746,12 +726,38 @@
             this.label_SerialPort1_BaudRate.AutoSize = true;
             this.label_SerialPort1_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_SerialPort1_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_SerialPort1_BaudRate.Location = new System.Drawing.Point(35, 57);
+            this.label_SerialPort1_BaudRate.Location = new System.Drawing.Point(35, 68);
             this.label_SerialPort1_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_SerialPort1_BaudRate.Name = "label_SerialPort1_BaudRate";
             this.label_SerialPort1_BaudRate.Size = new System.Drawing.Size(77, 18);
             this.label_SerialPort1_BaudRate.TabIndex = 2;
             this.label_SerialPort1_BaudRate.Text = "Baud Rate";
+            // 
+            // checkBox_Displayhex
+            // 
+            this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(454, 551);
+            this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkBox_Displayhex.Name = "checkBox_Displayhex";
+            this.checkBox_Displayhex.Size = new System.Drawing.Size(62, 22);
+            this.checkBox_Displayhex.TabIndex = 64;
+            this.checkBox_Displayhex.Text = "Hex";
+            this.checkBox_Displayhex.UseVisualStyleBackColor = true;
+            this.checkBox_Displayhex.Visible = false;
+            this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
+            // 
+            // pictureBox_klinePort
+            // 
+            this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_klinePort.Location = new System.Drawing.Point(756, 550);
+            this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_klinePort.Name = "pictureBox_klinePort";
+            this.pictureBox_klinePort.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_klinePort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_klinePort.TabIndex = 137;
+            this.pictureBox_klinePort.TabStop = false;
             // 
             // comboBox_KlinePort_PortName_Value
             // 
@@ -1217,12 +1223,12 @@
             this.Load += new System.EventHandler(this.Setting_Load);
             this.GroupBox_Rs232.ResumeLayout(false);
             this.GroupBox_Rs232.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).EndInit();
             this.groupBox_Camera.ResumeLayout(false);
             this.groupBox_Camera.PerformLayout();
             this.groupBox_RcDB.ResumeLayout(false);

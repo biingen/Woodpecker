@@ -185,7 +185,7 @@ namespace Woodpecker
             // Button design
             List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort1, button_SerialPort2, button_SerialPort3, button_AcUsb,
                                                             button_VirtualRC, button_InsertRow, button_SaveSchedule, button_TestLog, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
-                                                            button_Schedule4, button_Schedule5};
+                                                            button_Schedule4, button_Schedule5, button_savelog};
             foreach (Button buttonsAll in buttonsList)
             {
                 if (buttonsAll.Enabled == true)
@@ -2534,7 +2534,7 @@ namespace Woodpecker
             fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             switch (Port)
             {
-                case "SerialPort1":
+                case "serialPortA":
                     string t = fName + "\\_Log1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log1_text);
@@ -2542,7 +2542,7 @@ namespace Woodpecker
                     Txtbox1("", textBox1);
                     log1_text = String.Empty;
                     break;
-                case "SerialPort2":
+                case "serialPortB":
                     t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log2_text);
@@ -2550,7 +2550,7 @@ namespace Woodpecker
                     Txtbox2("", textBox2);
                     log2_text = String.Empty;
                     break;
-                case "SerialPort3":
+                case "serialPortC":
                     t = fName + "\\_Log3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log3_text);
@@ -2558,14 +2558,14 @@ namespace Woodpecker
                     Txtbox3("", textBox3);
                     log3_text = String.Empty;
                     break;
-                case "SerialPort4":
+                case "serialPortD":
                     t = fName + "\\_Log4_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log4_text);
                     MYFILE.Close();
                     log4_text = String.Empty;
                     break;
-                case "SerialPort5":
+                case "serialPortE":
                     t = fName + "\\_Log5_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log5_text);
@@ -4463,7 +4463,7 @@ namespace Woodpecker
                                 Console.WriteLine("Ascii Log: _SerialPortA");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort1"); //存檔rs232
+                                    Serialportsave("serialPortA"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4504,7 +4504,7 @@ namespace Woodpecker
                                 Console.WriteLine("Ascii Log: _SerialPortB");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort2"); //存檔rs232
+                                    Serialportsave("serialPortB"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4545,7 +4545,7 @@ namespace Woodpecker
                                 Console.WriteLine("Ascii Log: _SerialPortC");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort3"); //存檔rs232
+                                    Serialportsave("serialPortC"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4586,7 +4586,7 @@ namespace Woodpecker
                                 Console.WriteLine("Ascii Log: _SerialPortD");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort4"); //存檔rs232
+                                    Serialportsave("serialPortD"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4627,7 +4627,7 @@ namespace Woodpecker
                                 Console.WriteLine("Ascii Log: _SerialPortE");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort5"); //存檔rs232
+                                    Serialportsave("serialPortE"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4674,7 +4674,7 @@ namespace Woodpecker
                                 Console.WriteLine("Hex Log: _SerialPortA");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort1"); //存檔rs232
+                                    Serialportsave("serialPortA"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4698,7 +4698,7 @@ namespace Woodpecker
                                 Console.WriteLine("Hex Log: _SerialPortB");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort2"); //存檔rs232
+                                    Serialportsave("serialPortA"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4722,7 +4722,7 @@ namespace Woodpecker
                                 Console.WriteLine("Hex Log: _SerialPortC");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort3"); //存檔rs232
+                                    Serialportsave("serialPortC"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4746,7 +4746,7 @@ namespace Woodpecker
                                 Console.WriteLine("Hex Log: _SerialPortD");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort4"); //存檔rs232
+                                    Serialportsave("serialPortD"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -4770,7 +4770,7 @@ namespace Woodpecker
                                 Console.WriteLine("Hex Log: _SerialPortE");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("SerialPort5"); //存檔rs232
+                                    Serialportsave("serialPortE"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -5213,7 +5213,7 @@ namespace Woodpecker
                                     {
                                         if (columns_serial == "_save")
                                         {
-                                            Serialportsave("SerialPort1"); //存檔rs232
+                                            Serialportsave("serialPortA"); //存檔rs232
                                         }
                                         else if (columns_serial == "_clear")
                                         {
@@ -5259,7 +5259,7 @@ namespace Woodpecker
                                     {
                                         if (columns_serial == "_save")
                                         {
-                                            Serialportsave("SerialPort2"); //存檔rs232
+                                            Serialportsave("serialPortB"); //存檔rs232
                                         }
                                         else if (columns_serial == "_clear")
                                         {
@@ -5305,7 +5305,7 @@ namespace Woodpecker
                                     {
                                         if (columns_serial == "_save")
                                         {
-                                            Serialportsave("SerialPort3"); //存檔rs232
+                                            Serialportsave("serialPortC"); //存檔rs232
                                         }
                                         else if (columns_serial == "_clear")
                                         {
@@ -5351,7 +5351,7 @@ namespace Woodpecker
                                     {
                                         if (columns_serial == "_save")
                                         {
-                                            Serialportsave("SerialPort4"); //存檔rs232
+                                            Serialportsave("serialPortD"); //存檔rs232
                                         }
                                         else if (columns_serial == "_clear")
                                         {
@@ -5397,7 +5397,7 @@ namespace Woodpecker
                                     {
                                         if (columns_serial == "_save")
                                         {
-                                            Serialportsave("SerialPort5"); //存檔rs232
+                                            Serialportsave("serialPortE"); //存檔rs232
                                         }
                                         else if (columns_serial == "_clear")
                                         {
@@ -5455,7 +5455,7 @@ namespace Woodpecker
                                     {
                                         if (reverse == "_save")
                                         {
-                                            Serialportsave("SerialPort1"); //存檔rs232
+                                            Serialportsave("serialPortA"); //存檔rs232
                                         }
                                         else if (reverse == "_clear")
                                         {
@@ -5501,7 +5501,7 @@ namespace Woodpecker
                                     {
                                         if (reverse == "_save")
                                         {
-                                            Serialportsave("SerialPort2"); //存檔rs232
+                                            Serialportsave("serialPortB"); //存檔rs232
                                         }
                                         else if (reverse == "_clear")
                                         {
@@ -5547,7 +5547,7 @@ namespace Woodpecker
                                     {
                                         if (reverse == "_save")
                                         {
-                                            Serialportsave("SerialPort3"); //存檔rs232
+                                            Serialportsave("serialPortC"); //存檔rs232
                                         }
                                         else if (reverse == "_clear")
                                         {
@@ -5593,7 +5593,7 @@ namespace Woodpecker
                                     {
                                         if (reverse == "_save")
                                         {
-                                            Serialportsave("SerialPort4"); //存檔rs232
+                                            Serialportsave("serialPortD"); //存檔rs232
                                         }
                                         else if (reverse == "_clear")
                                         {
@@ -5639,7 +5639,7 @@ namespace Woodpecker
                                     {
                                         if (reverse == "_save")
                                         {
-                                            Serialportsave("SerialPort5"); //存檔rs232
+                                            Serialportsave("serialPortE"); //存檔rs232
                                         }
                                         else if (reverse == "_clear")
                                         {
@@ -9321,29 +9321,37 @@ namespace Woodpecker
             string save_option = comboBox_savelog.Text;
             switch (save_option)
             {
-                case "Port1":
-                    Serialportsave("SerialPort1");
+                case "Port A":
+                    Serialportsave("serialPortA");
+                    MessageBox.Show("Port A saved.");
                     break;
-                case "Port2":
-                    Serialportsave("SerialPort2");
+                case "Port B":
+                    Serialportsave("serialPortB");
+                    MessageBox.Show("Port B saved.");
                     break;
-                case "Port3":
-                    Serialportsave("SerialPort3");
+                case "Port C":
+                    Serialportsave("serialPortC");
+                    MessageBox.Show("Port C saved.");
                     break;
-                case "Port4":
-                    Serialportsave("SerialPort4");
+                case "Port D":
+                    Serialportsave("serialPortD");
+                    MessageBox.Show("Port D saved.");
                     break;
-                case "Port5":
-                    Serialportsave("SerialPort5");
+                case "Port E":
+                    Serialportsave("serialPortE");
+                    MessageBox.Show("Port E saved.");
                     break;
                 case "Canbus":
                     Serialportsave("Canbus");
+                    MessageBox.Show("Canbus saved.");
                     break;
                 case "Schedule":
                     Serialportsave("Schedule");
+                    MessageBox.Show("Schedule saved.");
                     break;
                 case "Kline":
                     Serialportsave("KlinePort");
+                    MessageBox.Show("Kline saved.");
                     break;
                 default:
                     break;
