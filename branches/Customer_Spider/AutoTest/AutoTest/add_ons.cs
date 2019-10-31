@@ -454,9 +454,11 @@ namespace Woodpecker
             string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
-            string[] Comport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] ExtComport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] TriComport = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] SerialportA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] SerialportB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] SerialportC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] SerialportD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] SerialportE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -506,39 +508,63 @@ namespace Woodpecker
                     }
                 }
 
-                for (int i = 0; i < Comport.Length; i++)
+                for (int i = 0; i < SerialportA.Length; i++)
                 {
-                    if (i == (Comport.Length - 1))
+                    if (i == (SerialportA.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", Comport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", SerialportA[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", Comport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", SerialportA[i], "");
                     }
                 }
 
-                for (int i = 0; i < ExtComport.Length; i++)
+                for (int i = 0; i < SerialportB.Length; i++)
                 {
-                    if (i == (ExtComport.Length - 1))
+                    if (i == (SerialportB.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", ExtComport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", SerialportB[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", ExtComport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", SerialportB[i], "");
                     }
                 }
 
-                for (int i = 0; i < TriComport.Length; i++)
+                for (int i = 0; i < SerialportC.Length; i++)
                 {
-                    if (i == (TriComport.Length - 1))
+                    if (i == (SerialportC.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", TriComport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", SerialportC[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", TriComport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", SerialportC[i], "");
+                    }
+                }
+
+                for (int i = 0; i < SerialportD.Length; i++)
+                {
+                    if (i == (SerialportD.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "SerialportD", SerialportD[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "SerialportD", SerialportD[i], "");
+                    }
+                }
+
+                for (int i = 0; i < SerialportE.Length; i++)
+                {
+                    if (i == (SerialportE.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "SerialportE", SerialportE[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "SerialportE", SerialportE[i], "");
                     }
                 }
 
@@ -703,6 +729,7 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 創建RC.ini --
         public void CreateRcConfig()
         {
             string[] Setting = { "SelectRcLastTime", "SelectRcLastTimePath" };
@@ -719,5 +746,6 @@ namespace Woodpecker
                 }
             }
         }
+        #endregion
     }
 }

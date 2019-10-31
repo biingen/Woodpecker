@@ -393,12 +393,12 @@
             this.checkBox_SerialPort2.AutoSize = true;
             this.checkBox_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort2.Location = new System.Drawing.Point(515, 41);
+            this.checkBox_SerialPort2.Location = new System.Drawing.Point(466, 41);
             this.checkBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort2.Name = "checkBox_SerialPort2";
-            this.checkBox_SerialPort2.Size = new System.Drawing.Size(124, 24);
+            this.checkBox_SerialPort2.Size = new System.Drawing.Size(79, 24);
             this.checkBox_SerialPort2.TabIndex = 115;
-            this.checkBox_SerialPort2.Text = "Serial Port 2";
+            this.checkBox_SerialPort2.Text = "Port B";
             this.checkBox_SerialPort2.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort2.CheckedChanged += new System.EventHandler(this.Comport2checkBox_CheckedChanged);
             // 
@@ -410,9 +410,9 @@
             this.checkBox_SerialPort1.Location = new System.Drawing.Point(384, 41);
             this.checkBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort1.Name = "checkBox_SerialPort1";
-            this.checkBox_SerialPort1.Size = new System.Drawing.Size(124, 24);
+            this.checkBox_SerialPort1.Size = new System.Drawing.Size(78, 24);
             this.checkBox_SerialPort1.TabIndex = 114;
-            this.checkBox_SerialPort1.Text = "Serial Port 1";
+            this.checkBox_SerialPort1.Text = "Port A";
             this.checkBox_SerialPort1.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort1.CheckedChanged += new System.EventHandler(this.Comport1checkBox_CheckedChanged);
             // 
@@ -555,12 +555,12 @@
             this.checkBox_SerialPort3.AutoSize = true;
             this.checkBox_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort3.Location = new System.Drawing.Point(646, 42);
+            this.checkBox_SerialPort3.Location = new System.Drawing.Point(549, 41);
             this.checkBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
-            this.checkBox_SerialPort3.Size = new System.Drawing.Size(124, 24);
+            this.checkBox_SerialPort3.Size = new System.Drawing.Size(79, 24);
             this.checkBox_SerialPort3.TabIndex = 131;
-            this.checkBox_SerialPort3.Text = "Serial Port 3";
+            this.checkBox_SerialPort3.Text = "Port C";
             this.checkBox_SerialPort3.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort3.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort3_CheckedChanged);
             // 
@@ -722,7 +722,7 @@
             this.Controls.Add(this.textBox_Keyword0);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormLog";
             this.Text = "FormLog";
             this.Load += new System.EventHandler(this.FormLog_Load);

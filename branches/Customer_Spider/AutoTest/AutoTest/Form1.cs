@@ -8336,7 +8336,25 @@ namespace Woodpecker
             else
             {
                 MessageBox.Show("You can start to write a new schedule.", "New Script", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                MessageBox.Show("Load the default schedule Now.", "Temp Script", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SchedulePath = Application.StartupPath + @"\Schedule\shot_template.csv";
+                i = 0;
+                if ((File.Exists(SchedulePath) == true) && IsFileLocked(SchedulePath) == false)
+                {
+                    DataGridView_Schedule.Rows.Clear();
+                    StreamReader objReader = new StreamReader(SchedulePath);
+                    while ((objReader.Peek() != -1))
+                    {
+                        TextLine = objReader.ReadLine();
+                        if (i != 0)
+                        {
+                            SplitLine = TextLine.Split(',');
+                            DataGridView_Schedule.Rows.Add(SplitLine);
+                        }
+                        i++;
+                    }
+                    objReader.Close();
+                }
                 button_Start.Enabled = false;
                 button_Schedule1.PerformClick();
             }
