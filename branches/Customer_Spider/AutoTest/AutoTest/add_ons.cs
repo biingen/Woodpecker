@@ -510,11 +510,11 @@ namespace Woodpecker
                 {
                     if (i == (Comport.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Comport", Comport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", Comport[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Comport", Comport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", Comport[i], "");
                     }
                 }
 
@@ -522,11 +522,11 @@ namespace Woodpecker
                 {
                     if (i == (ExtComport.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "ExtComport", ExtComport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", ExtComport[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "ExtComport", ExtComport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", ExtComport[i], "");
                     }
                 }
 
@@ -534,11 +534,11 @@ namespace Woodpecker
                 {
                     if (i == (TriComport.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "TriComport", TriComport[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", TriComport[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "TriComport", TriComport[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", TriComport[i], "");
                     }
                 }
 

@@ -58,6 +58,7 @@ namespace Woodpecker
                     CmdList.Add(@"\n");
                     CmdList.Add(@"\r");
                     CmdList.Add(@"\n\r");
+                    CmdList.Add(@"\r\n");
                     break;
 
                 case "_HEX + >COM  >Pin":
@@ -66,6 +67,7 @@ namespace Woodpecker
                     CmdList.Add("C");
                     CmdList.Add("D");
                     CmdList.Add("E");
+                    CmdList.Add("Canbus");
                     break;
 
                 case "_HEX + >SerialPort                   >I/O cmd":
