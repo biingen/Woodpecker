@@ -135,6 +135,8 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
+            initComboboxSaveLog();
+
             //USB Connection//
             USBPort = new USBClass();
             USBDeviceProperties = new USBClass.DeviceProperties();
@@ -200,7 +202,7 @@ namespace Woodpecker
                     buttonsAll.FlatAppearance.BorderSize = 1;
                     buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
                 }
-                
+
             }
 
             //Datagridview design
@@ -209,7 +211,24 @@ namespace Woodpecker
             DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
             DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
             //DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 153, 153);
-            
+
+        }
+
+        private void initComboboxSaveLog()
+        {
+            List<string> portList = new List<string> { "SerialPortA", "SerialPortB", "SerialPortC", "SerialPortD", "SerialPortE" };
+
+            foreach (string port in portList)
+            {
+                if (ini12.INIRead(MainSettingPath, port, "Checked", "") == "1")
+                {
+                    comboBox_savelog.Items.Add(port);
+                }
+                else if (ini12.INIRead(MainSettingPath, port, "Checked", "") == "0" || ini12.INIRead(MainSettingPath, port, "Checked", "") == "")
+                {
+                    comboBox_savelog.Items.Remove(port);
+                }
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -230,7 +249,6 @@ namespace Woodpecker
 
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
-
 
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
@@ -313,48 +331,6 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "SerialPortA", "Checked", "0");
                 button_SerialPort1.Visible = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "SerialPortB", "Checked", "") == "1")
-            {
-                button_SerialPort2.Visible = true;
-                // this.myDelegate2 = new AddDataDelegate(AddDataMethod2);
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "Checked", "0");
-                button_SerialPort2.Visible = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "SerialPortC", "Checked", "") == "1")
-            {
-                button_SerialPort3.Visible = true;
-                // this.myDelegate3 = new AddDataDelegate(AddDataMethod3);
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "Checked", "0");
-                button_SerialPort3.Visible = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
-            {
-                button_CanbusPort.Visible = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
-                button_CanbusPort.Visible = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
-            {
-                button_kline.Visible = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
-                button_kline.Visible = false;
             }
             */
 
@@ -867,7 +843,7 @@ namespace Woodpecker
 
             string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
             pictureBox4.Image.Save(t);
-            button_Start.Enabled = true;          
+            button_Start.Enabled = true;
             setStyle();
         }
         #endregion
@@ -1883,7 +1859,7 @@ namespace Woodpecker
                     {
                         MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
                     }
-                    break;    
+                    break;
                 default:
                     break;
             }
@@ -1955,45 +1931,45 @@ namespace Woodpecker
                 MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
             }
         }
-/*
-        protected SerialPortDataContainer OpenSerialPort1(SerialPort sp)
-        {
-            SerialPortDataContainer sp_data = new SerialPortDataContainer();
-            sp_data.serial_port = sp;
-            SerialPortDataContainer.SerialPortDictionary.Add(sp.PortName, sp_data);
-            try
-            {
-                if (serialPort1.IsOpen == false)
+        /*
+                protected SerialPortDataContainer OpenSerialPort1(SerialPort sp)
                 {
-                    string stopbit = ini12.INIRead(MainSettingPath, "SerialPortA", "StopBits", "");
-                    switch (stopbit)
+                    SerialPortDataContainer sp_data = new SerialPortDataContainer();
+                    sp_data.serial_port = sp;
+                    SerialPortDataContainer.SerialPortDictionary.Add(sp.PortName, sp_data);
+                    try
                     {
-                        case "One":
-                            serialPort1.StopBits = StopBits.One;
-                            break;
-                        case "Two":
-                            serialPort1.StopBits = StopBits.Two;
-                            break;
-                    }
-                    serialPort1.PortName = ini12.INIRead(MainSettingPath, "SerialPortA", "PortName", "");
-                    serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "SerialPortA", "BaudRate", ""));
-                    serialPort1.DataBits = 8;
-                    serialPort1.Parity = (Parity)0;
-                    serialPort1.ReceivedBytesThreshold = 1;
-                    serialPort1.ReadTimeout = 2000;
-                    // serialPort1.Encoding = System.Text.Encoding.GetEncoding(1252);
+                        if (serialPort1.IsOpen == false)
+                        {
+                            string stopbit = ini12.INIRead(MainSettingPath, "SerialPortA", "StopBits", "");
+                            switch (stopbit)
+                            {
+                                case "One":
+                                    serialPort1.StopBits = StopBits.One;
+                                    break;
+                                case "Two":
+                                    serialPort1.StopBits = StopBits.Two;
+                                    break;
+                            }
+                            serialPort1.PortName = ini12.INIRead(MainSettingPath, "SerialPortA", "PortName", "");
+                            serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "SerialPortA", "BaudRate", ""));
+                            serialPort1.DataBits = 8;
+                            serialPort1.Parity = (Parity)0;
+                            serialPort1.ReceivedBytesThreshold = 1;
+                            serialPort1.ReadTimeout = 2000;
+                            // serialPort1.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                    serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
-                    serialPort1.Open();
+                            serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
+                            serialPort1.Open();
+                        }
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
+                    }
+                    return sp_data;
                 }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
-            }
-            return sp_data;
-        }
-*/
+        */
         protected void CloseSerialPort1()
         {
             serialPortA.Dispose();
@@ -2084,7 +2060,7 @@ namespace Woodpecker
                         index++;
                         data_to_read--;
                     }
-                    
+
                     // string s = "";
                     // textBox1.Invoke(this.myDelegate1, new Object[] { s });
 
@@ -2276,7 +2252,7 @@ namespace Woodpecker
                 int data_to_read = serialPortB.BytesToRead;
                 if (data_to_read > 0)
                 {
-                    byte [] dataset = new byte[data_to_read];
+                    byte[] dataset = new byte[data_to_read];
 
                     serialPortB.Read(dataset, 0, data_to_read);
                     int index = 0;
@@ -2332,7 +2308,7 @@ namespace Woodpecker
                 int data_to_read = serialPortC.BytesToRead;
                 if (data_to_read > 0)
                 {
-                    byte [] dataset = new byte[data_to_read];
+                    byte[] dataset = new byte[data_to_read];
 
                     serialPortC.Read(dataset, 0, data_to_read);
                     int index = 0;
@@ -7724,7 +7700,7 @@ namespace Woodpecker
                 p.Close();
             }
 
-            
+
             if (AutoBox_Status == true)//如果電腦有接上AutoBox//
             {
                 button_Schedule1.PerformClick();
@@ -7999,7 +7975,10 @@ namespace Woodpecker
                 {
                     SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
                 }
-                
+
+                comboBox_savelog.Items.Clear();
+                initComboboxSaveLog();
+
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
@@ -9399,59 +9378,59 @@ namespace Woodpecker
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
         {
-/*
-            uint canBusStatus;
-            canBusStatus = MYCanReader.Connect();
+            /*
+                        uint canBusStatus;
+                        canBusStatus = MYCanReader.Connect();
 
-            if (Global.TEXTBOX_FOCUS == 1)
-            {
-                if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
-                {
-                    CopyLog(textBox_serial);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 2)
-            {
-                if (textBox2.SelectionLength == 0)
-                {
-                    CopyLog(textBox2);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 3)
-            {
-                if (textBox_canbus.SelectionLength == 0)
-                {
-                    CopyLog(textBox3);
-                }
-            }
-            else if (Global.TEXTBOX_FOCUS == 4)
-            {
-                CopyLog(textBox_kline);
-            }
+                        if (Global.TEXTBOX_FOCUS == 1)
+                        {
+                            if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
+                            {
+                                CopyLog(textBox_serial);
+                            }
+                        }
+                        else if (Global.TEXTBOX_FOCUS == 2)
+                        {
+                            if (textBox2.SelectionLength == 0)
+                            {
+                                CopyLog(textBox2);
+                            }
+                        }
+                        else if (Global.TEXTBOX_FOCUS == 3)
+                        {
+                            if (textBox_canbus.SelectionLength == 0)
+                            {
+                                CopyLog(textBox3);
+                            }
+                        }
+                        else if (Global.TEXTBOX_FOCUS == 4)
+                        {
+                            CopyLog(textBox_kline);
+                        }
 
-            //copy schedule log (might be removed in near future)
-            else if (Global.TEXTBOX_FOCUS == 5)
-            {
-                CopyLog(textBox_canbus);
-            }
+                        //copy schedule log (might be removed in near future)
+                        else if (Global.TEXTBOX_FOCUS == 5)
+                        {
+                            CopyLog(textBox_canbus);
+                        }
 
-            else if (Global.TEXTBOX_FOCUS == 6)
-            {
-                CopyLog(textBox_TestLog);
-                string fName = "";
+                        else if (Global.TEXTBOX_FOCUS == 6)
+                        {
+                            CopyLog(textBox_TestLog);
+                            string fName = "";
 
-                // 讀取ini中的路徑
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
+                            // 讀取ini中的路徑
+                            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                            string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
 
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(textBox_TestLog.Text);
-                MYFILE.Close();
+                            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                            MYFILE.Write(textBox_TestLog.Text);
+                            MYFILE.Close();
 
-                System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
-                System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
-            }
-            */
+                            System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
+                            System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
+                        }
+                        */
         }
 
         public void CopyLog(TextBox tb)
