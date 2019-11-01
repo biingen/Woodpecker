@@ -1555,7 +1555,7 @@ namespace Woodpecker
             catch (Exception Ex)
             {
                 Console.WriteLine(Ex);
-                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail !");
+                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail!");
             }
         }
 
@@ -1602,7 +1602,7 @@ namespace Woodpecker
             catch (Exception Ex)
             {
                 Console.WriteLine(Ex);
-                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail !");
+                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail!");
             }
         }
 
@@ -2508,7 +2508,7 @@ namespace Woodpecker
                     MYFILE.Close();
                     Txtbox1("", textBox_serial);
                     log1_text = String.Empty;
-                    MessageBox.Show("Port A saved.");
+                    MessageBox.Show("Port A is saved.", "Reminder");
                     break;
                 case "B":
                     t = fName + "\\_PortB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2516,7 +2516,7 @@ namespace Woodpecker
                     MYFILE.Write(log2_text);
                     MYFILE.Close();
                     log2_text = String.Empty;
-                    MessageBox.Show("Port B saved.");
+                    MessageBox.Show("Port B is saved.", "Reminder");
                     break;
                 case "C":
                     t = fName + "\\_PortC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2524,7 +2524,7 @@ namespace Woodpecker
                     MYFILE.Write(log3_text);
                     MYFILE.Close();
                     log3_text = String.Empty;
-                    MessageBox.Show("Port C saved.");
+                    MessageBox.Show("Port C is saved.", "Reminder");
                     break;
                 case "D":
                     t = fName + "\\_PortD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2532,7 +2532,7 @@ namespace Woodpecker
                     MYFILE.Write(log4_text);
                     MYFILE.Close();
                     log4_text = String.Empty;
-                    MessageBox.Show("Port D saved.");
+                    MessageBox.Show("Port D is saved.", "Reminder");
                     break;
                 case "E":
                     t = fName + "\\_PortE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2540,7 +2540,7 @@ namespace Woodpecker
                     MYFILE.Write(log5_text);
                     MYFILE.Close();
                     log5_text = String.Empty;
-                    MessageBox.Show("Port E saved.");
+                    MessageBox.Show("Port E is saved.", "Reminder");
                     break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2548,7 +2548,7 @@ namespace Woodpecker
                     MYFILE.Write(canbus_text);
                     MYFILE.Close();
                     canbus_text = String.Empty;
-                    MessageBox.Show("Canbus saved.");
+                    MessageBox.Show("Canbus is saved.", "Reminder");
                     break;
                 case "KlinePort":
                     t = fName + "\\_Kline_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2556,7 +2556,7 @@ namespace Woodpecker
                     MYFILE.Write(kline_text);
                     MYFILE.Close();
                     kline_text = String.Empty;
-                    MessageBox.Show("Kline Port saved.");
+                    MessageBox.Show("Kline Port is saved.", "Reminder");
                     break;
             }
         }
@@ -3986,7 +3986,7 @@ namespace Woodpecker
                         }
                         catch (Exception Ex)
                         {
-                            MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect !");
+                            MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect!");
                         }
                         string sch_log_text = "[" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
                         schedule_text = string.Concat(schedule_text, sch_log_text);
@@ -4031,7 +4031,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             if (columns_switch == "_off")
@@ -4068,7 +4068,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             #endregion
@@ -4095,7 +4095,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             if (columns_switch == "_AC1_OFF")
@@ -4119,7 +4119,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
 
@@ -4144,7 +4144,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             if (columns_switch == "_AC2_OFF")
@@ -4168,7 +4168,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             #endregion
@@ -4194,7 +4194,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             else if (columns_switch == "_USB1_PC")
@@ -4217,7 +4217,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
 
@@ -4241,7 +4241,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             else if (columns_switch == "_USB2_PC")
@@ -4264,7 +4264,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                             }
                             #endregion
@@ -4308,7 +4308,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Camera not exist", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 button_Start.PerformClick();
                             }
                         }
@@ -4327,7 +4327,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Camera not exist", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 button_Start.PerformClick();
                             }
                         }
@@ -4804,19 +4804,19 @@ namespace Woodpecker
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Content include other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            MessageBox.Show("Content includes other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("DTC code file not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 label_Command.Text = "(" + columns_command + ") " + columns_serial;
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error !");
+                                MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error!");
                             }
                         }
                         else if (columns_command == "_K_OBD")
@@ -4844,13 +4844,13 @@ namespace Woodpecker
                                         }
                                         else
                                         {
-                                            MessageBox.Show("Content include other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            MessageBox.Show("Content includes other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    MessageBox.Show("DTC code file not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 label_Command.Text = "(" + columns_command + ") " + columns_serial;
                             }

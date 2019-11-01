@@ -1316,15 +1316,6 @@ namespace Woodpecker
             // comboBox_savelog
             // 
             this.comboBox_savelog.FormattingEnabled = true;
-            this.comboBox_savelog.Items.AddRange(new object[] {
-            "Port A",
-            "Port B",
-            "Port C",
-            "Port D",
-            "Port E",
-            "Canbus",
-            "Schedule",
-            "Kline"});
             this.comboBox_savelog.Location = new System.Drawing.Point(1009, 461);
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
@@ -1487,6 +1478,7 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
+            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1531,7 +1523,6 @@ namespace Woodpecker
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
             this.Controls.Add(this.comboBox_CameraDevice);
-            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_serial);
             this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

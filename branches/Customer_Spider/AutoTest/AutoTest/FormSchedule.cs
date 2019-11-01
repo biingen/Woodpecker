@@ -43,7 +43,14 @@ namespace Woodpecker
         {
             textBox_Schedule1.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
             textBox_Schedule1Loop.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
-            
+
+            if (textBox_Schedule1.Text == "")
+            {
+                label_ErrorMessage.Text = "Schedule1 .csv file not exist";
+                pictureBox_Schedule1.Image = Properties.Resources.ERROR;
+            }
+
+
             if (ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "") != "")
             {
                 if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "")) == 1)
