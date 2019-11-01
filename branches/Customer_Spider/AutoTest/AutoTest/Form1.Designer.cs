@@ -1315,6 +1315,8 @@ namespace Woodpecker
             // 
             // comboBox_savelog
             // 
+            this.comboBox_savelog.BackColor = System.Drawing.SystemColors.Window;
+            this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
             this.comboBox_savelog.Location = new System.Drawing.Point(1009, 461);
             this.comboBox_savelog.Name = "comboBox_savelog";
