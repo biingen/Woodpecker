@@ -517,7 +517,7 @@ namespace Woodpecker
             }
             else
             {
-                label_ErrorMessage.Text = "Please enter loop number for Schedule 2";
+                label_ErrorMessage.Text = "Schedule2 .csv file not exist";
                 pictureBox_Schedule2.Image = Properties.Resources.ERROR;
             }
         }
@@ -526,7 +526,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_Schedule2Loop.Text) || textBox_Schedule2Loop.Text == "0")
             {
-                label_ErrorMessage.Text = "Schedule2 loop is empty";
+                label_ErrorMessage.Text = "Please enter loop number for Schedule 2";
                 pictureBox_Schedule2Loop.Image = Properties.Resources.ERROR;
             }
             else

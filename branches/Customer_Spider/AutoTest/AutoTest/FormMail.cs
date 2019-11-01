@@ -275,7 +275,7 @@ namespace Woodpecker
                 {
                     label_ErrorMessage.Text = "Sender must exist !";
                 }
-                else if (string.IsNullOrEmpty(textBox_To.Text))
+                else if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
                     label_ErrorMessage.Text = "Recipient must exist !";
                 }
@@ -438,7 +438,7 @@ namespace Woodpecker
                     GmailcheckBox.Visible = true;
                     lebalNetworkPrompt.Visible = true;
 
-                    if (string.IsNullOrEmpty(textBox_To.Text))
+                    if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                     {
                         label_ErrorMessage.Text = "Recipient must exist !";
                         pictureBox_To.Image = Properties.Resources.ERROR;
@@ -467,7 +467,7 @@ namespace Woodpecker
                 GmailcheckBox.Visible = false;
                 lebalNetworkPrompt.Visible = false;
 
-                if (string.IsNullOrEmpty(textBox_To.Text))
+                if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
                     label_ErrorMessage.Text = "Recipient must exist !";
                     pictureBox_To.Image = Properties.Resources.ERROR;
@@ -509,7 +509,7 @@ namespace Woodpecker
 
         private void textBox_To_TextChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox_To.Text))
+            if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
             {
                 label_ErrorMessage.Text = "Recipient must exist !";
                 pictureBox_To.Image = Properties.Resources.ERROR;

@@ -36,7 +36,7 @@ namespace Woodpecker
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button_Setting = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_serial = new System.Windows.Forms.TextBox();
             this.label_Power = new System.Windows.Forms.Label();
             this.label_Camera = new System.Windows.Forms.Label();
             this.label_RedRat = new System.Windows.Forms.Label();
@@ -47,9 +47,7 @@ namespace Woodpecker
             this.TimeLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.label_FwVersion = new System.Windows.Forms.Label();
-            this.button_SerialPort1 = new System.Windows.Forms.Button();
-            this.button_SerialPort2 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button_SerialPort = new System.Windows.Forms.Button();
             this.button_Schedule1 = new System.Windows.Forms.Button();
             this.button_Schedule2 = new System.Windows.Forms.Button();
             this.SchOpen1 = new System.Windows.Forms.OpenFileDialog();
@@ -109,19 +107,11 @@ namespace Woodpecker
             this.pictureBox_Ac2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Ac1 = new System.Windows.Forms.PictureBox();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
-            this.button_SerialPort3 = new System.Windows.Forms.Button();
             this.serialPortC = new System.IO.Ports.SerialPort(this.components);
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.button_Network = new System.Windows.Forms.Button();
             this.label_ext_board = new System.Windows.Forms.Label();
             this.timer_canbus = new System.Windows.Forms.Timer(this.components);
             this.label_canbus = new System.Windows.Forms.Label();
-            this.textBox_canbus = new System.Windows.Forms.TextBox();
-            this.button_CanbusPort = new System.Windows.Forms.Button();
-            this.button_kline = new System.Windows.Forms.Button();
-            this.textBox_kline = new System.Windows.Forms.TextBox();
-            this.textBox_TestLog = new System.Windows.Forms.TextBox();
-            this.button_TestLog = new System.Windows.Forms.Button();
             this.button_Copy = new System.Windows.Forms.Button();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.button_Start = new System.Windows.Forms.Button();
@@ -190,19 +180,19 @@ namespace Woodpecker
             this.button_Setting.UseVisualStyleBackColor = false;
             this.button_Setting.Click += new System.EventHandler(this.SettingBtn_Click);
             // 
-            // textBox1
+            // textBox_serial
             // 
-            this.textBox1.BackColor = System.Drawing.Color.Black;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(14, 121);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(950, 400);
-            this.textBox1.TabIndex = 24;
+            this.textBox_serial.BackColor = System.Drawing.Color.Black;
+            this.textBox_serial.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox_serial.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox_serial.ForeColor = System.Drawing.Color.White;
+            this.textBox_serial.Location = new System.Drawing.Point(14, 121);
+            this.textBox_serial.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox_serial.Multiline = true;
+            this.textBox_serial.Name = "textBox_serial";
+            this.textBox_serial.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox_serial.Size = new System.Drawing.Size(950, 400);
+            this.textBox_serial.TabIndex = 24;
             // 
             // label_Power
             // 
@@ -309,53 +299,22 @@ namespace Woodpecker
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
-            // button_SerialPort1
+            // button_SerialPort
             // 
-            this.button_SerialPort1.BackColor = System.Drawing.SystemColors.Control;
-            this.button_SerialPort1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SerialPort1.ForeColor = System.Drawing.Color.White;
-            this.button_SerialPort1.Location = new System.Drawing.Point(975, 217);
-            this.button_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
-            this.button_SerialPort1.Name = "button_SerialPort1";
-            this.button_SerialPort1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort1.Size = new System.Drawing.Size(110, 30);
-            this.button_SerialPort1.TabIndex = 48;
-            this.button_SerialPort1.Text = "Serial Port 1";
-            this.button_SerialPort1.UseVisualStyleBackColor = false;
-            this.button_SerialPort1.Visible = false;
-            this.button_SerialPort1.Click += new System.EventHandler(this.Com1Btn_Click);
-            // 
-            // button_SerialPort2
-            // 
-            this.button_SerialPort2.BackColor = System.Drawing.SystemColors.Control;
-            this.button_SerialPort2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SerialPort2.ForeColor = System.Drawing.Color.White;
-            this.button_SerialPort2.Location = new System.Drawing.Point(975, 265);
-            this.button_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
-            this.button_SerialPort2.Name = "button_SerialPort2";
-            this.button_SerialPort2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort2.Size = new System.Drawing.Size(110, 30);
-            this.button_SerialPort2.TabIndex = 49;
-            this.button_SerialPort2.Text = "Serial Port 2";
-            this.button_SerialPort2.UseVisualStyleBackColor = false;
-            this.button_SerialPort2.Visible = false;
-            this.button_SerialPort2.Click += new System.EventHandler(this.Com2Btn_Click);
-            // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.Color.Black;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(14, 121);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox2.Size = new System.Drawing.Size(950, 400);
-            this.textBox2.TabIndex = 50;
+            this.button_SerialPort.BackColor = System.Drawing.SystemColors.Control;
+            this.button_SerialPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.button_SerialPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_SerialPort.ForeColor = System.Drawing.Color.Black;
+            this.button_SerialPort.Location = new System.Drawing.Point(975, 217);
+            this.button_SerialPort.Margin = new System.Windows.Forms.Padding(2);
+            this.button_SerialPort.Name = "button_SerialPort";
+            this.button_SerialPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.button_SerialPort.Size = new System.Drawing.Size(110, 30);
+            this.button_SerialPort.TabIndex = 48;
+            this.button_SerialPort.Text = "Serial Port";
+            this.button_SerialPort.UseVisualStyleBackColor = false;
+            this.button_SerialPort.Visible = false;
+            this.button_SerialPort.Click += new System.EventHandler(this.Com1Btn_Click);
             // 
             // button_Schedule1
             // 
@@ -363,7 +322,7 @@ namespace Woodpecker
             this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule1.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule1.Location = new System.Drawing.Point(964, 499);
+            this.button_Schedule1.Location = new System.Drawing.Point(964, 497);
             this.button_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule1.Name = "button_Schedule1";
             this.button_Schedule1.Size = new System.Drawing.Size(24, 24);
@@ -378,7 +337,7 @@ namespace Woodpecker
             this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule2.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule2.Location = new System.Drawing.Point(964, 475);
+            this.button_Schedule2.Location = new System.Drawing.Point(964, 473);
             this.button_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule2.Name = "button_Schedule2";
             this.button_Schedule2.Size = new System.Drawing.Size(24, 24);
@@ -393,7 +352,7 @@ namespace Woodpecker
             this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule3.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule3.Location = new System.Drawing.Point(964, 451);
+            this.button_Schedule3.Location = new System.Drawing.Point(964, 449);
             this.button_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule3.Name = "button_Schedule3";
             this.button_Schedule3.Size = new System.Drawing.Size(24, 24);
@@ -408,7 +367,7 @@ namespace Woodpecker
             this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule4.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule4.Location = new System.Drawing.Point(964, 427);
+            this.button_Schedule4.Location = new System.Drawing.Point(964, 425);
             this.button_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule4.Name = "button_Schedule4";
             this.button_Schedule4.Size = new System.Drawing.Size(24, 24);
@@ -423,7 +382,7 @@ namespace Woodpecker
             this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule5.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule5.Location = new System.Drawing.Point(964, 403);
+            this.button_Schedule5.Location = new System.Drawing.Point(964, 401);
             this.button_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule5.Name = "button_Schedule5";
             this.button_Schedule5.Size = new System.Drawing.Size(24, 24);
@@ -609,7 +568,7 @@ namespace Woodpecker
             this.panel1.Controls.Add(this.labelSch5Timer);
             this.panel1.Controls.Add(this.labelSch4Timer);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(788, 288);
+            this.panel1.Location = new System.Drawing.Point(788, 285);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(176, 236);
@@ -979,7 +938,7 @@ namespace Woodpecker
             this.panel_AcUsb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel_AcUsb.Controls.Add(this.groupBox_Usb);
             this.panel_AcUsb.Controls.Add(this.groupBox_Ac);
-            this.panel_AcUsb.Location = new System.Drawing.Point(14, 364);
+            this.panel_AcUsb.Location = new System.Drawing.Point(14, 361);
             this.panel_AcUsb.Margin = new System.Windows.Forms.Padding(2);
             this.panel_AcUsb.Name = "panel_AcUsb";
             this.panel_AcUsb.Size = new System.Drawing.Size(200, 160);
@@ -1130,37 +1089,6 @@ namespace Woodpecker
             this.comboBox_CameraDevice.TabIndex = 95;
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
             // 
-            // button_SerialPort3
-            // 
-            this.button_SerialPort3.BackColor = System.Drawing.SystemColors.Control;
-            this.button_SerialPort3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SerialPort3.ForeColor = System.Drawing.Color.White;
-            this.button_SerialPort3.Location = new System.Drawing.Point(975, 313);
-            this.button_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
-            this.button_SerialPort3.Name = "button_SerialPort3";
-            this.button_SerialPort3.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort3.Size = new System.Drawing.Size(110, 30);
-            this.button_SerialPort3.TabIndex = 96;
-            this.button_SerialPort3.Text = "Serial Port 3";
-            this.button_SerialPort3.UseVisualStyleBackColor = false;
-            this.button_SerialPort3.Visible = false;
-            this.button_SerialPort3.Click += new System.EventHandler(this.Com3Btn_Click);
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.Black;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(14, 121);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox3.Size = new System.Drawing.Size(950, 400);
-            this.textBox3.TabIndex = 97;
-            // 
             // button_Network
             // 
             this.button_Network.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -1210,98 +1138,12 @@ namespace Woodpecker
             this.label_canbus.TabIndex = 102;
             this.label_canbus.Text = "CAN_bus";
             // 
-            // textBox_canbus
-            // 
-            this.textBox_canbus.BackColor = System.Drawing.Color.Black;
-            this.textBox_canbus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_canbus.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.textBox_canbus.Location = new System.Drawing.Point(14, 121);
-            this.textBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_canbus.Multiline = true;
-            this.textBox_canbus.Name = "textBox_canbus";
-            this.textBox_canbus.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_canbus.Size = new System.Drawing.Size(950, 401);
-            this.textBox_canbus.TabIndex = 103;
-            // 
-            // button_CanbusPort
-            // 
-            this.button_CanbusPort.BackColor = System.Drawing.Color.Transparent;
-            this.button_CanbusPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_CanbusPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_CanbusPort.Location = new System.Drawing.Point(1043, 551);
-            this.button_CanbusPort.Margin = new System.Windows.Forms.Padding(2);
-            this.button_CanbusPort.Name = "button_CanbusPort";
-            this.button_CanbusPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_CanbusPort.Size = new System.Drawing.Size(39, 23);
-            this.button_CanbusPort.TabIndex = 104;
-            this.button_CanbusPort.Text = "CAN";
-            this.button_CanbusPort.UseVisualStyleBackColor = false;
-            this.button_CanbusPort.Visible = false;
-            this.button_CanbusPort.Click += new System.EventHandler(this.button_canbus_Click);
-            // 
-            // button_kline
-            // 
-            this.button_kline.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_kline.Location = new System.Drawing.Point(1000, 551);
-            this.button_kline.Name = "button_kline";
-            this.button_kline.Size = new System.Drawing.Size(40, 22);
-            this.button_kline.TabIndex = 110;
-            this.button_kline.Text = "Kline";
-            this.button_kline.UseVisualStyleBackColor = false;
-            this.button_kline.Visible = false;
-            this.button_kline.Click += new System.EventHandler(this.Button_kline_Click);
-            // 
-            // textBox_kline
-            // 
-            this.textBox_kline.BackColor = System.Drawing.Color.Black;
-            this.textBox_kline.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_kline.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_kline.ForeColor = System.Drawing.Color.White;
-            this.textBox_kline.Location = new System.Drawing.Point(14, 121);
-            this.textBox_kline.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_kline.Multiline = true;
-            this.textBox_kline.Name = "textBox_kline";
-            this.textBox_kline.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_kline.Size = new System.Drawing.Size(950, 401);
-            this.textBox_kline.TabIndex = 106;
-            // 
-            // textBox_TestLog
-            // 
-            this.textBox_TestLog.BackColor = System.Drawing.Color.Black;
-            this.textBox_TestLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_TestLog.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_TestLog.ForeColor = System.Drawing.Color.White;
-            this.textBox_TestLog.Location = new System.Drawing.Point(14, 121);
-            this.textBox_TestLog.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_TestLog.Multiline = true;
-            this.textBox_TestLog.Name = "textBox_TestLog";
-            this.textBox_TestLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_TestLog.Size = new System.Drawing.Size(950, 400);
-            this.textBox_TestLog.TabIndex = 107;
-            // 
-            // button_TestLog
-            // 
-            this.button_TestLog.BackColor = System.Drawing.SystemColors.Control;
-            this.button_TestLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_TestLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_TestLog.ForeColor = System.Drawing.Color.White;
-            this.button_TestLog.Location = new System.Drawing.Point(1006, 393);
-            this.button_TestLog.Name = "button_TestLog";
-            this.button_TestLog.Size = new System.Drawing.Size(80, 30);
-            this.button_TestLog.TabIndex = 108;
-            this.button_TestLog.Text = "TestLog";
-            this.button_TestLog.UseVisualStyleBackColor = true;
-            this.button_TestLog.Visible = false;
-            this.button_TestLog.Click += new System.EventHandler(this.button_TestLog_Click);
-            // 
             // button_Copy
             // 
-            this.button_Copy.BackColor = System.Drawing.SystemColors.Control;
-            this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Copy.BackColor = System.Drawing.Color.Transparent;
+            this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_Copy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Copy.ForeColor = System.Drawing.Color.White;
+            this.button_Copy.ForeColor = System.Drawing.Color.Black;
             this.button_Copy.Location = new System.Drawing.Point(1006, 357);
             this.button_Copy.Name = "button_Copy";
             this.button_Copy.Size = new System.Drawing.Size(79, 30);
@@ -1465,7 +1307,7 @@ namespace Woodpecker
             this.button_savelog.ForeColor = System.Drawing.Color.White;
             this.button_savelog.Location = new System.Drawing.Point(1009, 490);
             this.button_savelog.Name = "button_savelog";
-            this.button_savelog.Size = new System.Drawing.Size(76, 32);
+            this.button_savelog.Size = new System.Drawing.Size(76, 31);
             this.button_savelog.TabIndex = 112;
             this.button_savelog.Text = "Save Log";
             this.button_savelog.UseVisualStyleBackColor = false;
@@ -1539,7 +1381,7 @@ namespace Woodpecker
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.DataGridView_Schedule.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.DataGridView_Schedule.RowTemplate.Height = 24;
-            this.DataGridView_Schedule.Size = new System.Drawing.Size(950, 403);
+            this.DataGridView_Schedule.Size = new System.Drawing.Size(950, 400);
             this.DataGridView_Schedule.TabIndex = 23;
             this.DataGridView_Schedule.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DataGridView_Schedule_CellMouseDoubleClick);
             this.DataGridView_Schedule.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.DataGridView1_DataError);
@@ -1640,8 +1482,8 @@ namespace Woodpecker
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
@@ -1649,15 +1491,11 @@ namespace Woodpecker
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
             this.Controls.Add(this.button_Copy);
-            this.Controls.Add(this.button_TestLog);
-            this.Controls.Add(this.button_kline);
-            this.Controls.Add(this.button_CanbusPort);
             this.Controls.Add(this.label_canbus);
             this.Controls.Add(this.pictureBox_canbus);
             this.Controls.Add(this.label_ext_board);
             this.Controls.Add(this.pictureBox_ext_board);
             this.Controls.Add(this.button_Network);
-            this.Controls.Add(this.button_SerialPort3);
             this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.button_InsertRow);
             this.Controls.Add(this.labelGPIO_Input);
@@ -1679,8 +1517,7 @@ namespace Woodpecker
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_SaveSchedule);
             this.Controls.Add(this.DataBtn);
-            this.Controls.Add(this.button_SerialPort2);
-            this.Controls.Add(this.button_SerialPort1);
+            this.Controls.Add(this.button_SerialPort);
             this.Controls.Add(this.MiniPicBox);
             this.Controls.Add(this.ClosePicBox);
             this.Controls.Add(this.label_Command);
@@ -1693,15 +1530,10 @@ namespace Woodpecker
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
-            this.Controls.Add(this.DataGridView_Schedule);
-            this.Controls.Add(this.textBox_kline);
-            this.Controls.Add(this.textBox_canbus);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.panelVideo);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox_TestLog);
             this.Controls.Add(this.comboBox_CameraDevice);
+            this.Controls.Add(this.DataGridView_Schedule);
+            this.Controls.Add(this.textBox_serial);
+            this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -1747,7 +1579,7 @@ namespace Woodpecker
         #endregion
 
         private System.Windows.Forms.Button button_Setting;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_serial;
         private System.Windows.Forms.PictureBox panelVideo;
         private System.Windows.Forms.Label label_Power;
         private System.Windows.Forms.PictureBox pictureBox_AcPower;
@@ -1768,9 +1600,7 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Label label_FwVersion;
-        private System.Windows.Forms.Button button_SerialPort1;
-        private System.Windows.Forms.Button button_SerialPort2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button_SerialPort;
         private System.Windows.Forms.OpenFileDialog SchOpen1;
         private System.Windows.Forms.OpenFileDialog SchOpen2;
         private System.Windows.Forms.OpenFileDialog SchOpen3;
@@ -1832,9 +1662,7 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_Ac2;
         private System.Windows.Forms.Label label_Ac1;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
-        private System.Windows.Forms.Button button_SerialPort3;
         private System.IO.Ports.SerialPort serialPortC;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button_Network;
         private System.Windows.Forms.Label label_Remark;
         public SafeDataGridView DataGridView_Schedule;
@@ -1843,12 +1671,6 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer_canbus;
         private System.Windows.Forms.Label label_canbus;
         private System.Windows.Forms.PictureBox pictureBox_canbus;
-        private System.Windows.Forms.TextBox textBox_canbus;
-        private System.Windows.Forms.Button button_CanbusPort;
-        private System.Windows.Forms.Button button_kline;
-        private System.Windows.Forms.TextBox textBox_kline;
-		public System.Windows.Forms.TextBox textBox_TestLog;
-        private System.Windows.Forms.Button button_TestLog;
         private System.Windows.Forms.Button button_Copy;
         private System.Windows.Forms.Timer timer_kline;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;

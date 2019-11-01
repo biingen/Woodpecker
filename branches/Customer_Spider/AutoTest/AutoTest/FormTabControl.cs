@@ -245,6 +245,8 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "SerialPortA", "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "SerialPortB", "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "SerialPortC", "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "SerialPortD", "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "SerialPortE", "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, "Kline", "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
         }
     }
