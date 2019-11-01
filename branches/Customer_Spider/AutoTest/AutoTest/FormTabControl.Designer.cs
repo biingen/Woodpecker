@@ -62,8 +62,8 @@
             this.toolStripMenuItem4});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(852, 28);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(682, 22);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.Visible = false;
@@ -72,37 +72,37 @@
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.ShowShortcutKeys = false;
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(133, 18);
             this.toolStripMenuItem1.Text = "toolStripMenuItem1";
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.ShowShortcutKeys = false;
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(133, 18);
             this.toolStripMenuItem2.Text = "toolStripMenuItem2";
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
             this.toolStripMenuItem3.ShowShortcutKeys = false;
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(133, 18);
             this.toolStripMenuItem3.Text = "toolStripMenuItem3";
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(161, 24);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(133, 18);
             this.toolStripMenuItem4.Text = "toolStripMenuItem4";
             // 
             // MainSettingBtn
             // 
             this.MainSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.MainSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MainSettingBtn.Location = new System.Drawing.Point(19, 209);
+            this.MainSettingBtn.Location = new System.Drawing.Point(15, 167);
             this.MainSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MainSettingBtn.Name = "MainSettingBtn";
-            this.MainSettingBtn.Size = new System.Drawing.Size(160, 39);
+            this.MainSettingBtn.Size = new System.Drawing.Size(128, 31);
             this.MainSettingBtn.TabIndex = 2;
             this.MainSettingBtn.Text = "Main Setting";
             this.MainSettingBtn.UseVisualStyleBackColor = true;
@@ -112,10 +112,10 @@
             // 
             this.ScheduleSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.ScheduleSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.ScheduleSettingBtn.Location = new System.Drawing.Point(19, 251);
+            this.ScheduleSettingBtn.Location = new System.Drawing.Point(15, 201);
             this.ScheduleSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.ScheduleSettingBtn.Name = "ScheduleSettingBtn";
-            this.ScheduleSettingBtn.Size = new System.Drawing.Size(160, 39);
+            this.ScheduleSettingBtn.Size = new System.Drawing.Size(128, 31);
             this.ScheduleSettingBtn.TabIndex = 3;
             this.ScheduleSettingBtn.Text = "Multi Schedule";
             this.ScheduleSettingBtn.UseVisualStyleBackColor = true;
@@ -125,10 +125,10 @@
             // 
             this.MailSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.MailSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.MailSettingBtn.Location = new System.Drawing.Point(19, 295);
+            this.MailSettingBtn.Location = new System.Drawing.Point(15, 236);
             this.MailSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.MailSettingBtn.Name = "MailSettingBtn";
-            this.MailSettingBtn.Size = new System.Drawing.Size(160, 39);
+            this.MailSettingBtn.Size = new System.Drawing.Size(128, 31);
             this.MailSettingBtn.TabIndex = 62;
             this.MailSettingBtn.Text = "Mail Setting";
             this.MailSettingBtn.UseVisualStyleBackColor = true;
@@ -138,10 +138,10 @@
             // 
             this.LogSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.LogSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.LogSettingBtn.Location = new System.Drawing.Point(19, 338);
+            this.LogSettingBtn.Location = new System.Drawing.Point(15, 270);
             this.LogSettingBtn.Margin = new System.Windows.Forms.Padding(2);
             this.LogSettingBtn.Name = "LogSettingBtn";
-            this.LogSettingBtn.Size = new System.Drawing.Size(160, 39);
+            this.LogSettingBtn.Size = new System.Drawing.Size(128, 31);
             this.LogSettingBtn.TabIndex = 63;
             this.LogSettingBtn.Text = "Log Setting";
             this.LogSettingBtn.UseVisualStyleBackColor = true;
@@ -151,10 +151,10 @@
             // 
             this.buttonMonkeyTest.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.buttonMonkeyTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonMonkeyTest.Location = new System.Drawing.Point(19, 380);
+            this.buttonMonkeyTest.Location = new System.Drawing.Point(15, 304);
             this.buttonMonkeyTest.Margin = new System.Windows.Forms.Padding(2);
             this.buttonMonkeyTest.Name = "buttonMonkeyTest";
-            this.buttonMonkeyTest.Size = new System.Drawing.Size(160, 39);
+            this.buttonMonkeyTest.Size = new System.Drawing.Size(128, 31);
             this.buttonMonkeyTest.TabIndex = 64;
             this.buttonMonkeyTest.Text = "MonkeyTest";
             this.buttonMonkeyTest.UseVisualStyleBackColor = true;
@@ -166,7 +166,7 @@
             this.ClosePicBox.BackColor = System.Drawing.Color.Transparent;
             this.ClosePicBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.ClosePicBox.Image = global::Woodpecker.Properties.Resources.close1;
-            this.ClosePicBox.Location = new System.Drawing.Point(874, -9);
+            this.ClosePicBox.Location = new System.Drawing.Point(699, -7);
             this.ClosePicBox.Margin = new System.Windows.Forms.Padding(2);
             this.ClosePicBox.Name = "ClosePicBox";
             this.ClosePicBox.Size = new System.Drawing.Size(34, 26);
@@ -184,54 +184,49 @@
             this.tabControl.Controls.Add(this.tabPage_Mail);
             this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
             this.tabControl.Depth = 0;
-            this.tabControl.Location = new System.Drawing.Point(15, 128);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Location = new System.Drawing.Point(12, 102);
             this.tabControl.MouseState = MaterialSkin.MouseState.HOVER;
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(826, 645);
+            this.tabControl.Size = new System.Drawing.Size(661, 516);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage_MainSetting
             // 
-            this.tabPage_MainSetting.Location = new System.Drawing.Point(4, 27);
-            this.tabPage_MainSetting.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage_MainSetting.Location = new System.Drawing.Point(4, 24);
             this.tabPage_MainSetting.Name = "tabPage_MainSetting";
-            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage_MainSetting.Size = new System.Drawing.Size(818, 614);
+            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_MainSetting.Size = new System.Drawing.Size(653, 488);
             this.tabPage_MainSetting.TabIndex = 0;
             this.tabPage_MainSetting.Text = "Main Settings";
             this.tabPage_MainSetting.UseVisualStyleBackColor = true;
             // 
             // tabPage_MultiSchedule
             // 
-            this.tabPage_MultiSchedule.Location = new System.Drawing.Point(4, 27);
-            this.tabPage_MultiSchedule.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage_MultiSchedule.Location = new System.Drawing.Point(4, 24);
             this.tabPage_MultiSchedule.Name = "tabPage_MultiSchedule";
-            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage_MultiSchedule.Size = new System.Drawing.Size(818, 614);
+            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_MultiSchedule.Size = new System.Drawing.Size(653, 488);
             this.tabPage_MultiSchedule.TabIndex = 1;
             this.tabPage_MultiSchedule.Text = "Schedule";
             this.tabPage_MultiSchedule.UseVisualStyleBackColor = true;
             // 
             // tabPage_Mail
             // 
-            this.tabPage_Mail.Location = new System.Drawing.Point(4, 27);
-            this.tabPage_Mail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage_Mail.Location = new System.Drawing.Point(4, 24);
             this.tabPage_Mail.Name = "tabPage_Mail";
-            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage_Mail.Size = new System.Drawing.Size(818, 614);
+            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_Mail.Size = new System.Drawing.Size(653, 488);
             this.tabPage_Mail.TabIndex = 2;
             this.tabPage_Mail.Text = "Mail";
             this.tabPage_Mail.UseVisualStyleBackColor = true;
             // 
             // tabPage_KeywordSearch
             // 
-            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 27);
-            this.tabPage_KeywordSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 24);
             this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
-            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(818, 614);
+            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(653, 488);
             this.tabPage_KeywordSearch.TabIndex = 3;
             this.tabPage_KeywordSearch.Text = "Keyword";
             this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
@@ -240,20 +235,19 @@
             // 
             this.materialTabSelector1.BaseTabControl = this.tabControl;
             this.materialTabSelector1.Depth = 0;
-            this.materialTabSelector1.Location = new System.Drawing.Point(-1, 63);
-            this.materialTabSelector1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.materialTabSelector1.Location = new System.Drawing.Point(-1, 56);
             this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialTabSelector1.Name = "materialTabSelector1";
-            this.materialTabSelector1.Size = new System.Drawing.Size(858, 42);
+            this.materialTabSelector1.Size = new System.Drawing.Size(686, 34);
             this.materialTabSelector1.TabIndex = 0;
             this.materialTabSelector1.Text = "materialTabSelector1";
             // 
             // FormTabControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Ivory;
-            this.ClientSize = new System.Drawing.Size(856, 774);
+            this.ClientSize = new System.Drawing.Size(685, 619);
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.ClosePicBox);
             this.Controls.Add(this.tabControl);

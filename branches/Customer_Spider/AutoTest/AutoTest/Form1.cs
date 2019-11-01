@@ -214,18 +214,23 @@ namespace Woodpecker
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.TopLevel = true;
             this.TopMost = true;
+            this.WindowState = FormWindowState.Normal;
 
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
             float dpiY = graphics.DpiY;
-            if (dpiX == 96 && dpiY == 96)
+            /*if (dpiX == 96 && dpiY == 96)
             {
                 this.Height = 600;
                 this.Width = 1120;
-            }
+            }*/
+            int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
+
+            // 針對字體變更Form的大小
+            this.Height = this.Height * intPercent / 100;
+
 
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {

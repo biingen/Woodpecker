@@ -364,7 +364,7 @@ namespace Woodpecker
             }
             else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "0")
             {
-                GroupBox_Rs232.Text = " Woodpeaker can't USING";
+                GroupBox_Rs232.Text = "AutoKit IS NOT CONNECTED";
 
                 comboBox_SerialPort1_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort2_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
