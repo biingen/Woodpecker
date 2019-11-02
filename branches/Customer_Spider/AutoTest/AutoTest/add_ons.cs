@@ -454,11 +454,11 @@ namespace Woodpecker
             string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
-            string[] SerialportA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] SerialportB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] SerialportC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] SerialportD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] SerialportE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -508,63 +508,63 @@ namespace Woodpecker
                     }
                 }
 
-                for (int i = 0; i < SerialportA.Length; i++)
+                for (int i = 0; i < PortA.Length; i++)
                 {
-                    if (i == (SerialportA.Length - 1))
+                    if (i == (PortA.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", SerialportA[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Port A", PortA[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortA", SerialportA[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Port A", PortA[i], "");
                     }
                 }
 
-                for (int i = 0; i < SerialportB.Length; i++)
+                for (int i = 0; i < PortB.Length; i++)
                 {
-                    if (i == (SerialportB.Length - 1))
+                    if (i == (PortB.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", SerialportB[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Port B", PortB[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortB", SerialportB[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Port B", PortB[i], "");
                     }
                 }
 
-                for (int i = 0; i < SerialportC.Length; i++)
+                for (int i = 0; i < PortC.Length; i++)
                 {
-                    if (i == (SerialportC.Length - 1))
+                    if (i == (PortC.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", SerialportC[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Port C", PortC[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialPortC", SerialportC[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Port C", PortC[i], "");
                     }
                 }
 
-                for (int i = 0; i < SerialportD.Length; i++)
+                for (int i = 0; i < PortD.Length; i++)
                 {
-                    if (i == (SerialportD.Length - 1))
+                    if (i == (PortD.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialportD", SerialportD[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Port D", PortD[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialportD", SerialportD[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Port D", PortD[i], "");
                     }
                 }
 
-                for (int i = 0; i < SerialportE.Length; i++)
+                for (int i = 0; i < PortE.Length; i++)
                 {
-                    if (i == (SerialportE.Length - 1))
+                    if (i == (PortE.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialportE", SerialportE[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "SerialportE", SerialportE[i], "");
+                        ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "");
                     }
                 }
 

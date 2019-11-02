@@ -169,28 +169,28 @@ namespace Woodpecker
             //SerialPort1//
             if (checkBox_SerialPort1.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "DataBit", "8");
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "StopBits", "One");
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "PortName", comboBox_SerialPort1_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "Port A", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
+                ini12.INIWrite(MainSettingPath, "Port A", "DataBit", "8");
+                ini12.INIWrite(MainSettingPath, "Port A", "StopBits", "One");
+                ini12.INIWrite(MainSettingPath, "Port A", "PortName", comboBox_SerialPort1_PortName_Value.Text);
             }
 
             //SerialPort2//
             if (checkBox_SerialPort2.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "DataBit", "8");
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "StopBits", "One");
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "PortName", comboBox_SerialPort2_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "Port B", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
+                ini12.INIWrite(MainSettingPath, "Port B", "DataBit", "8");
+                ini12.INIWrite(MainSettingPath, "Port B", "StopBits", "One");
+                ini12.INIWrite(MainSettingPath, "Port B", "PortName", comboBox_SerialPort2_PortName_Value.Text);
             }
 
             //SerialPort3//
             if (checkBox_SerialPort3.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "DataBit", "8");
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "StopBits", "One");
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "PortName", comboBox_SerialPort3_PortName_Value.Text);
+                ini12.INIWrite(MainSettingPath, "Port C", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
+                ini12.INIWrite(MainSettingPath, "Port C", "DataBit", "8");
+                ini12.INIWrite(MainSettingPath, "Port C", "StopBits", "One");
+                ini12.INIWrite(MainSettingPath, "Port C", "PortName", comboBox_SerialPort3_PortName_Value.Text);
             }
         }
 
@@ -287,65 +287,65 @@ namespace Woodpecker
                 comboBox_SerialPort5_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_KlinePort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                 {
                     checkBox_SerialPort1.Checked = true;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort1_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort1.Checked = false;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort1_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortB", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                 {
                     checkBox_SerialPort2.Checked = true;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort2_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortB", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort2.Checked = false;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort2_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortC", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                 {
                     checkBox_SerialPort3.Checked = true;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort3_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortC", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort3.Checked = false;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort3_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortD", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                 {
                     checkBox_SerialPort4.Checked = true;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort4_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortD", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort4.Checked = false;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort4_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortE", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                 {
                     checkBox_SerialPort5.Checked = true;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort5_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortE", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort5.Checked = false;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = false;
@@ -356,7 +356,7 @@ namespace Woodpecker
                 {
                     checkBox_Displayhex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_Displayhex.Checked = false;
                 }
@@ -373,65 +373,65 @@ namespace Woodpecker
                 comboBox_SerialPort5_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_KlinePort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                 {
                     checkBox_SerialPort1.Checked = true;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort1_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort1.Checked = false;
                     comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort1_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortB", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                 {
                     checkBox_SerialPort2.Checked = true;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort2_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortB", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort2.Checked = false;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort2_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortC", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                 {
                     checkBox_SerialPort3.Checked = true;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort3_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortC", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort3.Checked = false;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort3_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortD", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                 {
                     checkBox_SerialPort4.Checked = true;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort4_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortD", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort4.Checked = false;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = false;
                     comboBox_SerialPort4_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "SerialPortE", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                 {
                     checkBox_SerialPort5.Checked = true;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort5_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "SerialPortE", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_SerialPort5.Checked = false;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = false;
@@ -442,7 +442,7 @@ namespace Woodpecker
                 {
                     checkBox_Displayhex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
                 {
                     checkBox_Displayhex.Checked = false;
                 }
@@ -453,22 +453,22 @@ namespace Woodpecker
                 checkBox_Kline.Checked = true;
                 comboBox_KlinePort_PortName_Value.Enabled = true;
             }
-            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "SerialPortA", "Checked", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
             {
                 checkBox_Kline.Checked = false;
                 comboBox_KlinePort_PortName_Value.Enabled = false;
             }
 
-            comboBox_SerialPort1_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortA", "BaudRate", "");
-            comboBox_SerialPort1_PortName_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortA", "PortName", "");
-            comboBox_SerialPort2_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortB", "BaudRate", "");
-            comboBox_SerialPort2_PortName_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortB", "PortName", "");
-            comboBox_SerialPort3_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortC", "BaudRate", "");
-            comboBox_SerialPort3_PortName_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortC", "PortName", "");
-            comboBox_SerialPort4_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortD", "BaudRate", "");
-            comboBox_SerialPort4_PortName_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortD", "PortName", "");
-            comboBox_SerialPort5_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortE", "BaudRate", "");
-            comboBox_SerialPort5_PortName_Value.Text = ini12.INIRead(MainSettingPath, "SerialPortE", "PortName", "");
+            comboBox_SerialPort1_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port A", "BaudRate", "");
+            comboBox_SerialPort1_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
+            comboBox_SerialPort2_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port B", "BaudRate", "");
+            comboBox_SerialPort2_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port B", "PortName", "");
+            comboBox_SerialPort3_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port C", "BaudRate", "");
+            comboBox_SerialPort3_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port C", "PortName", "");
+            comboBox_SerialPort4_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port D", "BaudRate", "");
+            comboBox_SerialPort4_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port D", "PortName", "");
+            comboBox_SerialPort5_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port E", "BaudRate", "");
+            comboBox_SerialPort5_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port E", "PortName", "");
             comboBox_KlinePort_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
             #endregion
 
@@ -595,17 +595,17 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort1.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "1");
                 comboBox_SerialPort1_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort1_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortA", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
                 comboBox_SerialPort1_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort1_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
@@ -613,17 +613,17 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort2.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Port B", "Checked", "1");
                 comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort2_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortB", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Port B", "Checked", "0");
                 comboBox_SerialPort2_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort2_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
@@ -631,17 +631,17 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort3.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Port C", "Checked", "1");
                 comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort3_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortC", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Port C", "Checked", "0");
                 comboBox_SerialPort3_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort3_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
@@ -649,17 +649,17 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort4.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortD", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Port D", "Checked", "1");
                 comboBox_SerialPort4_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort4_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortD", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Port D", "Checked", "0");
                 comboBox_SerialPort4_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort4_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
@@ -667,17 +667,17 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort5.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortE", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Port E", "Checked", "1");
                 comboBox_SerialPort5_BaudRate_Value.Enabled = true;
                 comboBox_SerialPort5_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "SerialPortE", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Port E", "Checked", "0");
                 comboBox_SerialPort5_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort5_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
@@ -693,7 +693,7 @@ namespace Woodpecker
             }
         }
 
-        private void SerialPortCheck()
+        private void PortCheck()
         {
             if (checkBox_SerialPort1.Checked == true)
             {
@@ -1079,52 +1079,52 @@ namespace Woodpecker
 
         private void comboBox_SerialPort1_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void comboBox_SerialPort1_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "SerialPortA", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Port A", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
         }
 
         private void comboBox_SerialPort2_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void comboBox_SerialPort2_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "SerialPortB", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Port B", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
         }
 
         private void comboBox_SerialPort3_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void comboBox_SerialPort3_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "SerialPortC", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Port C", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
         }
 
         private void comboBox_SerialPort4_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void comboBox_SerialPort4_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "SerialPortD", "BaudRate", comboBox_SerialPort4_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Port D", "BaudRate", comboBox_SerialPort4_BaudRate_Value.Text.Trim());
         }
 
         private void comboBox_SerialPort5_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void comboBox_SerialPort5_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "SerialPortE", "BaudRate", comboBox_SerialPort5_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Port E", "BaudRate", comboBox_SerialPort5_BaudRate_Value.Text.Trim());
         }
 
         private void checkBox_Kline_CheckedChanged(object sender, EventArgs e)
@@ -1134,19 +1134,19 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Kline", "Checked", "1");
                 comboBox_KlinePort_PortName_Value.Enabled = true;
-                SerialPortCheck();
+                PortCheck();
             }
             else
             {
                 ini12.INIWrite(MainSettingPath, "Kline", "Checked", "0");
                 comboBox_KlinePort_PortName_Value.Enabled = false;
-                SerialPortCheck();
+                PortCheck();
             }
         }
 
         private void comboBox_Kline_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SerialPortCheck();
+            PortCheck();
         }
 
         private void checkBox_canbus_CheckedChanged(object sender, EventArgs e)

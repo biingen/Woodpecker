@@ -42,8 +42,8 @@ namespace Woodpecker
             this.label_RedRat = new System.Windows.Forms.Label();
             this.labellabel_LoopTimes_Value = new System.Windows.Forms.Label();
             this.label_LoopNumber_Value = new System.Windows.Forms.Label();
-            this.serialPortA = new System.IO.Ports.SerialPort(this.components);
-            this.serialPortB = new System.IO.Ports.SerialPort(this.components);
+            this.PortA = new System.IO.Ports.SerialPort(this.components);
+            this.PortB = new System.IO.Ports.SerialPort(this.components);
             this.TimeLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.label_FwVersion = new System.Windows.Forms.Label();
@@ -107,7 +107,7 @@ namespace Woodpecker
             this.pictureBox_Ac2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_Ac1 = new System.Windows.Forms.PictureBox();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
-            this.serialPortC = new System.IO.Ports.SerialPort(this.components);
+            this.PortC = new System.IO.Ports.SerialPort(this.components);
             this.button_Network = new System.Windows.Forms.Button();
             this.label_ext_board = new System.Windows.Forms.Label();
             this.timer_canbus = new System.Windows.Forms.Timer(this.components);
@@ -127,8 +127,8 @@ namespace Woodpecker
             this.panelVideo = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.button_savelog = new System.Windows.Forms.Button();
-            this.serialPortD = new System.IO.Ports.SerialPort(this.components);
-            this.serialPortE = new System.IO.Ports.SerialPort(this.components);
+            this.PortD = new System.IO.Ports.SerialPort(this.components);
+            this.PortE = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
@@ -1582,9 +1582,9 @@ namespace Woodpecker
         private System.Windows.Forms.PictureBox pictureBox_RedRat;
         private System.Windows.Forms.Label labellabel_LoopTimes_Value;
         private System.Windows.Forms.Label label_LoopNumber_Value;
-        private System.IO.Ports.SerialPort serialPortA;
+        private System.IO.Ports.SerialPort PortA;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.IO.Ports.SerialPort serialPortB;
+        private System.IO.Ports.SerialPort PortB;
         private USBClassLibrary.USBClass USBPort;
         private USBClassLibrary.USBClass.DeviceProperties USBDeviceProperties;
         //bool MyUSBBoxDeviceConnected;
@@ -1655,7 +1655,7 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_Ac2;
         private System.Windows.Forms.Label label_Ac1;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
-        private System.IO.Ports.SerialPort serialPortC;
+        private System.IO.Ports.SerialPort PortC;
         private System.Windows.Forms.Button button_Network;
         private System.Windows.Forms.Label label_Remark;
         public SafeDataGridView DataGridView_Schedule;
@@ -1677,8 +1677,8 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.Button button_savelog;
-        private System.IO.Ports.SerialPort serialPortD;
-        private System.IO.Ports.SerialPort serialPortE;
+        private System.IO.Ports.SerialPort PortD;
+        private System.IO.Ports.SerialPort PortE;
         private System.Windows.Forms.ComboBox comboBox_savelog;
         private System.Windows.Forms.Label label_BoxVersion;
         protected internal System.Windows.Forms.Button button_Start;
