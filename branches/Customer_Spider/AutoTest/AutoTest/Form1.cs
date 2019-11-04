@@ -8184,7 +8184,7 @@ namespace Woodpecker
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Please load new schedule.", "Schedule Error");
+                MessageBox.Show("Please load or write a new schedule", "Schedule Error");
             }
         }
 
