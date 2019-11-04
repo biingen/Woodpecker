@@ -8178,7 +8178,14 @@ namespace Woodpecker
 
         private void button_insert_a_row_Click(object sender, EventArgs e)
         {
-            DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
+            try
+            {
+                DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Please load new schedule.", "Schedule Error");
+            }
         }
 
         #region -- Form1的Schedule 1~5按鈕功能 --
