@@ -229,6 +229,11 @@ namespace Woodpecker
                     comboBox_savelog.Items.Remove(port);
                 }
             }
+
+            if (comboBox_savelog.Items.Count == 0)
+                button_savelog.Enabled = false;
+            else
+                button_savelog.Enabled = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
