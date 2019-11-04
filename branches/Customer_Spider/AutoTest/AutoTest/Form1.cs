@@ -34,12 +34,17 @@ using MySerialLibrary;
 using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
+using Camera_NET;
+using DirectShowLib;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
 {
     public partial class Form1 : MaterialForm
     {
+        private CameraChoice _CameraChoice = new CameraChoice();
+        private CameraControl cameraControl = new CameraControl();
+
         private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
@@ -341,6 +346,16 @@ namespace Woodpecker
 
             LoadRCDB();
             ConnectCanBus();
+
+            
+            FillCameraList();
+            if (comboBoxCameraList.Items.Count > 0)
+            {
+                comboBoxCameraList.SelectedIndex = 0;
+            }
+            FillResolutionList();
+            
+
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -7311,6 +7326,99 @@ namespace Woodpecker
             }
         }
         #endregion
+
+        
+        
+        private void FillCameraList()
+        {
+            comboBoxCameraList.Items.Clear();
+
+            _CameraChoice.UpdateDeviceList();
+
+            foreach (var camera_device in _CameraChoice.Devices)
+            {
+                comboBoxCameraList.Items.Add(camera_device.Name);
+            }
+        }
+
+        private void FillResolutionList()
+        {
+            comboBoxResolutionList.Items.Clear();
+
+            if (!cameraControl.CameraCreated)
+                return;
+
+            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
+
+            if (resolutions == null)
+                return;
+
+            int index_to_select = -1;
+
+            for (int index = 0; index < resolutions.Count; index++)
+            {
+                comboBoxResolutionList.Items.Add(resolutions[index].ToString());
+
+                if (resolutions[index].CompareTo(cameraControl.Resolution) == 0)
+                {
+                    index_to_select = index;
+                }
+            }
+
+            // select current resolution
+            if (index_to_select >= 0)
+            {
+                comboBoxResolutionList.SelectedIndex = index_to_select;
+            }
+        }
+
+        private void comboBoxCameraList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxCameraList.SelectedIndex < 0)
+            {
+                cameraControl.CloseCamera();
+            }
+            else
+            {
+                // Set camera
+                cameraControl.SetCamera(_CameraChoice.Devices[comboBoxCameraList.SelectedIndex].Mon, null);
+                //SetCamera(_CameraChoice.Devices[ comboBoxCameraList.SelectedIndex ].Mon, null);
+            }
+
+            FillResolutionList();
+        }
+
+        private void comboBoxResolutionList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!cameraControl.CameraCreated)
+                return;
+
+            int comboBoxResolutionIndex = comboBoxResolutionList.SelectedIndex;
+            if (comboBoxResolutionIndex < 0)
+            {
+                return;
+            }
+            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
+
+            if (resolutions == null)
+                return;
+
+            if (comboBoxResolutionIndex >= resolutions.Count)
+                return; // throw
+
+            if (0 == resolutions[comboBoxResolutionIndex].CompareTo(cameraControl.Resolution))
+            {
+                // this resolution is already selected
+                return;
+            }
+
+            // Recreate camera
+            //SetCamera(_Camera.Moniker, resolutions[comboBoxResolutionIndex]);
+            cameraControl.SetCamera(cameraControl.Moniker, resolutions[comboBoxResolutionIndex]);
+
+        }
+        
+
 
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 

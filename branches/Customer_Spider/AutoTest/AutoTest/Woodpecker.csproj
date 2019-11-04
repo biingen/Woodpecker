@@ -97,9 +97,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Camera_NET">
+      <HintPath>..\..\..\..\..\Camera\Camera_Net\Camera_Net\bin\Debug\Camera_NET.dll</HintPath>
+    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib-2010">
+      <HintPath>..\..\..\..\..\Camera\Camera_Net\DirectShowLib\bin\Debug\DirectShowLib-2010.dll</HintPath>
     </Reference>
     <Reference Include="DirectX.Capture, Version=2.0.4372.33832, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -141,6 +141,8 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.comboBoxResolutionList = new System.Windows.Forms.ComboBox();
+            this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1473,6 +1475,24 @@ namespace Woodpecker
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
+            // comboBoxResolutionList
+            // 
+            this.comboBoxResolutionList.FormattingEnabled = true;
+            this.comboBoxResolutionList.Location = new System.Drawing.Point(975, 276);
+            this.comboBoxResolutionList.Name = "comboBoxResolutionList";
+            this.comboBoxResolutionList.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxResolutionList.TabIndex = 101;
+            this.comboBoxResolutionList.SelectedIndexChanged += new System.EventHandler(this.comboBoxResolutionList_SelectedIndexChanged);
+            // 
+            // comboBoxCameraList
+            // 
+            this.comboBoxCameraList.FormattingEnabled = true;
+            this.comboBoxCameraList.Location = new System.Drawing.Point(975, 313);
+            this.comboBoxCameraList.Name = "comboBoxCameraList";
+            this.comboBoxCameraList.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxCameraList.TabIndex = 113;
+            this.comboBoxCameraList.SelectedIndexChanged += new System.EventHandler(this.comboBoxCameraList_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1480,6 +1500,8 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
+            this.Controls.Add(this.comboBoxCameraList);
+            this.Controls.Add(this.comboBoxResolutionList);
             this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
@@ -1682,6 +1704,8 @@ namespace Woodpecker
         private System.Windows.Forms.ComboBox comboBox_savelog;
         private System.Windows.Forms.Label label_BoxVersion;
         protected internal System.Windows.Forms.Button button_Start;
+        private System.Windows.Forms.ComboBox comboBoxResolutionList;
+        private System.Windows.Forms.ComboBox comboBoxCameraList;
     }
 }
 
