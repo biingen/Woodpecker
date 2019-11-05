@@ -9149,6 +9149,7 @@ namespace Woodpecker
         {
             FormScriptHelper formScriptHelper = new FormScriptHelper();
             formScriptHelper.Owner = this;
+            strValue = string.Empty;
 
             try
             {
