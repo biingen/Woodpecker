@@ -72,7 +72,43 @@ namespace Woodpecker
                 comboBox_KeywordNum.Text = "0";
             }
 
-            if (checkBox_SerialPort1.Checked == false && checkBox_SerialPort2.Checked == false && checkBox_SerialPort3.Checked == false)
+            if (ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") != "")
+            {
+                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "")) == 1)
+                {
+                    checkBox_SerialPort4.Checked = true;
+                }
+                else
+                {
+                    checkBox_SerialPort4.Checked = false;
+                }
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                checkBox_SerialPort4.Checked = false;
+                comboBox_KeywordNum.Text = "0";
+            }
+
+            if (ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") != "")
+            {
+                if (int.Parse(ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "")) == 1)
+                {
+                    checkBox_SerialPort5.Checked = true;
+                }
+                else
+                {
+                    checkBox_SerialPort5.Checked = false;
+                }
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
+                checkBox_SerialPort5.Checked = false;
+                comboBox_KeywordNum.Text = "0";
+            }
+
+            if (checkBox_SerialPort1.Checked == false && checkBox_SerialPort2.Checked == false && checkBox_SerialPort3.Checked == false && checkBox_SerialPort4.Checked == false && checkBox_SerialPort5.Checked == false)
             {
                 comboBox_KeywordNum.Enabled = false;
             }
@@ -1280,11 +1316,19 @@ namespace Woodpecker
             {
                 if (checkBox_SerialPort2.Checked == true)
                 {
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", "0");
                 }
                 else if (checkBox_SerialPort3.Checked == true)
                 {
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                }
+                else if (checkBox_SerialPort4.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                }
+                else if (checkBox_SerialPort5.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
                 }
                 else
                 {
@@ -1307,11 +1351,19 @@ namespace Woodpecker
             {
                 if (checkBox_SerialPort1.Checked == true)
                 {
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", "0");
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
                 }
                 else if (checkBox_SerialPort3.Checked == true)
                 {
                     ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                }
+                else if (checkBox_SerialPort4.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                }
+                else if (checkBox_SerialPort5.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
                 }
                 else
                 {
@@ -1334,11 +1386,19 @@ namespace Woodpecker
             {
                 if (checkBox_SerialPort1.Checked == true)
                 {
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
                 }
                 else if (checkBox_SerialPort2.Checked == true)
                 {
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", "0");
+                }
+                else if (checkBox_SerialPort4.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                }
+                else if (checkBox_SerialPort5.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
                 }
                 else
                 {
@@ -1346,6 +1406,77 @@ namespace Woodpecker
                     comboBox_KeywordNum.Enabled = false;
                     SetErrorPictureAsNull();
                     ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                }
+            }
+        }
+
+
+        private void checkBox_SerialPort4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_SerialPort4.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "1");
+                comboBox_KeywordNum.Enabled = true;
+            }
+            else
+            {
+                if (checkBox_SerialPort1.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
+                }
+                else if (checkBox_SerialPort2.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", "0");
+                }
+                else if (checkBox_SerialPort3.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                }
+                else if (checkBox_SerialPort5.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
+                }
+                else
+                {
+                    comboBox_KeywordNum.Text = "0";
+                    comboBox_KeywordNum.Enabled = false;
+                    SetErrorPictureAsNull();
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                }
+            }
+        }
+
+        private void checkBox_SerialPort5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_SerialPort5.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "1");
+                comboBox_KeywordNum.Enabled = true;
+            }
+            else
+            {
+                if (checkBox_SerialPort1.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport1", "0");
+                }
+                else if (checkBox_SerialPort2.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport2", "0");
+                }
+                else if (checkBox_SerialPort3.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport3", "0");
+                }
+                else if (checkBox_SerialPort4.Checked == true)
+                {
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport4", "0");
+                }
+                else
+                {
+                    comboBox_KeywordNum.Text = "0";
+                    comboBox_KeywordNum.Enabled = false;
+                    SetErrorPictureAsNull();
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "Comport5", "0");
                 }
             }
         }

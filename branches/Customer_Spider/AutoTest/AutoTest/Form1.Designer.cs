@@ -295,7 +295,7 @@ namespace Woodpecker
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.02";
+            this.label_FwVersion.Text = "Ver. 1.0.03";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -322,7 +322,7 @@ namespace Woodpecker
             this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule1.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule1.Location = new System.Drawing.Point(964, 497);
+            this.button_Schedule1.Location = new System.Drawing.Point(964, 496);
             this.button_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule1.Name = "button_Schedule1";
             this.button_Schedule1.Size = new System.Drawing.Size(24, 24);
@@ -337,7 +337,7 @@ namespace Woodpecker
             this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule2.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule2.Location = new System.Drawing.Point(964, 473);
+            this.button_Schedule2.Location = new System.Drawing.Point(964, 472);
             this.button_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule2.Name = "button_Schedule2";
             this.button_Schedule2.Size = new System.Drawing.Size(24, 24);
@@ -352,7 +352,7 @@ namespace Woodpecker
             this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule3.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule3.Location = new System.Drawing.Point(964, 449);
+            this.button_Schedule3.Location = new System.Drawing.Point(964, 448);
             this.button_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule3.Name = "button_Schedule3";
             this.button_Schedule3.Size = new System.Drawing.Size(24, 24);
@@ -367,7 +367,7 @@ namespace Woodpecker
             this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule4.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule4.Location = new System.Drawing.Point(964, 425);
+            this.button_Schedule4.Location = new System.Drawing.Point(964, 424);
             this.button_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule4.Name = "button_Schedule4";
             this.button_Schedule4.Size = new System.Drawing.Size(24, 24);
@@ -382,7 +382,7 @@ namespace Woodpecker
             this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule5.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule5.Location = new System.Drawing.Point(964, 401);
+            this.button_Schedule5.Location = new System.Drawing.Point(964, 400);
             this.button_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule5.Name = "button_Schedule5";
             this.button_Schedule5.Size = new System.Drawing.Size(24, 24);
@@ -733,9 +733,9 @@ namespace Woodpecker
             this.label_ScheduleTime.Location = new System.Drawing.Point(344, 4);
             this.label_ScheduleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime.Name = "label_ScheduleTime";
-            this.label_ScheduleTime.Size = new System.Drawing.Size(116, 16);
+            this.label_ScheduleTime.Size = new System.Drawing.Size(119, 16);
             this.label_ScheduleTime.TabIndex = 82;
-            this.label_ScheduleTime.Text = "SCHEDULE TIME";
+            this.label_ScheduleTime.Text = "EST. FINISH TIME";
             // 
             // label_AutoBox
             // 
@@ -805,11 +805,11 @@ namespace Woodpecker
             this.labelGPIO_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelGPIO_Input.ForeColor = System.Drawing.Color.MediumSlateBlue;
             this.labelGPIO_Input.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelGPIO_Input.Location = new System.Drawing.Point(465, 533);
+            this.labelGPIO_Input.Location = new System.Drawing.Point(515, 533);
             this.labelGPIO_Input.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelGPIO_Input.Name = "labelGPIO_Input";
             this.labelGPIO_Input.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelGPIO_Input.Size = new System.Drawing.Size(177, 25);
+            this.labelGPIO_Input.Size = new System.Drawing.Size(127, 25);
             this.labelGPIO_Input.TabIndex = 87;
             this.labelGPIO_Input.Text = "---------------";
             this.labelGPIO_Input.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
