@@ -7526,8 +7526,8 @@ namespace Woodpecker
                 button_Start.Enabled = true;
                 button_Setting.Enabled = true;
                 button_Pause.Enabled = false;
-                setStyle();
                 button_SaveSchedule.Enabled = true;
+                setStyle();
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
@@ -7577,6 +7577,7 @@ namespace Woodpecker
             CloseDtplay();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
+            setStyle();
         }
         #endregion
 
@@ -8590,6 +8591,7 @@ namespace Woodpecker
                     button_Setting.Enabled = false;
                     button_Pause.Enabled = true;
                     button_SaveSchedule.Enabled = false;
+                    setStyle();
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -8667,6 +8669,7 @@ namespace Woodpecker
                     button_Setting.Enabled = false;
                     button_Pause.Enabled = true;
                     button_SaveSchedule.Enabled = false;
+                    setStyle();
 
                     label_Command.Text = "Please wait...";
                 }
@@ -9949,6 +9952,7 @@ namespace Woodpecker
         {
             FormScriptHelper formScriptHelper = new FormScriptHelper();
             formScriptHelper.Owner = this;
+            strValue = string.Empty;
 
             try
             {
@@ -10046,23 +10050,23 @@ namespace Woodpecker
 
             if (Breakfunction == true && Nowpoint != Breakpoint)
             {
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.White;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.PeachPuff;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.Black;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.BackColor = Color.Yellow;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.Yellow;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.Red;
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(51, 51, 51);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
+                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.White;
                 Breakpoint = Nowpoint;
                 //Console.WriteLine("Change the Nowpoint");
             }
             else if (Breakfunction == true && Nowpoint == Breakpoint)
             {
                 Breakfunction = false;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.White;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.PeachPuff;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.Black;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.PeachPuff;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.Black;
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(51, 51, 51);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
+                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(51, 51, 51);
+                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.White;
                 Breakpoint = -1;
                 //Console.WriteLine("Disable the Breakfunction");
             }
@@ -10070,9 +10074,9 @@ namespace Woodpecker
             {
                 Breakfunction = true;
                 Breakpoint = Nowpoint;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.Yellow;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.Yellow;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.Red;
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
+                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
                 Console.WriteLine("Enable the Breakfunction");
             }
         }
