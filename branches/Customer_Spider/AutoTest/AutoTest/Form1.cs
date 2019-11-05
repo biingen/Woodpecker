@@ -233,6 +233,11 @@ namespace Woodpecker
                     comboBox_savelog.Items.Remove(port);
                 }
             }
+
+            if (comboBox_savelog.Items.Count == 0)
+                button_savelog.Enabled = false;
+            else
+                button_savelog.Enabled = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -8976,7 +8981,14 @@ namespace Woodpecker
 
         private void button_insert_a_row_Click(object sender, EventArgs e)
         {
-            DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
+            try
+            {
+                DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Please load or write a new schedule", "Schedule Error");
+            }
         }
 
         #region -- Form1的Schedule 1~5按鈕功能 --

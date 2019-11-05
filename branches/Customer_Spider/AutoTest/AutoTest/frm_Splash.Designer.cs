@@ -53,8 +53,8 @@
             this.pictureBox1.BackgroundImage = global::Woodpecker.Properties.Resources.Loading_WPK;
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.Image = global::Woodpecker.Properties.Resources.Loading_WPK;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 2);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBox1.MaximumSize = new System.Drawing.Size(532, 344);
             this.pictureBox1.MinimumSize = new System.Drawing.Size(532, 344);
             this.pictureBox1.Name = "pictureBox1";
@@ -69,13 +69,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.Black;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(536, 348);
+            this.ClientSize = new System.Drawing.Size(532, 344);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.labelMark);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
+            this.MaximumSize = new System.Drawing.Size(532, 344);
+            this.MinimumSize = new System.Drawing.Size(532, 344);
             this.Name = "frm_Splash";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Loading...";
