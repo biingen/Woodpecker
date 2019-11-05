@@ -33,6 +33,7 @@
             this.IPtextBox = new System.Windows.Forms.TextBox();
             this.PorttextBox = new System.Windows.Forms.TextBox();
             this.pictureHW = new System.Windows.Forms.PictureBox();
+            this.button_python = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureHW)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,11 +88,22 @@
             this.pictureHW.TabIndex = 0;
             this.pictureHW.TabStop = false;
             // 
+            // button_python
+            // 
+            this.button_python.Location = new System.Drawing.Point(378, 536);
+            this.button_python.Name = "button_python";
+            this.button_python.Size = new System.Drawing.Size(81, 23);
+            this.button_python.TabIndex = 62;
+            this.button_python.Text = "python";
+            this.button_python.UseVisualStyleBackColor = true;
+            this.button_python.Click += new System.EventHandler(this.button_python_Click);
+            // 
             // FormSurp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(506, 668);
+            this.Controls.Add(this.button_python);
             this.Controls.Add(this.PorttextBox);
             this.Controls.Add(this.IPtextBox);
             this.Controls.Add(this.CloseBtn);
@@ -116,5 +128,6 @@
         private System.Windows.Forms.Button CloseBtn;
         private System.Windows.Forms.TextBox IPtextBox;
         private System.Windows.Forms.TextBox PorttextBox;
+        private System.Windows.Forms.Button button_python;
     }
 }
