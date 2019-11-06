@@ -139,6 +139,13 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
+
+            //Datagridview design
+            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
+            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
+            DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
+            DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
+
             initComboboxSaveLog();
 
             //USB Connection//
@@ -209,13 +216,6 @@ namespace Woodpecker
 
             }
 
-            //Datagridview design
-            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
-            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
-            DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
-            DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
-            //DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 153, 153);
-
         }
 
         private void initComboboxSaveLog()
@@ -235,9 +235,16 @@ namespace Woodpecker
             }
 
             if (comboBox_savelog.Items.Count == 0)
+            {
                 button_savelog.Enabled = false;
+                comboBox_savelog.Enabled = false;
+            }
+
             else
+            {
                 button_savelog.Enabled = true;
+                comboBox_savelog.Enabled = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -281,12 +288,6 @@ namespace Woodpecker
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Port A", "PortName", "") == "")
-            {
-                string[] DefaultCom = System.IO.Ports.SerialPort.GetPortNames();
-                ini12.INIWrite(MainSettingPath, "Port A", "PortName", DefaultCom.Last());
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -5069,7 +5070,8 @@ namespace Woodpecker
                             }
                             else
                             {
-                                button_Start.PerformClick();
+                                button_Pause.PerformClick();
+                                MessageBox.Show("Camera is not connected!", "Error");
                                 setStyle();
                             }
                         }
@@ -8252,7 +8254,7 @@ namespace Woodpecker
                 }
                 catch (Exception ex)
                 {
-                    Console.Write(ex.Message.ToString(), "Please setting the supported resolution!\n\r");
+                    Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
                 }
             }
             else
@@ -8684,6 +8686,7 @@ namespace Woodpecker
                     button_Pause.Enabled = true;
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     button_Start.Text = "STOP";
+                    setStyle();
                 }
             }
         }
@@ -9101,30 +9104,19 @@ namespace Woodpecker
                 }
                 objReader.Close();
             }
-            else
+            else if (IsFileLocked(SchedulePath))
             {
-                /*SchedulePath = Application.StartupPath + @"\Schedule\shot_template.csv";
-                i = 0;
-                if ((File.Exists(SchedulePath) == true) && IsFileLocked(SchedulePath) == false)
-                {
-                    DataGridView_Schedule.Rows.Clear();
-                    StreamReader objReader = new StreamReader(SchedulePath);
-                    while ((objReader.Peek() != -1))
-                    {
-                        TextLine = objReader.ReadLine();
-                        if (i != 0)
-                        {
-                            SplitLine = TextLine.Split(',');
-                            DataGridView_Schedule.Rows.Add(SplitLine);
-                        }
-                        i++;
-                    }
-                    objReader.Close();
-                }
-                */
+                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload schedule.", "Error");
                 button_Start.Enabled = false;
                 button_Schedule1.PerformClick();
             }
+            else
+            {
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+
+
 
             if (TextLine != "")
             {
@@ -9347,12 +9339,14 @@ namespace Woodpecker
             {
                 button_Pause.Text = "RESUME";
                 button_Start.Enabled = false;
+                setStyle();
                 SchedulePause.Reset();
             }
             else
             {
                 button_Pause.Text = "PAUSE";
                 button_Start.Enabled = true;
+                setStyle();
                 SchedulePause.Set();
                 timer1.Start();
             }
@@ -9952,7 +9946,7 @@ namespace Woodpecker
         {
             FormScriptHelper formScriptHelper = new FormScriptHelper();
             formScriptHelper.Owner = this;
-            strValue = string.Empty;
+            
 
             try
             {
@@ -10016,6 +10010,7 @@ namespace Woodpecker
                         targetColumn.MaxInputLength = 9;
                     }
                 }
+                strValue = "";
             }
             catch (Exception error)
             {
@@ -10123,7 +10118,7 @@ namespace Woodpecker
             {
                 case "Port A":
                     Serialportsave("A");
-                    MessageBox.Show("Port B is saved.", "Reminder");
+                    MessageBox.Show("Port A is saved.", "Reminder");
                     break;
                 case "Port B":
                     Serialportsave("B");

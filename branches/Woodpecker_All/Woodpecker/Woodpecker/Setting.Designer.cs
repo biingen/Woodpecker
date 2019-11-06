@@ -117,9 +117,12 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort5);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_SerialPort5);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_BaudRate_Value);
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_KlinePort_PortName_Value);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_Kline);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_BaudRate);
@@ -741,7 +744,7 @@
             // 
             this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_klinePort.Location = new System.Drawing.Point(605, 440);
+            this.pictureBox_klinePort.Location = new System.Drawing.Point(344, 141);
             this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_klinePort.Name = "pictureBox_klinePort";
             this.pictureBox_klinePort.Size = new System.Drawing.Size(23, 23);
@@ -755,7 +758,7 @@
             this.comboBox_KlinePort_PortName_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_KlinePort_PortName_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_KlinePort_PortName_Value.FormattingEnabled = true;
-            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(535, 440);
+            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(274, 141);
             this.comboBox_KlinePort_PortName_Value.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.comboBox_KlinePort_PortName_Value.Name = "comboBox_KlinePort_PortName_Value";
             this.comboBox_KlinePort_PortName_Value.Size = new System.Drawing.Size(65, 23);
@@ -767,7 +770,7 @@
             this.checkBox_Kline.AutoSize = true;
             this.checkBox_Kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Kline.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Kline.Location = new System.Drawing.Point(455, 441);
+            this.checkBox_Kline.Location = new System.Drawing.Point(194, 142);
             this.checkBox_Kline.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Kline.Name = "checkBox_Kline";
             this.checkBox_Kline.Size = new System.Drawing.Size(79, 19);
@@ -1170,11 +1173,8 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(658, 494);
             this.ControlBox = false;
-            this.Controls.Add(this.pictureBox_klinePort);
             this.Controls.Add(this.button_DosPath);
             this.Controls.Add(this.button_GeneratorPath);
-            this.Controls.Add(this.comboBox_KlinePort_PortName_Value);
-            this.Controls.Add(this.checkBox_Kline);
             this.Controls.Add(this.button_RcDbPath);
             this.Controls.Add(this.button_LogPath);
             this.Controls.Add(this.button_ImagePath);
