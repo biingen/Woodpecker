@@ -453,7 +453,7 @@ namespace Woodpecker
                 checkBox_Kline.Checked = true;
                 comboBox_KlinePort_PortName_Value.Enabled = true;
             }
-            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "")
             {
                 checkBox_Kline.Checked = false;
                 comboBox_KlinePort_PortName_Value.Enabled = false;
