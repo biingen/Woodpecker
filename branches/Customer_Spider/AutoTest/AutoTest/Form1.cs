@@ -10123,7 +10123,7 @@ namespace Woodpecker
             {
                 case "Port A":
                     Serialportsave("A");
-                    MessageBox.Show("Port B is saved.", "Reminder");
+                    MessageBox.Show("Port A is saved.", "Reminder");
                     break;
                 case "Port B":
                     Serialportsave("B");
