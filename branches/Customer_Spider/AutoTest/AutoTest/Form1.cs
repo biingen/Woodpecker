@@ -235,9 +235,16 @@ namespace Woodpecker
             }
 
             if (comboBox_savelog.Items.Count == 0)
+            {
                 button_savelog.Enabled = false;
+                comboBox_savelog.Enabled = false;
+            }
+
             else
+            {
                 button_savelog.Enabled = true;
+                comboBox_savelog.Enabled = true;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -281,12 +288,6 @@ namespace Woodpecker
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Port A", "PortName", "") == "")
-            {
-                string[] DefaultCom = System.IO.Ports.SerialPort.GetPortNames();
-                ini12.INIWrite(MainSettingPath, "Port A", "PortName", DefaultCom.Last());
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -8253,7 +8254,7 @@ namespace Woodpecker
                 }
                 catch (Exception ex)
                 {
-                    Console.Write(ex.Message.ToString(), "Please setting the supported resolution!\n\r");
+                    Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
                 }
             }
             else
@@ -9103,12 +9104,19 @@ namespace Woodpecker
                 }
                 objReader.Close();
             }
-            else
+            else if (IsFileLocked(SchedulePath))
             {
-                MessageBox.Show("Please check your .csv file is closed.", "Error");
+                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload schedule.", "Error");
                 button_Start.Enabled = false;
                 button_Schedule1.PerformClick();
             }
+            else
+            {
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+
+
 
             if (TextLine != "")
             {
