@@ -65,9 +65,9 @@ namespace Woodpecker
         {
             for (int i = 1; i <= 10; i++)
             {
-                if (SplashForm != null)
+                /*if (SplashForm != null)
                 {SplashForm.Invoke(new MethodInvoker(delegate 
-                        {SplashForm.labelMark.Text = "Spider";}));}
+                        {SplashForm.labelMark.Text = "Spider";}));}*/
                 Thread.Sleep(100);
             }
             
