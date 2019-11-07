@@ -5657,6 +5657,18 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- All Port --
+                        else if (columns_command == "_allport")
+                        {
+                            Console.WriteLine("All port command: _allport");
+
+                            PortA.Write(columns_serial + "A" + "\r\n");
+                            PortB.Write(columns_serial + "B" + "\r\n");
+                            PortC.Write(columns_serial + "C" + "\r\n");
+
+                        }
+                        #endregion
+
                         #region -- Astro Timing --
                         else if (columns_command == "_astro")
                         {
