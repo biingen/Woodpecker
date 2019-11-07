@@ -201,7 +201,7 @@ namespace Woodpecker
             {
                 textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
-            else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "" || Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")) == false)
             {
                 Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Image");
                 textBox_ImagePath.Text = System.Windows.Forms.Application.StartupPath + "\\Image";
@@ -219,7 +219,7 @@ namespace Woodpecker
             {
                 textBox_LogPath.Text = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             }
-            else if (ini12.INIRead(MainSettingPath, "Record", "LogPath", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Record", "LogPath", "") == "" || Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "LogPath", "")) == false)
             {
                 Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Log");
                 textBox_LogPath.Text = System.Windows.Forms.Application.StartupPath + "\\Log";
