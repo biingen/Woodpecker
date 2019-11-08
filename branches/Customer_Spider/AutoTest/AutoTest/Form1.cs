@@ -8133,7 +8133,7 @@ namespace Woodpecker
         }
         #endregion
 
-        
+
         
         private void FillCameraList()
         {
@@ -8223,7 +8223,7 @@ namespace Woodpecker
             cameraControl.SetCamera(cameraControl.Moniker, resolutions[comboBoxResolutionIndex]);
 
         }
-        
+
 
 
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
