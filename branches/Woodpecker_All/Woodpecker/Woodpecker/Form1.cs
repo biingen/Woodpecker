@@ -8162,7 +8162,7 @@ namespace Woodpecker
                 }
                 catch (Exception ex)
                 {
-                    Console.Write(ex.Message.ToString(), "Webcam doed not support 2304*1296!\n\r");
+                    Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
                     try
                     {
                         capture.FrameSize = new Size(1920, 1080);
@@ -8170,7 +8170,7 @@ namespace Woodpecker
                     }
                     catch (Exception ex1)
                     {
-                        Console.Write(ex1.Message.ToString(), "Webcam can't supported the 1920*1080 resolution!\n\r");
+                        Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
                         try
                         {
                             capture.FrameSize = new Size(1280, 720);
@@ -8178,7 +8178,7 @@ namespace Woodpecker
                         }
                         catch (Exception ex2)
                         {
-                            Console.Write(ex2.Message.ToString(), "Webcam can't supported the 1280*720 resolution!\n\r");
+                            Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
                             try
                             {
                                 capture.FrameSize = new Size(640, 480);
@@ -8186,7 +8186,7 @@ namespace Woodpecker
                             }
                             catch (Exception ex3)
                             {
-                                Console.Write(ex3.Message.ToString(), "Webcam can't supported the 640*480 resolution!\n\r");
+                                Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
                                 try
                                 {
                                     capture.FrameSize = new Size(320, 240);
@@ -8194,7 +8194,7 @@ namespace Woodpecker
                                 }
                                 catch (Exception ex4)
                                 {
-                                    Console.Write(ex4.Message.ToString(), "Webcam can't supported the 320*240 resolution!\n\r");
+                                    Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
                                 }
                             }
                         }
@@ -8449,15 +8449,17 @@ namespace Woodpecker
                 }
             }
 
-            if (AutoBox_Status == true)//如果電腦有接上AutoBox//
+            Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
+            Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
+            Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
+            Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
+            Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
+            Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
+
+            if (AutoBox_Status)//如果電腦有接上AutoBox//
             {
                 button_Schedule1.PerformClick();
-                Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
-                Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
-                Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
-                Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
-                Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
-                Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
+                
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
@@ -8611,17 +8613,59 @@ namespace Woodpecker
                     }
                 }
             }
-
-            if (AutoBox_Status == false)//如果沒接AutoBox//
+            else//如果沒接AutoBox//
             {
-                Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
-
                 if (StartButtonPressed == true)//按下STOP//
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
+
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread1.Abort();
+                            //Log1Data.Abort();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread2.Abort();
+                            //Log2Data.Abort();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread3.Abort();
+                            //Log3Data.Abort();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread4.Abort();
+                            //Log4Data.Abort();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    {
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        {
+                            LogThread5.Abort();
+                            //Log4Data.Abort();
+                        }
+                    }
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -8644,10 +8688,69 @@ namespace Woodpecker
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     button_Start.Text = "STOP";
                     setStyle();
+
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("A");
+                        textBox_serial.Clear();
+                        //textBox1.Text = string.Empty;//清空serialport1//
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
+                        {
+                            LogThread1.IsBackground = true;
+                            LogThread1.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("B");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
+                        {
+                            LogThread2.IsBackground = true;
+                            LogThread2.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("C");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
+                        {
+                            LogThread3.IsBackground = true;
+                            LogThread3.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("D");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
+                        {
+                            LogThread4.IsBackground = true;
+                            LogThread4.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("E");
+                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
+                        {
+                            LogThread5.IsBackground = true;
+                            LogThread5.Start();
+                        }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("kline");
+                        textBox_serial.Text = ""; //清空kline//
+                    }
                 }
             }
         }
 
+        
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();

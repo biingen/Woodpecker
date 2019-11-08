@@ -410,12 +410,12 @@ namespace Woodpecker
             {
                 //發送Email
                 MySmtp.Send("'TP_DQA_Test'<tpdqatest@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
-                MessageBox.Show("The Gmail system is normal on the network environment.");
+                MessageBox.Show("The Gmail system is normal on the network environment.", "Success");
                 return true;
             }
             catch (Exception)
             {
-                MessageBox.Show("The Gmail system is abnormal on the network environment.");
+                MessageBox.Show("The Gmail system is abnormal on the network environment.", "Connection Error");
                 SendMailcheckBox.Checked = false;
                 GmailcheckBox.Checked = false;
                 return false;
@@ -484,11 +484,13 @@ namespace Woodpecker
         {
             if (SendMailcheckBox.Checked == true && GmailcheckBox.Checked == true)
             {
+                GmailcheckBox.Enabled = false;
                 ConnectGMailTW();
+                GmailcheckBox.Enabled = true;
             }
             else if (SendMailcheckBox.Checked == false && GmailcheckBox.Checked == true)
             {
-                MessageBox.Show("Please check the Mail function first.");
+                MessageBox.Show("Please check the Mail function first.", "Error");
             }
         }
 
