@@ -5384,7 +5384,7 @@ namespace Woodpecker
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Ascii Log: _PortAll");
+                                Console.WriteLine("Ascii Log: _All");
                                 string [] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
                                 string [] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -5399,7 +5399,7 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    PortA.Write(columns_serial + switch_content);
+                                    PortA.Write(serial_content[0] + switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5408,7 +5408,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
-                                    PortB.Write(columns_serial + switch_content);
+                                    PortB.Write(serial_content[1] + switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5417,7 +5417,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    PortC.Write(columns_serial + switch_content);
+                                    PortC.Write(serial_content[2] + switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5426,7 +5426,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    PortD.Write(columns_serial + switch_content);
+                                    PortD.Write(serial_content[3] + switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5435,7 +5435,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    PortE.Write(columns_serial + switch_content);
+                                    PortE.Write(serial_content[4] + switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5582,9 +5582,8 @@ namespace Woodpecker
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Ascii Log: _PortAll");
+                                Console.WriteLine("Hex Log: _All");
                                 string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                                string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                                 if (columns_serial == "_save")
                                 {
@@ -5595,45 +5594,45 @@ namespace Woodpecker
                                     logAll_text = string.Empty; //清除logAll_text
                                 }
 
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
                                 {
-                                    PortA.Write(columns_serial + switch_content);
+                                    PortA.Write(serial_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
-                                    PortB.Write(columns_serial + switch_content);
+                                    PortB.Write(serial_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
-                                    PortC.Write(columns_serial + switch_content);
+                                    PortC.Write(serial_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
-                                    PortD.Write(columns_serial + switch_content);
+                                    PortD.Write(serial_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
-                                    PortE.Write(columns_serial + switch_content);
+                                    PortE.Write(serial_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
