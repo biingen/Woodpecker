@@ -2,7 +2,9 @@
 using MaterialSkin;
 using MaterialSkin.Controls;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -17,7 +19,7 @@ namespace Woodpecker
         }
 
         //拖動無窗體的控件>>>>>>>>>>>>>>
-        [DllImport("user32.dll")]       
+        [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
         public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
@@ -93,7 +95,7 @@ namespace Woodpecker
         private void MailSettingBtn_Click(object sender, EventArgs e)
         {
             FormMail FormMail = new FormMail();
-            
+
             MailSettingBtn.Enabled = false;
             FormMail.Dock = DockStyle.Fill;
             Add_TabPage("Mail Setting", FormMail);
@@ -125,6 +127,7 @@ namespace Woodpecker
         }
         #endregion
 
+
         #region 關閉按鈕
         private void ClosePicBox_Enter(object sender, EventArgs e)
         {
@@ -135,7 +138,7 @@ namespace Woodpecker
         {
             ClosePicBox.Image = Properties.Resources.close1;
         }
-        
+
         private void ClosePicBox_Click(object sender, EventArgs e)
         {
             if (Global.FormSetting == true && Global.FormSchedule == true && Global.FormMail == true && Global.FormLog == true)
@@ -144,7 +147,7 @@ namespace Woodpecker
             }
             else
             {
-                if(Global.FormSetting == false)
+                if (Global.FormSetting == false)
                     MessageBox.Show("Main Setting Error !");
 
                 if (Global.FormSchedule == false)
@@ -187,22 +190,22 @@ namespace Woodpecker
         {
             FormSetting.Show();
             tabControl.TabPages[0].Controls.Add(FormSetting);
-            
+
             FormSchedule.Show();
             tabControl.TabPages[1].Controls.Add(FormSchedule);
-            
+
             FormMail.Show();
             tabControl.TabPages[2].Controls.Add(FormMail);
-            
+
             FormLog.Show();
             tabControl.TabPages[3].Controls.Add(FormLog);
         }
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Global.FormSetting == true && 
-                Global.FormSchedule == true && 
-                Global.FormMail == true && 
+            if (Global.FormSetting == true &&
+                Global.FormSchedule == true &&
+                Global.FormMail == true &&
                 Global.FormLog == true)
             {
                 DialogResult = DialogResult.OK;
@@ -214,28 +217,54 @@ namespace Woodpecker
                     MessageBox.Show("Settings do not save", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
-                    
+
 
                 if (Global.FormSchedule == false)
                 {
                     MessageBox.Show("Settings do not save", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
-                    
+
                 if (Global.FormMail == false)
                 {
                     MessageBox.Show("Settings do not save", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
-                    
+
 
                 if (Global.FormLog == false)
                 {
                     MessageBox.Show("Settings do not save", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_KeywordSearch;
                 }
-                    
+
                 e.Cancel = true;
+            }
+
+            checkBaudRateIsEmpty(e);
+            /*List<CheckBox> portCheckBoxList = new List<CheckBox> { FormSetting.checkBox_SerialPort5 };
+            if (FormSetting.checkBox_SerialPort5.Checked == true && FormSetting.comboBox_SerialPort5_BaudRate_Value.SelectedItem == null)
+            {
+                e.Cancel = true;
+                FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
+            }*/
+        }
+
+        private void checkBaudRateIsEmpty(FormClosingEventArgs e)
+        {
+            List<CheckBox> portCheckBoxList = new List<CheckBox> { FormSetting.checkBox_SerialPort1, FormSetting.checkBox_SerialPort2, FormSetting.checkBox_SerialPort3,
+                FormSetting.checkBox_SerialPort4, FormSetting.checkBox_SerialPort5 };
+            List<ComboBox> baudRateComboBoxList = new List<ComboBox> { FormSetting.comboBox_SerialPort1_BaudRate_Value, FormSetting.comboBox_SerialPort2_BaudRate_Value,
+                FormSetting.comboBox_SerialPort3_BaudRate_Value, FormSetting.comboBox_SerialPort4_BaudRate_Value, FormSetting.comboBox_SerialPort5_BaudRate_Value };
+
+            var portAndBaudRate = portCheckBoxList.Zip(baudRateComboBoxList, (p, b) => new { port = p, baudRate = b });
+            foreach (var number in portAndBaudRate)
+            {
+                if (number.port.Checked == true && number.baudRate.SelectedItem == null)
+                {
+                    e.Cancel = true;
+                    FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
+                }
             }
         }
 
