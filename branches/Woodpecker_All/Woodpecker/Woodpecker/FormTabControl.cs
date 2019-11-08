@@ -214,40 +214,53 @@ namespace Woodpecker
             {
                 if (Global.FormSetting == false)
                 {
-                    MessageBox.Show("Settings do not save", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
 
                 if (Global.FormSchedule == false)
                 {
-                    MessageBox.Show("Settings do not save", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
 
                 if (Global.FormMail == false)
                 {
-                    MessageBox.Show("Settings do not save", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
 
 
                 if (Global.FormLog == false)
                 {
-                    MessageBox.Show("Settings do not save", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_KeywordSearch;
                 }
 
                 e.Cancel = true;
             }
 
+            checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
-            /*List<CheckBox> portCheckBoxList = new List<CheckBox> { FormSetting.checkBox_SerialPort5 };
-            if (FormSetting.checkBox_SerialPort5.Checked == true && FormSetting.comboBox_SerialPort5_BaudRate_Value.SelectedItem == null)
+
+        }
+
+        private void checkLoopIsEmpty(FormClosingEventArgs e)
+        {
+            List<TextBox> scheduleTextBoxList = new List<TextBox> { FormSchedule.textBox_Schedule1, FormSchedule.textBox_Schedule2, FormSchedule.textBox_Schedule3,
+                FormSchedule.textBox_Schedule4, FormSchedule.textBox_Schedule5 };
+            List<TextBox> loopTextBoxList = new List<TextBox> { FormSchedule.textBox_Schedule1Loop, FormSchedule.textBox_Schedule2Loop, FormSchedule.textBox_Schedule3Loop,
+                FormSchedule.textBox_Schedule4Loop, FormSchedule.textBox_Schedule5Loop };
+
+            var scheduleAndLoop = scheduleTextBoxList.Zip(loopTextBoxList, (s, l) => new { schedule = s, loop = l });
+            foreach(var number in scheduleAndLoop)
             {
-                e.Cancel = true;
-                FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
-            }*/
+                if (String.IsNullOrEmpty(number.schedule.Text) == false && (String.IsNullOrEmpty(number.loop.Text) == true || number.loop.Text == "0"))
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void checkBaudRateIsEmpty(FormClosingEventArgs e)

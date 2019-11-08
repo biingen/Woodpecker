@@ -5077,7 +5077,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                button_Pause.PerformClick();
+                                button_Start.PerformClick();
                                 MessageBox.Show("Camera is not connected!", "Error");
                                 setStyle();
                             }
@@ -5734,18 +5734,6 @@ namespace Woodpecker
                             kline_send = 0;
                             ABS_error_list.Clear();
                             OBD_error_list.Clear();
-                        }
-                        #endregion
-
-                        #region -- All Port --
-                        else if (columns_command == "_allport")
-                        {
-                            Console.WriteLine("All port command: _allport");
-
-                            PortA.Write(columns_serial + "A" + "\r\n");
-                            PortB.Write(columns_serial + "B" + "\r\n");
-                            PortC.Write(columns_serial + "C" + "\r\n");
-
                         }
                         #endregion
 

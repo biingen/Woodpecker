@@ -362,7 +362,7 @@ namespace Woodpecker
                 }
 
             }
-            else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "0")
+            else
             {
                 GroupBox_Rs232.Text = "AUTOKIT IS NOT CONNECTED";
 
@@ -558,6 +558,8 @@ namespace Woodpecker
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
+
+
             }
             #endregion
 
