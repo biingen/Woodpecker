@@ -5070,7 +5070,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                button_Pause.PerformClick();
+                                button_Start.PerformClick();
                                 MessageBox.Show("Camera is not connected!", "Error");
                                 setStyle();
                             }

@@ -865,19 +865,9 @@
         private System.Windows.Forms.Label label_Schedule3Loop;
         private System.Windows.Forms.Label label_Schedule2Loop;
         private System.Windows.Forms.Label label_Schedule1Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule5Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule4Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule3Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule2Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule1Loop;
-        private System.Windows.Forms.TextBox textBox_Schedule5;
         private System.Windows.Forms.Button button_Schedule5;
-        private System.Windows.Forms.TextBox textBox_Schedule4;
         private System.Windows.Forms.Button button_Schedule4;
-        private System.Windows.Forms.TextBox textBox_Schedule3;
         private System.Windows.Forms.Button button_Schedule3;
-        private System.Windows.Forms.TextBox textBox_Schedule2;
-        private System.Windows.Forms.TextBox textBox_Schedule1;
         private System.Windows.Forms.Button button_Schedule2;
         private System.Windows.Forms.Button button_Schedule1;
         private System.Windows.Forms.OpenFileDialog SchOpen1;
@@ -915,5 +905,15 @@
         private System.Windows.Forms.PictureBox pictureBox_Schedule4Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule5Loop;
         private System.Windows.Forms.CheckBox checkBox_ScheduleAutoStart;
+        internal System.Windows.Forms.TextBox textBox_Schedule5Loop;
+        internal System.Windows.Forms.TextBox textBox_Schedule4Loop;
+        internal System.Windows.Forms.TextBox textBox_Schedule3Loop;
+        internal System.Windows.Forms.TextBox textBox_Schedule2Loop;
+        internal System.Windows.Forms.TextBox textBox_Schedule1Loop;
+        internal System.Windows.Forms.TextBox textBox_Schedule5;
+        internal System.Windows.Forms.TextBox textBox_Schedule4;
+        internal System.Windows.Forms.TextBox textBox_Schedule3;
+        internal System.Windows.Forms.TextBox textBox_Schedule2;
+        internal System.Windows.Forms.TextBox textBox_Schedule1;
     }
 }
