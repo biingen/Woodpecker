@@ -292,12 +292,12 @@ namespace Woodpecker
             this.label_FwVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_FwVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(102)))), ((int)(((byte)(121)))));
             this.label_FwVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_FwVersion.Location = new System.Drawing.Point(-1, 93);
+            this.label_FwVersion.Location = new System.Drawing.Point(2, 93);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.02";
+            this.label_FwVersion.Text = "Ver. 1.0.04";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -324,7 +324,7 @@ namespace Woodpecker
             this.button_Schedule1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule1.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule1.Location = new System.Drawing.Point(964, 497);
+            this.button_Schedule1.Location = new System.Drawing.Point(964, 496);
             this.button_Schedule1.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule1.Name = "button_Schedule1";
             this.button_Schedule1.Size = new System.Drawing.Size(24, 24);
@@ -339,7 +339,7 @@ namespace Woodpecker
             this.button_Schedule2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule2.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule2.Location = new System.Drawing.Point(964, 473);
+            this.button_Schedule2.Location = new System.Drawing.Point(964, 472);
             this.button_Schedule2.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule2.Name = "button_Schedule2";
             this.button_Schedule2.Size = new System.Drawing.Size(24, 24);
@@ -354,7 +354,7 @@ namespace Woodpecker
             this.button_Schedule3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule3.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule3.Location = new System.Drawing.Point(964, 449);
+            this.button_Schedule3.Location = new System.Drawing.Point(964, 448);
             this.button_Schedule3.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule3.Name = "button_Schedule3";
             this.button_Schedule3.Size = new System.Drawing.Size(24, 24);
@@ -369,7 +369,7 @@ namespace Woodpecker
             this.button_Schedule4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule4.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule4.Location = new System.Drawing.Point(964, 425);
+            this.button_Schedule4.Location = new System.Drawing.Point(964, 424);
             this.button_Schedule4.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule4.Name = "button_Schedule4";
             this.button_Schedule4.Size = new System.Drawing.Size(24, 24);
@@ -384,7 +384,7 @@ namespace Woodpecker
             this.button_Schedule5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Schedule5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Schedule5.ForeColor = System.Drawing.Color.White;
-            this.button_Schedule5.Location = new System.Drawing.Point(964, 401);
+            this.button_Schedule5.Location = new System.Drawing.Point(964, 400);
             this.button_Schedule5.Margin = new System.Windows.Forms.Padding(2);
             this.button_Schedule5.Name = "button_Schedule5";
             this.button_Schedule5.Size = new System.Drawing.Size(24, 24);
@@ -735,9 +735,9 @@ namespace Woodpecker
             this.label_ScheduleTime.Location = new System.Drawing.Point(344, 4);
             this.label_ScheduleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime.Name = "label_ScheduleTime";
-            this.label_ScheduleTime.Size = new System.Drawing.Size(116, 16);
+            this.label_ScheduleTime.Size = new System.Drawing.Size(119, 16);
             this.label_ScheduleTime.TabIndex = 82;
-            this.label_ScheduleTime.Text = "SCHEDULE TIME";
+            this.label_ScheduleTime.Text = "EST. FINISH TIME";
             // 
             // label_AutoBox
             // 
@@ -807,11 +807,11 @@ namespace Woodpecker
             this.labelGPIO_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.labelGPIO_Input.ForeColor = System.Drawing.Color.MediumSlateBlue;
             this.labelGPIO_Input.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelGPIO_Input.Location = new System.Drawing.Point(465, 533);
+            this.labelGPIO_Input.Location = new System.Drawing.Point(515, 533);
             this.labelGPIO_Input.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelGPIO_Input.Name = "labelGPIO_Input";
             this.labelGPIO_Input.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.labelGPIO_Input.Size = new System.Drawing.Size(177, 25);
+            this.labelGPIO_Input.Size = new System.Drawing.Size(127, 25);
             this.labelGPIO_Input.TabIndex = 87;
             this.labelGPIO_Input.Text = "---------------";
             this.labelGPIO_Input.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -925,7 +925,7 @@ namespace Woodpecker
             this.button_AcUsb.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_AcUsb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_AcUsb.ForeColor = System.Drawing.Color.White;
-            this.button_AcUsb.Location = new System.Drawing.Point(0, 2);
+            this.button_AcUsb.Location = new System.Drawing.Point(2, 2);
             this.button_AcUsb.Margin = new System.Windows.Forms.Padding(2);
             this.button_AcUsb.Name = "button_AcUsb";
             this.button_AcUsb.Size = new System.Drawing.Size(111, 30);
@@ -1392,7 +1392,6 @@ namespace Woodpecker
             this.Column1.MinimumWidth = 120;
             this.Column1.Name = "Column1";
             this.Column1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Column1.ToolTipText = "_cmd, _log1, _log2, _astro, _quantum, _dektec";
             // 
             // Column2
@@ -1404,6 +1403,7 @@ namespace Woodpecker
             this.Column2.MinimumWidth = 80;
             this.Column2.Name = "Column2";
             this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column3
             // 
@@ -1413,6 +1413,7 @@ namespace Woodpecker
             this.Column3.MinimumWidth = 50;
             this.Column3.Name = "Column3";
             this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column4
             // 
@@ -1422,6 +1423,7 @@ namespace Woodpecker
             this.Column4.MinimumWidth = 70;
             this.Column4.Name = "Column4";
             this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column4.Width = 72;
             // 
             // Column5
@@ -1431,6 +1433,7 @@ namespace Woodpecker
             this.Column5.MinimumWidth = 100;
             this.Column5.Name = "Column5";
             this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column6
             // 
@@ -1439,6 +1442,7 @@ namespace Woodpecker
             this.Column6.MinimumWidth = 100;
             this.Column6.Name = "Column6";
             this.Column6.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column6.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column7
             // 
@@ -1448,6 +1452,7 @@ namespace Woodpecker
             this.Column7.MinimumWidth = 150;
             this.Column7.Name = "Column7";
             this.Column7.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column7.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column8
             // 
@@ -1457,6 +1462,7 @@ namespace Woodpecker
             this.Column8.MinimumWidth = 80;
             this.Column8.Name = "Column8";
             this.Column8.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column8.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column9
             // 
@@ -1466,6 +1472,7 @@ namespace Woodpecker
             this.Column9.MinimumWidth = 50;
             this.Column9.Name = "Column9";
             this.Column9.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column9.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // Column10
             // 
@@ -1474,6 +1481,7 @@ namespace Woodpecker
             this.Column10.MinimumWidth = 100;
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // comboBoxResolutionList
             // 
@@ -1688,6 +1696,12 @@ namespace Woodpecker
         private System.Windows.Forms.PictureBox pictureBox_canbus;
         private System.Windows.Forms.Button button_Copy;
         private System.Windows.Forms.Timer timer_kline;
+        private System.Windows.Forms.Button button_savelog;
+        private System.IO.Ports.SerialPort PortD;
+        private System.IO.Ports.SerialPort PortE;
+        private System.Windows.Forms.ComboBox comboBox_savelog;
+        private System.Windows.Forms.Label label_BoxVersion;
+        protected internal System.Windows.Forms.Button button_Start;
         private System.Windows.Forms.DataGridViewComboBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
@@ -1698,6 +1712,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+<<<<<<< HEAD
         private System.Windows.Forms.Button button_savelog;
         private System.IO.Ports.SerialPort PortD;
         private System.IO.Ports.SerialPort PortE;
@@ -1706,6 +1721,8 @@ namespace Woodpecker
         protected internal System.Windows.Forms.Button button_Start;
         private System.Windows.Forms.ComboBox comboBoxResolutionList;
         private System.Windows.Forms.ComboBox comboBoxCameraList;
+=======
+>>>>>>> a6f356a71aad2343ddf00b6401061dd239c9313f
     }
 }
 

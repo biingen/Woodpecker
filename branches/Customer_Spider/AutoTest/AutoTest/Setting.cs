@@ -306,7 +306,7 @@ namespace Woodpecker
                     comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort2_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "")
                 {
                     checkBox_SerialPort2.Checked = false;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = false;
@@ -319,7 +319,7 @@ namespace Woodpecker
                     comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort3_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "")
                 {
                     checkBox_SerialPort3.Checked = false;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
@@ -332,7 +332,7 @@ namespace Woodpecker
                     comboBox_SerialPort4_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort4_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "")
                 {
                     checkBox_SerialPort4.Checked = false;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = false;
@@ -345,7 +345,7 @@ namespace Woodpecker
                     comboBox_SerialPort5_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort5_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "")
                 {
                     checkBox_SerialPort5.Checked = false;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = false;
@@ -356,15 +356,15 @@ namespace Woodpecker
                 {
                     checkBox_Displayhex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
                 {
                     checkBox_Displayhex.Checked = false;
                 }
 
             }
-            else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "0")
+            else
             {
-                GroupBox_Rs232.Text = "AutoKit IS NOT CONNECTED";
+                GroupBox_Rs232.Text = "AUTOKIT IS NOT CONNECTED";
 
                 comboBox_SerialPort1_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort2_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
@@ -392,7 +392,7 @@ namespace Woodpecker
                     comboBox_SerialPort2_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort2_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "")
                 {
                     checkBox_SerialPort2.Checked = false;
                     comboBox_SerialPort2_BaudRate_Value.Enabled = false;
@@ -405,7 +405,7 @@ namespace Woodpecker
                     comboBox_SerialPort3_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort3_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "")
                 {
                     checkBox_SerialPort3.Checked = false;
                     comboBox_SerialPort3_BaudRate_Value.Enabled = false;
@@ -418,7 +418,7 @@ namespace Woodpecker
                     comboBox_SerialPort4_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort4_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "")
                 {
                     checkBox_SerialPort4.Checked = false;
                     comboBox_SerialPort4_BaudRate_Value.Enabled = false;
@@ -431,7 +431,7 @@ namespace Woodpecker
                     comboBox_SerialPort5_BaudRate_Value.Enabled = true;
                     comboBox_SerialPort5_PortName_Value.Enabled = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "")
                 {
                     checkBox_SerialPort5.Checked = false;
                     comboBox_SerialPort5_BaudRate_Value.Enabled = false;
@@ -442,7 +442,7 @@ namespace Woodpecker
                 {
                     checkBox_Displayhex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
                 {
                     checkBox_Displayhex.Checked = false;
                 }
@@ -453,7 +453,7 @@ namespace Woodpecker
                 checkBox_Kline.Checked = true;
                 comboBox_KlinePort_PortName_Value.Enabled = true;
             }
-            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "")
             {
                 checkBox_Kline.Checked = false;
                 comboBox_KlinePort_PortName_Value.Enabled = false;
@@ -558,6 +558,8 @@ namespace Woodpecker
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
+
+
             }
             #endregion
 
@@ -705,31 +707,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort2.Checked == true &&
                         (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
                         (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort4.Checked == true &&
                         (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort1_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -752,31 +754,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort1.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort4.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -799,31 +801,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort1.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort4.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -846,31 +848,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort1.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -893,31 +895,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort1.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort5.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort4.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort5.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -940,31 +942,31 @@ namespace Woodpecker
                 else if (checkBox_SerialPort1.Checked == true &&
                         (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort2.Checked == true &&
                         (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort3.Checked == true &&
                         (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort4.Checked == true &&
                         (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_KlinePort_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "SerialPort duplicate";
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
                 else

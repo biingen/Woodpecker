@@ -78,6 +78,8 @@
             this.label_Keyword7 = new System.Windows.Forms.Label();
             this.label_Keyword8 = new System.Windows.Forms.Label();
             this.label_Keyword9 = new System.Windows.Forms.Label();
+            this.checkBox_SerialPort4 = new System.Windows.Forms.CheckBox();
+            this.checkBox_SerialPort5 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword0)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Keyword2)).BeginInit();
@@ -664,12 +666,42 @@
             this.label_Keyword9.TabIndex = 141;
             this.label_Keyword9.Text = "10";
             // 
+            // checkBox_SerialPort4
+            // 
+            this.checkBox_SerialPort4.AutoSize = true;
+            this.checkBox_SerialPort4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_SerialPort4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.checkBox_SerialPort4.Location = new System.Drawing.Point(631, 40);
+            this.checkBox_SerialPort4.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_SerialPort4.Name = "checkBox_SerialPort4";
+            this.checkBox_SerialPort4.Size = new System.Drawing.Size(80, 24);
+            this.checkBox_SerialPort4.TabIndex = 142;
+            this.checkBox_SerialPort4.Text = "Port D";
+            this.checkBox_SerialPort4.UseVisualStyleBackColor = true;
+            this.checkBox_SerialPort4.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort4_CheckedChanged);
+            // 
+            // checkBox_SerialPort5
+            // 
+            this.checkBox_SerialPort5.AutoSize = true;
+            this.checkBox_SerialPort5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBox_SerialPort5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
+            this.checkBox_SerialPort5.Location = new System.Drawing.Point(714, 40);
+            this.checkBox_SerialPort5.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_SerialPort5.Name = "checkBox_SerialPort5";
+            this.checkBox_SerialPort5.Size = new System.Drawing.Size(78, 24);
+            this.checkBox_SerialPort5.TabIndex = 143;
+            this.checkBox_SerialPort5.Text = "Port E";
+            this.checkBox_SerialPort5.UseVisualStyleBackColor = true;
+            this.checkBox_SerialPort5.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort5_CheckedChanged);
+            // 
             // FormLog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(822, 618);
+            this.Controls.Add(this.checkBox_SerialPort5);
+            this.Controls.Add(this.checkBox_SerialPort4);
             this.Controls.Add(this.label_Keyword9);
             this.Controls.Add(this.label_Keyword8);
             this.Controls.Add(this.label_Keyword7);
@@ -793,5 +825,7 @@
         private System.Windows.Forms.Label label_Keyword7;
         private System.Windows.Forms.Label label_Keyword8;
         private System.Windows.Forms.Label label_Keyword9;
+        private System.Windows.Forms.CheckBox checkBox_SerialPort4;
+        private System.Windows.Forms.CheckBox checkBox_SerialPort5;
     }
 }
