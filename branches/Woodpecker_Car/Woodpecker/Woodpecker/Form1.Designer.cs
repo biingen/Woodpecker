@@ -47,7 +47,6 @@ namespace Woodpecker
             this.TimeLabel = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.label_FwVersion = new System.Windows.Forms.Label();
-            this.button_SerialPort = new System.Windows.Forms.Button();
             this.button_Schedule1 = new System.Windows.Forms.Button();
             this.button_Schedule2 = new System.Windows.Forms.Button();
             this.SchOpen1 = new System.Windows.Forms.OpenFileDialog();
@@ -84,7 +83,6 @@ namespace Woodpecker
             this.label_ScheduleTime = new System.Windows.Forms.Label();
             this.label_AutoBox = new System.Windows.Forms.Label();
             this.serialPortWood = new System.IO.Ports.SerialPort(this.components);
-            this.button_Input = new System.Windows.Forms.Button();
             this.button_Output = new System.Windows.Forms.Button();
             this.label_Command = new System.Windows.Forms.Label();
             this.labelGPIO_Input = new System.Windows.Forms.Label();
@@ -108,11 +106,9 @@ namespace Woodpecker
             this.pictureBox_Ac1 = new System.Windows.Forms.PictureBox();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
             this.PortC = new System.IO.Ports.SerialPort(this.components);
-            this.button_Network = new System.Windows.Forms.Button();
             this.label_ext_board = new System.Windows.Forms.Label();
             this.timer_canbus = new System.Windows.Forms.Timer(this.components);
             this.label_canbus = new System.Windows.Forms.Label();
-            this.button_Copy = new System.Windows.Forms.Button();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.button_Start = new System.Windows.Forms.Button();
             this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
@@ -298,23 +294,6 @@ namespace Woodpecker
             this.label_FwVersion.Text = "Ver. 1.0.01";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
-            // 
-            // button_SerialPort
-            // 
-            this.button_SerialPort.BackColor = System.Drawing.SystemColors.Control;
-            this.button_SerialPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_SerialPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_SerialPort.ForeColor = System.Drawing.Color.Black;
-            this.button_SerialPort.Location = new System.Drawing.Point(975, 217);
-            this.button_SerialPort.Margin = new System.Windows.Forms.Padding(2);
-            this.button_SerialPort.Name = "button_SerialPort";
-            this.button_SerialPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_SerialPort.Size = new System.Drawing.Size(110, 30);
-            this.button_SerialPort.TabIndex = 48;
-            this.button_SerialPort.Text = "Serial Port";
-            this.button_SerialPort.UseVisualStyleBackColor = false;
-            this.button_SerialPort.Visible = false;
-            this.button_SerialPort.Click += new System.EventHandler(this.Com1Btn_Click);
             // 
             // button_Schedule1
             // 
@@ -750,23 +729,6 @@ namespace Woodpecker
             this.label_AutoBox.TabIndex = 83;
             this.label_AutoBox.Text = "AutoKit";
             // 
-            // button_Input
-            // 
-            this.button_Input.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Input.BackColor = System.Drawing.Color.Transparent;
-            this.button_Input.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_Input.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Input.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Input.Location = new System.Drawing.Point(1002, 582);
-            this.button_Input.Margin = new System.Windows.Forms.Padding(2);
-            this.button_Input.Name = "button_Input";
-            this.button_Input.Size = new System.Drawing.Size(80, 25);
-            this.button_Input.TabIndex = 85;
-            this.button_Input.Text = "INPUT";
-            this.button_Input.UseVisualStyleBackColor = false;
-            this.button_Input.Visible = false;
-            this.button_Input.Click += new System.EventHandler(this.button_Input_Click);
-            // 
             // button_Output
             // 
             this.button_Output.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -782,7 +744,6 @@ namespace Woodpecker
             this.button_Output.Text = "OUTPUT";
             this.button_Output.UseVisualStyleBackColor = false;
             this.button_Output.Visible = false;
-            this.button_Output.Click += new System.EventHandler(this.button_Output_Click);
             // 
             // label_Command
             // 
@@ -1089,24 +1050,6 @@ namespace Woodpecker
             this.comboBox_CameraDevice.TabIndex = 95;
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
             // 
-            // button_Network
-            // 
-            this.button_Network.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Network.BackColor = System.Drawing.SystemColors.Control;
-            this.button_Network.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_Network.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Network.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Network.ForeColor = System.Drawing.Color.White;
-            this.button_Network.Location = new System.Drawing.Point(1005, 78);
-            this.button_Network.Margin = new System.Windows.Forms.Padding(2);
-            this.button_Network.Name = "button_Network";
-            this.button_Network.Size = new System.Drawing.Size(80, 25);
-            this.button_Network.TabIndex = 98;
-            this.button_Network.Text = "NETWORK";
-            this.button_Network.UseVisualStyleBackColor = false;
-            this.button_Network.Visible = false;
-            this.button_Network.Click += new System.EventHandler(this.button_Network_Click);
-            // 
             // label_ext_board
             // 
             this.label_ext_board.AutoSize = true;
@@ -1137,21 +1080,6 @@ namespace Woodpecker
             this.label_canbus.Size = new System.Drawing.Size(67, 17);
             this.label_canbus.TabIndex = 102;
             this.label_canbus.Text = "CAN_bus";
-            // 
-            // button_Copy
-            // 
-            this.button_Copy.BackColor = System.Drawing.Color.Transparent;
-            this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Copy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Copy.ForeColor = System.Drawing.Color.Black;
-            this.button_Copy.Location = new System.Drawing.Point(1006, 357);
-            this.button_Copy.Name = "button_Copy";
-            this.button_Copy.Size = new System.Drawing.Size(79, 30);
-            this.button_Copy.TabIndex = 109;
-            this.button_Copy.Text = "Copy Log";
-            this.button_Copy.UseVisualStyleBackColor = false;
-            this.button_Copy.Visible = false;
-            this.button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
             // 
@@ -1492,17 +1420,14 @@ namespace Woodpecker
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
-            this.Controls.Add(this.button_Copy);
             this.Controls.Add(this.label_canbus);
             this.Controls.Add(this.pictureBox_canbus);
             this.Controls.Add(this.label_ext_board);
             this.Controls.Add(this.pictureBox_ext_board);
-            this.Controls.Add(this.button_Network);
             this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.button_InsertRow);
             this.Controls.Add(this.labelGPIO_Input);
             this.Controls.Add(this.button_Output);
-            this.Controls.Add(this.button_Input);
             this.Controls.Add(this.button_Schedule);
             this.Controls.Add(this.button_Schedule1);
             this.Controls.Add(this.pictureBox_BlueRat);
@@ -1519,7 +1444,6 @@ namespace Woodpecker
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_SaveSchedule);
             this.Controls.Add(this.DataBtn);
-            this.Controls.Add(this.button_SerialPort);
             this.Controls.Add(this.MiniPicBox);
             this.Controls.Add(this.ClosePicBox);
             this.Controls.Add(this.label_Command);
@@ -1601,7 +1525,6 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Label label_FwVersion;
-        private System.Windows.Forms.Button button_SerialPort;
         private System.Windows.Forms.OpenFileDialog SchOpen1;
         private System.Windows.Forms.OpenFileDialog SchOpen2;
         private System.Windows.Forms.OpenFileDialog SchOpen3;
@@ -1642,7 +1565,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_AutoBox;
         private System.Windows.Forms.PictureBox pictureBox_BlueRat;
         private System.IO.Ports.SerialPort serialPortWood;
-        private System.Windows.Forms.Button button_Input;
         private System.Windows.Forms.Button button_Output;
         private System.Windows.Forms.Label label_Command;
         private System.Windows.Forms.Label labelGPIO_Input;
@@ -1664,7 +1586,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_Ac1;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.IO.Ports.SerialPort PortC;
-        private System.Windows.Forms.Button button_Network;
         private System.Windows.Forms.Label label_Remark;
         public SafeDataGridView DataGridView_Schedule;
         private System.Windows.Forms.Label label_ext_board;
@@ -1672,7 +1593,6 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer_canbus;
         private System.Windows.Forms.Label label_canbus;
         private System.Windows.Forms.PictureBox pictureBox_canbus;
-        private System.Windows.Forms.Button button_Copy;
         private System.Windows.Forms.Timer timer_kline;
         private System.Windows.Forms.Button button_savelog;
         private System.IO.Ports.SerialPort PortD;

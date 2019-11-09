@@ -196,8 +196,8 @@ namespace Woodpecker
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
+            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_AcUsb,
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
             foreach (Button buttonsAll in buttonsList)
             {
@@ -8922,14 +8922,6 @@ namespace Woodpecker
             SurpriseForm.Show(this);
         }
 
-        private void Com1Btn_Click(object sender, EventArgs e)
-        {
-            OpenSerialPort("A");
-            Controls.Add(textBox_serial);
-            textBox_serial.BringToFront();
-            Global.TEXTBOX_FOCUS = 1;
-        }
-
         private void Button_TabScheduler_Click(object sender, EventArgs e) => DataGridView_Schedule.BringToFront();
         private void Button_TabCamera_Click(object sender, EventArgs e)
         {
@@ -9484,67 +9476,6 @@ namespace Woodpecker
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseAutobox();
-        }
-
-        private void button_Input_Click(object sender, EventArgs e)
-        {
-            //UInt32 gpio_input_value;
-            //MyBlueRat.Get_GPIO_Input(out gpio_input_value);
-            //byte GPIO_Read_Data = Convert.ToByte(gpio_input_value & 0xff);
-            //labelGPIO_Input.Text = "GPIO_IN:" + GPIO_Read_Data.ToString();
-            //Console.WriteLine("GPIO_IN:" + GPIO_Read_Data.ToString());
-
-            UInt32 GPIO_input_value, retry_cnt;
-            bool bRet = false;
-            retry_cnt = 3;
-            do
-            {
-                String modified0 = "";
-                bRet = MyBlueRat.Get_GPIO_Input(out GPIO_input_value);
-
-                if (GPIO_input_value == 31)
-                {
-                    modified0 = "0" + Convert.ToString(31, 2);
-                }
-                else
-                {
-                    modified0 = Convert.ToString(GPIO_input_value, 2);
-                }
-
-                string modified1 = modified0.Insert(1, ",");
-                string modified2 = modified1.Insert(3, ",");
-                string modified3 = modified2.Insert(5, ",");
-                string modified4 = modified3.Insert(7, ",");
-                string modified5 = modified4.Insert(9, ",");
-
-                Global.IO_INPUT = modified5;
-                Console.WriteLine(Global.IO_INPUT);
-                Console.WriteLine(Global.IO_INPUT.Substring(0, 1));
-            }
-            while ((bRet == false) && (--retry_cnt > 0));
-
-            if (bRet)
-            {
-                labelGPIO_Input.Text = "GPIO_input: " + GPIO_input_value.ToString();
-            }
-            else
-            {
-                labelGPIO_Input.Text = "GPIO_input fail after retry";
-            }
-        }
-
-        private void button_Output_Click(object sender, EventArgs e)
-        {
-            //string GPIO = "01010101";
-            //byte GPIO_B = Convert.ToByte(GPIO, 2);
-            //MyBlueRat.Set_GPIO_Output(GPIO_B);
-
-            Graphics graphics = this.CreateGraphics();
-            Console.WriteLine("dpiX = " + graphics.DpiX);
-            Console.WriteLine("dpiY = " + graphics.DpiY);
-            Console.WriteLine("-----------");
-            Console.WriteLine("height = " + this.Size.Height);
-            Console.WriteLine("width = " + this.Size.Width);
         }
 
         #region -- GPIO --
@@ -10111,41 +10042,6 @@ namespace Woodpecker
             }
         }
 
-        private void button_Network_Click(object sender, EventArgs e)
-        {
-            string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
-            int port = int.Parse(ini12.INIRead(MainSettingPath, "Network", "Port", ""));
-
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(ip, port); // 1.設定 IP:Port 2.連線至伺服器
-            NetworkStream stream = new NetworkStream(socket);
-            StreamReader sr = new StreamReader(stream);
-            StreamWriter sw = new StreamWriter(stream);
-
-            sw.WriteLine("你好伺服器，我是客戶端。"); // 將資料寫入緩衝
-            sw.Flush(); // 刷新緩衝並將資料上傳到伺服器
-
-            Console.WriteLine("從伺服器接收的資料： " + sr.ReadLine());
-
-            Console.ReadLine();
-
-            Process p = new Process();
-            string cmd = ini12.INIRead(MainSettingPath, "Python", "Parameter", "");
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = @"python.exe";
-            p.StartInfo.Arguments = cmd;
-            p.StartInfo.RedirectStandardInput = true;
-            p.Start();
-            StreamWriter myStreamWriter = p.StandardInput;
-            myStreamWriter.WriteLine(cmd);
-            string output = "";
-            output = p.StandardOutput.ReadLine();
-            Console.WriteLine(output);
-            p.WaitForExit();
-            p.Close();
-        }
-
         private void button_savelog_Click(object sender, EventArgs e)
         {
             string save_option = comboBox_savelog.Text;
@@ -10224,73 +10120,6 @@ namespace Woodpecker
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
                 }
             }
-        }
-
-        //Select & copy log from textbox
-        private void Button_Copy_Click(object sender, EventArgs e)
-        {
-            /*
-                        uint canBusStatus;
-                        canBusStatus = MYCanReader.Connect();
-
-                        if (Global.TEXTBOX_FOCUS == 1)
-                        {
-                            if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
-                            {
-                                CopyLog(textBox_serial);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 2)
-                        {
-                            if (textBox2.SelectionLength == 0)
-                            {
-                                CopyLog(textBox2);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 3)
-                        {
-                            if (textBox_canbus.SelectionLength == 0)
-                            {
-                                CopyLog(textBox3);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 4)
-                        {
-                            CopyLog(textBox_kline);
-                        }
-
-                        //copy schedule log (might be removed in near future)
-                        else if (Global.TEXTBOX_FOCUS == 5)
-                        {
-                            CopyLog(textBox_canbus);
-                        }
-
-                        else if (Global.TEXTBOX_FOCUS == 6)
-                        {
-                            CopyLog(textBox_TestLog);
-                            string fName = "";
-
-                            // 讀取ini中的路徑
-                            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                            string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
-
-                            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                            MYFILE.Write(textBox_TestLog.Text);
-                            MYFILE.Close();
-
-                            System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
-                            System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
-                        }
-                        */
-        }
-
-        public void CopyLog(TextBox tb)
-        {
-            //Select all text in the text box.
-            tb.Focus();
-            tb.SelectAll();
-            // Copy the contents of the control to the Clipboard.
-            tb.Copy();
         }
 
         private void Timer_kline_Tick(object sender, EventArgs e)
