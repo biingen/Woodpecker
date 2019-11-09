@@ -4206,45 +4206,6 @@ namespace Woodpecker
                             Console.WriteLine("RedRatDBViewer_Delay.");
                         }
 
-                        #region -- 足跡模式 --
-                        //假如足跡模式打開則會append足跡上去
-                        if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1" && SysDelay != 0)
-                        {
-                            Console.WriteLine("Footprint Mode.");
-                            //檔案不存在則加入標題
-                            if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
-                            {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,bit_0,bit_1,bit_2,bit_3,bit_4,bit_5," +
-                                    "PA10_0,PA10_1," +
-                                    "PA11_0,PA11_1," +
-                                    "PA14_0,PA14_1," +
-                                    "PA15_0,PA15_1," +
-                                    "PB1_0,PB1_1," +
-                                    "PB7_0,PB7_1" +
-                                    Environment.NewLine);
-
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
-                                Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + Global.IO_INPUT +
-                                "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
-                                "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +
-                                "," + Global.IO_PA14_0_COUNT + "," + Global.IO_PA14_1_COUNT +
-                                "," + Global.IO_PA15_0_COUNT + "," + Global.IO_PA15_1_COUNT +
-                                "," + Global.IO_PB1_0_COUNT + "," + Global.IO_PB1_1_COUNT +
-                                "," + Global.IO_PB7_0_COUNT + "," + Global.IO_PB7_1_COUNT + Environment.NewLine);
-                            }
-                            else
-                            {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
-                                Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + Global.IO_INPUT +
-                                "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
-                                "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +
-                                "," + Global.IO_PA14_0_COUNT + "," + Global.IO_PA14_1_COUNT +
-                                "," + Global.IO_PA15_0_COUNT + "," + Global.IO_PA15_1_COUNT +
-                                "," + Global.IO_PB1_0_COUNT + "," + Global.IO_PB1_1_COUNT +
-                                "," + Global.IO_PB7_0_COUNT + "," + Global.IO_PB7_1_COUNT + Environment.NewLine);
-                            }
-                        }
-                        #endregion
                         Console.WriteLine("End.");
                     }
                 }

@@ -59,7 +59,6 @@
             this.checkBox_Schedule4 = new System.Windows.Forms.CheckBox();
             this.checkBox_Schedule5 = new System.Windows.Forms.CheckBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.checkBox_FootprintMode = new System.Windows.Forms.CheckBox();
             this.label_ErrorMessage = new System.Windows.Forms.Label();
             this.pictureBox_Schedule1Loop = new System.Windows.Forms.PictureBox();
             this.pictureBox_Schedule2 = new System.Windows.Forms.PictureBox();
@@ -418,20 +417,6 @@
             this.checkBox_Schedule5.UseVisualStyleBackColor = true;
             this.checkBox_Schedule5.CheckedChanged += new System.EventHandler(this.SchCheckBox5_CheckedChanged);
             // 
-            // checkBox_FootprintMode
-            // 
-            this.checkBox_FootprintMode.AutoSize = true;
-            this.checkBox_FootprintMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_FootprintMode.ForeColor = System.Drawing.Color.White;
-            this.checkBox_FootprintMode.Location = new System.Drawing.Point(226, 392);
-            this.checkBox_FootprintMode.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
-            this.checkBox_FootprintMode.Name = "checkBox_FootprintMode";
-            this.checkBox_FootprintMode.Size = new System.Drawing.Size(117, 20);
-            this.checkBox_FootprintMode.TabIndex = 117;
-            this.checkBox_FootprintMode.Text = "Footprint mode";
-            this.checkBox_FootprintMode.UseVisualStyleBackColor = true;
-            this.checkBox_FootprintMode.CheckedChanged += new System.EventHandler(this.checkBoxFootprintMode_CheckedChanged);
-            // 
             // label_ErrorMessage
             // 
             this.label_ErrorMessage.AutoSize = true;
@@ -599,7 +584,6 @@
             this.Controls.Add(this.pictureBox_Schedule2);
             this.Controls.Add(this.pictureBox_Schedule1Loop);
             this.Controls.Add(this.label_ErrorMessage);
-            this.Controls.Add(this.checkBox_FootprintMode);
             this.Controls.Add(this.checkBox_Schedule5);
             this.Controls.Add(this.checkBox_Schedule4);
             this.Controls.Add(this.checkBox_Schedule3);
@@ -672,7 +656,6 @@
         private System.Windows.Forms.CheckBox checkBox_Schedule4;
         private System.Windows.Forms.CheckBox checkBox_Schedule5;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.CheckBox checkBox_FootprintMode;
         private System.Windows.Forms.Label label_ErrorMessage;
         private System.Windows.Forms.PictureBox pictureBox_Schedule1Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule2;

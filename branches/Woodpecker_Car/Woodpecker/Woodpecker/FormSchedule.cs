@@ -155,15 +155,6 @@ namespace Woodpecker
                 textBox_Schedule5Loop.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1")
-            {
-                checkBox_FootprintMode.Checked = true;
-            }
-            else
-            {
-                checkBox_FootprintMode.Checked = false;
-            }
-
             if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") != "")
             {
                 if (int.Parse(ini12.INIRead(MainSettingPath, "Record", "EachVideo", "")) == 1)
@@ -515,20 +506,6 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Loop", textBox_Schedule5Loop.Text.Trim());
                 pictureBox_Schedule5Loop.Image = null;
-            }
-        }
-
-        private void checkBoxFootprintMode_CheckedChanged(object sender, EventArgs e)
-        {
-            //足跡模式//
-            if (checkBox_FootprintMode.Checked == true)
-            {
-                
-                ini12.INIWrite(MainSettingPath, "Record", "Footprint Mode", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "Footprint Mode", "0");
             }
         }
 
