@@ -58,9 +58,7 @@
             this.checkBox_Schedule3 = new System.Windows.Forms.CheckBox();
             this.checkBox_Schedule4 = new System.Windows.Forms.CheckBox();
             this.checkBox_Schedule5 = new System.Windows.Forms.CheckBox();
-            this.checkBox_Similarity = new System.Windows.Forms.CheckBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.comboBox_Similarity = new System.Windows.Forms.ComboBox();
             this.checkBox_Timer1 = new System.Windows.Forms.CheckBox();
             this.dateTimePicker_Sch1 = new System.Windows.Forms.DateTimePicker();
             this.checkBox_Timer2 = new System.Windows.Forms.CheckBox();
@@ -430,45 +428,6 @@
             this.checkBox_Schedule5.UseVisualStyleBackColor = true;
             this.checkBox_Schedule5.CheckedChanged += new System.EventHandler(this.SchCheckBox5_CheckedChanged);
             // 
-            // checkBox_Similarity
-            // 
-            this.checkBox_Similarity.AutoSize = true;
-            this.checkBox_Similarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_Similarity.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Similarity.Location = new System.Drawing.Point(28, 392);
-            this.checkBox_Similarity.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Similarity.Name = "checkBox_Similarity";
-            this.checkBox_Similarity.Size = new System.Drawing.Size(84, 20);
-            this.checkBox_Similarity.TabIndex = 91;
-            this.checkBox_Similarity.Text = "Similarity:";
-            this.checkBox_Similarity.UseVisualStyleBackColor = true;
-            this.checkBox_Similarity.CheckedChanged += new System.EventHandler(this.CompareBox_CheckedChanged);
-            // 
-            // comboBox_Similarity
-            // 
-            this.comboBox_Similarity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Similarity.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox_Similarity.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox_Similarity.FormattingEnabled = true;
-            this.comboBox_Similarity.Items.AddRange(new object[] {
-            "100%",
-            "90%",
-            "80%",
-            "70%",
-            "60%",
-            "50%",
-            "40%",
-            "30%",
-            "20%",
-            "10%",
-            "0%"});
-            this.comboBox_Similarity.Location = new System.Drawing.Point(109, 391);
-            this.comboBox_Similarity.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
-            this.comboBox_Similarity.Name = "comboBox_Similarity";
-            this.comboBox_Similarity.Size = new System.Drawing.Size(65, 23);
-            this.comboBox_Similarity.TabIndex = 94;
-            this.comboBox_Similarity.SelectedIndexChanged += new System.EventHandler(this.DifferenceBox_SelectedIndexChanged);
-            // 
             // checkBox_Timer1
             // 
             this.checkBox_Timer1.AutoSize = true;
@@ -806,8 +765,6 @@
             this.Controls.Add(this.checkBox_Timer2);
             this.Controls.Add(this.dateTimePicker_Sch1);
             this.Controls.Add(this.checkBox_Timer1);
-            this.Controls.Add(this.comboBox_Similarity);
-            this.Controls.Add(this.checkBox_Similarity);
             this.Controls.Add(this.checkBox_Schedule5);
             this.Controls.Add(this.checkBox_Schedule4);
             this.Controls.Add(this.checkBox_Schedule3);
@@ -879,9 +836,7 @@
         private System.Windows.Forms.CheckBox checkBox_Schedule3;
         private System.Windows.Forms.CheckBox checkBox_Schedule4;
         private System.Windows.Forms.CheckBox checkBox_Schedule5;
-        private System.Windows.Forms.CheckBox checkBox_Similarity;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        internal System.Windows.Forms.ComboBox comboBox_Similarity;
         private System.Windows.Forms.CheckBox checkBox_Timer1;
         private System.Windows.Forms.DateTimePicker dateTimePicker_Sch1;
         private System.Windows.Forms.CheckBox checkBox_Timer2;

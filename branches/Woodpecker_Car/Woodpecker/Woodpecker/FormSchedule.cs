@@ -163,27 +163,6 @@ namespace Woodpecker
                 checkBox_Timer5.Enabled = false;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "")) == 1)
-                {
-                    checkBox_Similarity.Checked = true;
-                    comboBox_Similarity.Enabled = true;
-                    comboBox_Similarity.Text = (100 - int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", ""))).ToString() + "%";
-                }
-                else
-                {
-                    checkBox_Similarity.Checked = false;
-                    comboBox_Similarity.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", "0");
-                checkBox_Similarity.Checked = false;
-                comboBox_Similarity.Enabled = false;
-            }
-
             if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1")
             {
                 checkBox_FootprintMode.Checked = true;
@@ -739,27 +718,6 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Loop", textBox_Schedule5Loop.Text.Trim());
                 pictureBox_Schedule5Loop.Image = null;
             }
-        }
-
-        private void CompareBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Similarity.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", "1");
-
-                comboBox_Similarity.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", "0");
-
-                comboBox_Similarity.Enabled = false;
-            }
-        }
-
-        private void DifferenceBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ini12.INIWrite(MainSettingPath, "Record", "CompareDifferent", (100 - int.Parse(comboBox_Similarity.Text.Replace("%", ""))).ToString());
         }
 
         private void checkBoxFootprintMode_CheckedChanged(object sender, EventArgs e)

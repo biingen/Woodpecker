@@ -36,7 +36,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainSettingBtn = new System.Windows.Forms.Button();
             this.ScheduleSettingBtn = new System.Windows.Forms.Button();
-            this.MailSettingBtn = new System.Windows.Forms.Button();
             this.buttonMonkeyTest = new System.Windows.Forms.Button();
             this.ClosePicBox = new System.Windows.Forms.PictureBox();
             this.tabControl = new MaterialSkin.Controls.MaterialTabControl();
@@ -200,7 +199,6 @@
             this.Controls.Add(this.materialTabSelector1);
             this.Controls.Add(this.ClosePicBox);
             this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.MailSettingBtn);
             this.Controls.Add(this.ScheduleSettingBtn);
             this.Controls.Add(this.MainSettingBtn);
             this.Controls.Add(this.buttonMonkeyTest);
@@ -237,7 +235,6 @@
         private System.Windows.Forms.Button MainSettingBtn;
         private System.Windows.Forms.Button ScheduleSettingBtn;
         private System.Windows.Forms.PictureBox ClosePicBox;
-        private System.Windows.Forms.Button MailSettingBtn;
         private System.Windows.Forms.Button buttonMonkeyTest;
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialTabControl tabControl;

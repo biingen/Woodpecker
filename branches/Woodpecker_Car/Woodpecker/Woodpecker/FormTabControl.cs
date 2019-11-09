@@ -168,9 +168,7 @@ namespace Woodpecker
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Global.FormSetting == true &&
-                Global.FormSchedule == true &&
-                Global.FormMail == true &&
-                Global.FormLog == true)
+                Global.FormSchedule == true)
             {
                 DialogResult = DialogResult.OK;
             }
