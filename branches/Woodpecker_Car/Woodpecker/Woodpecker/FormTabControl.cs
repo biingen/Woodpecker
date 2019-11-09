@@ -92,15 +92,6 @@ namespace Woodpecker
             Add_TabPage("Multi Schedule Setting", FormSchedule);
         }
 
-        private void buttonMonkeyTest_Click(object sender, EventArgs e)
-        {
-            FormMonkeyTest FormMonkeyTest = new FormMonkeyTest();
-
-            buttonMonkeyTest.Enabled = false;
-            FormMonkeyTest.Dock = DockStyle.Fill;
-            Add_TabPage("Monket Test", FormMonkeyTest);
-        }
-
         #region 滑鼠拖曳視窗
         private void gPanelTitleBack_MouseDown(object sender, MouseEventArgs e)
         {

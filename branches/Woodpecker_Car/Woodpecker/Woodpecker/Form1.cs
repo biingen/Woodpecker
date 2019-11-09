@@ -3457,15 +3457,6 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- MonkeyTest --
-                        else if (columns_command == "_MonkeyTest")
-                        {
-                            Console.WriteLine("Android control: _MonkeyTest");
-                            Add_ons MonkeyTest = new Add_ons();
-                            MonkeyTest.MonkeyTest();
-                            MonkeyTest.CreateExcelFile();
-                        }
-                        #endregion
                         /*
                                                 #region -- Factory Command 控制 --
                                                 else if (columns_command == "_SXP")
@@ -4708,23 +4699,6 @@ namespace Woodpecker
             RCDB.Items.Add("_astro");
             RCDB.Items.Add("_dektec");
             RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("_SXP");
-            //RCDB.Items.Add("_log1");
-            //RCDB.Items.Add("_log2");
-            //RCDB.Items.Add("_log3");
-            //RCDB.Items.Add("_pwm1");
-            //RCDB.Items.Add("_pwm2");
-            //RCDB.Items.Add("_pwm3");
-            //RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("_EXT_Output_P0");
-            //RCDB.Items.Add("_EXT_Output_P1");
-            //RCDB.Items.Add("_EXT_Output_P2");
-            //RCDB.Items.Add("_EXT_Input_P0");
-            //RCDB.Items.Add("_EXT_Input_P1");
-            //RCDB.Items.Add("_EXT_Input_P2");
-            //RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("_MonkeyTest");
         }
         #endregion
 

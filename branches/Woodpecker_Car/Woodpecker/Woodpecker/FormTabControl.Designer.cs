@@ -36,7 +36,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainSettingBtn = new System.Windows.Forms.Button();
             this.ScheduleSettingBtn = new System.Windows.Forms.Button();
-            this.buttonMonkeyTest = new System.Windows.Forms.Button();
             this.ClosePicBox = new System.Windows.Forms.PictureBox();
             this.tabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage_MainSetting = new System.Windows.Forms.TabPage();
@@ -117,20 +116,6 @@
             this.ScheduleSettingBtn.UseVisualStyleBackColor = true;
             this.ScheduleSettingBtn.Click += new System.EventHandler(this.ScheduleBtn_Click);
             // 
-            // buttonMonkeyTest
-            // 
-            this.buttonMonkeyTest.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.buttonMonkeyTest.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.buttonMonkeyTest.Location = new System.Drawing.Point(15, 304);
-            this.buttonMonkeyTest.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonMonkeyTest.Name = "buttonMonkeyTest";
-            this.buttonMonkeyTest.Size = new System.Drawing.Size(128, 31);
-            this.buttonMonkeyTest.TabIndex = 64;
-            this.buttonMonkeyTest.Text = "MonkeyTest";
-            this.buttonMonkeyTest.UseVisualStyleBackColor = true;
-            this.buttonMonkeyTest.Visible = false;
-            this.buttonMonkeyTest.Click += new System.EventHandler(this.buttonMonkeyTest_Click);
-            // 
             // ClosePicBox
             // 
             this.ClosePicBox.BackColor = System.Drawing.Color.Transparent;
@@ -201,7 +186,6 @@
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.ScheduleSettingBtn);
             this.Controls.Add(this.MainSettingBtn);
-            this.Controls.Add(this.buttonMonkeyTest);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -235,7 +219,6 @@
         private System.Windows.Forms.Button MainSettingBtn;
         private System.Windows.Forms.Button ScheduleSettingBtn;
         private System.Windows.Forms.PictureBox ClosePicBox;
-        private System.Windows.Forms.Button buttonMonkeyTest;
         private MaterialSkin.Controls.MaterialTabSelector materialTabSelector1;
         private MaterialSkin.Controls.MaterialTabControl tabControl;
         private System.Windows.Forms.TabPage tabPage_MainSetting;
