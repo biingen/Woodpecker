@@ -59,16 +59,6 @@
             this.checkBox_Schedule4 = new System.Windows.Forms.CheckBox();
             this.checkBox_Schedule5 = new System.Windows.Forms.CheckBox();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.checkBox_Timer1 = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker_Sch1 = new System.Windows.Forms.DateTimePicker();
-            this.checkBox_Timer2 = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker_Sch2 = new System.Windows.Forms.DateTimePicker();
-            this.checkBox_Timer3 = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker_Sch3 = new System.Windows.Forms.DateTimePicker();
-            this.checkBox_Timer4 = new System.Windows.Forms.CheckBox();
-            this.checkBox_Timer5 = new System.Windows.Forms.CheckBox();
-            this.dateTimePicker_Sch4 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker_Sch5 = new System.Windows.Forms.DateTimePicker();
             this.checkBox_FootprintMode = new System.Windows.Forms.CheckBox();
             this.label_ErrorMessage = new System.Windows.Forms.Label();
             this.pictureBox_Schedule1Loop = new System.Windows.Forms.PictureBox();
@@ -428,151 +418,6 @@
             this.checkBox_Schedule5.UseVisualStyleBackColor = true;
             this.checkBox_Schedule5.CheckedChanged += new System.EventHandler(this.SchCheckBox5_CheckedChanged);
             // 
-            // checkBox_Timer1
-            // 
-            this.checkBox_Timer1.AutoSize = true;
-            this.checkBox_Timer1.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_Timer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Timer1.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer1.Location = new System.Drawing.Point(358, 57);
-            this.checkBox_Timer1.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Timer1.Name = "checkBox_Timer1";
-            this.checkBox_Timer1.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_Timer1.TabIndex = 94;
-            this.checkBox_Timer1.UseVisualStyleBackColor = false;
-            this.checkBox_Timer1.Visible = false;
-            this.checkBox_Timer1.CheckedChanged += new System.EventHandler(this.checkBoxTimer1_CheckedChanged);
-            // 
-            // dateTimePicker_Sch1
-            // 
-            this.dateTimePicker_Sch1.CustomFormat = "yyyy-MM-dd  HH:mm";
-            this.dateTimePicker_Sch1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.dateTimePicker_Sch1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch1.Location = new System.Drawing.Point(375, 52);
-            this.dateTimePicker_Sch1.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker_Sch1.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker_Sch1.Name = "dateTimePicker_Sch1";
-            this.dateTimePicker_Sch1.Size = new System.Drawing.Size(142, 21);
-            this.dateTimePicker_Sch1.TabIndex = 108;
-            this.dateTimePicker_Sch1.Value = new System.DateTime(2014, 12, 8, 0, 0, 0, 0);
-            this.dateTimePicker_Sch1.Visible = false;
-            // 
-            // checkBox_Timer2
-            // 
-            this.checkBox_Timer2.AutoSize = true;
-            this.checkBox_Timer2.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_Timer2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Timer2.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer2.Location = new System.Drawing.Point(358, 127);
-            this.checkBox_Timer2.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Timer2.Name = "checkBox_Timer2";
-            this.checkBox_Timer2.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_Timer2.TabIndex = 109;
-            this.checkBox_Timer2.UseVisualStyleBackColor = false;
-            this.checkBox_Timer2.Visible = false;
-            this.checkBox_Timer2.CheckedChanged += new System.EventHandler(this.checkBoxTimer2_CheckedChanged);
-            // 
-            // dateTimePicker_Sch2
-            // 
-            this.dateTimePicker_Sch2.CustomFormat = "yyyy-MM-dd  HH:mm";
-            this.dateTimePicker_Sch2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.dateTimePicker_Sch2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch2.Location = new System.Drawing.Point(375, 123);
-            this.dateTimePicker_Sch2.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker_Sch2.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker_Sch2.Name = "dateTimePicker_Sch2";
-            this.dateTimePicker_Sch2.Size = new System.Drawing.Size(142, 21);
-            this.dateTimePicker_Sch2.TabIndex = 110;
-            this.dateTimePicker_Sch2.Value = new System.DateTime(2014, 12, 8, 0, 0, 0, 0);
-            this.dateTimePicker_Sch2.Visible = false;
-            // 
-            // checkBox_Timer3
-            // 
-            this.checkBox_Timer3.AutoSize = true;
-            this.checkBox_Timer3.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_Timer3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Timer3.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer3.Location = new System.Drawing.Point(358, 200);
-            this.checkBox_Timer3.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Timer3.Name = "checkBox_Timer3";
-            this.checkBox_Timer3.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_Timer3.TabIndex = 111;
-            this.checkBox_Timer3.UseVisualStyleBackColor = false;
-            this.checkBox_Timer3.Visible = false;
-            this.checkBox_Timer3.CheckedChanged += new System.EventHandler(this.checkBoxTimer3_CheckedChanged);
-            // 
-            // dateTimePicker_Sch3
-            // 
-            this.dateTimePicker_Sch3.CustomFormat = "yyyy-MM-dd  HH:mm";
-            this.dateTimePicker_Sch3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.dateTimePicker_Sch3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch3.Location = new System.Drawing.Point(375, 196);
-            this.dateTimePicker_Sch3.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker_Sch3.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker_Sch3.Name = "dateTimePicker_Sch3";
-            this.dateTimePicker_Sch3.Size = new System.Drawing.Size(142, 21);
-            this.dateTimePicker_Sch3.TabIndex = 112;
-            this.dateTimePicker_Sch3.Value = new System.DateTime(2014, 12, 8, 0, 0, 0, 0);
-            this.dateTimePicker_Sch3.Visible = false;
-            // 
-            // checkBox_Timer4
-            // 
-            this.checkBox_Timer4.AutoSize = true;
-            this.checkBox_Timer4.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_Timer4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Timer4.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer4.Location = new System.Drawing.Point(358, 274);
-            this.checkBox_Timer4.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Timer4.Name = "checkBox_Timer4";
-            this.checkBox_Timer4.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_Timer4.TabIndex = 113;
-            this.checkBox_Timer4.UseVisualStyleBackColor = false;
-            this.checkBox_Timer4.Visible = false;
-            this.checkBox_Timer4.CheckedChanged += new System.EventHandler(this.checkBoxTimer4_CheckedChanged);
-            // 
-            // checkBox_Timer5
-            // 
-            this.checkBox_Timer5.AutoSize = true;
-            this.checkBox_Timer5.BackColor = System.Drawing.Color.Transparent;
-            this.checkBox_Timer5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Timer5.ForeColor = System.Drawing.Color.OrangeRed;
-            this.checkBox_Timer5.Location = new System.Drawing.Point(358, 346);
-            this.checkBox_Timer5.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Timer5.Name = "checkBox_Timer5";
-            this.checkBox_Timer5.Size = new System.Drawing.Size(15, 14);
-            this.checkBox_Timer5.TabIndex = 114;
-            this.checkBox_Timer5.UseVisualStyleBackColor = false;
-            this.checkBox_Timer5.Visible = false;
-            this.checkBox_Timer5.CheckedChanged += new System.EventHandler(this.checkBoxTimer5_CheckedChanged);
-            // 
-            // dateTimePicker_Sch4
-            // 
-            this.dateTimePicker_Sch4.CustomFormat = "yyyy-MM-dd  HH:mm";
-            this.dateTimePicker_Sch4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.dateTimePicker_Sch4.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch4.Location = new System.Drawing.Point(375, 269);
-            this.dateTimePicker_Sch4.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker_Sch4.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker_Sch4.Name = "dateTimePicker_Sch4";
-            this.dateTimePicker_Sch4.Size = new System.Drawing.Size(142, 21);
-            this.dateTimePicker_Sch4.TabIndex = 115;
-            this.dateTimePicker_Sch4.Value = new System.DateTime(2014, 12, 8, 0, 0, 0, 0);
-            this.dateTimePicker_Sch4.Visible = false;
-            // 
-            // dateTimePicker_Sch5
-            // 
-            this.dateTimePicker_Sch5.CustomFormat = "yyyy-MM-dd  HH:mm";
-            this.dateTimePicker_Sch5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.dateTimePicker_Sch5.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker_Sch5.Location = new System.Drawing.Point(375, 343);
-            this.dateTimePicker_Sch5.Margin = new System.Windows.Forms.Padding(2);
-            this.dateTimePicker_Sch5.MinDate = new System.DateTime(2014, 12, 1, 0, 0, 0, 0);
-            this.dateTimePicker_Sch5.Name = "dateTimePicker_Sch5";
-            this.dateTimePicker_Sch5.Size = new System.Drawing.Size(142, 21);
-            this.dateTimePicker_Sch5.TabIndex = 116;
-            this.dateTimePicker_Sch5.Value = new System.DateTime(2014, 12, 8, 0, 0, 0, 0);
-            this.dateTimePicker_Sch5.Visible = false;
-            // 
             // checkBox_FootprintMode
             // 
             this.checkBox_FootprintMode.AutoSize = true;
@@ -755,16 +600,6 @@
             this.Controls.Add(this.pictureBox_Schedule1Loop);
             this.Controls.Add(this.label_ErrorMessage);
             this.Controls.Add(this.checkBox_FootprintMode);
-            this.Controls.Add(this.dateTimePicker_Sch5);
-            this.Controls.Add(this.dateTimePicker_Sch4);
-            this.Controls.Add(this.checkBox_Timer5);
-            this.Controls.Add(this.checkBox_Timer4);
-            this.Controls.Add(this.dateTimePicker_Sch3);
-            this.Controls.Add(this.checkBox_Timer3);
-            this.Controls.Add(this.dateTimePicker_Sch2);
-            this.Controls.Add(this.checkBox_Timer2);
-            this.Controls.Add(this.dateTimePicker_Sch1);
-            this.Controls.Add(this.checkBox_Timer1);
             this.Controls.Add(this.checkBox_Schedule5);
             this.Controls.Add(this.checkBox_Schedule4);
             this.Controls.Add(this.checkBox_Schedule3);
@@ -837,16 +672,6 @@
         private System.Windows.Forms.CheckBox checkBox_Schedule4;
         private System.Windows.Forms.CheckBox checkBox_Schedule5;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.CheckBox checkBox_Timer1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_Sch1;
-        private System.Windows.Forms.CheckBox checkBox_Timer2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_Sch2;
-        private System.Windows.Forms.CheckBox checkBox_Timer3;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_Sch3;
-        private System.Windows.Forms.CheckBox checkBox_Timer4;
-        private System.Windows.Forms.CheckBox checkBox_Timer5;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_Sch4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker_Sch5;
         private System.Windows.Forms.CheckBox checkBox_FootprintMode;
         private System.Windows.Forms.Label label_ErrorMessage;
         private System.Windows.Forms.PictureBox pictureBox_Schedule1Loop;

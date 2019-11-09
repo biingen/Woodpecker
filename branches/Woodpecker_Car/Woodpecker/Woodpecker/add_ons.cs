@@ -460,11 +460,11 @@ namespace Woodpecker
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
-            string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] Schedule4 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] Schedule5 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
+            string[] Schedule1 = { "Exist", "Loop", "Path" };
+            string[] Schedule2 = { "Exist", "Loop", "Path" };
+            string[] Schedule3 = { "Exist", "Loop", "Path" };
+            string[] Schedule4 = { "Exist", "Loop", "Path" };
+            string[] Schedule5 = { "Exist", "Loop", "Path" };
 
             if (File.Exists(Global.MainSettingPath) == false)
             {

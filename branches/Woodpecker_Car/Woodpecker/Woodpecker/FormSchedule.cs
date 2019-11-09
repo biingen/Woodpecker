@@ -65,7 +65,6 @@ namespace Woodpecker
                     button_Schedule2.Enabled = false;
                     textBox_Schedule2.Enabled = false;
                     textBox_Schedule2Loop.Enabled = false;
-                    checkBox_Timer2.Enabled = false;
                 }
             }
             else
@@ -76,7 +75,6 @@ namespace Woodpecker
                 button_Schedule2.Enabled = false;
                 textBox_Schedule2.Enabled = false;
                 textBox_Schedule2Loop.Enabled = false;
-                checkBox_Timer2.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Schedule3", "Exist", "") != "")
@@ -93,7 +91,6 @@ namespace Woodpecker
                     button_Schedule3.Enabled = false;
                     textBox_Schedule3.Enabled = false;
                     textBox_Schedule3Loop.Enabled = false;
-                    checkBox_Timer3.Enabled = false;
                 }
             }
             else
@@ -104,7 +101,6 @@ namespace Woodpecker
                 button_Schedule3.Enabled = false;
                 textBox_Schedule3.Enabled = false;
                 textBox_Schedule3Loop.Enabled = false;
-                checkBox_Timer3.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Schedule4", "Exist", "") != "")
@@ -121,7 +117,6 @@ namespace Woodpecker
                     button_Schedule4.Enabled = false;
                     textBox_Schedule4.Enabled = false;
                     textBox_Schedule4Loop.Enabled = false;
-                    checkBox_Timer4.Enabled = false;
                 }
             }
             else
@@ -132,7 +127,6 @@ namespace Woodpecker
                 button_Schedule4.Enabled = false;
                 textBox_Schedule4.Enabled = false;
                 textBox_Schedule4Loop.Enabled = false;
-                checkBox_Timer4.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "") != "")
@@ -149,7 +143,6 @@ namespace Woodpecker
                     button_Schedule5.Enabled = false;
                     textBox_Schedule5.Enabled = false;
                     textBox_Schedule5Loop.Enabled = false;
-                    checkBox_Timer5.Enabled = false;
                 }
             }
             else
@@ -160,7 +153,6 @@ namespace Woodpecker
                 button_Schedule5.Enabled = false;
                 textBox_Schedule5.Enabled = false;
                 textBox_Schedule5Loop.Enabled = false;
-                checkBox_Timer5.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1")
@@ -192,116 +184,6 @@ namespace Woodpecker
             {
                 checkBox_ScheduleAutoStart.Checked = false;
             }
-
-            #region Timer
-            if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "")) == 1)
-                {
-                    dateTimePicker_Sch1.Text = ini12.INIRead(MainSettingPath, "Schedule1", "Timer", "");       //Schedule1 Timer
-                    checkBox_Timer1.Checked = true;
-                    dateTimePicker_Sch1.Enabled = true;
-                }
-                else
-                {
-                    checkBox_Timer1.Checked = false;
-                    dateTimePicker_Sch1.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
-                checkBox_Timer1.Checked = false;
-                dateTimePicker_Sch1.Enabled = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") != "")
-            {
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "")) == 1)
-                {
-                    dateTimePicker_Sch2.Text = ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "");       //Schedule2 Timer
-                    checkBox_Timer2.Checked = true;
-                    dateTimePicker_Sch2.Enabled = true;
-                }
-                else
-                {
-                    checkBox_Timer2.Checked = false;
-                    dateTimePicker_Sch2.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
-                checkBox_Timer2.Checked = false;
-                dateTimePicker_Sch2.Enabled = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") != "")
-            {
-
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "")) == 1)
-                {
-                    dateTimePicker_Sch3.Text = ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "");       //Schedule3 Timer
-                    checkBox_Timer3.Checked = true;
-                    dateTimePicker_Sch3.Enabled = true;
-                }
-                else
-                {
-                    checkBox_Timer3.Checked = false;
-                    dateTimePicker_Sch3.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
-                checkBox_Timer3.Checked = false;
-                dateTimePicker_Sch3.Enabled = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") != "")
-            {
-
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "")) == 1)
-                {
-                    dateTimePicker_Sch4.Text = ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "");       //Schedule4 Timer
-                    checkBox_Timer4.Checked = true;
-                    dateTimePicker_Sch4.Enabled = true;
-                }
-                else
-                {
-                    checkBox_Timer4.Checked = false;
-                    dateTimePicker_Sch4.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
-                checkBox_Timer4.Checked = false;
-                dateTimePicker_Sch4.Enabled = false;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") != "")
-            {
-
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "")) == 1)
-                {
-                    dateTimePicker_Sch5.Text = ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");       //Schedule5 Timer
-                    checkBox_Timer5.Checked = true;
-                    dateTimePicker_Sch5.Enabled = true;
-                }
-                else
-                {
-                    checkBox_Timer5.Checked = false;
-                    dateTimePicker_Sch5.Enabled = false;
-                }
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "0");
-                checkBox_Timer5.Checked = false;
-                dateTimePicker_Sch5.Enabled = false;
-            }
-            #endregion
 
             setStyle();
         }
@@ -354,74 +236,6 @@ namespace Woodpecker
         }
         #endregion
 
-        #region checkBoxTimer
-        private void checkBoxTimer1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer1.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "1");
-                dateTimePicker_Sch1.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
-                dateTimePicker_Sch1.Enabled = false;
-            }
-        }
-        private void checkBoxTimer2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer2.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "1");
-                dateTimePicker_Sch2.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
-                dateTimePicker_Sch2.Enabled = false;
-            }
-        }
-        private void checkBoxTimer3_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer3.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "1");
-                dateTimePicker_Sch3.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
-                dateTimePicker_Sch3.Enabled = false;
-            }
-        }
-        private void checkBoxTimer4_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer4.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "1");
-                dateTimePicker_Sch4.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
-                dateTimePicker_Sch4.Enabled = false;
-            }
-        }
-        private void checkBoxTimer5_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Timer5.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "1");
-                dateTimePicker_Sch5.Enabled = true;
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Schedule5", "OnTimeStart", "0");
-                dateTimePicker_Sch5.Enabled = false;
-            }
-        }
-        #endregion
-
         private void textBox_Schedule1_TextChanged(object sender, EventArgs e)
         {
             if (File.Exists(textBox_Schedule1.Text.Trim()) == true)
@@ -469,9 +283,6 @@ namespace Woodpecker
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase2", "");
 
-                checkBox_Timer2.Checked = false;
-                checkBox_Timer2.Enabled = false;
-
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule2.Image = null;
                 pictureBox_Schedule2Loop.Image = null;
@@ -484,7 +295,6 @@ namespace Woodpecker
                 button_Schedule2.Enabled = true;
                 textBox_Schedule2.Enabled = true;
                 textBox_Schedule2Loop.Enabled = true;
-                checkBox_Timer2.Enabled = true;
             }
             setStyle();
         }
@@ -535,9 +345,6 @@ namespace Woodpecker
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase3", "");
 
-                checkBox_Timer3.Checked = false;
-                checkBox_Timer3.Enabled = false;
-
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule3.Image = null;
                 pictureBox_Schedule3Loop.Image = null;
@@ -550,7 +357,6 @@ namespace Woodpecker
                 button_Schedule3.Enabled = true;
                 textBox_Schedule3.Enabled = true;
                 textBox_Schedule3Loop.Enabled = true;
-                checkBox_Timer3.Enabled = true;
             }
             setStyle();
         }
@@ -601,9 +407,6 @@ namespace Woodpecker
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase4", "");
 
-                checkBox_Timer4.Checked = false;
-                checkBox_Timer4.Enabled = false;
-
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule4.Image = null;
                 pictureBox_Schedule4Loop.Image = null;
@@ -616,7 +419,6 @@ namespace Woodpecker
                 button_Schedule4.Enabled = true;
                 textBox_Schedule4.Enabled = true;
                 textBox_Schedule4Loop.Enabled = true;
-                checkBox_Timer4.Enabled = true;
             }
             setStyle();
         }
@@ -667,9 +469,6 @@ namespace Woodpecker
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase5", "");
 
-                checkBox_Timer5.Checked = false;
-                checkBox_Timer5.Enabled = false;
-
                 label_ErrorMessage.Text = "";
                 pictureBox_Schedule5.Image = null;
                 pictureBox_Schedule5Loop.Image = null;
@@ -682,7 +481,6 @@ namespace Woodpecker
                 button_Schedule5.Enabled = true;
                 textBox_Schedule5.Enabled = true;
                 textBox_Schedule5Loop.Enabled = true;
-                checkBox_Timer5.Enabled = true;
             }
             setStyle();
         }

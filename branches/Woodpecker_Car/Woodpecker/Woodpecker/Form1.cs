@@ -4325,18 +4325,6 @@ namespace Woodpecker
             {
                 if (Global.Schedule_2_Exist == 1 && Global.Schedule_Number == 1)
                 {
-                    if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && StartButtonPressed == true)       //定時器時間未到進入等待<<<<<<<<<<<<<<
-                    {
-                        if (Global.Break_Out_Schedule == 0)
-                        {
-                            while (ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "") != TimeLabel2.Text)
-                            {
-                                ScheduleWait.WaitOne();
-                            }
-                            ScheduleWait.Set();
-                        }
-                    }       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                    ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
                     button_Schedule2.PerformClick();
                     MyRunCamd();
                 }
@@ -4344,18 +4332,6 @@ namespace Woodpecker
                     Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 1 ||
                     Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 2)
                 {
-                    if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && StartButtonPressed == true)
-                    {
-                        if (Global.Break_Out_Schedule == 0)
-                        {
-                            while (ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "") != TimeLabel2.Text)
-                            {
-                                ScheduleWait.WaitOne();
-                            }
-                            ScheduleWait.Set();
-                        }
-                    }
-                    ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
                     button_Schedule3.PerformClick();
                     MyRunCamd();
                 }
@@ -4364,18 +4340,6 @@ namespace Woodpecker
                     Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 2 ||
                     Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 3)
                 {
-                    if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" && StartButtonPressed == true)
-                    {
-                        if (Global.Break_Out_Schedule == 0)
-                        {
-                            while (ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "") != TimeLabel2.Text)
-                            {
-                                ScheduleWait.WaitOne();
-                            }
-                            ScheduleWait.Set();
-                        }
-                    }
-                    ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
                     button_Schedule4.PerformClick();
                     MyRunCamd();
                 }
@@ -4385,18 +4349,6 @@ namespace Woodpecker
                     Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 3 ||
                     Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 4)
                 {
-                    if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1" && StartButtonPressed == true)
-                    {
-                        if (Global.Break_Out_Schedule == 0)
-                        {
-                            while (ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") != TimeLabel2.Text)
-                            {
-                                ScheduleWait.WaitOne();
-                            }
-                            ScheduleWait.Set();
-                        }
-                    }
-                    ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
                     button_Schedule5.PerformClick();
                     MyRunCamd();
                 }
@@ -4420,14 +4372,6 @@ namespace Woodpecker
                     OnOffCamera();
                     //button_VirtualRC.Enabled = true;
                 }
-
-                /*
-                if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_Original") == true)
-                {
-                    DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_Original");
-                    DIFO.Delete(true);
-                }
-                */
             }
             else//schedule自動跑完//
             {
@@ -4450,7 +4394,6 @@ namespace Woodpecker
 
             label_Command.Text = "Completed!";
             label_Remark.Text = "";
-            ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
             CloseDtplay();
@@ -5596,53 +5539,6 @@ namespace Woodpecker
         private void Timer1_Tick(object sender, EventArgs e)
         {
 
-
-            #region -- schedule timer --
-            if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1")
-                labelSch1Timer.Text = "Schedule 1 will start at" + "\r\n" + ini12.INIRead(MainSettingPath, "Schedule1", "Timer", "");
-            else if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "0")
-                labelSch1Timer.Text = "";
-
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1")
-                labelSch2Timer.Text = "Schedule 2 will start at" + "\r\n" + ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "");
-            else if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "0")
-                labelSch2Timer.Text = "";
-
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1")
-                labelSch3Timer.Text = "Schedule 3 will start at" + "\r\n" + ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "");
-            else if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "0")
-                labelSch3Timer.Text = "";
-
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1")
-                labelSch4Timer.Text = "Schedule 4 will start at" + "\r\n" + ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "");
-            else if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "0")
-                labelSch4Timer.Text = "";
-
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1")
-                labelSch5Timer.Text = "Schedule 5 will start at" + "\r\n" + ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");
-            else if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "0")
-                labelSch5Timer.Text = "";
-
-            if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1" &&
-                ini12.INIRead(MainSettingPath, "Schedule1", "Timer", "") == TimeLabel2.Text)
-                button_Start.PerformClick();
-            if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" &&
-                ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "") == TimeLabel2.Text &&
-                timeCount != 0)
-                Global.Break_Out_Schedule = 1;
-            if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" &&
-                ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "") == TimeLabel2.Text &&
-                timeCount != 0)
-                Global.Break_Out_Schedule = 1;
-            if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" &&
-                ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "") == TimeLabel2.Text &&
-                timeCount != 0)
-                Global.Break_Out_Schedule = 1;
-            if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1" &&
-                ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") == TimeLabel2.Text &&
-                timeCount != 0)
-                Global.Break_Out_Schedule = 1;
-            #endregion
         }
 
         //關閉Excel
