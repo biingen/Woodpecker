@@ -459,7 +459,7 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
+            string[] Record = { "VideoPath", "LogPath", "Generator", "EachVideo", "ImportDB", "Footprint Mode" };
             string[] Schedule1 = { "Exist", "Loop", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "Path" };

@@ -293,7 +293,6 @@ namespace Woodpecker
             this.label_FwVersion.TabIndex = 46;
             this.label_FwVersion.Text = "Ver. 1.0.01";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
             // button_Schedule1
             // 

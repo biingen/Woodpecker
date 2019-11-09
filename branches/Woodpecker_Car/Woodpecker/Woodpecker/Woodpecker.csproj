@@ -223,12 +223,6 @@
     <Compile Include="FormSchedule.Designer.cs">
       <DependentUpon>FormSchedule.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSurp.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormSurp.Designer.cs">
-      <DependentUpon>FormSurp.cs</DependentUpon>
-    </Compile>
     <Compile Include="frm_Splash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -258,9 +252,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormSchedule.resx">
       <DependentUpon>FormSchedule.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormSurp.resx">
-      <DependentUpon>FormSurp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTabControl.resx">
       <DependentUpon>FormTabControl.cs</DependentUpon>
