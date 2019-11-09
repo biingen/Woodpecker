@@ -205,12 +205,6 @@
     <Compile Include="Form_DGV_Autobox.Designer.cs">
       <DependentUpon>Form_DGV_Autobox.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormMail.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormMail.Designer.cs">
-      <DependentUpon>FormMail.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,9 +255,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form_DGV_Autobox.resx">
       <DependentUpon>Form_DGV_Autobox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormMail.resx">
-      <DependentUpon>FormMail.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSchedule.resx">
       <DependentUpon>FormSchedule.cs</DependentUpon>

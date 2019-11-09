@@ -92,15 +92,6 @@ namespace Woodpecker
             Add_TabPage("Multi Schedule Setting", FormSchedule);
         }
 
-        private void MailSettingBtn_Click(object sender, EventArgs e)
-        {
-            FormMail FormMail = new FormMail();
-
-            MailSettingBtn.Enabled = false;
-            FormMail.Dock = DockStyle.Fill;
-            Add_TabPage("Mail Setting", FormMail);
-        }
-
         private void buttonMonkeyTest_Click(object sender, EventArgs e)
         {
             FormMonkeyTest FormMonkeyTest = new FormMonkeyTest();
@@ -165,12 +156,6 @@ namespace Woodpecker
             Dock = DockStyle.Fill
         };
 
-        FormMail FormMail = new FormMail
-        {
-            TopLevel = false,
-            Dock = DockStyle.Fill
-        };
-
         private void FormTabControl_Load(object sender, EventArgs e)
         {
             FormSetting.Show();
@@ -178,9 +163,6 @@ namespace Woodpecker
 
             FormSchedule.Show();
             tabControl.TabPages[1].Controls.Add(FormSchedule);
-
-            FormMail.Show();
-            tabControl.TabPages[2].Controls.Add(FormMail);
         }
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
@@ -205,12 +187,6 @@ namespace Woodpecker
                 {
                     MessageBox.Show("Settings are not saved", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
-                }
-
-                if (Global.FormMail == false)
-                {
-                    MessageBox.Show("Settings are not saved", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                    tabControl.SelectedTab = tabPage_Mail;
                 }
 
                 e.Cancel = true;

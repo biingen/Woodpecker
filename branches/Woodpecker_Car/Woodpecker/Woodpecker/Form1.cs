@@ -46,7 +46,6 @@ namespace Woodpecker
         //private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        private string MailPath = Application.StartupPath + "\\Mail.ini";
         private string RcPath = Application.StartupPath + "\\RC.ini";
 
         private IRedRat3 redRat3 = null;
@@ -2356,7 +2355,6 @@ namespace Woodpecker
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
-                ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
                 {
@@ -4812,9 +4810,6 @@ namespace Woodpecker
 
                         //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
                         //MyExportText.Start();
-                        Console.WriteLine("CloseTime record.");
-                        ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
-
 
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
@@ -5104,7 +5099,6 @@ namespace Woodpecker
             if (StartButtonPressed == false)//按下STOP讓schedule結束//
             {
                 Global.Break_Out_MyRunCamd = 1;
-                ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
                 UpdateUI("START", button_Start);
                 button_Start.Enabled = true;
                 button_Setting.Enabled = true;
@@ -5144,12 +5138,6 @@ namespace Woodpecker
 
                 Global.Total_Test_Time = Global.Schedule_1_TestTime + Global.Schedule_2_TestTime + Global.Schedule_3_TestTime + Global.Schedule_4_TestTime + Global.Schedule_5_TestTime;
                 ConvertToRealTime(Global.Total_Test_Time);
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
-                {
-                    Global.Loop_Number = Global.Loop_Number - 1;
-                    FormMail FormMail = new FormMail();
-                    FormMail.send();
-                }
             }
 
             label_Command.Text = "Completed!";
@@ -5192,20 +5180,6 @@ namespace Woodpecker
                     Global.caption_Sum = Global.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
-            }
-            else if (columns_serial == "_mail")
-            {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
-                {
-                    Global.Pass_Or_Fail = "NG";
-                    FormMail FormMail = new FormMail();
-                    FormMail.send();
-                    label_Command.Text = "IO CMD_MAIL";
-                }
-                else
-                {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
-                }
             }
             else if (columns_serial.Substring(0, 3) == "_rc")
             {
@@ -5272,20 +5246,6 @@ namespace Woodpecker
                     Global.caption_Sum = Global.caption_Num;
                 Jes();
                 label_Command.Text = "KEYWORD_SHOT";
-            }
-            else if (columns_serial == "_mail")
-            {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
-                {
-                    Global.Pass_Or_Fail = "NG";
-                    FormMail FormMail = new FormMail();
-                    FormMail.send();
-                    label_Command.Text = "KEYWORD_MAIL";
-                }
-                else
-                {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
-                }
             }
             else if (columns_serial == "_savelog1")
             {
@@ -6437,45 +6397,6 @@ namespace Woodpecker
             comboBox_CameraDevice.BringToFront();
         }
 
-        private void MyExportCamd()
-        {
-            string ab_num = label_LoopNumber_Value.Text,                                                        //自動編號
-                        ab_p_id = ini12.INIRead(MailPath, "Data Info", "ProjectNumber", ""),                    //Project number
-                        ab_c_id = ini12.INIRead(MailPath, "Data Info", "TestCaseNumber", ""),                   //Test case number
-                        ab_result = ini12.INIRead(MailPath, "Data Info", "Result", ""),                         //Woodpecker 測試結果
-                        ab_version = ini12.INIRead(MailPath, "Mail Info", "Version", ""),                       //軟體版號
-                        ab_ng = ini12.INIRead(MailPath, "Data Info", "NGfrequency", ""),                        //NG frequency
-                        ab_create = ini12.INIRead(MailPath, "Data Info", "CreateTime", ""),                     //測試開始時間
-                        ab_close = ini12.INIRead(MailPath, "Data Info", "CloseTime", ""),                       //測試結束時間
-                        ab_time = ini12.INIRead(MailPath, "Total Test Time", "value", ""),                      //測試執行花費時間
-                        ab_loop = Global.Schedule_Loop.ToString(),                                              //執行loop次數
-                        ab_loop_time = ini12.INIRead(MailPath, "Total Test Time", "value", ""),                 //1個loop需要次數
-                        ab_loop_step = (DataGridView_Schedule.Rows.Count - 1).ToString(),                       //1個loop的step數
-                        ab_root = ini12.INIRead(MailPath, "Data Info", "Reboot", ""),                           //測試重啟次數
-                        ab_user = ini12.INIRead(MailPath, "Mail Info", "Tester", ""),                           //測試人員
-                        ab_mail = ini12.INIRead(MailPath, "Mail Info", "To", "");                               //Mail address 列表
-
-            List<string> DataList = new List<string> { };
-            DataList.Add(ab_num);
-            DataList.Add(ab_p_id);
-            DataList.Add(ab_c_id);
-            DataList.Add(ab_result);
-            DataList.Add(ab_version);
-            DataList.Add(ab_ng);
-            DataList.Add(ab_create);
-            DataList.Add(ab_close);
-            DataList.Add(ab_time);
-            DataList.Add(ab_loop);
-            DataList.Add(ab_loop_time);
-            DataList.Add(ab_loop_step);
-            DataList.Add(ab_root);
-            DataList.Add(ab_user);
-            DataList.Add(ab_mail);
-
-            //Form_DGV_Autobox.DataInsert(DataList);
-            //Form_DGV_Autobox.ToCsV(Form_DGV_Autobox.DGV_Autobox, "C:\\Woodpecker v2\\Report.xls");
-        }
-
         #region -- 另存Schedule --
         private void WriteBtn_Click(object sender, EventArgs e)
         {
@@ -6541,9 +6462,6 @@ namespace Woodpecker
             button_Schedule4.Enabled = true;
             button_Schedule5.Enabled = true;
             ReadSch();
-            ini12.INIWrite(MailPath, "Data Info", "TestCaseNumber", "0");
-            ini12.INIWrite(MailPath, "Data Info", "Result", "N/A");
-            ini12.INIWrite(MailPath, "Data Info", "NGfrequency", "0");
         }
         private void SchBtn2_Click(object sender, EventArgs e)          ////////////Schedule2
         {
@@ -6757,30 +6675,6 @@ namespace Woodpecker
                 }
                 label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
                 //label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-                ini12.INIWrite(MailPath, "Total Test Time", "value", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-
-                // 寫入每個Schedule test time
-                if (Global.Schedule_Number == 1)
-                    ini12.INIWrite(MailPath, "Total Test Time", "value1", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-
-                if (StartButtonPressed == true)
-                {
-                    switch (Global.Schedule_Number)
-                    {
-                        case 2:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value2", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-                            break;
-                        case 3:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value3", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-                            break;
-                        case 4:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value4", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-                            break;
-                        case 5:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value5", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
-                            break;
-                    }
-                }
             }
             catch
             {
@@ -6912,7 +6806,6 @@ namespace Woodpecker
             }
             label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
             //label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-            ini12.INIWrite(MailPath, "Total Test Time", "How Long", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
         }
 
         private void TimerPanelbutton_Click(object sender, EventArgs e)
