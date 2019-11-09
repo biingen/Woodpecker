@@ -44,7 +44,6 @@
             this.tabPage_MainSetting = new System.Windows.Forms.TabPage();
             this.tabPage_MultiSchedule = new System.Windows.Forms.TabPage();
             this.tabPage_Mail = new System.Windows.Forms.TabPage();
-            this.tabPage_KeywordSearch = new System.Windows.Forms.TabPage();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).BeginInit();
@@ -134,19 +133,6 @@
             this.MailSettingBtn.UseVisualStyleBackColor = true;
             this.MailSettingBtn.Click += new System.EventHandler(this.MailSettingBtn_Click);
             // 
-            // LogSettingBtn
-            // 
-            this.LogSettingBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.LogSettingBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.LogSettingBtn.Location = new System.Drawing.Point(15, 270);
-            this.LogSettingBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.LogSettingBtn.Name = "LogSettingBtn";
-            this.LogSettingBtn.Size = new System.Drawing.Size(128, 31);
-            this.LogSettingBtn.TabIndex = 63;
-            this.LogSettingBtn.Text = "Log Setting";
-            this.LogSettingBtn.UseVisualStyleBackColor = true;
-            this.LogSettingBtn.Click += new System.EventHandler(this.LogSettingBtn_Click);
-            // 
             // buttonMonkeyTest
             // 
             this.buttonMonkeyTest.FlatStyle = System.Windows.Forms.FlatStyle.System;
@@ -182,7 +168,6 @@
             this.tabControl.Controls.Add(this.tabPage_MainSetting);
             this.tabControl.Controls.Add(this.tabPage_MultiSchedule);
             this.tabControl.Controls.Add(this.tabPage_Mail);
-            this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
             this.tabControl.Depth = 0;
             this.tabControl.Location = new System.Drawing.Point(12, 102);
             this.tabControl.MouseState = MaterialSkin.MouseState.HOVER;
@@ -195,7 +180,7 @@
             // 
             this.tabPage_MainSetting.Location = new System.Drawing.Point(4, 24);
             this.tabPage_MainSetting.Name = "tabPage_MainSetting";
-            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_MainSetting.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_MainSetting.Size = new System.Drawing.Size(653, 488);
             this.tabPage_MainSetting.TabIndex = 0;
             this.tabPage_MainSetting.Text = "Main Settings";
@@ -205,7 +190,7 @@
             // 
             this.tabPage_MultiSchedule.Location = new System.Drawing.Point(4, 24);
             this.tabPage_MultiSchedule.Name = "tabPage_MultiSchedule";
-            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_MultiSchedule.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_MultiSchedule.Size = new System.Drawing.Size(653, 488);
             this.tabPage_MultiSchedule.TabIndex = 1;
             this.tabPage_MultiSchedule.Text = "Schedule";
@@ -215,21 +200,11 @@
             // 
             this.tabPage_Mail.Location = new System.Drawing.Point(4, 24);
             this.tabPage_Mail.Name = "tabPage_Mail";
-            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPage_Mail.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage_Mail.Size = new System.Drawing.Size(653, 488);
             this.tabPage_Mail.TabIndex = 2;
             this.tabPage_Mail.Text = "Mail";
             this.tabPage_Mail.UseVisualStyleBackColor = true;
-            // 
-            // tabPage_KeywordSearch
-            // 
-            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 24);
-            this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
-            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(653, 488);
-            this.tabPage_KeywordSearch.TabIndex = 3;
-            this.tabPage_KeywordSearch.Text = "Keyword";
-            this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
             // 
             // materialTabSelector1
             // 
@@ -297,6 +272,5 @@
         private System.Windows.Forms.TabPage tabPage_MainSetting;
         private System.Windows.Forms.TabPage tabPage_MultiSchedule;
         private System.Windows.Forms.TabPage tabPage_Mail;
-        private System.Windows.Forms.TabPage tabPage_KeywordSearch;
     }
 }

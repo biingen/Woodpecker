@@ -101,15 +101,6 @@ namespace Woodpecker
             Add_TabPage("Mail Setting", FormMail);
         }
 
-        private void LogSettingBtn_Click(object sender, EventArgs e)
-        {
-            FormLog FormLog = new FormLog();
-
-            LogSettingBtn.Enabled = false;
-            FormLog.Dock = DockStyle.Fill;
-            Add_TabPage("Log Setting", FormLog);
-        }
-
         private void buttonMonkeyTest_Click(object sender, EventArgs e)
         {
             FormMonkeyTest FormMonkeyTest = new FormMonkeyTest();
@@ -180,12 +171,6 @@ namespace Woodpecker
             Dock = DockStyle.Fill
         };
 
-        FormLog FormLog = new FormLog
-        {
-            TopLevel = false,
-            Dock = DockStyle.Fill
-        };
-
         private void FormTabControl_Load(object sender, EventArgs e)
         {
             FormSetting.Show();
@@ -196,9 +181,6 @@ namespace Woodpecker
 
             FormMail.Show();
             tabControl.TabPages[2].Controls.Add(FormMail);
-
-            FormLog.Show();
-            tabControl.TabPages[3].Controls.Add(FormLog);
         }
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
@@ -229,13 +211,6 @@ namespace Woodpecker
                 {
                     MessageBox.Show("Settings are not saved", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
-                }
-
-
-                if (Global.FormLog == false)
-                {
-                    MessageBox.Show("Settings are not saved", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                    tabControl.SelectedTab = tabPage_KeywordSearch;
                 }
 
                 e.Cancel = true;

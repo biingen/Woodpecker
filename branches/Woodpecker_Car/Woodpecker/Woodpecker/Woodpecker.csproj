@@ -193,12 +193,6 @@
     <Compile Include="FormScriptHelper.Designer.cs">
       <DependentUpon>FormScriptHelper.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormLog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormLog.Designer.cs">
-      <DependentUpon>FormLog.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMonkeyTest.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -261,9 +255,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormScriptHelper.resx">
       <DependentUpon>FormScriptHelper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormLog.resx">
-      <DependentUpon>FormLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMonkeyTest.resx">
       <DependentUpon>FormMonkeyTest.cs</DependentUpon>
