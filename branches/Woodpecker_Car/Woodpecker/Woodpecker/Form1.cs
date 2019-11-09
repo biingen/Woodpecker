@@ -312,19 +312,6 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            /* Hidden serial port.
-            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-            {
-                button_SerialPort1.Visible = true;
-                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
-                button_SerialPort1.Visible = false;
-            }
-            */
-
             LoadRCDB();
             ConnectCanBus();
 
@@ -1027,29 +1014,6 @@ namespace Woodpecker
                 }
             }
         }
-        /*
-                static async System.Threading.Tasks.Task Delay(int iSecond)
-                {
-                    await System.Threading.Tasks.Task.Delay(iSecond);
-                }
-
-                async Task RedRatDBViewer_Delay(int delay_ms)
-                {
-                    try
-                    {
-                        await Delay(delay_ms);
-                        //System.Threading.Thread.Sleep(delay_ms);
-                    }
-                    catch (TaskCanceledException ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
-                }
-        */
 
         // 這個主程式專用的delay的內部資料與function
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
@@ -1087,16 +1051,6 @@ namespace Woodpecker
             aTimer.Stop();
             aTimer.Dispose();
             //Console.WriteLine("RedRatDBViewer_Delay: End.");
-        }
-
-
-        private void Log(string msg)
-        {
-            textBox_serial.Invoke(new EventHandler(delegate
-            {
-                textBox_serial.Text = msg.Trim();
-                PortA.WriteLine(msg.Trim());
-            }));
         }
 
         public static string ByteToHexStr(byte[] bytes)
@@ -1330,84 +1284,6 @@ namespace Woodpecker
         }
         #endregion
 
-        #region -- Old SerialPort Setup --
-        protected void OpenSerialPort1()
-        {
-            try
-            {
-                if (PortA.IsOpen == false)
-                {
-                    string stopbit = ini12.INIRead(MainSettingPath, "Port A", "StopBits", "");
-                    switch (stopbit)
-                    {
-                        case "One":
-                            PortA.StopBits = System.IO.Ports.StopBits.One;
-                            break;
-                        case "Two":
-                            PortA.StopBits = System.IO.Ports.StopBits.Two;
-                            break;
-                    }
-                    PortA.PortName = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
-                    PortA.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "BaudRate", ""));
-                    PortA.ReadTimeout = 2000;
-                    // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
-
-                    PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
-                    PortA.Open();
-                    object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortA);
-                }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
-            }
-        }
-        /*
-                protected PortDataContainer OpenSerialPort1(SerialPort sp)
-                {
-                    PortDataContainer sp_data = new PortDataContainer();
-                    sp_data.serial_port = sp;
-                    PortDataContainer.PortDictionary.Add(sp.PortName, sp_data);
-                    try
-                    {
-                        if (serialPort1.IsOpen == false)
-                        {
-                            string stopbit = ini12.INIRead(MainSettingPath, "Port A", "StopBits", "");
-                            switch (stopbit)
-                            {
-                                case "One":
-                                    serialPort1.StopBits = StopBits.One;
-                                    break;
-                                case "Two":
-                                    serialPort1.StopBits = StopBits.Two;
-                                    break;
-                            }
-                            serialPort1.PortName = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
-                            serialPort1.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "BaudRate", ""));
-                            serialPort1.DataBits = 8;
-                            serialPort1.Parity = (Parity)0;
-                            serialPort1.ReceivedBytesThreshold = 1;
-                            serialPort1.ReadTimeout = 2000;
-                            // serialPort1.Encoding = System.Text.Encoding.GetEncoding(1252);
-
-                            serialPort1.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
-                            serialPort1.Open();
-                        }
-                    }
-                    catch (Exception Ex)
-                    {
-                        MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
-                    }
-                    return sp_data;
-                }
-        */
-        protected void CloseSerialPort1()
-        {
-            PortA.Dispose();
-            PortA.Close();
-        }
-        #endregion
-
         #region -- 接受SerialPort1資料 --
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -1618,7 +1494,6 @@ namespace Woodpecker
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(log1_text);
                     MYFILE.Close();
-                    Txtbox1("", textBox_serial);
                     log1_text = String.Empty;
                     break;
                 case "B":
@@ -1795,7 +1670,6 @@ namespace Woodpecker
                         log5_text = string.Concat(log5_text, sch_log_text);
                         canbus_text = string.Concat(canbus_text, sch_log_text);
                         kline_text = string.Concat(kline_text, sch_log_text);
-                        textBox_serial.AppendText(sch_log_text);
                         #endregion
 
                         #region -- _cmd --
@@ -2138,90 +2012,7 @@ namespace Woodpecker
                             }
                         }
                         #endregion
-                        /*
-                                                #region -- COM PORT --
-                                                else if (columns_command == "_log1")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox1 = string.empty; //清除textbox1
-                                                                break;
 
-                                                            case "_save":
-                                                                Rs232save(); //存檔rs232
-                                                                break;
-
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort1.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox1.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
-
-                                                else if (columns_command == "_log2")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox2.Clear(); //清除textbox2
-                                                                break;
-
-                                                            case "_save":
-                                                                ExtRs232save(); //存檔rs232
-                                                                break;
-
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort2.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox2.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
-
-                                                else if (columns_command == "_log3")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox3.Clear(); //清除textbox3
-                                                                break;
-
-                                                            case "_save":
-                                                                TriRs232save(); //存檔rs232
-                                                                break;
-
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort3.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox3.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
-                                                #endregion
-                        */
                         #region -- Ascii --
                         else if (columns_command == "_ascii")
                         {
@@ -2254,7 +2045,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
-                                textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2288,7 +2078,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2322,7 +2111,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2356,7 +2144,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2390,7 +2177,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2415,7 +2201,6 @@ namespace Woodpecker
                                     PortA.Write(serial_content[0] + switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2424,7 +2209,6 @@ namespace Woodpecker
                                     PortB.Write(serial_content[1] + switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2433,7 +2217,6 @@ namespace Woodpecker
                                     PortC.Write(serial_content[2] + switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2442,7 +2225,6 @@ namespace Woodpecker
                                     PortD.Write(serial_content[3] + switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2451,7 +2233,6 @@ namespace Woodpecker
                                     PortE.Write(serial_content[4] + switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2484,7 +2265,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2510,7 +2290,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2536,7 +2315,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2562,7 +2340,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2588,7 +2365,6 @@ namespace Woodpecker
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
                             }
@@ -2612,7 +2388,6 @@ namespace Woodpecker
                                     PortA.Write(serial_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2621,7 +2396,6 @@ namespace Woodpecker
                                     PortB.Write(serial_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2630,7 +2404,6 @@ namespace Woodpecker
                                     PortC.Write(serial_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2639,7 +2412,6 @@ namespace Woodpecker
                                     PortD.Write(serial_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -2648,7 +2420,6 @@ namespace Woodpecker
                                     PortE.Write(serial_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
@@ -3106,7 +2877,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3142,7 +2912,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3178,7 +2947,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3214,7 +2982,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3250,7 +3017,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3298,7 +3064,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3334,7 +3099,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3370,7 +3134,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3406,7 +3169,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3442,7 +3204,6 @@ namespace Woodpecker
                                         }
                                         DateTime dt = DateTime.Now;
                                         string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
@@ -3457,54 +3218,6 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        /*
-                                                #region -- Factory Command 控制 --
-                                                else if (columns_command == "_SXP")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                                        columns_serial == "_save")
-                                                    {
-                                                        string fName = "";
-
-                                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                                        string t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                                                        StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                                        MYFILE.WriteLine(textBox2.Text);
-                                                        MYFILE.Close();
-
-                                                        Txtbox2("", textBox2);
-                                                    }
-
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                                        columns_serial != "_save")
-                                                    {
-                                                        try
-                                                        {
-                                                            string str = columns_serial;
-                                                            byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                                            label_Command.Text = "(SXP CMD)" + columns_serial;
-                                                            serialPort2.Write(bytes, 0, bytes.Length);
-                                                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                            // DateTime dt = DateTime.Now;
-                                                            // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\r\n";
-                                                            str = str.Replace(" ", "");
-                                                            string text = str + "\r\n";
-                                                            textBox2.AppendText(text);
-                                                        }
-                                                        catch (Exception ex)
-                                                        {
-                                                            Console.WriteLine(ex);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        MessageBox.Show("Check your SerialPort2 setting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                                                        Global.Break_Out_Schedule = 1;
-                                                    }
-                                                }
-                                                #endregion
-                        */
                         #region -- IO CMD --
                         else if (columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PA" ||
                                  columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PB")
@@ -3712,147 +3425,7 @@ namespace Woodpecker
                             }
                         }
                         #endregion
-                        /*
-                                                #region -- NI IO Input --
-                                                else if (columns_command.Length >= 13 && columns_command.Substring(0, 11) == "_EXT_Input_")
-                                                {
-                                                    switch (columns_command.Substring(11, 2))
-                                                    {
-                                                        case "P0":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P1":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
-
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P2":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
-
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                    }
-                                                    label_Command.Text = "(" + columns_command + ") " + columns_times;
-                                                }
-                                                #endregion
-
-                                                #region -- NI IO Output --
-                                                else if (columns_command.Length >= 14 && columns_command.Substring(0, 12) == "_EXT_Output_")
-                                                {
-                                                    switch (columns_command.Substring(12, 2))
-                                                    {
-                                                        case "P0":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
-
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P1":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
-
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P2":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
-
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                    }
-                                                    label_Command.Text = "(" + columns_command + ") " + columns_times;
-                                                }
-                                                #endregion
-                        */
                         #region -- Audio Debounce --
                         else if (columns_command == "_audio_debounce")
                         {
@@ -4424,7 +3997,6 @@ namespace Woodpecker
                 StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                 MYFILE.Write(log1_text);
                 MYFILE.Close();
-                Txtbox1("", textBox_serial);
                 label_Command.Text = "KEYWORD_SAVELOG1";
             }
             else if (columns_serial == "_savelog2")
@@ -4437,7 +4009,6 @@ namespace Woodpecker
                 StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                 MYFILE.Write(log2_text);
                 MYFILE.Close();
-                Txtbox2("", textBox_serial);
                 label_Command.Text = "KEYWORD_SAVELOG2";
             }
             else if (columns_serial.Substring(0, 3) == "_rc")
@@ -4918,8 +4489,6 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
                         OpenSerialPort("A");
-                        textBox_serial.Clear();
-                        //textBox1.Text = string.Empty;//清空serialport1//
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
@@ -4945,7 +4514,6 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
-                        textBox_serial.Text = ""; //清空kline//
                     }
                 }
             }
@@ -4983,7 +4551,6 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
                         OpenSerialPort("A");
-                        textBox_serial.Clear();
                         //textBox1.Text = string.Empty;//清空serialport1//
                     }
 
@@ -5010,7 +4577,6 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
-                        textBox_serial.Text = ""; //清空kline//
                     }
                 }
             }
@@ -5582,19 +5148,6 @@ namespace Woodpecker
             }
             label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
             //label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-        }
-
-        private void TimerPanelbutton_Click(object sender, EventArgs e)
-        {
-            TimerPanel = !TimerPanel;
-
-            if (TimerPanel == true)
-            {
-                panel1.Show();
-                panel1.BringToFront();
-            }
-            else
-                panel1.Hide();
         }
 
         static List<USBDeviceInfo> GetUSBDevices()
@@ -6305,10 +5858,6 @@ namespace Woodpecker
                 // Display debug message on RichTextBox
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
-                DisplayKLineBlockMessage(textBox_serial, "raw_input: " + raw_data_in_string + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
-                DisplayKLineBlockMessage(textBox_serial, "In - " + in_message.GenerateDebugString() + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
                 BlockMessage out_message = new BlockMessage();
@@ -6347,10 +5896,6 @@ namespace Woodpecker
                 // Send output KLine message via UART (after some delay)
                 Thread.Sleep((KWP_2000_Process.min_delay_before_response - 1));
                 MySerialPort.SendToSerial(output_data.ToArray());
-
-                // Show output KLine message for debug purpose
-                DisplayKLineBlockMessage(textBox_serial, "Out - " + out_message.GenerateDebugString() + "\n\r");
-                kline_text = textBox_serial.Text;
             }
         }
 

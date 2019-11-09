@@ -36,7 +36,6 @@ namespace Woodpecker
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button_Setting = new System.Windows.Forms.Button();
-            this.textBox_serial = new System.Windows.Forms.TextBox();
             this.label_Power = new System.Windows.Forms.Label();
             this.label_Camera = new System.Windows.Forms.Label();
             this.label_RedRat = new System.Windows.Forms.Label();
@@ -61,19 +60,9 @@ namespace Woodpecker
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.button_VirtualRC = new System.Windows.Forms.Button();
             this.TimeLabel2 = new System.Windows.Forms.Label();
-            this.labelSch1Timer = new System.Windows.Forms.Label();
-            this.labelSch2Timer = new System.Windows.Forms.Label();
-            this.labelSch5Timer = new System.Windows.Forms.Label();
-            this.labelSch4Timer = new System.Windows.Forms.Label();
-            this.labelSch3Timer = new System.Windows.Forms.Label();
             this.button_Pause = new System.Windows.Forms.Button();
             this.label_ScheduleTime_Value = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.SegLabel4 = new System.Windows.Forms.Label();
-            this.SegLabel3 = new System.Windows.Forms.Label();
-            this.SegLabel2 = new System.Windows.Forms.Label();
-            this.SegLabel1 = new System.Windows.Forms.Label();
             this.button_TimeLine = new System.Windows.Forms.Button();
             this.button_SaveSchedule = new System.Windows.Forms.Button();
             this.button_Schedule = new System.Windows.Forms.Button();
@@ -83,7 +72,6 @@ namespace Woodpecker
             this.label_ScheduleTime = new System.Windows.Forms.Label();
             this.label_AutoBox = new System.Windows.Forms.Label();
             this.serialPortWood = new System.IO.Ports.SerialPort(this.components);
-            this.button_Output = new System.Windows.Forms.Button();
             this.label_Command = new System.Windows.Forms.Label();
             this.labelGPIO_Input = new System.Windows.Forms.Label();
             this.label_TestTime = new System.Windows.Forms.Label();
@@ -137,7 +125,6 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
             this.groupBox_Usb.SuspendLayout();
@@ -175,20 +162,6 @@ namespace Woodpecker
             this.button_Setting.Text = "SETTINGS";
             this.button_Setting.UseVisualStyleBackColor = false;
             this.button_Setting.Click += new System.EventHandler(this.SettingBtn_Click);
-            // 
-            // textBox_serial
-            // 
-            this.textBox_serial.BackColor = System.Drawing.Color.Black;
-            this.textBox_serial.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox_serial.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox_serial.ForeColor = System.Drawing.Color.White;
-            this.textBox_serial.Location = new System.Drawing.Point(14, 121);
-            this.textBox_serial.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox_serial.Multiline = true;
-            this.textBox_serial.Name = "textBox_serial";
-            this.textBox_serial.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox_serial.Size = new System.Drawing.Size(950, 400);
-            this.textBox_serial.TabIndex = 24;
             // 
             // label_Power
             // 
@@ -411,91 +384,6 @@ namespace Woodpecker
             this.TimeLabel2.Text = "yyyy-MM-dd  HH:mm:ss";
             this.TimeLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelSch1Timer
-            // 
-            this.labelSch1Timer.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.labelSch1Timer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSch1Timer.AutoSize = true;
-            this.labelSch1Timer.BackColor = System.Drawing.Color.Transparent;
-            this.labelSch1Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch1Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelSch1Timer.Location = new System.Drawing.Point(16, 13);
-            this.labelSch1Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSch1Timer.Name = "labelSch1Timer";
-            this.labelSch1Timer.Size = new System.Drawing.Size(146, 17);
-            this.labelSch1Timer.TabIndex = 65;
-            this.labelSch1Timer.Text = "2014-12-11  12:23:00";
-            // 
-            // labelSch2Timer
-            // 
-            this.labelSch2Timer.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.labelSch2Timer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSch2Timer.AutoSize = true;
-            this.labelSch2Timer.BackColor = System.Drawing.Color.Transparent;
-            this.labelSch2Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch2Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelSch2Timer.Location = new System.Drawing.Point(16, 60);
-            this.labelSch2Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSch2Timer.Name = "labelSch2Timer";
-            this.labelSch2Timer.Size = new System.Drawing.Size(146, 17);
-            this.labelSch2Timer.TabIndex = 66;
-            this.labelSch2Timer.Text = "2014-12-11  12:23:00";
-            // 
-            // labelSch5Timer
-            // 
-            this.labelSch5Timer.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.labelSch5Timer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSch5Timer.AutoSize = true;
-            this.labelSch5Timer.BackColor = System.Drawing.Color.Transparent;
-            this.labelSch5Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch5Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelSch5Timer.Location = new System.Drawing.Point(16, 201);
-            this.labelSch5Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSch5Timer.Name = "labelSch5Timer";
-            this.labelSch5Timer.Size = new System.Drawing.Size(146, 17);
-            this.labelSch5Timer.TabIndex = 67;
-            this.labelSch5Timer.Text = "2014-12-11  12:23:00";
-            // 
-            // labelSch4Timer
-            // 
-            this.labelSch4Timer.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.labelSch4Timer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSch4Timer.AutoSize = true;
-            this.labelSch4Timer.BackColor = System.Drawing.Color.Transparent;
-            this.labelSch4Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch4Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelSch4Timer.Location = new System.Drawing.Point(16, 154);
-            this.labelSch4Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSch4Timer.Name = "labelSch4Timer";
-            this.labelSch4Timer.Size = new System.Drawing.Size(146, 17);
-            this.labelSch4Timer.TabIndex = 68;
-            this.labelSch4Timer.Text = "2014-12-11  12:23:00";
-            // 
-            // labelSch3Timer
-            // 
-            this.labelSch3Timer.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
-            this.labelSch3Timer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelSch3Timer.AutoSize = true;
-            this.labelSch3Timer.BackColor = System.Drawing.Color.Transparent;
-            this.labelSch3Timer.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.labelSch3Timer.ForeColor = System.Drawing.Color.Gainsboro;
-            this.labelSch3Timer.Location = new System.Drawing.Point(16, 107);
-            this.labelSch3Timer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSch3Timer.Name = "labelSch3Timer";
-            this.labelSch3Timer.Size = new System.Drawing.Size(146, 17);
-            this.labelSch3Timer.TabIndex = 69;
-            this.labelSch3Timer.Text = "2014-12-11  12:23:00";
-            // 
             // button_Pause
             // 
             this.button_Pause.BackColor = System.Drawing.SystemColors.Control;
@@ -531,100 +419,6 @@ namespace Woodpecker
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick_1);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.SegLabel4);
-            this.panel1.Controls.Add(this.SegLabel3);
-            this.panel1.Controls.Add(this.SegLabel2);
-            this.panel1.Controls.Add(this.SegLabel1);
-            this.panel1.Controls.Add(this.labelSch1Timer);
-            this.panel1.Controls.Add(this.labelSch2Timer);
-            this.panel1.Controls.Add(this.labelSch3Timer);
-            this.panel1.Controls.Add(this.labelSch5Timer);
-            this.panel1.Controls.Add(this.labelSch4Timer);
-            this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panel1.Location = new System.Drawing.Point(788, 285);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(176, 236);
-            this.panel1.TabIndex = 76;
-            // 
-            // SegLabel4
-            // 
-            this.SegLabel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel4.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel4.ForeColor = System.Drawing.Color.Gainsboro;
-            this.SegLabel4.Location = new System.Drawing.Point(11, 180);
-            this.SegLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.SegLabel4.Name = "SegLabel4";
-            this.SegLabel4.Size = new System.Drawing.Size(162, 12);
-            this.SegLabel4.TabIndex = 73;
-            this.SegLabel4.Text = "---------------------------------------";
-            // 
-            // SegLabel3
-            // 
-            this.SegLabel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel3.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel3.ForeColor = System.Drawing.Color.Gainsboro;
-            this.SegLabel3.Location = new System.Drawing.Point(11, 133);
-            this.SegLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.SegLabel3.Name = "SegLabel3";
-            this.SegLabel3.Size = new System.Drawing.Size(162, 12);
-            this.SegLabel3.TabIndex = 72;
-            this.SegLabel3.Text = "---------------------------------------";
-            // 
-            // SegLabel2
-            // 
-            this.SegLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel2.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
-            this.SegLabel2.ForeColor = System.Drawing.Color.Gainsboro;
-            this.SegLabel2.Location = new System.Drawing.Point(11, 86);
-            this.SegLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.SegLabel2.Name = "SegLabel2";
-            this.SegLabel2.Size = new System.Drawing.Size(162, 12);
-            this.SegLabel2.TabIndex = 71;
-            this.SegLabel2.Text = "---------------------------------------";
-            // 
-            // SegLabel1
-            // 
-            this.SegLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel1.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SegLabel1.ForeColor = System.Drawing.Color.Gainsboro;
-            this.SegLabel1.Location = new System.Drawing.Point(11, 39);
-            this.SegLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.SegLabel1.Name = "SegLabel1";
-            this.SegLabel1.Size = new System.Drawing.Size(162, 12);
-            this.SegLabel1.TabIndex = 70;
-            this.SegLabel1.Text = "---------------------------------------";
-            // 
-            // button_TimeLine
-            // 
-            this.button_TimeLine.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_TimeLine.BackColor = System.Drawing.SystemColors.Control;
-            this.button_TimeLine.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_TimeLine.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_TimeLine.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.button_TimeLine.ForeColor = System.Drawing.Color.White;
-            this.button_TimeLine.Location = new System.Drawing.Point(649, 533);
-            this.button_TimeLine.Margin = new System.Windows.Forms.Padding(2);
-            this.button_TimeLine.Name = "button_TimeLine";
-            this.button_TimeLine.Size = new System.Drawing.Size(92, 30);
-            this.button_TimeLine.TabIndex = 77;
-            this.button_TimeLine.Text = "TIMELINE";
-            this.button_TimeLine.UseVisualStyleBackColor = false;
-            this.button_TimeLine.Visible = false;
-            this.button_TimeLine.Click += new System.EventHandler(this.TimerPanelbutton_Click);
             // 
             // button_SaveSchedule
             // 
@@ -727,22 +521,6 @@ namespace Woodpecker
             this.label_AutoBox.Size = new System.Drawing.Size(53, 17);
             this.label_AutoBox.TabIndex = 83;
             this.label_AutoBox.Text = "AutoKit";
-            // 
-            // button_Output
-            // 
-            this.button_Output.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_Output.BackColor = System.Drawing.Color.Transparent;
-            this.button_Output.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_Output.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Output.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Output.Location = new System.Drawing.Point(1004, 618);
-            this.button_Output.Margin = new System.Windows.Forms.Padding(2);
-            this.button_Output.Name = "button_Output";
-            this.button_Output.Size = new System.Drawing.Size(80, 25);
-            this.button_Output.TabIndex = 86;
-            this.button_Output.Text = "OUTPUT";
-            this.button_Output.UseVisualStyleBackColor = false;
-            this.button_Output.Visible = false;
             // 
             // label_Command
             // 
@@ -1415,7 +1193,6 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
-            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1423,10 +1200,8 @@ namespace Woodpecker
             this.Controls.Add(this.pictureBox_canbus);
             this.Controls.Add(this.label_ext_board);
             this.Controls.Add(this.pictureBox_ext_board);
-            this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.button_InsertRow);
             this.Controls.Add(this.labelGPIO_Input);
-            this.Controls.Add(this.button_Output);
             this.Controls.Add(this.button_Schedule);
             this.Controls.Add(this.button_Schedule1);
             this.Controls.Add(this.pictureBox_BlueRat);
@@ -1440,7 +1215,6 @@ namespace Woodpecker
             this.Controls.Add(this.label_RedRat);
             this.Controls.Add(this.button_Schedule5);
             this.Controls.Add(this.button_TimeLine);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_SaveSchedule);
             this.Controls.Add(this.DataBtn);
             this.Controls.Add(this.MiniPicBox);
@@ -1455,8 +1229,9 @@ namespace Woodpecker
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
+            this.Controls.Add(this.DataGridView_Schedule);
+            this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.comboBox_CameraDevice);
-            this.Controls.Add(this.textBox_serial);
             this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1472,8 +1247,6 @@ namespace Woodpecker
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GPanelTitleBack_MouseDown);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel_VirtualRC.ResumeLayout(false);
             this.panel_VirtualRC.PerformLayout();
             this.panel_AcUsb.ResumeLayout(false);
@@ -1503,7 +1276,6 @@ namespace Woodpecker
         #endregion
 
         private System.Windows.Forms.Button button_Setting;
-        private System.Windows.Forms.TextBox textBox_serial;
         private System.Windows.Forms.PictureBox panelVideo;
         private System.Windows.Forms.Label label_Power;
         private System.Windows.Forms.PictureBox pictureBox_AcPower;
@@ -1541,19 +1313,9 @@ namespace Woodpecker
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button button_VirtualRC;
         private System.Windows.Forms.Label TimeLabel2;
-        private System.Windows.Forms.Label labelSch1Timer;
-        private System.Windows.Forms.Label labelSch2Timer;
-        private System.Windows.Forms.Label labelSch5Timer;
-        private System.Windows.Forms.Label labelSch4Timer;
-        private System.Windows.Forms.Label labelSch3Timer;
         private System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Label label_ScheduleTime_Value;
         public System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label SegLabel4;
-        private System.Windows.Forms.Label SegLabel3;
-        private System.Windows.Forms.Label SegLabel2;
-        private System.Windows.Forms.Label SegLabel1;
         private System.Windows.Forms.Button button_TimeLine;
         private System.Windows.Forms.Label TimeLabel;
         private System.Windows.Forms.Button button_Schedule;
@@ -1564,7 +1326,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_AutoBox;
         private System.Windows.Forms.PictureBox pictureBox_BlueRat;
         private System.IO.Ports.SerialPort serialPortWood;
-        private System.Windows.Forms.Button button_Output;
         private System.Windows.Forms.Label label_Command;
         private System.Windows.Forms.Label labelGPIO_Input;
         private System.Windows.Forms.Label label_TestTime;
