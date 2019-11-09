@@ -295,7 +295,7 @@ namespace Woodpecker
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.05";
+            this.label_FwVersion.Text = "Ver. 1.0.01";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -1542,7 +1542,7 @@ namespace Woodpecker
             this.MaximumSize = new System.Drawing.Size(1097, 659);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Woodpecker";
+            this.Text = "Woodpecker for Car";
             this.TopMost = true;
             this.MinimumSizeChanged += new System.EventHandler(this.MiniPicBox_Click);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
