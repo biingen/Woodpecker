@@ -167,18 +167,6 @@
     <Compile Include="CAN_Read.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
-    <Compile Include="FormScriptHelper.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormScriptHelper.Designer.cs">
-      <DependentUpon>FormScriptHelper.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form_DGV_Autobox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form_DGV_Autobox.Designer.cs">
-      <DependentUpon>Form_DGV_Autobox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,12 +198,6 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormScriptHelper.resx">
-      <DependentUpon>FormScriptHelper.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form_DGV_Autobox.resx">
-      <DependentUpon>Form_DGV_Autobox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSchedule.resx">
       <DependentUpon>FormSchedule.cs</DependentUpon>
@@ -264,10 +246,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\OFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Record_On.png" />
-    <None Include="Resources\Surprise.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -326,14 +304,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Woodpecker.ico" />
-    <None Include="Resources\ic_computer_black_48dp.png" />
-    <None Include="Resources\Computer.png" />
     <None Include="Resources\Loading_WPK.gif" />
     <None Include="Resources\Switch to TV.png" />
     <None Include="Resources\Switch to PC.png" />
     <None Include="Resources\Switch Off AC.png" />
     <None Include="Resources\Switch On AC.png" />
-    <Content Include="Resources\StartAutoBox.gif" />
     <None Include="Resources\close1.png" />
     <None Include="Resources\close2.png" />
     <Content Include="Resources\mini1.png" />
