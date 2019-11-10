@@ -9016,6 +9016,11 @@ namespace Woodpecker
                     }
                     sw.Close();
                 }
+
+                if (sfd.FileName != ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", ""))
+                {
+                    ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", sfd.FileName);
+                }
             }
             ReadSch();
         }
