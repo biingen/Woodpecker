@@ -288,6 +288,7 @@ namespace Woodpecker
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
+                button_AcUsb.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
