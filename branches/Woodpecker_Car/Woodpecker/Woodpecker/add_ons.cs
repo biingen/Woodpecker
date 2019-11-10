@@ -171,7 +171,6 @@ namespace Woodpecker
         public void CreateConfig()
         {
             string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
-            string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
             string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
@@ -196,18 +195,6 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(Global.MainSettingPath, "Device", Device[i], "");
-                    }
-                }
-
-                for (int i = 0; i < RedRat.Length; i++)
-                {
-                    if (i == (RedRat.Length - 1))
-                    {
-                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "" + Environment.NewLine + Environment.NewLine);
-                    }
-                    else
-                    {
-                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "");
                     }
                 }
 

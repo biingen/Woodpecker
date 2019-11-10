@@ -2,9 +2,6 @@
 using DirectX.Capture;
 using jini;
 using Microsoft.Win32.SafeHandles;
-using RedRat.IR;
-using RedRat.RedRat3;
-using RedRat.RedRat3.USB;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -48,7 +45,6 @@ namespace Woodpecker
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
         private string RcPath = Application.StartupPath + "\\RC.ini";
 
-        private IRedRat3 redRat3 = null;
         private Add_ons Add_ons = new Add_ons();
         private RedRatDBParser RedRatData = new RedRatDBParser();
         private BlueRat MyBlueRat = new BlueRat();
@@ -132,10 +128,7 @@ namespace Woodpecker
             USBPort.USBDeviceAttached += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceAttached);
             USBPort.USBDeviceRemoved += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceRemoved);
             USBPort.RegisterForDeviceChange(true, this);
-            //USBTryBoxConnection();
-            USBTryRedratConnection();
             USBTryCameraConnection();
-            //MyUSBBoxDeviceConnected = false;
             MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
@@ -153,10 +146,7 @@ namespace Woodpecker
             USBPort.USBDeviceAttached += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceAttached);
             USBPort.USBDeviceRemoved += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceRemoved);
             USBPort.RegisterForDeviceChange(true, this);
-            //USBTryBoxConnection();
-            USBTryRedratConnection();
             USBTryCameraConnection();
-            //MyUSBBoxDeviceConnected = false;
             MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
@@ -246,11 +236,6 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
-                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "1")
-                {
-                    ConnectAutoBox1();
-                }
-
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
                 {
                     ConnectAutoBox2();
@@ -266,15 +251,6 @@ namespace Woodpecker
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-
-            if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-            {
-                OpenRedRat3();
-            }
-            else
-            {
-                pictureBox_RedRat.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -414,46 +390,6 @@ namespace Woodpecker
             }
         }
 
-        private bool USBTryRedratConnection()
-        {
-            if (USBClass.GetUSBDevice(uint.Parse("112A", System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse("0005", System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-            {
-                //My Device is attached
-                RedratConnect();
-                return true;
-            }
-            else
-            {
-                RedratDisconnect();
-                return false;
-            }
-        }
-        /*
-        private bool USBTryCameraConnection()
-        {
-            int DeviceNumber = Global.VID.Count;
-            int VidCount = Global.VID.Count - 1;
-            int PidCount = Global.PID.Count - 1;
-            
-            if (DeviceNumber != 0)
-            {
-                for (int i = 0; i < DeviceNumber; i++)
-                {
-                    if (USBClass.GetUSBDevice(uint.Parse(Global.VID[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(Global.PID[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-                    {
-                        CameraConnect();
-                        return true;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                CameraDisconnect();
-                return false;
-            }
-        }
-        */
         private bool USBTryCameraConnection()
         {
             int DeviceNumber = Global.VID.Count;
@@ -480,25 +416,6 @@ namespace Woodpecker
 
         private void USBPort_USBDeviceAttached(object sender, USBClass.USBDeviceEventArgs e)
         {
-            /*
-            if (!MyUSBBoxDeviceConnected)
-            {
-                Console.WriteLine("USBPort_USBDeviceAttached = " + MyUSBBoxDeviceConnected);
-                if (USBTryBoxConnection())
-                {
-                    MyUSBBoxDeviceConnected = true;
-                }
-            }
-            */
-
-            if (!MyUSBRedratDeviceConnected)
-            {
-                if (USBTryRedratConnection())
-                {
-                    MyUSBRedratDeviceConnected = true;
-                }
-            }
-
             if (!MyUSBCameraDeviceConnected)
             {
                 if (USBTryCameraConnection() == true)
@@ -510,31 +427,6 @@ namespace Woodpecker
 
         private void USBPort_USBDeviceRemoved(object sender, USBClass.USBDeviceEventArgs e)
         {
-            /*
-            if (!USBClass.GetUSBDevice(uint.Parse("067B", System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse("2303", System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-            {
-                Console.WriteLine("USBPort_USBDeviceRemoved = " + MyUSBBoxDeviceConnected);
-                //My Device is removed
-                MyUSBBoxDeviceConnected = false;
-                USBTryBoxConnection();
-            }
-            */
-
-            if (!USBClass.GetUSBDevice(uint.Parse("112A", System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse("0005", System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-            {
-                //My Redrat is removed
-                MyUSBRedratDeviceConnected = false;
-                USBTryRedratConnection();
-            }
-            /*
-            if (!USBClass.GetUSBDevice(uint.Parse("045E", System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse("0766", System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false) ||
-                !USBClass.GetUSBDevice(uint.Parse("114D", System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse("8C00", System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-            {
-                //My Camera is removed
-                MyUSBCameraDeviceConnected = false;
-                USBTryCameraConnection();
-            }
-            */
             int DeviceNumber = Global.VID.Count;
 
             if (DeviceNumber != 0)
@@ -550,8 +442,6 @@ namespace Woodpecker
             }
         }
 
-
-
         private void BoxConnect()       //TO DO: Inset your connection code here
         {
             pictureBox_BlueRat.Image = Properties.Resources.ON;
@@ -560,18 +450,6 @@ namespace Woodpecker
         private void BoxDisconnect()        //TO DO: Insert your disconnection code here
         {
             pictureBox_BlueRat.Image = Properties.Resources.OFF;
-        }
-
-        private void RedratConnect()        //TO DO: Inset your connection code here
-        {
-            ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "1");
-            pictureBox_RedRat.Image = Properties.Resources.ON;
-        }
-
-        private void RedratDisconnect()     //TO DO: Insert your disconnection code here
-        {
-            ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "0");
-            pictureBox_RedRat.Image = Properties.Resources.OFF;
         }
 
         private void CameraConnect()        //TO DO: Inset your connection code here
@@ -783,49 +661,6 @@ namespace Woodpecker
         }
         #endregion
 
-        protected void OpenRedRat3()
-        {
-            int dev = 0;
-            string intdev = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", ""); ;
-
-            if (intdev != "-1")
-                dev = int.Parse(intdev);
-
-            var devices = RedRat3USBImpl.FindDevices();
-
-            // 假若設定值大於目前device個數，直接更改為目前device個數
-            if (dev >= devices.Count)
-                dev = devices.Count - 1;
-
-            if (devices.Count > 0)
-            {
-                //RedRat已連線
-                redRat3 = (IRedRat3)devices[dev].GetRedRat();
-
-                //pictureBox1綠燈
-                pictureBox_RedRat.Image = Properties.Resources.ON;
-            }
-            else
-                pictureBox_RedRat.Image = Properties.Resources.OFF;
-        }
-
-        private void ConnectAutoBox1()
-        {   // RS232 Setting
-            serialPortWood.StopBits = System.IO.Ports.StopBits.One;
-            serialPortWood.PortName = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
-            //serialPort3.BaudRate = int.Parse(ini12.INIRead(sPath, "SerialPort", "Baudrate", ""));
-            if (serialPortWood.IsOpen == false)
-            {
-                serialPortWood.Open();
-                object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPortWood);
-                hCOM = (SafeFileHandle)stream.GetType().GetField("_handle", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(stream);
-            }
-            else
-            {
-                Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " - Cannot connect to AutoBox.\n");
-            }
-        }
-
         private void ConnectAutoBox2()
         {
             uint temp_version;
@@ -855,7 +690,6 @@ namespace Woodpecker
 
                 hCOM = MyBlueRat.ReturnSafeFileHandle();
                 BlueRat_UART_Exception_status = false;
-                UpdateRCFunctionButtonAfterConnection();
             }
             else
             {
@@ -908,95 +742,6 @@ namespace Woodpecker
             else
             {
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-        }
-
-        public void Autocommand_RedRat(string Caller, string SigData)
-        {
-            string redcon = "";
-
-            //讀取設備//
-            if (Caller == "Form1")
-            {
-                RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-                redcon = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-            }
-
-            try
-            {
-                if (RedRatData.SignalDB.GetIRPacket(redcon, SigData).ToString() == "RedRat.IR.DoubleSignal")
-                {
-                    DoubleSignal sig = (DoubleSignal)RedRatData.SignalDB.GetIRPacket(redcon, SigData);
-                    if (redRat3 != null)
-                        redRat3.OutputModulatedSignal(sig);
-                }
-                else
-                {
-                    ModulatedSignal sig2 = (ModulatedSignal)RedRatData.SignalDB.GetIRPacket(redcon, SigData);
-                    if (redRat3 != null)
-                        redRat3.OutputModulatedSignal(sig2);
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine(Ex);
-                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail!");
-            }
-        }
-
-        private Boolean D = false;
-        public void Autocommand_BlueRat(string Caller, string SigData)
-        {
-            try
-            {
-                if (Caller == "Form1")
-                {
-                    RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-                    RedRatData.RedRatSelectDevice(ini12.INIRead(MainSettingPath, "RedRat", "Brands", ""));
-                }
-
-                RedRatData.RedRatSelectRCSignal(SigData, D);
-
-                if (RedRatData.Signal_Type_Supported != true)
-                {
-                    return;
-                }
-
-                // Use UART to transmit RC signal
-                int rc_duration = MyBlueRat.SendOneRC(RedRatData) / 1000 + 1;
-                RedRatDBViewer_Delay(rc_duration);
-                /*
-                int SysDelay = int.Parse(columns_wait);
-                if (SysDelay <= rc_duration)
-                {
-                    RedRatDBViewer_Delay(rc_duration);
-                }
-                */
-                if ((RedRatData.RedRatSelectedSignalType() == (typeof(DoubleSignal))) || (RedRatData.RC_ToggleData_Length_Value() > 0))
-                {
-                    RedRatData.RedRatSelectRCSignal(SigData, D);
-                    D = !D;
-                }
-            }
-            catch (Exception Ex)
-            {
-                Console.WriteLine(Ex);
-                MessageBox.Show(Ex.Message.ToString(), "Transmit RC signal fail!");
-            }
-        }
-
-        private void UpdateRCFunctionButtonAfterConnection()
-        {
-            if ((MyBlueRat.CheckConnection() == true))
-            {
-                if ((RedRatData != null) && (RedRatData.SignalDB != null) && (RedRatData.SelectedDevice != null) && (RedRatData.SelectedSignal != null))
-                {
-                    button_Start.Enabled = true;
-                }
-                else
-                {
-                    button_Start.Enabled = false;
-                }
             }
         }
 
@@ -3681,34 +3426,6 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- 遙控器指令 --
-                        else
-                        {
-                            Console.WriteLine("Remote Control: TV_rc_key");
-                            for (int k = 0; k < stime; k++)
-                            {
-                                label_Command.Text = columns_command;
-                                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                                {
-                                    //執行小紅鼠指令
-                                    Autocommand_RedRat("Form1", columns_command);
-                                }
-                                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    //執行小藍鼠指令
-                                    Autocommand_BlueRat("Form1", columns_command);
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect AutoBox or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    button_Start.PerformClick();
-                                }
-                                videostring = columns_command;
-                                RedRatDBViewer_Delay(sRepeat);
-                            }
-                        }
-                        #endregion
-
                         #region -- Remark --
                         if (columns_remark != "")
                         {
@@ -3844,7 +3561,6 @@ namespace Woodpecker
                 {
                     _captureInProgress = false;
                     OnOffCamera();
-                    //button_VirtualRC.Enabled = true;
                 }
             }
             else//schedule自動跑完//
@@ -3905,24 +3621,6 @@ namespace Woodpecker
                     Global.caption_Sum = Global.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
-            }
-            else if (columns_serial.Substring(0, 3) == "_rc")
-            {
-                String rc_key = columns_serial;
-                int startIndex = 4;
-                int length = rc_key.Length - 4;
-                String rc_key_substring = rc_key.Substring(startIndex, length);
-
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    Autocommand_RedRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                {
-                    Autocommand_BlueRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
             }
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
@@ -3995,24 +3693,6 @@ namespace Woodpecker
                 MYFILE.Write(log2_text);
                 MYFILE.Close();
                 label_Command.Text = "KEYWORD_SAVELOG2";
-            }
-            else if (columns_serial.Substring(0, 3) == "_rc")
-            {
-                String rc_key = columns_serial;
-                int startIndex = 4;
-                int length = rc_key.Length - 4;
-                String rc_key_substring = rc_key.Substring(startIndex, length);
-
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    Autocommand_RedRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                {
-                    Autocommand_BlueRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
             }
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
@@ -4209,22 +3889,7 @@ namespace Woodpecker
         #region -- 讀取RC DB並填入combobox --
         private void LoadRCDB()
         {
-            RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
-            RedRatData.RedRatSelectDevice(ini12.INIRead(MainSettingPath, "RedRat", "Brands", ""));
-
             DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
-
-            string devicename = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-            if (RedRatData.RedRatSelectDevice(devicename))
-            {
-                RCDB.Items.AddRange(RedRatData.RedRatGetRCNameList().ToArray());
-                Global.Rc_List = RedRatData.RedRatGetRCNameList();
-                Global.Rc_Number = RedRatData.RedRatGetRCNameList().Count;
-            }
-            else
-            {
-                Console.WriteLine("Select Device Error: " + devicename);
-            }
 
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
@@ -4257,97 +3922,6 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
         }
         #endregion
-
-        #region -- 讀取RC DB並填入Virtual RC Panel --
-        Button[] Buttons;
-        private void LoadVirtualRC()
-        {
-            //根據dpi調整按鍵寬度//
-            Graphics graphics = CreateGraphics();
-            float dpiX = graphics.DpiX;
-            float dpiY = graphics.DpiY;
-            int width, height;
-            if (dpiX == 96 && dpiY == 96)
-            {
-                width = 75;
-                height = 25;
-            }
-            else
-            {
-                width = 90;
-                height = 25;
-            }
-
-            Buttons = new Button[Global.Rc_Number];
-
-            for (int i = 0; i < Buttons.Length; i++)
-            {
-                Buttons[i] = new Button
-                {
-                    Size = new Size(width, height),
-                    Text = Global.Rc_List[i],
-                    AutoSize = false,
-                    AutoSizeMode = AutoSizeMode.GrowAndShrink
-                };
-
-                if (i <= 11)
-                {
-                    Buttons[i].Location = new Point(0 + (i * width), 5);
-                }
-                else if (i > 11 && i <= 23)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 12) * width), 45);
-                }
-                else if (i > 23 && i <= 35)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 24) * width), 85);
-                }
-                else if (i > 35 && i <= 47)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 36) * width), 125);
-                }
-                else if (i > 47 && i <= 59)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 48) * width), 165);
-                }
-                else if (i > 59 && i <= 71)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 60) * width), 205);
-                }
-                else if (i > 71 && i <= 83)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 72) * width), 245);
-                }
-                else if (i > 83 && i <= 95)
-                {
-                    Buttons[i].Location = new Point(0 + ((i - 84) * width), 285);
-                }
-
-                int index = i;
-                Buttons[i].Click += (sender1, ex) => Sand_Key(index + 1);
-                panel_VirtualRC.Controls.Add(Buttons[i]);
-            }
-        }
-        #endregion
-
-        private void Sand_Key(int i)
-        {
-            if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-            {
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    Autocommand_RedRat("Form1", Buttons[i - 1].Text);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
-                {
-                    Autocommand_BlueRat("Form1", Buttons[i - 1].Text);
-                }
-            }
-            else if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-            {
-                Autocommand_RedRat("Form1", Buttons[i - 1].Text);
-            }
-        }
 
         void DataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
@@ -4571,7 +4145,6 @@ namespace Woodpecker
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
-            Global.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
             //如果serialport開著則先關閉//
             if (PortA.IsOpen == true)
@@ -4602,26 +4175,6 @@ namespace Woodpecker
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
-                if (ini12.INIRead(MainSettingPath, "RedRat", "Brands", "") != Global.RCDB)
-                {
-                    DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
-                    RCDB.Items.Clear();
-                    LoadRCDB();
-
-                    //panel_VirtualRC.Controls.Clear();
-                    //LoadVirtualRC();
-                }
-
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    OpenRedRat3();
-                    pictureBox_RedRat.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_RedRat.Image = Properties.Resources.OFF;
-                }
-
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
                     pictureBox_Camera.Image = Properties.Resources.ON;
@@ -4633,13 +4186,6 @@ namespace Woodpecker
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                 }
-                /* Hidden serial port.
-                button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
-                button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
-                button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ? true : false;
-                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1" ? true : false;
-                button_kline.Visible = ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1" ? true : false;
-                */
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
                 {

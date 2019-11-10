@@ -1,8 +1,6 @@
 ﻿using DirectX.Capture;
 using jini;
 using MaterialSkin;
-using RedRat.RedRat3;
-using RedRat.RedRat3.USB;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,31 +21,11 @@ namespace Woodpecker
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        string MailPath = Application.StartupPath + "\\Mail.ini";
-
-        private void loadxml()
-        {
-            // Redrat Database
-            if (System.IO.File.Exists(textBox_RcDbPath.Text))
-            {
-                XDocument myDoc = XDocument.Load(textBox_RcDbPath.Text);
-                var AVDevices = from pn in myDoc.Descendants("AVDevice")
-                                where pn.Element("Name") != null
-                                select pn.Element("Name").Value;
-
-                foreach (var c in AVDevices)
-                {
-                    comboBox_TvBrands.Items.Add(c);
-                    if (comboBox_TvBrands.Text == "")
-                        comboBox_TvBrands.Text = c;
-                }
-            }
-        }
 
         private void setStyle()
         {
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Save, button_ImagePath, button_LogPath, button_RcDbPath, button_GeneratorPath, button_DosPath };
+            List<Button> buttonsList = new List<Button> { button_Save, button_ImagePath, button_LogPath, button_GeneratorPath, button_DosPath };
             foreach (Button buttonsAll in buttonsList)
             {
                 if (buttonsAll.Enabled == true)
@@ -95,19 +73,7 @@ namespace Woodpecker
 
         private void button_RcDbPath_Click(object sender, EventArgs e)
         {
-            // RedRat3 Command Path
-            openFileDialog2.Filter = "XML files (*.xml)|*.xml";
-            openFileDialog2.ShowDialog();
-            if (openFileDialog2.FileName == "")
-            {
-                textBox_RcDbPath.Text = textBox_RcDbPath.Text;
-            }
-            else
-            {
-                textBox_RcDbPath.Text = openFileDialog2.FileName;
-                comboBox_TvBrands.Items.Clear();
-                loadxml();
-            }
+
         }
 
         private void button_GeneratorPath_Click(object sender, EventArgs e)
@@ -146,9 +112,6 @@ namespace Woodpecker
             //Log Path//
             ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
 
-            //RedRat Path//
-            ini12.INIWrite(MainSettingPath, "RedRat", "DBFile", textBox_RcDbPath.Text.Trim());
-
             //Generator Path//
             ini12.INIWrite(MainSettingPath, "Record", "Generator", textBox_GeneratorPath.Text.Trim());
 
@@ -160,11 +123,6 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
             ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
-
-            //RedRat Brands, Select RC//
-            ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
-            ini12.INIWrite(MainSettingPath, "RedRat", "RedRatIndex", (comboBox__SelectRedrat.SelectedIndex).ToString());
-            ini12.INIWrite(MainSettingPath, "RedRat", "SerialNumber", comboBox__SelectRedrat.Text);
 
             //SerialPort1//
             if (checkBox_SerialPort1.Checked == true)
@@ -230,17 +188,6 @@ namespace Woodpecker
                 textBox_LogPath.Text = "";
                 ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
                 pictureBox_LogPath.Image = Properties.Resources.ERROR;
-            }
-
-            //RC DB欄位//
-            if (File.Exists(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "")))
-            {
-                textBox_RcDbPath.Text = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
-            }
-            else
-            {
-                textBox_RcDbPath.Text = "";
-                //pictureBox_RcDbPath.Image = Properties.Resources.ERROR;
             }
 
             //Generator欄位//
@@ -472,41 +419,6 @@ namespace Woodpecker
             comboBox_KlinePort_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
             #endregion
 
-            #region -- Redrat --
-            IRedRat3 redRat3;
-            if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")//Redrat存在//
-            {
-                for (int i = 0; i < RedRat3USBImpl.FindDevices().Count; i++)
-                {
-                    redRat3 = (IRedRat3)RedRat3USBImpl.FindDevices()[i].GetRedRat();
-                    comboBox__SelectRedrat.Items.Add(redRat3.DeviceInformation.ProductName + " - " + 
-                                                     redRat3.DeviceInformation.SerialNumber.ToString());
-
-                    if (ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", "") == "")
-                    {
-                        comboBox__SelectRedrat.Text = comboBox__SelectRedrat.Items[0].ToString();
-                    }
-
-                    if (redRat3.DeviceInformation.ProductName + " - " + 
-                        redRat3.DeviceInformation.SerialNumber.ToString() ==
-                        ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", ""))
-                    {
-                        comboBox__SelectRedrat.Text = redRat3.DeviceInformation.ProductName + " - " + 
-                                                      redRat3.DeviceInformation.SerialNumber.ToString();
-                    }
-                }
-                comboBox_TvBrands.Enabled = true;
-                comboBox__SelectRedrat.Enabled = true;
-            }
-            else
-            {
-                comboBox_TvBrands.Enabled = false;
-                comboBox__SelectRedrat.Enabled = false;
-            }
-            comboBox_TvBrands.Text = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-            loadxml();
-            #endregion
-            
             #region -- Camera --
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")//Camera存在//
             {
@@ -562,11 +474,6 @@ namespace Woodpecker
 
             }
             #endregion
-
-            if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") == "")
-            {
-                ini12.INIWrite(MainSettingPath, "LogSearch", "TextNum", "0");
-            }
         }
         
         //自動調整ComboBox寬度
@@ -1016,19 +923,6 @@ namespace Woodpecker
             }
         }
 
-        private void textBox_RcDbPath_TextChanged(object sender, EventArgs e)
-        {
-            if (File.Exists(textBox_RcDbPath.Text.Trim()) == true)
-            {
-                ini12.INIWrite(MainSettingPath, "RedRat", "DBFile", textBox_RcDbPath.Text.Trim());
-                pictureBox_RcDbPath.Image = null;
-            }
-            else
-            {
-                pictureBox_RcDbPath.Image = Properties.Resources.ERROR;
-            }
-        }
-
         private void textBox_GeneratorPath_TextChanged(object sender, EventArgs e)
         {
             if (File.Exists(textBox_GeneratorPath.Text.Trim()) == true)
@@ -1065,18 +959,6 @@ namespace Woodpecker
         {
             ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
-        }
-
-        private void comboBox_TvBrands_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
-            
-        }
-
-        private void comboBox__SelectRedrat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ini12.INIWrite(MainSettingPath, "RedRat", "RedRatIndex", (comboBox__SelectRedrat.SelectedIndex).ToString());
-            ini12.INIWrite(MainSettingPath, "RedRat", "SerialNumber", comboBox__SelectRedrat.Text);
         }
 
         private void comboBox_SerialPort1_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)

@@ -67,7 +67,6 @@
             this.label_SerialPort2_BaudRate = new System.Windows.Forms.Label();
             this.label_SerialPort1_BaudRate = new System.Windows.Forms.Label();
             this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
-            this.textBox_RcDbPath = new System.Windows.Forms.TextBox();
             this.textBox_LogPath = new System.Windows.Forms.TextBox();
             this.groupBox_Camera = new System.Windows.Forms.GroupBox();
             this.label_resolution = new System.Windows.Forms.Label();
@@ -76,11 +75,6 @@
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
             this.label_CameraAudio = new System.Windows.Forms.Label();
             this.comboBox_CameraAudio = new System.Windows.Forms.ComboBox();
-            this.groupBox_RcDB = new System.Windows.Forms.GroupBox();
-            this.label_TvBrands = new System.Windows.Forms.Label();
-            this.comboBox_TvBrands = new System.Windows.Forms.ComboBox();
-            this.label_SelectRedrat = new System.Windows.Forms.Label();
-            this.comboBox__SelectRedrat = new System.Windows.Forms.ComboBox();
             this.label_ErrorMessage = new System.Windows.Forms.Label();
             this.textBox_GeneratorPath = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -88,13 +82,11 @@
             this.folderBrowserDialog3 = new System.Windows.Forms.FolderBrowserDialog();
             this.pictureBox_DosPath = new System.Windows.Forms.PictureBox();
             this.pictureBox_GeneratorPath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_RcDbPath = new System.Windows.Forms.PictureBox();
             this.pictureBox_LogPath = new System.Windows.Forms.PictureBox();
             this.pictureBox_ImagePath = new System.Windows.Forms.PictureBox();
             this.button_Save = new System.Windows.Forms.Button();
             this.button_ImagePath = new System.Windows.Forms.Button();
             this.button_LogPath = new System.Windows.Forms.Button();
-            this.button_RcDbPath = new System.Windows.Forms.Button();
             this.button_GeneratorPath = new System.Windows.Forms.Button();
             this.button_DosPath = new System.Windows.Forms.Button();
             this.textBox_ImagePath = new System.Windows.Forms.TextBox();
@@ -106,10 +98,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).BeginInit();
             this.groupBox_Camera.SuspendLayout();
-            this.groupBox_RcDB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DosPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GeneratorPath)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RcDbPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_LogPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ImagePath)).BeginInit();
             this.SuspendLayout();
@@ -153,7 +143,7 @@
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort1_BaudRate);
             this.GroupBox_Rs232.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GroupBox_Rs232.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.GroupBox_Rs232.Location = new System.Drawing.Point(259, 178);
+            this.GroupBox_Rs232.Location = new System.Drawing.Point(259, 143);
             this.GroupBox_Rs232.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.GroupBox_Rs232.Name = "GroupBox_Rs232";
             this.GroupBox_Rs232.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -664,7 +654,7 @@
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(363, 441);
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(363, 406);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
@@ -673,18 +663,6 @@
             this.checkBox_Displayhex.UseVisualStyleBackColor = true;
             this.checkBox_Displayhex.Visible = false;
             this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
-            // 
-            // textBox_RcDbPath
-            // 
-            this.textBox_RcDbPath.AccessibleName = "";
-            this.textBox_RcDbPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_RcDbPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_RcDbPath.Location = new System.Drawing.Point(30, 82);
-            this.textBox_RcDbPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox_RcDbPath.Name = "textBox_RcDbPath";
-            this.textBox_RcDbPath.Size = new System.Drawing.Size(454, 21);
-            this.textBox_RcDbPath.TabIndex = 35;
-            this.textBox_RcDbPath.TextChanged += new System.EventHandler(this.textBox_RcDbPath_TextChanged);
             // 
             // textBox_LogPath
             // 
@@ -708,7 +686,7 @@
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraAudio);
             this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.groupBox_Camera.Location = new System.Drawing.Point(30, 178);
+            this.groupBox_Camera.Location = new System.Drawing.Point(30, 143);
             this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_Camera.Name = "groupBox_Camera";
             this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -789,81 +767,13 @@
             this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
             // 
-            // groupBox_RcDB
-            // 
-            this.groupBox_RcDB.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox_RcDB.Controls.Add(this.label_TvBrands);
-            this.groupBox_RcDB.Controls.Add(this.comboBox_TvBrands);
-            this.groupBox_RcDB.Controls.Add(this.label_SelectRedrat);
-            this.groupBox_RcDB.Controls.Add(this.comboBox__SelectRedrat);
-            this.groupBox_RcDB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox_RcDB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.groupBox_RcDB.Location = new System.Drawing.Point(30, 309);
-            this.groupBox_RcDB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_RcDB.Name = "groupBox_RcDB";
-            this.groupBox_RcDB.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_RcDB.Size = new System.Drawing.Size(220, 127);
-            this.groupBox_RcDB.TabIndex = 57;
-            this.groupBox_RcDB.TabStop = false;
-            this.groupBox_RcDB.Text = "RC DB";
-            // 
-            // label_TvBrands
-            // 
-            this.label_TvBrands.AutoSize = true;
-            this.label_TvBrands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_TvBrands.ForeColor = System.Drawing.Color.White;
-            this.label_TvBrands.Location = new System.Drawing.Point(8, 23);
-            this.label_TvBrands.Name = "label_TvBrands";
-            this.label_TvBrands.Size = new System.Drawing.Size(46, 15);
-            this.label_TvBrands.TabIndex = 40;
-            this.label_TvBrands.Text = "Brands";
-            // 
-            // comboBox_TvBrands
-            // 
-            this.comboBox_TvBrands.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_TvBrands.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox_TvBrands.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox_TvBrands.FormattingEnabled = true;
-            this.comboBox_TvBrands.Location = new System.Drawing.Point(11, 40);
-            this.comboBox_TvBrands.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox_TvBrands.Name = "comboBox_TvBrands";
-            this.comboBox_TvBrands.Size = new System.Drawing.Size(200, 23);
-            this.comboBox_TvBrands.TabIndex = 41;
-            this.comboBox_TvBrands.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
-            this.comboBox_TvBrands.SelectedIndexChanged += new System.EventHandler(this.comboBox_TvBrands_SelectedIndexChanged);
-            // 
-            // label_SelectRedrat
-            // 
-            this.label_SelectRedrat.AutoSize = true;
-            this.label_SelectRedrat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_SelectRedrat.ForeColor = System.Drawing.Color.White;
-            this.label_SelectRedrat.Location = new System.Drawing.Point(8, 71);
-            this.label_SelectRedrat.Name = "label_SelectRedrat";
-            this.label_SelectRedrat.Size = new System.Drawing.Size(81, 15);
-            this.label_SelectRedrat.TabIndex = 44;
-            this.label_SelectRedrat.Text = "Select Redrat";
-            // 
-            // comboBox__SelectRedrat
-            // 
-            this.comboBox__SelectRedrat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox__SelectRedrat.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox__SelectRedrat.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox__SelectRedrat.FormattingEnabled = true;
-            this.comboBox__SelectRedrat.Location = new System.Drawing.Point(11, 89);
-            this.comboBox__SelectRedrat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox__SelectRedrat.Name = "comboBox__SelectRedrat";
-            this.comboBox__SelectRedrat.Size = new System.Drawing.Size(200, 23);
-            this.comboBox__SelectRedrat.TabIndex = 45;
-            this.comboBox__SelectRedrat.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
-            this.comboBox__SelectRedrat.SelectedIndexChanged += new System.EventHandler(this.comboBox__SelectRedrat_SelectedIndexChanged);
-            // 
             // label_ErrorMessage
             // 
             this.label_ErrorMessage.AutoSize = true;
             this.label_ErrorMessage.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.label_ErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_ErrorMessage.ForeColor = System.Drawing.Color.Red;
-            this.label_ErrorMessage.Location = new System.Drawing.Point(31, 452);
+            this.label_ErrorMessage.Location = new System.Drawing.Point(31, 417);
             this.label_ErrorMessage.Name = "label_ErrorMessage";
             this.label_ErrorMessage.Size = new System.Drawing.Size(83, 29);
             this.label_ErrorMessage.TabIndex = 83;
@@ -875,7 +785,7 @@
             this.textBox_GeneratorPath.AccessibleName = "";
             this.textBox_GeneratorPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_GeneratorPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_GeneratorPath.Location = new System.Drawing.Point(30, 114);
+            this.textBox_GeneratorPath.Location = new System.Drawing.Point(30, 82);
             this.textBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_GeneratorPath.Name = "textBox_GeneratorPath";
             this.textBox_GeneratorPath.Size = new System.Drawing.Size(454, 21);
@@ -886,7 +796,7 @@
             // 
             this.textBox_DosPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_DosPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_DosPath.Location = new System.Drawing.Point(30, 146);
+            this.textBox_DosPath.Location = new System.Drawing.Point(30, 114);
             this.textBox_DosPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox_DosPath.Name = "textBox_DosPath";
             this.textBox_DosPath.Size = new System.Drawing.Size(454, 21);
@@ -897,7 +807,7 @@
             // 
             this.pictureBox_DosPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_DosPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_DosPath.Location = new System.Drawing.Point(491, 144);
+            this.pictureBox_DosPath.Location = new System.Drawing.Point(491, 112);
             this.pictureBox_DosPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_DosPath.Name = "pictureBox_DosPath";
             this.pictureBox_DosPath.Size = new System.Drawing.Size(23, 23);
@@ -909,25 +819,13 @@
             // 
             this.pictureBox_GeneratorPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_GeneratorPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(492, 114);
+            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(492, 82);
             this.pictureBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_GeneratorPath.Name = "pictureBox_GeneratorPath";
             this.pictureBox_GeneratorPath.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_GeneratorPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_GeneratorPath.TabIndex = 93;
             this.pictureBox_GeneratorPath.TabStop = false;
-            // 
-            // pictureBox_RcDbPath
-            // 
-            this.pictureBox_RcDbPath.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_RcDbPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(492, 82);
-            this.pictureBox_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_RcDbPath.Name = "pictureBox_RcDbPath";
-            this.pictureBox_RcDbPath.Size = new System.Drawing.Size(23, 23);
-            this.pictureBox_RcDbPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_RcDbPath.TabIndex = 92;
-            this.pictureBox_RcDbPath.TabStop = false;
             // 
             // pictureBox_LogPath
             // 
@@ -960,7 +858,7 @@
             this.button_Save.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Save.ForeColor = System.Drawing.Color.White;
-            this.button_Save.Location = new System.Drawing.Point(524, 473);
+            this.button_Save.Location = new System.Drawing.Point(524, 438);
             this.button_Save.Margin = new System.Windows.Forms.Padding(2);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(103, 30);
@@ -1001,22 +899,6 @@
             this.button_LogPath.UseVisualStyleBackColor = false;
             this.button_LogPath.Click += new System.EventHandler(this.button_LogPath_Click);
             // 
-            // button_RcDbPath
-            // 
-            this.button_RcDbPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_RcDbPath.BackColor = System.Drawing.SystemColors.Control;
-            this.button_RcDbPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_RcDbPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_RcDbPath.ForeColor = System.Drawing.Color.White;
-            this.button_RcDbPath.Location = new System.Drawing.Point(522, 80);
-            this.button_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
-            this.button_RcDbPath.Name = "button_RcDbPath";
-            this.button_RcDbPath.Size = new System.Drawing.Size(106, 25);
-            this.button_RcDbPath.TabIndex = 140;
-            this.button_RcDbPath.Text = "RC DB Path";
-            this.button_RcDbPath.UseVisualStyleBackColor = false;
-            this.button_RcDbPath.Click += new System.EventHandler(this.button_RcDbPath_Click);
-            // 
             // button_GeneratorPath
             // 
             this.button_GeneratorPath.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -1024,7 +906,7 @@
             this.button_GeneratorPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_GeneratorPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_GeneratorPath.ForeColor = System.Drawing.Color.White;
-            this.button_GeneratorPath.Location = new System.Drawing.Point(522, 112);
+            this.button_GeneratorPath.Location = new System.Drawing.Point(522, 80);
             this.button_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_GeneratorPath.Name = "button_GeneratorPath";
             this.button_GeneratorPath.Size = new System.Drawing.Size(106, 25);
@@ -1040,7 +922,7 @@
             this.button_DosPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_DosPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_DosPath.ForeColor = System.Drawing.Color.White;
-            this.button_DosPath.Location = new System.Drawing.Point(521, 144);
+            this.button_DosPath.Location = new System.Drawing.Point(521, 112);
             this.button_DosPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_DosPath.Name = "button_DosPath";
             this.button_DosPath.Size = new System.Drawing.Size(106, 25);
@@ -1070,25 +952,21 @@
             this.ControlBox = false;
             this.Controls.Add(this.button_DosPath);
             this.Controls.Add(this.button_GeneratorPath);
-            this.Controls.Add(this.button_RcDbPath);
             this.Controls.Add(this.button_LogPath);
             this.Controls.Add(this.button_ImagePath);
             this.Controls.Add(this.button_Save);
             this.Controls.Add(this.checkBox_Displayhex);
             this.Controls.Add(this.pictureBox_DosPath);
             this.Controls.Add(this.pictureBox_GeneratorPath);
-            this.Controls.Add(this.pictureBox_RcDbPath);
             this.Controls.Add(this.pictureBox_LogPath);
             this.Controls.Add(this.pictureBox_ImagePath);
             this.Controls.Add(this.textBox_DosPath);
             this.Controls.Add(this.textBox_GeneratorPath);
             this.Controls.Add(this.label_ErrorMessage);
-            this.Controls.Add(this.groupBox_RcDB);
             this.Controls.Add(this.groupBox_Camera);
             this.Controls.Add(this.textBox_ImagePath);
             this.Controls.Add(this.GroupBox_Rs232);
             this.Controls.Add(this.textBox_LogPath);
-            this.Controls.Add(this.textBox_RcDbPath);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -1109,11 +987,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).EndInit();
             this.groupBox_Camera.ResumeLayout(false);
             this.groupBox_Camera.PerformLayout();
-            this.groupBox_RcDB.ResumeLayout(false);
-            this.groupBox_RcDB.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DosPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_GeneratorPath)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RcDbPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_LogPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ImagePath)).EndInit();
             this.ResumeLayout(false);
@@ -1132,18 +1007,12 @@
         internal System.Windows.Forms.Label label_SerialPort2_PortName;
         internal System.Windows.Forms.Label label_SerialPort2_BaudRate;
         internal System.Windows.Forms.Label label_SerialPort1_BaudRate;
-        private System.Windows.Forms.TextBox textBox_RcDbPath;
         private System.Windows.Forms.TextBox textBox_LogPath;
         private System.Windows.Forms.GroupBox groupBox_Camera;
         private System.Windows.Forms.Label label_CameraDevice;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.Windows.Forms.Label label_CameraAudio;
         private System.Windows.Forms.ComboBox comboBox_CameraAudio;
-        private System.Windows.Forms.GroupBox groupBox_RcDB;
-        private System.Windows.Forms.Label label_TvBrands;
-        private System.Windows.Forms.ComboBox comboBox_TvBrands;
-        private System.Windows.Forms.Label label_SelectRedrat;
-        private System.Windows.Forms.ComboBox comboBox__SelectRedrat;
         private System.Windows.Forms.TextBox textBox_GeneratorPath;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.GroupBox GroupBox_Rs232;
@@ -1151,7 +1020,6 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog3;
         private System.Windows.Forms.PictureBox pictureBox_ImagePath;
         private System.Windows.Forms.PictureBox pictureBox_LogPath;
-        private System.Windows.Forms.PictureBox pictureBox_RcDbPath;
         private System.Windows.Forms.PictureBox pictureBox_GeneratorPath;
         private System.Windows.Forms.PictureBox pictureBox_DosPath;
         private System.Windows.Forms.PictureBox pictureBox_SerialPort1;
@@ -1170,7 +1038,6 @@
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_ImagePath;
         private System.Windows.Forms.Button button_LogPath;
-        private System.Windows.Forms.Button button_RcDbPath;
         private System.Windows.Forms.Button button_GeneratorPath;
         private System.Windows.Forms.Button button_DosPath;
         private System.Windows.Forms.TextBox textBox_ImagePath;
