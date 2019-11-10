@@ -31,22 +31,16 @@ using MySerialLibrary;
 using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
-//using NationalInstruments.DAQmx;
 
 namespace Woodpecker
 {
     public partial class Form1 : MaterialForm
     {
         private string _args;
-        //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
-        //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
-        //private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        private string RcPath = Application.StartupPath + "\\RC.ini";
 
         private Add_ons Add_ons = new Add_ons();
-        private RedRatDBParser RedRatData = new RedRatDBParser();
         private BlueRat MyBlueRat = new BlueRat();
         private static bool BlueRat_UART_Exception_status = false;
 
@@ -64,7 +58,6 @@ namespace Woodpecker
         private bool AcUsbPanel = false;
         private long timeCount = 0;
         private long TestTime = 0;
-        private string videostring = "";
         private string srtstring = "";
 
         //Schedule暫停用的參數
@@ -73,9 +66,6 @@ namespace Woodpecker
         private ManualResetEvent ScheduleWait = new ManualResetEvent(true);
 
         private SafeDataGridView portos_online;
-        private int Breakpoint;
-        private int Nowpoint;
-        private bool Breakfunction = false;
         //private const int CS_DROPSHADOW = 0x20000;      //宣告陰影參數
 
         private MySerial MySerialPort = new MySerial();
@@ -224,11 +214,6 @@ namespace Woodpecker
             Graphics graphics = CreateGraphics();
             float dpiX = graphics.DpiX;
             float dpiY = graphics.DpiY;
-            /*if (dpiX == 96 && dpiY == 96)
-            {
-                this.Height = 600;
-                this.Width = 1120;
-            }*/
             int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
 
             // 針對字體變更Form的大小
@@ -480,7 +465,6 @@ namespace Woodpecker
 
         private void OnCaptureComplete(object sender, EventArgs e)
         {
-            // Demonstrate the Capture.CaptureComplete event.
             Debug.WriteLine("Capture complete.");
         }
 
@@ -526,8 +510,6 @@ namespace Woodpecker
             }
             else
             {
-                //DataGridView1.ClearSelection();
-                //gv.Rows[int.Parse(i)].Selected = true;
                 gv.FirstDisplayedScrollingRowIndex = int.Parse(i);
             }
         }
@@ -671,7 +653,6 @@ namespace Woodpecker
                 float v = temp_version;
                 label_BoxVersion.Text = "_" + (v / 100).ToString();
 
-                // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
                 MyBlueRat.Force_Init_BlueRat();
                 MyBlueRat.Reset_SX1509();
 
@@ -681,7 +662,6 @@ namespace Woodpecker
                 if (SX1509_detect_status == 3)
                 {
                     pictureBox_ext_board.Image = Properties.Resources.ON;
-                    // Error, need to check SX1509 connection
                 }
                 else
                 {
@@ -749,13 +729,13 @@ namespace Woodpecker
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
         private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
+            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True."); //Debug使用
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay: Start.");
+            //Console.WriteLine("RedRatDBViewer_Delay: Start."); //Debug使用
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             //aTimer.Interval = delay_ms;
@@ -766,7 +746,7 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
+                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false."); //Debug使用
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
@@ -780,7 +760,7 @@ namespace Woodpecker
 
             aTimer.Stop();
             aTimer.Dispose();
-            //Console.WriteLine("RedRatDBViewer_Delay: End.");
+            //Console.WriteLine("RedRatDBViewer_Delay: End."); //Debug使用
         }
 
         public static string ByteToHexStr(byte[] bytes)
@@ -819,7 +799,6 @@ namespace Woodpecker
                             PortA.PortName = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
                             PortA.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "BaudRate", ""));
                             PortA.ReadTimeout = 2000;
-                            // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                             PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
                             PortA.Open();
@@ -849,7 +828,6 @@ namespace Woodpecker
                             PortB.PortName = ini12.INIRead(MainSettingPath, "Port B", "PortName", "");
                             PortB.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port B", "BaudRate", ""));
                             PortB.ReadTimeout = 2000;
-                            // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                             PortB.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
                             PortB.Open();
@@ -879,7 +857,6 @@ namespace Woodpecker
                             PortC.PortName = ini12.INIRead(MainSettingPath, "Port C", "PortName", "");
                             PortC.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port C", "BaudRate", ""));
                             PortC.ReadTimeout = 2000;
-                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                             PortC.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
                             PortC.Open();
@@ -909,7 +886,6 @@ namespace Woodpecker
                             PortD.PortName = ini12.INIRead(MainSettingPath, "Port D", "PortName", "");
                             PortD.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port D", "BaudRate", ""));
                             PortD.ReadTimeout = 2000;
-                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                             PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortD.Open();
@@ -939,7 +915,6 @@ namespace Woodpecker
                             PortE.PortName = ini12.INIRead(MainSettingPath, "Port E", "PortName", "");
                             PortE.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port E", "BaudRate", ""));
                             PortE.ReadTimeout = 2000;
-                            // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
                             PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortE.Open();
@@ -1276,35 +1251,6 @@ namespace Woodpecker
                     logAll_text = String.Empty;
                     break;
             }
-        }
-        #endregion
-
-        #region -- Old儲存CANbus的log --
-        private void CanbusRS232save()
-        {
-            string fName = "";
-
-            // 讀取ini中的路徑
-            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            string t = fName + "\\_CANbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-            MYFILE.Write(canbus_text);
-            /*
-            Console.WriteLine("Save Log By Queue");
-            while (LogQueue3.Count > 0)
-            {
-                char temp_char;
-                byte temp_byte;
-
-                temp_byte = LogQueue3.Dequeue();
-                temp_char = (char)temp_byte;
-
-                MYFILE.Write(temp_char);
-            }
-            */
-            MYFILE.Close();
-            canbus_text = string.Empty;
         }
         #endregion
 
@@ -2251,184 +2197,6 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- Astro Timing --
-                        else if (columns_command == "_astro")
-                        {
-                            Console.WriteLine("Astro control: _astro");
-                            try
-                            {
-                                // Astro指令
-                                byte[] startbit = new byte[7] { 0x05, 0x24, 0x20, 0x02, 0xfd, 0x24, 0x20 };
-                                PortA.Write(startbit, 0, 7);
-
-                                // Astro指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
-                                {
-                                    var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
-                                    foreach (var generator in allTiming)
-                                    {
-                                        if (generator.Attribute("Name").Value == "_astro")
-                                        {
-                                            if (columns_function == generator.Element("Timing").Value)
-                                            {
-                                                string[] timestrs = generator.Element("Signal").Value.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-                                                byte[] timebit1 = Encoding.ASCII.GetBytes(timestrs[0]);
-                                                byte[] timebit2 = Encoding.ASCII.GetBytes(timestrs[1]);
-                                                byte[] timebit3 = Encoding.ASCII.GetBytes(timestrs[2]);
-                                                byte[] timebit4 = Encoding.ASCII.GetBytes(timestrs[3]);
-                                                byte[] timebit = new byte[4] { timebit1[1], timebit2[1], timebit3[1], timebit4[1] };
-                                                PortA.Write(timebit, 0, 4);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Content include other signal", "Astro Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-
-                                byte[] endbit = new byte[3] { 0x2c, 0x31, 0x03 };
-                                PortA.Write(endbit, 0, 3);
-                                label_Command.Text = "(" + columns_command + ") " + columns_switch;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- Quantum Timing --
-                        else if (columns_command == "_quantum")
-                        {
-                            Console.WriteLine("Quantum control: _quantum");
-                            try
-                            {
-                                // Quantum指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
-                                {
-                                    var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
-                                    foreach (var generator in allTiming)
-                                    {
-                                        if (generator.Attribute("Name").Value == "_quantum")
-                                        {
-                                            if (columns_function == generator.Element("Timing").Value)
-                                            {
-                                                PortA.WriteLine(generator.Element("Signal").Value + "\r");
-                                                PortA.WriteLine("ALLU" + "\r");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Content include other signal", "Quantum Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-
-                                switch (columns_subFunction)
-                                {
-                                    case "RGB":
-                                        // RGB mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 10" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "YCbCr":
-                                        // YCbCr mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 14" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "xvYCC":
-                                        // xvYCC mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 17" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "4:4:4":
-                                        // 4:4:4
-                                        PortA.WriteLine("DVSM 4" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "4:2:2":
-                                        // 4:2:2
-                                        PortA.WriteLine("DVSM 2" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "8bits":
-                                        // 8bits
-                                        PortA.WriteLine("NBPC 8" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "10bits":
-                                        // 10bits
-                                        PortA.WriteLine("NBPC 10" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "12bits":
-                                        // 12bits
-                                        PortA.WriteLine("NBPC 12" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_switch + columns_remark;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- Dektec --
-                        else if (columns_command == "_dektec")
-                        {
-                            if (columns_switch == "_start")
-                            {
-                                Console.WriteLine("Dektec control: _start");
-                                string StreamName = columns_serial;
-                                string TvSystem = columns_function;
-                                string Freq = columns_subFunction;
-                                string arguments = Application.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
-                                                   "-mt " + TvSystem + " " +
-                                                   "-mf " + Freq + " " +
-                                                   "-r 0 " +
-                                                   "-l 0";
-
-                                Console.WriteLine(arguments);
-                                System.Diagnostics.Process Dektec = new System.Diagnostics.Process();
-                                Dektec.StartInfo.FileName = Application.StartupPath + @"\\DektecPlayer\\DtPlay.exe";
-                                Dektec.StartInfo.UseShellExecute = false;
-                                Dektec.StartInfo.RedirectStandardInput = true;
-                                Dektec.StartInfo.RedirectStandardOutput = true;
-                                Dektec.StartInfo.RedirectStandardError = true;
-                                Dektec.StartInfo.CreateNoWindow = true;
-
-                                Dektec.StartInfo.Arguments = arguments;
-                                Dektec.Start();
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-
-                            if (columns_switch == "_stop")
-                            {
-                                Console.WriteLine("Dektec control: _stop");
-                                CloseDtplay();
-                            }
-                        }
-                        #endregion
-
                         #region -- 命令提示 --
                         else if (columns_command == "_DOS")
                         {
@@ -3178,259 +2946,10 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- Keyword Search --
-                        else if (columns_command == "_keyword")
-                        {
-                            switch (columns_times)
-                            {
-                                case "1":
-                                    Console.WriteLine("Keyword Search: 1");
-                                    if (Global.keyword_1 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_1 = "false";
-                                    break;
-
-                                case "2":
-                                    Console.WriteLine("Keyword Search: 2");
-                                    if (Global.keyword_2 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_2 = "false";
-                                    break;
-
-                                case "3":
-                                    Console.WriteLine("Keyword Search: 3");
-                                    if (Global.keyword_3 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_3 = "false";
-                                    break;
-
-                                case "4":
-                                    Console.WriteLine("Keyword Search: 4");
-                                    if (Global.keyword_4 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_4 = "false";
-                                    break;
-
-                                case "5":
-                                    Console.WriteLine("Keyword Search: 5");
-                                    if (Global.keyword_5 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_5 = "false";
-                                    break;
-
-                                case "6":
-                                    Console.WriteLine("Keyword Search: 6");
-                                    if (Global.keyword_6 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_6 = "false";
-                                    break;
-
-                                case "7":
-                                    Console.WriteLine("Keyword Search: 7");
-                                    if (Global.keyword_7 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_7 = "false";
-                                    break;
-
-                                case "8":
-                                    Console.WriteLine("Keyword Search: 8");
-                                    if (Global.keyword_8 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_8 = "false";
-                                    break;
-
-                                case "9":
-                                    Console.WriteLine("Keyword Search: 9");
-                                    if (Global.keyword_9 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    Global.keyword_9 = "false";
-                                    break;
-
-                                default:
-                                    Console.WriteLine("Keyword Search: 10");
-                                    if (columns_times == "10")
-                                    {
-                                        if (Global.keyword_10 == "true")
-                                        {
-                                            KeywordCommand();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        Global.keyword_10 = "false";
-                                    }
-                                    Console.WriteLine("keyword not found_schedule");
-                                    break;
-
-                            }
-                        }
-                        #endregion
-
-                        #region -- PWM1 --
-                        else if (columns_command == "_pwm1")
-                        {
-                            Console.WriteLine("PWM Control: _pwm1");
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortA.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortA.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortA.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortA.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region -- PWM2 --
-                        else if (columns_command == "_pwm2")
-                        {
-                            Console.WriteLine("PWM Control: _pwm2");
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortB.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortB.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region -- PWM3 --
-                        else if (columns_command == "_pwm3")
-                        {
-                            Console.WriteLine("PWM Control: _pwm3");
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortB.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortB.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
-
                         #region -- Remark --
                         if (columns_remark != "")
                         {
                             label_Remark.Invoke((MethodInvoker)(() => label_Remark.Text = columns_remark));
-                            //label_Remark.Text = columns_remark;
                         }
                         else
                         {
@@ -3438,27 +2957,12 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
-                        //MyExportText.Start();
-
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
                             Console.WriteLine("Break schedule.");
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
                             break;
-                        }
-
-                        Nowpoint = DataGridView_Schedule.Rows[Global.Scheduler_Row].Index;
-                        Console.WriteLine("Nowpoint record: " + Nowpoint);
-                        if (Breakfunction == true)
-                        {
-                            Console.WriteLine("Breakfunction.");
-                            if (Breakpoint == Nowpoint)
-                            {
-                                Console.WriteLine("Breakpoint = Nowpoint");
-                                button_Pause.PerformClick();
-                            }
                         }
 
                         if (Pause == true)//如果按下暫停鈕//
@@ -3586,7 +3090,6 @@ namespace Woodpecker
             label_Remark.Text = "";
             button_Schedule1.PerformClick();
             timer1.Stop();
-            CloseDtplay();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
             setStyle();
@@ -3621,78 +3124,6 @@ namespace Woodpecker
                     Global.caption_Sum = Global.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
-            }
-            else if (columns_serial.Substring(0, 7) == "_logcmd")
-            {
-                String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
-                String log_cmd_substring = log_cmd.Substring(startIndex, length);
-
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                {
-                    PortA.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                {
-                    PortB.WriteLine(log_cmd_substring);
-                }
-            }
-        }
-        #endregion
-
-        #region -- KEYWORD 指令集 --
-        private void KeywordCommand()
-        {
-            string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-            if (columns_serial == "_pause")
-            {
-                button_Pause.PerformClick();
-                label_Command.Text = "KEYWORD_PAUSE";
-            }
-            else if (columns_serial == "_stop")
-            {
-                button_Start.PerformClick();
-                label_Command.Text = "KEYWORD_STOP";
-            }
-            else if (columns_serial == "_ac_restart")
-            {
-                GP0_GP1_AC_OFF_ON();
-                Thread.Sleep(10);
-                GP0_GP1_AC_OFF_ON();
-                label_Command.Text = "KEYWORD_AC_RESTART";
-            }
-            else if (columns_serial == "_shot")
-            {
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
-                Jes();
-                label_Command.Text = "KEYWORD_SHOT";
-            }
-            else if (columns_serial == "_savelog1")
-            {
-                string fName = "";
-
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log1_text);
-                MYFILE.Close();
-                label_Command.Text = "KEYWORD_SAVELOG1";
-            }
-            else if (columns_serial == "_savelog2")
-            {
-                string fName = "";
-
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log2_text);
-                MYFILE.Close();
-                label_Command.Text = "KEYWORD_SAVELOG2";
             }
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
@@ -3763,15 +3194,6 @@ namespace Woodpecker
             capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
             capture.Cue(); // 創一個檔
             capture.Start(); // 開始錄影
-
-            /*
-            double chd; //檢查HD 空間 小於100M就停止錄影s
-            chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
-            if (chd < 0.1)
-            {
-                Vread = false;
-                MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
         }
 
         private void OnOffCamera()//啟動攝影機//
@@ -3914,11 +3336,6 @@ namespace Woodpecker
             RCDB.Items.Add("_IO_Input");
             RCDB.Items.Add("_audio_debounce");
             RCDB.Items.Add("_Pin");
-            RCDB.Items.Add("_keyword");
-            RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_quantum");
-            RCDB.Items.Add("_astro");
-            RCDB.Items.Add("_dektec");
             RCDB.Items.Add("------------------------");
         }
         #endregion
@@ -3996,7 +3413,7 @@ namespace Woodpecker
 
             Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
 
-            if (AutoBox_Status)//如果電腦有接上AutoBox//
+            if (AutoBox_Status)//如果電腦有接上Autokit//
             {
                 button_Schedule1.PerformClick();
                 
@@ -4005,7 +3422,6 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
-                    CloseDtplay();//關閉DtPlay//
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -4017,22 +3433,6 @@ namespace Woodpecker
                 }
                 else//按下START//
                 {
-                    /*
-                    for (int i = 1; i < 6; i++)
-                    {
-                        if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_Original") == true)
-                        {
-                            DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_Original");
-                            DIFO.Delete(true);
-                        }
-
-                        if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_NG") == true)
-                        {
-                            DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_NG");
-                            DIFO.Delete(true);
-                        }                
-                    }
-                    */
                     Global.Break_Out_MyRunCamd = 0;
 
                     MainThread.Start();       // 啟動執行緒
@@ -4076,14 +3476,13 @@ namespace Woodpecker
                     }
                 }
             }
-            else//如果沒接AutoBox//
+            else//如果沒接Autokit//
             {
                 if (StartButtonPressed == true)//按下STOP//
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer1.Stop();  //停止倒數
-                    CloseDtplay();
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -4110,7 +3509,6 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
                         OpenSerialPort("A");
-                        //textBox1.Text = string.Empty;//清空serialport1//
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
@@ -4219,17 +3617,6 @@ namespace Woodpecker
         private void CloseExcel()
         {
             Process[] processes = Process.GetProcessesByName("EXCEL");
-
-            foreach (Process p in processes)
-            {
-                p.Kill();
-            }
-        }
-
-        //關閉DtPlay
-        private void CloseDtplay()
-        {
-            Process[] processes = Process.GetProcessesByName("DtPlay");
 
             foreach (Process p in processes)
             {
@@ -4546,7 +3933,6 @@ namespace Woodpecker
                     }
                 }
                 label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
-                //label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
             }
             catch
             {
@@ -4557,22 +3943,7 @@ namespace Woodpecker
         #endregion
 
         #region -- UI相關 --
-        /*
-        #region 陰影
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                if (!DesignMode)
-                {
-                    cp.ClassStyle |= CS_DROPSHADOW;
-                }
-                return cp;
-            }
-        }
-        #endregion
-        */
+
         #region -- 關閉、縮小按鈕 --
         private void ClosePicBox_Enter(object sender, EventArgs e)
         {
@@ -4586,7 +3957,6 @@ namespace Woodpecker
 
         private void ClosePicBox_Click(object sender, EventArgs e)
         {
-            CloseDtplay();
             CloseAutobox();
         }
 
@@ -4677,7 +4047,6 @@ namespace Woodpecker
                 }
             }
             label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
-            //label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
         }
 
         static List<USBDeviceInfo> GetUSBDevices()
@@ -5227,43 +4596,6 @@ namespace Woodpecker
             }
         }
 
-        private void DataGridView_Schedule_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            Nowpoint = DataGridView_Schedule.Rows[e.RowIndex].Index;
-
-            if (Breakfunction == true && Nowpoint != Breakpoint)
-            {
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(51, 51, 51);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Breakpoint = Nowpoint;
-                //Console.WriteLine("Change the Nowpoint");
-            }
-            else if (Breakfunction == true && Nowpoint == Breakpoint)
-            {
-                Breakfunction = false;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(51, 51, 51);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(51, 51, 51);
-                DataGridView_Schedule.Rows[Nowpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Breakpoint = -1;
-                //Console.WriteLine("Disable the Breakfunction");
-            }
-            else
-            {
-                Breakfunction = true;
-                Breakpoint = Nowpoint;
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
-                DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Console.WriteLine("Enable the Breakfunction");
-            }
-        }
-
         private void button_savelog_Click(object sender, EventArgs e)
         {
             string save_option = comboBox_savelog.Text;
@@ -5450,8 +4782,6 @@ namespace Woodpecker
     public class Global//全域變數//
     {
         public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
-        public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
 
         public static int Scheduler_Row = 0;
         public static List<string> VID = new List<string> { };
@@ -5476,16 +4806,8 @@ namespace Woodpecker
         public static int caption_Num = 0;
         public static int caption_Sum = 0;
         public static int excel_Num = 0;
-        public static int[] caption_NG_Num = new int[Schedule_Loop];
-        public static int[] caption_Total_Num = new int[Schedule_Loop];
-        public static float[] SumValue = new float[Schedule_Loop];
-        public static int[] NGValue = new int[Global.Schedule_Loop];
-        public static float[] NGRateValue = new float[Global.Schedule_Loop];
-        //public static float[] ReferenceResult = new float[Schedule_Loop];
         public static bool FormSetting = true;
         public static bool FormSchedule = true;
-        public static bool FormMail = true;
-        public static bool FormLog = true;
         public static string RCDB = "";
         public static string IO_INPUT = "";
         public static int IO_PA10_0_COUNT = 0;
@@ -5500,25 +4822,12 @@ namespace Woodpecker
         public static int IO_PB1_1_COUNT = 0;
         public static int IO_PB7_0_COUNT = 0;
         public static int IO_PB7_1_COUNT = 0;
-        public static string keyword_1 = "false";
-        public static string keyword_2 = "false";
-        public static string keyword_3 = "false";
-        public static string keyword_4 = "false";
-        public static string keyword_5 = "false";
-        public static string keyword_6 = "false";
-        public static string keyword_7 = "false";
-        public static string keyword_8 = "false";
-        public static string keyword_9 = "false";
-        public static string keyword_10 = "false";
         public static List<string> Rc_List = new List<string> { };
         public static int Rc_Number = 0;
         public static string Pass_Or_Fail = "";//測試結果//
         public static int Break_Out_Schedule = 0;//定時器中斷變數//
         public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
         public static bool FormRC = false;
-        public static int TEXTBOX_FOCUS = 0;
-
-        //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
     }
 
     /// <summary>

@@ -114,7 +114,7 @@ namespace Woodpecker
 
         private void ClosePicBox_Click(object sender, EventArgs e)
         {
-            if (Global.FormSetting == true && Global.FormSchedule == true && Global.FormMail == true && Global.FormLog == true)
+            if (Global.FormSetting == true && Global.FormSchedule == true)
             {
                 DialogResult = DialogResult.OK;
             }
@@ -125,12 +125,6 @@ namespace Woodpecker
 
                 if (Global.FormSchedule == false)
                     MessageBox.Show("Schedule Setting Error !");
-
-                if (Global.FormMail == false)
-                    MessageBox.Show("Mail Setting Error !");
-
-                if (Global.FormLog == false)
-                    MessageBox.Show("Log Setting Error !");
             }
         }
         #endregion
