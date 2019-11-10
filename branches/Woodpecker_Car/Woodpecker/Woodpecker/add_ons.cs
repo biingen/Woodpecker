@@ -167,20 +167,6 @@ namespace Woodpecker
         }
         #endregion
 
-        public void SaveSXPReport()
-        {
-            StreamReader Log = new StreamReader(@"D:\AUTO BOX\LOG\_Log2_20160906132452_1.txt");
-            StreamWriter SXP = new StreamWriter(@"D:\AUTO BOX\LOG\SXP.txt");
-
-            string line = string.Empty;
-            while ((line = Log.ReadLine()) != null)
-            {
-                Console.WriteLine(line);
-                Console.WriteLine(line.Length);
-            }
-            Log.Close();
-        }
-
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
@@ -369,25 +355,6 @@ namespace Woodpecker
                     }
                 }
 
-            }
-        }
-        #endregion
-
-        #region -- 創建RC.ini --
-        public void CreateRcConfig()
-        {
-            string[] Setting = { "SelectRcLastTime", "SelectRcLastTimePath" };
-
-            for (int i = 0; i < Setting.Length; i++)
-            {
-                if (i == (Setting.Length - 1))
-                {
-                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "" + Environment.NewLine + Environment.NewLine);
-                }
-                else
-                {
-                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "");
-                }
             }
         }
         #endregion

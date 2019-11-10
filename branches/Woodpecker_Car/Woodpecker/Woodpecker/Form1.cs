@@ -64,10 +64,7 @@ namespace Woodpecker
         private Filters filters = null;
         private bool _captureInProgress;
         private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
-        //private bool excelstat = false;
         private bool VideoRecording = false;//是否正在錄影//
-        private bool TimerPanel = false;
-        //private bool VirtualRcPanel = false;
         private bool AcUsbPanel = false;
         private long timeCount = 0;
         private long TestTime = 0;
@@ -178,7 +175,7 @@ namespace Woodpecker
 
             // Button design
             List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_AcUsb,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
+                                                            button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
             foreach (Button buttonsAll in buttonsList)
             {
@@ -924,12 +921,6 @@ namespace Woodpecker
                 RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
                 redcon = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
             }
-            else if (Caller == "FormRc")
-            {
-                string SelectRcLastTimePath = ini12.INIRead(RcPath, "Setting", "SelectRcLastTimePath", "");
-                RedRatData.RedRatLoadSignalDB(ini12.INIRead(SelectRcLastTimePath, "Info", "DBFile", ""));
-                redcon = ini12.INIRead(SelectRcLastTimePath, "Info", "Brands", "");
-            }
 
             try
             {
@@ -962,12 +953,6 @@ namespace Woodpecker
                 {
                     RedRatData.RedRatLoadSignalDB(ini12.INIRead(MainSettingPath, "RedRat", "DBFile", ""));
                     RedRatData.RedRatSelectDevice(ini12.INIRead(MainSettingPath, "RedRat", "Brands", ""));
-                }
-                else if (Caller == "FormRc")
-                {
-                    string SelectRcLastTimePath = ini12.INIRead(RcPath, "Setting", "SelectRcLastTimePath", "");
-                    RedRatData.RedRatLoadSignalDB(ini12.INIRead(SelectRcLastTimePath, "Info", "DBFile", ""));
-                    RedRatData.RedRatSelectDevice(ini12.INIRead(SelectRcLastTimePath, "Info", "Brands", ""));
                 }
 
                 RedRatData.RedRatSelectRCSignal(SigData, D);
@@ -4642,7 +4627,6 @@ namespace Woodpecker
                     pictureBox_Camera.Image = Properties.Resources.ON;
                     _captureInProgress = false;
                     OnOffCamera();
-                    button_VirtualRC.Enabled = true;
                     comboBox_CameraDevice.Enabled = false;
                 }
                 else
@@ -5448,30 +5432,6 @@ namespace Woodpecker
             }
         }
         #endregion
-
-        private void button_VirtualRC_Click(object sender, EventArgs e)
-        {
-            /*
-            VirtualRcPanel = !VirtualRcPanel;
-            if (VirtualRcPanel == true)
-            {
-                LoadVirtualRC();
-                panel_VirtualRC.Show();
-                panel_VirtualRC.BringToFront();
-            }
-            else
-            {
-                panel_VirtualRC.Controls.Clear();
-                panel_VirtualRC.Hide();
-            }
-            */
-            FormRC formRC = new FormRC();
-            formRC.Owner = this;
-            if (Global.FormRC == false)
-            {
-                formRC.Show();
-            }
-        }
 
         private void button_AcUsb_Click(object sender, EventArgs e)
         {

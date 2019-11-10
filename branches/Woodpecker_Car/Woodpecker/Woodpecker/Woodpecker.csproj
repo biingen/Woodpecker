@@ -124,16 +124,6 @@
       <HintPath>..\..\MaterialSkin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="NationalInstruments.Common, Version=17.5.40.49153, Culture=neutral, PublicKeyToken=dc6ad606294fc298, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\NationalInstruments.Common.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="NationalInstruments.DAQmx, Version=17.6.45.181, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\NationalInstruments.DAQmx.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="NPOI">
       <HintPath>..\..\NPOI.dll</HintPath>
     </Reference>
@@ -181,12 +171,6 @@
     <Compile Include="CAN_Read.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
-    <Compile Include="FormRC.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormRC.Designer.cs">
-      <DependentUpon>FormRC.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormScriptHelper.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -230,9 +214,6 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormRC.resx">
-      <DependentUpon>FormRC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScriptHelper.resx">
       <DependentUpon>FormScriptHelper.cs</DependentUpon>

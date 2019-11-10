@@ -58,7 +58,6 @@ namespace Woodpecker
             this.SchOpen5 = new System.Windows.Forms.OpenFileDialog();
             this.DataBtn = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.button_VirtualRC = new System.Windows.Forms.Button();
             this.TimeLabel2 = new System.Windows.Forms.Label();
             this.button_Pause = new System.Windows.Forms.Button();
             this.label_ScheduleTime_Value = new System.Windows.Forms.Label();
@@ -354,23 +353,6 @@ namespace Woodpecker
             this.DataBtn.Visible = false;
             this.DataBtn.Click += new System.EventHandler(this.DataBtn_Click);
             // 
-            // button_VirtualRC
-            // 
-            this.button_VirtualRC.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.button_VirtualRC.BackColor = System.Drawing.SystemColors.Control;
-            this.button_VirtualRC.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.button_VirtualRC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_VirtualRC.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_VirtualRC.ForeColor = System.Drawing.Color.White;
-            this.button_VirtualRC.Location = new System.Drawing.Point(2, 50);
-            this.button_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
-            this.button_VirtualRC.Name = "button_VirtualRC";
-            this.button_VirtualRC.Size = new System.Drawing.Size(111, 30);
-            this.button_VirtualRC.TabIndex = 63;
-            this.button_VirtualRC.Text = "Virtual RC";
-            this.button_VirtualRC.UseVisualStyleBackColor = false;
-            this.button_VirtualRC.Click += new System.EventHandler(this.button_VirtualRC_Click);
-            // 
             // TimeLabel2
             // 
             this.TimeLabel2.BackColor = System.Drawing.Color.Transparent;
@@ -419,6 +401,13 @@ namespace Woodpecker
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick_1);
+            // 
+            // button_TimeLine
+            // 
+            this.button_TimeLine.Location = new System.Drawing.Point(0, 0);
+            this.button_TimeLine.Name = "button_TimeLine";
+            this.button_TimeLine.Size = new System.Drawing.Size(75, 23);
+            this.button_TimeLine.TabIndex = 113;
             // 
             // button_SaveSchedule
             // 
@@ -615,7 +604,6 @@ namespace Woodpecker
             this.panel_VirtualRC.Controls.Add(this.label_TestTime);
             this.panel_VirtualRC.Controls.Add(this.label_ScheduleTime);
             this.panel_VirtualRC.Controls.Add(this.label_TestTime_Value);
-            this.panel_VirtualRC.Controls.Add(this.button_VirtualRC);
             this.panel_VirtualRC.Location = new System.Drawing.Point(14, 532);
             this.panel_VirtualRC.Margin = new System.Windows.Forms.Padding(2);
             this.panel_VirtualRC.Name = "panel_VirtualRC";
@@ -1311,7 +1299,6 @@ namespace Woodpecker
         protected internal System.Windows.Forms.Button button_Schedule5;
         private System.Windows.Forms.Button DataBtn;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.Button button_VirtualRC;
         private System.Windows.Forms.Label TimeLabel2;
         private System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Label label_ScheduleTime_Value;
