@@ -4780,6 +4780,7 @@ namespace Woodpecker
                         log3_text = string.Concat(log3_text, sch_log_text);
                         log4_text = string.Concat(log4_text, sch_log_text);
                         log5_text = string.Concat(log5_text, sch_log_text);
+                        logAll_text = string.Concat(logAll_text, sch_log_text);
                         canbus_text = string.Concat(canbus_text, sch_log_text);
                         kline_text = string.Concat(kline_text, sch_log_text);
                         textBox_serial.AppendText(sch_log_text);
