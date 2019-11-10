@@ -70,7 +70,6 @@
             this.pictureBox_Schedule3Loop = new System.Windows.Forms.PictureBox();
             this.pictureBox_Schedule4Loop = new System.Windows.Forms.PictureBox();
             this.pictureBox_Schedule5Loop = new System.Windows.Forms.PictureBox();
-            this.checkBox_ScheduleAutoStart = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule1Loop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Schedule5)).BeginInit();
@@ -550,20 +549,6 @@
             this.pictureBox_Schedule5Loop.TabIndex = 129;
             this.pictureBox_Schedule5Loop.TabStop = false;
             // 
-            // checkBox_ScheduleAutoStart
-            // 
-            this.checkBox_ScheduleAutoStart.AutoSize = true;
-            this.checkBox_ScheduleAutoStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox_ScheduleAutoStart.ForeColor = System.Drawing.Color.White;
-            this.checkBox_ScheduleAutoStart.Location = new System.Drawing.Point(380, 415);
-            this.checkBox_ScheduleAutoStart.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_ScheduleAutoStart.Name = "checkBox_ScheduleAutoStart";
-            this.checkBox_ScheduleAutoStart.Size = new System.Drawing.Size(201, 20);
-            this.checkBox_ScheduleAutoStart.TabIndex = 130;
-            this.checkBox_ScheduleAutoStart.Text = "Schedules start automatically";
-            this.checkBox_ScheduleAutoStart.UseVisualStyleBackColor = true;
-            this.checkBox_ScheduleAutoStart.CheckedChanged += new System.EventHandler(this.checkBox_ScheduleAutoStart_CheckedChanged);
-            // 
             // FormSchedule
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -572,7 +557,6 @@
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(658, 494);
-            this.Controls.Add(this.checkBox_ScheduleAutoStart);
             this.Controls.Add(this.pictureBox_Schedule5Loop);
             this.Controls.Add(this.pictureBox_Schedule4Loop);
             this.Controls.Add(this.pictureBox_Schedule3Loop);
@@ -667,7 +651,6 @@
         private System.Windows.Forms.PictureBox pictureBox_Schedule3Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule4Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule5Loop;
-        private System.Windows.Forms.CheckBox checkBox_ScheduleAutoStart;
         internal System.Windows.Forms.TextBox textBox_Schedule5Loop;
         internal System.Windows.Forms.TextBox textBox_Schedule4Loop;
         internal System.Windows.Forms.TextBox textBox_Schedule3Loop;

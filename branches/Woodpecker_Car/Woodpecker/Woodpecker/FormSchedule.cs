@@ -167,15 +167,6 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "") == "1")
-            {
-                checkBox_ScheduleAutoStart.Checked = true;
-            }
-            else
-            {
-                checkBox_ScheduleAutoStart.Checked = false;
-            }
-
             setStyle();
         }
 
@@ -520,20 +511,6 @@ namespace Woodpecker
             else
             {
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
-            }
-        }
-
-        private void checkBox_ScheduleAutoStart_CheckedChanged(object sender, EventArgs e)
-        {
-            //程式啟動自動跑shchedule//
-            if (checkBox_ScheduleAutoStart.Checked == true)
-            {
-                
-                ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "0");
             }
         }
     }

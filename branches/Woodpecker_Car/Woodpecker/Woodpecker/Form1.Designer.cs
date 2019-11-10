@@ -1196,7 +1196,6 @@ namespace Woodpecker
             this.MinimumSizeChanged += new System.EventHandler(this.MiniPicBox_Click);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.Shown += new System.EventHandler(this.Form1_Shown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GPanelTitleBack_MouseDown);
             this.panel_VirtualRC.ResumeLayout(false);
             this.panel_VirtualRC.PerformLayout();

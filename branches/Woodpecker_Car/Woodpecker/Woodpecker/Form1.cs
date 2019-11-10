@@ -5130,14 +5130,6 @@ namespace Woodpecker
             }
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            if (ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "") == "1")
-            {
-                button_Start.PerformClick();
-            }
-        }
-
         private void DataGridView_Schedule_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             FormScriptHelper formScriptHelper = new FormScriptHelper();
