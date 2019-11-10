@@ -4780,6 +4780,7 @@ namespace Woodpecker
                         log3_text = string.Concat(log3_text, sch_log_text);
                         log4_text = string.Concat(log4_text, sch_log_text);
                         log5_text = string.Concat(log5_text, sch_log_text);
+                        logAll_text = string.Concat(logAll_text, sch_log_text);
                         canbus_text = string.Concat(canbus_text, sch_log_text);
                         kline_text = string.Concat(kline_text, sch_log_text);
                         textBox_serial.AppendText(sch_log_text);
@@ -5240,7 +5241,7 @@ namespace Woodpecker
                                     PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
+                                string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
                                 textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5274,7 +5275,7 @@ namespace Woodpecker
                                     PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5308,7 +5309,7 @@ namespace Woodpecker
                                     PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5342,7 +5343,7 @@ namespace Woodpecker
                                     PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5376,7 +5377,7 @@ namespace Woodpecker
                                     PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5401,7 +5402,7 @@ namespace Woodpecker
                                 {
                                     PortA.Write(serial_content[0] + switch_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5410,7 +5411,7 @@ namespace Woodpecker
                                 {
                                     PortB.Write(serial_content[1] + switch_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5419,7 +5420,7 @@ namespace Woodpecker
                                 {
                                     PortC.Write(serial_content[2] + switch_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5428,7 +5429,7 @@ namespace Woodpecker
                                 {
                                     PortD.Write(serial_content[3] + switch_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5437,7 +5438,7 @@ namespace Woodpecker
                                 {
                                     PortE.Write(serial_content[4] + switch_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5470,7 +5471,7 @@ namespace Woodpecker
                                     PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5496,7 +5497,7 @@ namespace Woodpecker
                                     PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5522,7 +5523,7 @@ namespace Woodpecker
                                     PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5548,7 +5549,7 @@ namespace Woodpecker
                                     PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5574,7 +5575,7 @@ namespace Woodpecker
                                     PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
@@ -5598,7 +5599,7 @@ namespace Woodpecker
                                 {
                                     PortA.Write(serial_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5607,7 +5608,7 @@ namespace Woodpecker
                                 {
                                     PortB.Write(serial_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5616,7 +5617,7 @@ namespace Woodpecker
                                 {
                                     PortC.Write(serial_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5625,7 +5626,7 @@ namespace Woodpecker
                                 {
                                     PortD.Write(serial_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5634,7 +5635,7 @@ namespace Woodpecker
                                 {
                                     PortE.Write(serial_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
