@@ -201,7 +201,7 @@ namespace Woodpecker
             {
                 textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
-            else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") == "" || Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")) == false)
             {
                 Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Image");
                 textBox_ImagePath.Text = System.Windows.Forms.Application.StartupPath + "\\Image";
@@ -219,7 +219,7 @@ namespace Woodpecker
             {
                 textBox_LogPath.Text = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             }
-            else if (ini12.INIRead(MainSettingPath, "Record", "LogPath", "") == "")
+            else if (ini12.INIRead(MainSettingPath, "Record", "LogPath", "") == "" || Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "LogPath", "")) == false)
             {
                 Directory.CreateDirectory(System.Windows.Forms.Application.StartupPath + "\\Log");
                 textBox_LogPath.Text = System.Windows.Forms.Application.StartupPath + "\\Log";
@@ -699,7 +699,7 @@ namespace Woodpecker
         {
             if (checkBox_SerialPort1.Checked == true)
             {
-                if (comboBox_SerialPort1_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                if (comboBox_SerialPort1_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_SerialPort1_PortName_Value.Text != "")
                 {
                     label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
@@ -746,7 +746,7 @@ namespace Woodpecker
 
             if (checkBox_SerialPort2.Checked == true)
             {
-                if (comboBox_SerialPort2_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                if (comboBox_SerialPort2_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_SerialPort2_PortName_Value.Text != "")
                 {
                     label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
@@ -793,7 +793,7 @@ namespace Woodpecker
 
             if (checkBox_SerialPort3.Checked == true)
             {
-                if (comboBox_SerialPort3_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                if (comboBox_SerialPort3_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_SerialPort3_PortName_Value.Text != "")
                 {
                     label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
@@ -840,7 +840,7 @@ namespace Woodpecker
 
             if (checkBox_SerialPort4.Checked == true)
             {
-                if (comboBox_SerialPort4_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                if (comboBox_SerialPort4_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_SerialPort4_PortName_Value.Text != "")
                 {
                     label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
@@ -887,7 +887,7 @@ namespace Woodpecker
 
             if (checkBox_SerialPort5.Checked == true)
             {
-                if (comboBox_SerialPort5_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", ""))
+                if (comboBox_SerialPort5_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_SerialPort5_PortName_Value.Text != "")
                 {
                     label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
                     pictureBox_SerialPort5.Image = Properties.Resources.ERROR;

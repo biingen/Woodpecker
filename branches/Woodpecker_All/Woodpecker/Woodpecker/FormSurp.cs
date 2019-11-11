@@ -1,5 +1,7 @@
 ﻿using jini;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Woodpecker
@@ -65,6 +67,25 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Network", "Port", PorttextBox.Text);
             }
             Close();
+        }
+
+        private void button_python_Click(object sender, EventArgs e)
+        {
+            Process p = new Process();
+            string cmd = Application.StartupPath + "arg_test.py TP DQA Test";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = @"python.exe";
+            p.StartInfo.Arguments = cmd;
+            p.StartInfo.RedirectStandardInput = true;
+            p.Start();
+            StreamWriter myStreamWriter = p.StandardInput;
+            myStreamWriter.WriteLine(cmd);
+            string output = "";
+            output = p.StandardOutput.ReadLine();
+            Console.WriteLine(output);
+            p.WaitForExit();
+            p.Close();
         }
     }
 }
