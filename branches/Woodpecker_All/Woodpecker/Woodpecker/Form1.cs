@@ -353,14 +353,14 @@ namespace Woodpecker
             LoadRCDB();
             ConnectCanBus();
 
-            
+
             FillCameraList();
             if (comboBoxCameraList.Items.Count > 0)
             {
                 comboBoxCameraList.SelectedIndex = 0;
             }
             FillResolutionList();
-            
+
 
 
             List<string> SchExist = new List<string> { };
@@ -5095,7 +5095,7 @@ namespace Woodpecker
                             else
                             {
                                 button_Start.PerformClick();
-                                MessageBox.Show("Camera is not connected!", "Error");
+                                MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                                 setStyle();
                             }
                         }
@@ -5402,8 +5402,8 @@ namespace Woodpecker
                             if (columns_comport == "ALL")
                             {
                                 Console.WriteLine("Ascii Log: _All");
-                                string [] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                                string [] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                                 if (columns_serial == "_save")
                                 {
@@ -8066,7 +8066,7 @@ namespace Woodpecker
         #endregion
 
 
-        
+
         private void FillCameraList()
         {
             comboBoxCameraList.Items.Clear();
@@ -8207,100 +8207,108 @@ namespace Woodpecker
 
         private void Camstart()
         {
-            Filters filters = new Filters();
-            Filter f;
-
-            List<string> video = new List<string> { };
-            for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+            try
             {
-                f = filters.VideoInputDevices[c];
-                video.Add(f.Name);
-            }
+                Filters filters = new Filters();
+                Filter f;
 
-            List<string> audio = new List<string> { };
-            for (int j = 0; j < filters.AudioInputDevices.Count; j++)
-            {
-                f = filters.AudioInputDevices[j];
-                audio.Add(f.Name);
-            }
-
-            int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-            int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
-            int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-            int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
-
-            if (filters.VideoInputDevices.Count < VideoNum ||
-                filters.AudioInputDevices.Count < AudioNum)
-            {
-                MessageBox.Show("Please reset video or audio device and select OK.", "Camera Status Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                button_Setting.PerformClick();
-            }
-            else
-            {
-                capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
-                try
+                List<string> video = new List<string> { };
+                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                 {
-                    capture.FrameSize = new Size(2304, 1296);
-                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                    f = filters.VideoInputDevices[c];
+                    video.Add(f.Name);
                 }
-                catch (Exception ex)
+
+                List<string> audio = new List<string> { };
+                for (int j = 0; j < filters.AudioInputDevices.Count; j++)
                 {
-                    Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
+                    f = filters.AudioInputDevices[j];
+                    audio.Add(f.Name);
+                }
+
+                int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+                int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
+                int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+
+                if (filters.VideoInputDevices.Count < VideoNum ||
+                    filters.AudioInputDevices.Count < AudioNum)
+                {
+                    MessageBox.Show("Please reset video or audio device and select OK.", "Camera Status Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button_Setting.PerformClick();
+                }
+                else
+                {
+                    capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
                     try
                     {
-                        capture.FrameSize = new Size(1920, 1080);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                        capture.FrameSize = new Size(2304, 1296);
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
                     }
-                    catch (Exception ex1)
+                    catch (Exception ex)
                     {
-                        Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
+                        Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
                         try
                         {
-                            capture.FrameSize = new Size(1280, 720);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                            capture.FrameSize = new Size(1920, 1080);
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
                         }
-                        catch (Exception ex2)
+                        catch (Exception ex1)
                         {
-                            Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
+                            Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
                             try
                             {
-                                capture.FrameSize = new Size(640, 480);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                capture.FrameSize = new Size(1280, 720);
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
                             }
-                            catch (Exception ex3)
+                            catch (Exception ex2)
                             {
-                                Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
                                 try
                                 {
-                                    capture.FrameSize = new Size(320, 240);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    capture.FrameSize = new Size(640, 480);
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
                                 }
-                                catch (Exception ex4)
+                                catch (Exception ex3)
                                 {
-                                    Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                    Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                    try
+                                    {
+                                        capture.FrameSize = new Size(320, 240);
+                                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    }
+                                    catch (Exception ex4)
+                                    {
+                                        Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                    }
                                 }
                             }
                         }
                     }
+                    capture.CaptureComplete += new EventHandler(OnCaptureComplete);
                 }
-                capture.CaptureComplete += new EventHandler(OnCaptureComplete);
-            }
 
-            if (capture.PreviewWindow == null)
-            {
-                try
+                if (capture.PreviewWindow == null)
                 {
-                    capture.PreviewWindow = panelVideo;
+                    try
+                    {
+                        capture.PreviewWindow = panelVideo;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
+                    capture.PreviewWindow = null;
                 }
             }
-            else
+            catch (NotSupportedException ex)
             {
-                capture.PreviewWindow = null;
-            }
+                MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                button_Start.PerformClick();
+            };
         }
 
         #region -- 讀取RC DB並填入combobox --
@@ -8544,7 +8552,7 @@ namespace Woodpecker
             if (AutoBox_Status)//如果電腦有接上AutoBox//
             {
                 button_Schedule1.PerformClick();
-                
+
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
@@ -8835,7 +8843,7 @@ namespace Woodpecker
             }
         }
 
-        
+
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
@@ -10096,7 +10104,7 @@ namespace Woodpecker
         {
             FormScriptHelper formScriptHelper = new FormScriptHelper();
             formScriptHelper.Owner = this;
-            
+
 
             try
             {

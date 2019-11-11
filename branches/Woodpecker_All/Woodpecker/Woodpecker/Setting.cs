@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Management;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -20,6 +21,7 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
+            
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -196,6 +198,7 @@ namespace Woodpecker
 
         private void Setting_Load(object sender, EventArgs e)
         {
+            checkCamera();
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
@@ -213,7 +216,7 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
                 pictureBox_ImagePath.Image = Properties.Resources.ERROR;
             }
-            
+
             //Log欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "LogPath", "")))
             {
@@ -479,7 +482,7 @@ namespace Woodpecker
                 for (int i = 0; i < RedRat3USBImpl.FindDevices().Count; i++)
                 {
                     redRat3 = (IRedRat3)RedRat3USBImpl.FindDevices()[i].GetRedRat();
-                    comboBox__SelectRedrat.Items.Add(redRat3.DeviceInformation.ProductName + " - " + 
+                    comboBox__SelectRedrat.Items.Add(redRat3.DeviceInformation.ProductName + " - " +
                                                      redRat3.DeviceInformation.SerialNumber.ToString());
 
                     if (ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", "") == "")
@@ -487,11 +490,11 @@ namespace Woodpecker
                         comboBox__SelectRedrat.Text = comboBox__SelectRedrat.Items[0].ToString();
                     }
 
-                    if (redRat3.DeviceInformation.ProductName + " - " + 
+                    if (redRat3.DeviceInformation.ProductName + " - " +
                         redRat3.DeviceInformation.SerialNumber.ToString() ==
                         ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", ""))
                     {
-                        comboBox__SelectRedrat.Text = redRat3.DeviceInformation.ProductName + " - " + 
+                        comboBox__SelectRedrat.Text = redRat3.DeviceInformation.ProductName + " - " +
                                                       redRat3.DeviceInformation.SerialNumber.ToString();
                     }
                 }
@@ -506,19 +509,19 @@ namespace Woodpecker
             comboBox_TvBrands.Text = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
             loadxml();
             #endregion
-            
+
             #region -- Camera --
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")//Camera存在//
             {
                 comboBox_CameraDevice.Enabled = true;
                 comboBox_CameraAudio.Enabled = true;
-                
+
                 Filters filters = new Filters();
                 Filter f;
 
                 ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
                 ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
-                
+
                 for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                 {
                     f = filters.VideoInputDevices[c];
@@ -568,7 +571,80 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "LogSearch", "TextNum", "0");
             }
         }
-        
+
+        private void checkCamera()
+        {
+            ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
+            ManagementObjectCollection collection = search.Get();
+            var usbList = from u in collection.Cast<ManagementBaseObject>()
+                          select new
+                          {
+                              id = u.GetPropertyValue("DeviceID"),
+                              name = u.GetPropertyValue("Name"),
+                              description = u.GetPropertyValue("Description"),
+                              status = u.GetPropertyValue("Status"),
+                              system = u.GetPropertyValue("SystemName"),
+                              caption = u.GetPropertyValue("Caption"),
+                              pnp = u.GetPropertyValue("PNPDeviceID"),
+                          };
+
+            foreach (var usbDevice in usbList)
+            {
+                string deviceId = (string)usbDevice.id;
+                string deviceTp = (string)usbDevice.name;
+                string deviecDescription = (string)usbDevice.description;
+
+                string deviceStatus = (string)usbDevice.status;
+                string deviceSystem = (string)usbDevice.system;
+                string deviceCaption = (string)usbDevice.caption;
+                string devicePnp = (string)usbDevice.pnp;
+
+                if (deviecDescription != null)
+                {
+                    if (deviecDescription.IndexOf("USB 視訊裝置", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        deviecDescription.IndexOf("USB 视频设备", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        deviceTp.IndexOf("Webcam", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        deviceTp.IndexOf("Camera", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        if (deviceId.IndexOf("VID_", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            int vidIndex = deviceId.IndexOf("VID_");
+                            string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"
+                            string vid = startingAtVid.Substring(0, 4); // vid is four characters long
+                            Global.VID.Add(vid);
+                        }
+
+                        if (deviceId.IndexOf("PID_", StringComparison.OrdinalIgnoreCase) >= 0)
+                        {
+                            int pidIndex = deviceId.IndexOf("PID_");
+                            string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"
+                            string pid = startingAtPid.Substring(0, 4); // pid is four characters long
+                            Global.PID.Add(pid);
+                        }
+
+                        Console.WriteLine("-----------------Camera------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        //Camera存在
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
+                    }
+                    
+                }
+                else
+                {
+                    ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
+                }
+            }
+        }
+
+
         //自動調整ComboBox寬度
         private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
         {
@@ -1070,7 +1146,7 @@ namespace Woodpecker
         private void comboBox_TvBrands_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
-            
+
         }
 
         private void comboBox__SelectRedrat_SelectedIndexChanged(object sender, EventArgs e)
