@@ -236,6 +236,7 @@ namespace Woodpecker
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
                 pictureBox_canbus.Image = Properties.Resources.OFF;
+                button_AcUsb.Enabled = false;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -1344,6 +1345,7 @@ namespace Woodpecker
                         log3_text = string.Concat(log3_text, sch_log_text);
                         log4_text = string.Concat(log4_text, sch_log_text);
                         log5_text = string.Concat(log5_text, sch_log_text);
+                        logAll_text = string.Concat(logAll_text, sch_log_text);
                         canbus_text = string.Concat(canbus_text, sch_log_text);
                         kline_text = string.Concat(kline_text, sch_log_text);
                         #endregion
@@ -3688,6 +3690,11 @@ namespace Woodpecker
                         sw.WriteLine(strRowValue);
                     }
                     sw.Close();
+                }
+
+                if (sfd.FileName != ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", ""))
+                {
+                    ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", sfd.FileName);
                 }
             }
             ReadSch();
