@@ -130,6 +130,8 @@ namespace Woodpecker
             this.PortD = new System.IO.Ports.SerialPort(this.components);
             this.PortE = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
+            this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
+            this.comboBoxResolutionList = new System.Windows.Forms.ComboBox();
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -141,8 +143,6 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
-            this.comboBoxResolutionList = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -269,7 +269,7 @@ namespace Woodpecker
             // 
             this.TimeLabel.AutoSize = true;
             this.TimeLabel.BackColor = System.Drawing.Color.DarkOrange;
-            this.TimeLabel.Font = new System.Drawing.Font("微軟正黑體", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.TimeLabel.Font = new System.Drawing.Font("Microsoft JhengHei", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.TimeLabel.ForeColor = System.Drawing.Color.White;
             this.TimeLabel.Location = new System.Drawing.Point(318, 703);
             this.TimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1325,6 +1325,24 @@ namespace Woodpecker
             this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
             this.comboBox_savelog.TabIndex = 111;
             // 
+            // comboBoxCameraList
+            // 
+            this.comboBoxCameraList.FormattingEnabled = true;
+            this.comboBoxCameraList.Location = new System.Drawing.Point(975, 265);
+            this.comboBoxCameraList.Name = "comboBoxCameraList";
+            this.comboBoxCameraList.Size = new System.Drawing.Size(110, 24);
+            this.comboBoxCameraList.TabIndex = 113;
+            this.comboBoxCameraList.SelectedIndexChanged += new System.EventHandler(this.comboBoxCameraList_SelectedIndexChanged);
+            // 
+            // comboBoxResolutionList
+            // 
+            this.comboBoxResolutionList.FormattingEnabled = true;
+            this.comboBoxResolutionList.Location = new System.Drawing.Point(975, 299);
+            this.comboBoxResolutionList.Name = "comboBoxResolutionList";
+            this.comboBoxResolutionList.Size = new System.Drawing.Size(110, 24);
+            this.comboBoxResolutionList.TabIndex = 114;
+            this.comboBoxResolutionList.SelectedIndexChanged += new System.EventHandler(this.comboBoxResolutionList_SelectedIndexChanged);
+            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
@@ -1483,24 +1501,6 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // comboBoxCameraList
-            // 
-            this.comboBoxCameraList.FormattingEnabled = true;
-            this.comboBoxCameraList.Location = new System.Drawing.Point(975, 265);
-            this.comboBoxCameraList.Name = "comboBoxCameraList";
-            this.comboBoxCameraList.Size = new System.Drawing.Size(110, 24);
-            this.comboBoxCameraList.TabIndex = 113;
-            this.comboBoxCameraList.SelectedIndexChanged += new System.EventHandler(this.comboBoxCameraList_SelectedIndexChanged);
-            // 
-            // comboBoxResolutionList
-            // 
-            this.comboBoxResolutionList.FormattingEnabled = true;
-            this.comboBoxResolutionList.Location = new System.Drawing.Point(975, 299);
-            this.comboBoxResolutionList.Name = "comboBoxResolutionList";
-            this.comboBoxResolutionList.Size = new System.Drawing.Size(110, 24);
-            this.comboBoxResolutionList.TabIndex = 114;
-            this.comboBoxResolutionList.SelectedIndexChanged += new System.EventHandler(this.comboBoxResolutionList_SelectedIndexChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1510,7 +1510,6 @@ namespace Woodpecker
             this.ClientSize = new System.Drawing.Size(1097, 659);
             this.Controls.Add(this.comboBoxResolutionList);
             this.Controls.Add(this.comboBoxCameraList);
-            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1520,7 +1519,6 @@ namespace Woodpecker
             this.Controls.Add(this.label_ext_board);
             this.Controls.Add(this.pictureBox_ext_board);
             this.Controls.Add(this.button_Network);
-            this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.button_InsertRow);
             this.Controls.Add(this.labelGPIO_Input);
             this.Controls.Add(this.button_Output);
@@ -1538,7 +1536,6 @@ namespace Woodpecker
             this.Controls.Add(this.label_RedRat);
             this.Controls.Add(this.button_Schedule5);
             this.Controls.Add(this.button_TimeLine);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.button_SaveSchedule);
             this.Controls.Add(this.DataBtn);
             this.Controls.Add(this.button_SerialPort);
@@ -1554,8 +1551,11 @@ namespace Woodpecker
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
-            this.Controls.Add(this.comboBox_CameraDevice);
+            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_serial);
+            this.Controls.Add(this.panel_AcUsb);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
