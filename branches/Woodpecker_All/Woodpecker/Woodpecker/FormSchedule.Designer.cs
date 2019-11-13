@@ -241,6 +241,7 @@
             this.textBox_Schedule1Loop.Text = "99999";
             this.textBox_Schedule1Loop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_Schedule1Loop.TextChanged += new System.EventHandler(this.textBox_Schedule1Loop_TextChanged);
+            this.textBox_Schedule1Loop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Schedule1Loop_KeyPress);
             // 
             // textBox_Schedule5
             // 

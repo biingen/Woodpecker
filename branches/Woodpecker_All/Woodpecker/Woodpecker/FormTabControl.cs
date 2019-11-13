@@ -214,27 +214,27 @@ namespace Woodpecker
             {
                 if (Global.FormSetting == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
 
                 if (Global.FormSchedule == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
 
                 if (Global.FormMail == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
 
 
                 if (Global.FormLog == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_KeywordSearch;
                 }
 
@@ -243,7 +243,7 @@ namespace Woodpecker
 
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
-
+            checkMailReceiver(e);
         }
 
         private void checkLoopIsEmpty(FormClosingEventArgs e)
@@ -278,6 +278,15 @@ namespace Woodpecker
                     e.Cancel = true;
                     FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
                 }
+            }
+        }
+
+        private void checkMailReceiver(FormClosingEventArgs e)
+        {
+            if (FormMail.SendMailcheckBox.Checked == true && string.IsNullOrEmpty(FormMail.textBox_To.Text))
+            {
+                e.Cancel = true;
+                FormMail.label_ErrorMessage.Text = "Receiver cannot be empty!";
             }
         }
 
