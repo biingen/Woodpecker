@@ -513,5 +513,13 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "0");
             }
         }
+
+        private void textBox_Schedule1Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

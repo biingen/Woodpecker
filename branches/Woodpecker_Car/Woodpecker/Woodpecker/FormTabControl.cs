@@ -161,23 +161,21 @@ namespace Woodpecker
             {
                 if (Global.FormSetting == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
 
                 if (Global.FormSchedule == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
-
                 e.Cancel = true;
             }
 
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
-
         }
 
         private void checkLoopIsEmpty(FormClosingEventArgs e)
