@@ -252,7 +252,6 @@
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Transform.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
