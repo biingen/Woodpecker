@@ -2083,7 +2083,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                         log1_text = string.Concat(log1_text, hexValues);
                         // textBox1.AppendText(hexValues);
@@ -2100,7 +2100,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
 
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log1_text = string.Concat(log1_text, strValues);
                         // textBox1.AppendText(strValues);
                     }
@@ -2283,7 +2283,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
@@ -2298,7 +2298,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
@@ -2339,7 +2339,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
@@ -2354,7 +2354,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
@@ -2395,7 +2395,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
@@ -2410,7 +2410,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
@@ -2451,7 +2451,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
@@ -2466,7 +2466,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
