@@ -975,7 +975,7 @@ namespace Woodpecker
 
         private void textBox_ImagePath_TextChanged(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox_ImagePath.Text.Trim()) == true)
+            if (Directory.Exists(textBox_ImagePath.Text.Trim()) == true && textBox_ImagePath.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Record", "VideoPath", textBox_ImagePath.Text.Trim());
                 pictureBox_ImagePath.Image = null;
@@ -988,7 +988,7 @@ namespace Woodpecker
 
         private void textBox_LogPath_TextChanged(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox_LogPath.Text.Trim()) == true)
+            if (Directory.Exists(textBox_LogPath.Text.Trim()) == true && textBox_LogPath.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Record", "LogPath", textBox_LogPath.Text.Trim());
                 pictureBox_LogPath.Image = null;
@@ -1001,7 +1001,7 @@ namespace Woodpecker
 
         private void textBox_GeneratorPath_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_GeneratorPath.Text.Trim()) == true)
+            if (File.Exists(textBox_GeneratorPath.Text.Trim()) == true && textBox_GeneratorPath.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Record", "Generator", textBox_GeneratorPath.Text.Trim());
                 pictureBox_GeneratorPath.Image = null;
@@ -1014,7 +1014,7 @@ namespace Woodpecker
 
         private void textBox_DosPath_TextChanged(object sender, EventArgs e)
         {
-            if (Directory.Exists(textBox_DosPath.Text.Trim()) == true)
+            if (Directory.Exists(textBox_DosPath.Text.Trim()) == true && textBox_DosPath.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Device", "DOS", textBox_DosPath.Text.Trim());
                 pictureBox_DosPath.Image = null;

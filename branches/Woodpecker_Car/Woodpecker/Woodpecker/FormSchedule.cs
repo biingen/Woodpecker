@@ -220,7 +220,7 @@ namespace Woodpecker
 
         private void textBox_Schedule1_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_Schedule1.Text.Trim()) == true)
+            if (File.Exists(textBox_Schedule1.Text.Trim()) == true && textBox_Schedule1.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Schedule1", "Path", textBox_Schedule1.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule1", "Exist", "1");
@@ -283,7 +283,7 @@ namespace Woodpecker
 
         private void textBox_Schedule2_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_Schedule2.Text.Trim()) == true)
+            if (File.Exists(textBox_Schedule2.Text.Trim()) == true && textBox_Schedule2.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Schedule2", "Path", textBox_Schedule2.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", "1");
@@ -345,7 +345,7 @@ namespace Woodpecker
 
         private void textBox_Schedule3_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_Schedule3.Text.Trim()) == true)
+            if (File.Exists(textBox_Schedule3.Text.Trim()) == true && textBox_Schedule3.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Schedule3", "Path", textBox_Schedule3.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "1");
@@ -407,7 +407,7 @@ namespace Woodpecker
 
         private void textBox_Schedule4_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_Schedule4.Text.Trim()) == true)
+            if (File.Exists(textBox_Schedule4.Text.Trim()) == true && textBox_Schedule4.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Schedule4", "Path", textBox_Schedule4.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "1");
@@ -469,7 +469,7 @@ namespace Woodpecker
 
         private void textBox_Schedule5_TextChanged(object sender, EventArgs e)
         {
-            if (File.Exists(textBox_Schedule5.Text.Trim()) == true)
+            if (File.Exists(textBox_Schedule5.Text.Trim()) == true && textBox_Schedule5.Text.Trim() != @"\")
             {
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Path", textBox_Schedule5.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "1");
