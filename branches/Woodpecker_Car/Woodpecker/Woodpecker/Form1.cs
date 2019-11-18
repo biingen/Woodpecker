@@ -2977,28 +2977,6 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- Audio Debounce --
-                        else if (columns_command == "_audio_debounce")
-                        {
-                            Console.WriteLine("Audio Detect: _audio_debounce");
-                            bool Debounce_Time_PB1, Debounce_Time_PB7;
-                            if (columns_interval != "")
-                            {
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
-                                Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
-                                Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
-                            }
-                            else
-                            {
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
-                                Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
-                                Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
-                            }
-                        }
-                        #endregion
-
                         #region -- Remark --
                         if (columns_remark != "")
                         {
@@ -3422,7 +3400,6 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_IO_Output");
             RCDB.Items.Add("_IO_Input");
-            RCDB.Items.Add("_audio_debounce");
             RCDB.Items.Add("_Pin");
             RCDB.Items.Add("------------------------");
         }
