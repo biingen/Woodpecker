@@ -187,6 +187,7 @@
             this.textBox_Schedule5Loop.TabIndex = 75;
             this.textBox_Schedule5Loop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_Schedule5Loop.TextChanged += new System.EventHandler(this.textBox_Schedule5Loop_TextChanged);
+            this.textBox_Schedule5Loop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Schedule5Loop_KeyPress);
             // 
             // textBox_Schedule4Loop
             // 
@@ -200,6 +201,7 @@
             this.textBox_Schedule4Loop.TabIndex = 74;
             this.textBox_Schedule4Loop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_Schedule4Loop.TextChanged += new System.EventHandler(this.textBox_Schedule4Loop_TextChanged);
+            this.textBox_Schedule4Loop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Schedule4Loop_KeyPress);
             // 
             // textBox_Schedule3Loop
             // 
@@ -213,6 +215,7 @@
             this.textBox_Schedule3Loop.TabIndex = 73;
             this.textBox_Schedule3Loop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_Schedule3Loop.TextChanged += new System.EventHandler(this.textBox_Schedule3Loop_TextChanged);
+            this.textBox_Schedule3Loop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Schedule3Loop_KeyPress);
             // 
             // textBox_Schedule2Loop
             // 
@@ -226,6 +229,7 @@
             this.textBox_Schedule2Loop.TabIndex = 72;
             this.textBox_Schedule2Loop.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textBox_Schedule2Loop.TextChanged += new System.EventHandler(this.textBox_Schedule2Loop_TextChanged);
+            this.textBox_Schedule2Loop.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Schedule2Loop_KeyPress);
             // 
             // textBox_Schedule1Loop
             // 
@@ -894,7 +898,6 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker_Sch4;
         private System.Windows.Forms.DateTimePicker dateTimePicker_Sch5;
         private System.Windows.Forms.CheckBox checkBox_FootprintMode;
-        private System.Windows.Forms.Label label_ErrorMessage;
         private System.Windows.Forms.PictureBox pictureBox_Schedule1Loop;
         private System.Windows.Forms.PictureBox pictureBox_Schedule2;
         private System.Windows.Forms.PictureBox pictureBox_Schedule5;
@@ -916,5 +919,6 @@
         internal System.Windows.Forms.TextBox textBox_Schedule3;
         internal System.Windows.Forms.TextBox textBox_Schedule2;
         internal System.Windows.Forms.TextBox textBox_Schedule1;
+        internal System.Windows.Forms.Label label_ErrorMessage;
     }
 }

@@ -811,5 +811,37 @@ namespace Woodpecker
                 e.Handled = true;
             }
         }
+
+        private void textBox_Schedule2Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule3Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule4Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule5Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

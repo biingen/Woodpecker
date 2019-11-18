@@ -244,6 +244,15 @@ namespace Woodpecker
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
             checkMailReceiver(e);
+            checkErrorMessage(e);
+        }
+
+        private void checkErrorMessage(FormClosingEventArgs e)
+        {
+            if (FormSetting.label_ErrorMessage.Text != "" || FormSchedule.label_ErrorMessage.Text != "" || FormMail.label_ErrorMessage.Text != "")
+            {
+                MessageBox.Show("Please check if there is any error in Settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void checkLoopIsEmpty(FormClosingEventArgs e)
@@ -259,6 +268,7 @@ namespace Woodpecker
                 if (String.IsNullOrEmpty(number.schedule.Text) == false && (String.IsNullOrEmpty(number.loop.Text) == true || number.loop.Text == "0"))
                 {
                     e.Cancel = true;
+                    FormSchedule.label_ErrorMessage.Text = "Please enter loop number!";
                 }
             }
         }
