@@ -1264,7 +1264,7 @@ namespace Woodpecker
             Global.Break_Out_Schedule = 0;
             Global.Pass_Or_Fail = "PASS";
 
-            label_TestTime_Value.Text = "0d 0h 0m 0s";
+            label_TestTime_Value.Text = "0d 0h 0m 0s 0ms";
             TestTime = 0;
 
             for (int j = 1; j < Global.Schedule_Loop + 1; j++)
@@ -1299,6 +1299,7 @@ namespace Woodpecker
                             break;
                         }
 
+                        Schedule_Time();
                         //Console.WriteLine("Datagridview highlight.");
                         GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                         //Console.WriteLine("Datagridview scollbar.");
@@ -3144,6 +3145,7 @@ namespace Woodpecker
             timer1.Stop();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
+            Global.Scheduler_Row = 0;
             setStyle();
         }
         #endregion
@@ -3180,17 +3182,43 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
                     PortA.WriteLine(log_cmd_substring);
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
                     PortB.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
                 }
             }
         }
@@ -3237,8 +3265,8 @@ namespace Woodpecker
         {
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
 
-            string t = fName + "\\" + "_pvr" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_pvr" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
+            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
 
             if (!capture.Cued)
                 capture.Filename = t;
@@ -3441,6 +3469,11 @@ namespace Woodpecker
             }
         }
 
+        private DateTime startTime;
+        long delayTime = 0;
+        long repeatTime = 0;
+        long timeCountUpdated = 0;
+
         private void StartBtn_Click(object sender, EventArgs e)
         {
             byte[] val = new byte[2];
@@ -3460,6 +3493,9 @@ namespace Woodpecker
             Global.IO_PB7_0_COUNT = 0;
             Global.IO_PB7_1_COUNT = 0;
 
+            delayTime = 0;
+            repeatTime = 0;
+
             AutoBox_Status = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1" ? true : false;
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -3472,6 +3508,8 @@ namespace Woodpecker
             }
 
             Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
+
+            startTime = DateTime.Now;
 
             if (AutoBox_Status)//如果電腦有接上Autokit//
             {
@@ -3851,6 +3889,7 @@ namespace Woodpecker
             button_Schedule5.Enabled = false;
             ReadSch();
         }
+
         private void ReadSch()
         {
             // Console.WriteLine(Global.Schedule_Num);
@@ -3876,28 +3915,10 @@ namespace Woodpecker
                     i++;
                 }
                 objReader.Close();
-            }
-            else if (IsFileLocked(SchedulePath))
-            {
-                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload schedule.", "Error");
-                button_Start.Enabled = false;
-                button_Schedule1.PerformClick();
-            }
-            else
-            {
-                button_Start.Enabled = false;
-                button_Schedule1.PerformClick();
-            }
-
-
-
-            if (TextLine != "")
-            {
                 int j = Int32.Parse(TextLine.Split(',').Length.ToString());
-
                 if ((j == 11 || j == 10))
                 {
-                    long TotalDelay = 0;        //計算各個schedule測試時間>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                    long TotalDelay = 0;        //計算各個schedule測試時間
                     long RepeatTime = 0;
                     button_Start.Enabled = true;
                     for (int z = 0; z < DataGridView_Schedule.Rows.Count - 1; z++)
@@ -3909,51 +3930,65 @@ namespace Woodpecker
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
                             TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
+
                             RepeatTime = 0;
                         }
-                    }       //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+                    }
 
                     if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") == "1")
                     {
-                        ConvertToRealTime(((TotalDelay * Global.Schedule_Loop) + 63000) / 1000);
+                        ConvertToRealTime(((TotalDelay * Global.Schedule_Loop) + 63000));
                     }
                     else
                     {
-                        ConvertToRealTime((TotalDelay * Global.Schedule_Loop) / 1000);
+                        ConvertToRealTime((TotalDelay * Global.Schedule_Loop));
                     }
 
                     switch (Global.Schedule_Number)
                     {
                         case 1:
-                            Global.Schedule_1_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_1_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_1_TestTime;
                             break;
                         case 2:
-                            Global.Schedule_2_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_2_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_2_TestTime;
                             break;
                         case 3:
-                            Global.Schedule_3_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_3_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_3_TestTime;
                             break;
                         case 4:
-                            Global.Schedule_4_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_4_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_4_TestTime;
                             break;
                         case 5:
-                            Global.Schedule_5_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_5_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_5_TestTime;
                             break;
-                    }       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+                    }
                 }
                 else
                 {
                     button_Start.Enabled = false;
-                    MessageBox.Show("Schedule format error! Please check your .csv file.", "File Format Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please check your .csv file format.", "Schedule format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (IsFileLocked(SchedulePath))
+            {
+                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload the schedule.", "File lock error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+            else
+            {
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+
             setStyle();
         }
+    
         #endregion
 
         public static bool IsFileLocked(string file)
@@ -3977,29 +4012,13 @@ namespace Woodpecker
         }
 
         #region -- 測試時間 --
-        private string ConvertToRealTime(long iMs)
+        private string ConvertToRealTime(long ms)
         {
-            long ms, s, h, d = new int();
-            ms = 0; s = 0; h = 0; d = 0;
             string sResult = "";
             try
             {
-                ms = iMs % 60;
-                if (iMs >= 60)
-                {
-                    s = iMs / 60;
-                    if (s >= 60)
-                    {
-                        h = s / 60;
-                        s = s % 60;
-                        if (h >= 24)
-                        {
-                            d = (h) / 24;
-                            h = h % 24;
-                        }
-                    }
-                }
-                label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
+                TimeSpan finishTime = TimeSpan.FromMilliseconds(ms);
+                label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms"));
             }
             catch
             {
@@ -4084,36 +4103,52 @@ namespace Woodpecker
             }
         }
 
-        private void Timer1_Tick_1(object sender, EventArgs e)
+        private void Schedule_Time()        //Estimated schedule time
         {
-            timer1.Interval = 1000;
-
             if (timeCount > 0)
             {
-                label_ScheduleTime_Value.Text = (--timeCount).ToString();
-                ConvertToRealTime(timeCount);
-            }
-
-            TestTime++;
-            long ms, s, h, d = new int();
-            ms = 0; s = 0; h = 0; d = 0;
-
-            ms = TestTime % 60;
-            if (TestTime >= 60)
-            {
-                s = TestTime / 60;
-                if (s >= 60)
+                if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    h = s / 60;
-                    s = s % 60;
-                    if (h >= 24)
+                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "")
                     {
-                        d = (h) / 24;
-                        h = h % 24;
+                        repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
+                    delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+                    if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
+                    {
+                        timeCountUpdated = timeCount - delayTime;
+                        ConvertToRealTime(timeCountUpdated);
+                    }
+                    else
+                    {
+                        timeCountUpdated = timeCountUpdated - delayTime;
+                        ConvertToRealTime(timeCountUpdated);
+                    }
+                    repeatTime = 0;
                 }
             }
-            label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
+        }
+
+        private void Timer1_Tick_1(object sender, EventArgs e)
+        {
+
+            timer1.Interval = 500;
+            TimeSpan timeElapsed = DateTime.Now - startTime;
+
+            /*
+            if (timeCount > 0)
+            {
+                if (Convert.ToInt64(timeElapsed.TotalMilliseconds) <= timeCount)
+                {
+                    ConvertToRealTime(timeCount - Convert.ToInt64(timeElapsed.TotalMilliseconds));
+                }
+                else
+                {
+                    ConvertToRealTime(0);
+                }
+            }*/
+
+            label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = timeElapsed.Days.ToString("0") + "d " + timeElapsed.Hours.ToString("0") + "h " + timeElapsed.Minutes.ToString("0") + "m " + timeElapsed.Seconds.ToString("0") + "s " + timeElapsed.Milliseconds.ToString("0") + "ms"));
         }
 
         static List<USBDeviceInfo> GetUSBDevices()
