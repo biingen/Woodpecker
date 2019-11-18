@@ -7662,17 +7662,43 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
                     PortA.WriteLine(log_cmd_substring);
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
                     PortB.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
                 }
             }
         }
@@ -7721,31 +7747,54 @@ namespace Woodpecker
                     MessageBox.Show("Please enable Mail Function in Settings.");
                 }
             }
-            else if (columns_serial == "_savelog1")
+            else if (columns_serial.Substring(0, 7) == "_savelog")
             {
                 string fName = "";
-
                 fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log1_text);
-                MYFILE.Close();
-                Txtbox1("", textBox_serial);
-                label_Command.Text = "KEYWORD_SAVELOG1";
-            }
-            else if (columns_serial == "_savelog2")
-            {
-                string fName = "";
-
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log2_text);
-                MYFILE.Close();
-                Txtbox2("", textBox_serial);
-                label_Command.Text = "KEYWORD_SAVELOG2";
+                String savelog_serialport = columns_serial.Substring(9, 1);
+                if (savelog_serialport == "A")
+                {
+                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log1_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "B")
+                {
+                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log2_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "C")
+                {
+                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log3_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "D")
+                {
+                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log4_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "E")
+                {
+                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log5_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "O")
+                {
+                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(logAll_text);
+                    MYFILE.Close();
+                }
+                label_Command.Text = "KEYWORD_SAVELOG";
             }
             else if (columns_serial.Substring(0, 3) == "_rc")
             {
@@ -7768,18 +7817,45 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
                     PortA.WriteLine(log_cmd_substring);
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
                     PortB.WriteLine(log_cmd_substring);
                 }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
+                }
+                label_Command.Text = "KEYWORD_LOGCMD";
             }
         }
         #endregion
