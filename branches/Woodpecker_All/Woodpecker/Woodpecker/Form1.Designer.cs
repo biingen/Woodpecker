@@ -112,7 +112,7 @@ namespace Woodpecker
             this.label_ext_board = new System.Windows.Forms.Label();
             this.timer_canbus = new System.Windows.Forms.Timer(this.components);
             this.label_canbus = new System.Windows.Forms.Label();
-            this.button_Copy = new System.Windows.Forms.Button();
+            this.button_Analysis = new System.Windows.Forms.Button();
             this.timer_kline = new System.Windows.Forms.Timer(this.components);
             this.button_Start = new System.Windows.Forms.Button();
             this.pictureBox_canbus = new System.Windows.Forms.PictureBox();
@@ -1138,20 +1138,19 @@ namespace Woodpecker
             this.label_canbus.TabIndex = 102;
             this.label_canbus.Text = "CAN_bus";
             // 
-            // button_Copy
+            // button_Analysis
             // 
-            this.button_Copy.BackColor = System.Drawing.Color.Transparent;
-            this.button_Copy.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_Copy.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_Copy.ForeColor = System.Drawing.Color.Black;
-            this.button_Copy.Location = new System.Drawing.Point(1006, 357);
-            this.button_Copy.Name = "button_Copy";
-            this.button_Copy.Size = new System.Drawing.Size(79, 30);
-            this.button_Copy.TabIndex = 109;
-            this.button_Copy.Text = "Copy Log";
-            this.button_Copy.UseVisualStyleBackColor = false;
-            this.button_Copy.Visible = false;
-            this.button_Copy.Click += new System.EventHandler(this.Button_Copy_Click);
+            this.button_Analysis.BackColor = System.Drawing.SystemColors.Control;
+            this.button_Analysis.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button_Analysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Analysis.ForeColor = System.Drawing.Color.White;
+            this.button_Analysis.Location = new System.Drawing.Point(996, 490);
+            this.button_Analysis.Name = "button_Analysis";
+            this.button_Analysis.Size = new System.Drawing.Size(86, 30);
+            this.button_Analysis.TabIndex = 109;
+            this.button_Analysis.Text = "Log Analysis";
+            this.button_Analysis.UseVisualStyleBackColor = false;
+            this.button_Analysis.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
             // 
@@ -1305,9 +1304,9 @@ namespace Woodpecker
             this.button_savelog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
             this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_savelog.ForeColor = System.Drawing.Color.White;
-            this.button_savelog.Location = new System.Drawing.Point(1009, 490);
+            this.button_savelog.Location = new System.Drawing.Point(996, 453);
             this.button_savelog.Name = "button_savelog";
-            this.button_savelog.Size = new System.Drawing.Size(76, 31);
+            this.button_savelog.Size = new System.Drawing.Size(86, 31);
             this.button_savelog.TabIndex = 112;
             this.button_savelog.Text = "Save Log";
             this.button_savelog.UseVisualStyleBackColor = false;
@@ -1318,9 +1317,9 @@ namespace Woodpecker
             this.comboBox_savelog.BackColor = System.Drawing.SystemColors.Window;
             this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
-            this.comboBox_savelog.Location = new System.Drawing.Point(1009, 461);
+            this.comboBox_savelog.Location = new System.Drawing.Point(996, 423);
             this.comboBox_savelog.Name = "comboBox_savelog";
-            this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
+            this.comboBox_savelog.Size = new System.Drawing.Size(86, 24);
             this.comboBox_savelog.TabIndex = 111;
             // 
             // DataGridView_Schedule
@@ -1492,7 +1491,7 @@ namespace Woodpecker
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
-            this.Controls.Add(this.button_Copy);
+            this.Controls.Add(this.button_Analysis);
             this.Controls.Add(this.label_canbus);
             this.Controls.Add(this.pictureBox_canbus);
             this.Controls.Add(this.label_ext_board);
@@ -1672,7 +1671,7 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer_canbus;
         private System.Windows.Forms.Label label_canbus;
         private System.Windows.Forms.PictureBox pictureBox_canbus;
-        private System.Windows.Forms.Button button_Copy;
+        private System.Windows.Forms.Button button_Analysis;
         private System.Windows.Forms.Timer timer_kline;
         private System.Windows.Forms.Button button_savelog;
         private System.IO.Ports.SerialPort PortD;
