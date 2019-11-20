@@ -631,6 +631,7 @@
             this.checkBox_FootprintMode.TabIndex = 117;
             this.checkBox_FootprintMode.Text = "Footprint mode";
             this.checkBox_FootprintMode.UseVisualStyleBackColor = true;
+            this.checkBox_FootprintMode.Visible = false;
             this.checkBox_FootprintMode.CheckedChanged += new System.EventHandler(this.checkBoxFootprintMode_CheckedChanged);
             // 
             // label_ErrorMessage
@@ -778,6 +779,7 @@
             this.checkBox_ScheduleAutoStart.TabIndex = 130;
             this.checkBox_ScheduleAutoStart.Text = "Schedules start automatically";
             this.checkBox_ScheduleAutoStart.UseVisualStyleBackColor = true;
+            this.checkBox_ScheduleAutoStart.Visible = false;
             this.checkBox_ScheduleAutoStart.CheckedChanged += new System.EventHandler(this.checkBox_ScheduleAutoStart_CheckedChanged);
             // 
             // FormSchedule

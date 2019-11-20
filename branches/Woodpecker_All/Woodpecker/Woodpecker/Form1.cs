@@ -4712,8 +4712,6 @@ namespace Woodpecker
                 {
                     for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
                     {
-                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
-
                         //Schedule All columns list
                         string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
                         string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
@@ -4725,6 +4723,8 @@ namespace Woodpecker
                         string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
                         string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString();
                         string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString();
+
+                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
 

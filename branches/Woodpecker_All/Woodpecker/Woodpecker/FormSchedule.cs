@@ -169,15 +169,13 @@ namespace Woodpecker
                 {
                     checkBox_Similarity.Checked = true;
                     comboBox_Similarity.Enabled = true;
-                    if (comboBox_Similarity.SelectedItem != null)
-                    {
-                        comboBox_Similarity.Text = (100 - int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", ""))).ToString() + "%";
-                    }
+                    comboBox_Similarity.Text = (100 - int.Parse(ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", ""))).ToString() + "%";
                 }
                 else
                 {
                     checkBox_Similarity.Checked = false;
                     comboBox_Similarity.Enabled = false;
+                    comboBox_Similarity.Text = "0%";
                 }
             }
             else

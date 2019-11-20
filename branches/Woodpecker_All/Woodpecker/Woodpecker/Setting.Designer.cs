@@ -123,6 +123,7 @@
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_BaudRate_Value);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_KlinePort_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_Kline);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_Displayhex);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_BaudRate);
@@ -664,14 +665,13 @@
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(363, 441);
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(274, 87);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
             this.checkBox_Displayhex.TabIndex = 64;
             this.checkBox_Displayhex.Text = "Hex";
             this.checkBox_Displayhex.UseVisualStyleBackColor = true;
-            this.checkBox_Displayhex.Visible = false;
             this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
             // 
             // textBox_RcDbPath
@@ -1074,7 +1074,6 @@
             this.Controls.Add(this.button_LogPath);
             this.Controls.Add(this.button_ImagePath);
             this.Controls.Add(this.button_Save);
-            this.Controls.Add(this.checkBox_Displayhex);
             this.Controls.Add(this.pictureBox_DosPath);
             this.Controls.Add(this.pictureBox_GeneratorPath);
             this.Controls.Add(this.pictureBox_RcDbPath);
