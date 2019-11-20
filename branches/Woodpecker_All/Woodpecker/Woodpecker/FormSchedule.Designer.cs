@@ -884,7 +884,6 @@
         private System.Windows.Forms.CheckBox checkBox_Schedule3;
         private System.Windows.Forms.CheckBox checkBox_Schedule4;
         private System.Windows.Forms.CheckBox checkBox_Schedule5;
-        private System.Windows.Forms.CheckBox checkBox_Similarity;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         internal System.Windows.Forms.ComboBox comboBox_Similarity;
         private System.Windows.Forms.CheckBox checkBox_Timer1;
@@ -920,5 +919,6 @@
         internal System.Windows.Forms.TextBox textBox_Schedule2;
         internal System.Windows.Forms.TextBox textBox_Schedule1;
         internal System.Windows.Forms.Label label_ErrorMessage;
+        internal System.Windows.Forms.CheckBox checkBox_Similarity;
     }
 }

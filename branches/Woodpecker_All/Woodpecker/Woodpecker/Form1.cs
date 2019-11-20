@@ -196,8 +196,8 @@ namespace Woodpecker
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
+            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
             foreach (Button buttonsAll in buttonsList)
             {
@@ -10409,6 +10409,10 @@ namespace Woodpecker
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
         {
+            string fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
+            System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
+
             /*
                         uint canBusStatus;
                         canBusStatus = MYCanReader.Connect();

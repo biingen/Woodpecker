@@ -241,6 +241,7 @@ namespace Woodpecker
                 e.Cancel = true;
             }
 
+            checkSimilarity(e);
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
             checkMailReceiver(e);
@@ -252,6 +253,15 @@ namespace Woodpecker
             if (FormSetting.label_ErrorMessage.Text != "" || FormSchedule.label_ErrorMessage.Text != "" || FormMail.label_ErrorMessage.Text != "")
             {
                 MessageBox.Show("Please check if there is any error in Settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void checkSimilarity(FormClosingEventArgs e)
+        {
+            if (FormSchedule.checkBox_Similarity.Checked == true && FormSchedule.comboBox_Similarity.SelectedItem == null)
+            {
+                e.Cancel = true;
+                FormSchedule.label_ErrorMessage.Text = "Please select the percentage of Similarity!"; ;
             }
         }
 
@@ -286,7 +296,7 @@ namespace Woodpecker
                 if (number.port.Checked == true && number.baudRate.SelectedItem == null)
                 {
                     e.Cancel = true;
-                    FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
+                    FormSetting.label_ErrorMessage.Text = "Please select a proper Baud Rate!";
                 }
             }
         }
