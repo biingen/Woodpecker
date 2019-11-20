@@ -410,12 +410,12 @@ namespace Woodpecker
             {
                 //發送Email
                 MySmtp.Send("'TP_DQA_Test'<tpdqatest@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
-                MessageBox.Show("The Gmail system is normal on the network environment.", "Success");
+                MessageBox.Show("Gmail is working well in your network environment.", "Success");
                 return true;
             }
             catch (Exception)
             {
-                MessageBox.Show("The Gmail system is abnormal on the network environment.", "Connection Error");
+                MessageBox.Show("Gmail server is unreachable in your network environment.", "Connection Error");
                 SendMailcheckBox.Checked = false;
                 GmailcheckBox.Checked = false;
                 return false;
