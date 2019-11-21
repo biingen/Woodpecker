@@ -666,5 +666,6 @@
         internal System.Windows.Forms.TextBox textBox_Schedule2;
         internal System.Windows.Forms.TextBox textBox_Schedule1;
         internal System.Windows.Forms.Label label_ErrorMessage;
+        internal System.Windows.Forms.CheckBox checkBox_Similarity;
     }
 }

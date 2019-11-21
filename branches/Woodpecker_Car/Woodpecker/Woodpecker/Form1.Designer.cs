@@ -241,12 +241,12 @@ namespace Woodpecker
             this.label_FwVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_FwVersion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(102)))), ((int)(((byte)(121)))));
             this.label_FwVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_FwVersion.Location = new System.Drawing.Point(2, 93);
+            this.label_FwVersion.Location = new System.Drawing.Point(2, 94);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.03";
+            this.label_FwVersion.Text = "Ver. 1.0.04";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button_Schedule1
@@ -964,9 +964,9 @@ namespace Woodpecker
             this.button_savelog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(103)))), ((int)(((byte)(179)))));
             this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_savelog.ForeColor = System.Drawing.Color.White;
-            this.button_savelog.Location = new System.Drawing.Point(1009, 490);
+            this.button_savelog.Location = new System.Drawing.Point(996, 453);
             this.button_savelog.Name = "button_savelog";
-            this.button_savelog.Size = new System.Drawing.Size(76, 31);
+            this.button_savelog.Size = new System.Drawing.Size(86, 31);
             this.button_savelog.TabIndex = 112;
             this.button_savelog.Text = "Save Log";
             this.button_savelog.UseVisualStyleBackColor = false;
@@ -977,9 +977,9 @@ namespace Woodpecker
             this.comboBox_savelog.BackColor = System.Drawing.SystemColors.Window;
             this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
-            this.comboBox_savelog.Location = new System.Drawing.Point(1009, 461);
+            this.comboBox_savelog.Location = new System.Drawing.Point(996, 423);
             this.comboBox_savelog.Name = "comboBox_savelog";
-            this.comboBox_savelog.Size = new System.Drawing.Size(76, 24);
+            this.comboBox_savelog.Size = new System.Drawing.Size(86, 24);
             this.comboBox_savelog.TabIndex = 111;
             // 
             // DataGridView_Schedule

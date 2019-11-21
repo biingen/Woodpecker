@@ -113,6 +113,7 @@
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_BaudRate_Value);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_KlinePort_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_Kline);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_Displayhex);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_BaudRate);
@@ -661,7 +662,6 @@
             this.checkBox_Displayhex.TabIndex = 64;
             this.checkBox_Displayhex.Text = "Hex";
             this.checkBox_Displayhex.UseVisualStyleBackColor = true;
-            this.checkBox_Displayhex.Visible = false;
             this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
             // 
             // textBox_LogPath
@@ -955,7 +955,6 @@
             this.Controls.Add(this.button_LogPath);
             this.Controls.Add(this.button_ImagePath);
             this.Controls.Add(this.button_Save);
-            this.Controls.Add(this.checkBox_Displayhex);
             this.Controls.Add(this.pictureBox_DosPath);
             this.Controls.Add(this.pictureBox_GeneratorPath);
             this.Controls.Add(this.pictureBox_LogPath);

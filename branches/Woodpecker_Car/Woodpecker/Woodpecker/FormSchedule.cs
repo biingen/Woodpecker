@@ -20,7 +20,7 @@ namespace Woodpecker
         private void setStyle()
         {
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Schedule1, button_Schedule2, button_Schedule3, button_Schedule4, button_Schedule5};
+            List<Button> buttonsList = new List<Button> { button_Schedule1, button_Schedule2, button_Schedule3, button_Schedule4, button_Schedule5 };
 
             foreach (Button buttonsAll in buttonsList)
             {
@@ -505,7 +505,7 @@ namespace Woodpecker
             //測試完成開始錄影//
             if (checkBox_VideoRecord.Checked == true)
             {
-                
+
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "1");
             }
             else
@@ -524,7 +524,7 @@ namespace Woodpecker
 
         private void textBox_Schedule2Loop_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
             {
                 e.Handled = true;
             }
@@ -532,7 +532,7 @@ namespace Woodpecker
 
         private void textBox_Schedule3Loop_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
             {
                 e.Handled = true;
             }

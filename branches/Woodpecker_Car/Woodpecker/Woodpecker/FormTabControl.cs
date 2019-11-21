@@ -218,7 +218,7 @@ namespace Woodpecker
                 if (number.port.Checked == true && number.baudRate.SelectedItem == null)
                 {
                     e.Cancel = true;
-                    FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
+                    FormSetting.label_ErrorMessage.Text = "Please select a proper Baud Rate!";
                 }
             }
         }
