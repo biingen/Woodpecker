@@ -9236,6 +9236,36 @@ namespace Woodpecker
             button_Schedule5.Enabled = false;
             ReadSch();
         }
+
+        List<byte> hexCommandList = new List<byte> { };
+        int hexCount = 0;
+        private void PreProcess()
+        {
+            hexCount++;
+            //Pre-processing
+            string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
+            string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
+            if (columns_command == "_HEX")
+            {
+                byte[] bytes = { };
+                if (columns_serial != "_save" && columns_serial != "_clear" && columns_serial != "")
+                {
+                    string hexValues = columns_serial;
+                    string[] hexValuesSplit = hexValues.Split(' ');
+                    int index = 0;
+                    bytes = new byte[hexValuesSplit.Count()];
+                    foreach (string hex in hexValuesSplit)
+                    {
+                        // Convert the number expressed in base-16 to an integer.
+                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                        // Get the character corresponding to the integral value.
+                        bytes[index++] = number;
+                    }
+                }
+
+            }
+        }
+
         private void ReadSch()
         {
             // Console.WriteLine(Global.Schedule_Num);
