@@ -4713,16 +4713,16 @@ namespace Woodpecker
                     for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
                     {
                         //Schedule All columns list
-                        string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
-                        string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
-                        string columns_interval = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString();
-                        string columns_comport = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString();
-                        string columns_function = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString();
-                        string columns_subFunction = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                        string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-                        string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
-                        string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString();
-                        string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString();
+                        string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Trim();
+                        string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString().Trim();
+                        string columns_interval = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString().Trim();
+                        string columns_comport = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Trim();
+                        string columns_function = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString().Trim();
+                        string columns_subFunction = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Trim();
+                        string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Trim();
+                        string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString().Trim();
+                        string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Trim();
+                        string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
