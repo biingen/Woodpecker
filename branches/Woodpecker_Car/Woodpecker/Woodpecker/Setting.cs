@@ -73,11 +73,6 @@ namespace Woodpecker
             }
         }
 
-        private void button_RcDbPath_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_GeneratorPath_Click(object sender, EventArgs e)
         {
             // Generator Command Path

@@ -3290,9 +3290,13 @@ namespace Woodpecker
                 }
 
                 int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+                int saud = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "")) != 0)
+                    saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
                 int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-                int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+                int AudioNum = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "")) != 0)
+                    AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
                     filters.AudioInputDevices.Count < AudioNum)
@@ -3659,6 +3663,27 @@ namespace Woodpecker
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                 }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
+                    {
+                        ConnectAutoBox2();
+                    }
+
+                    pictureBox_BlueRat.Image = Properties.Resources.ON;
+                    GP0_GP1_AC_ON();
+                    GP2_GP3_USB_PC();
+                }
+                else
+                {
+                    pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                    button_AcUsb.Enabled = false;
+                }
+
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
                 {
