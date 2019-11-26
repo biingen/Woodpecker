@@ -157,6 +157,7 @@ namespace Woodpecker
         private void Setting_Load(object sender, EventArgs e)
         {
             checkCamera();
+            checkAutokit();
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
@@ -551,6 +552,65 @@ namespace Woodpecker
             }
         }
 
+        private void checkAutokit()
+        {
+            ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
+            ManagementObjectCollection collection = search.Get();
+            var usbList = from u in collection.Cast<ManagementBaseObject>()
+                          select new
+                          {
+                              id = u.GetPropertyValue("DeviceID"),
+                              name = u.GetPropertyValue("Name"),
+                              description = u.GetPropertyValue("Description"),
+                              status = u.GetPropertyValue("Status"),
+                              system = u.GetPropertyValue("SystemName"),
+                              caption = u.GetPropertyValue("Caption"),
+                              pnp = u.GetPropertyValue("PNPDeviceID"),
+                          };
+
+            foreach (var usbDevice in usbList)
+            {
+                string deviceId = (string)usbDevice.id;
+                string deviceTp = (string)usbDevice.name;
+                string deviecDescription = (string)usbDevice.description;
+
+                string deviceStatus = (string)usbDevice.status;
+                string deviceSystem = (string)usbDevice.system;
+                string deviceCaption = (string)usbDevice.caption;
+                string devicePnp = (string)usbDevice.pnp;
+
+                if (deviecDescription != null)
+                {
+                    if (deviceId.IndexOf("&0&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                deviceId.IndexOf("USB\\VID_067B&PID_2303\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------AutoBox2------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        int FirstIndex = deviceTp.IndexOf("(");
+                        string AutoBoxPortSubstring = deviceTp.Substring(FirstIndex + 1);
+                        string AutoBoxPort = AutoBoxPortSubstring.Substring(0);
+
+                        int AutoBoxPortLengh = AutoBoxPort.Length;
+                        string AutoBoxPortFinal = AutoBoxPort.Remove(AutoBoxPortLengh - 1);
+
+                        if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
+                        {
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                        }
+                    }
+                }
+            }
+        }
 
         //自動調整ComboBox寬度
         private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
