@@ -8278,9 +8278,13 @@ namespace Woodpecker
                 }
 
                 int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+                int saud = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "")) != 0)
+                    saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
                 int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-                int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+                int AudioNum = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "")) != 0)
+                    AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
                     filters.AudioInputDevices.Count < AudioNum)
@@ -8969,6 +8973,26 @@ namespace Woodpecker
                 else
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
+                    {
+                        ConnectAutoBox2();
+                    }
+
+                    pictureBox_BlueRat.Image = Properties.Resources.ON;
+                    GP0_GP1_AC_ON();
+                    GP2_GP3_USB_PC();
+                }
+                else
+                {
+                    pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                    button_AcUsb.Enabled = false;
                 }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
@@ -10159,78 +10183,7 @@ namespace Woodpecker
 
         private void DataGridView_Schedule_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            FormScriptHelper formScriptHelper = new FormScriptHelper();
-            formScriptHelper.Owner = this;
 
-
-            try
-            {
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Picture" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
-
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
-
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
-                {
-                    formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
-                    formScriptHelper.ShowDialog();
-
-                    DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
-                                          DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
-                    DataGridView_Schedule.RefreshEdit();
-                }
-
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
-                {
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
-                    {
-                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
-                        formScriptHelper.ShowDialog();
-
-                        DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
-                                              DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
-                        DataGridView_Schedule.RefreshEdit();
-                    }
-
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
-                    {
-                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
-                        targetColumn.MaxInputLength = 8;
-                    }
-
-                    if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
-                    {
-                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
-                        targetColumn.MaxInputLength = 9;
-                    }
-                }
-                strValue = "";
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error);
-            }
 
         }
 
@@ -10402,6 +10355,84 @@ namespace Woodpecker
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                }
+            }
+        }
+
+        private void DataGridView_Schedule_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                FormScriptHelper formScriptHelper = new FormScriptHelper();
+                formScriptHelper.Owner = this;
+
+                try
+                {
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Picture" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
+                    {
+                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
+                        formScriptHelper.ShowDialog();
+
+                        DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
+                                              DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
+                        DataGridView_Schedule.RefreshEdit();
+                    }
+
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
+                    {
+                        if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
+                        {
+                            formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
+                            formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
+                            formScriptHelper.ShowDialog();
+
+                            DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
+                                                  DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
+                            DataGridView_Schedule.RefreshEdit();
+                        }
+
+                        if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
+                        {
+                            DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                            targetColumn.MaxInputLength = 8;
+                        }
+
+                        if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
+                        {
+                            DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                            targetColumn.MaxInputLength = 9;
+                        }
+                    }
+                    strValue = "";
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error);
                 }
             }
         }

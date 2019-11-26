@@ -128,7 +128,10 @@ namespace Woodpecker
             MailMessage msg = new MailMessage();
 
             msg.To.Add(string.Join(",", MailList.ToArray()));       //收件者，以逗號分隔不同收件者
-            msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
+            if (ini12.INIRead(MailPath, "Mail Info", "From", "") != "")
+                msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
+            else
+                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA", System.Text.Encoding.UTF8);
             msg.Subject = Subject;      //郵件標題 
             msg.SubjectEncoding = System.Text.Encoding.UTF8;        //郵件標題編碼  
             msg.Body = Body;        //郵件內容

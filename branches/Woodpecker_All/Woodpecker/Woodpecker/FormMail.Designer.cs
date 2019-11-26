@@ -251,6 +251,7 @@
             // 
             // textBox_TestCase1
             // 
+            this.textBox_TestCase1.Enabled = false;
             this.textBox_TestCase1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_TestCase1.Location = new System.Drawing.Point(88, 31);
             this.textBox_TestCase1.Margin = new System.Windows.Forms.Padding(2);
@@ -272,6 +273,7 @@
             // 
             // textBox_TestCase2
             // 
+            this.textBox_TestCase2.Enabled = false;
             this.textBox_TestCase2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_TestCase2.Location = new System.Drawing.Point(88, 62);
             this.textBox_TestCase2.Margin = new System.Windows.Forms.Padding(2);
@@ -282,6 +284,7 @@
             // 
             // textBox_TestCase3
             // 
+            this.textBox_TestCase3.Enabled = false;
             this.textBox_TestCase3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_TestCase3.Location = new System.Drawing.Point(88, 93);
             this.textBox_TestCase3.Margin = new System.Windows.Forms.Padding(2);
@@ -292,6 +295,7 @@
             // 
             // textBox_TestCase4
             // 
+            this.textBox_TestCase4.Enabled = false;
             this.textBox_TestCase4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_TestCase4.Location = new System.Drawing.Point(88, 124);
             this.textBox_TestCase4.Margin = new System.Windows.Forms.Padding(2);
@@ -302,6 +306,7 @@
             // 
             // textBox_TestCase5
             // 
+            this.textBox_TestCase5.Enabled = false;
             this.textBox_TestCase5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_TestCase5.Location = new System.Drawing.Point(88, 155);
             this.textBox_TestCase5.Margin = new System.Windows.Forms.Padding(2);
