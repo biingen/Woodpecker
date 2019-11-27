@@ -596,35 +596,14 @@ namespace Woodpecker
             //照片印上現在步驟//
             if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
             {
-                if (Global.Schedule_Step == 0)
-                {
-                    bitMap_g.DrawString("  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
-                }
-                else
-                {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 120));
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
-                }
-            }
-            else
-            {
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
             }
 
             //照片印上現在時間//
