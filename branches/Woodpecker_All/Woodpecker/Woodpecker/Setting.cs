@@ -702,6 +702,10 @@ namespace Woodpecker
                         }
                     }
                 }
+                else
+                {
+                    ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
+                }
             }
         }
 
