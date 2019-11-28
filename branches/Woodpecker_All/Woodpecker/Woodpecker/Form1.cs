@@ -4723,6 +4723,7 @@ namespace Woodpecker
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
+                u = 0;
 
                 lock (this)
                 {
@@ -5469,7 +5470,7 @@ namespace Woodpecker
                         #region -- Hex --
                         else if (columns_command == "_HEX")
                         {
-                            
+
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
                                 Console.WriteLine("Hex Log: _PortA");
@@ -5496,7 +5497,7 @@ namespace Woodpecker
                                 logAll_text = string.Concat(logAll_text, text);
                             }
 
-                            
+
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
                                 /*
@@ -6478,54 +6479,55 @@ namespace Woodpecker
                             MonkeyTest.CreateExcelFile();
                         }
                         #endregion
+
+                        #region -- Factory Command 控制 --
                         /*
-                                                #region -- Factory Command 控制 --
-                                                else if (columns_command == "_SXP")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                                        columns_serial == "_save")
-                                                    {
-                                                        string fName = "";
+                        else if (columns_command == "_SXP")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
+                                columns_serial == "_save")
+                            {
+                                string fName = "";
 
-                                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                                        string t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                                string t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
 
-                                                        StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                                        MYFILE.WriteLine(textBox2.Text);
-                                                        MYFILE.Close();
+                                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                                MYFILE.WriteLine(textBox2.Text);
+                                MYFILE.Close();
 
-                                                        Txtbox2("", textBox2);
-                                                    }
+                                Txtbox2("", textBox2);
+                            }
 
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                                        columns_serial != "_save")
-                                                    {
-                                                        try
-                                                        {
-                                                            string str = columns_serial;
-                                                            byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                                            label_Command.Text = "(SXP CMD)" + columns_serial;
-                                                            serialPort2.Write(bytes, 0, bytes.Length);
-                                                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                            // DateTime dt = DateTime.Now;
-                                                            // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\r\n";
-                                                            str = str.Replace(" ", "");
-                                                            string text = str + "\r\n";
-                                                            textBox2.AppendText(text);
-                                                        }
-                                                        catch (Exception ex)
-                                                        {
-                                                            Console.WriteLine(ex);
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        MessageBox.Show("Check your SerialPort2 setting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                                                        Global.Break_Out_Schedule = 1;
-                                                    }
-                                                }
-                                                #endregion
-                        */
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
+                                columns_serial != "_save")
+                            {
+                                try
+                                {
+                                    string str = columns_serial;
+                                    byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    label_Command.Text = "(SXP CMD)" + columns_serial;
+                                    serialPort2.Write(bytes, 0, bytes.Length);
+                                    label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                    // DateTime dt = DateTime.Now;
+                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\r\n";
+                                    str = str.Replace(" ", "");
+                                    string text = str + "\r\n";
+                                    textBox2.AppendText(text);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Check your SerialPort2 setting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                                Global.Break_Out_Schedule = 1;
+                            }
+                        }*/
+                        #endregion
+
                         #region -- IO CMD --
                         else if (columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PA" ||
                                  columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PB")
@@ -6733,147 +6735,148 @@ namespace Woodpecker
                             }
                         }
                         #endregion
+
+                        #region -- NI IO Input --
                         /*
-                                                #region -- NI IO Input --
-                                                else if (columns_command.Length >= 13 && columns_command.Substring(0, 11) == "_EXT_Input_")
-                                                {
-                                                    switch (columns_command.Substring(11, 2))
-                                                    {
-                                                        case "P0":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                        else if (columns_command.Length >= 13 && columns_command.Substring(0, 11) == "_EXT_Input_")
+                        {
+                            switch (columns_command.Substring(11, 2))
+                            {
+                                case "P0":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P1":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P1":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P2":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P2":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                    }
-                                                    label_Command.Text = "(" + columns_command + ") " + columns_times;
-                                                }
-                                                #endregion
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                            }
+                            label_Command.Text = "(" + columns_command + ") " + columns_times;
+                        }
+                        #endregion
 
-                                                #region -- NI IO Output --
-                                                else if (columns_command.Length >= 14 && columns_command.Substring(0, 12) == "_EXT_Output_")
-                                                {
-                                                    switch (columns_command.Substring(12, 2))
-                                                    {
-                                                        case "P0":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                        #region -- NI IO Output --
+                        else if (columns_command.Length >= 14 && columns_command.Substring(0, 12) == "_EXT_Output_")
+                        {
+                            switch (columns_command.Substring(12, 2))
+                            {
+                                case "P0":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P1":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P1":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                        case "P2":
-                                                            try
-                                                            {
-                                                                using (Task digitalWriteTask = new Task())
-                                                                {
-                                                                    //  Create an Digital Output channel and name it.
-                                                                    digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                                        ChannelLineGrouping.OneChannelForAllLines);
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                                case "P2":
+                                    try
+                                    {
+                                        using (Task digitalWriteTask = new Task())
+                                        {
+                                            //  Create an Digital Output channel and name it.
+                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
+                                                ChannelLineGrouping.OneChannelForAllLines);
 
-                                                                    //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                                                    //  of digital data on demand, so no timeout is necessary.
-                                                                    DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                                                    writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                                                }
-                                                            }
-                                                            catch (Exception ex)
-                                                            {
-                                                                MessageBox.Show(ex.Message);
-                                                            }
-                                                            break;
-                                                    }
-                                                    label_Command.Text = "(" + columns_command + ") " + columns_times;
-                                                }
-                                                #endregion
-                        */
+                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
+                                            //  of digital data on demand, so no timeout is necessary.
+                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
+                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show(ex.Message);
+                                    }
+                                    break;
+                            }
+                            label_Command.Text = "(" + columns_command + ") " + columns_times;
+                        }*/
+                        #endregion
+
                         #region -- Audio Debounce --
                         else if (columns_command == "_audio_debounce")
                         {

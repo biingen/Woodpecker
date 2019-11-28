@@ -792,11 +792,11 @@ namespace Woodpecker
             this.label_Command.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_Command.ForeColor = System.Drawing.Color.Tomato;
             this.label_Command.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Command.Location = new System.Drawing.Point(534, 561);
+            this.label_Command.Location = new System.Drawing.Point(501, 562);
             this.label_Command.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Command.Name = "label_Command";
             this.label_Command.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label_Command.Size = new System.Drawing.Size(428, 39);
+            this.label_Command.Size = new System.Drawing.Size(461, 39);
             this.label_Command.TabIndex = 45;
             this.label_Command.Text = "~~~~~";
             this.label_Command.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -908,7 +908,7 @@ namespace Woodpecker
             this.label_Remark.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_Remark.ForeColor = System.Drawing.Color.Tomato;
             this.label_Remark.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Remark.Location = new System.Drawing.Point(519, 72);
+            this.label_Remark.Location = new System.Drawing.Point(519, 73);
             this.label_Remark.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Remark.Name = "label_Remark";
             this.label_Remark.RightToLeft = System.Windows.Forms.RightToLeft.No;
