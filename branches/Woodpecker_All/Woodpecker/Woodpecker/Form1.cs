@@ -4715,10 +4715,14 @@ namespace Woodpecker
                         }
 
                         Schedule_Time();
-                        //Console.WriteLine("Datagridview highlight.");
-                        GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                        //Console.WriteLine("Datagridview scollbar.");
-                        Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+
+                        if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                        {
+                            //Console.WriteLine("Datagridview highlight.");
+                            GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                            //Console.WriteLine("Datagridview scollbar.");
+                            Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                        }
 
                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
                             stime = int.Parse(columns_times); // 次數
@@ -5107,90 +5111,91 @@ namespace Woodpecker
                             }
                         }
                         #endregion
+
+                        #region -- COM PORT --
                         /*
-                                                #region -- COM PORT --
-                                                else if (columns_command == "_log1")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox1 = string.empty; //清除textbox1
-                                                                break;
+                        else if (columns_command == "_log1")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                            {
+                                switch (columns_serial)
+                                {
+                                    case "_clear":
+                                        textBox1 = string.empty; //清除textbox1
+                                        break;
 
-                                                            case "_save":
-                                                                Rs232save(); //存檔rs232
-                                                                break;
+                                    case "_save":
+                                        Rs232save(); //存檔rs232
+                                        break;
 
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort1.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox1.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort1.WriteLine(columns_serial); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        textBox1.AppendText(text);
+                                        break;
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                            }
+                        }
 
-                                                else if (columns_command == "_log2")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox2.Clear(); //清除textbox2
-                                                                break;
+                        else if (columns_command == "_log2")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                            {
+                                switch (columns_serial)
+                                {
+                                    case "_clear":
+                                        textBox2.Clear(); //清除textbox2
+                                        break;
 
-                                                            case "_save":
-                                                                ExtRs232save(); //存檔rs232
-                                                                break;
+                                    case "_save":
+                                        ExtRs232save(); //存檔rs232
+                                        break;
 
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort2.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox2.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort2.WriteLine(columns_serial); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        textBox2.AppendText(text);
+                                        break;
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                            }
+                        }
 
-                                                else if (columns_command == "_log3")
-                                                {
-                                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                                                    {
-                                                        switch (columns_serial)
-                                                        {
-                                                            case "_clear":
-                                                                textBox3.Clear(); //清除textbox3
-                                                                break;
+                        else if (columns_command == "_log3")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                            {
+                                switch (columns_serial)
+                                {
+                                    case "_clear":
+                                        textBox3.Clear(); //清除textbox3
+                                        break;
 
-                                                            case "_save":
-                                                                TriRs232save(); //存檔rs232
-                                                                break;
+                                    case "_save":
+                                        TriRs232save(); //存檔rs232
+                                        break;
 
-                                                            default:
-                                                                //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
-                                                                // string str = Convert.ToString(data);
-                                                                serialPort3.WriteLine(columns_serial); //發送數據 Rs232
-                                                                DateTime dt = DateTime.Now;
-                                                                string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
-                                                                textBox3.AppendText(text);
-                                                                break;
-                                                        }
-                                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                                    }
-                                                }
-                                                #endregion
-                        */
+                                    default:
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        // string str = Convert.ToString(data);
+                                        serialPort3.WriteLine(columns_serial); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        textBox3.AppendText(text);
+                                        break;
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                            }
+                        }*/
+                        #endregion
+
                         #region -- Ascii --
                         else if (columns_command == "_ascii")
                         {
@@ -9385,7 +9390,7 @@ namespace Woodpecker
                     button_Start.Enabled = false;
                     MessageBox.Show("Please check your .csv file format.", "Schedule format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-           }
+            }
             else if (IsFileLocked(SchedulePath))
             {
                 MessageBox.Show("Please check your .csv file is closed, then press Settings to reload the schedule.", "File lock error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -9543,6 +9548,11 @@ namespace Woodpecker
                 button_Start.Enabled = false;
                 setStyle();
                 SchedulePause.Reset();
+
+                //Console.WriteLine("Datagridview highlight.");
+                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                //Console.WriteLine("Datagridview scollbar.");
+                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
             {
