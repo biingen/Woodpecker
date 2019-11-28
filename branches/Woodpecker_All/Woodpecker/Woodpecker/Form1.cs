@@ -201,8 +201,8 @@ namespace Woodpecker
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Copy, button_Schedule1, button_Schedule2, button_Schedule3,
+            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
             foreach (Button buttonsAll in buttonsList)
             {
@@ -676,6 +676,7 @@ namespace Woodpecker
         private delegate void UpdateUICallBack1(string value, DataGridView ctl);
         private void GridUI(string i, DataGridView gv)
         {
+            
             if (InvokeRequired)
             {
                 UpdateUICallBack1 uu = new UpdateUICallBack1(GridUI);
@@ -692,6 +693,7 @@ namespace Woodpecker
         private delegate void UpdateUICallBack3(string value, DataGridView ctl);
         private void Gridscroll(string i, DataGridView gv)
         {
+            
             if (InvokeRequired)
             {
                 UpdateUICallBack3 uu = new UpdateUICallBack3(Gridscroll);
@@ -826,35 +828,14 @@ namespace Woodpecker
             //照片印上現在步驟//
             if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
             {
-                if (Global.Schedule_Step == 0)
-                {
-                    bitMap_g.DrawString("  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
-                }
-                else
-                {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 120));
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
-                }
-            }
-            else
-            {
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
             }
 
             //照片印上現在時間//
@@ -2098,7 +2079,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                         log1_text = string.Concat(log1_text, hexValues);
                         // textBox1.AppendText(hexValues);
@@ -2115,7 +2096,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
 
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log1_text = string.Concat(log1_text, strValues);
                         // textBox1.AppendText(strValues);
                     }
@@ -2298,7 +2279,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
@@ -2313,7 +2294,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
@@ -2354,7 +2335,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
@@ -2369,7 +2350,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
@@ -2410,7 +2391,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
@@ -2425,7 +2406,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
@@ -2466,7 +2447,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
@@ -2481,7 +2462,7 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                        strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
@@ -4638,7 +4619,7 @@ namespace Woodpecker
             Global.Break_Out_Schedule = 0;
             Global.Pass_Or_Fail = "PASS";
 
-            label_TestTime_Value.Text = "0d 0h 0m 0s";
+            label_TestTime_Value.Text = "0d 0h 0m 0s 0ms";
             TestTime = 0;
 
             for (int l = 0; l <= Global.Schedule_Loop; l++)
@@ -4729,19 +4710,19 @@ namespace Woodpecker
                 {
                     for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
                     {
-                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
-
                         //Schedule All columns list
-                        string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString();
-                        string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString();
-                        string columns_interval = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString();
-                        string columns_comport = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString();
-                        string columns_function = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString();
-                        string columns_subFunction = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString();
-                        string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-                        string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
-                        string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString();
-                        string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString();
+                        string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Trim();
+                        string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString().Trim();
+                        string columns_interval = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString().Trim();
+                        string columns_comport = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Trim();
+                        string columns_function = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString().Trim();
+                        string columns_subFunction = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Trim();
+                        string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Trim();
+                        string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString().Trim();
+                        string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Trim();
+                        string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString().Trim();
+
+                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
 
@@ -4752,6 +4733,7 @@ namespace Woodpecker
                             break;
                         }
 
+                        Schedule_Time();
                         //Console.WriteLine("Datagridview highlight.");
                         GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                         //Console.WriteLine("Datagridview scollbar.");
@@ -5259,11 +5241,13 @@ namespace Woodpecker
                                 {
                                     PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
+                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
                                 textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
@@ -5293,11 +5277,13 @@ namespace Woodpecker
                                 {
                                     PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
@@ -5327,11 +5313,13 @@ namespace Woodpecker
                                 {
                                     PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
@@ -5361,11 +5349,13 @@ namespace Woodpecker
                                 {
                                     PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
@@ -5395,11 +5385,13 @@ namespace Woodpecker
                                 {
                                     PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (columns_comport == "ALL")
@@ -5463,6 +5455,7 @@ namespace Woodpecker
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
                             }
+
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion
@@ -5487,20 +5480,31 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    string[] hexValuesSplit = hexValues.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
                                     PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                /*
+
                                 Console.WriteLine("Hex Log: _PortB");
                                 if (columns_serial == "_save")
                                 {
@@ -5514,18 +5518,29 @@ namespace Woodpecker
                                          columns_serial != "_clear" &&
                                          columns_serial != "")
                                 {
+                                    /*
                                     string hexValues = columns_serial;
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string[] hexValuesSplit = hexValues.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }*/
+                                    PortB.Write(hexCommandList[u], 0, hexCommandList[u].Length); //發送數據 Rs232
+                                    u++;
                                 }
-                                */
-                                PortB.Write(hexCommandList[u], 0, hexCommandList[u].Length); //發送數據 Rs232
-                                u++;
+
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
@@ -5544,14 +5559,25 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    string[] hexValuesSplit = hexValues.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
                                     PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
@@ -5570,14 +5596,25 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    string[] hexValuesSplit = hexValues.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
                                     PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
@@ -5596,14 +5633,25 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    byte[] bytes = hexValues.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    string[] hexValuesSplit = hexValues.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
                                     PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
                                 }
+                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
+                                */
                             }
 
                             if (columns_comport == "ALL")
@@ -5622,48 +5670,63 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
                                 {
-                                    PortA.Write(serial_content[0]);
+                                    byte[] bytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortA.Write(bytes, 0, bytes.Length);
+                                    /*
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[0] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
-                                    PortB.Write(serial_content[1]);
+                                    byte[] bytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortB.Write(bytes, 0, bytes.Length);
+                                    /*
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[1] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
-                                    PortC.Write(serial_content[2]);
+                                    byte[] bytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortC.Write(bytes, 0, bytes.Length);
+                                    /*
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[2] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
-                                    PortD.Write(serial_content[3]);
+                                    byte[] bytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortD.Write(bytes, 0, bytes.Length);
+                                    /*
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[3] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
-                                    PortE.Write(serial_content[4]);
+                                    byte[] bytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortE.Write(bytes, 0, bytes.Length);
+                                    /*
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                    */
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -7537,6 +7600,7 @@ namespace Woodpecker
             CloseDtplay();
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
+            Global.Scheduler_Row = 0;
             setStyle();
         }
         #endregion
@@ -7605,17 +7669,43 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
                     PortA.WriteLine(log_cmd_substring);
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
                     PortB.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
                 }
             }
         }
@@ -7664,31 +7754,54 @@ namespace Woodpecker
                     MessageBox.Show("Please enable Mail Function in Settings.");
                 }
             }
-            else if (columns_serial == "_savelog1")
+            else if (columns_serial.Substring(0, 7) == "_savelog")
             {
                 string fName = "";
-
                 fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log1_text);
-                MYFILE.Close();
-                Txtbox1("", textBox_serial);
-                label_Command.Text = "KEYWORD_SAVELOG1";
-            }
-            else if (columns_serial == "_savelog2")
-            {
-                string fName = "";
-
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                MYFILE.Write(log2_text);
-                MYFILE.Close();
-                Txtbox2("", textBox_serial);
-                label_Command.Text = "KEYWORD_SAVELOG2";
+                String savelog_serialport = columns_serial.Substring(9, 1);
+                if (savelog_serialport == "A")
+                {
+                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log1_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "B")
+                {
+                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log2_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "C")
+                {
+                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log3_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "D")
+                {
+                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log4_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "E")
+                {
+                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log5_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "O")
+                {
+                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(logAll_text);
+                    MYFILE.Close();
+                }
+                label_Command.Text = "KEYWORD_SAVELOG";
             }
             else if (columns_serial.Substring(0, 3) == "_rc")
             {
@@ -7711,18 +7824,45 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
-                int startIndex = 8;
-                int length = log_cmd.Length - 8;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
                     PortA.WriteLine(log_cmd_substring);
                 }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
                     PortB.WriteLine(log_cmd_substring);
                 }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
+                }
+                label_Command.Text = "KEYWORD_LOGCMD";
             }
         }
         #endregion
@@ -8182,8 +8322,8 @@ namespace Woodpecker
         {
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
 
-            string t = fName + "\\" + "_pvr" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_pvr" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
+            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
 
             if (!capture.Cued)
                 capture.Filename = t;
@@ -8238,9 +8378,13 @@ namespace Woodpecker
                 }
 
                 int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                int saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+                int saud = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "")) != 0)
+                    saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
                 int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-                int AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+                int AudioNum = 0;
+                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "")) != 0)
+                    AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
                     filters.AudioInputDevices.Count < AudioNum)
@@ -8523,6 +8667,10 @@ namespace Woodpecker
             }
         }
 
+        private DateTime startTime;
+        long delayTime = 0;
+        long repeatTime = 0;
+        long timeCountUpdated = 0;
         private void StartBtn_Click(object sender, EventArgs e)
         {
             byte[] val = new byte[2];
@@ -8542,6 +8690,9 @@ namespace Woodpecker
             Global.IO_PB7_0_COUNT = 0;
             Global.IO_PB7_1_COUNT = 0;
 
+            delayTime = 0;
+            repeatTime = 0;
+
             AutoBox_Status = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1" ? true : false;
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -8559,6 +8710,8 @@ namespace Woodpecker
             Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
+
+            startTime = DateTime.Now;
 
             if (AutoBox_Status)//如果電腦有接上AutoBox//
             {
@@ -8921,6 +9074,26 @@ namespace Woodpecker
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                 }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
+                    {
+                        ConnectAutoBox2();
+                    }
+
+                    pictureBox_BlueRat.Image = Properties.Resources.ON;
+                    GP0_GP1_AC_ON();
+                    GP2_GP3_USB_PC();
+                }
+                else
+                {
+                    pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                    button_AcUsb.Enabled = false;
+                }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
@@ -8954,7 +9127,9 @@ namespace Woodpecker
         //系統時間
         private void Timer1_Tick(object sender, EventArgs e)
         {
-
+            DateTime dt = DateTime.Now;
+            TimeLabel.Text = string.Format("{0:R}", dt);            //拍照打印時間
+            TimeLabel2.Text = string.Format("{0:yyyy-MM-dd  HH:mm:ss}", dt);
 
             #region -- schedule timer --
             if (ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "") == "1")
@@ -9308,25 +9483,7 @@ namespace Woodpecker
                     i++;
                 }
                 objReader.Close();
-            }
-            else if (IsFileLocked(SchedulePath))
-            {
-                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload schedule.", "Error");
-                button_Start.Enabled = false;
-                button_Schedule1.PerformClick();
-            }
-            else
-            {
-                button_Start.Enabled = false;
-                button_Schedule1.PerformClick();
-            }
-
-
-
-            if (TextLine != "")
-            {
                 int j = Int32.Parse(TextLine.Split(',').Length.ToString());
-
                 if ((j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間
@@ -9342,39 +9499,40 @@ namespace Woodpecker
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
                             TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
+
                             RepeatTime = 0;
                         }
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") == "1")
                     {
-                        ConvertToRealTime(((TotalDelay * Global.Schedule_Loop) + 63000) / 1000);
+                        ConvertToRealTime(((TotalDelay * Global.Schedule_Loop) + 63000));
                     }
                     else
                     {
-                        ConvertToRealTime((TotalDelay * Global.Schedule_Loop) / 1000);
+                        ConvertToRealTime((TotalDelay * Global.Schedule_Loop));
                     }
 
                     switch (Global.Schedule_Number)
                     {
                         case 1:
-                            Global.Schedule_1_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_1_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_1_TestTime;
                             break;
                         case 2:
-                            Global.Schedule_2_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_2_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_2_TestTime;
                             break;
                         case 3:
-                            Global.Schedule_3_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_3_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_3_TestTime;
                             break;
                         case 4:
-                            Global.Schedule_4_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_4_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_4_TestTime;
                             break;
                         case 5:
-                            Global.Schedule_5_TestTime = (TotalDelay * Global.Schedule_Loop) / 1000;
+                            Global.Schedule_5_TestTime = (TotalDelay * Global.Schedule_Loop);
                             timeCount = Global.Schedule_5_TestTime;
                             break;
                     }
@@ -9382,9 +9540,21 @@ namespace Woodpecker
                 else
                 {
                     button_Start.Enabled = false;
-                    MessageBox.Show("Schedule format error! Please check your .csv file.", "File Format Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Please check your .csv file format.", "Schedule format error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            else if (IsFileLocked(SchedulePath))
+            {
+                MessageBox.Show("Please check your .csv file is closed, then press Settings to reload the schedule.", "File lock error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+            else
+            {
+                button_Start.Enabled = false;
+                button_Schedule1.PerformClick();
+            }
+
             setStyle();
         }
         #endregion
@@ -9410,51 +9580,34 @@ namespace Woodpecker
         }
 
         #region -- 測試時間 --
-        private string ConvertToRealTime(long iMs)
+        private string ConvertToRealTime(long ms)
         {
-            long ms, s, h, d = new int();
-            ms = 0; s = 0; h = 0; d = 0;
             string sResult = "";
             try
             {
-                ms = iMs % 60;
-                if (iMs >= 60)
-                {
-                    s = iMs / 60;
-                    if (s >= 60)
-                    {
-                        h = s / 60;
-                        s = s % 60;
-                        if (h >= 24)
-                        {
-                            d = (h) / 24;
-                            h = h % 24;
-                        }
-                    }
-                }
-                label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
-                //label_ScheduleTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-                ini12.INIWrite(MailPath, "Total Test Time", "value", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                TimeSpan finishTime = TimeSpan.FromMilliseconds(ms);
+                label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms"));
+                ini12.INIWrite(MailPath, "Total Test Time", "value", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
 
                 // 寫入每個Schedule test time
                 if (Global.Schedule_Number == 1)
-                    ini12.INIWrite(MailPath, "Total Test Time", "value1", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                    ini12.INIWrite(MailPath, "Total Test Time", "value1", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
 
                 if (StartButtonPressed == true)
                 {
                     switch (Global.Schedule_Number)
                     {
                         case 2:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value2", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            ini12.INIWrite(MailPath, "Total Test Time", "value2", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
                             break;
                         case 3:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value3", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            ini12.INIWrite(MailPath, "Total Test Time", "value3", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
                             break;
                         case 4:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value4", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            ini12.INIWrite(MailPath, "Total Test Time", "value4", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
                             break;
                         case 5:
-                            ini12.INIWrite(MailPath, "Total Test Time", "value5", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+                            ini12.INIWrite(MailPath, "Total Test Time", "value5", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
                             break;
                     }
                 }
@@ -9558,38 +9711,54 @@ namespace Woodpecker
             }
         }
 
-        private void Timer1_Tick_1(object sender, EventArgs e)
+        private void Schedule_Time()        //Estimated schedule time
         {
-            timer1.Interval = 1000;
-
             if (timeCount > 0)
             {
-                label_ScheduleTime_Value.Text = (--timeCount).ToString();
-                ConvertToRealTime(timeCount);
-            }
-
-            TestTime++;
-            long ms, s, h, d = new int();
-            ms = 0; s = 0; h = 0; d = 0;
-
-            ms = TestTime % 60;
-            if (TestTime >= 60)
-            {
-                s = TestTime / 60;
-                if (s >= 60)
+                if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    h = s / 60;
-                    s = s % 60;
-                    if (h >= 24)
+                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "")
                     {
-                        d = (h) / 24;
-                        h = h % 24;
+                        repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
+                    delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+                    if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
+                    {
+                        timeCountUpdated = timeCount - delayTime;
+                        ConvertToRealTime(timeCountUpdated);
+                    }
+                    else
+                    {
+                        timeCountUpdated = timeCountUpdated - delayTime;
+                        ConvertToRealTime(timeCountUpdated);
+                    }
+                    repeatTime = 0;
                 }
             }
-            label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s"));
-            //label_TestTime_Value.Text = d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s";
-            ini12.INIWrite(MailPath, "Total Test Time", "How Long", d.ToString("0") + "d " + h.ToString("0") + "h " + s.ToString("0") + "m " + ms.ToString("0") + "s");
+        }
+
+
+        private void Timer1_Tick_1(object sender, EventArgs e)
+        {
+
+            timer1.Interval = 500;
+            TimeSpan timeElapsed = DateTime.Now - startTime;
+
+            /*
+            if (timeCount > 0)
+            {
+                if (Convert.ToInt64(timeElapsed.TotalMilliseconds) <= timeCount)
+                {
+                    ConvertToRealTime(timeCount - Convert.ToInt64(timeElapsed.TotalMilliseconds));
+                }
+                else
+                {
+                    ConvertToRealTime(0);
+                }
+            }*/
+
+            label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = timeElapsed.Days.ToString("0") + "d " + timeElapsed.Hours.ToString("0") + "h " + timeElapsed.Minutes.ToString("0") + "m " + timeElapsed.Seconds.ToString("0") + "s " + timeElapsed.Milliseconds.ToString("0") + "ms"));
+            ini12.INIWrite(MailPath, "Total Test Time", "How Long", timeElapsed.Days.ToString("0") + "d " + timeElapsed.Hours.ToString("0") + "h " + timeElapsed.Minutes.ToString("0") + "m " + timeElapsed.Seconds.ToString("0") + "s" + timeElapsed.Milliseconds.ToString("0") + "ms");
         }
 
         private void TimerPanelbutton_Click(object sender, EventArgs e)
@@ -10148,83 +10317,6 @@ namespace Woodpecker
             }
         }
 
-        private void DataGridView_Schedule_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            FormScriptHelper formScriptHelper = new FormScriptHelper();
-            formScriptHelper.Owner = this;
-
-
-            try
-            {
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Picture" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
-
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
-
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
-                {
-                    formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
-                    formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
-                    formScriptHelper.ShowDialog();
-
-                    DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
-                                          DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
-                    DataGridView_Schedule.RefreshEdit();
-                }
-
-                if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
-                {
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
-                    DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
-                    {
-                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
-                        formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
-                        formScriptHelper.ShowDialog();
-
-                        DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
-                                              DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
-                        DataGridView_Schedule.RefreshEdit();
-                    }
-
-                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
-                    {
-                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
-                        targetColumn.MaxInputLength = 8;
-                    }
-
-                    if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
-                    DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
-                    {
-                        DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
-                        targetColumn.MaxInputLength = 9;
-                    }
-                }
-                strValue = "";
-            }
-            catch (Exception error)
-            {
-                Console.WriteLine(error);
-            }
-
-        }
-
         private string strValue;
         public string StrValue
         {
@@ -10397,9 +10489,91 @@ namespace Woodpecker
             }
         }
 
+        private void DataGridView_Schedule_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                FormScriptHelper formScriptHelper = new FormScriptHelper();
+                formScriptHelper.Owner = this;
+
+                try
+                {
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Picture" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_cmd" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
+                    {
+                        formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
+                        formScriptHelper.ShowDialog();
+
+                        DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
+                                              DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
+                        DataGridView_Schedule.RefreshEdit();
+                    }
+
+                    if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Length >= 8)
+                    {
+                        if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_keyword" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
+                        {
+                            formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
+                            formScriptHelper.SetValue(DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText);
+                            formScriptHelper.ShowDialog();
+
+                            DataGridView_Schedule[DataGridView_Schedule.CurrentCell.ColumnIndex,
+                                                  DataGridView_Schedule.CurrentCell.RowIndex].Value = strValue;
+                            DataGridView_Schedule.RefreshEdit();
+                        }
+
+                        if (DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_IO_Output" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
+                        {
+                            DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                            targetColumn.MaxInputLength = 8;
+                        }
+
+                        if ((DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 10) == "_WaterTemp" || DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString().Substring(0, 12) == "_FuelDisplay") &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">Times >Keyword#")
+                        {
+                            DataGridViewTextBoxColumn targetColumn = (DataGridViewTextBoxColumn)DataGridView_Schedule.Columns[e.ColumnIndex];
+                            targetColumn.MaxInputLength = 9;
+                        }
+                    }
+                    strValue = "";
+                }
+                catch (Exception error)
+                {
+                    Console.WriteLine(error);
+                }
+            }
+        }
+
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
         {
+            string fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
+            System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
+
             /*
                         uint canBusStatus;
                         canBusStatus = MYCanReader.Connect();

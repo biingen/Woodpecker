@@ -128,7 +128,10 @@ namespace Woodpecker
             MailMessage msg = new MailMessage();
 
             msg.To.Add(string.Join(",", MailList.ToArray()));       //收件者，以逗號分隔不同收件者
-            msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
+            if (ini12.INIRead(MailPath, "Mail Info", "From", "") != "")
+                msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
+            else
+                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA", System.Text.Encoding.UTF8);
             msg.Subject = Subject;      //郵件標題 
             msg.SubjectEncoding = System.Text.Encoding.UTF8;        //郵件標題編碼  
             msg.Body = Body;        //郵件內容
@@ -273,11 +276,11 @@ namespace Woodpecker
             {
                 if (string.IsNullOrEmpty(textBox_From.Text))
                 {
-                    label_ErrorMessage.Text = "Sender must exist !";
+                    label_ErrorMessage.Text = "Sender cannot be empty!";
                 }
                 else if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    label_ErrorMessage.Text = "Recipient must exist !";
+                    label_ErrorMessage.Text = "Receiver cannot be empty!";
                 }
                 else
                 {
@@ -410,12 +413,12 @@ namespace Woodpecker
             {
                 //發送Email
                 MySmtp.Send("'TP_DQA_Test'<tpdqatest@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
-                MessageBox.Show("The Gmail system is normal on the network environment.", "Success");
+                MessageBox.Show("Gmail is working well in your network environment.", "Success");
                 return true;
             }
             catch (Exception)
             {
-                MessageBox.Show("The Gmail system is abnormal on the network environment.", "Connection Error");
+                MessageBox.Show("Gmail server is unreachable in your network environment.", "Connection Error");
                 SendMailcheckBox.Checked = false;
                 GmailcheckBox.Checked = false;
                 return false;
@@ -440,7 +443,7 @@ namespace Woodpecker
 
                     if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                     {
-                        label_ErrorMessage.Text = "Recipient must exist !";
+                        label_ErrorMessage.Text = "Receiver cannot be empty!";
                         pictureBox_To.Image = Properties.Resources.ERROR;
                     }
                     else
@@ -451,7 +454,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Please check the network status !");
+                    MessageBox.Show("Please check the network status!");
                     SendMailcheckBox.Checked = false;
                     GmailcheckBox.Checked = false;
                 }
@@ -469,7 +472,7 @@ namespace Woodpecker
 
                 if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    label_ErrorMessage.Text = "Recipient must exist !";
+                    label_ErrorMessage.Text = "Receiver cannot be empty!";
                     pictureBox_To.Image = Properties.Resources.ERROR;
                 }
                 else
@@ -498,7 +501,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_From.Text))
             {
-                //label_ErrorMessage.Text = "Sender must exist !";
+                //label_ErrorMessage.Text = "Sender cannot be empty! !";
                 //pictureBox_From.Image = Properties.Resources.ERROR;
             }
             else
@@ -513,7 +516,7 @@ namespace Woodpecker
         {
             if (string.IsNullOrEmpty(textBox_To.Text) && ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
             {
-                label_ErrorMessage.Text = "Recipient must exist !";
+                label_ErrorMessage.Text = "Receiver cannot be empty!";
                 pictureBox_To.Image = Properties.Resources.ERROR;
             }
             else

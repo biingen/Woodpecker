@@ -214,36 +214,55 @@ namespace Woodpecker
             {
                 if (Global.FormSetting == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
 
                 if (Global.FormSchedule == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
 
                 if (Global.FormMail == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
 
 
                 if (Global.FormLog == false)
                 {
-                    MessageBox.Show("Settings are not saved", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    MessageBox.Show("Settings are not saved.", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_KeywordSearch;
                 }
 
                 e.Cancel = true;
             }
 
+            checkSimilarity(e);
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
+            checkMailReceiver(e);
+            checkErrorMessage(e);
+        }
 
+        private void checkErrorMessage(FormClosingEventArgs e)
+        {
+            if (FormSetting.label_ErrorMessage.Text != "" || FormSchedule.label_ErrorMessage.Text != "" || FormMail.label_ErrorMessage.Text != "")
+            {
+                MessageBox.Show("Please check if there is any error in Settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void checkSimilarity(FormClosingEventArgs e)
+        {
+            if (FormSchedule.checkBox_Similarity.Checked == true && FormSchedule.comboBox_Similarity.SelectedItem == null)
+            {
+                e.Cancel = true;
+                FormSchedule.label_ErrorMessage.Text = "Please select the percentage of Similarity!"; ;
+            }
         }
 
         private void checkLoopIsEmpty(FormClosingEventArgs e)
@@ -259,6 +278,7 @@ namespace Woodpecker
                 if (String.IsNullOrEmpty(number.schedule.Text) == false && (String.IsNullOrEmpty(number.loop.Text) == true || number.loop.Text == "0"))
                 {
                     e.Cancel = true;
+                    FormSchedule.label_ErrorMessage.Text = "Please enter loop number!";
                 }
             }
         }
@@ -276,8 +296,17 @@ namespace Woodpecker
                 if (number.port.Checked == true && number.baudRate.SelectedItem == null)
                 {
                     e.Cancel = true;
-                    FormSetting.label_ErrorMessage.Text = "Please select item for Baud Rate!";
+                    FormSetting.label_ErrorMessage.Text = "Please select a proper Baud Rate!";
                 }
+            }
+        }
+
+        private void checkMailReceiver(FormClosingEventArgs e)
+        {
+            if (FormMail.SendMailcheckBox.Checked == true && string.IsNullOrEmpty(FormMail.textBox_To.Text))
+            {
+                e.Cancel = true;
+                FormMail.label_ErrorMessage.Text = "Receiver cannot be empty!";
             }
         }
 

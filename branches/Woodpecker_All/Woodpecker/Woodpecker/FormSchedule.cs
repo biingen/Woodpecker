@@ -20,7 +20,7 @@ namespace Woodpecker
         private void setStyle()
         {
             // Button design
-            List<Button> buttonsList = new List<Button> { button_Schedule1, button_Schedule2, button_Schedule3, button_Schedule4, button_Schedule5};
+            List<Button> buttonsList = new List<Button> { button_Schedule1, button_Schedule2, button_Schedule3, button_Schedule4, button_Schedule5 };
 
             foreach (Button buttonsAll in buttonsList)
             {
@@ -175,6 +175,7 @@ namespace Woodpecker
                 {
                     checkBox_Similarity.Checked = false;
                     comboBox_Similarity.Enabled = false;
+                    comboBox_Similarity.Text = "0%";
                 }
             }
             else
@@ -754,12 +755,14 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "Record", "CompareChoose", "0");
 
                 comboBox_Similarity.Enabled = false;
+                label_ErrorMessage.Text = "";
             }
         }
 
         private void DifferenceBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Record", "CompareDifferent", (100 - int.Parse(comboBox_Similarity.Text.Replace("%", ""))).ToString());
+            label_ErrorMessage.Text = "";
         }
 
         private void checkBoxFootprintMode_CheckedChanged(object sender, EventArgs e)
@@ -767,7 +770,7 @@ namespace Woodpecker
             //足跡模式//
             if (checkBox_FootprintMode.Checked == true)
             {
-                
+
                 ini12.INIWrite(MainSettingPath, "Record", "Footprint Mode", "1");
             }
             else
@@ -781,7 +784,7 @@ namespace Woodpecker
             //測試完成開始錄影//
             if (checkBox_VideoRecord.Checked == true)
             {
-                
+
                 ini12.INIWrite(MainSettingPath, "Record", "EachVideo", "1");
             }
             else
@@ -795,12 +798,52 @@ namespace Woodpecker
             //程式啟動自動跑shchedule//
             if (checkBox_ScheduleAutoStart.Checked == true)
             {
-                
+
                 ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "1");
             }
             else
             {
                 ini12.INIWrite(MainSettingPath, "Device", "RunAfterStartUp", "0");
+            }
+        }
+
+        private void textBox_Schedule1Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule2Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule3Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule4Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox_Schedule5Loop_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (((int)e.KeyChar < 48 | (int)e.KeyChar > 57) & (int)e.KeyChar != 8)
+            {
+                e.Handled = true;
             }
         }
     }

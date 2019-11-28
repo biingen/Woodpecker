@@ -95,10 +95,10 @@
             // textBox_Keyword0
             // 
             this.textBox_Keyword0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword0.Location = new System.Drawing.Point(64, 175);
+            this.textBox_Keyword0.Location = new System.Drawing.Point(51, 140);
             this.textBox_Keyword0.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword0.Name = "textBox_Keyword0";
-            this.textBox_Keyword0.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword0.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword0.TabIndex = 1;
             this.textBox_Keyword0.TextChanged += new System.EventHandler(this.textBox_Keyword0_TextChanged);
             // 
@@ -107,10 +107,10 @@
             this.SaveBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.SaveBtn.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.SaveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.SaveBtn.Location = new System.Drawing.Point(684, 585);
-            this.SaveBtn.Margin = new System.Windows.Forms.Padding(2, 2, 30, 2);
+            this.SaveBtn.Location = new System.Drawing.Point(547, 468);
+            this.SaveBtn.Margin = new System.Windows.Forms.Padding(2, 2, 24, 2);
             this.SaveBtn.Name = "SaveBtn";
-            this.SaveBtn.Size = new System.Drawing.Size(98, 45);
+            this.SaveBtn.Size = new System.Drawing.Size(78, 36);
             this.SaveBtn.TabIndex = 31;
             this.SaveBtn.Text = "SAVE";
             this.SaveBtn.UseVisualStyleBackColor = true;
@@ -120,205 +120,206 @@
             // textBox_Keyword1
             // 
             this.textBox_Keyword1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword1.Location = new System.Drawing.Point(64, 208);
+            this.textBox_Keyword1.Location = new System.Drawing.Point(51, 166);
             this.textBox_Keyword1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword1.Name = "textBox_Keyword1";
-            this.textBox_Keyword1.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword1.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword1.TabIndex = 32;
             this.textBox_Keyword1.TextChanged += new System.EventHandler(this.textBox_Keyword1_TextChanged);
             // 
             // textBox_Keyword2
             // 
             this.textBox_Keyword2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword2.Location = new System.Drawing.Point(64, 241);
+            this.textBox_Keyword2.Location = new System.Drawing.Point(51, 193);
             this.textBox_Keyword2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword2.Name = "textBox_Keyword2";
-            this.textBox_Keyword2.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword2.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword2.TabIndex = 33;
             this.textBox_Keyword2.TextChanged += new System.EventHandler(this.textBox_Keyword2_TextChanged);
             // 
             // textBox_Keyword3
             // 
             this.textBox_Keyword3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword3.Location = new System.Drawing.Point(64, 274);
+            this.textBox_Keyword3.Location = new System.Drawing.Point(51, 219);
             this.textBox_Keyword3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword3.Name = "textBox_Keyword3";
-            this.textBox_Keyword3.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword3.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword3.TabIndex = 34;
             this.textBox_Keyword3.TextChanged += new System.EventHandler(this.textBox_Keyword3_TextChanged);
             // 
             // textBox_Keyword4
             // 
             this.textBox_Keyword4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword4.Location = new System.Drawing.Point(64, 308);
+            this.textBox_Keyword4.Location = new System.Drawing.Point(51, 246);
             this.textBox_Keyword4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword4.Name = "textBox_Keyword4";
-            this.textBox_Keyword4.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword4.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword4.TabIndex = 35;
             this.textBox_Keyword4.TextChanged += new System.EventHandler(this.textBox_Keyword4_TextChanged);
             // 
             // textBox_Keyword9
             // 
             this.textBox_Keyword9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword9.Location = new System.Drawing.Point(64, 470);
+            this.textBox_Keyword9.Location = new System.Drawing.Point(51, 376);
             this.textBox_Keyword9.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword9.Name = "textBox_Keyword9";
-            this.textBox_Keyword9.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword9.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword9.TabIndex = 40;
             this.textBox_Keyword9.TextChanged += new System.EventHandler(this.textBox_Keyword9_TextChanged);
             // 
             // textBox_Keyword8
             // 
             this.textBox_Keyword8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword8.Location = new System.Drawing.Point(64, 439);
+            this.textBox_Keyword8.Location = new System.Drawing.Point(51, 351);
             this.textBox_Keyword8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword8.Name = "textBox_Keyword8";
-            this.textBox_Keyword8.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword8.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword8.TabIndex = 39;
             this.textBox_Keyword8.TextChanged += new System.EventHandler(this.textBox_Keyword8_TextChanged);
             // 
             // textBox_Keyword7
             // 
             this.textBox_Keyword7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword7.Location = new System.Drawing.Point(64, 406);
+            this.textBox_Keyword7.Location = new System.Drawing.Point(51, 325);
             this.textBox_Keyword7.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword7.Name = "textBox_Keyword7";
-            this.textBox_Keyword7.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword7.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword7.TabIndex = 38;
             this.textBox_Keyword7.TextChanged += new System.EventHandler(this.textBox_Keyword7_TextChanged);
             // 
             // textBox_Keyword6
             // 
             this.textBox_Keyword6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword6.Location = new System.Drawing.Point(64, 372);
+            this.textBox_Keyword6.Location = new System.Drawing.Point(51, 298);
             this.textBox_Keyword6.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword6.Name = "textBox_Keyword6";
-            this.textBox_Keyword6.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword6.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword6.TabIndex = 37;
             this.textBox_Keyword6.TextChanged += new System.EventHandler(this.textBox_Keyword6_TextChanged);
             // 
             // textBox_Keyword5
             // 
             this.textBox_Keyword5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Keyword5.Location = new System.Drawing.Point(64, 340);
+            this.textBox_Keyword5.Location = new System.Drawing.Point(51, 272);
             this.textBox_Keyword5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Keyword5.Name = "textBox_Keyword5";
-            this.textBox_Keyword5.Size = new System.Drawing.Size(406, 24);
+            this.textBox_Keyword5.Size = new System.Drawing.Size(326, 21);
             this.textBox_Keyword5.TabIndex = 36;
             this.textBox_Keyword5.TextChanged += new System.EventHandler(this.textBox_Keyword5_TextChanged);
             // 
             // textBox_Times0
             // 
             this.textBox_Times0.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times0.Location = new System.Drawing.Point(483, 174);
+            this.textBox_Times0.Location = new System.Drawing.Point(386, 139);
             this.textBox_Times0.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times0.MaxLength = 5;
             this.textBox_Times0.Name = "textBox_Times0";
-            this.textBox_Times0.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times0.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times0.TabIndex = 79;
             this.textBox_Times0.TextChanged += new System.EventHandler(this.textBox_Times0_TextChanged);
             // 
             // textBox_Times1
             // 
             this.textBox_Times1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times1.Location = new System.Drawing.Point(483, 206);
+            this.textBox_Times1.Location = new System.Drawing.Point(386, 165);
             this.textBox_Times1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times1.MaxLength = 5;
             this.textBox_Times1.Name = "textBox_Times1";
-            this.textBox_Times1.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times1.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times1.TabIndex = 81;
             this.textBox_Times1.TextChanged += new System.EventHandler(this.textBox_Times1_TextChanged);
             // 
             // textBox_Times2
             // 
             this.textBox_Times2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times2.Location = new System.Drawing.Point(483, 240);
+            this.textBox_Times2.Location = new System.Drawing.Point(386, 192);
             this.textBox_Times2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times2.MaxLength = 5;
             this.textBox_Times2.Name = "textBox_Times2";
-            this.textBox_Times2.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times2.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times2.TabIndex = 83;
             this.textBox_Times2.TextChanged += new System.EventHandler(this.textBox_Times2_TextChanged);
             // 
             // textBox_Times3
             // 
             this.textBox_Times3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times3.Location = new System.Drawing.Point(483, 272);
+            this.textBox_Times3.Location = new System.Drawing.Point(386, 218);
             this.textBox_Times3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times3.MaxLength = 5;
             this.textBox_Times3.Name = "textBox_Times3";
-            this.textBox_Times3.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times3.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times3.TabIndex = 85;
             this.textBox_Times3.TextChanged += new System.EventHandler(this.textBox_Times3_TextChanged);
             // 
             // textBox_Times4
             // 
             this.textBox_Times4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times4.Location = new System.Drawing.Point(483, 306);
+            this.textBox_Times4.Location = new System.Drawing.Point(386, 245);
             this.textBox_Times4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times4.MaxLength = 5;
             this.textBox_Times4.Name = "textBox_Times4";
-            this.textBox_Times4.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times4.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times4.TabIndex = 87;
             this.textBox_Times4.TextChanged += new System.EventHandler(this.textBox_Times4_TextChanged);
             // 
             // textBox_Times5
             // 
             this.textBox_Times5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times5.Location = new System.Drawing.Point(483, 339);
+            this.textBox_Times5.Location = new System.Drawing.Point(386, 271);
             this.textBox_Times5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times5.MaxLength = 5;
             this.textBox_Times5.Name = "textBox_Times5";
-            this.textBox_Times5.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times5.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times5.TabIndex = 89;
             this.textBox_Times5.TextChanged += new System.EventHandler(this.textBox_Times5_TextChanged);
             // 
             // textBox_Times6
             // 
             this.textBox_Times6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times6.Location = new System.Drawing.Point(483, 371);
+            this.textBox_Times6.Location = new System.Drawing.Point(386, 297);
             this.textBox_Times6.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times6.MaxLength = 5;
             this.textBox_Times6.Name = "textBox_Times6";
-            this.textBox_Times6.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times6.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times6.TabIndex = 91;
             this.textBox_Times6.TextChanged += new System.EventHandler(this.textBox_Times6_TextChanged);
             // 
             // textBox_Times7
             // 
             this.textBox_Times7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times7.Location = new System.Drawing.Point(483, 405);
+            this.textBox_Times7.Location = new System.Drawing.Point(386, 324);
             this.textBox_Times7.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times7.MaxLength = 5;
             this.textBox_Times7.Name = "textBox_Times7";
-            this.textBox_Times7.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times7.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times7.TabIndex = 93;
             this.textBox_Times7.TextChanged += new System.EventHandler(this.textBox_Times7_TextChanged);
             // 
             // textBox_Times8
             // 
             this.textBox_Times8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times8.Location = new System.Drawing.Point(483, 438);
+            this.textBox_Times8.Location = new System.Drawing.Point(386, 350);
             this.textBox_Times8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times8.MaxLength = 5;
             this.textBox_Times8.Name = "textBox_Times8";
-            this.textBox_Times8.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times8.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times8.TabIndex = 95;
             this.textBox_Times8.TextChanged += new System.EventHandler(this.textBox_Times8_TextChanged);
             // 
             // textBox_Times9
             // 
             this.textBox_Times9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.textBox_Times9.Location = new System.Drawing.Point(483, 469);
+            this.textBox_Times9.Location = new System.Drawing.Point(386, 375);
             this.textBox_Times9.Margin = new System.Windows.Forms.Padding(2);
             this.textBox_Times9.MaxLength = 5;
             this.textBox_Times9.Name = "textBox_Times9";
-            this.textBox_Times9.Size = new System.Drawing.Size(76, 24);
+            this.textBox_Times9.Size = new System.Drawing.Size(62, 21);
             this.textBox_Times9.TabIndex = 97;
             this.textBox_Times9.TextChanged += new System.EventHandler(this.textBox_Times9_TextChanged);
             // 
             // comboBox_KeywordNum
             // 
+            this.comboBox_KeywordNum.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_KeywordNum.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_KeywordNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_KeywordNum.FormattingEnabled = true;
@@ -334,10 +335,10 @@
             "8",
             "9",
             "10"});
-            this.comboBox_KeywordNum.Location = new System.Drawing.Point(384, 90);
+            this.comboBox_KeywordNum.Location = new System.Drawing.Point(307, 72);
             this.comboBox_KeywordNum.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_KeywordNum.Name = "comboBox_KeywordNum";
-            this.comboBox_KeywordNum.Size = new System.Drawing.Size(72, 26);
+            this.comboBox_KeywordNum.Size = new System.Drawing.Size(58, 23);
             this.comboBox_KeywordNum.TabIndex = 107;
             this.comboBox_KeywordNum.SelectedIndexChanged += new System.EventHandler(this.ItemcomboBox_SelectedIndexChanged);
             // 
@@ -346,10 +347,10 @@
             this.label_Keyword.AutoSize = true;
             this.label_Keyword.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Keyword.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword.Location = new System.Drawing.Point(61, 148);
+            this.label_Keyword.Location = new System.Drawing.Point(49, 118);
             this.label_Keyword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword.Name = "label_Keyword";
-            this.label_Keyword.Size = new System.Drawing.Size(73, 20);
+            this.label_Keyword.Size = new System.Drawing.Size(60, 16);
             this.label_Keyword.TabIndex = 108;
             this.label_Keyword.Text = "Keyword";
             // 
@@ -359,10 +360,10 @@
             this.label_Times.BackColor = System.Drawing.Color.Transparent;
             this.label_Times.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Times.ForeColor = System.Drawing.Color.White;
-            this.label_Times.Location = new System.Drawing.Point(480, 148);
+            this.label_Times.Location = new System.Drawing.Point(384, 118);
             this.label_Times.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Times.Name = "label_Times";
-            this.label_Times.Size = new System.Drawing.Size(55, 20);
+            this.label_Times.Size = new System.Drawing.Size(46, 16);
             this.label_Times.TabIndex = 109;
             this.label_Times.Text = "Times";
             // 
@@ -371,10 +372,10 @@
             this.label_KeywordNum.AutoSize = true;
             this.label_KeywordNum.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_KeywordNum.ForeColor = System.Drawing.Color.White;
-            this.label_KeywordNum.Location = new System.Drawing.Point(39, 94);
+            this.label_KeywordNum.Location = new System.Drawing.Point(31, 75);
             this.label_KeywordNum.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_KeywordNum.Name = "label_KeywordNum";
-            this.label_KeywordNum.Size = new System.Drawing.Size(332, 20);
+            this.label_KeywordNum.Size = new System.Drawing.Size(264, 16);
             this.label_KeywordNum.TabIndex = 110;
             this.label_KeywordNum.Text = "How many keywords do you want to search\r\n";
             // 
@@ -383,10 +384,10 @@
             this.label_SerialSelect.AutoSize = true;
             this.label_SerialSelect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_SerialSelect.ForeColor = System.Drawing.Color.White;
-            this.label_SerialSelect.Location = new System.Drawing.Point(39, 42);
+            this.label_SerialSelect.Location = new System.Drawing.Point(31, 34);
             this.label_SerialSelect.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_SerialSelect.Name = "label_SerialSelect";
-            this.label_SerialSelect.Size = new System.Drawing.Size(319, 20);
+            this.label_SerialSelect.Size = new System.Drawing.Size(253, 16);
             this.label_SerialSelect.TabIndex = 113;
             this.label_SerialSelect.Text = "Please select the port for keyword search\r\n";
             // 
@@ -395,10 +396,10 @@
             this.checkBox_SerialPort2.AutoSize = true;
             this.checkBox_SerialPort2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort2.Location = new System.Drawing.Point(466, 41);
+            this.checkBox_SerialPort2.Location = new System.Drawing.Point(373, 33);
             this.checkBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort2.Name = "checkBox_SerialPort2";
-            this.checkBox_SerialPort2.Size = new System.Drawing.Size(79, 24);
+            this.checkBox_SerialPort2.Size = new System.Drawing.Size(63, 20);
             this.checkBox_SerialPort2.TabIndex = 115;
             this.checkBox_SerialPort2.Text = "Port B";
             this.checkBox_SerialPort2.UseVisualStyleBackColor = true;
@@ -409,10 +410,10 @@
             this.checkBox_SerialPort1.AutoSize = true;
             this.checkBox_SerialPort1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort1.Location = new System.Drawing.Point(384, 41);
+            this.checkBox_SerialPort1.Location = new System.Drawing.Point(307, 33);
             this.checkBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort1.Name = "checkBox_SerialPort1";
-            this.checkBox_SerialPort1.Size = new System.Drawing.Size(78, 24);
+            this.checkBox_SerialPort1.Size = new System.Drawing.Size(63, 20);
             this.checkBox_SerialPort1.TabIndex = 114;
             this.checkBox_SerialPort1.Text = "Port A";
             this.checkBox_SerialPort1.UseVisualStyleBackColor = true;
@@ -424,10 +425,9 @@
             this.label_ErrorMessage.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.label_ErrorMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_ErrorMessage.ForeColor = System.Drawing.Color.Red;
-            this.label_ErrorMessage.Location = new System.Drawing.Point(36, 558);
-            this.label_ErrorMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_ErrorMessage.Location = new System.Drawing.Point(29, 446);
             this.label_ErrorMessage.Name = "label_ErrorMessage";
-            this.label_ErrorMessage.Size = new System.Drawing.Size(65, 36);
+            this.label_ErrorMessage.Size = new System.Drawing.Size(83, 29);
             this.label_ErrorMessage.TabIndex = 116;
             this.label_ErrorMessage.Text = "~~~~~";
             this.label_ErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -436,10 +436,10 @@
             // 
             this.pictureBox_Keyword0.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword0.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword0.Location = new System.Drawing.Point(563, 171);
+            this.pictureBox_Keyword0.Location = new System.Drawing.Point(450, 137);
             this.pictureBox_Keyword0.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword0.Name = "pictureBox_Keyword0";
-            this.pictureBox_Keyword0.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword0.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword0.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword0.TabIndex = 121;
             this.pictureBox_Keyword0.TabStop = false;
@@ -448,10 +448,10 @@
             // 
             this.pictureBox_Keyword1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword1.Location = new System.Drawing.Point(563, 204);
+            this.pictureBox_Keyword1.Location = new System.Drawing.Point(450, 163);
             this.pictureBox_Keyword1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword1.Name = "pictureBox_Keyword1";
-            this.pictureBox_Keyword1.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword1.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword1.TabIndex = 122;
             this.pictureBox_Keyword1.TabStop = false;
@@ -460,10 +460,10 @@
             // 
             this.pictureBox_Keyword2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword2.Location = new System.Drawing.Point(563, 238);
+            this.pictureBox_Keyword2.Location = new System.Drawing.Point(450, 190);
             this.pictureBox_Keyword2.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword2.Name = "pictureBox_Keyword2";
-            this.pictureBox_Keyword2.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword2.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword2.TabIndex = 123;
             this.pictureBox_Keyword2.TabStop = false;
@@ -472,10 +472,10 @@
             // 
             this.pictureBox_Keyword3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword3.Location = new System.Drawing.Point(563, 270);
+            this.pictureBox_Keyword3.Location = new System.Drawing.Point(450, 216);
             this.pictureBox_Keyword3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword3.Name = "pictureBox_Keyword3";
-            this.pictureBox_Keyword3.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword3.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword3.TabIndex = 124;
             this.pictureBox_Keyword3.TabStop = false;
@@ -484,10 +484,10 @@
             // 
             this.pictureBox_Keyword4.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword4.Location = new System.Drawing.Point(563, 304);
+            this.pictureBox_Keyword4.Location = new System.Drawing.Point(450, 243);
             this.pictureBox_Keyword4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword4.Name = "pictureBox_Keyword4";
-            this.pictureBox_Keyword4.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword4.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword4.TabIndex = 125;
             this.pictureBox_Keyword4.TabStop = false;
@@ -496,10 +496,10 @@
             // 
             this.pictureBox_Keyword5.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword5.Location = new System.Drawing.Point(563, 336);
+            this.pictureBox_Keyword5.Location = new System.Drawing.Point(450, 269);
             this.pictureBox_Keyword5.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword5.Name = "pictureBox_Keyword5";
-            this.pictureBox_Keyword5.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword5.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword5.TabIndex = 126;
             this.pictureBox_Keyword5.TabStop = false;
@@ -508,10 +508,10 @@
             // 
             this.pictureBox_Keyword6.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword6.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword6.Location = new System.Drawing.Point(563, 370);
+            this.pictureBox_Keyword6.Location = new System.Drawing.Point(450, 296);
             this.pictureBox_Keyword6.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword6.Name = "pictureBox_Keyword6";
-            this.pictureBox_Keyword6.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword6.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword6.TabIndex = 127;
             this.pictureBox_Keyword6.TabStop = false;
@@ -520,10 +520,10 @@
             // 
             this.pictureBox_Keyword9.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword9.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword9.Location = new System.Drawing.Point(563, 466);
+            this.pictureBox_Keyword9.Location = new System.Drawing.Point(450, 373);
             this.pictureBox_Keyword9.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword9.Name = "pictureBox_Keyword9";
-            this.pictureBox_Keyword9.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword9.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword9.TabIndex = 128;
             this.pictureBox_Keyword9.TabStop = false;
@@ -532,10 +532,10 @@
             // 
             this.pictureBox_Keyword8.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword8.Location = new System.Drawing.Point(563, 435);
+            this.pictureBox_Keyword8.Location = new System.Drawing.Point(450, 348);
             this.pictureBox_Keyword8.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword8.Name = "pictureBox_Keyword8";
-            this.pictureBox_Keyword8.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword8.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword8.TabIndex = 129;
             this.pictureBox_Keyword8.TabStop = false;
@@ -544,10 +544,10 @@
             // 
             this.pictureBox_Keyword7.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_Keyword7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_Keyword7.Location = new System.Drawing.Point(563, 402);
+            this.pictureBox_Keyword7.Location = new System.Drawing.Point(450, 322);
             this.pictureBox_Keyword7.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Keyword7.Name = "pictureBox_Keyword7";
-            this.pictureBox_Keyword7.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_Keyword7.Size = new System.Drawing.Size(23, 23);
             this.pictureBox_Keyword7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_Keyword7.TabIndex = 130;
             this.pictureBox_Keyword7.TabStop = false;
@@ -557,10 +557,10 @@
             this.checkBox_SerialPort3.AutoSize = true;
             this.checkBox_SerialPort3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort3.Location = new System.Drawing.Point(549, 41);
+            this.checkBox_SerialPort3.Location = new System.Drawing.Point(439, 33);
             this.checkBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
-            this.checkBox_SerialPort3.Size = new System.Drawing.Size(79, 24);
+            this.checkBox_SerialPort3.Size = new System.Drawing.Size(63, 20);
             this.checkBox_SerialPort3.TabIndex = 131;
             this.checkBox_SerialPort3.Text = "Port C";
             this.checkBox_SerialPort3.UseVisualStyleBackColor = true;
@@ -570,9 +570,10 @@
             // 
             this.label_Keyword0.AutoSize = true;
             this.label_Keyword0.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword0.Location = new System.Drawing.Point(45, 178);
+            this.label_Keyword0.Location = new System.Drawing.Point(36, 142);
+            this.label_Keyword0.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword0.Name = "label_Keyword0";
-            this.label_Keyword0.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword0.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword0.TabIndex = 132;
             this.label_Keyword0.Text = "1";
             // 
@@ -580,9 +581,10 @@
             // 
             this.label_Keyword1.AutoSize = true;
             this.label_Keyword1.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword1.Location = new System.Drawing.Point(45, 211);
+            this.label_Keyword1.Location = new System.Drawing.Point(36, 169);
+            this.label_Keyword1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword1.Name = "label_Keyword1";
-            this.label_Keyword1.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword1.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword1.TabIndex = 133;
             this.label_Keyword1.Text = "2";
             // 
@@ -590,9 +592,10 @@
             // 
             this.label_Keyword2.AutoSize = true;
             this.label_Keyword2.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword2.Location = new System.Drawing.Point(45, 244);
+            this.label_Keyword2.Location = new System.Drawing.Point(36, 195);
+            this.label_Keyword2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword2.Name = "label_Keyword2";
-            this.label_Keyword2.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword2.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword2.TabIndex = 134;
             this.label_Keyword2.Text = "3";
             // 
@@ -600,9 +603,10 @@
             // 
             this.label_Keyword3.AutoSize = true;
             this.label_Keyword3.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword3.Location = new System.Drawing.Point(45, 277);
+            this.label_Keyword3.Location = new System.Drawing.Point(36, 222);
+            this.label_Keyword3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword3.Name = "label_Keyword3";
-            this.label_Keyword3.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword3.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword3.TabIndex = 135;
             this.label_Keyword3.Text = "4";
             // 
@@ -610,9 +614,10 @@
             // 
             this.label_Keyword4.AutoSize = true;
             this.label_Keyword4.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword4.Location = new System.Drawing.Point(45, 311);
+            this.label_Keyword4.Location = new System.Drawing.Point(36, 249);
+            this.label_Keyword4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword4.Name = "label_Keyword4";
-            this.label_Keyword4.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword4.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword4.TabIndex = 136;
             this.label_Keyword4.Text = "5";
             // 
@@ -620,9 +625,10 @@
             // 
             this.label_Keyword5.AutoSize = true;
             this.label_Keyword5.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword5.Location = new System.Drawing.Point(45, 343);
+            this.label_Keyword5.Location = new System.Drawing.Point(36, 274);
+            this.label_Keyword5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword5.Name = "label_Keyword5";
-            this.label_Keyword5.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword5.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword5.TabIndex = 137;
             this.label_Keyword5.Text = "6";
             // 
@@ -630,9 +636,10 @@
             // 
             this.label_Keyword6.AutoSize = true;
             this.label_Keyword6.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword6.Location = new System.Drawing.Point(45, 374);
+            this.label_Keyword6.Location = new System.Drawing.Point(36, 299);
+            this.label_Keyword6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword6.Name = "label_Keyword6";
-            this.label_Keyword6.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword6.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword6.TabIndex = 138;
             this.label_Keyword6.Text = "7";
             // 
@@ -640,9 +647,10 @@
             // 
             this.label_Keyword7.AutoSize = true;
             this.label_Keyword7.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword7.Location = new System.Drawing.Point(45, 409);
+            this.label_Keyword7.Location = new System.Drawing.Point(36, 327);
+            this.label_Keyword7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword7.Name = "label_Keyword7";
-            this.label_Keyword7.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword7.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword7.TabIndex = 139;
             this.label_Keyword7.Text = "8";
             // 
@@ -650,9 +658,10 @@
             // 
             this.label_Keyword8.AutoSize = true;
             this.label_Keyword8.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword8.Location = new System.Drawing.Point(45, 442);
+            this.label_Keyword8.Location = new System.Drawing.Point(36, 354);
+            this.label_Keyword8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword8.Name = "label_Keyword8";
-            this.label_Keyword8.Size = new System.Drawing.Size(16, 18);
+            this.label_Keyword8.Size = new System.Drawing.Size(14, 15);
             this.label_Keyword8.TabIndex = 140;
             this.label_Keyword8.Text = "9";
             // 
@@ -660,9 +669,10 @@
             // 
             this.label_Keyword9.AutoSize = true;
             this.label_Keyword9.ForeColor = System.Drawing.Color.White;
-            this.label_Keyword9.Location = new System.Drawing.Point(39, 473);
+            this.label_Keyword9.Location = new System.Drawing.Point(31, 378);
+            this.label_Keyword9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Keyword9.Name = "label_Keyword9";
-            this.label_Keyword9.Size = new System.Drawing.Size(24, 18);
+            this.label_Keyword9.Size = new System.Drawing.Size(21, 15);
             this.label_Keyword9.TabIndex = 141;
             this.label_Keyword9.Text = "10";
             // 
@@ -671,10 +681,10 @@
             this.checkBox_SerialPort4.AutoSize = true;
             this.checkBox_SerialPort4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort4.Location = new System.Drawing.Point(631, 40);
+            this.checkBox_SerialPort4.Location = new System.Drawing.Point(505, 32);
             this.checkBox_SerialPort4.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort4.Name = "checkBox_SerialPort4";
-            this.checkBox_SerialPort4.Size = new System.Drawing.Size(80, 24);
+            this.checkBox_SerialPort4.Size = new System.Drawing.Size(64, 20);
             this.checkBox_SerialPort4.TabIndex = 142;
             this.checkBox_SerialPort4.Text = "Port D";
             this.checkBox_SerialPort4.UseVisualStyleBackColor = true;
@@ -685,10 +695,10 @@
             this.checkBox_SerialPort5.AutoSize = true;
             this.checkBox_SerialPort5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.checkBox_SerialPort5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.checkBox_SerialPort5.Location = new System.Drawing.Point(714, 40);
+            this.checkBox_SerialPort5.Location = new System.Drawing.Point(571, 32);
             this.checkBox_SerialPort5.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_SerialPort5.Name = "checkBox_SerialPort5";
-            this.checkBox_SerialPort5.Size = new System.Drawing.Size(78, 24);
+            this.checkBox_SerialPort5.Size = new System.Drawing.Size(63, 20);
             this.checkBox_SerialPort5.TabIndex = 143;
             this.checkBox_SerialPort5.Text = "Port E";
             this.checkBox_SerialPort5.UseVisualStyleBackColor = true;
@@ -696,10 +706,10 @@
             // 
             // FormLog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(822, 618);
+            this.ClientSize = new System.Drawing.Size(658, 494);
             this.Controls.Add(this.checkBox_SerialPort5);
             this.Controls.Add(this.checkBox_SerialPort4);
             this.Controls.Add(this.label_Keyword9);
@@ -754,7 +764,6 @@
             this.Controls.Add(this.textBox_Keyword0);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormLog";
             this.Text = "FormLog";
             this.Load += new System.EventHandler(this.FormLog_Load);

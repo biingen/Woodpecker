@@ -199,6 +199,7 @@ namespace Woodpecker
         private void Setting_Load(object sender, EventArgs e)
         {
             checkCamera();
+            checkAutokit();
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
@@ -515,54 +516,58 @@ namespace Woodpecker
             {
                 comboBox_CameraDevice.Enabled = true;
                 comboBox_CameraAudio.Enabled = true;
-
-                Filters filters = new Filters();
-                Filter f;
-
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-                ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
-
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                try
                 {
-                    f = filters.VideoInputDevices[c];
-                    comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                    Filters filters = new Filters();
+                    Filter f;
+
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+                    ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
+
+                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
-                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        f = filters.VideoInputDevices[c];
+                        comboBox_CameraDevice.Items.Add(f.Name);
+                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        {
+                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        }
                     }
-                }
 
-                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                {
-                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                }
-
-                for (int j = 0; j < filters.AudioInputDevices.Count; j++)
-                {
-                    f = filters.AudioInputDevices[j];
-                    comboBox_CameraAudio.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
+                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
                     {
-                        comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
                     }
-                }
 
-                if (comboBox_CameraAudio.Text == "" && filters.AudioInputDevices.Count > 0)
-                {
-                    comboBox_CameraAudio.SelectedIndex = filters.AudioInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+                    for (int j = 0; j < filters.AudioInputDevices.Count; j++)
+                    {
+                        f = filters.AudioInputDevices[j];
+                        comboBox_CameraAudio.Items.Add(f.Name);
+                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
+                        {
+                            comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+                        }
+                    }
+
+                    if (comboBox_CameraAudio.Text == "" && filters.AudioInputDevices.Count > 0)
+                    {
+                        comboBox_CameraAudio.SelectedIndex = filters.AudioInputDevices.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+                    }
+                    label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
                 }
-                label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Please reload the setting.", "Camera Error");
+                }
             }
             else
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
-
-
             }
             #endregion
 
@@ -644,6 +649,69 @@ namespace Woodpecker
             }
         }
 
+        private void checkAutokit()
+        {
+            ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
+            ManagementObjectCollection collection = search.Get();
+            var usbList = from u in collection.Cast<ManagementBaseObject>()
+                          select new
+                          {
+                              id = u.GetPropertyValue("DeviceID"),
+                              name = u.GetPropertyValue("Name"),
+                              description = u.GetPropertyValue("Description"),
+                              status = u.GetPropertyValue("Status"),
+                              system = u.GetPropertyValue("SystemName"),
+                              caption = u.GetPropertyValue("Caption"),
+                              pnp = u.GetPropertyValue("PNPDeviceID"),
+                          };
+
+            foreach (var usbDevice in usbList)
+            {
+                string deviceId = (string)usbDevice.id;
+                string deviceTp = (string)usbDevice.name;
+                string deviecDescription = (string)usbDevice.description;
+
+                string deviceStatus = (string)usbDevice.status;
+                string deviceSystem = (string)usbDevice.system;
+                string deviceCaption = (string)usbDevice.caption;
+                string devicePnp = (string)usbDevice.pnp;
+
+                if (deviecDescription != null)
+                {
+                    if (deviceId.IndexOf("&0&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                deviceId.IndexOf("USB\\VID_067B&PID_2303\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------AutoBox2------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        int FirstIndex = deviceTp.IndexOf("(");
+                        string AutoBoxPortSubstring = deviceTp.Substring(FirstIndex + 1);
+                        string AutoBoxPort = AutoBoxPortSubstring.Substring(0);
+
+                        int AutoBoxPortLengh = AutoBoxPort.Length;
+                        string AutoBoxPortFinal = AutoBoxPort.Remove(AutoBoxPortLengh - 1);
+
+                        if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
+                        {
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
+                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                        }
+                    }
+                }
+                else
+                {
+                    ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
+                }
+            }
+        }
 
         //自動調整ComboBox寬度
         private void AdjustWidthComboBox_DropDown(object sender, System.EventArgs e)
