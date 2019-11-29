@@ -41,6 +41,7 @@
             this.tabControl = new MaterialSkin.Controls.MaterialTabControl();
             this.tabPage_MainSetting = new System.Windows.Forms.TabPage();
             this.tabPage_MultiSchedule = new System.Windows.Forms.TabPage();
+            this.tabPage_Mail = new System.Windows.Forms.TabPage();
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).BeginInit();
@@ -150,6 +151,7 @@
             // 
             this.tabControl.Controls.Add(this.tabPage_MainSetting);
             this.tabControl.Controls.Add(this.tabPage_MultiSchedule);
+            this.tabControl.Controls.Add(this.tabPage_Mail);
             this.tabControl.Depth = 0;
             this.tabControl.Location = new System.Drawing.Point(12, 102);
             this.tabControl.MouseState = MaterialSkin.MouseState.HOVER;

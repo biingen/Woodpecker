@@ -183,12 +183,17 @@ namespace Woodpecker
                     MessageBox.Show("Settings are not saved.", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
-
-
+                
                 if (Global.FormSchedule == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
+                }
+
+                if (Global.FormMail == false)
+                {
+                    MessageBox.Show("Settings are not saved.", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
+                    tabControl.SelectedTab = tabPage_Mail;
                 }
                 e.Cancel = true;
             }
@@ -201,7 +206,7 @@ namespace Woodpecker
 
         private void checkErrorMessage(FormClosingEventArgs e)
         {
-            if (FormSetting.label_ErrorMessage.Text != "" || FormSchedule.label_ErrorMessage.Text != "")
+            if (FormSetting.label_ErrorMessage.Text != "" || FormSchedule.label_ErrorMessage.Text != "" || FormMail.label_ErrorMessage.Text != "")
             {
                 MessageBox.Show("Please check if there is any error in Settings.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
