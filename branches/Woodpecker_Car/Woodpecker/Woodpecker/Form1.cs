@@ -1854,7 +1854,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -2086,7 +2086,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
