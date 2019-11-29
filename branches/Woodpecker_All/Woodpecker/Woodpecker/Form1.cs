@@ -234,6 +234,9 @@ namespace Woodpecker
                 }
             }
 
+            if (comboBox_savelog.Items.Count > 1)
+                comboBox_savelog.Items.Add("Port All");
+
             if (comboBox_savelog.Items.Count == 0)
             {
                 button_savelog.Enabled = false;
@@ -5387,7 +5390,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -5640,7 +5643,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -10302,6 +10305,10 @@ namespace Woodpecker
                 case "Kline":
                     Serialportsave("KlinePort");
                     MessageBox.Show("Kline Port is saved.", "Reminder");
+                    break;
+                case "Port All":
+                    Serialportsave("All");
+                    MessageBox.Show("All Port is saved.", "Reminder");
                     break;
                 default:
                     break;
