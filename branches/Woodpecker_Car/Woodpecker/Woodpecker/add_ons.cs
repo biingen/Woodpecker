@@ -345,5 +345,79 @@ namespace Woodpecker
             }
         }
         #endregion
+
+        #region -- 創建Mail.ini --
+        public void CreateMailConfig()
+        {
+            string[] SendMail = { "value" };
+            string[] DataInfo = { "TestCaseNumber", "Result", "NGfrequency", "CreateTime", "CloseTime", "ProjectNumber" };
+            string[] TotalTestTime = { "value", "value1", "value2", "value3", "value4", "value5", "How Long" };
+            string[] TestCase = { "TestCase1", "TestCase2", "TestCase3", "TestCase4", "TestCase5" };
+            string[] MailInfo = { "From", "To", "ProjectName", "ModelName", "Version", "Tester", "TeamViewerID", "TeamViewerPassWord" };
+
+            if (File.Exists(Global.MailSettingPath) == false)
+            {
+                for (int i = 0; i < SendMail.Length; i++)
+                {
+                    if (i == (SendMail.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "");
+                    }
+                }
+
+                for (int i = 0; i < DataInfo.Length; i++)
+                {
+                    if (i == (DataInfo.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "");
+                    }
+                }
+
+                for (int i = 0; i < TotalTestTime.Length; i++)
+                {
+                    if (i == (TotalTestTime.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "");
+                    }
+                }
+
+                for (int i = 0; i < TestCase.Length; i++)
+                {
+                    if (i == (TestCase.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "");
+                    }
+                }
+
+                for (int i = 0; i < MailInfo.Length; i++)
+                {
+                    if (i == (MailInfo.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "");
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

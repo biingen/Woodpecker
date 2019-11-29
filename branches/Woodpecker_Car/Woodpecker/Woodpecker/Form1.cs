@@ -39,6 +39,7 @@ namespace Woodpecker
         private string _args;
 
         private string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        private string MailPath = Application.StartupPath + "\\Mail.ini";
 
         private Add_ons Add_ons = new Add_ons();
         private BlueRat MyBlueRat = new BlueRat();
@@ -1250,6 +1251,7 @@ namespace Woodpecker
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
+                ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
                 {
@@ -1279,10 +1281,13 @@ namespace Woodpecker
                         }
 
                         Schedule_Time();
-                        //Console.WriteLine("Datagridview highlight.");
-                        GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                        //Console.WriteLine("Datagridview scollbar.");
-                        Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                        if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                        {
+                            //Console.WriteLine("Datagridview highlight.");
+                            GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                            //Console.WriteLine("Datagridview scollbar.");
+                            Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                        }
 
                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
                             stime = int.Parse(columns_times); // 次數
@@ -2967,6 +2972,9 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        Console.WriteLine("CloseTime record.");
+                        ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
+
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
                             Console.WriteLine("Break schedule.");
@@ -3064,6 +3072,7 @@ namespace Woodpecker
             if (StartButtonPressed == false)//按下STOP讓schedule結束//
             {
                 Global.Break_Out_MyRunCamd = 1;
+                ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
                 UpdateUI("START", button_Start);
                 button_Start.Enabled = true;
                 button_Setting.Enabled = true;
@@ -3094,6 +3103,12 @@ namespace Woodpecker
 
                 Global.Total_Test_Time = Global.Schedule_1_TestTime + Global.Schedule_2_TestTime + Global.Schedule_3_TestTime + Global.Schedule_4_TestTime + Global.Schedule_5_TestTime;
                 ConvertToRealTime(Global.Total_Test_Time);
+                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                {
+                    Global.Loop_Number = Global.Loop_Number - 1;
+                    FormMail FormMail = new FormMail();
+                    FormMail.send();
+                }
             }
 
             label_Command.Text = "Completed!";
@@ -3135,6 +3150,20 @@ namespace Woodpecker
                     Global.caption_Sum = Global.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
+            }
+            else if (columns_serial == "_mail")
+            {
+                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                {
+                    Global.Pass_Or_Fail = "NG";
+                    FormMail FormMail = new FormMail();
+                    FormMail.send();
+                    label_Command.Text = "IO CMD_MAIL";
+                }
+                else
+                {
+                    MessageBox.Show("Please enable Mail Function in Settings.");
+                }
             }
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
@@ -3807,6 +3836,9 @@ namespace Woodpecker
             button_Schedule4.Enabled = true;
             button_Schedule5.Enabled = true;
             ReadSch();
+            ini12.INIWrite(MailPath, "Data Info", "TestCaseNumber", "0");
+            ini12.INIWrite(MailPath, "Data Info", "Result", "N/A");
+            ini12.INIWrite(MailPath, "Data Info", "NGfrequency", "0");
         }
         private void SchBtn2_Click(object sender, EventArgs e)          ////////////Schedule2
         {
@@ -4000,6 +4032,30 @@ namespace Woodpecker
             {
                 TimeSpan finishTime = TimeSpan.FromMilliseconds(ms);
                 label_ScheduleTime_Value.Invoke((MethodInvoker)(() => label_ScheduleTime_Value.Text = finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms"));
+                ini12.INIWrite(MailPath, "Total Test Time", "value", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+
+                // 寫入每個Schedule test time
+                if (Global.Schedule_Number == 1)
+                    ini12.INIWrite(MailPath, "Total Test Time", "value1", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+
+                if (StartButtonPressed == true)
+                {
+                    switch (Global.Schedule_Number)
+                    {
+                        case 2:
+                            ini12.INIWrite(MailPath, "Total Test Time", "value2", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+                            break;
+                        case 3:
+                            ini12.INIWrite(MailPath, "Total Test Time", "value3", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+                            break;
+                        case 4:
+                            ini12.INIWrite(MailPath, "Total Test Time", "value4", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+                            break;
+                        case 5:
+                            ini12.INIWrite(MailPath, "Total Test Time", "value5", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
+                            break;
+                    }
+                }
             }
             catch
             {
@@ -4073,6 +4129,11 @@ namespace Woodpecker
                 button_Start.Enabled = false;
                 setStyle();
                 SchedulePause.Reset();
+
+                //Console.WriteLine("Datagridview highlight.");
+                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                //Console.WriteLine("Datagridview scollbar.");
+                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
             {
@@ -4130,6 +4191,7 @@ namespace Woodpecker
             }*/
 
             label_TestTime_Value.Invoke((MethodInvoker)(() => label_TestTime_Value.Text = timeElapsed.Days.ToString("0") + "d " + timeElapsed.Hours.ToString("0") + "h " + timeElapsed.Minutes.ToString("0") + "m " + timeElapsed.Seconds.ToString("0") + "s " + timeElapsed.Milliseconds.ToString("0") + "ms"));
+            ini12.INIWrite(MailPath, "Total Test Time", "How Long", timeElapsed.Days.ToString("0") + "d " + timeElapsed.Hours.ToString("0") + "h " + timeElapsed.Minutes.ToString("0") + "m " + timeElapsed.Seconds.ToString("0") + "s" + timeElapsed.Milliseconds.ToString("0") + "ms");
         }
 
         static List<USBDeviceInfo> GetUSBDevices()
@@ -4788,6 +4850,7 @@ namespace Woodpecker
     public class Global//全域變數//
     {
         public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
 
         public static int Scheduler_Row = 0;
         public static List<string> VID = new List<string> { };
@@ -4814,6 +4877,7 @@ namespace Woodpecker
         public static int excel_Num = 0;
         public static bool FormSetting = true;
         public static bool FormSchedule = true;
+        public static bool FormMail = true;
         public static string RCDB = "";
         public static string IO_INPUT = "";
         public static int IO_PA10_0_COUNT = 0;

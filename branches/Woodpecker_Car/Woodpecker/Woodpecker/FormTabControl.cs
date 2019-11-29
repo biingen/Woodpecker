@@ -92,6 +92,15 @@ namespace Woodpecker
             Add_TabPage("Multi Schedule Setting", FormSchedule);
         }
 
+        private void MailSettingBtn_Click(object sender, EventArgs e)
+        {
+            FormMail FormMail = new FormMail();
+
+            MailSettingBtn.Enabled = false;
+            FormMail.Dock = DockStyle.Fill;
+            Add_TabPage("Mail Setting", FormMail);
+        }
+
         #region 滑鼠拖曳視窗
         private void gPanelTitleBack_MouseDown(object sender, MouseEventArgs e)
         {
@@ -141,6 +150,12 @@ namespace Woodpecker
             Dock = DockStyle.Fill
         };
 
+        FormMail FormMail = new FormMail
+        {
+            TopLevel = false,
+            Dock = DockStyle.Fill
+        };
+
         private void FormTabControl_Load(object sender, EventArgs e)
         {
             FormSetting.Show();
@@ -148,12 +163,16 @@ namespace Woodpecker
 
             FormSchedule.Show();
             tabControl.TabPages[1].Controls.Add(FormSchedule);
+
+            FormMail.Show();
+            tabControl.TabPages[2].Controls.Add(FormMail);
         }
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Global.FormSetting == true &&
-                Global.FormSchedule == true)
+                Global.FormSchedule == true &&
+                Global.FormMail == true)
             {
                 DialogResult = DialogResult.OK;
             }
@@ -176,6 +195,7 @@ namespace Woodpecker
 
             checkLoopIsEmpty(e);
             checkBaudRateIsEmpty(e);
+            checkMailReceiver(e);
             checkErrorMessage(e);
         }
 
@@ -220,6 +240,15 @@ namespace Woodpecker
                     e.Cancel = true;
                     FormSetting.label_ErrorMessage.Text = "Please select a proper Baud Rate!";
                 }
+            }
+        }
+
+        private void checkMailReceiver(FormClosingEventArgs e)
+        {
+            if (FormMail.SendMailcheckBox.Checked == true && string.IsNullOrEmpty(FormMail.textBox_To.Text))
+            {
+                e.Cancel = true;
+                FormMail.label_ErrorMessage.Text = "Receiver cannot be empty!";
             }
         }
 
