@@ -193,12 +193,14 @@ namespace Woodpecker
                 }
             }
 
+            if (comboBox_savelog.Items.Count > 1)
+                comboBox_savelog.Items.Add("Port All");
+
             if (comboBox_savelog.Items.Count == 0)
             {
                 button_savelog.Enabled = false;
                 comboBox_savelog.Enabled = false;
             }
-
             else
             {
                 button_savelog.Enabled = true;
@@ -4696,6 +4698,10 @@ namespace Woodpecker
                 case "Kline":
                     Serialportsave("KlinePort");
                     MessageBox.Show("Kline Port is saved.", "Reminder");
+                    break;
+                case "Port All":
+                    Serialportsave("All");
+                    MessageBox.Show("All Port is saved.", "Reminder");
                     break;
                 default:
                     break;
