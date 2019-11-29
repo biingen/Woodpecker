@@ -36,6 +36,9 @@ using MaterialSkin.Controls;
 using MaterialSkin;
 using Camera_NET;
 using DirectShowLib;
+using InTheHand.Net.Sockets;
+using InTheHand.Net;
+using InTheHand.Net.Bluetooth;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -676,7 +679,7 @@ namespace Woodpecker
         private delegate void UpdateUICallBack1(string value, DataGridView ctl);
         private void GridUI(string i, DataGridView gv)
         {
-            
+
             if (InvokeRequired)
             {
                 UpdateUICallBack1 uu = new UpdateUICallBack1(GridUI);
@@ -693,7 +696,7 @@ namespace Woodpecker
         private delegate void UpdateUICallBack3(string value, DataGridView ctl);
         private void Gridscroll(string i, DataGridView gv)
         {
-            
+
             if (InvokeRequired)
             {
                 UpdateUICallBack3 uu = new UpdateUICallBack3(Gridscroll);
@@ -4609,6 +4612,8 @@ namespace Woodpecker
             }
         }
         #endregion
+
+
 
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
@@ -10564,6 +10569,32 @@ namespace Woodpecker
                 {
                     Console.WriteLine(error);
                 }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                BluetoothDeviceInfo[] devices;
+                using (BluetoothClient sdp = new BluetoothClient())
+                    devices = sdp.DiscoverDevices();
+
+                if (devices != null)
+                {
+                    foreach (BluetoothDeviceInfo deviceInfo in devices)
+                    {
+                        Console.WriteLine(string.Format("=========={0} ({1})=========", deviceInfo.DeviceName, deviceInfo.DeviceAddress));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No bluetooth is found!");
+                }
+            }
+            catch(PlatformNotSupportedException)
+            {
+                MessageBox.Show("No bluetooth on this device.", "Error");
             }
         }
 

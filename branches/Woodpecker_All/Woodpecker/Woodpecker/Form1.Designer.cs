@@ -143,6 +143,7 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1500,6 +1501,16 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(985, 340);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 115;
+            this.button1.Text = "Bluetooth";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1507,6 +1518,7 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBoxResolutionList);
             this.Controls.Add(this.comboBoxCameraList);
             this.Controls.Add(this.button_savelog);
@@ -1713,6 +1725,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.ComboBox comboBoxCameraList;
         private System.Windows.Forms.ComboBox comboBoxResolutionList;
+        private System.Windows.Forms.Button button1;
     }
 }
 
