@@ -1283,12 +1283,15 @@ namespace Woodpecker
                         }
 
                         Schedule_Time();
-                        if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                        if (columns_wait != "")
                         {
-                            //Console.WriteLine("Datagridview highlight.");
-                            GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                            //Console.WriteLine("Datagridview scollbar.");
-                            Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                            {
+                                //Console.WriteLine("Datagridview highlight.");
+                                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                //Console.WriteLine("Datagridview scollbar.");
+                                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            }
                         }
 
                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
@@ -3299,13 +3302,25 @@ namespace Woodpecker
                     audio.Add(f.Name);
                 }
 
-                int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                int saud = 0;
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "")) != 0)
+                int scam, saud, VideoNum, AudioNum = 0;
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
+                    scam = 0;
+                else
+                    scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") == "")
+                    saud = 0;
+                else
                     saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
-                int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-                int AudioNum = 0;
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "")) != 0)
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "") == "")
+                    VideoNum = 0;
+                else
+                    VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "") == "")
+                    AudioNum = 0;
+                else
                     AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
