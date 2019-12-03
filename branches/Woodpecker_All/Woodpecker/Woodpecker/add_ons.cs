@@ -351,10 +351,6 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-                    else
-                    {
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
-                    }
                     #endregion
 
                     #region 偵測AutoBox1
@@ -407,7 +403,7 @@ namespace Woodpecker
 
                         int AutoBoxPortLengh = AutoBoxPort.Length;
                         string AutoBoxPortFinal = AutoBoxPort.Remove(AutoBoxPortLengh - 1);
-                        
+
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
                             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");

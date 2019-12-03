@@ -8271,7 +8271,7 @@ namespace Woodpecker
                 int scam, saud, VideoNum, AudioNum = 0;
                 if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
                     scam = 0;
-                else 
+                else
                     scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
 
                 if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") == "")
@@ -8963,6 +8963,7 @@ namespace Woodpecker
                 else
                 {
                     pictureBox_RedRat.Image = Properties.Resources.OFF;
+                    ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "0");
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -8990,6 +8991,7 @@ namespace Woodpecker
                     pictureBox_BlueRat.Image = Properties.Resources.ON;
                     GP0_GP1_AC_ON();
                     GP2_GP3_USB_PC();
+                    button_AcUsb.Enabled = true;
                 }
                 else
                 {
@@ -8997,6 +8999,8 @@ namespace Woodpecker
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
                     button_AcUsb.Enabled = false;
+                    PowerState = false;
+                    MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
                 }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;

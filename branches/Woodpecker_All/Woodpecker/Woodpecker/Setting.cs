@@ -21,7 +21,7 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
-            
+
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -198,10 +198,14 @@ namespace Woodpecker
 
         private void Setting_Load(object sender, EventArgs e)
         {
-            checkCamera();
-            checkAutokit();
+            //checkCamera();
+            //checkAutokit();
+
+            Add_ons addOns = new Add_ons();
+            addOns.USB_Read();
+
             //Image欄位//
-            if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
+                if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
                 textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
@@ -577,6 +581,7 @@ namespace Woodpecker
             }
         }
 
+
         private void checkCamera()
         {
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
@@ -640,7 +645,7 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-                    
+
                 }
                 else
                 {
