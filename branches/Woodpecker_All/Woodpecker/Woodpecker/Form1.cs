@@ -290,7 +290,6 @@ namespace Woodpecker
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
-                pictureBox_canbus.Image = Properties.Resources.OFF;
                 button_AcUsb.Enabled = false;
             }
 
@@ -335,6 +334,15 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
             /* Hidden serial port.
             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
             {
@@ -349,7 +357,6 @@ namespace Woodpecker
             */
 
             LoadRCDB();
-            ConnectCanBus();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -8671,7 +8678,7 @@ namespace Woodpecker
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
-                            //Log4Data.Abort();
+                            //Log5Data.Abort();
                         }
                     }
 
@@ -8955,33 +8962,13 @@ namespace Woodpecker
                     //LoadVirtualRC();
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    OpenRedRat3();
-                    pictureBox_RedRat.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_RedRat.Image = Properties.Resources.OFF;
-                }
-
-                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
-                {
-                    pictureBox_Camera.Image = Properties.Resources.ON;
-                    _captureInProgress = false;
-                    OnOffCamera();
-                    button_VirtualRC.Enabled = true;
-                    comboBox_CameraDevice.Enabled = false;
-                    button_Camera.Enabled = true;
-                }
-                else
-                {
-                    pictureBox_Camera.Image = Properties.Resources.OFF;
-                    button_Camera.Enabled = false;
-                }
-
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                 {
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "1")
+                    {
+                        ConnectAutoBox1();
+                    }
+
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
                     {
                         ConnectAutoBox2();
@@ -8997,6 +8984,38 @@ namespace Woodpecker
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
                     button_AcUsb.Enabled = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                {
+                    OpenRedRat3();
+                }
+                else
+                {
+                    pictureBox_RedRat.Image = Properties.Resources.OFF;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
+                {
+                    pictureBox_Camera.Image = Properties.Resources.ON;
+                    _captureInProgress = false;
+                    OnOffCamera();
+                    button_VirtualRC.Enabled = true;
+                    comboBox_CameraDevice.Enabled = false;
+                }
+                else
+                {
+                    pictureBox_Camera.Image = Properties.Resources.OFF;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                {
+                    ConnectCanBus();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
                 }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
@@ -10368,6 +10387,15 @@ namespace Woodpecker
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                    if (MYCanReader.Disconnect() != 1)
+                    {
+                        timer_canbus.Enabled = false;
+                        MYCanReader.StopCAN();
+                        MYCanReader.Disconnect();
+                        pictureBox_canbus.Image = Properties.Resources.OFF;
+                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        return;
+                    }
                 }
             }
         }
