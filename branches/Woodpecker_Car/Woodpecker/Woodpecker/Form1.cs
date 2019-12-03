@@ -238,7 +238,6 @@ namespace Woodpecker
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
-                pictureBox_canbus.Image = Properties.Resources.OFF;
                 button_AcUsb.Enabled = false;
             }
 
@@ -274,8 +273,17 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+
             LoadRCDB();
-            ConnectCanBus();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -3705,8 +3713,17 @@ namespace Woodpecker
                     pictureBox_BlueRat.Image = Properties.Resources.OFF;
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
                     button_AcUsb.Enabled = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                {
+                    ConnectCanBus();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
                 }
 
                 List<string> SchExist = new List<string> { };
@@ -4761,6 +4778,15 @@ namespace Woodpecker
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                    if (MYCanReader.Disconnect() != 1)
+                    {
+                        timer_canbus.Enabled = false;
+                        MYCanReader.StopCAN();
+                        MYCanReader.Disconnect();
+                        pictureBox_canbus.Image = Properties.Resources.OFF;
+                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        return;
+                    }
                 }
             }
         }

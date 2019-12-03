@@ -151,8 +151,11 @@ namespace Woodpecker
 
         private void Setting_Load(object sender, EventArgs e)
         {
-            checkCamera();
-            checkAutokit();
+            //checkCamera();
+            //checkAutokit();
+            Add_ons Addons = new Add_ons();
+            Addons.USB_Read();
+
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
