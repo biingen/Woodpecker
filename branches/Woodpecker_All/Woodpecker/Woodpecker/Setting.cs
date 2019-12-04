@@ -196,16 +196,16 @@ namespace Woodpecker
             }
         }
 
+        Add_ons addOns = new Add_ons();
         private void Setting_Load(object sender, EventArgs e)
         {
             //checkCamera();
             //checkAutokit();
 
-            Add_ons addOns = new Add_ons();
             addOns.USB_Read();
 
             //Image欄位//
-                if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
+            if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
                 textBox_ImagePath.Text = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             }
@@ -563,9 +563,10 @@ namespace Woodpecker
                     }
                     label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
                 }
-                catch (Exception Ex)
+                catch (Exception)
                 {
-                    MessageBox.Show("Please reload the setting.", "Camera Error");
+                    MessageBox.Show("Please reload the setting to reset Camera.", "Camera Error");
+                    ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
             else
