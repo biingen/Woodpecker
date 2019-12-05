@@ -165,6 +165,7 @@
     <Compile Include="add_ons.cs" />
     <Compile Include="BlockMessage.cs" />
     <Compile Include="CAN_Read.cs" />
+    <Compile Include="CRC_Calc.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="Form1.cs">

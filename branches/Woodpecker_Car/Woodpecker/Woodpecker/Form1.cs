@@ -2247,6 +2247,401 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- I2C Read --
+                        else if (columns_command == "_TX_I2C_Read")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- I2C Write --
+                        else if (columns_command == "_TX_I2C_Write")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortA");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6C " + (Data_length+1) + " " + (Data_length+6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortB");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortC");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortD");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortE");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
+                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
+                                    int CRC_Calc_index = 0;
+                                    foreach (string hex in CRC_Calc_Split)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                    }
+                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
+                                    Array.Reverse(CRC_Calc_Bytes);
+                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    string[] hexValuesSplit = Outputstring.Split(' ');
+                                    byte[] bytes = new byte[hexValuesSplit.Count()];
+                                    int index = 0;
+                                    foreach (string hex in hexValuesSplit)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        bytes[index++] = number;
+                                    }
+                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
                         #region -- 命令提示 --
                         else if (columns_command == "_DOS")
                         {
@@ -3428,6 +3823,8 @@ namespace Woodpecker
             RCDB.Items.Add("_WaterTemp");
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
+            RCDB.Items.Add("_TX_I2C_Read");
+            RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
