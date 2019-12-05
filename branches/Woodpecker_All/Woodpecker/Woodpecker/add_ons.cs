@@ -403,7 +403,7 @@ namespace Woodpecker
 
                         int AutoBoxPortLengh = AutoBoxPort.Length;
                         string AutoBoxPortFinal = AutoBoxPort.Remove(AutoBoxPortLengh - 1);
-                        
+
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
                             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");

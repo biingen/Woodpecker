@@ -21,7 +21,7 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
-            
+
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -196,10 +196,14 @@ namespace Woodpecker
             }
         }
 
+        Add_ons addOns = new Add_ons();
         private void Setting_Load(object sender, EventArgs e)
         {
-            checkCamera();
-            checkAutokit();
+            //checkCamera();
+            //checkAutokit();
+
+            addOns.USB_Read();
+
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
             {
@@ -559,9 +563,10 @@ namespace Woodpecker
                     }
                     label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
                 }
-                catch (Exception Ex)
+                catch (Exception)
                 {
-                    MessageBox.Show("Please reload the setting.", "Camera Error");
+                    MessageBox.Show("Please reload the setting to reset Camera.", "Camera Error");
+                    ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
             else
@@ -576,6 +581,7 @@ namespace Woodpecker
                 ini12.INIWrite(MainSettingPath, "LogSearch", "TextNum", "0");
             }
         }
+
 
         private void checkCamera()
         {
@@ -640,7 +646,7 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-                    
+
                 }
                 else
                 {

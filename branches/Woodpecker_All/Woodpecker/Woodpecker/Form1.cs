@@ -118,10 +118,10 @@ namespace Woodpecker
 
         //拖動無窗體的控件>>>>>>>>>>>>>>>>>>>>
         [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        new public static extern bool ReleaseCapture();
 
         [DllImport("user32.dll")]
-        public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+        new public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         public const int WM_SYSCOMMAND = 0x0112;
         public const int SC_MOVE = 0xF010;
         public const int HTCAPTION = 0x0002;
@@ -242,6 +242,9 @@ namespace Woodpecker
                 }
             }
 
+            if (comboBox_savelog.Items.Count > 1)
+                comboBox_savelog.Items.Add("Port All");
+
             if (comboBox_savelog.Items.Count == 0)
             {
                 button_savelog.Enabled = false;
@@ -295,7 +298,6 @@ namespace Woodpecker
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
-                pictureBox_canbus.Image = Properties.Resources.OFF;
                 button_AcUsb.Enabled = false;
             }
 
@@ -340,6 +342,15 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
             /* Hidden serial port.
             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
             {
@@ -354,7 +365,6 @@ namespace Woodpecker
             */
 
             LoadRCDB();
-            ConnectCanBus();
 
 
             FillCameraList();
@@ -4739,10 +4749,16 @@ namespace Woodpecker
                         }
 
                         Schedule_Time();
-                        //Console.WriteLine("Datagridview highlight.");
-                        GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                        //Console.WriteLine("Datagridview scollbar.");
-                        Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                        if (columns_wait != "")
+                        {
+                            if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                            {
+                                //Console.WriteLine("Datagridview highlight.");
+                                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                //Console.WriteLine("Datagridview scollbar.");
+                                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            }
+                        }
 
                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
                             stime = int.Parse(columns_times); // 次數
@@ -5407,7 +5423,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -5666,7 +5682,7 @@ namespace Woodpecker
 
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("ALL"); //存檔rs232
+                                    Serialportsave("All"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -8382,13 +8398,25 @@ namespace Woodpecker
                     audio.Add(f.Name);
                 }
 
-                int scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                int saud = 0;
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "")) != 0)
+                int scam, saud, VideoNum, AudioNum = 0;
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
+                    scam = 0;
+                else
+                    scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") == "")
+                    saud = 0;
+                else
                     saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
-                int VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
-                int AudioNum = 0;
-                if (int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "")) != 0)
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "") == "")
+                    VideoNum = 0;
+                else
+                    VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "") == "")
+                    AudioNum = 0;
+                else
                     AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
@@ -8464,7 +8492,7 @@ namespace Woodpecker
                     capture.PreviewWindow = null;
                 }
             }
-            catch (NotSupportedException ex)
+            catch (NotSupportedException)
             {
                 MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                 button_Start.PerformClick();
@@ -8773,7 +8801,7 @@ namespace Woodpecker
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
-                            //Log4Data.Abort();
+                            //Log5Data.Abort();
                         }
                     }
 
@@ -9057,14 +9085,40 @@ namespace Woodpecker
                     //LoadVirtualRC();
                 }
 
+                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "1")
+                    {
+                        ConnectAutoBox1();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
+                    {
+                        ConnectAutoBox2();
+                    }
+
+                    pictureBox_BlueRat.Image = Properties.Resources.ON;
+                    GP0_GP1_AC_ON();
+                    GP2_GP3_USB_PC();
+                }
+                else
+                {
+                    pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    button_AcUsb.Enabled = false;
+                    PowerState = false;
+                    MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
+                }
+
                 if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
                 {
                     OpenRedRat3();
-                    pictureBox_RedRat.Image = Properties.Resources.ON;
                 }
                 else
                 {
                     pictureBox_RedRat.Image = Properties.Resources.OFF;
+                    ini12.INIWrite(MainSettingPath, "Device", "RedRatExist", "0");
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
@@ -9080,24 +9134,14 @@ namespace Woodpecker
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                 {
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
-                    {
-                        ConnectAutoBox2();
-                    }
-
-                    pictureBox_BlueRat.Image = Properties.Resources.ON;
-                    GP0_GP1_AC_ON();
-                    GP2_GP3_USB_PC();
+                    ConnectCanBus();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
                 }
                 else
                 {
-                    pictureBox_BlueRat.Image = Properties.Resources.OFF;
-                    pictureBox_AcPower.Image = Properties.Resources.OFF;
-                    pictureBox_ext_board.Image = Properties.Resources.OFF;
                     pictureBox_canbus.Image = Properties.Resources.OFF;
-                    button_AcUsb.Enabled = false;
                 }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
@@ -9120,7 +9164,6 @@ namespace Woodpecker
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
                 button_Schedule5.Visible = SchExist[3] == "0" ? false : true;
             }
-            //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             FormTabControl.Dispose();
             button_Schedule1.Enabled = true;
@@ -9340,7 +9383,7 @@ namespace Woodpecker
             {
                 DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Please load or write a new schedule", "Schedule Error");
             }
@@ -9705,6 +9748,11 @@ namespace Woodpecker
                 button_Start.Enabled = false;
                 setStyle();
                 SchedulePause.Reset();
+
+                //Console.WriteLine("Datagridview highlight.");
+                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                //Console.WriteLine("Datagridview scollbar.");
+                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
             {
@@ -10013,7 +10061,7 @@ namespace Woodpecker
                 bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
                 bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Woodpecker is already running.", "GP0_GP1_AC_ON Error");
             }
@@ -10077,7 +10125,7 @@ namespace Woodpecker
                 bool Success_GP3_Enable = PL2303_GP3_Enable(hCOM, 1);
                 bool Success_GP3_SetValue = PL2303_GP3_SetValue(hCOM, val);
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Woodpecker is already running.", "GP2_GP3_USB_PC Error");
             }
@@ -10447,6 +10495,10 @@ namespace Woodpecker
                     Serialportsave("KlinePort");
                     MessageBox.Show("Kline Port is saved.", "Reminder");
                     break;
+                case "Port All":
+                    Serialportsave("All");
+                    MessageBox.Show("All Port is saved.", "Reminder");
+                    break;
                 default:
                     break;
             }
@@ -10490,6 +10542,15 @@ namespace Woodpecker
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                    if (MYCanReader.Disconnect() != 1)
+                    {
+                        timer_canbus.Enabled = false;
+                        MYCanReader.StopCAN();
+                        MYCanReader.Disconnect();
+                        pictureBox_canbus.Image = Properties.Resources.OFF;
+                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        return;
+                    }
                 }
             }
         }
