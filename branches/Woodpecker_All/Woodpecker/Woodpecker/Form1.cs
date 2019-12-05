@@ -46,7 +46,6 @@ namespace Woodpecker
     public partial class Form1 : MaterialForm
     {
         private CameraChoice _CameraChoice = new CameraChoice();
-        private CameraControl cameraControl = new CameraControl();
 
         private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
@@ -10657,6 +10656,11 @@ namespace Woodpecker
             {
                 MessageBox.Show("No bluetooth on this device.", "Error");
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            cameraControl.BringToFront();
         }
 
         //Select & copy log from textbox

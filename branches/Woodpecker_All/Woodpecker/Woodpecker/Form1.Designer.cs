@@ -132,6 +132,9 @@ namespace Woodpecker
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
             this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
             this.comboBoxResolutionList = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.cameraControl = new Camera_NET.CameraControl();
+            this.button2 = new System.Windows.Forms.Button();
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -143,7 +146,7 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.timerCustom1 = new Woodpecker.TimerCustom();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -165,6 +168,7 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timerCustom1)).BeginInit();
             this.SuspendLayout();
             // 
             // button_Setting
@@ -566,10 +570,10 @@ namespace Woodpecker
             this.panel1.Controls.Add(this.SegLabel2);
             this.panel1.Controls.Add(this.SegLabel1);
             this.panel1.Controls.Add(this.labelSch1Timer);
-            this.panel1.Controls.Add(this.labelSch2Timer);
             this.panel1.Controls.Add(this.labelSch3Timer);
             this.panel1.Controls.Add(this.labelSch5Timer);
             this.panel1.Controls.Add(this.labelSch4Timer);
+            this.panel1.Controls.Add(this.labelSch2Timer);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(788, 285);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
@@ -1327,6 +1331,7 @@ namespace Woodpecker
             // 
             // comboBoxCameraList
             // 
+            this.comboBoxCameraList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxCameraList.FormattingEnabled = true;
             this.comboBoxCameraList.Location = new System.Drawing.Point(975, 265);
             this.comboBoxCameraList.Name = "comboBoxCameraList";
@@ -1336,12 +1341,44 @@ namespace Woodpecker
             // 
             // comboBoxResolutionList
             // 
+            this.comboBoxResolutionList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxResolutionList.FormattingEnabled = true;
             this.comboBoxResolutionList.Location = new System.Drawing.Point(975, 299);
             this.comboBoxResolutionList.Name = "comboBoxResolutionList";
             this.comboBoxResolutionList.Size = new System.Drawing.Size(110, 24);
             this.comboBoxResolutionList.TabIndex = 114;
             this.comboBoxResolutionList.SelectedIndexChanged += new System.EventHandler(this.comboBoxResolutionList_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(1010, 361);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 115;
+            this.button1.Text = "Bluetooth";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // cameraControl
+            // 
+            this.cameraControl.BackColor = System.Drawing.Color.Maroon;
+            this.cameraControl.DirectShowLogFilepath = "";
+            this.cameraControl.Location = new System.Drawing.Point(14, 121);
+            this.cameraControl.Margin = new System.Windows.Forms.Padding(4);
+            this.cameraControl.MinimumSize = new System.Drawing.Size(1, 1);
+            this.cameraControl.Name = "cameraControl";
+            this.cameraControl.Size = new System.Drawing.Size(949, 400);
+            this.cameraControl.TabIndex = 116;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1010, 329);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 117;
+            this.button2.Text = "Camera";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // DataGridView_Schedule
             // 
@@ -1501,15 +1538,10 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // button1
+            // timerCustom1
             // 
-            this.button1.Location = new System.Drawing.Point(985, 340);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 115;
-            this.button1.Text = "Bluetooth";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.timerCustom1.Enabled = true;
+            this.timerCustom1.SynchronizingObject = this;
             // 
             // Form1
             // 
@@ -1518,6 +1550,8 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
+            this.Controls.Add(this.cameraControl);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBoxResolutionList);
             this.Controls.Add(this.comboBoxCameraList);
@@ -1562,11 +1596,11 @@ namespace Woodpecker
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
+            this.Controls.Add(this.comboBox_CameraDevice);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.panel_AcUsb);
             this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_serial);
-            this.Controls.Add(this.panel_AcUsb);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1605,6 +1639,7 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timerCustom1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1726,6 +1761,9 @@ namespace Woodpecker
         private System.Windows.Forms.ComboBox comboBoxCameraList;
         private System.Windows.Forms.ComboBox comboBoxResolutionList;
         private System.Windows.Forms.Button button1;
+        private TimerCustom timerCustom1;
+        private Camera_NET.CameraControl cameraControl;
+        private System.Windows.Forms.Button button2;
     }
 }
 
