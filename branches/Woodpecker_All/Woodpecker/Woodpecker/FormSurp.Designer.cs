@@ -43,9 +43,9 @@
             this.ImportDB.Location = new System.Drawing.Point(11, 624);
             this.ImportDB.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ImportDB.Name = "ImportDB";
-            this.ImportDB.Size = new System.Drawing.Size(100, 16);
+            this.ImportDB.Size = new System.Drawing.Size(119, 16);
             this.ImportDB.TabIndex = 58;
-            this.ImportDB.Text = "Import Database";
+            this.ImportDB.Text = "Import Data analysis";
             this.ImportDB.UseVisualStyleBackColor = true;
             this.ImportDB.CheckedChanged += new System.EventHandler(this.ImportDB_CheckedChanged);
             // 

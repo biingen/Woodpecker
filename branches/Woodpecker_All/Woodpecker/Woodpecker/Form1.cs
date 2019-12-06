@@ -343,6 +343,12 @@ namespace Woodpecker
             {
                 pictureBox_canbus.Image = Properties.Resources.OFF;
             }
+
+            if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
+                button_Analysis.Visible = true;
+            else
+                button_Analysis.Visible = false;
+
             /* Hidden serial port.
             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
             {
@@ -9148,7 +9154,15 @@ namespace Woodpecker
         private void LabelVersion_MouseClick(object sender, MouseEventArgs e)
         {
             FormSurp SurpriseForm = new FormSurp();
-            SurpriseForm.Show(this);
+
+            if (SurpriseForm.ShowDialog() == DialogResult.OK)
+            {
+                if (ini12.INIRead(MainSettingPath, "Record", "ImportDB", "") == "1")
+                    button_Analysis.Visible = true;
+                else
+                    button_Analysis.Visible = false;
+            }
+            SurpriseForm.Dispose();
         }
 
         private void Com1Btn_Click(object sender, EventArgs e)
