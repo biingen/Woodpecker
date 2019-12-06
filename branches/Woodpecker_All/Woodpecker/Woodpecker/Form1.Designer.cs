@@ -130,11 +130,7 @@ namespace Woodpecker
             this.PortD = new System.IO.Ports.SerialPort(this.components);
             this.PortE = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
-            this.comboBoxCameraList = new System.Windows.Forms.ComboBox();
-            this.comboBoxResolutionList = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.cameraControl = new Camera_NET.CameraControl();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_BluetoothConnect = new System.Windows.Forms.Button();
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -147,6 +143,9 @@ namespace Woodpecker
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.timerCustom1 = new Woodpecker.TimerCustom();
+            this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
+            this.textBox_Bluetooth = new System.Windows.Forms.TextBox();
+            this.button_BluetoothSearch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -312,7 +311,7 @@ namespace Woodpecker
             this.button_SerialPort.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.button_SerialPort.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_SerialPort.ForeColor = System.Drawing.Color.Black;
-            this.button_SerialPort.Location = new System.Drawing.Point(975, 217);
+            this.button_SerialPort.Location = new System.Drawing.Point(975, 206);
             this.button_SerialPort.Margin = new System.Windows.Forms.Padding(2);
             this.button_SerialPort.Name = "button_SerialPort";
             this.button_SerialPort.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -1329,56 +1328,15 @@ namespace Woodpecker
             this.comboBox_savelog.Size = new System.Drawing.Size(86, 24);
             this.comboBox_savelog.TabIndex = 111;
             // 
-            // comboBoxCameraList
+            // button_BluetoothConnect
             // 
-            this.comboBoxCameraList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxCameraList.FormattingEnabled = true;
-            this.comboBoxCameraList.Location = new System.Drawing.Point(975, 265);
-            this.comboBoxCameraList.Name = "comboBoxCameraList";
-            this.comboBoxCameraList.Size = new System.Drawing.Size(110, 24);
-            this.comboBoxCameraList.TabIndex = 113;
-            this.comboBoxCameraList.SelectedIndexChanged += new System.EventHandler(this.comboBoxCameraList_SelectedIndexChanged);
-            // 
-            // comboBoxResolutionList
-            // 
-            this.comboBoxResolutionList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxResolutionList.FormattingEnabled = true;
-            this.comboBoxResolutionList.Location = new System.Drawing.Point(975, 299);
-            this.comboBoxResolutionList.Name = "comboBoxResolutionList";
-            this.comboBoxResolutionList.Size = new System.Drawing.Size(110, 24);
-            this.comboBoxResolutionList.TabIndex = 114;
-            this.comboBoxResolutionList.SelectedIndexChanged += new System.EventHandler(this.comboBoxResolutionList_SelectedIndexChanged);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1010, 361);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 115;
-            this.button1.Text = "Bluetooth";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // cameraControl
-            // 
-            this.cameraControl.BackColor = System.Drawing.Color.Maroon;
-            this.cameraControl.DirectShowLogFilepath = "";
-            this.cameraControl.Location = new System.Drawing.Point(14, 121);
-            this.cameraControl.Margin = new System.Windows.Forms.Padding(4);
-            this.cameraControl.MinimumSize = new System.Drawing.Size(1, 1);
-            this.cameraControl.Name = "cameraControl";
-            this.cameraControl.Size = new System.Drawing.Size(949, 400);
-            this.cameraControl.TabIndex = 116;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(1010, 329);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 117;
-            this.button2.Text = "Camera";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button_BluetoothConnect.Location = new System.Drawing.Point(1010, 372);
+            this.button_BluetoothConnect.Name = "button_BluetoothConnect";
+            this.button_BluetoothConnect.Size = new System.Drawing.Size(75, 23);
+            this.button_BluetoothConnect.TabIndex = 115;
+            this.button_BluetoothConnect.Text = "Connect";
+            this.button_BluetoothConnect.UseVisualStyleBackColor = true;
+            this.button_BluetoothConnect.Click += new System.EventHandler(this.button_BluetoothConnect_Click);
             // 
             // DataGridView_Schedule
             // 
@@ -1543,6 +1501,33 @@ namespace Woodpecker
             this.timerCustom1.Enabled = true;
             this.timerCustom1.SynchronizingObject = this;
             // 
+            // comboBox_Bluetooth
+            // 
+            this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Bluetooth.FormattingEnabled = true;
+            this.comboBox_Bluetooth.Location = new System.Drawing.Point(974, 289);
+            this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
+            this.comboBox_Bluetooth.Size = new System.Drawing.Size(110, 24);
+            this.comboBox_Bluetooth.TabIndex = 118;
+            // 
+            // textBox_Bluetooth
+            // 
+            this.textBox_Bluetooth.Location = new System.Drawing.Point(984, 316);
+            this.textBox_Bluetooth.Name = "textBox_Bluetooth";
+            this.textBox_Bluetooth.Size = new System.Drawing.Size(100, 22);
+            this.textBox_Bluetooth.TabIndex = 119;
+            this.textBox_Bluetooth.Text = "Pin";
+            // 
+            // button_BluetoothSearch
+            // 
+            this.button_BluetoothSearch.Location = new System.Drawing.Point(1010, 344);
+            this.button_BluetoothSearch.Name = "button_BluetoothSearch";
+            this.button_BluetoothSearch.Size = new System.Drawing.Size(75, 23);
+            this.button_BluetoothSearch.TabIndex = 120;
+            this.button_BluetoothSearch.Text = "Search";
+            this.button_BluetoothSearch.UseVisualStyleBackColor = true;
+            this.button_BluetoothSearch.Click += new System.EventHandler(this.button_BluetoothSearch_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1550,11 +1535,10 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
-            this.Controls.Add(this.cameraControl);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBoxResolutionList);
-            this.Controls.Add(this.comboBoxCameraList);
+            this.Controls.Add(this.button_BluetoothSearch);
+            this.Controls.Add(this.textBox_Bluetooth);
+            this.Controls.Add(this.comboBox_Bluetooth);
+            this.Controls.Add(this.button_BluetoothConnect);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1758,12 +1742,11 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.ComboBox comboBoxCameraList;
-        private System.Windows.Forms.ComboBox comboBoxResolutionList;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_BluetoothConnect;
         private TimerCustom timerCustom1;
-        private Camera_NET.CameraControl cameraControl;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.ComboBox comboBox_Bluetooth;
+        private System.Windows.Forms.TextBox textBox_Bluetooth;
+        private System.Windows.Forms.Button button_BluetoothSearch;
     }
 }
 

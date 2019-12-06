@@ -45,8 +45,6 @@ namespace Woodpecker
 {
     public partial class Form1 : MaterialForm
     {
-        private CameraChoice _CameraChoice = new CameraChoice();
-
         private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
@@ -362,18 +360,7 @@ namespace Woodpecker
                 button_SerialPort1.Visible = false;
             }
             */
-
             LoadRCDB();
-
-
-            FillCameraList();
-            if (comboBoxCameraList.Items.Count > 0)
-            {
-                comboBoxCameraList.SelectedIndex = 0;
-            }
-            FillResolutionList();
-
-
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -8236,99 +8223,6 @@ namespace Woodpecker
         }
         #endregion
 
-
-
-        private void FillCameraList()
-        {
-            comboBoxCameraList.Items.Clear();
-
-            _CameraChoice.UpdateDeviceList();
-
-            foreach (var camera_device in _CameraChoice.Devices)
-            {
-                comboBoxCameraList.Items.Add(camera_device.Name);
-            }
-        }
-
-        private void FillResolutionList()
-        {
-            comboBoxResolutionList.Items.Clear();
-
-            if (!cameraControl.CameraCreated)
-                return;
-
-            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
-
-            if (resolutions == null)
-                return;
-
-            int index_to_select = -1;
-
-            for (int index = 0; index < resolutions.Count; index++)
-            {
-                comboBoxResolutionList.Items.Add(resolutions[index].ToString());
-
-                if (resolutions[index].CompareTo(cameraControl.Resolution) == 0)
-                {
-                    index_to_select = index;
-                }
-            }
-
-            // select current resolution
-            if (index_to_select >= 0)
-            {
-                comboBoxResolutionList.SelectedIndex = index_to_select;
-            }
-        }
-
-        private void comboBoxCameraList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxCameraList.SelectedIndex < 0)
-            {
-                cameraControl.CloseCamera();
-            }
-            else
-            {
-                // Set camera
-                cameraControl.SetCamera(_CameraChoice.Devices[comboBoxCameraList.SelectedIndex].Mon, null);
-                //SetCamera(_CameraChoice.Devices[ comboBoxCameraList.SelectedIndex ].Mon, null);
-            }
-
-            FillResolutionList();
-        }
-
-        private void comboBoxResolutionList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (!cameraControl.CameraCreated)
-                return;
-
-            int comboBoxResolutionIndex = comboBoxResolutionList.SelectedIndex;
-            if (comboBoxResolutionIndex < 0)
-            {
-                return;
-            }
-            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
-
-            if (resolutions == null)
-                return;
-
-            if (comboBoxResolutionIndex >= resolutions.Count)
-                return; // throw
-
-            if (0 == resolutions[comboBoxResolutionIndex].CompareTo(cameraControl.Resolution))
-            {
-                // this resolution is already selected
-                return;
-            }
-
-            // Recreate camera
-            //SetCamera(_Camera.Moniker, resolutions[comboBoxResolutionIndex]);
-            cameraControl.SetCamera(cameraControl.Moniker, resolutions[comboBoxResolutionIndex]);
-
-        }
-
-
-
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
@@ -8427,6 +8321,7 @@ namespace Woodpecker
                 else
                 {
                     capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
+
                     try
                     {
                         capture.FrameSize = new Size(2304, 1296);
@@ -10632,35 +10527,64 @@ namespace Woodpecker
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        BluetoothClient blueclient = new BluetoothClient();
+        Dictionary<string, BluetoothAddress> deviceAddressesDic = new Dictionary<string, BluetoothAddress>();
+        private void button_BluetoothConnect_Click(object sender, EventArgs e)
+        {
+            string temp = comboBox_Bluetooth.SelectedItem.ToString();
+            BluetoothAddress DeviceAddress = deviceAddressesDic[temp];
+            blueclient.SetPin(DeviceAddress, textBox_Bluetooth.Text);
+            blueclient.Connect(DeviceAddress, BluetoothService.SerialPort);
+
+            if (blueclient.Connected)
+            {
+                MessageBox.Show("Connect Successful.");
+
+            }
+            else
+            {
+                MessageBox.Show("Connect Failed.");
+            }
+        }
+
+        private void button_BluetoothSearch_Click(object sender, EventArgs e)
         {
             try
             {
-                BluetoothDeviceInfo[] devices;
-                using (BluetoothClient sdp = new BluetoothClient())
-                    devices = sdp.DiscoverDevices();
+                BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
+                BuleRadio.Mode = RadioMode.Connectable;
+
+                MessageBox.Show("Searching bluetooth device....", "Bluetooth");
+                BluetoothDeviceInfo[] devices = blueclient.DiscoverDevices();
+
+                deviceAddressesDic.Clear();
+                comboBox_Bluetooth.Items.Clear();
 
                 if (devices != null)
                 {
                     foreach (BluetoothDeviceInfo deviceInfo in devices)
                     {
                         Console.WriteLine(string.Format("=========={0} ({1})=========", deviceInfo.DeviceName, deviceInfo.DeviceAddress));
+                        deviceAddressesDic[deviceInfo.DeviceName] = deviceInfo.DeviceAddress;
+                        comboBox_Bluetooth.Items.Add(deviceInfo.DeviceName);
+
+                        // Select the first one
+                        if (comboBox_Bluetooth.Items.Count > 0)
+                        {
+                            comboBox_Bluetooth.SelectedIndex = 0;
+                        }
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No bluetooth is found!");
+                    MessageBox.Show("No bluetooth device is found.", "Bluetooth");
+                    Console.WriteLine("No bluetooth device is found!");
                 }
             }
-            catch(PlatformNotSupportedException)
+            catch (PlatformNotSupportedException)
             {
                 MessageBox.Show("No bluetooth on this device.", "Error");
             }
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            cameraControl.BringToFront();
         }
 
         //Select & copy log from textbox
