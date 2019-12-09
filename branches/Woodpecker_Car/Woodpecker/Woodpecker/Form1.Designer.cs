@@ -246,7 +246,7 @@ namespace Woodpecker
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.05";
+            this.label_FwVersion.Text = "Ver. 1.0.06";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button_Schedule1

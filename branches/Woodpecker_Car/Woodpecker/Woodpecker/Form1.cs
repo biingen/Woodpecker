@@ -75,10 +75,10 @@ namespace Woodpecker
 
         //拖動無窗體的控件>>>>>>>>>>>>>>>>>>>>
         [DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        new public static extern bool ReleaseCapture();
 
         [DllImport("user32.dll")]
-        public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
+        new public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         public const int WM_SYSCOMMAND = 0x0112;
         public const int SC_MOVE = 0xF010;
         public const int HTCAPTION = 0x0002;
@@ -2255,21 +2255,22 @@ namespace Woodpecker
                                 Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
                                 if (columns_times != "" && columns_function != "")
                                 {
-                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2293,21 +2294,22 @@ namespace Woodpecker
                                 Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
                                 if (columns_times != "" && columns_function != "")
                                 {
-                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2331,21 +2333,22 @@ namespace Woodpecker
                                 Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
                                 if (columns_times != "" && columns_function != "")
                                 {
-                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2369,21 +2372,22 @@ namespace Woodpecker
                                 Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
                                 if (columns_times != "" && columns_function != "")
                                 {
-                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2407,21 +2411,22 @@ namespace Woodpecker
                                 Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
                                 if (columns_times != "" && columns_function != "")
                                 {
-                                    string CRC_Calc_string = columns_times + " " + columns_function + " " + "20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2451,21 +2456,22 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6C " + (Data_length+1) + " " + (Data_length+6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6C " + (Data_length+1) + " " + (Data_length+6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2490,21 +2496,22 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2529,21 +2536,22 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2568,21 +2576,22 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -2607,21 +2616,22 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string CRC_Calc_string = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string[] CRC_Calc_Split = CRC_Calc_string.Split(' ');
-                                    byte[] CRC_Calc_bytes = new byte[CRC_Calc_Split.Count()];
-                                    int CRC_Calc_index = 0;
-                                    foreach (string hex in CRC_Calc_Split)
+                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string[] orginal_array = orginal_data.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
                                     {
                                         // Convert the number expressed in base-16 to an integer.
                                         byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                                         // Get the character corresponding to the integral value.
-                                        CRC_Calc_bytes[CRC_Calc_index++] = number;
+                                        orginal_bytes[orginal_index++] = number;
                                     }
-                                    byte[] CRC_Calc_Bytes = System.BitConverter.GetBytes(CRC_Calc.CRC32_Calculation(CRC_Calc_bytes, (uint)CRC_Calc_bytes.Length));
-                                    Array.Reverse(CRC_Calc_Bytes);
-                                    string CRCValue = BitConverter.ToString(CRC_Calc_Bytes).Replace("-", " ");
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + CRCValue;
+                                    byte[] crc32_bytes = System.BitConverter.GetBytes(Crc32.CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+                                    Array.Reverse(crc32_bytes);
+                                    string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+
+                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     string[] hexValuesSplit = Outputstring.Split(' ');
                                     byte[] bytes = new byte[hexValuesSplit.Count()];
                                     int index = 0;
@@ -3799,7 +3809,7 @@ namespace Woodpecker
                     capture.PreviewWindow = null;
                 }
             }
-            catch (NotSupportedException ex)
+            catch (NotSupportedException)
             {
                 MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                 button_Start.PerformClick();
@@ -4104,6 +4114,7 @@ namespace Woodpecker
                     pictureBox_BlueRat.Image = Properties.Resources.ON;
                     GP0_GP1_AC_ON();
                     GP2_GP3_USB_PC();
+                    button_AcUsb.Enabled = true;
                 }
                 else
                 {
@@ -4111,6 +4122,8 @@ namespace Woodpecker
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
                     button_AcUsb.Enabled = false;
+                    PowerState = false;
+                    MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
@@ -4246,7 +4259,7 @@ namespace Woodpecker
             {
                 DataGridView_Schedule.Rows.Insert(DataGridView_Schedule.CurrentCell.RowIndex, new DataGridViewRow());
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Please load or write a new schedule", "Schedule Error");
             }
@@ -4798,7 +4811,7 @@ namespace Woodpecker
                 bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
                 bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Woodpecker is already running.", "GP0_GP1_AC_ON Error");
             }
@@ -4862,7 +4875,7 @@ namespace Woodpecker
                 bool Success_GP3_Enable = PL2303_GP3_Enable(hCOM, 1);
                 bool Success_GP3_SetValue = PL2303_GP3_SetValue(hCOM, val);
             }
-            catch (Exception Ex)
+            catch (Exception)
             {
                 MessageBox.Show("Woodpecker is already running.", "GP2_GP3_USB_PC Error");
             }

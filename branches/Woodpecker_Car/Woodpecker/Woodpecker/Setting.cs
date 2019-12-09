@@ -19,7 +19,7 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
-            
+
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -149,12 +149,10 @@ namespace Woodpecker
             }
         }
 
+        Add_ons addOns = new Add_ons();
         private void Setting_Load(object sender, EventArgs e)
         {
-            //checkCamera();
-            //checkAutokit();
-            Add_ons Addons = new Add_ons();
-            Addons.USB_Read();
+            addOns.USB_Read();
 
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
@@ -469,9 +467,10 @@ namespace Woodpecker
                     }
                     label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
                 }
-                catch (Exception Ex)
+                catch (Exception)
                 {
-                    MessageBox.Show("Please reload the setting.", "Camera Error");
+                    MessageBox.Show("Please reload the setting to reset Camera.", "Camera Error");
+                    ini12.INIWrite(MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
             else
@@ -480,142 +479,6 @@ namespace Woodpecker
                 comboBox_CameraAudio.Enabled = false;
             }
             #endregion
-        }
-
-        private void checkCamera()
-        {
-            ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
-            ManagementObjectCollection collection = search.Get();
-            var usbList = from u in collection.Cast<ManagementBaseObject>()
-                          select new
-                          {
-                              id = u.GetPropertyValue("DeviceID"),
-                              name = u.GetPropertyValue("Name"),
-                              description = u.GetPropertyValue("Description"),
-                              status = u.GetPropertyValue("Status"),
-                              system = u.GetPropertyValue("SystemName"),
-                              caption = u.GetPropertyValue("Caption"),
-                              pnp = u.GetPropertyValue("PNPDeviceID"),
-                          };
-
-            foreach (var usbDevice in usbList)
-            {
-                string deviceId = (string)usbDevice.id;
-                string deviceTp = (string)usbDevice.name;
-                string deviecDescription = (string)usbDevice.description;
-
-                string deviceStatus = (string)usbDevice.status;
-                string deviceSystem = (string)usbDevice.system;
-                string deviceCaption = (string)usbDevice.caption;
-                string devicePnp = (string)usbDevice.pnp;
-
-                if (deviecDescription != null)
-                {
-                    if (deviecDescription.IndexOf("USB 視訊裝置", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        deviecDescription.IndexOf("USB 视频设备", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        deviceTp.IndexOf("Webcam", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        deviceTp.IndexOf("Camera", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        if (deviceId.IndexOf("VID_", StringComparison.OrdinalIgnoreCase) >= 0)
-                        {
-                            int vidIndex = deviceId.IndexOf("VID_");
-                            string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"
-                            string vid = startingAtVid.Substring(0, 4); // vid is four characters long
-                            Global.VID.Add(vid);
-                        }
-
-                        if (deviceId.IndexOf("PID_", StringComparison.OrdinalIgnoreCase) >= 0)
-                        {
-                            int pidIndex = deviceId.IndexOf("PID_");
-                            string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"
-                            string pid = startingAtPid.Substring(0, 4); // pid is four characters long
-                            Global.PID.Add(pid);
-                        }
-
-                        Console.WriteLine("-----------------Camera------------------");
-                        Console.WriteLine("DeviceID: {0}\n" +
-                                              "Name: {1}\n" +
-                                              "Description: {2}\n" +
-                                              "Status: {3}\n" +
-                                              "System: {4}\n" +
-                                              "Caption: {5}\n" +
-                                              "Pnp: {6}\n"
-                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
-
-                        //Camera存在
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
-                    }
-                    
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
-                }
-            }
-        }
-
-        private void checkAutokit()
-        {
-            ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
-            ManagementObjectCollection collection = search.Get();
-            var usbList = from u in collection.Cast<ManagementBaseObject>()
-                          select new
-                          {
-                              id = u.GetPropertyValue("DeviceID"),
-                              name = u.GetPropertyValue("Name"),
-                              description = u.GetPropertyValue("Description"),
-                              status = u.GetPropertyValue("Status"),
-                              system = u.GetPropertyValue("SystemName"),
-                              caption = u.GetPropertyValue("Caption"),
-                              pnp = u.GetPropertyValue("PNPDeviceID"),
-                          };
-
-            foreach (var usbDevice in usbList)
-            {
-                string deviceId = (string)usbDevice.id;
-                string deviceTp = (string)usbDevice.name;
-                string deviecDescription = (string)usbDevice.description;
-
-                string deviceStatus = (string)usbDevice.status;
-                string deviceSystem = (string)usbDevice.system;
-                string deviceCaption = (string)usbDevice.caption;
-                string devicePnp = (string)usbDevice.pnp;
-
-                if (deviecDescription != null)
-                {
-                    if (deviceId.IndexOf("&0&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
-                deviceId.IndexOf("USB\\VID_067B&PID_2303\\", StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        Console.WriteLine("-----------------AutoBox2------------------");
-                        Console.WriteLine("DeviceID: {0}\n" +
-                                              "Name: {1}\n" +
-                                              "Description: {2}\n" +
-                                              "Status: {3}\n" +
-                                              "System: {4}\n" +
-                                              "Caption: {5}\n" +
-                                              "Pnp: {6}\n"
-                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
-
-                        int FirstIndex = deviceTp.IndexOf("(");
-                        string AutoBoxPortSubstring = deviceTp.Substring(FirstIndex + 1);
-                        string AutoBoxPort = AutoBoxPortSubstring.Substring(0);
-
-                        int AutoBoxPortLengh = AutoBoxPort.Length;
-                        string AutoBoxPortFinal = AutoBoxPort.Remove(AutoBoxPortLengh - 1);
-
-                        if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
-                        {
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
-                        }
-                    }
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
-                }
-            }
         }
 
         //自動調整ComboBox寬度
