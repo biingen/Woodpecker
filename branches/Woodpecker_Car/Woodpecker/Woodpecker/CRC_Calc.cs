@@ -71,6 +71,24 @@ namespace Woodpecker
             }
             return ~crc;
         }
+
+        public static string I2C_CRC32(string orginal_data)
+        {
+            string[] orginal_array = orginal_data.Split(' ');
+            byte[] orginal_bytes = new byte[orginal_array.Count()];
+            int orginal_index = 0;
+            foreach (string hex in orginal_array)
+            {
+                // Convert the number expressed in base-16 to an integer.
+                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                // Get the character corresponding to the integral value.
+                orginal_bytes[orginal_index++] = number;
+            }
+            byte[] crc32_bytes = System.BitConverter.GetBytes(CRC32_Calculation(orginal_bytes, (uint)orginal_bytes.Length));
+            Array.Reverse(crc32_bytes);
+            string crc32_data = BitConverter.ToString(crc32_bytes).Replace("-", " ");
+            return crc32_data;
+        }
     }
 
     public class Crc16
