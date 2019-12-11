@@ -362,6 +362,8 @@ namespace Woodpecker
             */
             LoadRCDB();
 
+            BlutoothSearch();
+
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
             {
@@ -10527,36 +10529,137 @@ namespace Woodpecker
             }
         }
 
-        BluetoothClient blueclient = new BluetoothClient();
         Dictionary<string, BluetoothAddress> deviceAddressesDic = new Dictionary<string, BluetoothAddress>();
+        BluetoothClient blueclient = new BluetoothClient();
+        string pin = "0000";
+        private void BlutoothSearch()
+        {
+            Console.WriteLine("Searching bluetooth device....");
+
+            BluetoothComponent bco = new BluetoothComponent(blueclient);
+            deviceAddressesDic.Clear();
+            comboBox_Bluetooth.Items.Clear();
+            bco.DiscoverDevicesAsync(10, true, true, true, true, null);
+            bco.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
+            bco.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+
+        }
+
         private void button_BluetoothConnect_Click(object sender, EventArgs e)
         {
             string temp = comboBox_Bluetooth.SelectedItem.ToString();
             BluetoothAddress DeviceAddress = deviceAddressesDic[temp];
-            blueclient.SetPin(DeviceAddress, textBox_Bluetooth.Text);
-            blueclient.Connect(DeviceAddress, BluetoothService.SerialPort);
+
+            // check if device is paired
+            //blueclient.SetPin(DeviceAddress, pin);
+            // async connection method
+            //blueclient.Connect(DeviceAddress, BluetoothService.SerialPort);
+
+            // set pin of device to connect with
+            blueclient.SetPin(pin);
+            // async connection method
+            blueclient.BeginConnect(DeviceAddress, BluetoothService.Handsfree, new AsyncCallback(Connect), temp);
 
             if (blueclient.Connected)
             {
                 MessageBox.Show("Connect Successful.");
-
             }
             else
             {
                 MessageBox.Show("Connect Failed.");
+                BluetoothSecurity.RemoveDevice(DeviceAddress);
             }
+        }
+
+        private void component_DiscoverDevicesProgress(object sender, DiscoverDevicesEventArgs e)
+        {
+            //BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
+            //BuleRadio.Mode = RadioMode.Connectable;
+
+            for (int i = 0; i < e.Devices.Length; i++)
+            {
+                if (e.Devices[i].Remembered)
+                {
+                    Console.WriteLine(e.Devices[i].DeviceName + " (" + e.Devices[i].DeviceAddress + "): Device is known");
+                }
+                else
+                {
+                    Console.WriteLine(e.Devices[i].DeviceName + " (" + e.Devices[i].DeviceAddress + "): Device is unknown");
+                }
+                Console.WriteLine(string.Format("=========={0} ({1})=========", e.Devices[i].DeviceName, e.Devices[i].DeviceAddress));
+                comboBox_Bluetooth.Items.Add(e.Devices[i].DeviceName);
+                deviceAddressesDic[e.Devices[i].DeviceName] = e.Devices[i].DeviceAddress;
+            }
+        }
+
+        // callback
+        private void Connect(IAsyncResult result)
+        {
+            if (result.IsCompleted)
+            {
+                // client is connected now
+                Console.WriteLine("Connected");
+            }
+        }
+
+
+        private void component_DiscoverDevicesComplete(object sender, DiscoverDevicesEventArgs e)
+        {
+            Console.WriteLine("Finish searching");
         }
 
         private void button_BluetoothSearch_Click(object sender, EventArgs e)
         {
+            /*
             try
             {
                 BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
                 BuleRadio.Mode = RadioMode.Connectable;
 
                 MessageBox.Show("Searching bluetooth device....", "Bluetooth");
-                BluetoothDeviceInfo[] devices = blueclient.DiscoverDevices();
 
+
+                BluetoothComponent bco = new BluetoothComponent(blueclient);
+                bco.DiscoverDevicesAsync(10, true, true, true, false, 99);
+                bco.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
+                bco.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+
+                // get a list of all paired devices
+                BluetoothDeviceInfo[] paired = blueclient.DiscoverDevices(255, false, true, false, false);
+                // check every discovered device if it is already paired 
+                foreach (BluetoothDeviceInfo device in paired)
+                {
+                    Console.WriteLine(string.Format("=========={0} ({1})=========", device.DeviceName, device.DeviceAddress));
+                    bool isPaired = false;
+                    for (int i = 0; i < paired.Length; i++)
+                    {
+                        if (device.Equals(paired[i]))
+                        {
+                            isPaired = true;
+                            break;
+                        }
+                    }
+
+                    // if the device is not paired, pair it!
+                    if (!isPaired)
+                    {
+                        // replace DEVICE_PIN here, synchronous method, but fast
+                        isPaired = BluetoothSecurity.PairRequest(device.DeviceAddress, pin);
+                        if (isPaired)
+                        {
+                            // now it is paired
+                            Console.WriteLine("pairing success");
+                        }
+                        else
+                        {
+                            // pairing failed
+                            Console.WriteLine("pairing failed");
+                        }
+                    }
+                }
+
+                /*
+                BluetoothDeviceInfo[] devices = blueclient.DiscoverDevices(10, true, true, true);
                 deviceAddressesDic.Clear();
                 comboBox_Bluetooth.Items.Clear();
 
@@ -10584,7 +10687,7 @@ namespace Woodpecker
             catch (PlatformNotSupportedException)
             {
                 MessageBox.Show("No bluetooth on this device.", "Error");
-            }
+            }*/
         }
 
         //Select & copy log from textbox
