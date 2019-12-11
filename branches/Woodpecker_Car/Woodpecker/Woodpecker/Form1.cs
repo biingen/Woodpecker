@@ -1936,17 +1936,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -1970,17 +1962,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -2004,17 +1988,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -2038,17 +2014,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -2072,17 +2040,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -2106,8 +2066,8 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
                                 {
-                                    byte[] bytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortA.Write(bytes, 0, bytes.Length);
+                                    byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[0] + "\r\n";
                                     log1_text = string.Concat(log1_text, text);
@@ -2115,8 +2075,8 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
-                                    byte[] bytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortB.Write(bytes, 0, bytes.Length);
+                                    byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[1] + "\r\n";
                                     log2_text = string.Concat(log2_text, text);
@@ -2124,8 +2084,8 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
-                                    byte[] bytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortC.Write(bytes, 0, bytes.Length);
+                                    byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[2] + "\r\n";
                                     log3_text = string.Concat(log3_text, text);
@@ -2133,8 +2093,8 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
-                                    byte[] bytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortD.Write(bytes, 0, bytes.Length);
+                                    byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[3] + "\r\n";
                                     log4_text = string.Concat(log4_text, text);
@@ -2142,8 +2102,8 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
-                                    byte[] bytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortE.Write(bytes, 0, bytes.Length);
+                                    byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
                                     log5_text = string.Concat(log5_text, text);
@@ -2247,6 +2207,101 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- Modbus CRC16 --
+                        else if (columns_command == "_Modbus")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("Modbus Log: Modbus_PortA");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("Modbus Log: Modbus_PortB");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("Modbus Log: Modbus_PortC");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("Modbus Log: Modbus_PortD");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("Modbus Log: Modbus_PortE");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
                         #region -- I2C Read --
                         else if (columns_command == "_TX_I2C_Read")
                         {
@@ -2258,17 +2313,9 @@ namespace Woodpecker
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log1_text = string.Concat(log1_text, text);
@@ -2284,17 +2331,9 @@ namespace Woodpecker
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log2_text = string.Concat(log2_text, text);
@@ -2310,17 +2349,9 @@ namespace Woodpecker
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log3_text = string.Concat(log3_text, text);
@@ -2336,17 +2367,9 @@ namespace Woodpecker
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log4_text = string.Concat(log4_text, text);
@@ -2362,17 +2385,9 @@ namespace Woodpecker
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log5_text = string.Concat(log5_text, text);
@@ -2391,20 +2406,12 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length+1) + " " + (Data_length+6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string Outputstring = "79 6C " + (Data_length+1).ToString("X2") + " " + (Data_length+6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log1_text = string.Concat(log1_text, text);
@@ -2418,20 +2425,12 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log2_text = string.Concat(log2_text, text);
@@ -2445,20 +2444,12 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log3_text = string.Concat(log3_text, text);
@@ -2472,20 +2463,12 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log4_text = string.Concat(log4_text, text);
@@ -2499,20 +2482,12 @@ namespace Woodpecker
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1) + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
                                     string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1) + " " + (Data_length + 6) + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    string[] hexValuesSplit = Outputstring.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log5_text = string.Concat(log5_text, text);

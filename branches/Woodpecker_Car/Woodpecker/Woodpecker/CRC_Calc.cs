@@ -127,7 +127,7 @@ namespace Woodpecker
         0X4400, 0X84C1, 0X8581, 0X4540, 0X8701, 0X47C0, 0X4680, 0X8641,
         0X8201, 0X42C0, 0X4380, 0X8341, 0X4100, 0X81C1, 0X8081, 0X4040 };
 
-        public static UInt16 ComputeCrc(byte[] data)
+        public static UInt16 CRC16_Modbus(byte[] data)
         {
             ushort crc = 0xFFFF;
 
@@ -137,6 +137,73 @@ namespace Woodpecker
             }
 
             return crc;
+        }
+
+        public static string PID_CRC16(string orginal_data)
+        {
+            string[] hexValuesSplit = orginal_data.Split(' ');
+            byte[] bytes = new byte[hexValuesSplit.Count()];
+            int hex_number = 0;
+            foreach (string hex in hexValuesSplit)          //改為Byte陣列
+            {
+                // Convert the number expressed in base-16 to an integer.
+                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                // Get the character corresponding to the integral value.
+                bytes[hex_number++] = number;
+            }
+
+            ushort crc = CRC16_Modbus(bytes);       //計算CRC
+            string crcHex = ((int)crc).ToString("X2").PadLeft(4, '0');
+            string crcLow = crcHex.Substring(0, 2);     //低位數
+            string crcHigh = crcHex.Substring(2);       //高位數
+            string CRC_calu = " " + crcHigh + " " + crcLow;   //原始資料加入CRC
+            return CRC_calu;
+        }
+    }
+
+    public static class HexConverter
+    {
+        public static byte[] HexToByte(this string hexString)
+        {
+            //運算後的位元組長度:16進位數字字串長/2
+            byte[] byteOUT = new byte[hexString.Length / 2];
+            for (int i = 0; i < hexString.Length; i = i + 2)
+            {
+                //每2位16進位數字轉換為一個10進位整數
+                byteOUT[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
+            }
+            return byteOUT;
+        }
+
+        public static string BToHex(this byte[] Bdata)
+        {
+            return BitConverter.ToString(Bdata).Replace("-", "");
+        }
+
+        //取出字串右邊開始的指定數目字元
+        public static string Right(this string str, int len)
+        {
+            return str.Substring(str.Length - len, len);
+        }
+        //取出字串右邊開始的指定數目字元(跳過幾個字元)
+        public static string Right(this string str, int len, int skiplen)
+        {
+            return str.Substring(str.Length - len - skiplen, len);
+        }
+
+        public static byte[] StrToByte(this string hexString)
+        {
+            string[] orginal_array = hexString.Split(' ');
+            byte[] orginal_bytes = new byte[orginal_array.Count()];
+            int orginal_index = 0;
+            foreach (string hex in orginal_array)
+            {
+                // Convert the number expressed in base-16 to an integer.
+                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                // Get the character corresponding to the integral value.
+                orginal_bytes[orginal_index++] = number;
+            }
+            return orginal_bytes;
         }
     }
 }
