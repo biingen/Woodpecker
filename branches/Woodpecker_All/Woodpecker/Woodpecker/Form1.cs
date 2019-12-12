@@ -5482,17 +5482,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -5519,17 +5511,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortB.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -5556,17 +5540,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -5593,17 +5569,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -5630,17 +5598,9 @@ namespace Woodpecker
                                          columns_serial != "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -5820,6 +5780,296 @@ namespace Woodpecker
                             kline_send = 0;
                             ABS_error_list.Clear();
                             OBD_error_list.Clear();
+                        }
+                        #endregion
+
+                        #region -- CRC16 Modbus --
+                        else if (columns_command == "_CRC16_Modbus")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortA");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortB");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortC");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortD");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortE");
+                                if (columns_subFunction != "")
+                                {
+                                    string orginal_data = columns_subFunction;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    string Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- I2C Read --
+                        else if (columns_command == "_TX_I2C_Read")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- I2C Write --
+                        else if (columns_command == "_TX_I2C_Write")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortA");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortB");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortC");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortD");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortE");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
                         }
                         #endregion
 
@@ -8414,6 +8664,10 @@ namespace Woodpecker
             RCDB.Items.Add("_WaterTemp");
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
+            RCDB.Items.Add("------------------------");
+            RCDB.Items.Add("_CRC16_Modbus");
+            RCDB.Items.Add("_TX_I2C_Read");
+            RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
