@@ -2207,12 +2207,12 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- Modbus CRC16 --
-                        else if (columns_command == "_Modbus")
+                        #region -- CRC16 Modbus --
+                        else if (columns_command == "_CRC16_Modbus")
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("Modbus Log: Modbus_PortA");
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortA");
                                 if (columns_subFunction != "")
                                 {
                                     string orginal_data = columns_subFunction;
@@ -2230,7 +2230,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("Modbus Log: Modbus_PortB");
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortB");
                                 if (columns_subFunction != "")
                                 {
                                     string orginal_data = columns_subFunction;
@@ -2248,7 +2248,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("Modbus Log: Modbus_PortC");
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortC");
                                 if (columns_subFunction != "")
                                 {
                                     string orginal_data = columns_subFunction;
@@ -2266,7 +2266,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("Modbus Log: Modbus_PortD");
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortD");
                                 if (columns_subFunction != "")
                                 {
                                     string orginal_data = columns_subFunction;
@@ -2284,7 +2284,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("Modbus Log: Modbus_PortE");
+                                Console.WriteLine("CRC16 Modbus Log: Modbus_PortE");
                                 if (columns_subFunction != "")
                                 {
                                     string orginal_data = columns_subFunction;
@@ -3678,6 +3678,7 @@ namespace Woodpecker
             RCDB.Items.Add("_WaterTemp");
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
+            RCDB.Items.Add("_CRC16_Modbus");
             RCDB.Items.Add("_TX_I2C_Read");
             RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("------------------------");
