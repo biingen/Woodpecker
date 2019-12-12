@@ -361,8 +361,9 @@ namespace Woodpecker
             }
             */
             LoadRCDB();
-
-            BlutoothSearch();
+            comboBox_Bluetooth.Items.Clear();
+            Thread t1 = new Thread(BlutoothSearch);
+            t1.Start();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -10530,226 +10531,141 @@ namespace Woodpecker
         }
 
         Dictionary<string, BluetoothAddress> deviceAddressesDic = new Dictionary<string, BluetoothAddress>();
+        BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
         BluetoothClient blueclient = new BluetoothClient();
         string pin = "0000";
         private void BlutoothSearch()
         {
             Console.WriteLine("Searching bluetooth device....");
 
-            BluetoothComponent bco = new BluetoothComponent(blueclient);
-            deviceAddressesDic.Clear();
-            comboBox_Bluetooth.Items.Clear();
-            bco.DiscoverDevicesAsync(10, true, true, true, true, null);
-            bco.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
-            bco.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
+            BuleRadio.Mode = RadioMode.Connectable;
 
+            BluetoothDeviceInfo[] Devices = blueclient.DiscoverDevices();
+            //EventHandler<BluetoothWin32AuthenticationEventArgs> handler = new EventHandler<BluetoothWin32AuthenticationEventArgs>(handleRequests);
+            //BluetoothWin32Authentication authenticator = new BluetoothWin32Authentication(handler);
+            deviceAddressesDic.Clear();
+            foreach (BluetoothDeviceInfo device in Devices)
+            {
+                Console.WriteLine("======" + device.DeviceName + " (" + device.DeviceAddress + ") =====");
+                comboBox_Bluetooth.Items.Add(device.DeviceName);
+                deviceAddressesDic[device.DeviceName] = device.DeviceAddress;
+            }
+
+            if (comboBox_Bluetooth.Items.Count != 0)
+            {
+                comboBox_Bluetooth.SelectedIndex = 0;
+            }
+
+            Console.WriteLine("Searching finished!!!!");
         }
 
+        string connectedDevice = string.Empty;
         private void button_BluetoothConnect_Click(object sender, EventArgs e)
         {
+            //try
+            //{
             string temp = comboBox_Bluetooth.SelectedItem.ToString();
             BluetoothAddress DeviceAddress = deviceAddressesDic[temp];
 
-            // check if device is paired
-            //blueclient.SetPin(DeviceAddress, pin);
-            // async connection method
-            //blueclient.Connect(DeviceAddress, BluetoothService.SerialPort);
-
-            // set pin of device to connect with
-            blueclient.SetPin(pin);
-            // async connection method
-            blueclient.BeginConnect(DeviceAddress, BluetoothService.Handsfree, new AsyncCallback(Connect), temp);
-
-            if (blueclient.Connected)
+            if (DeviceAddress.ToString() == connectedDevice)
             {
-                MessageBox.Show("Connect Successful.");
+                MessageBox.Show("Repeated connection!!", "Error");
+                blueclient.Dispose();
             }
             else
             {
-                MessageBox.Show("Connect Failed.");
-                BluetoothSecurity.RemoveDevice(DeviceAddress);
-            }
-        }
+                blueclient.SetPin(DeviceAddress, pin);
+                blueclient.Connect(DeviceAddress, BluetoothService.Handsfree);
 
-        private void component_DiscoverDevicesProgress(object sender, DiscoverDevicesEventArgs e)
-        {
-            //BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
-            //BuleRadio.Mode = RadioMode.Connectable;
-
-            for (int i = 0; i < e.Devices.Length; i++)
-            {
-                if (e.Devices[i].Remembered)
+                if (blueclient.Connected)
                 {
-                    Console.WriteLine(e.Devices[i].DeviceName + " (" + e.Devices[i].DeviceAddress + "): Device is known");
+                    MessageBox.Show("Connect to " + temp + " Successfully.");
+                    connectedDevice = DeviceAddress.ToString();
                 }
                 else
                 {
-                    Console.WriteLine(e.Devices[i].DeviceName + " (" + e.Devices[i].DeviceAddress + "): Device is unknown");
+                    MessageBox.Show("Connect Failed.");
+                    blueclient.Dispose();
                 }
-                Console.WriteLine(string.Format("=========={0} ({1})=========", e.Devices[i].DeviceName, e.Devices[i].DeviceAddress));
-                comboBox_Bluetooth.Items.Add(e.Devices[i].DeviceName);
-                deviceAddressesDic[e.Devices[i].DeviceName] = e.Devices[i].DeviceAddress;
             }
-        }
-
-        // callback
-        private void Connect(IAsyncResult result)
-        {
-            if (result.IsCompleted)
-            {
-                // client is connected now
-                Console.WriteLine("Connected");
-            }
+            //}
+            //catch (Exception)
+            //{
+            //MessageBox.Show("Connection Error.", "Error");
+            //}
         }
 
 
-        private void component_DiscoverDevicesComplete(object sender, DiscoverDevicesEventArgs e)
+        public static void handleRequests(Object thing, BluetoothWin32AuthenticationEventArgs args)
         {
-            Console.WriteLine("Finish searching");
+            args.Confirm = true;
         }
 
         private void button_BluetoothSearch_Click(object sender, EventArgs e)
         {
-            /*
-            try
-            {
-                BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
-                BuleRadio.Mode = RadioMode.Connectable;
-
-                MessageBox.Show("Searching bluetooth device....", "Bluetooth");
-
-
-                BluetoothComponent bco = new BluetoothComponent(blueclient);
-                bco.DiscoverDevicesAsync(10, true, true, true, false, 99);
-                bco.DiscoverDevicesProgress += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesProgress);
-                bco.DiscoverDevicesComplete += new EventHandler<DiscoverDevicesEventArgs>(component_DiscoverDevicesComplete);
-
-                // get a list of all paired devices
-                BluetoothDeviceInfo[] paired = blueclient.DiscoverDevices(255, false, true, false, false);
-                // check every discovered device if it is already paired 
-                foreach (BluetoothDeviceInfo device in paired)
-                {
-                    Console.WriteLine(string.Format("=========={0} ({1})=========", device.DeviceName, device.DeviceAddress));
-                    bool isPaired = false;
-                    for (int i = 0; i < paired.Length; i++)
-                    {
-                        if (device.Equals(paired[i]))
-                        {
-                            isPaired = true;
-                            break;
-                        }
-                    }
-
-                    // if the device is not paired, pair it!
-                    if (!isPaired)
-                    {
-                        // replace DEVICE_PIN here, synchronous method, but fast
-                        isPaired = BluetoothSecurity.PairRequest(device.DeviceAddress, pin);
-                        if (isPaired)
-                        {
-                            // now it is paired
-                            Console.WriteLine("pairing success");
-                        }
-                        else
-                        {
-                            // pairing failed
-                            Console.WriteLine("pairing failed");
-                        }
-                    }
-                }
-
-                /*
-                BluetoothDeviceInfo[] devices = blueclient.DiscoverDevices(10, true, true, true);
-                deviceAddressesDic.Clear();
-                comboBox_Bluetooth.Items.Clear();
-
-                if (devices != null)
-                {
-                    foreach (BluetoothDeviceInfo deviceInfo in devices)
-                    {
-                        Console.WriteLine(string.Format("=========={0} ({1})=========", deviceInfo.DeviceName, deviceInfo.DeviceAddress));
-                        deviceAddressesDic[deviceInfo.DeviceName] = deviceInfo.DeviceAddress;
-                        comboBox_Bluetooth.Items.Add(deviceInfo.DeviceName);
-
-                        // Select the first one
-                        if (comboBox_Bluetooth.Items.Count > 0)
-                        {
-                            comboBox_Bluetooth.SelectedIndex = 0;
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No bluetooth device is found.", "Bluetooth");
-                    Console.WriteLine("No bluetooth device is found!");
-                }
-            }
-            catch (PlatformNotSupportedException)
-            {
-                MessageBox.Show("No bluetooth on this device.", "Error");
-            }*/
+            comboBox_Bluetooth.Items.Clear();
+            Thread t2 = new Thread(BlutoothSearch);
+            t2.Start();
         }
 
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
         {
-            string fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+            /*string fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
             System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
 
-            /*
-                        uint canBusStatus;
-                        canBusStatus = MYCanReader.Connect();
+            uint canBusStatus;
+            canBusStatus = MYCanReader.Connect();
 
-                        if (Global.TEXTBOX_FOCUS == 1)
-                        {
-                            if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
-                            {
-                                CopyLog(textBox_serial);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 2)
-                        {
-                            if (textBox2.SelectionLength == 0)
-                            {
-                                CopyLog(textBox2);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 3)
-                        {
-                            if (textBox_canbus.SelectionLength == 0)
-                            {
-                                CopyLog(textBox3);
-                            }
-                        }
-                        else if (Global.TEXTBOX_FOCUS == 4)
-                        {
-                            CopyLog(textBox_kline);
-                        }
+            if (Global.TEXTBOX_FOCUS == 1)
+            {
+                if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
+                {
+                    CopyLog(textBox_serial);
+                }
+            }
+            else if (Global.TEXTBOX_FOCUS == 2)
+            {
+                if (textBox2.SelectionLength == 0)
+                {
+                    CopyLog(textBox2);
+                }
+            }
+            else if (Global.TEXTBOX_FOCUS == 3)
+            {
+                if (textBox_canbus.SelectionLength == 0)
+                {
+                    CopyLog(textBox3);
+                }
+            }
+            else if (Global.TEXTBOX_FOCUS == 4)
+            {
+                CopyLog(textBox_kline);
+            }
 
-                        //copy schedule log (might be removed in near future)
-                        else if (Global.TEXTBOX_FOCUS == 5)
-                        {
-                            CopyLog(textBox_canbus);
-                        }
+            //copy schedule log (might be removed in near future)
+            else if (Global.TEXTBOX_FOCUS == 5)
+            {
+                CopyLog(textBox_canbus);
+            }
 
-                        else if (Global.TEXTBOX_FOCUS == 6)
-                        {
-                            CopyLog(textBox_TestLog);
-                            string fName = "";
+            else if (Global.TEXTBOX_FOCUS == 6)
+            {
+                CopyLog(textBox_TestLog);
+                string fName = "";
 
-                            // 讀取ini中的路徑
-                            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                            string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
+                // 讀取ini中的路徑
+                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                string t = fName + "\\CanbusLog_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
 
-                            StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                            MYFILE.Write(textBox_TestLog.Text);
-                            MYFILE.Close();
+                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                MYFILE.Write(textBox_TestLog.Text);
+                MYFILE.Close();
 
-                            System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
-                            System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
-                        }
-                        */
+                System.Diagnostics.Process CANLog = new System.Diagnostics.Process();
+                System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
+            }*/
         }
 
         public void CopyLog(TextBox tb)
