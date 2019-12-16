@@ -220,7 +220,7 @@ namespace Woodpecker
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline" };
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
 
             foreach (string port in portList)
             {
@@ -242,6 +242,9 @@ namespace Woodpecker
                 button_savelog.Enabled = false;
                 comboBox_savelog.Enabled = false;
             }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                comboBox_savelog.Items.Add("Canbus");
 
             else
             {
@@ -10152,7 +10155,7 @@ namespace Woodpecker
                     string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (MYCanReader.Disconnect() != 1)
+                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
                     {
                         timer_canbus.Enabled = false;
                         MYCanReader.StopCAN();
