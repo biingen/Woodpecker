@@ -90,10 +90,14 @@ public struct CHGDESIPANDPORT
 
 namespace Can_Reader_Lib
 {
-    public class CAN_Reader 
+    public enum USB_DEVICE_ID
     {
-        const int DEV_USBCAN = 3;
-        const int DEV_USBCAN2 = 4;
+        DEV_USBCAN = 3,
+        DEV_USBCAN2 = 4
+    };
+
+    public class USB_CAN_Adaptor
+    {
         /// <summary>
         /// 
         /// </summary>
@@ -101,7 +105,7 @@ namespace Can_Reader_Lib
         /// <param name="DeviceInd"></param>
         /// <param name="Reserved"></param>
         /// <returns></returns>
-        /*------------兼容ZLG的函数描述---------------------------------*/
+        // ------------兼容ZLG的函数描述--------------------------------- 
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_OpenDevice(UInt32 DeviceType, UInt32 DeviceInd, UInt32 Reserved);
         [DllImport("controlcan.dll")]
@@ -128,7 +132,7 @@ namespace Can_Reader_Lib
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_Receive(UInt32 DeviceType, UInt32 DeviceInd, UInt32 CANInd, ref VCI_CAN_OBJ pReceive, UInt32 Len, Int32 WaitTime);
 
-        /*------------其他函数描述---------------------------------*/
+        // ------------其他函数描述---------------------------------
 
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_ConnectDevice(UInt32 DevType, UInt32 DevIndex);
@@ -136,13 +140,146 @@ namespace Can_Reader_Lib
         static extern UInt32 VCI_UsbDeviceReset(UInt32 DevType, UInt32 DevIndex, UInt32 Reserved);
         [DllImport("controlcan.dll")]
         static extern UInt32 VCI_FindUsbDevice(ref VCI_BOARD_INFO1 pInfo);
-        /*------------函数描述结束---------------------------------*/
+        // ------------函数描述结束--------------------------------- 
 
-        static UInt32 m_devtype = 4;//USBCAN2
+        public const uint VCI_MAX_OBJECT_LENGTH = 10000;
+        public const int VCI_RECEIVE_WAIT_TIME = 100;
+
+        uint m_devtype = (uint)USB_DEVICE_ID.DEV_USBCAN2;
+        uint m_devind = 0;
+        //uint m_canind = 0;
+        //UInt32 m_canind_src = 0;
+        //UInt32 m_canind_dst = 1;
+        VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
+        VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[VCI_MAX_OBJECT_LENGTH];
+        VCI_BOARD_INFO current_open_board_info = new VCI_BOARD_INFO();
+
+        public void Config_CAN_Device(USB_DEVICE_ID dev_id, uint dev_index)
+        {
+            m_devtype = (uint)dev_id;
+            m_devind = dev_index;
+        }
+
+        //public void Config_CAN_TX_Dev_Index(uint src)
+        //{
+        //    m_canind_src = src;
+        //}
+
+        //public void Config_CAN_RX_Dev_Index(uint dst)
+        //{
+        //    m_canind_dst = dst;
+        //}
+
+        public void Config_CAN_Param(uint access_code, uint access_mask, Byte timing0, Byte timing1, Byte filter, Byte mode)
+        {
+            config.AccCode = access_code;
+            config.AccMask = access_mask;
+            config.Timing0 = timing0;
+            config.Timing1 = timing1;
+            config.Filter = filter;
+            config.Mode = mode;
+        }
+
+        public uint CloseDevice()
+        {
+            return VCI_CloseDevice(m_devtype, m_devind);
+        }
+
+        public uint OpenDevice()
+        {
+            uint bRet = VCI_OpenDevice(m_devtype, m_devind, 0);      // last parameter is currently always 0
+            if (bRet != 0)
+            {
+                uint dwRel = VCI_ReadBoardInfo(m_devtype, m_devind, ref current_open_board_info);
+            }
+            return bRet;
+        }
+
+        public uint InitCAN(uint can_index)
+        {
+            //m_canind = can_index;
+            return VCI_InitCAN(m_devtype, m_devind, can_index, ref config);
+        }
+
+        public uint StartCAN(uint can_index)
+        {
+            return VCI_StartCAN(m_devtype, m_devind, can_index);
+        }
+
+        public uint ResetCAN(uint can_index)
+        {
+            return VCI_ResetCAN(m_devtype, m_devind, can_index);
+        }
+
+        public uint Receive(uint can_index, ref VCI_CAN_OBJ obj_ref, uint obj_length = VCI_MAX_OBJECT_LENGTH, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
+        {
+            return VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref, obj_length, rec_wait_time);
+        }
+
+        public uint Receive(uint can_index, ref List<VCI_CAN_OBJ> obj_ref_list, int rec_wait_time = VCI_RECEIVE_WAIT_TIME)
+        {
+            VCI_CAN_OBJ[] obj_ref_array = new VCI_CAN_OBJ[VCI_MAX_OBJECT_LENGTH];
+            uint ret_value = VCI_Receive(m_devtype, m_devind, can_index, ref obj_ref_array[0], VCI_MAX_OBJECT_LENGTH, rec_wait_time);
+
+            obj_ref_list.Clear();
+            if (ret_value == 0xFFFFFFFF)
+            {
+                return ret_value;
+            }
+            for (int index = 0; index < ret_value; index++)
+            {
+                obj_ref_list.Add(obj_ref_array[index]);
+            }
+            return ret_value;
+        }
+
+        public uint Transmit(uint can_index, ref VCI_CAN_OBJ obj_ref, uint obj_length)
+        {
+            return VCI_Transmit((uint)m_devtype, m_devind, can_index, ref obj_ref, obj_length);
+        }
+
+        public uint Transmit(uint can_index, ref List<VCI_CAN_OBJ> obj_ref_list)
+        {
+            VCI_CAN_OBJ[] obj_ref_array = obj_ref_list.ToArray();
+            uint obj_ref_len = (uint)obj_ref_list.Count;
+            return Transmit(can_index, ref obj_ref_array[0], obj_ref_len);
+        }
+
+        public List<String> FindUsbDevice()
+        {
+            List<String> ret_device_list = new List<String>();
+            String ProductSn;
+            VCI_BOARD_INFO1 vbi_1 = new VCI_BOARD_INFO1();
+            uint num = VCI_FindUsbDevice(ref vbi_1);
+            int serial_index = 0;
+            for (uint i = 0; i < num; i++)
+            {
+                ProductSn = "CAN-";
+                for (int j = 0; j < 4; j++)
+                {
+                    ProductSn += Convert.ToChar(vbi_1.str_Usb_Serial[serial_index]);
+                    serial_index++;
+                }
+                ret_device_list.Add(ProductSn);
+            }
+            return ret_device_list;
+        }
+
+        internal static void Config_CAN_Device(uint m_devtype, uint m_devind)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class CAN_Reader 
+    {
+
+        //static USB_DEVICE_ID m_devtype = 4;//USBCAN2
 
         UInt32 m_bOpen = 0;
-        UInt32 m_devind = 0;
-        UInt32 m_canind = 0;
+        //UInt32 m_devind = 0;
+        //UInt32 m_canind = 0;
 
         public static int MAX_CAN_OBJ_ARRAY_LEN = 1000;
 
@@ -159,7 +296,7 @@ namespace Can_Reader_Lib
         public CAN_Reader() { }
         ~CAN_Reader() { }
 
-        UInt32 default_devtype = DEV_USBCAN2;
+        USB_DEVICE_ID default_devtype = USB_DEVICE_ID.DEV_USBCAN2;
         UInt32 default_devint = 0;
         UInt32 default_canind = 1;
         uint default_AccCode = 0x80000000;
@@ -169,17 +306,22 @@ namespace Can_Reader_Lib
         byte default_Filter = 0x01;
         byte default_Mode = 0x00;
 
+        USB_CAN_Adaptor can_adaptor = new USB_CAN_Adaptor();
+
         public uint Connect()
         {
             uint connection_status = ~(1U);
             if (m_bOpen == 0)
             {
-                m_devtype = default_devtype;
-                m_devind = default_devint;
-                m_canind = default_canind;
+                //m_devtype = default_devtype;
+                //m_devind = default_devint;
+                can_adaptor.Config_CAN_Device(default_devtype, default_devint);
+                //m_canind = default_canind; 
+
                 try
                 {
-                    connection_status = VCI_OpenDevice(m_devtype, m_devind, 0);
+                    //connection_status = VCI_OpenDevice(m_devtype, m_devind, 0);
+                    connection_status = can_adaptor.OpenDevice();
                 }
                 catch (DllNotFoundException Ex)
                 {
@@ -188,14 +330,16 @@ namespace Can_Reader_Lib
                 }
                 if (connection_status == 1)
                 {
-                    VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
-                    config.AccCode = default_AccCode;
-                    config.AccMask = default_AccMask;
-                    config.Timing0 = default_Timing0;
-                    config.Timing1 = default_Timing1;
-                    config.Filter = default_Filter;
-                    config.Mode = default_Mode;
-                    connection_status = VCI_InitCAN(m_devtype, m_devind, m_canind, ref config);
+                    //VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
+                    //config.AccCode = default_AccCode;
+                    //config.AccMask = default_AccMask;
+                    //config.Timing0 = default_Timing0;
+                    //config.Timing1 = default_Timing1;
+                    //config.Filter = default_Filter;
+                    //config.Mode = default_Mode;
+                    can_adaptor.Config_CAN_Param(default_AccCode, default_AccMask, default_Timing0, default_Timing1, default_Filter, default_Mode);
+                    //connection_status = VCI_InitCAN(m_devtype, m_devind, m_canind, ref config);
+                    connection_status = can_adaptor.InitCAN(default_canind);
                     if (connection_status == 1)
                     {
                         m_bOpen = 1;
@@ -218,7 +362,8 @@ namespace Can_Reader_Lib
         {
             UInt32 res;
 
-            res = VCI_Receive(m_devtype, m_devind, m_canind, ref m_recobj[0], 1000, 100);
+            //res = VCI_Receive(m_devtype, m_devind, m_canind, ref m_recobj[0], 1000, 100);
+            res = can_adaptor.Receive(default_canind, ref m_recobj[0]);
             return res;
         }
 
@@ -296,7 +441,8 @@ namespace Can_Reader_Lib
             uint status = ~(1U);
             if (m_bOpen == 1)
             {
-                status = VCI_CloseDevice(m_devtype, m_devind);
+                //status = VCI_CloseDevice(m_devtype, m_devind);
+                status = can_adaptor.CloseDevice();
                 m_bOpen = 0;
             }
             return status;
@@ -307,7 +453,8 @@ namespace Can_Reader_Lib
             uint status = ~(1U);
             if (m_bOpen == 1)
             {
-                status = VCI_StartCAN(m_devtype, m_devind, m_canind);
+                //status = VCI_StartCAN(m_devtype, m_devind, m_canind);
+                status = can_adaptor.StartCAN(default_canind);
             }
             return status;
         }
@@ -317,7 +464,8 @@ namespace Can_Reader_Lib
             uint status = ~(1U);
             if (m_bOpen == 1)
             {
-                status = VCI_ResetCAN(m_devtype, m_devind, m_canind);
+                //status = VCI_ResetCAN(m_devtype, m_devind, m_canind);
+                status = can_adaptor.ResetCAN(default_canind);
             }
             return status;
         }
