@@ -206,4 +206,28 @@ namespace Woodpecker
             return orginal_bytes;
         }
     }
+
+    public static class Converter
+    {
+        public static int timeToms(this string waitString)
+        {
+            string[] orginal_array = waitString.Split(':');
+            int[] orginal_int = new int[waitString.Count()];
+            int orginal_index = 0;
+
+            foreach (string wait in orginal_array)
+            {
+                // Convert the number expressed in base-16 to an integer.
+                int number = Convert.ToInt32(wait);
+                // Get the character corresponding to the integral value.
+                orginal_int[orginal_index++] = number;
+            }
+
+            orginal_int[0] = orginal_int[0] * 3600000;
+            orginal_int[1] = orginal_int[1] * 60000;
+
+            int sum_int = orginal_int[0] + orginal_int[1];
+            return sum_int;
+        }
+    }
 }

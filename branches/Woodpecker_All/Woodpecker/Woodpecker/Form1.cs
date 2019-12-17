@@ -213,14 +213,12 @@ namespace Woodpecker
                     buttonsAll.FlatAppearance.BorderSize = 1;
                     buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
                 }
-
             }
-
         }
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline"};
 
             foreach (string port in portList)
             {
@@ -234,6 +232,9 @@ namespace Woodpecker
                 }
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                comboBox_savelog.Items.Add("Canbus");
+
             if (comboBox_savelog.Items.Count > 1)
                 comboBox_savelog.Items.Add("Port All");
 
@@ -242,10 +243,6 @@ namespace Woodpecker
                 button_savelog.Enabled = false;
                 comboBox_savelog.Enabled = false;
             }
-
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                comboBox_savelog.Items.Add("Canbus");
-
             else
             {
                 button_savelog.Enabled = true;
@@ -4205,7 +4202,6 @@ namespace Woodpecker
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
-
                         if (StartButtonPressed == false)
                         {
                             j = Global.Schedule_Loop;
@@ -4216,12 +4212,22 @@ namespace Woodpecker
                         Schedule_Time();
                         if (columns_wait != "")
                         {
-                            if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                            if (columns_wait.Contains('m'))
                             {
                                 //Console.WriteLine("Datagridview highlight.");
                                 GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                                //Console.WriteLine("Datagridview scollbar.");
+                                                                                               //Console.WriteLine("Datagridview scollbar.");
                                 Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            }
+                            else
+                            {
+                                if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                                {
+                                    //Console.WriteLine("Datagridview highlight.");
+                                    GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                                                                                   //Console.WriteLine("Datagridview scollbar.");
+                                    Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                                }
                             }
                         }
 
@@ -4235,8 +4241,10 @@ namespace Woodpecker
                         else
                             sRepeat = 0;
 
-                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true)
+                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
                             SysDelay = int.Parse(columns_wait); // 指令停止時間
+                        else if (columns_wait != "" && columns_wait.Contains('m') == true)
+                            SysDelay = int.Parse(columns_wait.Replace('m',' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             SysDelay = 0;
 
@@ -9153,7 +9161,11 @@ namespace Woodpecker
                             {
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
-                            TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
+
+                            if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
+                                TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000  + RepeatTime);
+                            else
+                                TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
 
                             RepeatTime = 0;
                         }
@@ -9381,7 +9393,11 @@ namespace Woodpecker
                     {
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
-                    delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
+                    else
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+
                     if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
                     {
                         timeCountUpdated = timeCount - delayTime;
@@ -9396,7 +9412,6 @@ namespace Woodpecker
                 }
             }
         }
-
 
         private void Timer1_Tick_1(object sender, EventArgs e)
         {
