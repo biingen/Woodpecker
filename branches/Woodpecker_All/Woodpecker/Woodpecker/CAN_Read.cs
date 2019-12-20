@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using jini;
 
 /*------------兼容ZLG的数据类型---------------------------------*/
 
@@ -282,6 +283,7 @@ namespace Can_Reader_Lib
         //UInt32 m_canind = 0;
 
         public static int MAX_CAN_OBJ_ARRAY_LEN = 1000;
+        string MainSettingPath = Application.StartupPath + "\\Config.ini";
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[MAX_CAN_OBJ_ARRAY_LEN];
 
@@ -313,6 +315,8 @@ namespace Can_Reader_Lib
             uint connection_status = ~(1U);
             if (m_bOpen == 0)
             {
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
+                    default_devint = Convert.ToUInt32(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
                 //m_devtype = default_devtype;
                 //m_devind = default_devint;
                 can_adaptor.Config_CAN_Device(default_devtype, default_devint);

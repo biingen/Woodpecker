@@ -32,12 +32,14 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
+            this.comboBox_CANDevIndex = new System.Windows.Forms.ComboBox();
             this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort5 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort5 = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort5_BaudRate_Value = new System.Windows.Forms.ComboBox();
             this.comboBox_KlinePort_PortName_Value = new System.Windows.Forms.ComboBox();
             this.checkBox_Kline = new System.Windows.Forms.CheckBox();
+            this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort5_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort5_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort5_BaudRate = new System.Windows.Forms.Label();
@@ -47,7 +49,7 @@
             this.comboBox_SerialPort4_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort4_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort4_BaudRate = new System.Windows.Forms.Label();
-            this.checkBox_canbus = new System.Windows.Forms.CheckBox();
+            this.checkBox_CANLog = new System.Windows.Forms.CheckBox();
             this.pictureBox_SerialPort3 = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort1 = new System.Windows.Forms.PictureBox();
@@ -66,7 +68,6 @@
             this.label_SerialPort2_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort2_BaudRate = new System.Windows.Forms.Label();
             this.label_SerialPort1_BaudRate = new System.Windows.Forms.Label();
-            this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
             this.textBox_RcDbPath = new System.Windows.Forms.TextBox();
             this.textBox_LogPath = new System.Windows.Forms.TextBox();
             this.groupBox_Camera = new System.Windows.Forms.GroupBox();
@@ -117,6 +118,7 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_CANDevIndex);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort5);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_SerialPort5);
@@ -133,7 +135,7 @@
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort4_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort4_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort4_BaudRate);
-            this.GroupBox_Rs232.Controls.Add(this.checkBox_canbus);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_CANLog);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort3);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort2);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort1);
@@ -162,6 +164,19 @@
             this.GroupBox_Rs232.TabIndex = 37;
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
+            // 
+            // comboBox_CANDevIndex
+            // 
+            this.comboBox_CANDevIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CANDevIndex.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CANDevIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CANDevIndex.FormattingEnabled = true;
+            this.comboBox_CANDevIndex.Location = new System.Drawing.Point(274, 84);
+            this.comboBox_CANDevIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CANDevIndex.Name = "comboBox_CANDevIndex";
+            this.comboBox_CANDevIndex.Size = new System.Drawing.Size(88, 23);
+            this.comboBox_CANDevIndex.TabIndex = 151;
+            this.comboBox_CANDevIndex.SelectedIndexChanged += new System.EventHandler(this.comboBox_CANDevIndex_SelectedIndexChanged);
             // 
             // pictureBox_klinePort
             // 
@@ -255,6 +270,19 @@
             this.checkBox_Kline.Text = "KlinePort:";
             this.checkBox_Kline.UseVisualStyleBackColor = true;
             this.checkBox_Kline.CheckedChanged += new System.EventHandler(this.checkBox_Kline_CheckedChanged);
+            // 
+            // checkBox_Displayhex
+            // 
+            this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(194, 113);
+            this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkBox_Displayhex.Name = "checkBox_Displayhex";
+            this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
+            this.checkBox_Displayhex.TabIndex = 64;
+            this.checkBox_Displayhex.Text = "Hex";
+            this.checkBox_Displayhex.UseVisualStyleBackColor = true;
+            this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
             // 
             // comboBox_SerialPort5_PortName_Value
             // 
@@ -380,19 +408,19 @@
             this.label_SerialPort4_BaudRate.TabIndex = 137;
             this.label_SerialPort4_BaudRate.Text = "Baud Rate";
             // 
-            // checkBox_canbus
+            // checkBox_CANLog
             // 
-            this.checkBox_canbus.AutoSize = true;
-            this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.checkBox_canbus.Location = new System.Drawing.Point(194, 86);
-            this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_canbus.Name = "checkBox_canbus";
-            this.checkBox_canbus.Size = new System.Drawing.Size(74, 19);
-            this.checkBox_canbus.TabIndex = 136;
-            this.checkBox_canbus.Text = "CAN Bus";
-            this.checkBox_canbus.UseVisualStyleBackColor = true;
-            this.checkBox_canbus.CheckedChanged += new System.EventHandler(this.checkBox_canbus_CheckedChanged);
+            this.checkBox_CANLog.AutoSize = true;
+            this.checkBox_CANLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_CANLog.ForeColor = System.Drawing.Color.White;
+            this.checkBox_CANLog.Location = new System.Drawing.Point(194, 86);
+            this.checkBox_CANLog.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_CANLog.Name = "checkBox_CANLog";
+            this.checkBox_CANLog.Size = new System.Drawing.Size(74, 19);
+            this.checkBox_CANLog.TabIndex = 136;
+            this.checkBox_CANLog.Text = "CAN Bus";
+            this.checkBox_CANLog.UseVisualStyleBackColor = true;
+            this.checkBox_CANLog.CheckedChanged += new System.EventHandler(this.checkBox_CANLog_CheckedChanged);
             // 
             // pictureBox_SerialPort3
             // 
@@ -660,19 +688,6 @@
             this.label_SerialPort1_BaudRate.Size = new System.Drawing.Size(65, 15);
             this.label_SerialPort1_BaudRate.TabIndex = 2;
             this.label_SerialPort1_BaudRate.Text = "Baud Rate";
-            // 
-            // checkBox_Displayhex
-            // 
-            this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(274, 87);
-            this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox_Displayhex.Name = "checkBox_Displayhex";
-            this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
-            this.checkBox_Displayhex.TabIndex = 64;
-            this.checkBox_Displayhex.Text = "Hex";
-            this.checkBox_Displayhex.UseVisualStyleBackColor = true;
-            this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
             // 
             // textBox_RcDbPath
             // 
@@ -1162,7 +1177,7 @@
         private System.Windows.Forms.CheckBox checkBox_Displayhex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
         private System.Windows.Forms.CheckBox checkBox_Kline;
-        private System.Windows.Forms.CheckBox checkBox_canbus;
+        private System.Windows.Forms.CheckBox checkBox_CANLog;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
         private System.Windows.Forms.Label label_resolution;
@@ -1191,5 +1206,6 @@
         internal System.Windows.Forms.CheckBox checkBox_SerialPort4;
         internal System.Windows.Forms.ComboBox comboBox_SerialPort2_BaudRate_Value;
         internal System.Windows.Forms.ComboBox comboBox_SerialPort3_BaudRate_Value;
+        internal System.Windows.Forms.ComboBox comboBox_CANDevIndex;
     }
 }

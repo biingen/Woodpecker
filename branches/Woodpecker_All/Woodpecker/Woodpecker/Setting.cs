@@ -12,6 +12,7 @@ using System.Linq;
 using System.Management;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Can_Reader_Lib;
 
 namespace Woodpecker
 {
@@ -26,6 +27,7 @@ namespace Woodpecker
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
+        public USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         private void loadxml()
         {
@@ -274,13 +276,15 @@ namespace Woodpecker
             }
 
 
-            if (ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
             {
-                checkBox_canbus.Checked = true;
+                checkBox_CANLog.Checked = true;
+                comboBox_CANDevIndex.Enabled = true;
             }
             else
             {
-                checkBox_canbus.Checked = false;
+                checkBox_CANLog.Checked = false;
+                comboBox_CANDevIndex.Enabled = false;
             }
 
             #region -- SerialPort --
@@ -574,6 +578,24 @@ namespace Woodpecker
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
             }
+            #endregion
+
+            #region -- Canbus --
+            List<String> dev_list = USB_CAN_device.FindUsbDevice();
+            comboBox_CANDevIndex.Items.Clear();
+            foreach (String dev_str in dev_list)
+            {
+                comboBox_CANDevIndex.Items.Add(dev_str);
+            }
+            if (comboBox_CANDevIndex.Items.Count > 0)
+            {
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
+                    comboBox_CANDevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
+                else
+                    comboBox_CANDevIndex.SelectedIndex = 0;
+                comboBox_CANDevIndex.MaxDropDownItems = comboBox_CANDevIndex.Items.Count;
+            }
+
             #endregion
 
             if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") == "")
@@ -1301,18 +1323,24 @@ namespace Woodpecker
             PortCheck();
         }
 
-        private void checkBox_canbus_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_CANLog_CheckedChanged(object sender, EventArgs e)
         {
             //自動跑CANbusLog//
-            if (checkBox_canbus.Checked == true)
+            if (checkBox_CANLog.Checked == true)
             {
-
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "1");
+                comboBox_CANDevIndex.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Canbus", "Log", "1");
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Record", "CANbusLog", "0");
+                comboBox_CANDevIndex.Enabled = false;
+                ini12.INIWrite(MainSettingPath, "Canbus", "Log", "0");
             }
+        }
+
+        private void comboBox_CANDevIndex_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", comboBox_CANDevIndex.SelectedIndex.ToString());
         }
     }
 }

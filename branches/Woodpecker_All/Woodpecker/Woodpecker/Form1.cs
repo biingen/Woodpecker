@@ -124,6 +124,7 @@ namespace Woodpecker
 
         //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
+        private USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         //Klite error code
         public int kline_send = 0;
@@ -4090,7 +4091,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 跑Schedule的指令集 --
-        private void MyRunCamd()
+        unsafe private void MyRunCamd()
         {
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
@@ -4972,7 +4973,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "CRC16_Modbus")
+                                         columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
@@ -4984,7 +4985,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "")
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
@@ -5012,7 +5013,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "CRC16_Modbus")
+                                         columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
@@ -5024,7 +5025,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "")
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
@@ -5052,7 +5053,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "CRC16_Modbus")
+                                         columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
@@ -5064,7 +5065,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "")
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
@@ -5092,7 +5093,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "CRC16_Modbus")
+                                         columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
@@ -5104,7 +5105,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "")
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
@@ -5132,7 +5133,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "CRC16_Modbus")
+                                         columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
@@ -5144,7 +5145,7 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
-                                         columns_switch == "")
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
@@ -5175,7 +5176,7 @@ namespace Woodpecker
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
                                 {
                                     string orginal_data = serial_content[0];
-                                    if (columns_switch == "CRC16_Modbus")
+                                    if (columns_function == "CRC16_Modbus")
                                     {
                                         string crc16_data = Crc16.PID_CRC16(orginal_data);
                                         Outputstring = orginal_data + crc16_data;
@@ -5198,7 +5199,7 @@ namespace Woodpecker
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
                                     string orginal_data = serial_content[1];
-                                    if (columns_switch == "CRC16_Modbus")
+                                    if (columns_function == "CRC16_Modbus")
                                     {
                                         string crc16_data = Crc16.PID_CRC16(orginal_data);
                                         Outputstring = orginal_data + crc16_data;
@@ -5221,7 +5222,7 @@ namespace Woodpecker
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
                                     string orginal_data = serial_content[2];
-                                    if (columns_switch == "CRC16_Modbus")
+                                    if (columns_function == "CRC16_Modbus")
                                     {
                                         string crc16_data = Crc16.PID_CRC16(orginal_data);
                                         Outputstring = orginal_data + crc16_data;
@@ -5244,7 +5245,7 @@ namespace Woodpecker
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
                                     string orginal_data = serial_content[3];
-                                    if (columns_switch == "CRC16_Modbus")
+                                    if (columns_function == "CRC16_Modbus")
                                     {
                                         string crc16_data = Crc16.PID_CRC16(orginal_data);
                                         Outputstring = orginal_data + crc16_data;
@@ -5267,7 +5268,7 @@ namespace Woodpecker
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
                                     string orginal_data = serial_content[4];
-                                    if (columns_switch == "CRC16_Modbus")
+                                    if (columns_function == "CRC16_Modbus")
                                     {
                                         string crc16_data = Crc16.PID_CRC16(orginal_data);
                                         Outputstring = orginal_data + crc16_data;
@@ -5575,6 +5576,62 @@ namespace Woodpecker
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- Canbus Send --
+                        else if (columns_command == "_Canbus_Send")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            {
+                                Console.WriteLine("Canbus Send: _Canbus_Send");
+                                if (columns_times != "" && columns_serial != "")
+                                {
+                                    List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
+                                    VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
+
+                                    sendobj.RemoteFlag = (byte)0x00;
+                                    sendobj.ExternFlag = (byte)0x00;
+                                    sendobj.ID = System.Convert.ToUInt32("0x" + columns_times, 16);
+                                    int len = (columns_serial.Length + 1) / 3;
+                                    sendobj.DataLen = System.Convert.ToByte(len);
+                                    String strdata = columns_serial;
+                                    int i = -1;
+                                    if (i++ < len - 1)
+                                        sendobj.Data[0] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[1] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[2] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[3] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[4] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[5] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[6] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    if (i++ < len - 1)
+                                        sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+
+                                    sendobj_list.Add(sendobj);
+
+                                    VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
+                                    uint sendout_obj_len = (uint)sendobj_list.Count;
+                                    if (USB_CAN_device.Transmit(0x00, ref sendout_obj[0], sendout_obj_len) == 0)
+                                    {
+                                        MessageBox.Show("发送失败", "错误",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
                                 }
                             }
                         }
@@ -8174,7 +8231,8 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("_TX_I2C_Read");
             //RCDB.Items.Add("_TX_I2C_Write");
-            //RCDB.Items.Add("------------------------");
+            RCDB.Items.Add("_Canbus_Send");
+            RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
             RCDB.Items.Add("_rec_stop");
@@ -8790,7 +8848,7 @@ namespace Woodpecker
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
                 button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ? true : false;
-                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1" ? true : false;
+                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1" ? true : false;
                 button_kline.Visible = ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1" ? true : false;
                 */
                 List<string> SchExist = new List<string> { };
@@ -9992,12 +10050,6 @@ namespace Woodpecker
             }
         }
 
-        private void DataGridView_Schedule_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-
-
-        }
-
         private string strValue;
         public string StrValue
         {
@@ -10167,7 +10219,7 @@ namespace Woodpecker
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
                     if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
