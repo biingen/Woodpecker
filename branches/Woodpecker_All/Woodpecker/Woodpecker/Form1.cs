@@ -5595,26 +5595,18 @@ namespace Woodpecker
                                     sendobj.RemoteFlag = (byte)0x00;
                                     sendobj.ExternFlag = (byte)0x00;
                                     sendobj.ID = System.Convert.ToUInt32("0x" + columns_times, 16);
-                                    int len = (columns_serial.Length + 1) / 3;
+                                    int len = columns_serial.Split(' ').Length;
                                     sendobj.DataLen = System.Convert.ToByte(len);
-                                    String strdata = columns_serial;
-                                    int i = -1;
-                                    if (i++ < len - 1)
-                                        sendobj.Data[0] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[1] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[2] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[3] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[4] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[5] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[6] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
+                                    string[] orginal_array = columns_serial.Split(' ');
+                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
+                                    int orginal_index = 0;
+                                    foreach (string hex in orginal_array)
+                                    {
+                                        // Convert the number expressed in base-16 to an integer.
+                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                                        // Get the character corresponding to the integral value.
+                                        sendobj.Data[orginal_index++] = number;
+                                    }
 
                                     sendobj_list.Add(sendobj);
 
@@ -8772,6 +8764,11 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
+            if (MYCanReader.Connect() == 1)
+            {
+                MYCanReader.StopCAN();
+                MYCanReader.Disconnect();
+            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -10103,7 +10100,7 @@ namespace Woodpecker
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Console.WriteLine("Enable the Breakfunction");
+                //Console.WriteLine("Enable the Breakfunction");
             }
         }
 
@@ -10206,13 +10203,12 @@ namespace Woodpecker
                 }
                 return;
             }
-
-            uint ID = 0, DLC = 0;
-            const int DATA_LEN = 8;
-            byte[] DATA = new byte[DATA_LEN];
-
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            else
             {
+                uint ID = 0, DLC = 0;
+                const int DATA_LEN = 8;
+                byte[] DATA = new byte[DATA_LEN];
+
                 String str = "";
                 for (UInt32 i = 0; i < res; i++)
                 {
