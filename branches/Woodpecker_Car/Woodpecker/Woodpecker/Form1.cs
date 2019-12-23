@@ -193,11 +193,11 @@ namespace Woodpecker
                 }
             }
 
-            if (comboBox_savelog.Items.Count > 1)
-                comboBox_savelog.Items.Add("Port All");
-
             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                 comboBox_savelog.Items.Add("Canbus");
+
+            if (comboBox_savelog.Items.Count > 1)
+                comboBox_savelog.Items.Add("Port All");
 
             if (comboBox_savelog.Items.Count == 0)
             {
@@ -1296,12 +1296,22 @@ namespace Woodpecker
                         Schedule_Time();
                         if (columns_wait != "")
                         {
-                            if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                            if (columns_wait.Contains('m'))
                             {
                                 //Console.WriteLine("Datagridview highlight.");
                                 GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                                //Console.WriteLine("Datagridview scollbar.");
+                                                                                               //Console.WriteLine("Datagridview scollbar.");
                                 Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            }
+                            else
+                            {
+                                if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                                {
+                                    //Console.WriteLine("Datagridview highlight.");
+                                    GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                                                                                   //Console.WriteLine("Datagridview scollbar.");
+                                    Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                                }
                             }
                         }
 
@@ -1315,8 +1325,10 @@ namespace Woodpecker
                         else
                             sRepeat = 0;
 
-                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true)
+                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
                             SysDelay = int.Parse(columns_wait); // 指令停止時間
+                        else if (columns_wait != "" && columns_wait.Contains('m') == true)
+                            SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             SysDelay = 0;
 
@@ -2536,6 +2548,27 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- Canbus Send --
+                        else if (columns_command == "_Canbus_Send")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            {
+                                Console.WriteLine("Canbus Send: _Canbus_Send");
+                                if (columns_times != "" && columns_serial != "")
+                                {
+                                    MYCanReader.TransmitData(columns_times, columns_serial);
+
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                            }
+                        }
+                        #endregion
+
                         #region -- 命令提示 --
                         else if (columns_command == "_DOS")
                         {
@@ -3720,6 +3753,7 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_TX_I2C_Read");
             RCDB.Items.Add("_TX_I2C_Write");
+            RCDB.Items.Add("_Canbus_Send");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
@@ -4271,7 +4305,11 @@ namespace Woodpecker
                             {
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
-                            TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
+
+                            if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
+                                TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
+                            else
+                                TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
 
                             RepeatTime = 0;
                         }
@@ -4484,7 +4522,12 @@ namespace Woodpecker
                     {
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
-                    delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+
+                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
+                    else
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+
                     if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
                     {
                         timeCountUpdated = timeCount - delayTime;

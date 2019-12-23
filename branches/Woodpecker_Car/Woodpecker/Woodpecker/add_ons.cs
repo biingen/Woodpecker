@@ -147,7 +147,10 @@ namespace Woodpecker
                     #endregion
 
                     #region 偵測CANbus
-                    if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (deviceId.IndexOf("&0&3", StringComparison.OrdinalIgnoreCase) >= 0 && 
+                        deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        deviceId.IndexOf("&0&4", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                        deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         Console.WriteLine("-----------------Canbus------------------");
                         Console.WriteLine("DeviceID: {0}\n" +
@@ -172,6 +175,7 @@ namespace Woodpecker
         {
             string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS"};
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
+            string[] Canbus = { "Log", "DevIndex" };
             string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
