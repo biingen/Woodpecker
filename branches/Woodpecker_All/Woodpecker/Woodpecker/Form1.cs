@@ -124,7 +124,6 @@ namespace Woodpecker
 
         //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
-        private USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         //Klite error code
         public int kline_send = 0;
@@ -4091,7 +4090,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 跑Schedule的指令集 --
-        unsafe private void MyRunCamd()
+        private void MyRunCamd()
         {
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
@@ -5589,34 +5588,7 @@ namespace Woodpecker
                                 Console.WriteLine("Canbus Send: _Canbus_Send");
                                 if (columns_times != "" && columns_serial != "")
                                 {
-                                    List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
-                                    VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
-
-                                    sendobj.RemoteFlag = (byte)0x00;
-                                    sendobj.ExternFlag = (byte)0x00;
-                                    sendobj.ID = System.Convert.ToUInt32("0x" + columns_times, 16);
-                                    int len = columns_serial.Split(' ').Length;
-                                    sendobj.DataLen = System.Convert.ToByte(len);
-                                    string[] orginal_array = columns_serial.Split(' ');
-                                    byte[] orginal_bytes = new byte[orginal_array.Count()];
-                                    int orginal_index = 0;
-                                    foreach (string hex in orginal_array)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        sendobj.Data[orginal_index++] = number;
-                                    }
-
-                                    sendobj_list.Add(sendobj);
-
-                                    VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
-                                    uint sendout_obj_len = (uint)sendobj_list.Count;
-                                    if (USB_CAN_device.Transmit(0x00, ref sendout_obj[0], sendout_obj_len) == 0)
-                                    {
-                                        MessageBox.Show("发送失败", "错误",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    }
+                                    MYCanReader.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;

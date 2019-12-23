@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using jini;
+using System.Linq;
 
 /*------------兼容ZLG的数据类型---------------------------------*/
 
@@ -286,7 +287,6 @@ namespace Can_Reader_Lib
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[MAX_CAN_OBJ_ARRAY_LEN];
-
         UInt32[] m_arrdevtype = new UInt32[20];
 
         // COPY - end
@@ -307,6 +307,8 @@ namespace Can_Reader_Lib
         byte default_Timing1 = 0x1C;
         byte default_Filter = 0x01;
         byte default_Mode = 0x00;
+        byte default_RemoteFlag = 0x00;
+        byte default_ExternFlag = 0x00;
 
         USB_CAN_Adaptor can_adaptor = new USB_CAN_Adaptor();
 
@@ -369,6 +371,50 @@ namespace Can_Reader_Lib
             //res = VCI_Receive(m_devtype, m_devind, m_canind, ref m_recobj[0], 1000, 100);
             res = can_adaptor.Receive(default_canind, ref m_recobj[0]);
             return res;
+        }
+
+        unsafe public void TransmitData(string ID, string Data)
+        {
+            if (m_bOpen == 0)
+                return;
+
+            List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
+            VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
+            //sendobj.Init();
+            sendobj.RemoteFlag = default_RemoteFlag;
+            sendobj.ExternFlag = default_ExternFlag;
+            sendobj.ID = System.Convert.ToUInt32("0x" + ID, 16);
+            int len = Data.Split(' ').Length;
+            sendobj.DataLen = System.Convert.ToByte(len);
+            string[] orginal_array = Data.Split(' ');
+            byte[] orginal_bytes = new byte[orginal_array.Count()];
+            int orginal_index = 0;
+            foreach (string hex in orginal_array)
+            {
+                // Convert the number expressed in base-16 to an integer.
+                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                // Get the character corresponding to the integral value.
+                sendobj.Data[orginal_index++] = number;
+            }
+
+            sendobj_list.Add(sendobj);
+
+            //sendobj.Data[7] ^= 0xff;        // for testing multiple sendout_obj
+            //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
+            uint sendout_obj_len = (uint)sendobj_list.Count;
+            if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
+            {
+                MessageBox.Show("发送失败", "错误",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            //sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
+            //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
+            //if (USB_CAN_device.Transmit(m_canind_src, ref sendobj_list) == 0)
+            //{
+            //    MessageBox.Show("发送失败", "错误",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //}
         }
 
         unsafe public void GetOneCommand(UInt32 index, out String str, out uint ID, out uint DLC, out byte[] DATA)
