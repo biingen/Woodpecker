@@ -277,13 +277,15 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
             {
-                checkBox_CANLog.Checked = true;
-                comboBox_CANDevIndex.Enabled = true;
+                checkBox_CAN_Log.Checked = true;
+                comboBox_CAN_DevIndex.Enabled = true;
+                comboBox_CAN_BaudRate_Value.Enabled = true;
             }
             else
             {
-                checkBox_CANLog.Checked = false;
-                comboBox_CANDevIndex.Enabled = false;
+                checkBox_CAN_Log.Checked = false;
+                comboBox_CAN_DevIndex.Enabled = false;
+                comboBox_CAN_BaudRate_Value.Enabled = false;
             }
 
             #region -- SerialPort --
@@ -580,21 +582,31 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            List<String> dev_list = MYCanReader.FindUsbDevice();
-            comboBox_CANDevIndex.Items.Clear();
-            foreach (String dev_str in dev_list)
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")//Camera存在//
             {
-                comboBox_CANDevIndex.Items.Add(dev_str);
-            }
-            if (comboBox_CANDevIndex.Items.Count > 0)
-            {
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
-                    comboBox_CANDevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
-                else
-                    comboBox_CANDevIndex.SelectedIndex = 0;
-                comboBox_CANDevIndex.MaxDropDownItems = comboBox_CANDevIndex.Items.Count;
-            }
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                comboBox_CAN_DevIndex.Items.Clear();
+                foreach (String dev_str in dev_list)
+                {
+                    comboBox_CAN_DevIndex.Items.Add(dev_str);
+                }
+                if (comboBox_CAN_DevIndex.Items.Count > 0)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
+                        comboBox_CAN_DevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
+                    else
+                        comboBox_CAN_DevIndex.SelectedIndex = 0;
+                    comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
+                }
 
+                comboBox_CAN_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
+            }
+            else
+            {
+                checkBox_CAN_Log.Checked = false;
+                comboBox_CAN_DevIndex.Enabled = false;
+                comboBox_CAN_BaudRate_Value.Enabled = false;
+            }
             #endregion
 
             if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") == "")
@@ -1325,21 +1337,28 @@ namespace Woodpecker
         private void checkBox_CANLog_CheckedChanged(object sender, EventArgs e)
         {
             //自動跑CANbusLog//
-            if (checkBox_CANLog.Checked == true)
+            if (checkBox_CAN_Log.Checked == true)
             {
-                comboBox_CANDevIndex.Enabled = true;
+                comboBox_CAN_DevIndex.Enabled = true;
+                comboBox_CAN_BaudRate_Value.Enabled = true;
                 ini12.INIWrite(MainSettingPath, "Canbus", "Log", "1");
             }
             else
             {
-                comboBox_CANDevIndex.Enabled = false;
+                comboBox_CAN_DevIndex.Enabled = false;
+                comboBox_CAN_BaudRate_Value.Enabled = false;
                 ini12.INIWrite(MainSettingPath, "Canbus", "Log", "0");
             }
         }
 
         private void comboBox_CANDevIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", comboBox_CANDevIndex.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", comboBox_CAN_DevIndex.SelectedIndex.ToString());
+        }
+
+        private void comboBox_CAN_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", comboBox_CAN_BaudRate_Value.Text.Trim());
         }
     }
 }
