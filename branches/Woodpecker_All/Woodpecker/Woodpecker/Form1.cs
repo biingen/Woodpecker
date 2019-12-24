@@ -26,7 +26,6 @@ using System.Xml.Linq;
 using USBClassLibrary;
 using System.Net.Sockets;
 using System.Net;
-using Can_Reader_Lib;
 using BlockMessageLibrary;
 using DTC_ABS;
 using DTC_OBD;

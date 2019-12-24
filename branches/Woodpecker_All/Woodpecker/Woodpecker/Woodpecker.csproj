@@ -254,6 +254,7 @@
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
+    <Compile Include="USB_CAN_Adaptor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
