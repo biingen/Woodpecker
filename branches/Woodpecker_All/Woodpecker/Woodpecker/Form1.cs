@@ -26,7 +26,6 @@ using System.Xml.Linq;
 using USBClassLibrary;
 using System.Net.Sockets;
 using System.Net;
-using Can_Reader_Lib;
 using BlockMessageLibrary;
 using DTC_ABS;
 using DTC_OBD;
@@ -124,7 +123,6 @@ namespace Woodpecker
 
         //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
-        private USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
 
         //Klite error code
         public int kline_send = 0;
@@ -4091,7 +4089,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 跑Schedule的指令集 --
-        unsafe private void MyRunCamd()
+        private void MyRunCamd()
         {
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
@@ -5589,42 +5587,7 @@ namespace Woodpecker
                                 Console.WriteLine("Canbus Send: _Canbus_Send");
                                 if (columns_times != "" && columns_serial != "")
                                 {
-                                    List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
-                                    VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
-
-                                    sendobj.RemoteFlag = (byte)0x00;
-                                    sendobj.ExternFlag = (byte)0x00;
-                                    sendobj.ID = System.Convert.ToUInt32("0x" + columns_times, 16);
-                                    int len = (columns_serial.Length + 1) / 3;
-                                    sendobj.DataLen = System.Convert.ToByte(len);
-                                    String strdata = columns_serial;
-                                    int i = -1;
-                                    if (i++ < len - 1)
-                                        sendobj.Data[0] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[1] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[2] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[3] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[4] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[5] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[6] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-                                    if (i++ < len - 1)
-                                        sendobj.Data[7] = System.Convert.ToByte("0x" + strdata.Substring(i * 3, 2), 16);
-
-                                    sendobj_list.Add(sendobj);
-
-                                    VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
-                                    uint sendout_obj_len = (uint)sendobj_list.Count;
-                                    if (USB_CAN_device.Transmit(0x00, ref sendout_obj[0], sendout_obj_len) == 0)
-                                    {
-                                        MessageBox.Show("发送失败", "错误",
-                                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    }
+                                    MYCanReader.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -8772,6 +8735,11 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
+            if (MYCanReader.Connect() == 1)
+            {
+                MYCanReader.StopCAN();
+                MYCanReader.Disconnect();
+            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -10103,7 +10071,7 @@ namespace Woodpecker
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Console.WriteLine("Enable the Breakfunction");
+                //Console.WriteLine("Enable the Breakfunction");
             }
         }
 
@@ -10206,13 +10174,12 @@ namespace Woodpecker
                 }
                 return;
             }
-
-            uint ID = 0, DLC = 0;
-            const int DATA_LEN = 8;
-            byte[] DATA = new byte[DATA_LEN];
-
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            else
             {
+                uint ID = 0, DLC = 0;
+                const int DATA_LEN = 8;
+                byte[] DATA = new byte[DATA_LEN];
+
                 String str = "";
                 for (UInt32 i = 0; i < res; i++)
                 {
