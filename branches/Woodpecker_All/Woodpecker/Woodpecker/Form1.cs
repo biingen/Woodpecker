@@ -246,6 +246,7 @@ namespace Woodpecker
             {
                 button_savelog.Enabled = true;
                 comboBox_savelog.Enabled = true;
+                comboBox_savelog.SelectedIndex = 0;
             }
         }
 
