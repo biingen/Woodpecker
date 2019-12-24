@@ -414,10 +414,7 @@ namespace Woodpecker
                     #endregion
 
                     #region 偵測CANbus
-                    if (deviceId.IndexOf("&0&3", StringComparison.OrdinalIgnoreCase) >= 0 && 
-                        deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        deviceId.IndexOf("&0&4", StringComparison.OrdinalIgnoreCase) >= 0 &&
-                        deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         Console.WriteLine("-----------------Canbus------------------");
                         Console.WriteLine("DeviceID: {0}\n" +
