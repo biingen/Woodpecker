@@ -10,7 +10,6 @@ using System.Linq;
 using System.Management;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using Can_Reader_Lib;
 
 namespace Woodpecker
 {
@@ -24,7 +23,8 @@ namespace Woodpecker
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        public USB_CAN_Adaptor USB_CAN_device = new USB_CAN_Adaptor();
+        string MailPath = Application.StartupPath + "\\Mail.ini";
+        private CAN_Reader MYCanReader = new CAN_Reader();
 
         private void setStyle()
         {
@@ -485,7 +485,7 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            List<String> dev_list = USB_CAN_device.FindUsbDevice();
+            List<String> dev_list = MYCanReader.FindUsbDevice();
             comboBox_CANDevIndex.Items.Clear();
             foreach (String dev_str in dev_list)
             {
