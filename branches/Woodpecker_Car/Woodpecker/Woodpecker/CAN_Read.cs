@@ -74,6 +74,81 @@ namespace Woodpecker
                 }
                 if (connection_status == 1)
                 {
+                    string baudrate = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
+                    switch (baudrate)
+                    {
+                        case "10 Kbps":
+                            default_Timing0 = 0x31;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "20 Kbps":
+                            default_Timing0 = 0x18;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "40 Kbps":
+                            default_Timing0 = 0x87;
+                            default_Timing1 = 0xFF;
+                            break;
+                        case "50 Kbps":
+                            default_Timing0 = 0x09;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "80 Kbps":
+                            default_Timing0 = 0x83;
+                            default_Timing1 = 0xFF;
+                            break;
+                        case "100 Kbps":
+                            default_Timing0 = 0x04;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "125 Kbps":
+                            default_Timing0 = 0x03;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "200 Kbps":
+                            default_Timing0 = 0x81;
+                            default_Timing1 = 0xFA;
+                            break;
+                        case "250 Kbps":
+                            default_Timing0 = 0x01;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "400 Kbps":
+                            default_Timing0 = 0x80;
+                            default_Timing1 = 0xFA;
+                            break;
+                        case "500 Kbps":
+                            default_Timing0 = 0x00;
+                            default_Timing1 = 0x1C;
+                            break;
+                        case "666 Kbps":
+                            default_Timing0 = 0x80;
+                            default_Timing1 = 0xB6;
+                            break;
+                        case "800 Kbps":
+                            default_Timing0 = 0x00;
+                            default_Timing1 = 0x16;
+                            break;
+                        case "1000 Kbps":
+                            default_Timing0 = 0x00;
+                            default_Timing1 = 0x14;
+                            break;
+                        case "33.33 Kbps":
+                            default_Timing0 = 0x09;
+                            default_Timing1 = 0x6F;
+                            break;
+                        case "66.66 Kbps":
+                            default_Timing0 = 0x04;
+                            default_Timing1 = 0x6F;
+                            break;
+                        case "83.33 Kbps":
+                            default_Timing0 = 0x03;
+                            default_Timing1 = 0x6F;
+                            break;
+                        default:
+                            Console.WriteLine("Default case");
+                            break;
+                    }
                     //VCI_INIT_CONFIG config = new VCI_INIT_CONFIG();
                     //config.AccCode = default_AccCode;
                     //config.AccMask = default_AccMask;

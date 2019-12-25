@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Woodpecker
 {
@@ -144,12 +145,19 @@ namespace Woodpecker
             string[] hexValuesSplit = orginal_data.Split(' ');
             byte[] bytes = new byte[hexValuesSplit.Count()];
             int hex_number = 0;
-            foreach (string hex in hexValuesSplit)          //改為Byte陣列
+            try
             {
-                // Convert the number expressed in base-16 to an integer.
-                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                // Get the character corresponding to the integral value.
-                bytes[hex_number++] = number;
+                foreach (string hex in hexValuesSplit)          //改為Byte陣列
+                {
+                    // Convert the number expressed in base-16 to an integer.
+                    byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                    // Get the character corresponding to the integral value.
+                    bytes[hex_number++] = number;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check HEX command format.", "Format error");
             }
 
             ushort crc = CRC16_Modbus(bytes);       //計算CRC
@@ -193,17 +201,26 @@ namespace Woodpecker
 
         public static byte[] StrToByte(this string hexString)
         {
+
             string[] orginal_array = hexString.Split(' ');
             byte[] orginal_bytes = new byte[orginal_array.Count()];
             int orginal_index = 0;
-            foreach (string hex in orginal_array)
+            try
             {
-                // Convert the number expressed in base-16 to an integer.
-                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                // Get the character corresponding to the integral value.
-                orginal_bytes[orginal_index++] = number;
+                foreach (string hex in orginal_array)
+                {
+                    // Convert the number expressed in base-16 to an integer.
+                    byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                    // Get the character corresponding to the integral value.
+                    orginal_bytes[orginal_index++] = number;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check your schedule format.", "Format error");
             }
             return orginal_bytes;
+
         }
     }
 }
