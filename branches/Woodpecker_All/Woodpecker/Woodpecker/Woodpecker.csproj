@@ -112,6 +112,10 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.CA200SRVRLib">
+      <HintPath>..\..\Interop.CA200SRVRLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Interop.CDO">
       <HintPath>obj\Debug\Interop.CDO.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
