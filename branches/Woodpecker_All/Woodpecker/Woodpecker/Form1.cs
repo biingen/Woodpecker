@@ -26,7 +26,6 @@ using System.Xml.Linq;
 using USBClassLibrary;
 using System.Net.Sockets;
 using System.Net;
-using Can_Reader_Lib;
 using BlockMessageLibrary;
 using DTC_ABS;
 using DTC_OBD;
@@ -219,9 +218,7 @@ namespace Woodpecker
                     buttonsAll.FlatAppearance.BorderSize = 1;
                     buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
                 }
-
             }
-
         }
 
         private void initComboboxSaveLog()
@@ -240,6 +237,9 @@ namespace Woodpecker
                 }
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                comboBox_savelog.Items.Add("Canbus");
+
             if (comboBox_savelog.Items.Count > 1)
                 comboBox_savelog.Items.Add("Port All");
 
@@ -248,11 +248,11 @@ namespace Woodpecker
                 button_savelog.Enabled = false;
                 comboBox_savelog.Enabled = false;
             }
-
             else
             {
                 button_savelog.Enabled = true;
                 comboBox_savelog.Enabled = true;
+                comboBox_savelog.SelectedIndex = 0;
             }
         }
 
@@ -349,6 +349,12 @@ namespace Woodpecker
             {
                 pictureBox_canbus.Image = Properties.Resources.OFF;
             }
+
+            if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
+                button_Analysis.Visible = true;
+            else
+                button_Analysis.Visible = false;
+
             /* Hidden serial port.
             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
             {
@@ -868,526 +874,6 @@ namespace Woodpecker
             pictureBox4.Image.Save(t);
             button_Start.Enabled = true;
             setStyle();
-        }
-        #endregion
-
-        #region -- 圖片比對 --
-        // 內存法
-        public static Bitmap RGB2Gray(Bitmap srcBitmap)
-        {
-            Rectangle rect = new Rectangle(0, 0, srcBitmap.Width, srcBitmap.Height);
-            System.Drawing.Imaging.BitmapData bmpdata = srcBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            IntPtr ptr = bmpdata.Scan0;
-
-            int bytes = srcBitmap.Width * srcBitmap.Height * 3;
-            byte[] rgbvalues = new byte[bytes];
-
-            System.Runtime.InteropServices.Marshal.Copy(ptr, rgbvalues, 0, bytes);
-
-            double colortemp = 0;
-            for (int i = 0; i < rgbvalues.Length; i += 3)
-            {
-                colortemp = rgbvalues[i + 2] * 0.299 + rgbvalues[i + 1] * 0.587 + rgbvalues[i] * 0.114;
-                rgbvalues[i] = rgbvalues[i + 1] = rgbvalues[i + 2] = (byte)colortemp;
-            }
-
-            System.Runtime.InteropServices.Marshal.Copy(rgbvalues, 0, ptr, bytes);
-
-            srcBitmap.UnlockBits(bmpdata);
-            return (srcBitmap);
-        }
-
-        // Sobel法 
-        private Bitmap SobelEdgeDetect(Bitmap original)
-        {
-            Bitmap b = original;
-            Bitmap bb = original;
-            int width = b.Width;
-            int height = b.Height;
-            int[,] gx = new int[,] { { -1, 0, 1 }, { -2, 0, 2 }, { -1, 0, 1 } };
-            int[,] gy = new int[,] { { 1, 2, 1 }, { 0, 0, 0 }, { -1, -2, -1 } };
-
-            int[,] allPixR = new int[width, height];
-            int[,] allPixG = new int[width, height];
-            int[,] allPixB = new int[width, height];
-
-            int limit = 128 * 128;
-
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    allPixR[i, j] = b.GetPixel(i, j).R;
-                    allPixG[i, j] = b.GetPixel(i, j).G;
-                    allPixB[i, j] = b.GetPixel(i, j).B;
-                }
-            }
-
-            int new_rx = 0, new_ry = 0;
-            int new_gx = 0, new_gy = 0;
-            int new_bx = 0, new_by = 0;
-            int rc, gc, bc;
-            for (int i = 1; i < b.Width - 1; i++)
-            {
-                for (int j = 1; j < b.Height - 1; j++)
-                {
-
-                    new_rx = 0;
-                    new_ry = 0;
-                    new_gx = 0;
-                    new_gy = 0;
-                    new_bx = 0;
-                    new_by = 0;
-                    rc = 0;
-                    gc = 0;
-                    bc = 0;
-
-                    for (int wi = -1; wi < 2; wi++)
-                    {
-                        for (int hw = -1; hw < 2; hw++)
-                        {
-                            rc = allPixR[i + hw, j + wi];
-                            new_rx += gx[wi + 1, hw + 1] * rc;
-                            new_ry += gy[wi + 1, hw + 1] * rc;
-
-                            gc = allPixG[i + hw, j + wi];
-                            new_gx += gx[wi + 1, hw + 1] * gc;
-                            new_gy += gy[wi + 1, hw + 1] * gc;
-
-                            bc = allPixB[i + hw, j + wi];
-                            new_bx += gx[wi + 1, hw + 1] * bc;
-                            new_by += gy[wi + 1, hw + 1] * bc;
-                        }
-                    }
-                    if (new_rx * new_rx + new_ry * new_ry > limit || new_gx * new_gx + new_gy * new_gy > limit || new_bx * new_bx + new_by * new_by > limit)
-                        bb.SetPixel(i, j, Color.Black);
-
-                    //bb.SetPixel (i, j, Color.FromArgb(allPixR[i,j],allPixG[i,j],allPixB[i,j]));
-                    else
-                        bb.SetPixel(i, j, Color.Transparent);
-                }
-            }
-            return bb;
-        }
-
-        public static bool ImageCompareString(Bitmap firstImage, Bitmap secondImage)
-        {
-            MemoryStream ms = new MemoryStream();
-            firstImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            String firstBitmap = Convert.ToBase64String(ms.ToArray());
-            ms.Position = 0;
-            secondImage.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            String secondBitmap = Convert.ToBase64String(ms.ToArray());
-            if (firstBitmap.Equals(secondBitmap))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// 圖片內容比較1
-        /// Refer: http://www.programmer-club.com.tw/ShowSameTitleN/csharp/9880.html
-        public float Similarity(System.Drawing.Bitmap img1, System.Drawing.Bitmap img2)
-        {
-            int rc, bc, gc;
-            float cc = 0, hc = 0;
-
-            for (int i = 0; i < img1.Size.Width; i++)
-            {
-                for (int j = 0; j < img1.Size.Height; j++)
-                {
-                    System.Drawing.Color c1 = img1.GetPixel(i, j);
-                    System.Drawing.Color c2 = img2.GetPixel(i, j);
-
-                    rc = Math.Abs(c1.R - c2.R);
-                    bc = Math.Abs(c1.B - c2.B);
-                    gc = Math.Abs(c1.G - c2.G);
-                    cc = (float)(rc + bc + gc);
-
-                    float f1 = (float)(255 * 3 * img1.Size.Width * img1.Size.Height);
-                    hc += cc / f1;
-                }
-            }
-            hc = hc * 100;
-            return hc;
-        }
-
-        // GetHisogram 取long
-        public long[] GetHistogram(System.Drawing.Bitmap picture)
-        {
-            long[] myHistogram = new long[256];
-
-            for (int i = 0; i < picture.Size.Width; i++)
-                for (int j = 0; j < picture.Size.Height; j++)
-                {
-                    System.Drawing.Color c = picture.GetPixel(i, j);
-
-                    long Temp = 0;
-                    Temp += c.R;
-                    Temp += c.G;
-                    Temp += c.B;
-
-                    Temp = (int)Temp / 3;
-                    myHistogram[Temp]++;
-                }
-
-            return myHistogram;
-        }
-
-        // GetHisogram 取int
-        public int[] GetHisogram(Bitmap img)
-        {
-            BitmapData data = img.LockBits(new System.Drawing.Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            int[] histogram = new int[256];
-            unsafe
-            {
-                byte* ptr = (byte*)data.Scan0;
-                int remain = data.Stride - data.Width * 3;
-                for (int i = 0; i < histogram.Length; i++)
-                    histogram[i] = 0;
-                for (int i = 0; i < data.Height; i++)
-                {
-                    for (int j = 0; j < data.Width; j++)
-                    {
-                        int mean = ptr[0] + ptr[1] + ptr[2];
-                        mean /= 3;
-                        histogram[mean]++;
-                        ptr += 3;
-                    }
-                    ptr += remain;
-                }
-            }
-            img.UnlockBits(data);
-            return histogram;
-        }
-
-        //計算相減後的絕對值
-        private float GetAbs(int firstNum, int secondNum)
-        {
-            float abs = Math.Abs((float)firstNum - (float)secondNum);
-            float result = Math.Max(firstNum, secondNum);
-            if (result == 0)
-                result = 1;
-            return abs / result;
-        }
-
-        //最終計算結果
-        public float GetResult(int[] firstNum, int[] scondNum)
-        {
-            if (firstNum.Length != scondNum.Length)
-            {
-                return 0;
-            }
-            else
-            {
-                float result = 0;
-                int j = firstNum.Length;
-                for (int i = 0; i < j; i++)
-                {
-                    result += 1 - GetAbs(firstNum[i], scondNum[i]);
-                }
-                return result / j;
-            }
-        }
-
-        /// <summary>
-        /// 判断图形里是否存在另外一个图形 并返回所在位置
-        /// </summary>
-        /// <param name=”p_SourceBitmap”>原始图形</param>
-        /// <param name=”p_PartBitmap”>小图形</param>
-        /// <param name=”p_Float”>溶差</param>
-        /// <returns>坐标</returns>
-        public Point GetImageContains(Bitmap p_SourceBitmap, Bitmap p_PartBitmap, int p_Float)
-        {
-            int _SourceWidth = p_SourceBitmap.Width;
-            int _SourceHeight = p_SourceBitmap.Height;
-            int _PartWidth = p_PartBitmap.Width;
-            int _PartHeight = p_PartBitmap.Height;
-            Bitmap _SourceBitmap = new Bitmap(_SourceWidth, _SourceHeight);
-            Graphics _Graphics = Graphics.FromImage(_SourceBitmap);
-            _Graphics.DrawImage(p_SourceBitmap, new Rectangle(0, 0, _SourceWidth, _SourceHeight));
-            _Graphics.Dispose();
-            BitmapData _SourceData = _SourceBitmap.LockBits(new Rectangle(0, 0, _SourceWidth, _SourceHeight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            byte[] _SourceByte = new byte[_SourceData.Stride * _SourceHeight];
-            Marshal.Copy(_SourceData.Scan0, _SourceByte, 0, _SourceByte.Length);  //复制出p_SourceBitmap的相素信息
-            _SourceBitmap.UnlockBits(_SourceData);
-            Bitmap _PartBitmap = new Bitmap(_PartWidth, _PartHeight);
-            _Graphics = Graphics.FromImage(_PartBitmap);
-            _Graphics.DrawImage(p_PartBitmap, new Rectangle(0, 0, _PartWidth, _PartHeight));
-            _Graphics.Dispose();
-            BitmapData _PartData = _PartBitmap.LockBits(new Rectangle(0, 0, _PartWidth, _PartHeight), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            byte[] _PartByte = new byte[_PartData.Stride * _PartHeight];
-            Marshal.Copy(_PartData.Scan0, _PartByte, 0, _PartByte.Length);   //复制出p_PartBitmap的相素信息
-            _PartBitmap.UnlockBits(_PartData);
-            for (int i = 0; i != _SourceHeight; i++)
-            {
-                if (_SourceHeight - i < _PartHeight) return new Point(-1, -1);  //如果 剩余的高 比需要比较的高 还要小 就直接返回
-                int _PointX = -1;    //临时存放坐标 需要包正找到的是在一个X点上
-                bool _SacnOver = true;   //是否都比配的上
-                for (int z = 0; z != _PartHeight - 1; z++)       //循环目标进行比较
-                {
-                    int _TrueX = GetImageContains(_SourceByte, _PartByte, (i + z) * _SourceData.Stride, z * _PartData.Stride, _SourceWidth, _PartWidth, p_Float);
-                    if (_TrueX == -1)   //如果没找到
-                    {
-                        _PointX = -1;    //设置坐标为没找到
-                        _SacnOver = false;   //设置不进行返回
-                        break;
-                    }
-                    else
-                    {
-                        if (z == 0) _PointX = _TrueX;
-                        if (_PointX != _TrueX)   //如果找到了 也的保证坐标和上一行的坐标一样 否则也返回
-                        {
-                            _PointX = -1;//设置坐标为没找到
-                            _SacnOver = false;  //设置不进行返回
-                            break;
-                        }
-                    }
-                }
-                if (_SacnOver) return new Point(_PointX, i);
-            }
-            return new Point(-1, -1);
-        }
-
-        /// <summary>
-        /// 判断图形里是否存在另外一个图形 所在行的索引
-        /// </summary>
-        /// <param name=”p_Source”>原始图形数据</param>
-        /// <param name=”p_Part”>小图形数据</param>
-        /// <param name=”p_SourceIndex”>开始位置</param>
-        /// <param name=”p_SourceWidth”>原始图形宽</param>
-        /// <param name=”p_PartWidth”>小图宽</param>
-        /// <param name=”p_Float”>溶差</param>
-        /// <returns>所在行的索引 如果找不到返回-1</returns>
-        private int GetImageContains(byte[] p_Source, byte[] p_Part, int p_SourceIndex, int p_PartIndex, int p_SourceWidth, int p_PartWidth, int p_Float)
-        {
-            int _PartIndex = p_PartIndex;//
-            int _PartRVA = _PartIndex;//p_PartX轴起点
-            int _SourceIndex = p_SourceIndex;//p_SourceX轴起点
-            for (int i = 0; i < p_SourceWidth; i++)
-            {
-                if (p_SourceWidth - i < p_PartWidth) return -1;
-                Color _CurrentlyColor = Color.FromArgb((int)p_Source[_SourceIndex + 3], (int)p_Source[_SourceIndex + 2], (int)p_Source[_SourceIndex + 1], (int)p_Source[_SourceIndex]);
-                Color _CompareColoe = Color.FromArgb((int)p_Part[_PartRVA + 3], (int)p_Part[_PartRVA + 2], (int)p_Part[_PartRVA + 1], (int)p_Part[_PartRVA]);
-                _SourceIndex += 4;//成功，p_SourceX轴加4
-                bool _ScanColor = ScanColor(_CurrentlyColor, _CompareColoe, p_Float);
-                if (_ScanColor)
-                {
-                    _PartRVA += 4;//成功，p_PartX轴加4
-                    int _SourceRVA = _SourceIndex;
-                    bool _Equals = true;
-                    for (int z = 0; z != p_PartWidth - 1; z++)
-                    {
-                        _CurrentlyColor = Color.FromArgb((int)p_Source[_SourceRVA + 3], (int)p_Source[_SourceRVA + 2], (int)p_Source[_SourceRVA + 1], (int)p_Source[_SourceRVA]);
-                        _CompareColoe = Color.FromArgb((int)p_Part[_PartRVA + 3], (int)p_Part[_PartRVA + 2], (int)p_Part[_PartRVA + 1], (int)p_Part[_PartRVA]);
-                        if (!ScanColor(_CurrentlyColor, _CompareColoe, p_Float))
-                        {
-                            _PartRVA = _PartIndex;//失败，重置p_PartX轴开始
-                            _Equals = false;
-                            break;
-                        }
-                        _PartRVA += 4;//成功，p_PartX轴加4
-                        _SourceRVA += 4;//成功，p_SourceX轴加4
-                    }
-                    if (_Equals) return i;
-                }
-                else
-                {
-                    _PartRVA = _PartIndex;//失败，重置p_PartX轴开始
-                }
-            }
-            return -1;
-        }
-
-        /// <summary>
-        /// 检查色彩(可以根据这个更改比较方式
-        /// </summary>
-        /// <param name=”p_CurrentlyColor”>当前色彩</param>
-        /// <param name=”p_CompareColor”>比较色彩</param>
-        /// <param name=”p_Float”>溶差</param>
-        /// <returns></returns>
-        private bool ScanColor(Color p_CurrentlyColor, Color p_CompareColor, int p_Float)
-        {
-            int _R = p_CurrentlyColor.R;
-            int _G = p_CurrentlyColor.G;
-            int _B = p_CurrentlyColor.B;
-            return (_R <= p_CompareColor.R + p_Float && _R >= p_CompareColor.R - p_Float) && (_G <= p_CompareColor.G + p_Float && _G >= p_CompareColor.G - p_Float) && (_B <= p_CompareColor.B + p_Float && _B >= p_CompareColor.B - p_Float);
-        }
-
-        /// <summary>
-        /// 图像二值化1：取图片的平均灰度作为阈值，低于该值的全都为0，高于该值的全都为255
-        /// </summary>
-        /// <param name="bmp"></param>
-        /// <returns></returns>
-        public static Bitmap ConvertTo1Bpp1(Bitmap bmp)
-        {
-            int average = 0;
-            for (int i = 0; i < bmp.Width; i++)
-            {
-                for (int j = 0; j < bmp.Height; j++)
-                {
-                    Color color = bmp.GetPixel(i, j);
-                    average += color.B;
-                }
-            }
-            average = (int)average / (bmp.Width * bmp.Height);
-
-            for (int i = 0; i < bmp.Width; i++)
-            {
-                for (int j = 0; j < bmp.Height; j++)
-                {
-                    //获取该点的像素的RGB的颜色
-                    Color color = bmp.GetPixel(i, j);
-                    int value = 255 - color.B;
-                    Color newColor = value > average ? Color.FromArgb(0, 0, 0) : Color.FromArgb(255, 255, 255);
-                    bmp.SetPixel(i, j, newColor);
-                }
-            }
-            return bmp;
-        }
-
-        /// <summary>
-        /// 图像二值化2
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        public static Bitmap ConvertTo1Bpp2(Bitmap img)
-        {
-            int w = img.Width;
-            int h = img.Height;
-            Bitmap bmp = new Bitmap(w, h, PixelFormat.Format1bppIndexed);
-            BitmapData data = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadWrite, PixelFormat.Format1bppIndexed);
-            for (int y = 0; y < h; y++)
-            {
-                byte[] scan = new byte[(w + 7) / 8];
-                for (int x = 0; x < w; x++)
-                {
-                    Color c = img.GetPixel(x, y);
-                    if (c.GetBrightness() >= 0.5) scan[x / 8] |= (byte)(0x80 >> (x % 8));
-                }
-                Marshal.Copy(scan, 0, (IntPtr)((int)data.Scan0 + data.Stride * y), scan.Length);
-            }
-            return bmp;
-        }
-
-        /// <summary>
-        /// 圖片內容比較2-1
-        /// Refer: http://fecbob.pixnet.net/blog/post/38125033-c%23-%E5%9C%96%E7%89%87%E5%85%A7%E5%AE%B9%E6%AF%94%E8%BC%83
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        public struct RGBdata
-        {
-            public int r;
-            public int g;
-            public int b;
-
-            public int GetLargest()
-            {
-                if (r > b)
-                {
-                    if (r > g)
-                    {
-                        return 1;
-                    }
-                    else
-                    {
-                        return 2;
-                    }
-                }
-                else
-                {
-                    return 3;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 圖片內容比較2-2
-        /// Refer: http://fecbob.pixnet.net/blog/post/38125033-c%23-%E5%9C%96%E7%89%87%E5%85%A7%E5%AE%B9%E6%AF%94%E8%BC%83
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        private RGBdata ProcessBitmap(Bitmap a)
-        {
-            BitmapData bmpData = a.LockBits(new Rectangle(0, 0, a.Width, a.Height), ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
-            IntPtr ptr = bmpData.Scan0;
-            RGBdata data = new RGBdata();
-
-            unsafe
-            {
-                byte* p = (byte*)(void*)ptr;
-                int offset = bmpData.Stride - a.Width * 3;
-                int width = a.Width * 3;
-                for (int y = 0; y < a.Height; ++y)
-                {
-                    for (int x = 0; x < width; ++x)
-                    {
-                        data.r += p[0];             //gets red values
-                        data.g += p[1];             //gets green values
-                        data.b += p[2];             //gets blue values
-                        ++p;
-                    }
-                    p += offset;
-                }
-            }
-            a.UnlockBits(bmpData);
-            return data;
-        }
-
-        /// <summary>
-        /// 圖片內容比較2-3
-        /// Refer: http://fecbob.pixnet.net/blog/post/38125033-c%23-%E5%9C%96%E7%89%87%E5%85%A7%E5%AE%B9%E6%AF%94%E8%BC%83
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        public double GetSimilarity(Bitmap a, Bitmap b)
-        {
-            RGBdata dataA = ProcessBitmap(a);
-            RGBdata dataB = ProcessBitmap(b);
-            double result = 0;
-            int averageA = 0;
-            int averageB = 0;
-            int maxA = 0;
-            int maxB = 0;
-            maxA = ((a.Width * 3) * a.Height);
-            maxB = ((b.Width * 3) * b.Height);
-
-            switch (dataA.GetLargest())            //Find dominant color to compare
-            {
-                case 1:
-                    {
-                        averageA = Math.Abs(dataA.r / maxA);
-                        averageB = Math.Abs(dataB.r / maxB);
-                        result = (averageA - averageB) / 2;
-                        break;
-                    }
-                case 2:
-                    {
-                        averageA = Math.Abs(dataA.g / maxA);
-                        averageB = Math.Abs(dataB.g / maxB);
-                        result = (averageA - averageB) / 2;
-                        break;
-                    }
-                case 3:
-                    {
-                        averageA = Math.Abs(dataA.b / maxA);
-                        averageB = Math.Abs(dataB.b / maxB);
-                        result = (averageA - averageB) / 2;
-                        break;
-                    }
-            }
-
-            result = Math.Abs((result + 100) / 100);
-            if (result > 1.0)
-            {
-                result -= 1.0;
-            }
-
-            return result;
         }
         #endregion
 
@@ -4716,13 +4202,11 @@ namespace Woodpecker
             }
             #endregion
 
-            int u = 0;
             for (int j = 1; j < Global.Schedule_Loop + 1; j++)
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
-                u = 0;
 
                 lock (this)
                 {
@@ -4743,7 +4227,6 @@ namespace Woodpecker
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
-
                         if (StartButtonPressed == false)
                         {
                             j = Global.Schedule_Loop;
@@ -4754,12 +4237,22 @@ namespace Woodpecker
                         Schedule_Time();
                         if (columns_wait != "")
                         {
-                            if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                            if (columns_wait.Contains('m'))
                             {
                                 //Console.WriteLine("Datagridview highlight.");
                                 GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                                //Console.WriteLine("Datagridview scollbar.");
+                                                                                               //Console.WriteLine("Datagridview scollbar.");
                                 Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                            }
+                            else
+                            {
+                                if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
+                                {
+                                    //Console.WriteLine("Datagridview highlight.");
+                                    GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                                                                                   //Console.WriteLine("Datagridview scollbar.");
+                                    Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                                }
                             }
                         }
 
@@ -4773,8 +4266,10 @@ namespace Woodpecker
                         else
                             sRepeat = 0;
 
-                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true)
+                        if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
                             SysDelay = int.Parse(columns_wait); // 指令停止時間
+                        else if (columns_wait != "" && columns_wait.Contains('m') == true)
+                            SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             SysDelay = 0;
 
@@ -5487,7 +4982,7 @@ namespace Woodpecker
                         #region -- Hex --
                         else if (columns_command == "_HEX")
                         {
-
+                            string Outputstring = "";
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
                                 Console.WriteLine("Hex Log: _PortA");
@@ -5501,28 +4996,31 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
-                                         columns_serial != "")
+                                         columns_serial != "" &&
+                                         columns_function == "CRC16_Modbus")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortA.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
-                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log1_text = string.Concat(log1_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
-                                */
                             }
 
 
@@ -5540,31 +5038,31 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
-                                         columns_serial != "")
+                                         columns_serial != "" &&
+                                         columns_function == "CRC16_Modbus")
                                 {
-                                    /*
-                                    string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }*/
-                                    PortB.Write(hexCommandList[u], 0, hexCommandList[u].Length); //發送數據 Rs232
-                                    u++;
+                                    string orginal_data = columns_serial;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                 }
-
-                                /*
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "")
+                                {
+                                    string hexValues = columns_serial;
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log2_text = string.Concat(log2_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
-                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
@@ -5580,28 +5078,31 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
-                                         columns_serial != "")
+                                         columns_serial != "" &&
+                                         columns_function == "CRC16_Modbus")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortC.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
-                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log3_text = string.Concat(log3_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
-                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
@@ -5617,28 +5118,31 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
-                                         columns_serial != "")
+                                         columns_serial != "" &&
+                                         columns_function == "CRC16_Modbus")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortD.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
-                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log4_text = string.Concat(log4_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
-                                */
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
@@ -5654,28 +5158,31 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
-                                         columns_serial != "")
+                                         columns_serial != "" &&
+                                         columns_function == "CRC16_Modbus")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                    Outputstring = orginal_data + crc16_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "")
                                 {
                                     string hexValues = columns_serial;
-                                    string[] hexValuesSplit = hexValues.Split(' ');
-                                    byte[] bytes = new byte[hexValuesSplit.Count()];
-                                    int index = 0;
-                                    foreach (string hex in hexValuesSplit)
-                                    {
-                                        // Convert the number expressed in base-16 to an integer.
-                                        byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                                        // Get the character corresponding to the integral value.
-                                        bytes[index++] = number;
-                                    }
-                                    PortE.Write(bytes, 0, bytes.Length); //發送數據 Rs232
+                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
-                                /*
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                 textBox_serial.AppendText(text);
                                 log5_text = string.Concat(log5_text, text);
                                 logAll_text = string.Concat(logAll_text, text);
-                                */
                             }
 
                             if (columns_comport == "ALL")
@@ -5694,66 +5201,121 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
                                 {
-                                    byte[] bytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortA.Write(bytes, 0, bytes.Length);
-                                    /*
+                                    string orginal_data = serial_content[0];
+                                    if (columns_function == "CRC16_Modbus")
+                                    {
+                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                        Outputstring = orginal_data + crc16_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else
+                                    {
+                                        Outputstring = orginal_data;
+                                        byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[0] + "\r\n";
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
-                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
-                                    byte[] bytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortB.Write(bytes, 0, bytes.Length);
-                                    /*
+                                    string orginal_data = serial_content[1];
+                                    if (columns_function == "CRC16_Modbus")
+                                    {
+                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                        Outputstring = orginal_data + crc16_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else
+                                    {
+                                        Outputstring = orginal_data;
+                                        byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[1] + "\r\n";
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
-                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
-                                    byte[] bytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortC.Write(bytes, 0, bytes.Length);
-                                    /*
+                                    string orginal_data = serial_content[2];
+                                    if (columns_function == "CRC16_Modbus")
+                                    {
+                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                        Outputstring = orginal_data + crc16_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else
+                                    {
+                                        Outputstring = orginal_data;
+                                        byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[2] + "\r\n";
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
-                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
-                                    byte[] bytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortD.Write(bytes, 0, bytes.Length);
-                                    /*
+                                    string orginal_data = serial_content[3];
+                                    if (columns_function == "CRC16_Modbus")
+                                    {
+                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                        Outputstring = orginal_data + crc16_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else
+                                    {
+                                        Outputstring = orginal_data;
+                                        byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[3] + "\r\n";
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
-                                    */
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
-                                    byte[] bytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    PortE.Write(bytes, 0, bytes.Length);
-                                    /*
+                                    string orginal_data = serial_content[4];
+                                    if (columns_function == "CRC16_Modbus")
+                                    {
+                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                        Outputstring = orginal_data + crc16_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else
+                                    {
+                                        Outputstring = orginal_data;
+                                        byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    }
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
-                                    */
                                 }
                             }
-                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                            label_Command.Text = "(" + columns_command + ") " + Outputstring;
                         }
                         #endregion
 
@@ -5847,6 +5409,222 @@ namespace Woodpecker
                             kline_send = 0;
                             ABS_error_list.Clear();
                             OBD_error_list.Clear();
+                        }
+                        #endregion
+
+                        #region -- I2C Read --
+                        else if (columns_command == "_TX_I2C_Read")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
+                                if (columns_times != "" && columns_function != "")
+                                {
+                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- I2C Write --
+                        else if (columns_command == "_TX_I2C_Write")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortA");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log1_text = string.Concat(log1_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortB");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log2_text = string.Concat(log2_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortC");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log3_text = string.Concat(log3_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortD");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log4_text = string.Concat(log4_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            {
+                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortE");
+                                if (columns_function != "" && columns_subFunction != "")
+                                {
+                                    int Data_length = columns_subFunction.Split(' ').Count();
+                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                    DateTime dt = DateTime.Now;
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log5_text = string.Concat(log5_text, text);
+                                    logAll_text = string.Concat(logAll_text, text);
+                                }
+                            }
+                        }
+                        #endregion
+
+                        #region -- Canbus Send --
+                        else if (columns_command == "_Canbus_Send")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            {
+                                Console.WriteLine("Canbus Send: _Canbus_Send");
+                                if (columns_times != "" && columns_serial != "")
+                                {
+                                    MYCanReader.TransmitData(columns_times, columns_serial);
+
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                            }
                         }
                         #endregion
 
@@ -7425,8 +7203,8 @@ namespace Woodpecker
             }
             #endregion
 
-            /*
             #region Excel function
+            /*
             if (ini12.INIRead(sPath, "Record", "CompareChoose", "") == "1" && excelstat == true)
             {
                 string excelFile = ini12.INIRead(sPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + Global.Schedule_Num;
@@ -7464,22 +7242,8 @@ namespace Woodpecker
                 //Console.Read();
 
                 CloseExcel();
-            }
+            }*/
             #endregion
-
-            if (Global.loop_Num < 3)
-            {
-            }
-            else
-            {
-                if (StartBtnShow_STOP == false)
-                    Global.loop_Num--;
-                Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
-                MyCompareThread.Start();
-                RedratLable.Text = "Start Compare Picture...";
-                Thread.Sleep(Global.loop_Num * Global.caption_Sum * 2000);
-            }
-            */
 
             #region -- schedule 切換 --
             if (StartButtonPressed != false)
@@ -8443,6 +8207,10 @@ namespace Woodpecker
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
+            //RCDB.Items.Add("_TX_I2C_Read");
+            //RCDB.Items.Add("_TX_I2C_Write");
+            RCDB.Items.Add("_Canbus_Send");
+            RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
             RCDB.Items.Add("_rec_stop");
@@ -8982,6 +8750,11 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
+            if (MYCanReader.Connect() == 1)
+            {
+                MYCanReader.StopCAN();
+                MYCanReader.Disconnect();
+            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -9058,7 +8831,7 @@ namespace Woodpecker
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
                 button_SerialPort3.Visible = ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ? true : false;
-                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Record", "CANbusLog", "") == "1" ? true : false;
+                button_CanbusPort.Visible = ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1" ? true : false;
                 button_kline.Visible = ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1" ? true : false;
                 */
                 List<string> SchExist = new List<string> { };
@@ -9182,7 +8955,15 @@ namespace Woodpecker
         private void LabelVersion_MouseClick(object sender, MouseEventArgs e)
         {
             FormSurp SurpriseForm = new FormSurp();
-            SurpriseForm.Show(this);
+
+            if (SurpriseForm.ShowDialog() == DialogResult.OK)
+            {
+                if (ini12.INIRead(MainSettingPath, "Record", "ImportDB", "") == "1")
+                    button_Analysis.Visible = true;
+                else
+                    button_Analysis.Visible = false;
+            }
+            SurpriseForm.Dispose();
         }
 
         private void Com1Btn_Click(object sender, EventArgs e)
@@ -9457,7 +9238,11 @@ namespace Woodpecker
                             {
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
                             }
-                            TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
+
+                            if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
+                                TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
+                            else
+                                TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
 
                             RepeatTime = 0;
                         }
@@ -9685,7 +9470,11 @@ namespace Woodpecker
                     {
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
-                    delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
+                    else
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+
                     if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
                     {
                         timeCountUpdated = timeCount - delayTime;
@@ -9700,7 +9489,6 @@ namespace Woodpecker
                 }
             }
         }
-
 
         private void Timer1_Tick_1(object sender, EventArgs e)
         {
@@ -10334,7 +10122,7 @@ namespace Woodpecker
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.BackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionBackColor = Color.FromArgb(3, 218, 198);
                 DataGridView_Schedule.Rows[Breakpoint].DefaultCellStyle.SelectionForeColor = Color.White;
-                Console.WriteLine("Enable the Breakfunction");
+                //Console.WriteLine("Enable the Breakfunction");
             }
         }
 
@@ -10437,23 +10225,22 @@ namespace Woodpecker
                 }
                 return;
             }
-
-            uint ID = 0, DLC = 0;
-            const int DATA_LEN = 8;
-            byte[] DATA = new byte[DATA_LEN];
-
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            else
             {
+                uint ID = 0, DLC = 0;
+                const int DATA_LEN = 8;
+                byte[] DATA = new byte[DATA_LEN];
+
                 String str = "";
                 for (UInt32 i = 0; i < res; i++)
                 {
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (MYCanReader.Disconnect() != 1)
+                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
                     {
                         timer_canbus.Enabled = false;
                         MYCanReader.StopCAN();

@@ -32,6 +32,10 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
+            this.label_CAN_deviceid = new System.Windows.Forms.Label();
+            this.comboBox_CAN_BaudRate_Value = new System.Windows.Forms.ComboBox();
+            this.label_CAN_BaudRate = new System.Windows.Forms.Label();
+            this.comboBox_CAN_DevIndex = new System.Windows.Forms.ComboBox();
             this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort5 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort5 = new System.Windows.Forms.CheckBox();
@@ -48,7 +52,7 @@
             this.comboBox_SerialPort4_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort4_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort4_BaudRate = new System.Windows.Forms.Label();
-            this.checkBox_canbus = new System.Windows.Forms.CheckBox();
+            this.checkBox_CAN_Log = new System.Windows.Forms.CheckBox();
             this.pictureBox_SerialPort3 = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort2 = new System.Windows.Forms.PictureBox();
             this.pictureBox_SerialPort1 = new System.Windows.Forms.PictureBox();
@@ -98,7 +102,6 @@
             this.button_GeneratorPath = new System.Windows.Forms.Button();
             this.button_DosPath = new System.Windows.Forms.Button();
             this.textBox_ImagePath = new System.Windows.Forms.TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.GroupBox_Rs232.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
@@ -118,6 +121,10 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.label_CAN_deviceid);
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_BaudRate_Value);
+            this.GroupBox_Rs232.Controls.Add(this.label_CAN_BaudRate);
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_DevIndex);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort5);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_SerialPort5);
@@ -134,7 +141,7 @@
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort4_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort4_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort4_BaudRate);
-            this.GroupBox_Rs232.Controls.Add(this.checkBox_canbus);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_CAN_Log);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort3);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort2);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_SerialPort1);
@@ -163,6 +170,72 @@
             this.GroupBox_Rs232.TabIndex = 37;
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
+            // 
+            // label_CAN_deviceid
+            // 
+            this.label_CAN_deviceid.AutoSize = true;
+            this.label_CAN_deviceid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_CAN_deviceid.ForeColor = System.Drawing.Color.White;
+            this.label_CAN_deviceid.Location = new System.Drawing.Point(209, 86);
+            this.label_CAN_deviceid.Name = "label_CAN_deviceid";
+            this.label_CAN_deviceid.Size = new System.Drawing.Size(59, 15);
+            this.label_CAN_deviceid.TabIndex = 154;
+            this.label_CAN_deviceid.Text = "Device ID";
+            // 
+            // comboBox_CAN_BaudRate_Value
+            // 
+            this.comboBox_CAN_BaudRate_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CAN_BaudRate_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CAN_BaudRate_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CAN_BaudRate_Value.FormattingEnabled = true;
+            this.comboBox_CAN_BaudRate_Value.Items.AddRange(new object[] {
+            "10 Kbps",
+            "20 Kbps",
+            "40 Kbps",
+            "50 Kbps",
+            "80 Kbps",
+            "100 Kbps",
+            "125 Kbps",
+            "200 Kbps",
+            "250 Kbps",
+            "400 Kbps",
+            "500 Kbps",
+            "666 Kbps",
+            "800 Kbps",
+            "1000 Kbps",
+            "33.33 Kbps",
+            "66.66 Kbps",
+            "83.33 Kbps"});
+            this.comboBox_CAN_BaudRate_Value.Location = new System.Drawing.Point(273, 109);
+            this.comboBox_CAN_BaudRate_Value.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CAN_BaudRate_Value.Name = "comboBox_CAN_BaudRate_Value";
+            this.comboBox_CAN_BaudRate_Value.Size = new System.Drawing.Size(88, 23);
+            this.comboBox_CAN_BaudRate_Value.TabIndex = 153;
+            this.comboBox_CAN_BaudRate_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_BaudRate_Value_SelectedIndexChanged);
+            // 
+            // label_CAN_BaudRate
+            // 
+            this.label_CAN_BaudRate.AutoSize = true;
+            this.label_CAN_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_CAN_BaudRate.ForeColor = System.Drawing.Color.White;
+            this.label_CAN_BaudRate.Location = new System.Drawing.Point(208, 112);
+            this.label_CAN_BaudRate.Name = "label_CAN_BaudRate";
+            this.label_CAN_BaudRate.Size = new System.Drawing.Size(65, 15);
+            this.label_CAN_BaudRate.TabIndex = 152;
+            this.label_CAN_BaudRate.Text = "Baud Rate";
+            // 
+            // comboBox_CAN_DevIndex
+            // 
+            this.comboBox_CAN_DevIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CAN_DevIndex.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CAN_DevIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CAN_DevIndex.FormattingEnabled = true;
+            this.comboBox_CAN_DevIndex.Location = new System.Drawing.Point(273, 84);
+            this.comboBox_CAN_DevIndex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CAN_DevIndex.Name = "comboBox_CAN_DevIndex";
+            this.comboBox_CAN_DevIndex.Size = new System.Drawing.Size(88, 23);
+            this.comboBox_CAN_DevIndex.TabIndex = 151;
+            this.comboBox_CAN_DevIndex.SelectedIndexChanged += new System.EventHandler(this.comboBox_CANDevIndex_SelectedIndexChanged);
             // 
             // pictureBox_klinePort
             // 
@@ -261,7 +334,7 @@
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(274, 87);
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(194, 167);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(50, 18);
@@ -394,19 +467,18 @@
             this.label_SerialPort4_BaudRate.TabIndex = 137;
             this.label_SerialPort4_BaudRate.Text = "Baud Rate";
             // 
-            // checkBox_canbus
+            // checkBox_CAN_Log
             // 
-            this.checkBox_canbus.AutoSize = true;
-            this.checkBox_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_canbus.ForeColor = System.Drawing.Color.White;
-            this.checkBox_canbus.Location = new System.Drawing.Point(194, 86);
-            this.checkBox_canbus.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_canbus.Name = "checkBox_canbus";
-            this.checkBox_canbus.Size = new System.Drawing.Size(74, 19);
-            this.checkBox_canbus.TabIndex = 136;
-            this.checkBox_canbus.Text = "CAN Bus";
-            this.checkBox_canbus.UseVisualStyleBackColor = true;
-            this.checkBox_canbus.CheckedChanged += new System.EventHandler(this.checkBox_canbus_CheckedChanged);
+            this.checkBox_CAN_Log.AutoSize = true;
+            this.checkBox_CAN_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_CAN_Log.ForeColor = System.Drawing.Color.White;
+            this.checkBox_CAN_Log.Location = new System.Drawing.Point(194, 86);
+            this.checkBox_CAN_Log.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_CAN_Log.Name = "checkBox_CAN_Log";
+            this.checkBox_CAN_Log.Size = new System.Drawing.Size(15, 14);
+            this.checkBox_CAN_Log.TabIndex = 136;
+            this.checkBox_CAN_Log.UseVisualStyleBackColor = true;
+            this.checkBox_CAN_Log.CheckedChanged += new System.EventHandler(this.checkBox_CANLog_CheckedChanged);
             // 
             // pictureBox_SerialPort3
             // 
@@ -1062,18 +1134,6 @@
             this.textBox_ImagePath.TabIndex = 28;
             this.textBox_ImagePath.TextChanged += new System.EventHandler(this.textBox_ImagePath_TextChanged);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(259, 452);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 23);
-            this.comboBox1.TabIndex = 143;
-            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1081,7 +1141,6 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(658, 494);
             this.ControlBox = false;
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button_DosPath);
             this.Controls.Add(this.button_GeneratorPath);
             this.Controls.Add(this.button_RcDbPath);
@@ -1176,7 +1235,7 @@
         private System.Windows.Forms.CheckBox checkBox_Displayhex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
         private System.Windows.Forms.CheckBox checkBox_Kline;
-        private System.Windows.Forms.CheckBox checkBox_canbus;
+        private System.Windows.Forms.CheckBox checkBox_CAN_Log;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
         private System.Windows.Forms.Label label_resolution;
@@ -1205,6 +1264,9 @@
         internal System.Windows.Forms.CheckBox checkBox_SerialPort4;
         internal System.Windows.Forms.ComboBox comboBox_SerialPort2_BaudRate_Value;
         internal System.Windows.Forms.ComboBox comboBox_SerialPort3_BaudRate_Value;
-        private System.Windows.Forms.ComboBox comboBox1;
+        internal System.Windows.Forms.ComboBox comboBox_CAN_DevIndex;
+        internal System.Windows.Forms.ComboBox comboBox_CAN_BaudRate_Value;
+        internal System.Windows.Forms.Label label_CAN_BaudRate;
+        internal System.Windows.Forms.Label label_CAN_deviceid;
     }
 }

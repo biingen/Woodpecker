@@ -66,7 +66,8 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Network", "Port", PorttextBox.Text);
             }
-            Close();
+
+            DialogResult = DialogResult.OK;
         }
 
         private void button_python_Click(object sender, EventArgs e)

@@ -191,6 +191,7 @@
     <Compile Include="add_ons.cs" />
     <Compile Include="BlockMessage.cs" />
     <Compile Include="CAN_Read.cs" />
+    <Compile Include="CRC_Calc.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="FormRC.cs">
@@ -264,6 +265,8 @@
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="CompareSimilarity.cs" />
+    <Compile Include="USB_CAN_Adaptor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
