@@ -145,6 +145,7 @@ namespace Woodpecker
             this.timerCustom1 = new Woodpecker.TimerCustom();
             this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
             this.button_BluetoothSearch = new System.Windows.Forms.Button();
+            this.button_Send = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1329,7 +1330,7 @@ namespace Woodpecker
             // 
             // button_BluetoothConnect
             // 
-            this.button_BluetoothConnect.Location = new System.Drawing.Point(1009, 317);
+            this.button_BluetoothConnect.Location = new System.Drawing.Point(1009, 291);
             this.button_BluetoothConnect.Name = "button_BluetoothConnect";
             this.button_BluetoothConnect.Size = new System.Drawing.Size(75, 23);
             this.button_BluetoothConnect.TabIndex = 115;
@@ -1504,20 +1505,31 @@ namespace Woodpecker
             // 
             this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Bluetooth.FormattingEnabled = true;
-            this.comboBox_Bluetooth.Location = new System.Drawing.Point(974, 289);
+            this.comboBox_Bluetooth.Location = new System.Drawing.Point(974, 262);
             this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
             this.comboBox_Bluetooth.Size = new System.Drawing.Size(110, 24);
             this.comboBox_Bluetooth.TabIndex = 118;
+            this.comboBox_Bluetooth.SelectedIndexChanged += new System.EventHandler(this.comboBox_Bluetooth_SelectedIndexChanged);
             // 
             // button_BluetoothSearch
             // 
-            this.button_BluetoothSearch.Location = new System.Drawing.Point(1010, 346);
+            this.button_BluetoothSearch.Location = new System.Drawing.Point(1010, 317);
             this.button_BluetoothSearch.Name = "button_BluetoothSearch";
             this.button_BluetoothSearch.Size = new System.Drawing.Size(75, 23);
             this.button_BluetoothSearch.TabIndex = 119;
             this.button_BluetoothSearch.Text = "Search";
             this.button_BluetoothSearch.UseVisualStyleBackColor = true;
             this.button_BluetoothSearch.Click += new System.EventHandler(this.button_BluetoothSearch_Click);
+            // 
+            // button_Send
+            // 
+            this.button_Send.Location = new System.Drawing.Point(1010, 344);
+            this.button_Send.Name = "button_Send";
+            this.button_Send.Size = new System.Drawing.Size(75, 23);
+            this.button_Send.TabIndex = 120;
+            this.button_Send.Text = "Send";
+            this.button_Send.UseVisualStyleBackColor = true;
+            this.button_Send.Click += new System.EventHandler(this.button_Check_Click);
             // 
             // Form1
             // 
@@ -1526,6 +1538,7 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1097, 659);
+            this.Controls.Add(this.button_Send);
             this.Controls.Add(this.button_BluetoothSearch);
             this.Controls.Add(this.comboBox_Bluetooth);
             this.Controls.Add(this.button_BluetoothConnect);
@@ -1736,6 +1749,7 @@ namespace Woodpecker
         private TimerCustom timerCustom1;
         private System.Windows.Forms.ComboBox comboBox_Bluetooth;
         private System.Windows.Forms.Button button_BluetoothSearch;
+        private System.Windows.Forms.Button button_Send;
     }
 }
 

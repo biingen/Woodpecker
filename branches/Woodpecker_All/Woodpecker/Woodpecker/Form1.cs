@@ -10577,7 +10577,7 @@ namespace Woodpecker
                 }
 
                 Console.WriteLine("Searching finished!!!!");
-               
+
                 bw.CancelAsync();
                 //獲取當前執行緒是否得到停止的指令
                 if (bw.CancellationPending)
@@ -10587,8 +10587,9 @@ namespace Woodpecker
                     return;
                 }
             }
-            catch (ThreadInterruptedException)
+            catch (Exception)
             {
+                Console.WriteLine("Cannot find any bluetooth on this device.");
                 return;
             }
         }
@@ -10603,11 +10604,12 @@ namespace Woodpecker
             }
         }
 
+        string temp = string.Empty;
         private void button_BluetoothConnect_Click(object sender, EventArgs e)
         {
             try
             {
-                string temp = comboBox_Bluetooth.SelectedItem.ToString();
+                temp = comboBox_Bluetooth.SelectedItem.ToString();
                 BluetoothAddress DeviceAddress = deviceAddressesDic[temp];
 
                 blueclient.SetPin(DeviceAddress, pin);
@@ -10617,7 +10619,6 @@ namespace Woodpecker
                 {
                     Console.WriteLine("Connect to " + temp + " successfully.");
                     MessageBox.Show("Connect to " + temp + " successfully.", "Check connection");
-
                     bw.CancelAsync();
                 }
                 else
@@ -10652,6 +10653,36 @@ namespace Woodpecker
             bw.DoWork += new DoWorkEventHandler(BlutoothSearch);
             bw.RunWorkerAsync();
         }
+
+        private NetworkStream stream = null;
+        private void button_Check_Click(object sender, EventArgs e)
+        {
+            string content = string.Empty;
+            stream = blueclient.GetStream();
+            if (stream.CanWrite)
+            {
+                Console.WriteLine("Start writing data.....");
+                content = "0D 4E 41 56 49 00 1E 30 1E 41 00 1E 0D";
+                string[] contentSplit = content.Split(' ');
+                byte[] buffer = new byte[contentSplit.Count()];
+                int index = 0;
+                foreach (string s in contentSplit)
+                {
+                    byte number = Convert.ToByte(Convert.ToInt32(s, 16));
+                    buffer[index++] = number;
+                }
+                stream.Write(buffer, 0, buffer.Length);
+                stream.Flush();
+                stream.Close();
+                Console.WriteLine("Finish writing data.....");
+            }
+        }
+
+        private void comboBox_Bluetooth_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
