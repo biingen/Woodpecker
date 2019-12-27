@@ -5598,6 +5598,7 @@ namespace Woodpecker
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
                                 }
                             }
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion
 
