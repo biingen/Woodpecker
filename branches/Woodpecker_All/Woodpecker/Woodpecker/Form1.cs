@@ -353,15 +353,7 @@ namespace Woodpecker
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-            {
-                ConnectCanBus();
-                pictureBox_canbus.Image = Properties.Resources.ON;
-            }
-            else
-            {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
+            ConnectCanBus();
 
             if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
                 button_Analysis.Visible = true;
@@ -8896,15 +8888,7 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-                }
+                ConnectCanBus();
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
@@ -10384,7 +10368,7 @@ namespace Woodpecker
                 try
                 {
                     objCa.Measure();
-                    string str = "Lv: " + objProbe.Lv.ToString("##0.00") + " Sx: " + objProbe.sx.ToString("0.0000") + " Sy: " + objProbe.sy.ToString("0.0000") + " T: " + objProbe.T.ToString("####") + " duv: " + objProbe.duv.ToString("0.0000");
+                    string str = "Lv:" + objProbe.Lv.ToString("##0.00") + " Sx:" + objProbe.sx.ToString("0.0000") + " Sy:" + objProbe.sy.ToString("0.0000");
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
