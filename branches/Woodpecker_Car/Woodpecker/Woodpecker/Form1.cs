@@ -192,7 +192,7 @@ namespace Woodpecker
                 }
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
                 comboBox_savelog.Items.Add("Canbus");
 
             if (comboBox_savelog.Items.Count > 1)
@@ -276,16 +276,7 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-            {
-                ConnectCanBus();
-                pictureBox_canbus.Image = Properties.Resources.ON;
-            }
-            else
-            {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-
+            ConnectCanBus();
             LoadRCDB();
 
             List<string> SchExist = new List<string> { };
@@ -2566,6 +2557,7 @@ namespace Woodpecker
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
                                 }
                             }
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion
 
@@ -4045,15 +4037,7 @@ namespace Woodpecker
                     MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-                }
+                ConnectCanBus();
 
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)

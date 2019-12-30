@@ -172,6 +172,7 @@ namespace Woodpecker
             }
             else
             {
+                m_bOpen = 0;
                 connection_status = 0x1000;
             }
             return connection_status;
