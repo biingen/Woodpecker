@@ -240,7 +240,7 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
                 comboBox_savelog.Items.Add("CA310");
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
                 comboBox_savelog.Items.Add("Canbus");
 
             if (comboBox_savelog.Items.Count > 1)
@@ -8267,8 +8267,8 @@ namespace Woodpecker
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("_TX_I2C_Read");
-            //RCDB.Items.Add("_TX_I2C_Write");
+            RCDB.Items.Add("_TX_I2C_Read");
+            RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("_Canbus_Send");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
