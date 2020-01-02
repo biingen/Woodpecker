@@ -7144,7 +7144,7 @@ namespace Woodpecker
                             //檔案不存在則加入標題
                             if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
                             {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,bit_0,bit_1,bit_2,bit_3,bit_4,bit_5," +
+                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
                                     "PA10_0,PA10_1," +
                                     "PA11_0,PA11_1," +
                                     "PA14_0,PA14_1," +
