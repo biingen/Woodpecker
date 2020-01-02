@@ -8799,10 +8799,12 @@ namespace Woodpecker
                     OnOffCamera();
                     button_VirtualRC.Enabled = true;
                     comboBox_CameraDevice.Enabled = false;
+                    button_Camera.Enabled = true;
                 }
                 else
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
+                    button_Camera.Enabled = false;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")

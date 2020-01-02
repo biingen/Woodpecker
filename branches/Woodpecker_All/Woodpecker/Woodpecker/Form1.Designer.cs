@@ -1621,7 +1621,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label labelSch5Timer;
         private System.Windows.Forms.Label labelSch4Timer;
         private System.Windows.Forms.Label labelSch3Timer;
-        private System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Label label_ScheduleTime_Value;
         public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel1;
@@ -1687,6 +1686,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        protected internal System.Windows.Forms.Button button_Pause;
     }
 }
 
