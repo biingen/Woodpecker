@@ -177,7 +177,7 @@ namespace Woodpecker
             this.button_Setting.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Setting.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Setting.ForeColor = System.Drawing.Color.White;
-            this.button_Setting.Location = new System.Drawing.Point(860, 79);
+            this.button_Setting.Location = new System.Drawing.Point(859, 79);
             this.button_Setting.Margin = new System.Windows.Forms.Padding(2);
             this.button_Setting.Name = "button_Setting";
             this.button_Setting.Size = new System.Drawing.Size(103, 30);
@@ -243,13 +243,13 @@ namespace Woodpecker
             // 
             this.labellabel_LoopTimes_Value.AutoSize = true;
             this.labellabel_LoopTimes_Value.BackColor = System.Drawing.Color.Transparent;
-            this.labellabel_LoopTimes_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.labellabel_LoopTimes_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labellabel_LoopTimes_Value.ForeColor = System.Drawing.Color.White;
             this.labellabel_LoopTimes_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labellabel_LoopTimes_Value.Location = new System.Drawing.Point(183, 22);
+            this.labellabel_LoopTimes_Value.Location = new System.Drawing.Point(158, 22);
             this.labellabel_LoopTimes_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labellabel_LoopTimes_Value.Name = "labellabel_LoopTimes_Value";
-            this.labellabel_LoopTimes_Value.Size = new System.Drawing.Size(65, 24);
+            this.labellabel_LoopTimes_Value.Size = new System.Drawing.Size(59, 20);
             this.labellabel_LoopTimes_Value.TabIndex = 30;
             this.labellabel_LoopTimes_Value.Text = "99999";
             this.labellabel_LoopTimes_Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -258,13 +258,13 @@ namespace Woodpecker
             // 
             this.label_LoopNumber_Value.AutoSize = true;
             this.label_LoopNumber_Value.BackColor = System.Drawing.Color.Transparent;
-            this.label_LoopNumber_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_LoopNumber_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_LoopNumber_Value.ForeColor = System.Drawing.Color.White;
             this.label_LoopNumber_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_LoopNumber_Value.Location = new System.Drawing.Point(183, 73);
+            this.label_LoopNumber_Value.Location = new System.Drawing.Point(158, 73);
             this.label_LoopNumber_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopNumber_Value.Name = "label_LoopNumber_Value";
-            this.label_LoopNumber_Value.Size = new System.Drawing.Size(21, 24);
+            this.label_LoopNumber_Value.Size = new System.Drawing.Size(19, 20);
             this.label_LoopNumber_Value.TabIndex = 29;
             this.label_LoopNumber_Value.Text = "0";
             this.label_LoopNumber_Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -530,7 +530,7 @@ namespace Woodpecker
             this.button_Pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Pause.ForeColor = System.Drawing.Color.White;
-            this.button_Pause.Location = new System.Drawing.Point(752, 79);
+            this.button_Pause.Location = new System.Drawing.Point(749, 79);
             this.button_Pause.Margin = new System.Windows.Forms.Padding(2);
             this.button_Pause.Name = "button_Pause";
             this.button_Pause.Size = new System.Drawing.Size(103, 30);
@@ -544,13 +544,13 @@ namespace Woodpecker
             // 
             this.label_ScheduleTime_Value.AutoSize = true;
             this.label_ScheduleTime_Value.BackColor = System.Drawing.Color.Transparent;
-            this.label_ScheduleTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_ScheduleTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ScheduleTime_Value.ForeColor = System.Drawing.Color.White;
             this.label_ScheduleTime_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_ScheduleTime_Value.Location = new System.Drawing.Point(304, 22);
+            this.label_ScheduleTime_Value.Location = new System.Drawing.Point(279, 22);
             this.label_ScheduleTime_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime_Value.Name = "label_ScheduleTime_Value";
-            this.label_ScheduleTime_Value.Size = new System.Drawing.Size(167, 24);
+            this.label_ScheduleTime_Value.Size = new System.Drawing.Size(145, 20);
             this.label_ScheduleTime_Value.TabIndex = 75;
             this.label_ScheduleTime_Value.Text = "0d 0h 0m 0s 0ms";
             this.label_ScheduleTime_Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -710,7 +710,7 @@ namespace Woodpecker
             this.label_LoopTimes.BackColor = System.Drawing.Color.Transparent;
             this.label_LoopTimes.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_LoopTimes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.label_LoopTimes.Location = new System.Drawing.Point(183, 4);
+            this.label_LoopTimes.Location = new System.Drawing.Point(158, 4);
             this.label_LoopTimes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopTimes.Name = "label_LoopTimes";
             this.label_LoopTimes.Size = new System.Drawing.Size(88, 16);
@@ -723,7 +723,7 @@ namespace Woodpecker
             this.label_LoopNumber.BackColor = System.Drawing.Color.Transparent;
             this.label_LoopNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_LoopNumber.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.label_LoopNumber.Location = new System.Drawing.Point(183, 55);
+            this.label_LoopNumber.Location = new System.Drawing.Point(158, 55);
             this.label_LoopNumber.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_LoopNumber.Name = "label_LoopNumber";
             this.label_LoopNumber.Size = new System.Drawing.Size(106, 16);
@@ -736,7 +736,7 @@ namespace Woodpecker
             this.label_ScheduleTime.BackColor = System.Drawing.Color.Transparent;
             this.label_ScheduleTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ScheduleTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.label_ScheduleTime.Location = new System.Drawing.Point(304, 4);
+            this.label_ScheduleTime.Location = new System.Drawing.Point(279, 4);
             this.label_ScheduleTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ScheduleTime.Name = "label_ScheduleTime";
             this.label_ScheduleTime.Size = new System.Drawing.Size(119, 16);
@@ -793,7 +793,7 @@ namespace Woodpecker
             // label_Command
             // 
             this.label_Command.BackColor = System.Drawing.Color.Transparent;
-            this.label_Command.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_Command.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Command.ForeColor = System.Drawing.Color.Tomato;
             this.label_Command.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_Command.Location = new System.Drawing.Point(501, 562);
@@ -802,7 +802,6 @@ namespace Woodpecker
             this.label_Command.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label_Command.Size = new System.Drawing.Size(461, 39);
             this.label_Command.TabIndex = 45;
-            this.label_Command.Text = "~~~~~";
             this.label_Command.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelGPIO_Input
@@ -827,7 +826,7 @@ namespace Woodpecker
             this.label_TestTime.BackColor = System.Drawing.Color.Transparent;
             this.label_TestTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_TestTime.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.label_TestTime.Location = new System.Drawing.Point(304, 55);
+            this.label_TestTime.Location = new System.Drawing.Point(279, 55);
             this.label_TestTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_TestTime.Name = "label_TestTime";
             this.label_TestTime.Size = new System.Drawing.Size(79, 16);
@@ -838,13 +837,13 @@ namespace Woodpecker
             // 
             this.label_TestTime_Value.AutoSize = true;
             this.label_TestTime_Value.BackColor = System.Drawing.Color.Transparent;
-            this.label_TestTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_TestTime_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_TestTime_Value.ForeColor = System.Drawing.Color.White;
             this.label_TestTime_Value.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_TestTime_Value.Location = new System.Drawing.Point(304, 73);
+            this.label_TestTime_Value.Location = new System.Drawing.Point(279, 73);
             this.label_TestTime_Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_TestTime_Value.Name = "label_TestTime_Value";
-            this.label_TestTime_Value.Size = new System.Drawing.Size(167, 24);
+            this.label_TestTime_Value.Size = new System.Drawing.Size(145, 20);
             this.label_TestTime_Value.TabIndex = 89;
             this.label_TestTime_Value.Text = "0d 0h 0m 0s 0ms";
             this.label_TestTime_Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -909,7 +908,7 @@ namespace Woodpecker
             // label_Remark
             // 
             this.label_Remark.BackColor = System.Drawing.Color.Transparent;
-            this.label_Remark.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_Remark.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Remark.ForeColor = System.Drawing.Color.Tomato;
             this.label_Remark.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_Remark.Location = new System.Drawing.Point(519, 73);
@@ -918,7 +917,6 @@ namespace Woodpecker
             this.label_Remark.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label_Remark.Size = new System.Drawing.Size(428, 39);
             this.label_Remark.TabIndex = 99;
-            this.label_Remark.Text = "~~~~~";
             this.label_Remark.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button_AcUsb
@@ -1170,7 +1168,7 @@ namespace Woodpecker
             this.button_Start.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Start.ForeColor = System.Drawing.Color.White;
-            this.button_Start.Location = new System.Drawing.Point(644, 79);
+            this.button_Start.Location = new System.Drawing.Point(639, 79);
             this.button_Start.Margin = new System.Windows.Forms.Padding(2);
             this.button_Start.Name = "button_Start";
             this.button_Start.Size = new System.Drawing.Size(103, 30);
@@ -1679,7 +1677,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label labelSch5Timer;
         private System.Windows.Forms.Label labelSch4Timer;
         private System.Windows.Forms.Label labelSch3Timer;
-        private System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Label label_ScheduleTime_Value;
         public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Panel panel1;
@@ -1750,6 +1747,7 @@ namespace Woodpecker
         private System.Windows.Forms.ComboBox comboBox_Bluetooth;
         private System.Windows.Forms.Button button_BluetoothSearch;
         private System.Windows.Forms.Button button_Send;
+        protected internal System.Windows.Forms.Button button_Pause;
     }
 }
 

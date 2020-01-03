@@ -5625,6 +5625,7 @@ namespace Woodpecker
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
                                 }
                             }
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion
 
@@ -8812,10 +8813,12 @@ namespace Woodpecker
                     OnOffCamera();
                     button_VirtualRC.Enabled = true;
                     comboBox_CameraDevice.Enabled = false;
+                    button_Camera.Enabled = true;
                 }
                 else
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
+                    button_Camera.Enabled = false;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
