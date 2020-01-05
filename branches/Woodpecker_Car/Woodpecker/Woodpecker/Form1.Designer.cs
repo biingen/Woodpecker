@@ -1234,7 +1234,6 @@ namespace Woodpecker
         private USBClassLibrary.USBClass USBPort;
         private USBClassLibrary.USBClass.DeviceProperties USBDeviceProperties;
         //bool MyUSBBoxDeviceConnected;
-        bool MyUSBRedratDeviceConnected;
         bool MyUSBCameraDeviceConnected;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.PictureBox pictureBox5;
@@ -1255,7 +1254,6 @@ namespace Woodpecker
         private System.Windows.Forms.Button DataBtn;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Label TimeLabel2;
-        private System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Label label_ScheduleTime_Value;
         public System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label TimeLabel;
@@ -1311,6 +1309,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
+        protected internal System.Windows.Forms.Button button_Pause;
     }
 }
 

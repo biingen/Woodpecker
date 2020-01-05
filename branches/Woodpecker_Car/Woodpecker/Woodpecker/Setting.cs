@@ -487,7 +487,7 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")//Camera存在//
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")//Canbus存在//
             {
                 List<String> dev_list = MYCanReader.FindUsbDevice();
                 comboBox_CAN_DevIndex.Items.Clear();

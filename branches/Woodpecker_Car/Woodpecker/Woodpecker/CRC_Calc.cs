@@ -169,6 +169,7 @@ namespace Woodpecker
         }
     }
 
+    
     public static class HexConverter
     {
         public static byte[] HexToByte(this string hexString)
@@ -201,7 +202,6 @@ namespace Woodpecker
 
         public static byte[] StrToByte(this string hexString)
         {
-
             string[] orginal_array = hexString.Split(' ');
             byte[] orginal_bytes = new byte[orginal_array.Count()];
             int orginal_index = 0;
@@ -215,12 +215,14 @@ namespace Woodpecker
                     orginal_bytes[orginal_index++] = number;
                 }
             }
-            catch (OverflowException)
+            catch (Exception ex)
             {
-                MessageBox.Show("Please check your schedule format.", "Format error");
+                if (ex is OverflowException || ex is FormatException)
+                {
+                    MessageBox.Show("Please check your schedule is in hexadecimal format.", "Format error");
+                }
             }
             return orginal_bytes;
-
         }
     }
 }

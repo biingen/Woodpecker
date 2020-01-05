@@ -119,7 +119,6 @@ namespace Woodpecker
             USBPort.USBDeviceRemoved += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceRemoved);
             USBPort.RegisterForDeviceChange(true, this);
             USBTryCameraConnection();
-            MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
 
@@ -137,7 +136,6 @@ namespace Woodpecker
             USBPort.USBDeviceRemoved += new USBClass.USBDeviceEventHandler(USBPort_USBDeviceRemoved);
             USBPort.RegisterForDeviceChange(true, this);
             USBTryCameraConnection();
-            MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
 
