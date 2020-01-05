@@ -286,6 +286,7 @@ namespace Woodpecker
             //預設AutoBox沒接上
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "KlineExist", "0");
 
@@ -413,6 +414,23 @@ namespace Woodpecker
                     }
                     #endregion
 
+                    #region 偵測CA310
+                    if (deviceId.IndexOf("USB\\VID_0686&PID_1002\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------CA310------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "1");
+                    }
+                    #endregion
+
                     #region 偵測CANbus
                     if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -454,7 +472,7 @@ namespace Woodpecker
             string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName" };
-            string[] Canbus = { "Log", "DevIndex" };
+            string[] Canbus = { "Log", "DevIndex", "Baudrate" };
             string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };

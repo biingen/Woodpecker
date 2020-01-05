@@ -938,9 +938,8 @@
             this.label_ErrorMessage.ForeColor = System.Drawing.Color.Red;
             this.label_ErrorMessage.Location = new System.Drawing.Point(31, 452);
             this.label_ErrorMessage.Name = "label_ErrorMessage";
-            this.label_ErrorMessage.Size = new System.Drawing.Size(83, 29);
+            this.label_ErrorMessage.Size = new System.Drawing.Size(0, 29);
             this.label_ErrorMessage.TabIndex = 83;
-            this.label_ErrorMessage.Text = "~~~~~";
             this.label_ErrorMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // textBox_GeneratorPath
