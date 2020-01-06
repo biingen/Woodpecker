@@ -197,13 +197,13 @@ namespace Woodpecker
             }
         }
 
-        Add_ons addOns = new Add_ons();
+        //Add_ons addOns = new Add_ons();
         private void Setting_Load(object sender, EventArgs e)
         {
-            //checkCamera();
-            //checkAutokit();
+            checkCamera();
+            checkAutokit();
 
-            addOns.USB_Read();
+            //addOns.USB_Read();
 
             //Image欄位//
             if (Directory.Exists(ini12.INIRead(MainSettingPath, "Record", "VideoPath", "")))
@@ -582,14 +582,15 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")//Canbus存在//
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")     //Canbus存在//
             {
-                List<String> dev_list = MYCanReader.FindUsbDevice();
+                string[] dev_list = ini12.INIRead(MainSettingPath, "Canbus", "DevName", "").Split(',');
                 comboBox_CAN_DevIndex.Items.Clear();
                 foreach (String dev_str in dev_list)
                 {
                     comboBox_CAN_DevIndex.Items.Add(dev_str);
                 }
+
                 if (comboBox_CAN_DevIndex.Items.Count > 0)
                 {
                     if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")

@@ -353,7 +353,23 @@ namespace Woodpecker
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
-            ConnectCanBus();
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                String can_name;
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex","") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
 
             if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
                 button_Analysis.Visible = true;
@@ -8891,7 +8907,15 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
-                ConnectCanBus();
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                {
+                    ConnectCanBus();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
