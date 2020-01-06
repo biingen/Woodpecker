@@ -4809,21 +4809,13 @@ namespace Woodpecker
                                 {
                                     log1_text = string.Empty; //清除log1_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortA.Write(columns_serial + columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortA.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4845,21 +4837,13 @@ namespace Woodpecker
                                 {
                                     log2_text = string.Empty; //清除log2_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortB.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortB.Write(columns_serial + columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortB.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortB.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4881,21 +4865,13 @@ namespace Woodpecker
                                 {
                                     log3_text = string.Empty; //清除log3_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortC.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortC.Write(columns_serial + columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortC.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortC.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4917,21 +4893,13 @@ namespace Woodpecker
                                 {
                                     log4_text = string.Empty; //清除log4_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortD.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortD.Write(columns_serial + columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortD.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortD.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4953,21 +4921,13 @@ namespace Woodpecker
                                 {
                                     log5_text = string.Empty; //清除log5_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortE.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortE.Write(columns_serial + columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortE.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortE.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
