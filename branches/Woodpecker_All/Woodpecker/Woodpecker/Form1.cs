@@ -139,7 +139,13 @@ namespace Woodpecker
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private String log1_text, log2_text, log3_text, log4_text, log5_text, canbus_text, kline_text, schedule_text, logAll_text;
+        private String log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
+
+        //ca310
+        private CA200SRVRLib.Ca200 objCa200;
+        private CA200SRVRLib.Ca objCa;
+        private CA200SRVRLib.Probe objProbe;
+        private Boolean isMsr;
 
         public Form1()
         {
@@ -238,7 +244,10 @@ namespace Woodpecker
                 }
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+                comboBox_savelog.Items.Add("CA310");
+
+            if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
                 comboBox_savelog.Items.Add("Canbus");
 
             if (comboBox_savelog.Items.Count > 1)
@@ -341,8 +350,26 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+            {
+                ConnectCA310();
+                pictureBox_ca310.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
             {
+                String can_name;
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex","") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
                 ConnectCanBus();
                 pictureBox_canbus.Image = Properties.Resources.ON;
             }
@@ -1006,6 +1033,62 @@ namespace Woodpecker
             }
         }
 
+        protected void ConnectCA310()
+        {
+            uint status;
+
+            status = ExeConnectCA310();
+            if (status == 1)
+            {
+                status = ExeCalZero();
+                if (status == 1)
+                {
+                    isMsr = true;
+                    timer_ca310.Enabled = true;
+                    pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+        }
+
+        private uint ExeConnectCA310()
+        {
+            try
+            {
+                objCa200 = new CA200SRVRLib.Ca200();
+                objCa200.AutoConnect();
+                objCa = objCa200.SingleCa;
+                objProbe = objCa.SingleProbe;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private uint ExeCalZero()
+        {
+            try
+            {
+                objCa.CalZero();
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
         public void Autocommand_RedRat(string Caller, string SigData)
         {
             string redcon = "";
@@ -1438,7 +1521,7 @@ namespace Woodpecker
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "SerialPort2 Error");
+                MessageBox.Show(Ex.Message.ToString(), "SerialPort1 Error");
             }
         }
         /*
@@ -2022,6 +2105,13 @@ namespace Woodpecker
                     MYFILE.Write(log5_text);
                     MYFILE.Close();
                     log5_text = String.Empty;
+                    break;
+                case "CA310":
+                    t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(ca310_text);
+                    MYFILE.Close();
+                    ca310_text = String.Empty;
                     break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -4747,21 +4837,13 @@ namespace Woodpecker
                                 {
                                     log1_text = string.Empty; //清除log1_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortA.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortA.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4783,21 +4865,13 @@ namespace Woodpecker
                                 {
                                     log2_text = string.Empty; //清除log2_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortB.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortB.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortB.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortB.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4819,21 +4893,13 @@ namespace Woodpecker
                                 {
                                     log3_text = string.Empty; //清除log3_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortC.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortC.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortC.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortC.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4855,21 +4921,13 @@ namespace Woodpecker
                                 {
                                     log4_text = string.Empty; //清除log4_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortD.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortD.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortD.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortD.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4891,21 +4949,13 @@ namespace Woodpecker
                                 {
                                     log5_text = string.Empty; //清除log5_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortE.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortE.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortE.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortE.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 /*
                                 DateTime dt = DateTime.Now;
@@ -4933,7 +4983,7 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    PortA.Write(serial_content[0] + switch_content[0]);
+                                    PortA.Write(serial_content[0] + @switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -4942,7 +4992,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
-                                    PortB.Write(serial_content[1] + switch_content[1]);
+                                    PortB.Write(serial_content[1] + @switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -4951,7 +5001,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    PortC.Write(serial_content[2] + switch_content[2]);
+                                    PortC.Write(serial_content[2] + @switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -4960,7 +5010,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    PortD.Write(serial_content[3] + switch_content[3]);
+                                    PortD.Write(serial_content[3] + @switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -4969,7 +5019,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    PortE.Write(serial_content[4] + switch_content[4]);
+                                    PortE.Write(serial_content[4] + @switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -7174,7 +7224,7 @@ namespace Woodpecker
                             //檔案不存在則加入標題
                             if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
                             {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,bit_0,bit_1,bit_2,bit_3,bit_4,bit_5," +
+                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
                                     "PA10_0,PA10_1," +
                                     "PA11_0,PA11_1," +
                                     "PA14_0,PA14_1," +
@@ -8284,8 +8334,8 @@ namespace Woodpecker
             RCDB.Items.Add("_FuelDisplay");
             RCDB.Items.Add("_Temperature");
             RCDB.Items.Add("------------------------");
-            //RCDB.Items.Add("_TX_I2C_Read");
-            //RCDB.Items.Add("_TX_I2C_Write");
+            RCDB.Items.Add("_TX_I2C_Read");
+            RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("_Canbus_Send");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
@@ -8895,6 +8945,16 @@ namespace Woodpecker
                 {
                     pictureBox_Camera.Image = Properties.Resources.OFF;
                     button_Camera.Enabled = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+                {
+                    ConnectCA310();
+                    pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
@@ -10231,133 +10291,6 @@ namespace Woodpecker
             }
         }
 
-        private void button_Network_Click(object sender, EventArgs e)
-        {
-            string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
-            int port = int.Parse(ini12.INIRead(MainSettingPath, "Network", "Port", ""));
-
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(ip, port); // 1.設定 IP:Port 2.連線至伺服器
-            NetworkStream stream = new NetworkStream(socket);
-            StreamReader sr = new StreamReader(stream);
-            StreamWriter sw = new StreamWriter(stream);
-
-            sw.WriteLine("你好伺服器，我是客戶端。"); // 將資料寫入緩衝
-            sw.Flush(); // 刷新緩衝並將資料上傳到伺服器
-
-            Console.WriteLine("從伺服器接收的資料： " + sr.ReadLine());
-
-            Console.ReadLine();
-
-            Process p = new Process();
-            string cmd = ini12.INIRead(MainSettingPath, "Python", "Parameter", "");
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = @"python.exe";
-            p.StartInfo.Arguments = cmd;
-            p.StartInfo.RedirectStandardInput = true;
-            p.Start();
-            StreamWriter myStreamWriter = p.StandardInput;
-            myStreamWriter.WriteLine(cmd);
-            string output = "";
-            output = p.StandardOutput.ReadLine();
-            Console.WriteLine(output);
-            p.WaitForExit();
-            p.Close();
-        }
-
-        private void button_savelog_Click(object sender, EventArgs e)
-        {
-            string save_option = comboBox_savelog.Text;
-            switch (save_option)
-            {
-                case "Port A":
-                    Serialportsave("A");
-                    MessageBox.Show("Port A is saved.", "Reminder");
-                    break;
-                case "Port B":
-                    Serialportsave("B");
-                    MessageBox.Show("Port B is saved.", "Reminder");
-                    break;
-                case "Port C":
-                    Serialportsave("C");
-                    MessageBox.Show("Port C is saved.", "Reminder");
-                    break;
-                case "Port D":
-                    Serialportsave("D");
-                    MessageBox.Show("Port D is saved.", "Reminder");
-                    break;
-                case "Port E":
-                    Serialportsave("E");
-                    MessageBox.Show("Port E is saved.", "Reminder");
-                    break;
-                case "Canbus":
-                    Serialportsave("Canbus");
-                    MessageBox.Show("Canbus is saved.", "Reminder");
-                    break;
-                case "Kline":
-                    Serialportsave("KlinePort");
-                    MessageBox.Show("Kline Port is saved.", "Reminder");
-                    break;
-                case "Port All":
-                    Serialportsave("All");
-                    MessageBox.Show("All Port is saved.", "Reminder");
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        unsafe private void timer_canbus_Tick(object sender, EventArgs e)
-        {
-            UInt32 res = new UInt32();
-
-            res = MYCanReader.ReceiveData();
-
-            if (res == 0)
-            {
-                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
-                {
-                    timer_canbus.Enabled = false;
-                    MYCanReader.StopCAN();
-                    MYCanReader.Disconnect();
-
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-
-                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
-
-                    return;
-                }
-                return;
-            }
-            else
-            {
-                uint ID = 0, DLC = 0;
-                const int DATA_LEN = 8;
-                byte[] DATA = new byte[DATA_LEN];
-
-                String str = "";
-                for (UInt32 i = 0; i < res; i++)
-                {
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                    schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
-                    {
-                        timer_canbus.Enabled = false;
-                        MYCanReader.StopCAN();
-                        MYCanReader.Disconnect();
-                        pictureBox_canbus.Image = Properties.Resources.OFF;
-                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
-                        return;
-                    }
-                }
-            }
-        }
-
         private void DataGridView_Schedule_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -10432,6 +10365,179 @@ namespace Woodpecker
                 catch (Exception error)
                 {
                     Console.WriteLine(error);
+                }
+            }
+        }
+
+        private void button_Network_Click(object sender, EventArgs e)
+        {
+            string ip = ini12.INIRead(MainSettingPath, "Network", "IP", "");
+            int port = int.Parse(ini12.INIRead(MainSettingPath, "Network", "Port", ""));
+
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect(ip, port); // 1.設定 IP:Port 2.連線至伺服器
+            NetworkStream stream = new NetworkStream(socket);
+            StreamReader sr = new StreamReader(stream);
+            StreamWriter sw = new StreamWriter(stream);
+
+            sw.WriteLine("你好伺服器，我是客戶端。"); // 將資料寫入緩衝
+            sw.Flush(); // 刷新緩衝並將資料上傳到伺服器
+
+            Console.WriteLine("從伺服器接收的資料： " + sr.ReadLine());
+
+            Console.ReadLine();
+
+            Process p = new Process();
+            string cmd = ini12.INIRead(MainSettingPath, "Python", "Parameter", "");
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = @"python.exe";
+            p.StartInfo.Arguments = cmd;
+            p.StartInfo.RedirectStandardInput = true;
+            p.Start();
+            StreamWriter myStreamWriter = p.StandardInput;
+            myStreamWriter.WriteLine(cmd);
+            string output = "";
+            output = p.StandardOutput.ReadLine();
+            Console.WriteLine(output);
+            p.WaitForExit();
+            p.Close();
+        }
+
+        private void button_savelog_Click(object sender, EventArgs e)
+        {
+            string save_option = comboBox_savelog.Text;
+            switch (save_option)
+            {
+                case "Port A":
+                    Serialportsave("A");
+                    MessageBox.Show("Port A is saved.", "Reminder");
+                    break;
+                case "Port B":
+                    Serialportsave("B");
+                    MessageBox.Show("Port B is saved.", "Reminder");
+                    break;
+                case "Port C":
+                    Serialportsave("C");
+                    MessageBox.Show("Port C is saved.", "Reminder");
+                    break;
+                case "Port D":
+                    Serialportsave("D");
+                    MessageBox.Show("Port D is saved.", "Reminder");
+                    break;
+                case "Port E":
+                    Serialportsave("E");
+                    MessageBox.Show("Port E is saved.", "Reminder");
+                    break;
+                case "CA310":
+                    Serialportsave("CA310");
+                    MessageBox.Show("CA310 is saved.", "Reminder");
+                    break;
+                case "Canbus":
+                    Serialportsave("Canbus");
+                    MessageBox.Show("Canbus is saved.", "Reminder");
+                    break;
+                case "Kline":
+                    Serialportsave("KlinePort");
+                    MessageBox.Show("Kline Port is saved.", "Reminder");
+                    break;
+                case "Port All":
+                    Serialportsave("All");
+                    MessageBox.Show("All Port is saved.", "Reminder");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        unsafe private void timer_canbus_Tick(object sender, EventArgs e)
+        {
+            UInt32 res = new UInt32();
+
+            res = MYCanReader.ReceiveData();
+
+            if (res == 0)
+            {
+                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                {
+                    timer_canbus.Enabled = false;
+                    MYCanReader.StopCAN();
+                    MYCanReader.Disconnect();
+
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+
+                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+
+                    return;
+                }
+                return;
+            }
+            else
+            {
+                uint ID = 0, DLC = 0;
+                const int DATA_LEN = 8;
+                byte[] DATA = new byte[DATA_LEN];
+
+                String str = "";
+                for (UInt32 i = 0; i < res; i++)
+                {
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
+                    {
+                        timer_canbus.Enabled = false;
+                        MYCanReader.StopCAN();
+                        MYCanReader.Disconnect();
+                        pictureBox_canbus.Image = Properties.Resources.OFF;
+                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void timer_ca310_Tick(object sender, EventArgs e)
+        {
+            if (ini12.INIRead(Global.MainSettingPath, "Device", "CA310Exist", "") == "1")
+            {
+                try
+                {
+                    objCa.Measure();
+                    string str = "Lv:" + objProbe.Lv.ToString("##0.00") + " Sx:" + objProbe.sx.ToString("0.0000") + " Sy:" + objProbe.sy.ToString("0.0000");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    ca310_text = string.Concat(ca310_text, ca310_log_text);
+                    schedule_text = string.Concat(schedule_text, ca310_log_text);
+                }
+                catch (Exception)
+                {
+                    isMsr = false;
+                    timer_ca310.Enabled = false;
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
+                    MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void CalZero()
+        {
+            bool calzero_success = false;
+
+            while (calzero_success == false)
+            {
+                try
+                {
+                    objCa.CalZero();
+                    calzero_success = true;
+                }
+                catch (Exception)
+                {
+                    objCa.RemoteMode = 0;
                 }
             }
         }
