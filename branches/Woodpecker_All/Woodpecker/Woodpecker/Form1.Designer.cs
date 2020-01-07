@@ -146,6 +146,7 @@ namespace Woodpecker
             this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
             this.button_BluetoothSearch = new System.Windows.Forms.Button();
             this.button_Send = new System.Windows.Forms.Button();
+            this.timer_Statement = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1529,6 +1530,11 @@ namespace Woodpecker
             this.button_Send.UseVisualStyleBackColor = true;
             this.button_Send.Click += new System.EventHandler(this.button_Check_Click);
             // 
+            // timer_Statement
+            // 
+            this.timer_Statement.Interval = 1;
+            this.timer_Statement.Tick += new System.EventHandler(this.timer_Statement_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1748,6 +1754,7 @@ namespace Woodpecker
         private System.Windows.Forms.Button button_BluetoothSearch;
         private System.Windows.Forms.Button button_Send;
         protected internal System.Windows.Forms.Button button_Pause;
+        private System.Windows.Forms.Timer timer_Statement;
     }
 }
 

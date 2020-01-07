@@ -39,6 +39,7 @@ using InTheHand.Net.Sockets;
 using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using System.ComponentModel;
+using Microsoft.VisualBasic.FileIO;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -4113,7 +4114,8 @@ namespace Woodpecker
         #endregion
 
 
-
+        bool ifStatementFlag = false;
+        string hexAdd = string.Empty;
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
         {
@@ -4272,6 +4274,7 @@ namespace Woodpecker
                             SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             SysDelay = 0;
+
 
                         #region -- Record Schedule --
                         string delimiter_recordSch = ",";
@@ -4977,6 +4980,79 @@ namespace Woodpecker
 
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
+                        #endregion
+
+                        #region -- Statement --
+                        /*
+                        else if (columns_command == "_Statement")
+                        {
+                            bool condition = true;
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            {
+                                if (columns_function == "if")
+                                {
+                                    if (columns_serial != "")
+                                    {
+                                        if (columns_serial.Contains("chamber temp"))
+                                        {
+                                            timer_Statement.Enabled = true;
+                                            if (.Contains("Receive_Port"))
+                                            {
+                                                hexAdd =;
+                                            }
+
+
+
+                                            condition = (strValue.Substring(3, 2) == strValue.Substring(5, 2));
+                                            if (condition)
+                                            {
+                                                MessageBox.Show("Temperature changes to expected value.", "Chamber reminder");
+                                                ifStatementFlag = true;
+
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        }
+
+
+
+
+
+
+
+
+                                        timer_Statement.Enabled = true;
+                                        condition = (strValue.Substring(3, 2) == strValue.Substring(5, 2));
+                                        if (condition)
+                                        {
+                                            MessageBox.Show("Temperature changes to expected value.", "Chamber reminder");
+                                        }
+                                        else
+                                        {
+                                            if (columns_function == "else")
+                                            {
+
+                                                goto TestLabel;
+                                            }
+                                        }
+
+                                        TestLabel:
+                                        MessageBox.Show("Temperature does not change to expected value.", "Chamber error");
+                                        button_Pause.PerformClick();
+                                    }
+                                }
+                                else if (columns_function == "else")
+                                {
+
+                                }
+                                else if (columns_function == "End")
+                                {
+                                    timer_Statement.Enabled = false;
+                                }
+                            }
+                        }*/
                         #endregion
 
                         #region -- Hex --
@@ -9056,7 +9132,12 @@ namespace Woodpecker
 
                         for (int k = 0; k < DataGridView_Schedule.Columns.Count; k++)
                         {
-                            strRowValue += DataGridView_Schedule.Rows[j].Cells[k].Value + delimiter;
+                            string scheduleOutput = DataGridView_Schedule.Rows[j].Cells[k].Value.ToString();
+                            if (scheduleOutput.Contains(","))
+                            {
+                                scheduleOutput = String.Format("\"{0}\"", scheduleOutput);
+                            }
+                            strRowValue += scheduleOutput + delimiter;
                         }
                         sw.WriteLine(strRowValue);
                     }
@@ -9214,7 +9295,7 @@ namespace Woodpecker
             if ((File.Exists(SchedulePath) == true) && ScheduleExist == "1" && IsFileLocked(SchedulePath) == false)
             {
                 DataGridView_Schedule.Rows.Clear();
-                StreamReader objReader = new StreamReader(SchedulePath);
+                /*StreamReader objReader = new StreamReader(SchedulePath);
                 while ((objReader.Peek() != -1))
                 {
                     TextLine = objReader.ReadLine();
@@ -9225,8 +9306,29 @@ namespace Woodpecker
                     }
                     i++;
                 }
-                objReader.Close();
-                int j = Int32.Parse(TextLine.Split(',').Length.ToString());
+                objReader.Close();*/
+                
+                TextFieldParser parser = new TextFieldParser(SchedulePath);
+                parser.Delimiters = new string[] { "," };
+                string[] parts = new string[11];
+                while (!parser.EndOfData)
+                {
+                    parts = parser.ReadFields();
+                    if (parts == null)
+                    {
+                        break;
+                    }
+
+                    if (i != 0)
+                    {
+                        DataGridView_Schedule.Rows.Add(parts);
+                    }
+                    i++;
+                }
+                parser.Close();
+
+                int j = parts.Length;
+                //int j = Int32.Parse(TextLine.Split(',').Length.ToString());
                 if ((j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間
@@ -10471,6 +10573,14 @@ namespace Woodpecker
         private void comboBox_Bluetooth_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer_Statement_Tick(object sender, EventArgs e)
+        {
+            string hexValues = "01 03 00 00 00 02"; //Read chamber temperature
+            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+            Outputbytes = HexConverter.StrToByte(hexValues);
+            PortA.Write(Outputbytes, 0, Outputbytes.Length); //Send command
         }
 
 
