@@ -30,6 +30,7 @@ using MySerialLibrary;
 using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Woodpecker
 {
@@ -274,7 +275,24 @@ namespace Woodpecker
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            ConnectCanBus();
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            {
+                String can_name;
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+
             LoadRCDB();
 
             List<string> SchExist = new List<string> { };
@@ -1707,21 +1725,13 @@ namespace Woodpecker
                                 {
                                     log1_text = string.Empty; //清除log1_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortA.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortA.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
@@ -1740,21 +1750,13 @@ namespace Woodpecker
                                 {
                                     log2_text = string.Empty; //清除log2_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortB.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortB.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortB.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortB.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -1773,21 +1775,13 @@ namespace Woodpecker
                                 {
                                     log3_text = string.Empty; //清除log3_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortC.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortC.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortC.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortC.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -1806,21 +1800,13 @@ namespace Woodpecker
                                 {
                                     log4_text = string.Empty; //清除log4_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortD.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortD.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortD.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortD.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -1839,21 +1825,13 @@ namespace Woodpecker
                                 {
                                     log5_text = string.Empty; //清除log5_text
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\r")
+                                else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortE.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                    PortE.Write(columns_serial + @columns_switch); //發送數據 Rs232
                                 }
-                                else if (columns_serial != "" && columns_switch == @"\n")
+                                else if (columns_serial == "" && columns_switch == "")
                                 {
-                                    PortE.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\n\r")
-                                {
-                                    PortE.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                }
-                                else if (columns_serial != "" && columns_switch == @"\r\n")
-                                {
-                                    PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -1878,7 +1856,7 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    PortA.Write(serial_content[0] + switch_content[0]);
+                                    PortA.Write(serial_content[0] + @switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log1_text = string.Concat(log1_text, text);
@@ -1886,7 +1864,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
-                                    PortB.Write(serial_content[1] + switch_content[1]);
+                                    PortB.Write(serial_content[1] + @switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log2_text = string.Concat(log2_text, text);
@@ -1894,7 +1872,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    PortC.Write(serial_content[2] + switch_content[2]);
+                                    PortC.Write(serial_content[2] + @switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log3_text = string.Concat(log3_text, text);
@@ -1902,7 +1880,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    PortD.Write(serial_content[3] + switch_content[3]);
+                                    PortD.Write(serial_content[3] + @switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log4_text = string.Concat(log4_text, text);
@@ -1910,7 +1888,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    PortE.Write(serial_content[4] + switch_content[4]);
+                                    PortE.Write(serial_content[4] + @switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log5_text = string.Concat(log5_text, text);
@@ -4035,7 +4013,15 @@ namespace Woodpecker
                     MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
                 }
 
-                ConnectCanBus();
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                {
+                    ConnectCanBus();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
 
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
@@ -4138,7 +4124,12 @@ namespace Woodpecker
 
                         for (int k = 0; k < DataGridView_Schedule.Columns.Count; k++)
                         {
-                            strRowValue += DataGridView_Schedule.Rows[j].Cells[k].Value + delimiter;
+                            string scheduleOutput = DataGridView_Schedule.Rows[j].Cells[k].Value + "";
+                            if (scheduleOutput.Contains(","))
+                            {
+                                scheduleOutput = String.Format("\"{0}\"", scheduleOutput);
+                            }
+                            strRowValue += scheduleOutput + delimiter;
                         }
                         sw.WriteLine(strRowValue);
                     }
@@ -4255,25 +4246,31 @@ namespace Woodpecker
             string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
             string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
 
-            string TextLine = "";
-            string[] SplitLine;
             int i = 0;
             if ((File.Exists(SchedulePath) == true) && ScheduleExist == "1" && IsFileLocked(SchedulePath) == false)
             {
                 DataGridView_Schedule.Rows.Clear();
-                StreamReader objReader = new StreamReader(SchedulePath);
-                while ((objReader.Peek() != -1))
+
+                TextFieldParser parser = new TextFieldParser(SchedulePath);
+                parser.Delimiters = new string[] { "," };
+                string[] parts = new string[11];
+                while (!parser.EndOfData)
                 {
-                    TextLine = objReader.ReadLine();
+                    parts = parser.ReadFields();
+                    if (parts == null)
+                    {
+                        break;
+                    }
+
                     if (i != 0)
                     {
-                        SplitLine = TextLine.Split(',');
-                        DataGridView_Schedule.Rows.Add(SplitLine);
+                        DataGridView_Schedule.Rows.Add(parts);
                     }
                     i++;
                 }
-                objReader.Close();
-                int j = Int32.Parse(TextLine.Split(',').Length.ToString());
+                parser.Close();
+
+                int j = parts.Length;
                 if ((j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間
