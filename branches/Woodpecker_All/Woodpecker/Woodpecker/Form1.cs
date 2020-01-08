@@ -33,6 +33,7 @@ using MySerialLibrary;
 using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
+using Microsoft.VisualBasic.FileIO;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -9102,7 +9103,12 @@ namespace Woodpecker
 
                         for (int k = 0; k < DataGridView_Schedule.Columns.Count; k++)
                         {
-                            strRowValue += DataGridView_Schedule.Rows[j].Cells[k].Value + delimiter;
+                            string scheduleOutput = DataGridView_Schedule.Rows[j].Cells[k].Value + "";
+                            if (scheduleOutput.Contains(","))
+                            {
+                                scheduleOutput = String.Format("\"{0}\"", scheduleOutput);
+                            }
+                            strRowValue += scheduleOutput + delimiter;
                         }
                         sw.WriteLine(strRowValue);
                     }
@@ -9219,13 +9225,13 @@ namespace Woodpecker
             string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
             string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
 
-            string TextLine = "";
-            string[] SplitLine;
+            //string TextLine = "";
+            //string[] SplitLine;
             int i = 0;
             if ((File.Exists(SchedulePath) == true) && ScheduleExist == "1" && IsFileLocked(SchedulePath) == false)
             {
                 DataGridView_Schedule.Rows.Clear();
-                StreamReader objReader = new StreamReader(SchedulePath);
+                /*StreamReader objReader = new StreamReader(SchedulePath);
                 while ((objReader.Peek() != -1))
                 {
                     TextLine = objReader.ReadLine();
@@ -9236,8 +9242,28 @@ namespace Woodpecker
                     }
                     i++;
                 }
-                objReader.Close();
-                int j = Int32.Parse(TextLine.Split(',').Length.ToString());
+                objReader.Close();*/
+
+                TextFieldParser parser = new TextFieldParser(SchedulePath);
+                parser.Delimiters = new string[] { "," };
+                string[] parts = new string[11];
+                while (!parser.EndOfData)
+                {
+                    parts = parser.ReadFields();
+                    if (parts == null)
+                    {
+                        break;
+                    }
+
+                    if (i != 0)
+                    {
+                        DataGridView_Schedule.Rows.Add(parts);
+                    }
+                    i++;
+                }
+                parser.Close();
+
+                int j = parts.Length;
                 if ((j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間
