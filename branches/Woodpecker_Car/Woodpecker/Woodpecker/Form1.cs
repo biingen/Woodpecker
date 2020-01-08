@@ -1725,9 +1725,41 @@ namespace Woodpecker
                                 {
                                     log1_text = string.Empty; //清除log1_text
                                 }
-                                else if (columns_serial != "" || columns_switch != "")
+                                else if (columns_serial != "" && columns_switch == @"\r")
                                 {
-                                    PortA.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortA.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\n")
+                                {
+                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\n\r")
+                                {
+                                    PortA.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\r\n")
+                                {
+                                    PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r")
+                                {
+                                    PortA.Write(columns_serial + "\r"); //發送數據 \r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n")
+                                {
+                                    PortA.Write(columns_serial + "\n"); //發送數據 \n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n\r")
+                                {
+                                    PortA.Write(columns_serial + "\n\r"); //發送數據 \n\r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r\n")
+                                {
+                                    PortA.Write(columns_serial + "\r\n"); //發送數據 \r\n
+                                }
+                                else if (columns_serial != "" && columns_switch == "")
+                                {
+                                    PortA.Write(columns_serial); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -1750,9 +1782,41 @@ namespace Woodpecker
                                 {
                                     log2_text = string.Empty; //清除log2_text
                                 }
-                                else if (columns_serial != "" || columns_switch != "")
+                                else if (columns_serial != "" || columns_switch == @"\r")
                                 {
-                                    PortB.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortB.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n")
+                                {
+                                    PortB.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n\r")
+                                {
+                                    PortB.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\r\n")
+                                {
+                                    PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r")
+                                {
+                                    PortB.Write(columns_serial + "\r"); //發送數據 \r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n")
+                                {
+                                    PortB.Write(columns_serial + "\n"); //發送數據 \n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n\r")
+                                {
+                                    PortB.Write(columns_serial + "\n\r"); //發送數據 \n\r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r\n")
+                                {
+                                    PortB.Write(columns_serial + "\r\n"); //發送數據 \r\n
+                                }
+                                else if (columns_serial != "" && columns_switch == "")
+                                {
+                                    PortB.Write(columns_serial); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -1775,9 +1839,41 @@ namespace Woodpecker
                                 {
                                     log3_text = string.Empty; //清除log3_text
                                 }
-                                else if (columns_serial != "" || columns_switch != "")
+                                else if (columns_serial != "" || columns_switch == @"\r")
                                 {
-                                    PortC.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortC.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n")
+                                {
+                                    PortC.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n\r")
+                                {
+                                    PortC.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\r\n")
+                                {
+                                    PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r")
+                                {
+                                    PortC.Write(columns_serial + "\r"); //發送數據 \r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n")
+                                {
+                                    PortC.Write(columns_serial + "\n"); //發送數據 \n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n\r")
+                                {
+                                    PortC.Write(columns_serial + "\n\r"); //發送數據 \n\r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r\n")
+                                {
+                                    PortC.Write(columns_serial + "\r\n"); //發送數據 \r\n
+                                }
+                                else if (columns_serial != "" && columns_switch == "")
+                                {
+                                    PortC.Write(columns_serial); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -1800,9 +1896,41 @@ namespace Woodpecker
                                 {
                                     log4_text = string.Empty; //清除log4_text
                                 }
-                                else if (columns_serial != "" || columns_switch != "")
+                                else if (columns_serial != "" && columns_switch == @"\r")
                                 {
-                                    PortD.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortD.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\n")
+                                {
+                                    PortD.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\n\r")
+                                {
+                                    PortD.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
+                                }
+                                else if (columns_serial != "" && columns_switch == @"\r\n")
+                                {
+                                    PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r")
+                                {
+                                    PortD.Write(columns_serial + "\r"); //發送數據 \r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n")
+                                {
+                                    PortD.Write(columns_serial + "\n"); //發送數據 \n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n\r")
+                                {
+                                    PortD.Write(columns_serial + "\n\r"); //發送數據 \n\r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r\n")
+                                {
+                                    PortD.Write(columns_serial + "\r\n"); //發送數據 \r\n
+                                }
+                                else if (columns_serial != "" && columns_switch == "")
+                                {
+                                    PortD.Write(columns_serial); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -1825,9 +1953,41 @@ namespace Woodpecker
                                 {
                                     log5_text = string.Empty; //清除log5_text
                                 }
-                                else if (columns_serial != "" || columns_switch != "")
+                                else if (columns_serial != "" || columns_switch == @"\r")
                                 {
-                                    PortE.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortE.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n")
+                                {
+                                    PortE.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\n\r")
+                                {
+                                    PortE.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
+                                }
+                                else if (columns_serial != "" || columns_switch == @"\r\n")
+                                {
+                                    PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r")
+                                {
+                                    PortE.Write(columns_serial + "\r"); //發送數據 \r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n")
+                                {
+                                    PortE.Write(columns_serial + "\n"); //發送數據 \n
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\n\r")
+                                {
+                                    PortE.Write(columns_serial + "\n\r"); //發送數據 \n\r
+                                }
+                                else if (columns_serial == "" && columns_switch == @"\r\n")
+                                {
+                                    PortE.Write(columns_serial + "\r\n"); //發送數據 \r\n
+                                }
+                                else if (columns_serial != "" && columns_switch == "")
+                                {
+                                    PortE.Write(columns_serial); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -1854,41 +2014,41 @@ namespace Woodpecker
                                     logAll_text = string.Empty; //清除logAll_text
                                 }
 
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" || switch_content[0] != "")
                                 {
-                                    PortA.Write(serial_content[0] + @switch_content[0]);
+                                    PortA.Write(serial_content[0] + switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" || switch_content[1] != "")
                                 {
-                                    PortB.Write(serial_content[1] + @switch_content[1]);
+                                    PortB.Write(serial_content[1] + switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" || switch_content[2] != "")
                                 {
-                                    PortC.Write(serial_content[2] + @switch_content[2]);
+                                    PortC.Write(serial_content[2] + switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" || switch_content[3] != "")
                                 {
-                                    PortD.Write(serial_content[3] + @switch_content[3]);
+                                    PortD.Write(serial_content[3] + switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" || switch_content[4] != "")
                                 {
-                                    PortE.Write(serial_content[4] + @switch_content[4]);
+                                    PortE.Write(serial_content[4] + switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     log5_text = string.Concat(log5_text, text);
