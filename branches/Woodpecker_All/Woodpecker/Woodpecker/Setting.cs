@@ -691,6 +691,7 @@ namespace Woodpecker
 
         private void checkAutokit()
         {
+            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
             var usbList = from u in collection.Cast<ManagementBaseObject>()
@@ -745,10 +746,6 @@ namespace Woodpecker
                             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
                 }
             }
         }
@@ -1271,6 +1268,11 @@ namespace Woodpecker
         private void comboBox_SerialPort1_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port A", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort1_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort2_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1281,6 +1283,11 @@ namespace Woodpecker
         private void comboBox_SerialPort2_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port B", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort2_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort3_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1291,6 +1298,11 @@ namespace Woodpecker
         private void comboBox_SerialPort3_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port C", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort3_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort4_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1301,6 +1313,11 @@ namespace Woodpecker
         private void comboBox_SerialPort4_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port D", "BaudRate", comboBox_SerialPort4_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort4_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort5_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1311,6 +1328,11 @@ namespace Woodpecker
         private void comboBox_SerialPort5_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port E", "BaudRate", comboBox_SerialPort5_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort5_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void checkBox_Kline_CheckedChanged(object sender, EventArgs e)
