@@ -484,7 +484,7 @@ namespace Woodpecker
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule4 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule5 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] LogSearch = { "StartTime", "Comport1", "Comport2", "TextNum", "Camerarecord", "Camerashot", "Sendmail", "Savelog", "Showmessage", "ACcontrol", "Stop", "AC OFF", "Nowvalue",
+            string[] LogSearch = { "StartTime", "Comport1", "Comport2", "Comport3", "Comport4", "Comport5", "TextNum", "Camerarecord", "Camerashot", "Sendmail", "Savelog", "Showmessage", "ACcontrol", "Stop", "AC OFF", "Nowvalue",
                                    "Text0", "Text1", "Text2", "Text3", "Text4", "Text5", "Text6", "Text7", "Text8", "Text9",
                                    "Times0", "Times1", "Times2", "Times3", "Times4", "Times5", "Times6", "Times7", "Times8", "Times9",
                                    "Display0", "Display1", "Display2", "Display3", "Display4", "Display5", "Display6", "Display7", "Display8", "Display9" };
