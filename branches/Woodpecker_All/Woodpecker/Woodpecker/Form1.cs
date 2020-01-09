@@ -4180,6 +4180,20 @@ namespace Woodpecker
         }
         #endregion
 
+        private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
+        {
+            List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
+            List<string> newLineList = new List<string> { "\r", "\n", "\r\n", "\n\r" };
+            var originAndNewLine = originLineList.Zip(newLineList, (o, n) => new { origin = o, newLine = n });
+            foreach (var line in originAndNewLine)
+            {
+                if (columns_switch.Contains(line.origin))
+                {
+                    port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine)); //發送數據 Rs232
+                }
+            }
+        }
+
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
         {
@@ -4812,7 +4826,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4840,7 +4854,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortB.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4868,7 +4882,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortC.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4896,7 +4910,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortD.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4924,7 +4938,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortE.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
