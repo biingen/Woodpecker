@@ -246,7 +246,7 @@ namespace Woodpecker
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(78, 17);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.08";
+            this.label_FwVersion.Text = "Ver. 1.0.09";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // button_Schedule1
@@ -927,7 +927,7 @@ namespace Woodpecker
             // pictureBox_Camera
             // 
             this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(90, 90);
+            this.pictureBox_Camera.Location = new System.Drawing.Point(179, 90);
             this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Camera.Name = "pictureBox_Camera";
             this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
