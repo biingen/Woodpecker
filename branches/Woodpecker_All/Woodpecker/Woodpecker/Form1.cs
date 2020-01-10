@@ -8864,6 +8864,7 @@ namespace Woodpecker
                     OnOffCamera();
                     button_VirtualRC.Enabled = true;
                     comboBox_CameraDevice.Enabled = false;
+                    comboBox_CameraDevice.SelectedIndex = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     button_Camera.Enabled = true;
                 }
                 else

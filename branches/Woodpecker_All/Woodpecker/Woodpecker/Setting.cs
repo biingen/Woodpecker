@@ -649,7 +649,8 @@ namespace Woodpecker
                     if (deviecDescription.IndexOf("USB 視訊裝置", StringComparison.OrdinalIgnoreCase) >= 0 ||
                         deviecDescription.IndexOf("USB 视频设备", StringComparison.OrdinalIgnoreCase) >= 0 ||
                         deviceTp.IndexOf("Webcam", StringComparison.OrdinalIgnoreCase) >= 0 ||
-                        deviceTp.IndexOf("Camera", StringComparison.OrdinalIgnoreCase) >= 0)
+                        deviceTp.IndexOf("Camera", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                        deviceTp.IndexOf("LifeCam", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         if (deviceId.IndexOf("VID_", StringComparison.OrdinalIgnoreCase) >= 0)
                         {
@@ -680,11 +681,6 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
         }

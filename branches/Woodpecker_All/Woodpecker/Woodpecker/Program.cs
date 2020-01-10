@@ -51,7 +51,7 @@ namespace Woodpecker
             }
             else
             {
-                Application.Run(new Form1(args[0].ToString()));
+                Application.Run(new Extra_Commander(args[0].ToString()));
             }
         }
 
