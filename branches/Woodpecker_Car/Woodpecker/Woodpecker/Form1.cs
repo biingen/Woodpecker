@@ -3999,6 +3999,7 @@ namespace Woodpecker
                     _captureInProgress = false;
                     OnOffCamera();
                     comboBox_CameraDevice.Enabled = false;
+                    comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                 }
                 else
                 {
