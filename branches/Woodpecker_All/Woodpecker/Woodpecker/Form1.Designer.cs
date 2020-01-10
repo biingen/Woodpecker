@@ -1694,7 +1694,6 @@ namespace Woodpecker
         private System.Windows.Forms.PictureBox pictureBox_Usb2;
         private System.Windows.Forms.Label label_Ac2;
         private System.Windows.Forms.Label label_Ac1;
-        private System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.IO.Ports.SerialPort PortC;
         private System.Windows.Forms.Button button_Network;
         private System.Windows.Forms.Label label_Remark;
@@ -1726,6 +1725,7 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer_ca310;
         private System.Windows.Forms.Label label_ca310;
         private System.Windows.Forms.PictureBox pictureBox_ca310;
+        protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
     }
 }
 

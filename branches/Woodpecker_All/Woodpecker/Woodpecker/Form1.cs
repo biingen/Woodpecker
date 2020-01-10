@@ -224,7 +224,7 @@ namespace Woodpecker
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline"};
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline" };
 
             foreach (string port in portList)
             {
@@ -360,7 +360,7 @@ namespace Woodpecker
                 List<String> dev_list = MYCanReader.FindUsbDevice();
                 can_name = string.Join(",", dev_list);
                 ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex","") == "")
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
                     ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
                 if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
                     ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
@@ -4349,7 +4349,7 @@ namespace Woodpecker
                         if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
                             SysDelay = int.Parse(columns_wait); // 指令停止時間
                         else if (columns_wait != "" && columns_wait.Contains('m') == true)
-                            SysDelay = int.Parse(columns_wait.Replace('m',' ').Trim()) * 60000; // 指令停止時間(分)
+                            SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             SysDelay = 0;
 
@@ -8859,13 +8859,20 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
-                    pictureBox_Camera.Image = Properties.Resources.ON;
-                    _captureInProgress = false;
-                    OnOffCamera();
-                    button_VirtualRC.Enabled = true;
-                    comboBox_CameraDevice.Enabled = false;
-                    comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                    button_Camera.Enabled = true;
+                    try
+                    {
+                        pictureBox_Camera.Image = Properties.Resources.ON;
+                        _captureInProgress = false;
+                        OnOffCamera();
+                        button_VirtualRC.Enabled = true;
+                        comboBox_CameraDevice.Enabled = false;
+                        button_Camera.Enabled = true;
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    }
+                    catch(ArgumentOutOfRangeException)
+                    {
+
+                    }
                 }
                 else
                 {
@@ -9264,17 +9271,24 @@ namespace Woodpecker
                 string[] parts = new string[11];
                 while (!parser.EndOfData)
                 {
-                    parts = parser.ReadFields();
-                    if (parts == null)
+                    try
                     {
-                        break;
-                    }
+                        parts = parser.ReadFields();
+                        if (parts == null)
+                        {
+                            break;
+                        }
 
-                    if (i != 0)
-                    {
-                        DataGridView_Schedule.Rows.Add(parts);
+                        if (i != 0)
+                        {
+                            DataGridView_Schedule.Rows.Add(parts);
+                        }
+                        i++;
                     }
-                    i++;
+                    catch (MalformedLineException)
+                    {
+                        MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                    }
                 }
                 parser.Close();
 
@@ -9294,7 +9308,7 @@ namespace Woodpecker
                             }
 
                             if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
-                                TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000  + RepeatTime);
+                                TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
                             else
                                 TotalDelay += (long.Parse(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString()) + RepeatTime);
 
