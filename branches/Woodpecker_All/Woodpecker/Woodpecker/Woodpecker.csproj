@@ -184,6 +184,7 @@
     <Compile Include="BlockMessage.cs" />
     <Compile Include="CAN_Read.cs" />
     <Compile Include="CRC_Calc.cs" />
+    <Compile Include="Device_Driver.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="Extra_Commander.cs">
@@ -260,7 +261,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ImageHelper.cs" />
-    <Compile Include="Init_parameter.cs" />
+    <Compile Include="Init_Parameter.cs" />
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
