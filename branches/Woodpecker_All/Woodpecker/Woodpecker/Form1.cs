@@ -224,7 +224,7 @@ namespace Woodpecker
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline" };
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
 
             foreach (string port in portList)
             {
