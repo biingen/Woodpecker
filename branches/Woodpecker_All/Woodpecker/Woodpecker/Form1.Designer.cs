@@ -1179,7 +1179,7 @@ namespace Woodpecker
             // 
             this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(427, 90);
+            this.pictureBox_canbus.Location = new System.Drawing.Point(427, 88);
             this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_canbus.Name = "pictureBox_canbus";
             this.pictureBox_canbus.Size = new System.Drawing.Size(13, 13);
@@ -1190,7 +1190,7 @@ namespace Woodpecker
             // 
             this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(330, 90);
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(330, 88);
             this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ext_board.Name = "pictureBox_ext_board";
             this.pictureBox_ext_board.Size = new System.Drawing.Size(13, 13);
@@ -1200,7 +1200,7 @@ namespace Woodpecker
             // pictureBox_BlueRat
             // 
             this.pictureBox_BlueRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_BlueRat.Location = new System.Drawing.Point(15, 90);
+            this.pictureBox_BlueRat.Location = new System.Drawing.Point(15, 88);
             this.pictureBox_BlueRat.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_BlueRat.Name = "pictureBox_BlueRat";
             this.pictureBox_BlueRat.Size = new System.Drawing.Size(13, 13);
@@ -1251,7 +1251,7 @@ namespace Woodpecker
             // 
             this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_AcPower.Location = new System.Drawing.Point(258, 90);
+            this.pictureBox_AcPower.Location = new System.Drawing.Point(258, 88);
             this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_AcPower.Name = "pictureBox_AcPower";
             this.pictureBox_AcPower.Size = new System.Drawing.Size(13, 13);
@@ -1261,7 +1261,7 @@ namespace Woodpecker
             // pictureBox_Camera
             // 
             this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(176, 90);
+            this.pictureBox_Camera.Location = new System.Drawing.Point(176, 88);
             this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Camera.Name = "pictureBox_Camera";
             this.pictureBox_Camera.Size = new System.Drawing.Size(13, 13);
@@ -1271,7 +1271,7 @@ namespace Woodpecker
             // pictureBox_RedRat
             // 
             this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_RedRat.Location = new System.Drawing.Point(94, 90);
+            this.pictureBox_RedRat.Location = new System.Drawing.Point(94, 88);
             this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_RedRat.Name = "pictureBox_RedRat";
             this.pictureBox_RedRat.Size = new System.Drawing.Size(13, 13);
@@ -1346,7 +1346,7 @@ namespace Woodpecker
             // 
             this.pictureBox_ca310.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ca310.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ca310.Location = new System.Drawing.Point(520, 90);
+            this.pictureBox_ca310.Location = new System.Drawing.Point(520, 88);
             this.pictureBox_ca310.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ca310.Name = "pictureBox_ca310";
             this.pictureBox_ca310.Size = new System.Drawing.Size(13, 13);
