@@ -11,174 +11,63 @@ using jini;
 using DirectX.Capture;
 using System.IO;
 using System.Timers;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Woodpecker
 {
     public partial class Extra_Commander : Form
     {
-        private Init_Parameter config_parameter = new Init_Parameter();
-        string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        string MailPath = Application.StartupPath + "\\Mail.ini";
         private Capture capture = null;
         private Filters filters = null;
         private string log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
         string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
+        private Init_Parameter Config = new Init_Parameter();
 
         private Extra_Commander(string orginal_data)
         {
             InitializeComponent();
-            Environment_initial();
+            Config.Environment_initial();
+            Readsch(orginal_data);
             string[] columns = orginal_data.Split(',');
             //Schedule All columns list
-            columns_command = columns[0].Trim();
-            columns_times = columns[1].Trim();
-            columns_interval = columns[2].Trim();
-            columns_comport = columns[3].Trim();
-            columns_function = columns[4].Trim();
-            columns_subFunction = columns[5].Trim();
-            columns_serial = columns[6].Trim();
-            columns_switch = columns[7].Trim();
-            columns_wait = columns[8].Trim();
-            columns_remark = columns[9].Trim();
-            Run_command(columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark);
+            Run_command();
         }
 
-        public void Environment_initial()
+        private void Readsch(string ScheduleContent)
         {
-            config_parameter.Device_AutoboxExist = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "");
-            config_parameter.Device_AutoboxVerson = ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "");
-            config_parameter.Device_AutoboxPort = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
-            config_parameter.Device_DOS = ini12.INIRead(MainSettingPath, "Device", "DOS", "");
-            config_parameter.Device_RunAfterStartUp = ini12.INIRead(MainSettingPath, "Device", "RunAfterStartUp", "");
-            config_parameter.Device_CA310Exist = ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "");
-            config_parameter.RedRat_Exist = ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "");
-            config_parameter.RedRat_RedRatIndex = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", "");
-            config_parameter.RedRat_DBFile = ini12.INIRead(MainSettingPath, "RedRat", "DBFile", "");
-            config_parameter.RedRat_Brands = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-            config_parameter.RedRat_SerialNumber = ini12.INIRead(MainSettingPath, "RedRat", "SerialNumber", "");
-            config_parameter.Camera_Exist = ini12.INIRead(MainSettingPath, "Device", "CameraExist", "");
-            config_parameter.Camera_VideoIndex = ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "");
-            config_parameter.Camera_VideoNumber = ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "");
-            config_parameter.Camera_VideoName = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-            config_parameter.Camera_AudioIndex = ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "");
-            config_parameter.Camera_AudioNumber = ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "");
-            config_parameter.Camera_AudioName = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
-            config_parameter.SerialPort1_Checked = ini12.INIRead(MainSettingPath, "Port A", "Checked", "");
-            config_parameter.SerialPort1_PortName = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
-            config_parameter.SerialPort1_BaudRate = ini12.INIRead(MainSettingPath, "Port A", "BaudRate", "");
-            config_parameter.SerialPort1_DataBit = ini12.INIRead(MainSettingPath, "Port A", "DataBit", "");
-            config_parameter.SerialPort1_StopBits = ini12.INIRead(MainSettingPath, "Port A", "StopBits", "");
-            config_parameter.SerialPort2_Checked = ini12.INIRead(MainSettingPath, "Port B", "Checked", "");
-            config_parameter.SerialPort2_PortName = ini12.INIRead(MainSettingPath, "Port B", "PortName", "");
-            config_parameter.SerialPort2_BaudRate = ini12.INIRead(MainSettingPath, "Port B", "BaudRate", "");
-            config_parameter.SerialPort2_DataBit = ini12.INIRead(MainSettingPath, "Port B", "DataBit", "");
-            config_parameter.SerialPort2_StopBits = ini12.INIRead(MainSettingPath, "Port B", "StopBits", "");
-            config_parameter.SerialPort3_Checked = ini12.INIRead(MainSettingPath, "Port C", "Checked", "");
-            config_parameter.SerialPort3_PortName = ini12.INIRead(MainSettingPath, "Port C", "PortName", "");
-            config_parameter.SerialPort3_BaudRate = ini12.INIRead(MainSettingPath, "Port C", "BaudRate", "");
-            config_parameter.SerialPort3_DataBit = ini12.INIRead(MainSettingPath, "Port C", "DataBit", "");
-            config_parameter.SerialPort3_StopBits = ini12.INIRead(MainSettingPath, "Port C", "StopBits", "");
-            config_parameter.SerialPort4_Checked = ini12.INIRead(MainSettingPath, "Port D", "Checked", "");
-            config_parameter.SerialPort4_PortName = ini12.INIRead(MainSettingPath, "Port D", "PortName", "");
-            config_parameter.SerialPort4_BaudRate = ini12.INIRead(MainSettingPath, "Port D", "BaudRate", "");
-            config_parameter.SerialPort4_DataBit = ini12.INIRead(MainSettingPath, "Port D", "DataBit", "");
-            config_parameter.SerialPort4_StopBits = ini12.INIRead(MainSettingPath, "Port D", "StopBits", "");
-            config_parameter.SerialPort5_Checked = ini12.INIRead(MainSettingPath, "Port E", "Checked", "");
-            config_parameter.SerialPort5_PortName = ini12.INIRead(MainSettingPath, "Port E", "PortName", "");
-            config_parameter.SerialPort5_BaudRate = ini12.INIRead(MainSettingPath, "Port E", "BaudRate", "");
-            config_parameter.SerialPort5_DataBit = ini12.INIRead(MainSettingPath, "Port E", "DataBit", "");
-            config_parameter.SerialPort5_StopBits = ini12.INIRead(MainSettingPath, "Port E", "StopBits", "");
-            config_parameter.Record_VideoPath = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-            config_parameter.Record_LogPath = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            config_parameter.Record_Generator = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-            config_parameter.Record_CompareChoose = ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "");
-            config_parameter.Record_CompareDifferent = ini12.INIRead(MainSettingPath, "Record", "CompareDifferent", "");
-            config_parameter.Record_EachVideo = ini12.INIRead(MainSettingPath, "Record", "EachVideo", "");
-            config_parameter.Record_ImportDB = ini12.INIRead(MainSettingPath, "Record", "ImportDB", "");
-            config_parameter.Record_FootprintMode = ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "");
-            config_parameter.Schedule1_Exist = ini12.INIRead(MainSettingPath, "Schedule1", "Exist", "");
-            config_parameter.Schedule1_Loop = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
-            config_parameter.Schedule1_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule1", "OnTimeStart", "");
-            config_parameter.Schedule1_Timer = ini12.INIRead(MainSettingPath, "Schedule1", "Timer", "");
-            config_parameter.Schedule1_Path = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
-            config_parameter.Schedule2_Exist = ini12.INIRead(MainSettingPath, "Schedule2", "Exist", "");
-            config_parameter.Schedule2_Loop = ini12.INIRead(MainSettingPath, "Schedule2", "Loop", "");
-            config_parameter.Schedule2_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "");
-            config_parameter.Schedule2_Timer = ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "");
-            config_parameter.Schedule2_Path = ini12.INIRead(MainSettingPath, "Schedule2", "Path", "");
-            config_parameter.Schedule3_Exist = ini12.INIRead(MainSettingPath, "Schedule3", "Exist", "");
-            config_parameter.Schedule3_Loop = ini12.INIRead(MainSettingPath, "Schedule3", "Loop", "");
-            config_parameter.Schedule3_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "");
-            config_parameter.Schedule3_Timer = ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "");
-            config_parameter.Schedule3_Path = ini12.INIRead(MainSettingPath, "Schedule3", "Path", "");
-            config_parameter.Schedule4_Exist = ini12.INIRead(MainSettingPath, "Schedule4", "Exist", "");
-            config_parameter.Schedule4_Loop = ini12.INIRead(MainSettingPath, "Schedule4", "Loop", "");
-            config_parameter.Schedule4_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "");
-            config_parameter.Schedule4_Timer = ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "");
-            config_parameter.Schedule4_Path = ini12.INIRead(MainSettingPath, "Schedule4", "Path", "");
-            config_parameter.Schedule5_Exist = ini12.INIRead(MainSettingPath, "Schedule5", "Exist", "");
-            config_parameter.Schedule5_Loop = ini12.INIRead(MainSettingPath, "Schedule5", "Loop", "");
-            config_parameter.Schedule5_OnTimeStart = ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "");
-            config_parameter.Schedule5_Timer = ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "");
-            config_parameter.Schedule5_Path = ini12.INIRead(MainSettingPath, "Schedule5", "Path", "");
-            config_parameter.Kline_Exist = ini12.INIRead(MainSettingPath, "Device", "KlineExist", "");
-            config_parameter.Kline_PortName = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
-            config_parameter.Canbus_Exist = ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "");
-            config_parameter.Canbus_Log = ini12.INIRead(MainSettingPath, "Canbus", "Log", "");
-            config_parameter.Canbus_BaudRate = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
-            config_parameter.Canbus_DevIndex = ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "");
-            config_parameter.LogSearch_Comport1 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "");
-            config_parameter.LogSearch_Comport2 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "");
-            config_parameter.LogSearch_Comport3 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "");
-            config_parameter.LogSearch_Comport4 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "");
-            config_parameter.LogSearch_Comport5 = ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "");
-            config_parameter.LogSearch_TextNum = ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "");
-            config_parameter.LogSearch_Camerarecord = ini12.INIRead(MainSettingPath, "LogSearch", "Camerarecord", "");
-            config_parameter.LogSearch_Camerashot = ini12.INIRead(MainSettingPath, "LogSearch", "Camerashot", "");
-            config_parameter.LogSearch_Sendmail = ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "");
-            config_parameter.LogSearch_Savelog = ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "");
-            config_parameter.LogSearch_Showmessage = ini12.INIRead(MainSettingPath, "LogSearch", "Showmessage", "");
-            config_parameter.LogSearch_ACcontrol = ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "");
-            config_parameter.LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
-            config_parameter.LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
-            config_parameter.LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
-            config_parameter.LogSearch_Times0 = ini12.INIRead(MainSettingPath, "LogSearch", "Times0", "");
-            config_parameter.LogSearch_Times1 = ini12.INIRead(MainSettingPath, "LogSearch", "Times1", "");
-            config_parameter.LogSearch_Times2 = ini12.INIRead(MainSettingPath, "LogSearch", "Times2", "");
-            config_parameter.LogSearch_Times3 = ini12.INIRead(MainSettingPath, "LogSearch", "Times3", "");
-            config_parameter.LogSearch_Times4 = ini12.INIRead(MainSettingPath, "LogSearch", "Times4", "");
-            config_parameter.LogSearch_Times5 = ini12.INIRead(MainSettingPath, "LogSearch", "Times5", "");
-            config_parameter.LogSearch_Times6 = ini12.INIRead(MainSettingPath, "LogSearch", "Times6", "");
-            config_parameter.LogSearch_Times7 = ini12.INIRead(MainSettingPath, "LogSearch", "Times7", "");
-            config_parameter.LogSearch_Times8 = ini12.INIRead(MainSettingPath, "LogSearch", "Times8", "");
-            config_parameter.LogSearch_Times9 = ini12.INIRead(MainSettingPath, "LogSearch", "Times9", "");
-
-            config_parameter.LogSearch_StartTime = ini12.INIRead(MainSettingPath, "LogSearch", "StartTime", "");
-            config_parameter.LogSearch_Path = ini12.INIRead(MainSettingPath, "LogSearch", "Path", "");
-            config_parameter.LogSearch_Text0 = ini12.INIRead(MainSettingPath, "LogSearch", "Text0", "");
-            config_parameter.LogSearch_Text1 = ini12.INIRead(MainSettingPath, "LogSearch", "Text1", "");
-            config_parameter.LogSearch_Text2 = ini12.INIRead(MainSettingPath, "LogSearch", "Text2", "");
-            config_parameter.LogSearch_Text3 = ini12.INIRead(MainSettingPath, "LogSearch", "Text3", "");
-            config_parameter.LogSearch_Text4 = ini12.INIRead(MainSettingPath, "LogSearch", "Text4", "");
-            config_parameter.LogSearch_Text5 = ini12.INIRead(MainSettingPath, "LogSearch", "Text5", "");
-            config_parameter.LogSearch_Text6 = ini12.INIRead(MainSettingPath, "LogSearch", "Text6", "");
-            config_parameter.LogSearch_Text7 = ini12.INIRead(MainSettingPath, "LogSearch", "Text7", "");
-            config_parameter.LogSearch_Text8 = ini12.INIRead(MainSettingPath, "LogSearch", "Text8", "");
-            config_parameter.LogSearch_Text9 = ini12.INIRead(MainSettingPath, "LogSearch", "Text9", "");
-            config_parameter.LogSearch_Display0 = ini12.INIRead(MainSettingPath, "LogSearch", "Display0", "");
-            config_parameter.LogSearch_Display1 = ini12.INIRead(MainSettingPath, "LogSearch", "Display1", "");
-            config_parameter.LogSearch_Display2 = ini12.INIRead(MainSettingPath, "LogSearch", "Display2", "");
-            config_parameter.LogSearch_Display3 = ini12.INIRead(MainSettingPath, "LogSearch", "Display3", "");
-            config_parameter.LogSearch_Display4 = ini12.INIRead(MainSettingPath, "LogSearch", "Display4", "");
-            config_parameter.LogSearch_Display5 = ini12.INIRead(MainSettingPath, "LogSearch", "Display5", "");
-            config_parameter.LogSearch_Display6 = ini12.INIRead(MainSettingPath, "LogSearch", "Display6", "");
-            config_parameter.LogSearch_Display7 = ini12.INIRead(MainSettingPath, "LogSearch", "Display7", "");
-            config_parameter.LogSearch_Display8 = ini12.INIRead(MainSettingPath, "LogSearch", "Display8", "");
-            config_parameter.LogSearch_Display9 = ini12.INIRead(MainSettingPath, "LogSearch", "Display9", "");
+            TextFieldParser parser = new TextFieldParser(ScheduleContent);
+            parser.Delimiters = new string[] { "," };
+            string[] parts = new string[11];
+            while (!parser.EndOfData)
+            {
+                try
+                {
+                    parts = parser.ReadFields();
+                    if (parts == null)
+                    {
+                        break;
+                    }
+                    columns_command = parts[0].Trim();
+                    columns_times = parts[1].Trim();
+                    columns_interval = parts[2].Trim();
+                    columns_comport = parts[3].Trim();
+                    columns_function = parts[4].Trim();
+                    columns_subFunction = parts[5].Trim();
+                    columns_serial = parts[6].Trim();
+                    columns_switch = parts[7].Trim();
+                    columns_wait = parts[8].Trim();
+                    columns_remark = parts[9].Trim();
+                }
+                catch (MalformedLineException)
+                {
+                    MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                }
+            }
+            parser.Close();
         }
 
-        private void Run_command(string columns_command, string columns_times, string columns_interval, string columns_comport, string columns_function, string columns_subFunction, string columns_serial, string columns_switch, string columns_wait, string columns_remark)
+        private void Run_command(string[] columns)
         {
 
             int sRepeat = 0, stime = 0, SysDelay = 0;
@@ -241,7 +130,7 @@ namespace Woodpecker
                 if (columns_switch == "_on")
                 {
                     Console.WriteLine("AC SWITCH OLD: _on");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -254,7 +143,7 @@ namespace Woodpecker
                                 }
                             }
                         }
-                        if (Autokit_Device_1.PL2303_GP1_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
                             bool bSuccess = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
@@ -275,7 +164,7 @@ namespace Woodpecker
                 if (columns_switch == "_off")
                 {
                     Console.WriteLine("AC SWITCH OLD: _off");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -313,7 +202,7 @@ namespace Woodpecker
                 if (columns_switch == "_AC1_ON")
                 {
                     Console.WriteLine("AC SWITCH: _AC1_ON");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -336,7 +225,7 @@ namespace Woodpecker
                 if (columns_switch == "_AC1_OFF")
                 {
                     Console.WriteLine("AC SWITCH: _AC1_OFF");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -360,7 +249,7 @@ namespace Woodpecker
                 if (columns_switch == "_AC2_ON")
                 {
                     Console.WriteLine("AC SWITCH: _AC2_ON");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -383,7 +272,7 @@ namespace Woodpecker
                 if (columns_switch == "_AC2_OFF")
                 {
                     Console.WriteLine("AC SWITCH: _AC2_OFF");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
                         if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
@@ -393,7 +282,6 @@ namespace Woodpecker
                             {
                                 {
                                     Autokit_Device_1.PowerState = false;
-                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     label_Command.Text = "AC2 => POWER OFF";
                                 }
                             }
@@ -410,16 +298,16 @@ namespace Woodpecker
                 if (columns_switch == "_USB1_DUT")
                 {
                     Console.WriteLine("USB SWITCH: _USB1_DUT");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
-                        if (PL2303_GP2_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP2_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP2_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess == true)
                             {
                                 {
-                                    USBState = false;
+                                    Autokit_Device_1.USBState = false;
                                     label_Command.Text = "USB1 => DUT";
                                 }
                             }
@@ -433,16 +321,16 @@ namespace Woodpecker
                 else if (columns_switch == "_USB1_PC")
                 {
                     Console.WriteLine("USB SWITCH: _USB1_PC");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
-                        if (PL2303_GP2_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP2_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP2_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess == true)
                             {
                                 {
-                                    USBState = true;
+                                    Autokit_Device_1.USBState = true;
                                     label_Command.Text = "USB1 => PC";
                                 }
                             }
@@ -457,16 +345,16 @@ namespace Woodpecker
                 if (columns_switch == "_USB2_DUT")
                 {
                     Console.WriteLine("USB SWITCH: _USB2_DUT");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
-                        if (PL2303_GP3_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP3_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP3_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess == true)
                             {
                                 {
-                                    USBState = false;
+                                    Autokit_Device_1.USBState = false;
                                     label_Command.Text = "USB2 => DUT";
                                 }
                             }
@@ -480,16 +368,16 @@ namespace Woodpecker
                 else if (columns_switch == "_USB2_PC")
                 {
                     Console.WriteLine("USB SWITCH: _USB2_PC");
-                    if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    if (Config.Device_AutoboxExist == "1")
                     {
-                        if (PL2303_GP3_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP3_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP3_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess == true)
                             {
                                 {
-                                    USBState = true;
+                                    Autokit_Device_1.USBState = true;
                                     label_Command.Text = "USB2 => PC";
                                 }
                             }
@@ -518,9 +406,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    button_Start.PerformClick();
                     MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
-                    setStyle();
                 }
             }
             #endregion
@@ -1656,7 +1542,7 @@ namespace Woodpecker
             }
             #endregion
 
-            z#region -- Extend_GPIO_OUTPUT --
+            #region -- Extend_GPIO_OUTPUT --
             else if (columns_command == "_WaterTemp")
             {
                 Console.WriteLine("Extend GPIO control: _WaterTemp");
@@ -2526,7 +2412,7 @@ namespace Woodpecker
                         //執行小紅鼠指令
                         Device_Driver1.Autocommand_RedRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
                     }
-                    else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                    else if (Config.Device_AutoboxExist == "1")
                     {
                         //執行小藍鼠指令
                         Device_Driver1.Autocommand_BlueRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);

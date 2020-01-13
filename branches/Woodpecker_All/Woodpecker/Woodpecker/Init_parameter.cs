@@ -1,8 +1,10 @@
-﻿using System;
+﻿using jini;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Woodpecker
 {
@@ -138,6 +140,9 @@ namespace Woodpecker
         public string LogSearch_Display7;
         public string LogSearch_Display8;
         public string LogSearch_Display9;
+        private Init_Parameter config_parameter = new Init_Parameter();
+        string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        string MailPath = Application.StartupPath + "\\Mail.ini";
 
         public void Environment_initial()
         {
