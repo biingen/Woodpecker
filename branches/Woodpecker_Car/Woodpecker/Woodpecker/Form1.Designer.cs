@@ -782,7 +782,7 @@ namespace Woodpecker
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(892, 151);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(894, 151);
             this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
             this.comboBox_CameraDevice.Size = new System.Drawing.Size(312, 26);
@@ -963,7 +963,7 @@ namespace Woodpecker
             this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_savelog.ForeColor = System.Drawing.Color.White;
             this.button_savelog.Location = new System.Drawing.Point(1245, 566);
-            this.button_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.button_savelog.Name = "button_savelog";
             this.button_savelog.Size = new System.Drawing.Size(108, 39);
             this.button_savelog.TabIndex = 112;
@@ -977,7 +977,7 @@ namespace Woodpecker
             this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
             this.comboBox_savelog.Location = new System.Drawing.Point(1245, 529);
-            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(106, 28);
             this.comboBox_savelog.TabIndex = 111;
@@ -1285,7 +1285,6 @@ namespace Woodpecker
         private System.Windows.Forms.PictureBox pictureBox_Usb2;
         private System.Windows.Forms.Label label_Ac2;
         private System.Windows.Forms.Label label_Ac1;
-        private System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.IO.Ports.SerialPort PortC;
         private System.Windows.Forms.Label label_Remark;
         public SafeDataGridView DataGridView_Schedule;
@@ -1312,6 +1311,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         protected internal System.Windows.Forms.Button button_Pause;
+        protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
     }
 }
 

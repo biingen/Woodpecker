@@ -3995,11 +3995,20 @@ namespace Woodpecker
             {
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
-                    pictureBox_Camera.Image = Properties.Resources.ON;
-                    _captureInProgress = false;
-                    OnOffCamera();
-                    comboBox_CameraDevice.Enabled = false;
-                    comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    try
+                    {
+                        pictureBox_Camera.Image = Properties.Resources.ON;
+                        _captureInProgress = false;
+                        OnOffCamera();
+                        button_VirtualRC.Enabled = true;
+                        comboBox_CameraDevice.Enabled = false;
+                        button_Camera.Enabled = true;
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+
+                    }
                 }
                 else
                 {
@@ -4261,27 +4270,48 @@ namespace Woodpecker
             string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
             string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
 
+            //string TextLine = "";
+            //string[] SplitLine;
             int i = 0;
             if ((File.Exists(SchedulePath) == true) && ScheduleExist == "1" && IsFileLocked(SchedulePath) == false)
             {
                 DataGridView_Schedule.Rows.Clear();
+                /*StreamReader objReader = new StreamReader(SchedulePath);
+                while ((objReader.Peek() != -1))
+                {
+                    TextLine = objReader.ReadLine();
+                    if (i != 0)
+                    {
+                        SplitLine = TextLine.Split(',');
+                        DataGridView_Schedule.Rows.Add(SplitLine);
+                    }
+                    i++;
+                }
+                objReader.Close();*/
 
                 TextFieldParser parser = new TextFieldParser(SchedulePath);
                 parser.Delimiters = new string[] { "," };
                 string[] parts = new string[11];
                 while (!parser.EndOfData)
                 {
-                    parts = parser.ReadFields();
-                    if (parts == null)
+                    try
                     {
-                        break;
-                    }
+                        parts = parser.ReadFields();
+                        if (parts == null)
+                        {
+                            break;
+                        }
 
-                    if (i != 0)
-                    {
-                        DataGridView_Schedule.Rows.Add(parts);
+                        if (i != 0)
+                        {
+                            DataGridView_Schedule.Rows.Add(parts);
+                        }
+                        i++;
                     }
-                    i++;
+                    catch (MalformedLineException)
+                    {
+                        MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                    }
                 }
                 parser.Close();
 
@@ -4362,7 +4392,7 @@ namespace Woodpecker
 
             setStyle();
         }
-    
+
         #endregion
 
         public static bool IsFileLocked(string file)

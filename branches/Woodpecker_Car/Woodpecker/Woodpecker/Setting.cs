@@ -588,11 +588,6 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
         }
