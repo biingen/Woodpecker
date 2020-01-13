@@ -16,18 +16,19 @@ namespace Woodpecker
 {
     public partial class Extra_Commander : Form
     {
-        private Config config_parameter = new Config();
+        private Init_Parameter config_parameter = new Init_Parameter();
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
         private Capture capture = null;
         private Filters filters = null;
         private string log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
         string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
+        private Autokit_Device Autokit_Device_1 = new Autokit_Device();
 
         private Extra_Commander(string orginal_data)
         {
             InitializeComponent();
-
+            Environment_initial();
             string[] columns = orginal_data.Split(',');
             //Schedule All columns list
             columns_command = columns[0].Trim();
@@ -41,11 +42,6 @@ namespace Woodpecker
             columns_wait = columns[8].Trim();
             columns_remark = columns[9].Trim();
             Run_command(columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark);
-        }
-
-        private void Extra_Commander_Load(object sender, EventArgs e)
-        {
-            Environment_initial();
         }
 
         public void Environment_initial()
@@ -187,7 +183,7 @@ namespace Woodpecker
 
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
-            Device_Driver.IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
+            string GPIO_INPUT = Autokit_Device_1.IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
             Global.Schedule_Step = Global.Scheduler_Row;
             if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
@@ -247,26 +243,25 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH OLD: _on");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (Device_Driver.PL2303_GP0_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = Device_Driver.PL2303_GP0_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = true;
+                                    Autokit_Device_1.PowerState = true;
                                 }
                             }
                         }
-                        if (PL2303_GP1_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP1_Enable(hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = true;
-                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                    Autokit_Device_1.PowerState = true;
                                     label_Command.Text = "AC ON";
                                 }
                             }
@@ -282,28 +277,26 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH OLD: _off");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (PL2303_GP0_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = false;
-                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                    Autokit_Device_1.PowerState = false;
                                     label_Command.Text = "AC OFF";
                                 }
                             }
                         }
-                        if (PL2303_GP1_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = false;
-                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                    Autokit_Device_1.PowerState = false;
                                     label_Command.Text = "AC OFF";
                                 }
                             }
@@ -322,15 +315,14 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH: _AC1_ON");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (PL2303_GP0_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = true;
-                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                    Autokit_Device_1.PowerState = true;
                                     label_Command.Text = "AC1 => POWER ON";
                                 }
                             }
@@ -346,15 +338,14 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH: _AC1_OFF");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (PL2303_GP0_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = false;
-                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                    Autokit_Device_1.PowerState = false;
                                     label_Command.Text = "AC1 => POWER OFF";
                                 }
                             }
@@ -371,15 +362,14 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH: _AC2_ON");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (PL2303_GP1_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("1");
-                            bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = true;
-                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                    Autokit_Device_1.PowerState = true;
                                     label_Command.Text = "AC2 => POWER ON";
                                 }
                             }
@@ -395,14 +385,14 @@ namespace Woodpecker
                     Console.WriteLine("AC SWITCH: _AC2_OFF");
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
-                        if (PL2303_GP1_Enable(hCOM, 1) == true)
+                        if (Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1) == true)
                         {
                             uint val = (uint)int.Parse("0");
-                            bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                            bool bSuccess = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
                             if (bSuccess)
                             {
                                 {
-                                    PowerState = false;
+                                    Autokit_Device_1.PowerState = false;
                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     label_Command.Text = "AC2 => POWER OFF";
                                 }
@@ -1666,7 +1656,7 @@ namespace Woodpecker
             }
             #endregion
 
-            #region -- Extend_GPIO_OUTPUT --
+            z#region -- Extend_GPIO_OUTPUT --
             else if (columns_command == "_WaterTemp")
             {
                 Console.WriteLine("Extend GPIO control: _WaterTemp");
@@ -1675,7 +1665,7 @@ namespace Woodpecker
                 {
                     for (int i = 0; i < 9; i++)
                     {
-                        MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8 - i, 1)));
+                        Autokit_Device_1.MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8 - i, 1)));
                         Thread.Sleep(50);
                     }
                 }
@@ -2534,12 +2524,12 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
                     {
                         //執行小紅鼠指令
-                        Device_Driver.Autocommand_RedRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
+                        Device_Driver1.Autocommand_RedRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
                     }
                     else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                     {
                         //執行小藍鼠指令
-                        Device_Driver.Autocommand_BlueRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
+                        Device_Driver1.Autocommand_BlueRat("Form1", columns_command, config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
                     }
                     else
                     {
@@ -2631,44 +2621,6 @@ namespace Woodpecker
             }
             #endregion
             Console.WriteLine("End.");
-        }
-
-        // 這個主程式專用的delay的內部資料與function
-        static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
-        private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
-            RedRatDBViewer_Delay_TimeOutIndicator = true;
-        }
-
-        private void RedRatDBViewer_Delay(int delay_ms)
-        {
-            //Console.WriteLine("RedRatDBViewer_Delay: Start.");
-            if (delay_ms <= 0) return;
-            System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
-            //aTimer.Interval = delay_ms;
-            aTimer.Elapsed += new ElapsedEventHandler(RedRatDBViewer_Delay_OnTimedEvent);
-            aTimer.SynchronizingObject = this.TimeLabel2;
-            RedRatDBViewer_Delay_TimeOutIndicator = false;
-            aTimer.Enabled = true;
-            aTimer.Start();
-            while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
-            {
-                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(1);//釋放CPU//
-
-                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
-                {
-                    Global.Break_Out_MyRunCamd = 0;
-                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
-                    break;
-                }
-            }
-
-            aTimer.Stop();
-            aTimer.Dispose();
-            //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
 
         #region -- 拍照 --

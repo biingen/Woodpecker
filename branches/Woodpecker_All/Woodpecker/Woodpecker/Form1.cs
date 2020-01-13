@@ -224,7 +224,7 @@ namespace Woodpecker
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline" };
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
 
             foreach (string port in portList)
             {
@@ -8771,7 +8771,6 @@ namespace Woodpecker
             }
         }
 
-
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
@@ -8867,9 +8866,15 @@ namespace Woodpecker
                         button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
+                        comboBox_CameraDevice.Items.Clear();
+                        foreach (string cd in cameraDevice)
+                        {
+                            comboBox_CameraDevice.Items.Add(cd);
+                        }
                         comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
-                    catch(ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
 
                     }

@@ -178,13 +178,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\USBClassLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="add_ons.cs" />
     <Compile Include="BlockMessage.cs" />
     <Compile Include="CAN_Read.cs" />
     <Compile Include="CRC_Calc.cs" />
-    <Compile Include="Device_Driver.cs" />
+    <Compile Include="Autokit_Device.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="Extra_Commander.cs">
@@ -266,6 +267,7 @@
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
+    <Compile Include="Serial_Port.cs" />
     <Compile Include="USB_CAN_Adaptor.cs" />
     <EmbeddedResource Include="Extra_Commander.resx">
       <DependentUpon>Extra_Commander.cs</DependentUpon>
