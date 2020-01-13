@@ -4000,7 +4000,6 @@ namespace Woodpecker
                         pictureBox_Camera.Image = Properties.Resources.ON;
                         _captureInProgress = false;
                         OnOffCamera();
-                        button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
                         comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
