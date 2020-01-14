@@ -441,7 +441,6 @@ namespace Woodpecker
                 else
                 {
                     MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    button_Start.PerformClick();
                 }
             }
 
@@ -643,7 +642,7 @@ namespace Woodpecker
                     }
                     if (Init_Parameter.config_parameter.PortD_Checked == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                     {
-                        Serial_Device_1.(Serial_Device_1.PortD, serial_content[3], switch_content[3]);
+                        Serial_Device_1.ReplaceNewLine(Serial_Device_1.PortD, serial_content[3], switch_content[3]);
                         DateTime dt = DateTime.Now;
                         string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                         logD_text = string.Concat(logD_text, text);

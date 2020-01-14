@@ -392,7 +392,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        public void Camstart(string MainSettingPath, string Camera_VideoIndex, string Camera_AudioIndex, string Camera_VideoNumber, string Camera_AudioNumber)
+        public void Camstart()
         {
             try
             {
@@ -414,25 +414,25 @@ namespace Woodpecker
                 }
 
                 int scam, saud, VideoNum, AudioNum = 0;
-                if (Camera_VideoIndex == "")
+                if (Init_Parameter.config_parameter.Camera_VideoIndex == "")
                     scam = 0;
                 else
-                    scam = int.Parse(Camera_VideoIndex);
+                    scam = int.Parse(Init_Parameter.config_parameter.Camera_VideoIndex);
 
-                if (Camera_AudioIndex == "")
+                if (Init_Parameter.config_parameter.Camera_AudioIndex == "")
                     saud = 0;
                 else
-                    saud = int.Parse(Camera_AudioIndex);
+                    saud = int.Parse(Init_Parameter.config_parameter.Camera_AudioIndex);
 
-                if (Camera_VideoNumber == "")
+                if (Init_Parameter.config_parameter.Camera_VideoNumber == "")
                     VideoNum = 0;
                 else
-                    VideoNum = int.Parse(Camera_VideoNumber);
+                    VideoNum = int.Parse(Init_Parameter.config_parameter.Camera_VideoNumber);
 
-                if (Camera_AudioNumber == "")
+                if (Init_Parameter.config_parameter.Camera_AudioNumber == "")
                     AudioNum = 0;
                 else
-                    AudioNum = int.Parse(Camera_AudioNumber);
+                    AudioNum = int.Parse(Init_Parameter.config_parameter.Camera_AudioNumber);
 
                 if (filters.VideoInputDevices.Count < VideoNum ||
                     filters.AudioInputDevices.Count < AudioNum)
@@ -445,7 +445,7 @@ namespace Woodpecker
                     try
                     {
                         capture.FrameSize = new Size(2304, 1296);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                        Init_Parameter.config_parameter.Camera_Resolution = "2304*1296";
                     }
                     catch (Exception ex)
                     {
@@ -453,7 +453,7 @@ namespace Woodpecker
                         try
                         {
                             capture.FrameSize = new Size(1920, 1080);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                            Init_Parameter.config_parameter.Camera_Resolution = "1920*1080";
                         }
                         catch (Exception ex1)
                         {
@@ -461,7 +461,7 @@ namespace Woodpecker
                             try
                             {
                                 capture.FrameSize = new Size(1280, 720);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                                Init_Parameter.config_parameter.Camera_Resolution = "1280*720";
                             }
                             catch (Exception ex2)
                             {
@@ -469,7 +469,7 @@ namespace Woodpecker
                                 try
                                 {
                                     capture.FrameSize = new Size(640, 480);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                    Init_Parameter.config_parameter.Camera_Resolution = "640*480";
                                 }
                                 catch (Exception ex3)
                                 {
@@ -477,7 +477,7 @@ namespace Woodpecker
                                     try
                                     {
                                         capture.FrameSize = new Size(320, 240);
-                                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                        Init_Parameter.config_parameter.Camera_Resolution = "320*240";
                                     }
                                     catch (Exception ex4)
                                     {
