@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DirectX.Capture;
-using jini;
 using BlueRatLibrary;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
@@ -21,10 +20,10 @@ namespace Woodpecker
         private IRedRat3 redRat3 = null;
         private Add_ons Add_ons = new Add_ons();
         private RedRatDBParser RedRatData = new RedRatDBParser();
-        private BlueRat MyBlueRat = new BlueRat();
+        public BlueRat MyBlueRat = new BlueRat();
         private bool BlueRat_UART_Exception_status = false;
 
-        private void ConnectAutoBox2(string curItem)
+        public void ConnectAutoBox2(string curItem)
         {
             uint temp_version;
 
@@ -158,7 +157,7 @@ namespace Woodpecker
         }
         #endregion
 
-        private void GP0_GP1_AC_ON()
+        public void GP0_GP1_AC_ON()
         {
             byte[] val1 = new byte[2];
             val1[0] = 0;
@@ -178,7 +177,7 @@ namespace Woodpecker
             PowerState = true;
         }
 
-        private void GP0_GP1_AC_OFF_ON()
+        public void GP0_GP1_AC_OFF_ON()
         {
             // 電源開或關
             byte[] val1;
@@ -215,7 +214,7 @@ namespace Woodpecker
             }
         }
 
-        private void GP2_GP3_USB_PC()
+        public void GP2_GP3_USB_PC()
         {
             byte[] val1 = new byte[2];
             val1[0] = 0;
@@ -374,7 +373,7 @@ namespace Woodpecker
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
-        private void RedRatDBViewer_Delay(int delay_ms)
+        public void RedRatDBViewer_Delay(int delay_ms)
         {
             Label TimeLabel2 = new Label();
             //Console.WriteLine("RedRatDBViewer_Delay: Start.");
@@ -390,7 +389,428 @@ namespace Woodpecker
             aTimer.Dispose();
             //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
+        #endregion
 
+        #region -- 拍照 --
+        public void Camstart(string MainSettingPath, string Camera_VideoIndex, string Camera_AudioIndex, string Camera_VideoNumber, string Camera_AudioNumber)
+        {
+            try
+            {
+                Filters filters = new Filters();
+                Filter f;
+
+                List<string> video = new List<string> { };
+                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                {
+                    f = filters.VideoInputDevices[c];
+                    video.Add(f.Name);
+                }
+
+                List<string> audio = new List<string> { };
+                for (int j = 0; j < filters.AudioInputDevices.Count; j++)
+                {
+                    f = filters.AudioInputDevices[j];
+                    audio.Add(f.Name);
+                }
+
+                int scam, saud, VideoNum, AudioNum = 0;
+                if (Camera_VideoIndex == "")
+                    scam = 0;
+                else
+                    scam = int.Parse(Camera_VideoIndex);
+
+                if (Camera_AudioIndex == "")
+                    saud = 0;
+                else
+                    saud = int.Parse(Camera_AudioIndex);
+
+                if (Camera_VideoNumber == "")
+                    VideoNum = 0;
+                else
+                    VideoNum = int.Parse(Camera_VideoNumber);
+
+                if (Camera_AudioNumber == "")
+                    AudioNum = 0;
+                else
+                    AudioNum = int.Parse(Camera_AudioNumber);
+
+                if (filters.VideoInputDevices.Count < VideoNum ||
+                    filters.AudioInputDevices.Count < AudioNum)
+                {
+
+                }
+                else
+                {
+                    capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
+                    try
+                    {
+                        capture.FrameSize = new Size(2304, 1296);
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
+                        try
+                        {
+                            capture.FrameSize = new Size(1920, 1080);
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                        }
+                        catch (Exception ex1)
+                        {
+                            Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
+                            try
+                            {
+                                capture.FrameSize = new Size(1280, 720);
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                            }
+                            catch (Exception ex2)
+                            {
+                                Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
+                                try
+                                {
+                                    capture.FrameSize = new Size(640, 480);
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                }
+                                catch (Exception ex3)
+                                {
+                                    Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                    try
+                                    {
+                                        capture.FrameSize = new Size(320, 240);
+                                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    }
+                                    catch (Exception ex4)
+                                    {
+                                        Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    capture.CaptureComplete += new EventHandler(OnCaptureComplete);
+                }
+            }
+            catch (NotSupportedException)
+            {
+                Console.Write("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+            };
+        }
+
+        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+
+        private void Myshot()
+        {
+            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+            capture.GrapImg();
+        }
+
+        // 複製原始圖片
+        protected Bitmap CloneBitmap(Bitmap source)
+        {
+            return new Bitmap(source);
+        }
+
+        private void CaptureDone(System.Drawing.Bitmap e)
+        {
+            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            string fName = Init_Parameter.config_parameter.Record_VideoPath;
+            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+
+            //圖片印字
+            Bitmap newBitmap = CloneBitmap(e);
+            newBitmap = CloneBitmap(e);
+            pictureBox_save.Image = newBitmap;
+
+            Graphics bitMap_g = Graphics.FromImage(pictureBox_save.Image);//底圖
+            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+            Brush FontColor = new SolidBrush(Color.Red);
+            string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
+            int YPoint = int.Parse(Resolution[1]);
+
+            //照片印上現在步驟//
+            if (columns_command == "_shot")
+            {
+                bitMap_g.DrawString(columns_remark,
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 120));
+                bitMap_g.DrawString(columns_command + "  ( " + label_Command.Text + " )",
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
+            }
+
+            //照片印上現在時間//
+            bitMap_g.DrawString(TimeLabel.Text,
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 40));
+
+            Font.Dispose();
+            FontColor.Dispose();
+            bitMap_g.Dispose();
+
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            pictureBox_save.Image.Save(t);
+        }
+        #endregion
+
+        #region -- IO CMD 指令集 --
+        private void IO_CMD()
+        {
+            if (columns_serial == "_pause")
+            {
+                label_Command.Text = "IO CMD_PAUSE";
+            }
+            else if (columns_serial == "_stop")
+            {
+                label_Command.Text = "IO CMD_STOP";
+            }
+            else if (columns_serial == "_ac_restart")
+            {
+                Autokit_Device_1.GP0_GP1_AC_OFF_ON();
+                Thread.Sleep(10);
+                Autokit_Device_1.GP0_GP1_AC_OFF_ON();
+                label_Command.Text = "IO CMD_AC_RESTART";
+            }
+            else if (columns_serial == "_shot")
+            {
+                Global.caption_Num++;
+                if (Global.Loop_Number == 1)
+                    Global.caption_Sum = Global.caption_Num;
+                Jes();
+                label_Command.Text = "IO CMD_SHOT";
+            }
+            else if (columns_serial == "_mail")
+            {
+                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                {
+                    Global.Pass_Or_Fail = "NG";
+                    FormMail FormMail = new FormMail();
+                    FormMail.send();
+                    label_Command.Text = "IO CMD_MAIL";
+                }
+                else
+                {
+                    MessageBox.Show("Please enable Mail Function in Settings.");
+                }
+            }
+            else if (columns_serial.Substring(0, 3) == "_rc")
+            {
+                String rc_key = columns_serial;
+                int startIndex = 4;
+                int length = rc_key.Length - 4;
+                String rc_key_substring = rc_key.Substring(startIndex, length);
+
+                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                {
+                    Autocommand_RedRat("Form1", rc_key_substring);
+                    label_Command.Text = rc_key_substring;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    Autocommand_BlueRat("Form1", rc_key_substring);
+                    label_Command.Text = rc_key_substring;
+                }
+            }
+            else if (columns_serial.Substring(0, 7) == "_logcmd")
+            {
+                String log_cmd = columns_serial;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
+                String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
+
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
+                {
+                    PortA.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
+                {
+                    PortB.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
+                }
+            }
+        }
+        #endregion
+        
+        #region -- KEYWORD 指令集 --
+        private void KeywordCommand()
+        {
+            if (columns_serial == "_pause")
+            {
+                button_Pause.PerformClick();
+                label_Command.Text = "KEYWORD_PAUSE";
+            }
+            else if (columns_serial == "_stop")
+            {
+                button_Start.PerformClick();
+                label_Command.Text = "KEYWORD_STOP";
+            }
+            else if (columns_serial == "_ac_restart")
+            {
+                GP0_GP1_AC_OFF_ON();
+                Thread.Sleep(10);
+                GP0_GP1_AC_OFF_ON();
+                label_Command.Text = "KEYWORD_AC_RESTART";
+            }
+            else if (columns_serial == "_shot")
+            {
+                Global.caption_Num++;
+                if (Global.Loop_Number == 1)
+                    Global.caption_Sum = Global.caption_Num;
+                Jes();
+                label_Command.Text = "KEYWORD_SHOT";
+            }
+            else if (columns_serial == "_mail")
+            {
+                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                {
+                    Global.Pass_Or_Fail = "NG";
+                    FormMail FormMail = new FormMail();
+                    FormMail.send();
+                    label_Command.Text = "KEYWORD_MAIL";
+                }
+                else
+                {
+                    MessageBox.Show("Please enable Mail Function in Settings.");
+                }
+            }
+            else if (columns_serial.Substring(0, 7) == "_savelog")
+            {
+                string fName = "";
+                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
+                String savelog_serialport = columns_serial.Substring(9, 1);
+                if (savelog_serialport == "A")
+                {
+                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log1_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "B")
+                {
+                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log2_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "C")
+                {
+                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log3_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "D")
+                {
+                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log4_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "E")
+                {
+                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(log5_text);
+                    MYFILE.Close();
+                }
+                else if (savelog_serialport == "O")
+                {
+                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(logAll_text);
+                    MYFILE.Close();
+                }
+                label_Command.Text = "KEYWORD_SAVELOG";
+            }
+            else if (columns_serial.Substring(0, 3) == "_rc")
+            {
+                String rc_key = columns_serial;
+                int startIndex = 4;
+                int length = rc_key.Length - 4;
+                String rc_key_substring = rc_key.Substring(startIndex, length);
+
+                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                {
+                    Autocommand_RedRat("Form1", rc_key_substring);
+                    label_Command.Text = rc_key_substring;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                {
+                    Autocommand_BlueRat("Form1", rc_key_substring);
+                    label_Command.Text = rc_key_substring;
+                }
+            }
+            else if (columns_serial.Substring(0, 7) == "_logcmd")
+            {
+                String log_cmd = columns_serial;
+                int startIndex = 10;
+                int length = log_cmd.Length - 10;
+                String log_cmd_substring = log_cmd.Substring(startIndex, length);
+                String log_cmd_serialport = log_cmd.Substring(8, 1);
+
+                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
+                {
+                    PortA.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
+                {
+                    PortB.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
+                {
+                    PortC.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
+                {
+                    PortD.WriteLine(log_cmd_substring);
+                }
+                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
+                {
+                    PortE.WriteLine(log_cmd_substring);
+                }
+                else if (log_cmd_serialport == "O")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                        PortA.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                        PortB.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                        PortC.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                        PortD.WriteLine(log_cmd_substring);
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                        PortE.WriteLine(log_cmd_substring);
+                }
+                label_Command.Text = "KEYWORD_LOGCMD";
+            }
+        }
         #endregion
     }
 }

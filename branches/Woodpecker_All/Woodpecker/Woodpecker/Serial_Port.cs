@@ -47,17 +47,17 @@ namespace Woodpecker
     #region -- Serial Port --
     class Serial_Port
     {
-        SerialPort PortA;
-        SerialPort PortB;
-        SerialPort PortC;
-        SerialPort PortD;
-        SerialPort PortE;
-        private Queue<byte> SearchLogQueue1 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue2 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue3 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue4 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue5 = new Queue<byte>();
-        private string log1_text, log2_text, log3_text, log4_text, log5_text, kline_text, logAll_text;
+        public SerialPort PortA;
+        public SerialPort PortB;
+        public SerialPort PortC;
+        public SerialPort PortD;
+        public SerialPort PortE;
+
+        private Queue<byte> SearchLogQueue_A = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_B = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_C = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_D = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_E = new Queue<byte>();
 
         private bool DisplayHexOn_A = false;
         private bool DisplayHexOn_B = false;
@@ -283,6 +283,94 @@ namespace Woodpecker
                     break;
             }
         }
+
+        public void Serialportsave(string Port)
+        {
+            string fName = "";
+
+            // 讀取ini中的路徑
+            fName = Init_Parameter.config_parameter.Record_LogPath;
+            switch (Port)
+            {
+                case "A":
+                    string t = fName + "\\_PortA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logA_text);
+                    MYFILE.Close();
+                    Extra_Commander.logA_text = String.Empty;
+                    break;
+                case "B":
+                    t = fName + "\\_PortB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logB_text);
+                    MYFILE.Close();
+                    Extra_Commander.logB_text = String.Empty;
+                    break;
+                case "C":
+                    t = fName + "\\_PortC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logC_text);
+                    MYFILE.Close();
+                    Extra_Commander.logC_text = String.Empty;
+                    break;
+                case "D":
+                    t = fName + "\\_PortD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logD_text);
+                    MYFILE.Close();
+                    Extra_Commander.logD_text = String.Empty;
+                    break;
+                case "E":
+                    t = fName + "\\_PortE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logE_text);
+                    MYFILE.Close();
+                    Extra_Commander.logE_text = String.Empty;
+                    break;
+                case "CA310":
+                    t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.ca310_text);
+                    MYFILE.Close();
+                    Extra_Commander.ca310_text = String.Empty;
+                    break;
+                case "Canbus":
+                    t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.canbus_text);
+                    MYFILE.Close();
+                    Extra_Commander.canbus_text = String.Empty;
+                    break;
+                case "KlinePort":
+                    t = fName + "\\_Kline_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.kline_text);
+                    MYFILE.Close();
+                    Extra_Commander.kline_text = String.Empty;
+                    break;
+                case "All":
+                    t = fName + "\\_AllPort_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(Extra_Commander.logAll_text);
+                    MYFILE.Close();
+                    Extra_Commander.logAll_text = String.Empty;
+                    break;
+            }
+        }
+
+        public void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
+        {
+            List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
+            List<string> newLineList = new List<string> { "\r", "\n", "\r\n", "\n\r" };
+            var originAndNewLine = originLineList.Zip(newLineList, (o, n) => new { origin = o, newLine = n });
+            foreach (var line in originAndNewLine)
+            {
+                if (columns_switch.Contains(line.origin))
+                {
+                    port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine)); //發送數據 Rs232
+                }
+            }
+        }
         #endregion
 
         #region -- 接受SerialPort1資料 --
@@ -299,7 +387,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue1.Enqueue(dataset[index]);
+                        SearchLogQueue_A.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -314,7 +402,7 @@ namespace Woodpecker
                         string hexValues = BitConverter.ToString(dataset).Replace("-", "");
                         dt = DateTime.Now;
                         hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, hexValues);
+                        Extra_Commander.logA_text = string.Concat(Extra_Commander.logA_text, hexValues);
                     }
                     else
                     {
@@ -322,7 +410,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, strValues);
+                        Extra_Commander.logA_text = string.Concat(Extra_Commander.logA_text, strValues);
                     }
                 }
             }
@@ -347,7 +435,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue2.Enqueue(dataset[index]);
+                        SearchLogQueue_B.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -362,7 +450,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, hexValues);
+                        Extra_Commander.logB_text = string.Concat(Extra_Commander.logB_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
 
@@ -377,7 +465,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, strValues);
+                        Extra_Commander.logB_text = string.Concat(Extra_Commander.logB_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
                 }
@@ -403,7 +491,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue3.Enqueue(dataset[index]);
+                        SearchLogQueue_C.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -418,7 +506,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, hexValues);
+                        Extra_Commander.logC_text = string.Concat(Extra_Commander.logC_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
 
@@ -433,7 +521,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, strValues);
+                        Extra_Commander.logC_text = string.Concat(Extra_Commander.logC_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
                 }
@@ -459,7 +547,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue4.Enqueue(dataset[index]);
+                        SearchLogQueue_D.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -474,7 +562,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, hexValues);
+                        Extra_Commander.logD_text = string.Concat(Extra_Commander.logD_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
 
@@ -489,7 +577,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, strValues);
+                        Extra_Commander.logD_text = string.Concat(Extra_Commander.logD_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
                 }
@@ -515,7 +603,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue5.Enqueue(dataset[index]);
+                        SearchLogQueue_E.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -530,7 +618,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, hexValues);
+                        Extra_Commander.logE_text = string.Concat(Extra_Commander.logE_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
 
@@ -545,7 +633,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, strValues);
+                        Extra_Commander.logE_text = string.Concat(Extra_Commander.logE_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
                 }
@@ -553,83 +641,6 @@ namespace Woodpecker
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-            }
-        }
-        #endregion
-
-        #region -- 儲存SerialPort的log --
-        private void Serialportsave(string Port)
-        {
-            string fName = "";
-
-            // 讀取ini中的路徑
-            fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-            switch (Port)
-            {
-                case "A":
-                    string t = fName + "\\_PortA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log1_text);
-                    MYFILE.Close();
-                    Txtbox1("", textBox_serial);
-                    log1_text = String.Empty;
-                    break;
-                case "B":
-                    t = fName + "\\_PortB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log2_text);
-                    MYFILE.Close();
-                    log2_text = String.Empty;
-                    break;
-                case "C":
-                    t = fName + "\\_PortC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log3_text);
-                    MYFILE.Close();
-                    log3_text = String.Empty;
-                    break;
-                case "D":
-                    t = fName + "\\_PortD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log4_text);
-                    MYFILE.Close();
-                    log4_text = String.Empty;
-                    break;
-                case "E":
-                    t = fName + "\\_PortE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log5_text);
-                    MYFILE.Close();
-                    log5_text = String.Empty;
-                    break;
-                case "CA310":
-                    t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(ca310_text);
-                    MYFILE.Close();
-                    ca310_text = String.Empty;
-                    break;
-                case "Canbus":
-                    t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(canbus_text);
-                    MYFILE.Close();
-                    canbus_text = String.Empty;
-                    break;
-                case "KlinePort":
-                    t = fName + "\\_Kline_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(kline_text);
-                    MYFILE.Close();
-                    kline_text = String.Empty;
-                    break;
-                case "All":
-                    t = fName + "\\_AllPort_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(logAll_text);
-                    MYFILE.Close();
-                    logAll_text = String.Empty;
-                    break;
             }
         }
         #endregion
@@ -648,9 +659,9 @@ namespace Woodpecker
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
                 DisplayKLineBlockMessage(textBox_serial, "raw_input: " + raw_data_in_string + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
+                Extra_Commander.kline_text = string.Concat(Extra_Commander.kline_text, textBox_serial);
                 DisplayKLineBlockMessage(textBox_serial, "In - " + in_message.GenerateDebugString() + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
+                Extra_Commander.kline_text = string.Concat(Extra_Commander.kline_text, textBox_serial);
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
                 BlockMessage out_message = new BlockMessage();
@@ -692,7 +703,7 @@ namespace Woodpecker
 
                 // Show output KLine message for debug purpose
                 DisplayKLineBlockMessage(textBox_serial, "Out - " + out_message.GenerateDebugString() + "\n\r");
-                kline_text = textBox_serial.Text;
+                Extra_Commander.kline_text = textBox_serial.Text;
             }
         }
 
