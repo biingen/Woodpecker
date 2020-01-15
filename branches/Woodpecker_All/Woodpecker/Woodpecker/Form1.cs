@@ -66,7 +66,6 @@ namespace Woodpecker
         private bool _captureInProgress;
         private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
         //private bool excelstat = false;
-        private bool VideoRecording = false;//是否正在錄影//
         private bool TimerPanel = false;
         //private bool VirtualRcPanel = false;
         private bool AcUsbPanel = false;
@@ -4286,6 +4285,7 @@ namespace Woodpecker
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
+                Global.label_LoopNumber = j.ToString();
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
@@ -4311,6 +4311,7 @@ namespace Woodpecker
                         {
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -4690,10 +4691,10 @@ namespace Woodpecker
                             Console.WriteLine("Take Record: _rec_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (VideoRecording == false)
+                                if (Global.VideoRecording == false)
                                 {
                                     Mysvideo(); // 開新檔
-                                    VideoRecording = true;
+                                    Global.VideoRecording = true;
                                     Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                                     oThreadC.Start();
                                 }
@@ -4711,9 +4712,9 @@ namespace Woodpecker
                             Console.WriteLine("Take Record: _rec_stop");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (VideoRecording == true)       //判斷是不是正在錄影
+                                if (Global.VideoRecording == true)       //判斷是不是正在錄影
                                 {
-                                    VideoRecording = false;
+                                    Global.VideoRecording = false;
                                     Mysstop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
@@ -7102,6 +7103,7 @@ namespace Woodpecker
                             Console.WriteLine("Break schedule.");
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -7217,17 +7219,17 @@ namespace Woodpecker
                 {
                     if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                     {
-                        if (VideoRecording == false)
+                        if (Global.VideoRecording == false)
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
                             Mysvideo(); // 開新檔
-                            VideoRecording = true;
+                            Global.VideoRecording = true;
                             Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                             oThreadC.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
-                            VideoRecording = false;
+                            Global.VideoRecording = false;
                             Mysstop();
                             oThreadC.Abort();
                             Thread.Sleep(1500);
@@ -8036,7 +8038,7 @@ namespace Woodpecker
             string starttime = "0:0:0";
             TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
-            while (VideoRecording)
+            while (Global.VideoRecording)
             {
                 System.Threading.Thread.Sleep(1000);
                 TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
@@ -10703,6 +10705,9 @@ namespace Woodpecker
         public static bool FormRC = false;
         public static int TEXTBOX_FOCUS = 0;
         public static string label_Command = "";
+        public static string label_LoopNumber = "";
+        public static bool VideoRecording = false;
+        public static string srtstring = "";
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
     }

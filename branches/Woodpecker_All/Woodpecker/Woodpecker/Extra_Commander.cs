@@ -15,18 +15,18 @@ using Microsoft.VisualBasic.FileIO;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading;
+using KWP_2000;
 
 namespace Woodpecker
 {
     public partial class Extra_Commander : Form
     {
-        private Capture capture = null;
-        private Filters filters = null;
-        public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
-        string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
+        private Autokit_Function Autokit_Function_1 = new Autokit_Function();
         private Serial_Port Serial_Device_1 = new Serial_Port();
-        private bool VideoRecording = false;//是否正在錄影//
+
+        public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
+        public static string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
 
         private Extra_Commander(string orginal_data)
         {
@@ -37,11 +37,12 @@ namespace Woodpecker
             {
                 if (Init_Parameter.config_parameter.Device_AutoboxVerson == "2")
                 {
-                    Autokit_Device_1.ConnectAutoBox2(Init_Parameter.config_parameter.Device_AutoboxPort);
+                    Autokit_Device_1.ConnectAutoBox2();
                 }
                 Autokit_Device_1.GP0_GP1_AC_ON();
                 Autokit_Device_1.GP2_GP3_USB_PC();
             }
+
             Run_command(Readsch(orginal_data));
         }
 
@@ -413,7 +414,7 @@ namespace Woodpecker
                     Global.caption_Num++;
                     if (Global.Loop_Number == 1)
                         Global.caption_Sum = Global.caption_Num;
-                    Jes();
+                    Autokit_Device_1.Myshot();
                     Global.label_Command = "Take Picture";
                 }
                 else
@@ -429,12 +430,11 @@ namespace Woodpecker
                 Console.WriteLine("Take Record: _rec_start");
                 if (Init_Parameter.config_parameter.Camera_Exist == "1")
                 {
-                    if (VideoRecording == false)
+                    if (Global.VideoRecording == false)
                     {
-                        Mysvideo(); // 開新檔
-                        VideoRecording = true;
-                        Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
-                        oThreadC.Start();
+                        Autokit_Device_1.Savevideo(); // 開新檔
+                        Global.VideoRecording = true;
+                        Autokit_Device_1.MySrtCamd();
                     }
                     Global.label_Command = "Start Recording";
                 }
@@ -449,10 +449,10 @@ namespace Woodpecker
                 Console.WriteLine("Take Record: _rec_stop");
                 if (Init_Parameter.config_parameter.Camera_Exist == "1")
                 {
-                    if (VideoRecording == true)       //判斷是不是正在錄影
+                    if (Global.VideoRecording == true)       //判斷是不是正在錄影
                     {
-                        VideoRecording = false;
-                        Mysstop();      //先將先前的關掉
+                        Global.VideoRecording = false;
+                        Autokit_Device_1.Mysstop();      //先將先前的關掉
                     }
                     Global.label_Command = "Stop Recording";
                 }
@@ -1051,7 +1051,7 @@ namespace Woodpecker
                                     byte obd_code_high = Convert.ToByte(obd_code_int16 >> 8);
                                     byte obd_code_low = Convert.ToByte(obd_code_int16 & 0xff);
                                     byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
-                                    OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
+                                    Serial_Device_1.OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
                                 }
                             }
                             else
@@ -1073,13 +1073,13 @@ namespace Woodpecker
             }
             else if (columns_command == "_K_SEND")
             {
-                kline_send = 1;
+                Serial_Device_1.kline_send = 1;
             }
             else if (columns_command == "_K_CLEAR")
             {
-                kline_send = 0;
-                ABS_error_list.Clear();
-                OBD_error_list.Clear();
+                Serial_Device_1.kline_send = 0;
+                Serial_Device_1.ABS_error_list.Clear();
+                Serial_Device_1.OBD_error_list.Clear();
             }
             #endregion
 
@@ -1096,7 +1096,7 @@ namespace Woodpecker
                         string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logA_text = string.Concat(logA_text, text);
@@ -1114,7 +1114,7 @@ namespace Woodpecker
                         string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logB_text = string.Concat(logB_text, text);
@@ -1132,7 +1132,7 @@ namespace Woodpecker
                         string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logC_text = string.Concat(logC_text, text);
@@ -1150,7 +1150,7 @@ namespace Woodpecker
                         string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logD_text = string.Concat(logD_text, text);
@@ -1168,7 +1168,7 @@ namespace Woodpecker
                         string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logE_text = string.Concat(logE_text, text);
@@ -1192,7 +1192,7 @@ namespace Woodpecker
                         string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logA_text = string.Concat(logA_text, text);
@@ -1211,7 +1211,7 @@ namespace Woodpecker
                         string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logB_text = string.Concat(logB_text, text);
@@ -1230,7 +1230,7 @@ namespace Woodpecker
                         string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logC_text = string.Concat(logC_text, text);
@@ -1249,7 +1249,7 @@ namespace Woodpecker
                         string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logD_text = string.Concat(logD_text, text);
@@ -1268,7 +1268,7 @@ namespace Woodpecker
                         string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                        Serial_Device_1.PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                         DateTime dt = DateTime.Now;
                         string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                         logE_text = string.Concat(logE_text, text);
@@ -1286,7 +1286,7 @@ namespace Woodpecker
                     Console.WriteLine("Canbus Send: _Canbus_Send");
                     if (columns_times != "" && columns_serial != "")
                     {
-                        MYCanReader.TransmitData(columns_times, columns_serial);
+                        Serial_Device_1.MYCanReader.TransmitData(columns_times, columns_serial);
 
                         string Outputstring = "ID: 0x";
                         Outputstring += columns_times + " Data: " + columns_serial;
@@ -1308,7 +1308,7 @@ namespace Woodpecker
                 {
                     // Astro指令
                     byte[] startbit = new byte[7] { 0x05, 0x24, 0x20, 0x02, 0xfd, 0x24, 0x20 };
-                    PortA.Write(startbit, 0, 7);
+                    Serial_Device_1.PortA.Write(startbit, 0, 7);
 
                     // Astro指令檔案匯入
                     string xmlfile = Init_Parameter.config_parameter.Record_Generator;
@@ -1327,7 +1327,7 @@ namespace Woodpecker
                                     byte[] timebit3 = Encoding.ASCII.GetBytes(timestrs[2]);
                                     byte[] timebit4 = Encoding.ASCII.GetBytes(timestrs[3]);
                                     byte[] timebit = new byte[4] { timebit1[1], timebit2[1], timebit3[1], timebit4[1] };
-                                    PortA.Write(timebit, 0, 4);
+                                    Serial_Device_1.PortA.Write(timebit, 0, 4);
                                 }
                             }
                             else
@@ -1342,7 +1342,7 @@ namespace Woodpecker
                     }
 
                     byte[] endbit = new byte[3] { 0x2c, 0x31, 0x03 };
-                    PortA.Write(endbit, 0, 3);
+                    Serial_Device_1.PortA.Write(endbit, 0, 3);
                     Global.label_Command = "(" + columns_command + ") " + columns_switch;
                 }
                 catch (Exception Ex)
@@ -1369,8 +1369,8 @@ namespace Woodpecker
                             {
                                 if (columns_function == generator.Element("Timing").Value)
                                 {
-                                    PortA.WriteLine(generator.Element("Signal").Value + "\r");
-                                    PortA.WriteLine("ALLU" + "\r");
+                                    Serial_Device_1.PortA.WriteLine(generator.Element("Signal").Value + "\r");
+                                    Serial_Device_1.PortA.WriteLine("ALLU" + "\r");
                                 }
                             }
                             else
@@ -1388,46 +1388,46 @@ namespace Woodpecker
                     {
                         case "RGB":
                             // RGB mode
-                            PortA.WriteLine("AVST 0" + "\r");
-                            PortA.WriteLine("DVST 10" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("AVST 0" + "\r");
+                            Serial_Device_1.PortA.WriteLine("DVST 10" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "YCbCr":
                             // YCbCr mode
-                            PortA.WriteLine("AVST 0" + "\r");
-                            PortA.WriteLine("DVST 14" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("AVST 0" + "\r");
+                            Serial_Device_1.PortA.WriteLine("DVST 14" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "xvYCC":
                             // xvYCC mode
-                            PortA.WriteLine("AVST 0" + "\r");
-                            PortA.WriteLine("DVST 17" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("AVST 0" + "\r");
+                            Serial_Device_1.PortA.WriteLine("DVST 17" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "4:4:4":
                             // 4:4:4
-                            PortA.WriteLine("DVSM 4" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("DVSM 4" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "4:2:2":
                             // 4:2:2
-                            PortA.WriteLine("DVSM 2" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("DVSM 2" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "8bits":
                             // 8bits
-                            PortA.WriteLine("NBPC 8" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("NBPC 8" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "10bits":
                             // 10bits
-                            PortA.WriteLine("NBPC 10" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("NBPC 10" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         case "12bits":
                             // 12bits
-                            PortA.WriteLine("NBPC 12" + "\r");
-                            PortA.WriteLine("FMTU" + "\r");
+                            Serial_Device_1.PortA.WriteLine("NBPC 12" + "\r");
+                            Serial_Device_1.PortA.WriteLine("FMTU" + "\r");
                             break;
                         default:
                             break;
@@ -1473,7 +1473,7 @@ namespace Woodpecker
                 if (columns_switch == "_stop")
                 {
                     Console.WriteLine("Dektec control: _stop");
-                    CloseDtplay();
+                    Autokit_Function_1.CloseDtplay();
                 }
             }
             #endregion
@@ -1518,7 +1518,7 @@ namespace Woodpecker
             else if (columns_command == "_IO_Input")
             {
                 Console.WriteLine("GPIO control: _IO_Input");
-                IO_INPUT();
+                Autokit_Device_1.IO_INPUT();
             }
 
             else if (columns_command == "_IO_Output")
@@ -2017,7 +2017,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                                 }
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
@@ -2030,7 +2030,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                                 }
                             }
                             else
@@ -2052,7 +2052,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
                                 Global.IO_INPUT.Substring(8, 1) == "1")
@@ -2063,7 +2063,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else
                             {
@@ -2084,7 +2084,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
                                 Global.IO_INPUT.Substring(6, 1) == "1")
@@ -2095,7 +2095,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else
                             {
@@ -2116,7 +2116,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
                                 Global.IO_INPUT.Substring(4, 1) == "1")
@@ -2127,7 +2127,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else
                             {
@@ -2149,7 +2149,7 @@ namespace Woodpecker
                                 }
 
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
                                 Global.IO_INPUT.Substring(2, 1) == "1")
@@ -2160,7 +2160,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else
                             {
@@ -2181,7 +2181,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else if (columns_comport.Substring(6, 1) == "1" &&
                                 Global.IO_INPUT.Substring(0, 1) == "1")
@@ -2192,7 +2192,7 @@ namespace Woodpecker
                                     Global.label_Command = "IO CMD_ACCUMULATE";
                                 }
                                 else
-                                    IO_CMD();
+                                    Autokit_Function_1.IO_CMD();
                             }
                             else
                             {
@@ -2236,7 +2236,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 1");
                         if (Global.keyword_1 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2249,7 +2249,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 2");
                         if (Global.keyword_2 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2262,7 +2262,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 3");
                         if (Global.keyword_3 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2275,7 +2275,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 4");
                         if (Global.keyword_4 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2288,7 +2288,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 5");
                         if (Global.keyword_5 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2301,7 +2301,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 6");
                         if (Global.keyword_6 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2314,7 +2314,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 7");
                         if (Global.keyword_7 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2327,7 +2327,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 8");
                         if (Global.keyword_8 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2340,7 +2340,7 @@ namespace Woodpecker
                         Console.WriteLine("Keyword Search: 9");
                         if (Global.keyword_9 == "true")
                         {
-                            KeywordCommand();
+                            Autokit_Function_1.KeywordCommand();
                         }
                         else
                         {
@@ -2355,7 +2355,7 @@ namespace Woodpecker
                         {
                             if (Global.keyword_10 == "true")
                             {
-                                KeywordCommand();
+                                Autokit_Function_1.KeywordCommand();
                             }
                             else
                             {
@@ -2377,22 +2377,21 @@ namespace Woodpecker
                 for (int k = 0; k < stime; k++)
                 {
                     Global.label_Command = columns_command;
-                    if (Init_Parameter.config_parameter.Device", "RedRatExist", "") == "1")
+                    if (Init_Parameter.config_parameter.RedRat_Exist == "1")
                     {
                         //執行小紅鼠指令
-                        Autokit_Device_1.Autocommand_RedRat("Form1", columns_command, Init_Parameter.config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
+                        Autokit_Device_1.Autocommand_RedRat("Form1", columns_command);
                     }
-                    else if (Config.Device_AutoboxExist == "1")
+                    else if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
                     {
                         //執行小藍鼠指令
-                        Autokit_Device_1.Autocommand_BlueRat("Form1", columns_command, Init_Parameter.config_parameter.RedRat_DBFile, config_parameter.RedRat_Brands);
+                        Autokit_Device_1.Autocommand_BlueRat("Form1", columns_command);
                     }
                     else
                     {
                         MessageBox.Show("Please connect AutoBox or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    videostring = columns_command;
-                    RedRatDBViewer_Delay(sRepeat);
+                    Autokit_Device_1.RedRatDBViewer_Delay(sRepeat);
                 }
             }
             #endregion

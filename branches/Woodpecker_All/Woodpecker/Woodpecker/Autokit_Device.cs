@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Forms;
+using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -12,6 +12,8 @@ using System.Runtime.InteropServices;
 using RedRat.IR;
 using RedRat.RedRat3;
 using System.Timers;
+using System.IO;
+using System.Diagnostics;
 
 namespace Woodpecker
 {
@@ -22,11 +24,13 @@ namespace Woodpecker
         private RedRatDBParser RedRatData = new RedRatDBParser();
         public BlueRat MyBlueRat = new BlueRat();
         private bool BlueRat_UART_Exception_status = false;
+        private Capture capture = null;
 
-        public void ConnectAutoBox2(string curItem)
+        #region -- AutoBox --
+        public void ConnectAutoBox2()
         {
             uint temp_version;
-
+            string curItem = Init_Parameter.config_parameter.Device_AutoboxPort;
             if (MyBlueRat.Connect(curItem) == true)
             {
                 temp_version = MyBlueRat.FW_VER;
@@ -48,6 +52,36 @@ namespace Woodpecker
                 Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " - Cannot connect to BlueRat.\n");
             }
         }
+
+        private void DisconnectAutoBox2()
+        {
+            if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
+            {
+                if (MyBlueRat.Disconnect() == true)
+                {
+                    if (BlueRat_UART_Exception_status)
+                    {
+                        //Serial_UpdatePortName(); 
+                    }
+                    BlueRat_UART_Exception_status = false;
+                }
+                else
+                {
+                    Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " - Cannot disconnect from RS232.\n");
+                }
+            }
+        }
+        
+        //關閉AutoBox
+        private void CloseAutobox()
+        {
+            if (Init_Parameter.config_parameter.Device_AutoboxVerson == "2")
+            {
+                DisconnectAutoBox2();
+            }
+            Environment.Exit(Environment.ExitCode);
+        }
+        #endregion
 
         #region -- GPIO --
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -282,15 +316,15 @@ namespace Woodpecker
         #endregion
 
         #region -- Redrat --
-        public void Autocommand_RedRat(string Caller, string SigData, string RedRat_DBFile, string RedRat_Brands)
+        public void Autocommand_RedRat(string Caller, string SigData)
         {
             string redcon = "";
 
             //讀取設備//
             if (Caller == "Form1")
             {
-                RedRatData.RedRatLoadSignalDB(RedRat_DBFile);
-                redcon = RedRat_Brands;
+                RedRatData.RedRatLoadSignalDB(Init_Parameter.config_parameter.RedRat_DBFile);
+                redcon = Init_Parameter.config_parameter.RedRat_Brands;
             }
 
             try
@@ -315,14 +349,14 @@ namespace Woodpecker
         }
 
         private Boolean D = false;
-        public void Autocommand_BlueRat(string Caller, string SigData, string RedRat_DBFile, string RedRat_Brands)
+        public void Autocommand_BlueRat(string Caller, string SigData)
         {
             try
             {
                 if (Caller == "Form1")
                 {
-                    RedRatData.RedRatLoadSignalDB(RedRat_DBFile);
-                    RedRatData.RedRatSelectDevice(RedRat_Brands);
+                    RedRatData.RedRatLoadSignalDB(Init_Parameter.config_parameter.RedRat_DBFile);
+                    RedRatData.RedRatSelectDevice(Init_Parameter.config_parameter.RedRat_Brands);
                 }
 
                 RedRatData.RedRatSelectRCSignal(SigData, D);
@@ -375,7 +409,7 @@ namespace Woodpecker
 
         public void RedRatDBViewer_Delay(int delay_ms)
         {
-            Label TimeLabel2 = new Label();
+            System.Windows.Forms.Label TimeLabel2 = new System.Windows.Forms.Label();
             //Console.WriteLine("RedRatDBViewer_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
@@ -392,6 +426,8 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
+        private System.Windows.Forms.PictureBox pictureBox_save;
+
         public void Camstart()
         {
             try
@@ -496,9 +532,15 @@ namespace Woodpecker
             };
         }
 
-        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+        private void OnCaptureComplete(object sender, EventArgs e)
+        {
+            // Demonstrate the Capture.CaptureComplete event.
+            Debug.WriteLine("Capture complete.");
+        }
 
-        private void Myshot()
+        //private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+
+        public void Myshot()
         {
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
@@ -528,20 +570,20 @@ namespace Woodpecker
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
-            if (columns_command == "_shot")
+            if (Extra_Commander.columns_command == "_shot")
             {
-                bitMap_g.DrawString(columns_remark,
+                bitMap_g.DrawString(Extra_Commander.columns_remark,
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(columns_command + "  ( " + label_Command.Text + " )",
+                bitMap_g.DrawString(Extra_Commander.columns_command + "  ( " + Global.label_Command + " )",
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 80));
             }
 
             //照片印上現在時間//
-            bitMap_g.DrawString(TimeLabel.Text,
+            bitMap_g.DrawString(string.Format("{0:R}", DateTime.Now),
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 40));
@@ -550,267 +592,71 @@ namespace Woodpecker
             FontColor.Dispose();
             bitMap_g.Dispose();
 
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
             pictureBox_save.Image.Save(t);
         }
         #endregion
 
-        #region -- IO CMD 指令集 --
-        private void IO_CMD()
+        #region -- 錄影 --
+        public void MySrtCamd()
         {
-            if (columns_serial == "_pause")
-            {
-                label_Command.Text = "IO CMD_PAUSE";
-            }
-            else if (columns_serial == "_stop")
-            {
-                label_Command.Text = "IO CMD_STOP";
-            }
-            else if (columns_serial == "_ac_restart")
-            {
-                Autokit_Device_1.GP0_GP1_AC_OFF_ON();
-                Thread.Sleep(10);
-                Autokit_Device_1.GP0_GP1_AC_OFF_ON();
-                label_Command.Text = "IO CMD_AC_RESTART";
-            }
-            else if (columns_serial == "_shot")
-            {
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
-                Jes();
-                label_Command.Text = "IO CMD_SHOT";
-            }
-            else if (columns_serial == "_mail")
-            {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
-                {
-                    Global.Pass_Or_Fail = "NG";
-                    FormMail FormMail = new FormMail();
-                    FormMail.send();
-                    label_Command.Text = "IO CMD_MAIL";
-                }
-                else
-                {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
-                }
-            }
-            else if (columns_serial.Substring(0, 3) == "_rc")
-            {
-                String rc_key = columns_serial;
-                int startIndex = 4;
-                int length = rc_key.Length - 4;
-                String rc_key_substring = rc_key.Substring(startIndex, length);
+            int count = 1;
+            string starttime = "0:0:0";
+            TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    Autocommand_RedRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                {
-                    Autocommand_BlueRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-            }
-            else if (columns_serial.Substring(0, 7) == "_logcmd")
+            while (Global.VideoRecording)
             {
-                String log_cmd = columns_serial;
-                int startIndex = 10;
-                int length = log_cmd.Length - 10;
-                String log_cmd_substring = log_cmd.Substring(startIndex, length);
-                String log_cmd_serialport = log_cmd.Substring(8, 1);
+                System.Threading.Thread.Sleep(1000);
+                TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
+                //後面的時間減前面的時間後 轉型成TimeSpan即可印出時間差
+                string endtime = (time_end - time_start).Hours.ToString() + ":" + (time_end - time_start).Minutes.ToString() + ":" + (time_end - time_start).Seconds.ToString();
+                StreamWriter srtWriter = new StreamWriter(Global.srtstring, true);
+                srtWriter.WriteLine(count);
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
-                {
-                    PortA.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
-                {
-                    PortB.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
-                {
-                    PortC.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
-                {
-                    PortD.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
-                {
-                    PortE.WriteLine(log_cmd_substring);
-                }
-                else if (log_cmd_serialport == "O")
-                {
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        PortA.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        PortB.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        PortC.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        PortD.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        PortE.WriteLine(log_cmd_substring);
-                }
+                srtWriter.WriteLine(starttime + ",001" + " --> " + endtime + ",000");
+                srtWriter.WriteLine(Global.label_Command + "     " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                srtWriter.WriteLine(Extra_Commander.columns_remark);
+                srtWriter.WriteLine("");
+                srtWriter.WriteLine("");
+                srtWriter.Close();
+                count++;
+                starttime = endtime;
             }
         }
-        #endregion
-        
-        #region -- KEYWORD 指令集 --
-        private void KeywordCommand()
+
+        //private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
+
+        public void Mysstop()
         {
-            if (columns_serial == "_pause")
-            {
-                button_Pause.PerformClick();
-                label_Command.Text = "KEYWORD_PAUSE";
-            }
-            else if (columns_serial == "_stop")
-            {
-                button_Start.PerformClick();
-                label_Command.Text = "KEYWORD_STOP";
-            }
-            else if (columns_serial == "_ac_restart")
-            {
-                GP0_GP1_AC_OFF_ON();
-                Thread.Sleep(10);
-                GP0_GP1_AC_OFF_ON();
-                label_Command.Text = "KEYWORD_AC_RESTART";
-            }
-            else if (columns_serial == "_shot")
-            {
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
-                Jes();
-                label_Command.Text = "KEYWORD_SHOT";
-            }
-            else if (columns_serial == "_mail")
-            {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
-                {
-                    Global.Pass_Or_Fail = "NG";
-                    FormMail FormMail = new FormMail();
-                    FormMail.send();
-                    label_Command.Text = "KEYWORD_MAIL";
-                }
-                else
-                {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
-                }
-            }
-            else if (columns_serial.Substring(0, 7) == "_savelog")
-            {
-                string fName = "";
-                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                String savelog_serialport = columns_serial.Substring(9, 1);
-                if (savelog_serialport == "A")
-                {
-                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log1_text);
-                    MYFILE.Close();
-                }
-                else if (savelog_serialport == "B")
-                {
-                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log2_text);
-                    MYFILE.Close();
-                }
-                else if (savelog_serialport == "C")
-                {
-                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log3_text);
-                    MYFILE.Close();
-                }
-                else if (savelog_serialport == "D")
-                {
-                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log4_text);
-                    MYFILE.Close();
-                }
-                else if (savelog_serialport == "E")
-                {
-                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log5_text);
-                    MYFILE.Close();
-                }
-                else if (savelog_serialport == "O")
-                {
-                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-                    StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(logAll_text);
-                    MYFILE.Close();
-                }
-                label_Command.Text = "KEYWORD_SAVELOG";
-            }
-            else if (columns_serial.Substring(0, 3) == "_rc")
-            {
-                String rc_key = columns_serial;
-                int startIndex = 4;
-                int length = rc_key.Length - 4;
-                String rc_key_substring = rc_key.Substring(startIndex, length);
+            capture.Stop();
+            capture.Dispose();
+            Camstart();
+        }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                {
-                    Autocommand_RedRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                {
-                    Autocommand_BlueRat("Form1", rc_key_substring);
-                    label_Command.Text = rc_key_substring;
-                }
-            }
-            else if (columns_serial.Substring(0, 7) == "_logcmd")
-            {
-                String log_cmd = columns_serial;
-                int startIndex = 10;
-                int length = log_cmd.Length - 10;
-                String log_cmd_substring = log_cmd.Substring(startIndex, length);
-                String log_cmd_serialport = log_cmd.Substring(8, 1);
+        public void Savevideo()//儲存影片//
+        {
+            string fName = Init_Parameter.config_parameter.Record_VideoPath;
 
-                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
-                {
-                    PortA.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
-                {
-                    PortB.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
-                {
-                    PortC.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
-                {
-                    PortD.WriteLine(log_cmd_substring);
-                }
-                else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
-                {
-                    PortE.WriteLine(log_cmd_substring);
-                }
-                else if (log_cmd_serialport == "O")
-                {
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        PortA.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        PortB.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        PortC.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        PortD.WriteLine(log_cmd_substring);
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        PortE.WriteLine(log_cmd_substring);
-                }
-                label_Command.Text = "KEYWORD_LOGCMD";
-            }
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".avi";
+            Global.srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".srt";
+
+            if (!capture.Cued)
+                capture.Filename = t;
+
+            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+            capture.Cue(); // 創一個檔
+            capture.Start(); // 開始錄影
+
+            /*
+            double chd; //檢查HD 空間 小於100M就停止錄影s
+            chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
+            if (chd < 0.1)
+            {
+                Vread = false;
+                MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
         }
         #endregion
+
     }
 }

@@ -59,6 +59,7 @@ namespace Woodpecker
         public string PortE_DataBit;
         public string PortE_StopBits;
         public string PortE_DisplayHex;
+        public string Port_Displayhex;
         public string Record_VideoPath;
         public string Record_LogPath;
         public string Record_Generator;
@@ -201,6 +202,7 @@ namespace Woodpecker
             config_parameter.PortE_DataBit = ini12.INIRead(MainSettingPath, "Port E", "DataBit", "");
             config_parameter.PortE_StopBits = ini12.INIRead(MainSettingPath, "Port E", "StopBits", "");
             config_parameter.PortE_DisplayHex = ini12.INIRead(MainSettingPath, "Port E", "DisplayHex", "");
+            config_parameter.Port_Displayhex = ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "");
             config_parameter.Record_VideoPath = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             config_parameter.Record_LogPath = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
             config_parameter.Record_Generator = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
