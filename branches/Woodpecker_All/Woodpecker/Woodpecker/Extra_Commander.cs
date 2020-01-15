@@ -1488,7 +1488,7 @@ namespace Woodpecker
 
                     System.Diagnostics.Process p = new Process();
                     p.StartInfo.FileName = "cmd.exe";
-                    p.StartInfo.WorkingDirectory = Init_Parameter.config_parameter.Device_DOS);
+                    p.StartInfo.WorkingDirectory = Init_Parameter.config_parameter.Device_DOS;
                     p.StartInfo.UseShellExecute = false;
                     p.StartInfo.RedirectStandardInput = true;
                     p.StartInfo.RedirectStandardOutput = true;
@@ -2399,19 +2399,19 @@ namespace Woodpecker
             #region -- Remark --
             if (columns_remark != "")
             {
-                label_Remark.Invoke((MethodInvoker)(() => label_Remark.Text = columns_remark));
+                Global.label_Remark = columns_remark;
                 //label_Remark.Text = columns_remark;
             }
             else
             {
-                label_Remark.Text = "";
+                Global.label_Remark = "";
             }
             #endregion
 
             //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
             //MyExportText.Start();
             Console.WriteLine("CloseTime record.");
-            ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
+            Init_Parameter.config_parameter.DataInfo_CloseTime = string.Format("{0:R}", DateTime.Now);
 
             Autokit_Device_1.RedRatDBViewer_Delay(SysDelay);
 

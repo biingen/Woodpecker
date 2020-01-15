@@ -58,16 +58,16 @@ namespace Woodpecker
         private Queue<byte> SearchLogQueue_C = new Queue<byte>();
         private Queue<byte> SearchLogQueue_D = new Queue<byte>();
         private Queue<byte> SearchLogQueue_E = new Queue<byte>();
-        private char Keyword_SerialPort_1_temp_char;
-        private byte Keyword_SerialPort_1_temp_byte;
-        private char Keyword_SerialPort_2_temp_char;
-        private byte Keyword_SerialPort_2_temp_byte;
-        private char Keyword_SerialPort_3_temp_char;
-        private byte Keyword_SerialPort_3_temp_byte;
-        private char Keyword_SerialPort_4_temp_char;
-        private byte Keyword_SerialPort_4_temp_byte;
-        private char Keyword_SerialPort_5_temp_char;
-        private byte Keyword_SerialPort_5_temp_byte;
+        private char Keyword_SerialPort_A_temp_char;
+        private byte Keyword_SerialPort_A_temp_byte;
+        private char Keyword_SerialPort_B_temp_char;
+        private byte Keyword_SerialPort_B_temp_byte;
+        private char Keyword_SerialPort_C_temp_char;
+        private byte Keyword_SerialPort_C_temp_byte;
+        private char Keyword_SerialPort_D_temp_char;
+        private byte Keyword_SerialPort_D_temp_byte;
+        private char Keyword_SerialPort_E_temp_char;
+        private byte Keyword_SerialPort_E_temp_byte;
 
         private bool DisplayHexOn_A = false;
         private bool DisplayHexOn_B = false;
@@ -84,6 +84,9 @@ namespace Woodpecker
 
         //Canbus Reader
         public CAN_Reader MYCanReader = new CAN_Reader();
+
+        private Autokit_Device Autokit_Device_1 = new Autokit_Device();
+        private Autokit_Function Autokit_Function_1 = new Autokit_Function();
 
         public void Serial_Port_Init()
         {
@@ -667,17 +670,17 @@ namespace Woodpecker
             bool[] send_status = new bool[10];
             int compare_paremeter = Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum);
 
-            while (StartButtonPressed == true)
+            while (Global.StartButtonPressed == true)
             {
-                while (SearchLogQueue1.Count > 0)
+                while (SearchLogQueue_A.Count > 0)
                 {
-                    Keyword_SerialPort_1_temp_byte = SearchLogQueue1.Dequeue();
-                    Keyword_SerialPort_1_temp_char = (char)Keyword_SerialPort_1_temp_byte;
+                    Keyword_SerialPort_A_temp_byte = SearchLogQueue_A.Dequeue();
+                    Keyword_SerialPort_A_temp_char = (char)Keyword_SerialPort_A_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_PortA) == 1 && Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -704,11 +707,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -717,14 +720,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -733,19 +736,19 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    Autokit_Device_1.PowerState = false;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -754,34 +757,34 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    Autokit_Device_1.PowerState = true;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
@@ -795,12 +798,12 @@ namespace Woodpecker
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                                         MYFILE.Write(textBox_serial.Text);
                                         MYFILE.Close();
-                                        Txtbox1("", textBox_serial);
+                                        //Txtbox1("", textBox_serial);
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -857,7 +860,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -887,11 +890,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -900,14 +903,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -916,19 +919,18 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    Autokit_Device_1.PowerState = false;
                                                 }
                                             }
                                         }
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -937,34 +939,32 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    Autokit_Device_1.PowerState = true;
                                                 }
                                             }
                                         }
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
@@ -983,7 +983,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -1040,24 +1040,24 @@ namespace Woodpecker
                         #endregion
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                     else
                     {
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             //textBox1.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             //textBox1.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                 }
@@ -1070,22 +1070,22 @@ namespace Woodpecker
         private void MyLog2Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortB_keyword.csv";
+            string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortB_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
-            int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
+            int compare_paremeter = Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum);
 
-            while (StartButtonPressed == true)
+            while (Global.StartButtonPressed == true)
             {
-                while (SearchLogQueue2.Count > 0)
+                while (SearchLogQueue_B.Count > 0)
                 {
-                    Keyword_SerialPort_2_temp_byte = SearchLogQueue2.Dequeue();
-                    Keyword_SerialPort_2_temp_char = (char)Keyword_SerialPort_2_temp_byte;
+                    Keyword_SerialPort_B_temp_byte = SearchLogQueue_B.Dequeue();
+                    Keyword_SerialPort_B_temp_char = (char)Keyword_SerialPort_B_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_PortB) == 1 && Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -1112,11 +1112,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -1125,14 +1125,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1141,11 +1141,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -1153,7 +1153,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1162,11 +1162,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -1174,20 +1174,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -1207,7 +1207,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
 
                                     if (compare_number[i] % compare_num == 0)
@@ -1264,7 +1264,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -1293,11 +1293,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -1306,14 +1306,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1322,11 +1322,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -1334,7 +1334,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1343,11 +1343,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -1355,20 +1355,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -1388,7 +1388,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -1446,25 +1446,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             //textBox2.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             //textBox2.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                 }
@@ -1477,22 +1477,22 @@ namespace Woodpecker
         private void MyLog3Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortC_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
-            int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
+            int compare_paremeter = Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum);
 
-            while (StartButtonPressed == true)
+            while (Global.StartButtonPressed == true)
             {
-                while (SearchLogQueue3.Count > 0)
+                while (SearchLogQueue_C.Count > 0)
                 {
-                    Keyword_SerialPort_3_temp_byte = SearchLogQueue3.Dequeue();
-                    Keyword_SerialPort_3_temp_char = (char)Keyword_SerialPort_3_temp_byte;
+                    Keyword_SerialPort_C_temp_byte = SearchLogQueue_C.Dequeue();
+                    Keyword_SerialPort_C_temp_char = (char)Keyword_SerialPort_C_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_PortC) == 1 && Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -1519,11 +1519,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -1532,14 +1532,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1548,11 +1548,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -1560,7 +1560,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1569,11 +1569,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -1581,20 +1581,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -1614,7 +1614,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
 
                                     if (compare_number[i] % compare_num == 0)
@@ -1671,7 +1671,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -1700,11 +1700,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -1713,14 +1713,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1729,11 +1729,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -1741,7 +1741,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1750,11 +1750,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -1762,20 +1762,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -1795,7 +1795,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -1853,25 +1853,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                 }
@@ -1884,22 +1884,22 @@ namespace Woodpecker
         private void MyLog4Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortC_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
-            int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
+            int compare_paremeter = Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum);
 
-            while (StartButtonPressed == true)
+            while (Global.StartButtonPressed == true)
             {
-                while (SearchLogQueue4.Count > 0)
+                while (SearchLogQueue_D.Count > 0)
                 {
-                    Keyword_SerialPort_4_temp_byte = SearchLogQueue4.Dequeue();
-                    Keyword_SerialPort_4_temp_char = (char)Keyword_SerialPort_4_temp_byte;
+                    Keyword_SerialPort_D_temp_byte = SearchLogQueue_D.Dequeue();
+                    Keyword_SerialPort_D_temp_char = (char)Keyword_SerialPort_D_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_PortD) == 1 && Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -1926,11 +1926,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -1939,14 +1939,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1955,11 +1955,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -1967,7 +1967,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -1976,11 +1976,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -1988,20 +1988,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -2021,7 +2021,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
 
                                     if (compare_number[i] % compare_num == 0)
@@ -2078,7 +2078,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2107,11 +2107,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -2120,14 +2120,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2136,11 +2136,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -2148,7 +2148,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2157,11 +2157,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -2169,20 +2169,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -2202,7 +2202,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -2260,25 +2260,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                 }
@@ -2291,22 +2291,22 @@ namespace Woodpecker
         private void MyLog5Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortE_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
-            int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
+            int compare_paremeter = Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum);
 
-            while (StartButtonPressed == true)
+            while (Global.StartButtonPressed == true)
             {
-                while (SearchLogQueue5.Count > 0)
+                while (SearchLogQueue_E.Count > 0)
                 {
-                    Keyword_SerialPort_5_temp_byte = SearchLogQueue5.Dequeue();
-                    Keyword_SerialPort_5_temp_char = (char)Keyword_SerialPort_5_temp_byte;
+                    Keyword_SerialPort_E_temp_byte = SearchLogQueue_E.Dequeue();
+                    Keyword_SerialPort_E_temp_char = (char)Keyword_SerialPort_E_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_PortE) == 1 && Convert.ToInt32(Init_Parameter.config_parameter.LogSearch_TextNum) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2333,11 +2333,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -2346,14 +2346,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2362,11 +2362,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -2374,7 +2374,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2383,11 +2383,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -2395,20 +2395,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -2428,7 +2428,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
 
                                     if (compare_number[i] % compare_num == 0)
@@ -2485,7 +2485,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2514,11 +2514,11 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
                                     if (compare_number[i] > compare_num && send_status[i] == false)
                                     {
-                                        ini12.INIWrite(MainSettingPath, "LogSearch", "Nowvalue", i.ToString());
+                                        Init_Parameter.config_parameter.LogSearch_Nowvalue = i.ToString();
                                         ini12.INIWrite(MainSettingPath, "LogSearch", "Display" + i, compare_number[i].ToString());
-                                        if (ini12.INIRead(MailPath, "Mail Info", "From", "") != ""
-                                            && ini12.INIRead(MailPath, "Mail Info", "To", "") != ""
-                                            && ini12.INIRead(MainSettingPath, "LogSearch", "Sendmail", "") == "1")
+                                        if (Init_Parameter.config_parameter.MailInfo_From != ""
+                                            && Init_Parameter.config_parameter.MailInfo_To  != ""
+                                            && Init_Parameter.config_parameter.LogSearch_Sendmail == "1")
                                         {
                                             FormMail FormMail = new FormMail();
                                             FormMail.logsend();
@@ -2527,14 +2527,14 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF ON//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "ACcontrol", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACcontrol == "1")
                                     {
                                         byte[] val1;
                                         val1 = new byte[2];
                                         val1[0] = 0;
 
-                                        bool jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        bool jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2543,11 +2543,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("0");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = false;
+                                                    Autokit_Device_1.PowerState = false;
                                                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
@@ -2555,7 +2555,7 @@ namespace Woodpecker
 
                                         System.Threading.Thread.Sleep(5000);
 
-                                        jSuccess = PL2303_GP0_Enable(hCOM, 1);
+                                        jSuccess = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
                                         if (!jSuccess)
                                         {
                                             Log("GP0 output enable FAILED.");
@@ -2564,11 +2564,11 @@ namespace Woodpecker
                                         {
                                             uint val;
                                             val = (uint)int.Parse("1");
-                                            bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                            bool bSuccess = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
                                             if (bSuccess)
                                             {
                                                 {
-                                                    PowerState = true;
+                                                    Autokit_Device_1.PowerState = true;
                                                     pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
@@ -2576,20 +2576,20 @@ namespace Woodpecker
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////AC OFF//////////////////
                                     if (compare_number[i] % compare_num == 0
-                                        && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1"
-                                        && ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "") == "1")
+                                        && Init_Parameter.config_parameter.Device_AutoboxExist == "1"
+                                        && Init_Parameter.config_parameter.LogSearch_ACOFF == "1")
                                     {
                                         byte[] val1 = new byte[2];
                                         val1[0] = 0;
                                         uint val = (uint)int.Parse("0");
 
-                                        bool Success_GP0_Enable = PL2303_GP0_Enable(hCOM, 1);
-                                        bool Success_GP0_SetValue = PL2303_GP0_SetValue(hCOM, val);
+                                        bool Success_GP0_Enable = Autokit_Device_1.PL2303_GP0_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP0_SetValue = Autokit_Device_1.PL2303_GP0_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        bool Success_GP1_Enable = PL2303_GP1_Enable(hCOM, 1);
-                                        bool Success_GP1_SetValue = PL2303_GP1_SetValue(hCOM, val);
+                                        bool Success_GP1_Enable = Autokit_Device_1.PL2303_GP1_Enable(Autokit_Device_1.hCOM, 1);
+                                        bool Success_GP1_SetValue = Autokit_Device_1.PL2303_GP1_SetValue(Autokit_Device_1.hCOM, val);
 
-                                        PowerState = false;
+                                        Autokit_Device_1.PowerState = false;
 
                                         pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
@@ -2609,7 +2609,7 @@ namespace Woodpecker
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
                                     {
-                                        button_Start.PerformClick();
+                                        Autokit_Function_1.Start_Function();
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0)
@@ -2667,25 +2667,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                 }

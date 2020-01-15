@@ -35,7 +35,7 @@ namespace Woodpecker
         #endregion
 
         #region -- Start 指令集 --
-        private void Start_Function()
+        public void Start_Function()
         {
             byte[] val = new byte[2];
             val[0] = 0;
@@ -386,12 +386,12 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Autokit_Device_1.Jes();
+                Autokit_Device_1.Myshot();
                 Global.label_Command = "IO CMD_SHOT";
             }
             else if (columns_serial == "_mail")
             {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                if (Init_Parameter.config_parameter.SendMail_Exist == "1")
                 {
                     Global.Pass_Or_Fail = "NG";
                     FormMail FormMail = new FormMail();
@@ -452,15 +452,15 @@ namespace Woodpecker
                 else if (log_cmd_serialport == "O")
                 {
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
-                        PortA.WriteLine(log_cmd_substring);
+                        Serial_Device_1.PortA.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
-                        PortB.WriteLine(log_cmd_substring);
+                        Serial_Device_1.PortB.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
-                        PortC.WriteLine(log_cmd_substring);
+                        Serial_Device_1.PortC.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                        PortD.WriteLine(log_cmd_substring);
+                        Serial_Device_1.PortD.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                        PortE.WriteLine(log_cmd_substring);
+                        Serial_Device_1.PortE.WriteLine(log_cmd_substring);
                 }
             }
         }
@@ -472,12 +472,12 @@ namespace Woodpecker
             string columns_serial = Extra_Commander.columns_serial;
             if (columns_serial == "_pause")
             {
-                button_Pause.PerformClick();
+                Pause_Function();
                 Global.label_Command = "KEYWORD_PAUSE";
             }
             else if (columns_serial == "_stop")
             {
-                button_Start.PerformClick();
+                Start_Function();
                 Global.label_Command = "KEYWORD_STOP";
             }
             else if (columns_serial == "_ac_restart")
@@ -497,7 +497,7 @@ namespace Woodpecker
             }
             else if (columns_serial == "_mail")
             {
-                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                if (Init_Parameter.config_parameter.SendMail_Exist == "1")
                 {
                     Global.Pass_Or_Fail = "NG";
                     FormMail FormMail = new FormMail();
@@ -506,7 +506,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
+                    //MessageBox.Show("Please enable Mail Function in Settings.");
                 }
             }
             else if (columns_serial.Substring(0, 7) == "_savelog")

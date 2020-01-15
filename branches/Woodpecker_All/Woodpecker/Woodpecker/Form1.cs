@@ -76,21 +76,21 @@ namespace Woodpecker
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
-        private Queue<byte> SearchLogQueue1 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue2 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue3 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue4 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue5 = new Queue<byte>();
-        private char Keyword_SerialPort_1_temp_char;
-        private byte Keyword_SerialPort_1_temp_byte;
-        private char Keyword_SerialPort_2_temp_char;
-        private byte Keyword_SerialPort_2_temp_byte;
-        private char Keyword_SerialPort_3_temp_char;
-        private byte Keyword_SerialPort_3_temp_byte;
-        private char Keyword_SerialPort_4_temp_char;
-        private byte Keyword_SerialPort_4_temp_byte;
-        private char Keyword_SerialPort_5_temp_char;
-        private byte Keyword_SerialPort_5_temp_byte;
+        private Queue<byte> SearchLogQueue_A = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_B = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_C = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_D = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_E = new Queue<byte>();
+        private char Keyword_SerialPort_A_temp_char;
+        private byte Keyword_SerialPort_A_temp_byte;
+        private char Keyword_SerialPort_B_temp_char;
+        private byte Keyword_SerialPort_B_temp_byte;
+        private char Keyword_SerialPort_C_temp_char;
+        private byte Keyword_SerialPort_C_temp_byte;
+        private char Keyword_SerialPort_D_temp_char;
+        private byte Keyword_SerialPort_D_temp_byte;
+        private char Keyword_SerialPort_E_temp_char;
+        private byte Keyword_SerialPort_E_temp_byte;
 
         //Schedule暫停用的參數
         private bool Pause = false;
@@ -1625,7 +1625,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue1.Enqueue(dataset[index]);
+                        SearchLogQueue_A.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1827,7 +1827,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue2.Enqueue(dataset[index]);
+                        SearchLogQueue_B.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1883,7 +1883,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue3.Enqueue(dataset[index]);
+                        SearchLogQueue_C.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1939,7 +1939,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue4.Enqueue(dataset[index]);
+                        SearchLogQueue_D.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1995,7 +1995,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue5.Enqueue(dataset[index]);
+                        SearchLogQueue_E.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -2154,15 +2154,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue1.Count > 0)
+                while (SearchLogQueue_A.Count > 0)
                 {
-                    Keyword_SerialPort_1_temp_byte = SearchLogQueue1.Dequeue();
-                    Keyword_SerialPort_1_temp_char = (char)Keyword_SerialPort_1_temp_byte;
+                    Keyword_SerialPort_A_temp_byte = SearchLogQueue_A.Dequeue();
+                    Keyword_SerialPort_A_temp_char = (char)Keyword_SerialPort_A_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2342,7 +2342,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2525,24 +2525,24 @@ namespace Woodpecker
                         #endregion
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                     else
                     {
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             //textBox1.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             //textBox1.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                 }
@@ -2562,15 +2562,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue2.Count > 0)
+                while (SearchLogQueue_B.Count > 0)
                 {
-                    Keyword_SerialPort_2_temp_byte = SearchLogQueue2.Dequeue();
-                    Keyword_SerialPort_2_temp_char = (char)Keyword_SerialPort_2_temp_byte;
+                    Keyword_SerialPort_B_temp_byte = SearchLogQueue_B.Dequeue();
+                    Keyword_SerialPort_B_temp_char = (char)Keyword_SerialPort_B_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2749,7 +2749,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2931,25 +2931,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             //textBox2.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             //textBox2.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                 }
@@ -2969,15 +2969,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue3.Count > 0)
+                while (SearchLogQueue_C.Count > 0)
                 {
-                    Keyword_SerialPort_3_temp_byte = SearchLogQueue3.Dequeue();
-                    Keyword_SerialPort_3_temp_char = (char)Keyword_SerialPort_3_temp_byte;
+                    Keyword_SerialPort_C_temp_byte = SearchLogQueue_C.Dequeue();
+                    Keyword_SerialPort_C_temp_char = (char)Keyword_SerialPort_C_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3156,7 +3156,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3338,25 +3338,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                 }
@@ -3376,15 +3376,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue4.Count > 0)
+                while (SearchLogQueue_D.Count > 0)
                 {
-                    Keyword_SerialPort_4_temp_byte = SearchLogQueue4.Dequeue();
-                    Keyword_SerialPort_4_temp_char = (char)Keyword_SerialPort_4_temp_byte;
+                    Keyword_SerialPort_D_temp_byte = SearchLogQueue_D.Dequeue();
+                    Keyword_SerialPort_D_temp_char = (char)Keyword_SerialPort_D_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3563,7 +3563,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3745,25 +3745,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                 }
@@ -3783,15 +3783,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue5.Count > 0)
+                while (SearchLogQueue_E.Count > 0)
                 {
-                    Keyword_SerialPort_5_temp_byte = SearchLogQueue5.Dequeue();
-                    Keyword_SerialPort_5_temp_char = (char)Keyword_SerialPort_5_temp_byte;
+                    Keyword_SerialPort_E_temp_byte = SearchLogQueue_E.Dequeue();
+                    Keyword_SerialPort_E_temp_char = (char)Keyword_SerialPort_E_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3970,7 +3970,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -4152,25 +4152,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                 }
@@ -10705,9 +10705,11 @@ namespace Woodpecker
         public static bool FormRC = false;
         public static int TEXTBOX_FOCUS = 0;
         public static string label_Command = "";
+        public static string label_Remark = "";
         public static string label_LoopNumber = "";
         public static bool VideoRecording = false;
         public static string srtstring = "";
+        public static bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
     }
