@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<application>
+	<ABS_ErrorCode>
+	<DTC Name="_ABS">
+		<DTC_D>0x5055</DTC_D>
+		<DTC_C>0x5055</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+    <DTC Name="_ABS">
+		<DTC_D>0x5019</DTC_D>
+		<DTC_C>0x5019</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5017</DTC_D>
+		<DTC_C>0x5017</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5013</DTC_D>
+		<DTC_C>0x5013</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5018</DTC_D>
+		<DTC_C>0x5018</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5014</DTC_D>
+		<DTC_C>0x5014</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5053</DTC_D>
+		<DTC_C>0x5053</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5052</DTC_D>
+		<DTC_C>0x5052</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5035</DTC_D>
+		<DTC_C>0x5035</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5043</DTC_D>
+		<DTC_C>0x5043</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5045</DTC_D>
+		<DTC_C>0x5045</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+    <DTC Name="_ABS">
+		<DTC_D>0x5042</DTC_D>
+		<DTC_C>0x5042</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5044</DTC_D>
+		<DTC_C>0x5044</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	<DTC Name="_ABS">
+		<DTC_D>0x5025</DTC_D>
+		<DTC_C>0x5025</DTC_C>
+		<DTC_S>0xE0</DTC_S>
+    </DTC>
+	</ABS_ErrorCode>
+    <OBD_ErrorCode>
+	<DTC Name="_OBD">
+		<DTC_D>P0503</DTC_D>
+		<DTC_C>0x0503</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>	
+	<DTC Name="_OBD">
+		<DTC_D>C0083</DTC_D>
+		<DTC_C>0x4083</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>	
+    <DTC Name="_OBD">
+		<DTC_D>C0085</DTC_D>
+		<DTC_C>0x4085</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0105</DTC_D>
+		<DTC_C>0x0105</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0110</DTC_D>
+		<DTC_C>0x0110</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0115</DTC_D>
+		<DTC_C>0x0115</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0120</DTC_D>
+		<DTC_C>0x0120</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0130</DTC_D>
+		<DTC_C>0x0130</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0135</DTC_D>
+		<DTC_C>0x0135</DTC_C>
+		<DTC_S>0x61</DTC_S>
+	</DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0150</DTC_D>
+		<DTC_C>0x0150</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0155</DTC_D>
+		<DTC_C>0x0155</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0201</DTC_D>
+		<DTC_C>0x0201</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0202</DTC_D>
+		<DTC_C>0x0202</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0217</DTC_D>
+		<DTC_C>0x0217</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0230</DTC_D>
+		<DTC_C>0x0230</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0335</DTC_D>
+		<DTC_C>0x0335</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0336</DTC_D>
+		<DTC_C>0x0336</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0351</DTC_D>
+		<DTC_C>0x0351</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0352</DTC_D>
+		<DTC_C>0x0352</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0410</DTC_D>
+		<DTC_C>0x0410</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0480</DTC_D>
+		<DTC_C>0x0480</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0500</DTC_D>
+		<DTC_C>0x0500</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0501</DTC_D>
+		<DTC_C>0x0501</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0505</DTC_D>
+		<DTC_C>0x0505</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0512</DTC_D>
+		<DTC_C>0x0512</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0560</DTC_D>
+		<DTC_C>0x0560</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0601</DTC_D>
+		<DTC_C>0x0601</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0604</DTC_D>
+		<DTC_C>0x0604</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0605</DTC_D>
+		<DTC_C>0x0605</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0606</DTC_D>
+		<DTC_C>0x0606</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0620_PIN2</DTC_D>
+		<DTC_C>0x0620</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0620_PIN31</DTC_D>
+		<DTC_C>0x0620</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0650</DTC_D>
+		<DTC_C>0x0650</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+    <DTC Name="_OBD">
+		<DTC_D>P0655</DTC_D>
+		<DTC_C>0x0655</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P0A0F</DTC_D>
+		<DTC_C>0x0A0F</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P1300</DTC_D>
+		<DTC_C>0x1300</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P1310</DTC_D>
+		<DTC_C>0x1310</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P1536</DTC_D>
+		<DTC_C>0x1536</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P1607</DTC_D>
+		<DTC_C>0x1607</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P1800</DTC_D>
+		<DTC_C>0x1800</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P2158</DTC_D>
+		<DTC_C>0x2158</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>P2600</DTC_D>
+		<DTC_C>0x2600</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0001</DTC_D>
+		<DTC_C>0xC001</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0002</DTC_D>
+		<DTC_C>0xC002</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0121</DTC_D>
+		<DTC_C>0xC121</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0122</DTC_D>
+		<DTC_C>0xC122</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0128</DTC_D>
+		<DTC_C>0xC128</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0140</DTC_D>
+		<DTC_C>0xC140</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0426</DTC_D>
+		<DTC_C>0xC426</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	<DTC Name="_OBD">
+		<DTC_D>U0486</DTC_D>
+		<DTC_C>0xC486</DTC_C>
+		<DTC_S>0x61</DTC_S>
+    </DTC>
+	</OBD_ErrorCode>
+</application>
