@@ -142,14 +142,14 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timerCustom1 = new Woodpecker.TimerCustom();
             this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
             this.button_BluetoothSearch = new System.Windows.Forms.Button();
             this.button_Send = new System.Windows.Forms.Button();
-            this.timer_Statement = new System.Windows.Forms.Timer(this.components);
+            this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
             this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
             this.label_ca310 = new System.Windows.Forms.Label();
             this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
+            this.timer_PowerSupply = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -171,7 +171,6 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timerCustom1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ca310)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1499,11 +1498,6 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // timerCustom1
-            // 
-            this.timerCustom1.Enabled = true;
-            this.timerCustom1.SynchronizingObject = this;
-            // 
             // comboBox_Bluetooth
             // 
             this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -1512,7 +1506,6 @@ namespace Woodpecker
             this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
             this.comboBox_Bluetooth.Size = new System.Drawing.Size(110, 24);
             this.comboBox_Bluetooth.TabIndex = 118;
-            this.comboBox_Bluetooth.SelectedIndexChanged += new System.EventHandler(this.comboBox_Bluetooth_SelectedIndexChanged);
             // 
             // button_BluetoothSearch
             // 
@@ -1534,10 +1527,11 @@ namespace Woodpecker
             this.button_Send.UseVisualStyleBackColor = true;
             this.button_Send.Click += new System.EventHandler(this.button_Check_Click);
             // 
-            // timer_Statement
+            // timer_Chamber
             // 
-            this.timer_Statement.Interval = 1;
-            this.timer_Statement.Tick += new System.EventHandler(this.timer_Statement_Tick);
+            this.timer_Chamber.Interval = 2000;
+            this.timer_Chamber.Tick += new System.EventHandler(this.timer_Chamber_Tick);
+            // 
             // timer_ca310
             // 
             this.timer_ca310.Interval = 250;
@@ -1567,6 +1561,11 @@ namespace Woodpecker
             this.pictureBox_ca310.TabIndex = 113;
             this.pictureBox_ca310.TabStop = false;
             // 
+            // timer_PowerSupply
+            // 
+            this.timer_PowerSupply.Interval = 2000;
+            this.timer_PowerSupply.Tick += new System.EventHandler(this.timer_PowerSupply_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1580,7 +1579,6 @@ namespace Woodpecker
             this.Controls.Add(this.button_BluetoothConnect);
             this.Controls.Add(this.label_ca310);
             this.Controls.Add(this.pictureBox_ca310);
-            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1665,7 +1663,6 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.timerCustom1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ca310)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1785,15 +1782,15 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         private System.Windows.Forms.Button button_BluetoothConnect;
-        private TimerCustom timerCustom1;
         private System.Windows.Forms.ComboBox comboBox_Bluetooth;
         private System.Windows.Forms.Button button_BluetoothSearch;
         private System.Windows.Forms.Button button_Send;
         protected internal System.Windows.Forms.Button button_Pause;
-        private System.Windows.Forms.Timer timer_Statement;
+        private System.Windows.Forms.Timer timer_Chamber;
         private System.Windows.Forms.Timer timer_ca310;
         private System.Windows.Forms.Label label_ca310;
         private System.Windows.Forms.PictureBox pictureBox_ca310;
+        private System.Windows.Forms.Timer timer_PowerSupply;
     }
 }
 

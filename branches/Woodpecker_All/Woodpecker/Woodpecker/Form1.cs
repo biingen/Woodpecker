@@ -366,7 +366,7 @@ namespace Woodpecker
                 List<String> dev_list = MYCanReader.FindUsbDevice();
                 can_name = string.Join(",", dev_list);
                 ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex","") == "")
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
                     ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
                 if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
                     ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
@@ -1570,6 +1570,7 @@ namespace Woodpecker
         }
         #endregion
 
+        string hexValueA = string.Empty;
         #region -- 接受SerialPort1資料 --
         /*
                 public class SerialReceivedData
@@ -1660,14 +1661,17 @@ namespace Woodpecker
                     DateTime dt;
                     if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                     {
+                        //For if statement
+                        hexValueA = BitConverter.ToString(dataset).Replace("-", "");
+
                         // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+                        string hexValue = BitConverter.ToString(dataset).Replace("-", "");
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
+                        hexValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValue + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                        log1_text = string.Concat(log1_text, hexValues);
+                        log1_text = string.Concat(log1_text, hexValue);
                         // textBox1.AppendText(hexValues);
                         // End
 
@@ -1693,8 +1697,8 @@ namespace Woodpecker
                 Console.WriteLine(ex.Message);
             }
         }
-        //Jeremy code
         /*
+        //Jeremy code
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data = 500;
@@ -2167,6 +2171,59 @@ namespace Woodpecker
         }
         #endregion
 
+        string keyword = string.Empty;
+        bool condition = false;
+        private void ifLogReceived()
+        {
+            if (timer_Chamber.Enabled)
+            {
+                keyword += hexValueA;
+                if (ifStatementFlag == true && keyword.Length == 18)
+                {
+                    //condition = (keyword.Substring(6, 2) == keyword.Substring(8, 2))
+                    int currentTemperature = Convert.ToInt32(keyword.Substring(6, 4), 16);
+                    int expectedTempInt = Int32.Parse(expectedTemperature) * 100;
+                    condition = (currentTemperature == expectedTempInt);
+                    if (chamberCommandLog.Contains("01 03 00 00 00 02 C4 0B"))
+                    {
+                        if (condition)
+                        {
+                            MessageBox.Show("Temperature matched the expected value.", "Chamber reminder");
+                            button_Pause.PerformClick();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Temperature didn't match the expected value.", "Chamber reminder");
+                            button_Pause.PerformClick();
+                        }
+                    }
+                    keyword = "";
+                    chamberCommandLog = "";
+                }
+            }
+            else if (timer_PowerSupply.Enabled)
+            {
+                if (ifStatementFlag)
+                {
+                    int currentVoltage = Int32.Parse(hexValueA.Substring(0, hexValueA.IndexOf(',')));
+                    int expectedVoltageInt = Int32.Parse(expectedVoltage);
+                    condition = (currentVoltage <= expectedVoltageInt && currentVoltage >= expectedVoltageInt - 0.0010);
+                    if (condition)
+                    {
+                        MessageBox.Show("Voltage matched the expected value.", "PowerSupply reminder");
+                        button_Pause.PerformClick();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Voltage didn't match the expected value.", "PowerSupply reminder");
+                        button_Pause.PerformClick();
+                    }
+
+                    psCommandLog = "";
+                }
+            }
+        }
+
         #region -- 關鍵字比對 - serialport_1 --
         private void MyLog1Camd()
         {
@@ -2547,9 +2604,11 @@ namespace Woodpecker
                             my_string = "";
                         }
                         #endregion
+
                         else
                         {
                             my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            keyword = keyword + Keyword_SerialPort_1_temp_char;
                         }
                     }
                     else
@@ -2567,6 +2626,7 @@ namespace Woodpecker
                         else
                         {
                             my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            keyword = keyword + Keyword_SerialPort_1_temp_char;
                         }
                     }
                 }
@@ -4205,7 +4265,8 @@ namespace Woodpecker
 
 
         bool ifStatementFlag = false;
-        string hexAdd = string.Empty;
+        string expectedTemperature = string.Empty;
+        string expectedVoltage = string.Empty;
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
         {
@@ -4839,7 +4900,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -5033,76 +5094,55 @@ namespace Woodpecker
                         #endregion
 
                         #region -- Statement --
-                        /*
+                        else if (columns_command == "_Execute")
+                        {
+                            IO_CMD();
+                        }
+
+                        #endregion
+
+                        #region -- Statement --
                         else if (columns_command == "_Statement")
                         {
-                            bool condition = true;
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                             {
                                 if (columns_function == "if")
                                 {
+                                    ifStatementFlag = true;
+                                    expectedTemperature = "";
+                                    expectedTemperature = "";
                                     if (columns_serial != "")
                                     {
-                                        if (columns_serial.Contains("chamber temp"))
+                                        columns_serial.Replace(" ", "");
+                                        if (columns_serial.Contains("chamber_temp"))
                                         {
-                                            timer_Statement.Enabled = true;
-                                            if (.Contains("Receive_Port"))
-                                            {
-                                                hexAdd =;
-                                            }
+                                            //ini12.INIWrite(MainSettingPath, "LogSearch", "Text0", "0103");
+                                            timer_Chamber.Enabled = true;
+                                            expectedTemperature = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
 
-
-
-                                            condition = (strValue.Substring(3, 2) == strValue.Substring(5, 2));
-                                            if (condition)
-                                            {
-                                                MessageBox.Show("Temperature changes to expected value.", "Chamber reminder");
-                                                ifStatementFlag = true;
-
-                                            }
-                                            else
-                                            {
-
-                                            }
                                         }
-
-
-
-
-
-
-
-
-                                        timer_Statement.Enabled = true;
-                                        condition = (strValue.Substring(3, 2) == strValue.Substring(5, 2));
-                                        if (condition)
+                                        else if (columns_serial.Contains("PowerSupply_Voltage"))
                                         {
-                                            MessageBox.Show("Temperature changes to expected value.", "Chamber reminder");
+                                            timer_PowerSupply.Enabled = true;
+                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
                                         }
-                                        else
-                                        {
-                                            if (columns_function == "else")
-                                            {
-
-                                                goto TestLabel;
-                                            }
-                                        }
-
-                                        TestLabel:
-                                        MessageBox.Show("Temperature does not change to expected value.", "Chamber error");
-                                        button_Pause.PerformClick();
                                     }
                                 }
-                                else if (columns_function == "else")
+                                /*else if (columns_function == "else")
                                 {
+                                    if (ifStatementFlag)
+                                    {
 
-                                }
-                                else if (columns_function == "End")
+                                    }
+                                }*/
+                                else if (columns_function == "end")
                                 {
-                                    timer_Statement.Enabled = false;
+                                    timer_Chamber.Enabled = false;
+                                    timer_PowerSupply.Enabled = false;
+                                    ifStatementFlag = false;
                                 }
                             }
-                        }*/
+                        }
                         #endregion
 
                         #region -- Hex --
@@ -8320,7 +8360,8 @@ namespace Woodpecker
             {
                 Console.WriteLine("Select Device Error: " + devicename);
             }
-
+            RCDB.Items.Add("_Statement");
+            RCDB.Items.Add("_Execute");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
             RCDB.Items.Add("_ascii");
@@ -8549,6 +8590,7 @@ namespace Woodpecker
             Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
+            Thread ifThread1 = new Thread(new ThreadStart(ifLogReceived));
 
             startTime = DateTime.Now;
 
@@ -9367,7 +9409,7 @@ namespace Woodpecker
                     i++;
                 }
                 objReader.Close();*/
-                
+
                 TextFieldParser parser = new TextFieldParser(SchedulePath);
                 parser.Delimiters = new string[] { "," };
                 string[] parts = new string[11];
@@ -10676,17 +10718,34 @@ namespace Woodpecker
             }
         }
 
-        private void comboBox_Bluetooth_SelectedIndexChanged(object sender, EventArgs e)
+        string chamberCommandLog = string.Empty;
+        string psCommandLog = string.Empty;
+        private void timer_PowerSupply_Tick(object sender, EventArgs e)
         {
+            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+            {
+                string powerCommand = "MEASure1:ALL?"; //Read PowerSupply
+                PortA.Write(powerCommand + "\n"); //Send command
 
+                DateTime dt = DateTime.Now;
+                psCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                log1_text = string.Concat(log1_text, psCommandLog); // Save log for sending chamber command
+            }
         }
 
-        private void timer_Statement_Tick(object sender, EventArgs e)
+        private void timer_Chamber_Tick(object sender, EventArgs e)
         {
-            string hexValues = "01 03 00 00 00 02"; //Read chamber temperature
-            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-            Outputbytes = HexConverter.StrToByte(hexValues);
-            PortA.Write(Outputbytes, 0, Outputbytes.Length); //Send command
+            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+            {
+                string chamberCommand = "01 03 00 00 00 02 C4 0B"; //Read chamber temperature
+                byte[] Outputbytes = new byte[chamberCommand.Split(' ').Count()];
+                Outputbytes = HexConverter.StrToByte(chamberCommand);
+                PortA.Write(Outputbytes, 0, Outputbytes.Length); //Send command
+
+                DateTime dt = DateTime.Now;
+                chamberCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + chamberCommand + "\r\n";
+                log1_text = string.Concat(log1_text, chamberCommandLog); // Save log for sending chamber command
+            }
         }
 
 
