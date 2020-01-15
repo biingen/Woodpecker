@@ -472,7 +472,7 @@
             this.checkBox_CAN_Log.AutoSize = true;
             this.checkBox_CAN_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_CAN_Log.ForeColor = System.Drawing.Color.White;
-            this.checkBox_CAN_Log.Location = new System.Drawing.Point(194, 86);
+            this.checkBox_CAN_Log.Location = new System.Drawing.Point(194, 88);
             this.checkBox_CAN_Log.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_CAN_Log.Name = "checkBox_CAN_Log";
             this.checkBox_CAN_Log.Size = new System.Drawing.Size(15, 14);
@@ -1234,7 +1234,6 @@
         private System.Windows.Forms.CheckBox checkBox_Displayhex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
         private System.Windows.Forms.CheckBox checkBox_Kline;
-        private System.Windows.Forms.CheckBox checkBox_CAN_Log;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
         private System.Windows.Forms.Label label_resolution;
@@ -1267,5 +1266,6 @@
         internal System.Windows.Forms.ComboBox comboBox_CAN_BaudRate_Value;
         internal System.Windows.Forms.Label label_CAN_BaudRate;
         internal System.Windows.Forms.Label label_CAN_deviceid;
+        protected internal System.Windows.Forms.CheckBox checkBox_CAN_Log;
     }
 }

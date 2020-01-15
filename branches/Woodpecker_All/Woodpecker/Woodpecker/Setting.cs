@@ -21,7 +21,6 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
-
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
@@ -533,15 +532,19 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
                     ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
 
+                    List<string> cameraDeviceList = new List<string> { };
                     for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
                         f = filters.VideoInputDevices[c];
                         comboBox_CameraDevice.Items.Add(f.Name);
+                        cameraDeviceList.Add(f.Name);
                         if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
                         {
                             comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
                         }
                     }
+                    string cameraDevice = String.Join(",", cameraDeviceList.ToArray());
+                    ini12.INIWrite(MainSettingPath, "Camera", "CameraDevice", cameraDevice);
 
                     if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
                     {
@@ -681,11 +684,6 @@ namespace Woodpecker
                         //Camera存在
                         ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
                     }
-
-                }
-                else
-                {
-                    ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "0");
                 }
             }
         }
@@ -748,10 +746,6 @@ namespace Woodpecker
                         }
                     }
                 }
-                //else
-                //{
-                 //   ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
-                //}
             }
         }
 
@@ -1273,6 +1267,11 @@ namespace Woodpecker
         private void comboBox_SerialPort1_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port A", "BaudRate", comboBox_SerialPort1_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort1_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort2_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1283,6 +1282,11 @@ namespace Woodpecker
         private void comboBox_SerialPort2_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port B", "BaudRate", comboBox_SerialPort2_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort2_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort3_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1293,6 +1297,11 @@ namespace Woodpecker
         private void comboBox_SerialPort3_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port C", "BaudRate", comboBox_SerialPort3_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort3_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort4_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1303,6 +1312,11 @@ namespace Woodpecker
         private void comboBox_SerialPort4_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port D", "BaudRate", comboBox_SerialPort4_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort4_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void comboBox_SerialPort5_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
@@ -1313,6 +1327,11 @@ namespace Woodpecker
         private void comboBox_SerialPort5_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port E", "BaudRate", comboBox_SerialPort5_BaudRate_Value.Text.Trim());
+
+            if (comboBox_SerialPort5_BaudRate_Value != null)
+            {
+                label_ErrorMessage.Text = "";
+            }
         }
 
         private void checkBox_Kline_CheckedChanged(object sender, EventArgs e)

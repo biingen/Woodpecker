@@ -230,7 +230,7 @@ namespace Woodpecker
 
         private void initComboboxSaveLog()
         {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline" };
+            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
 
             foreach (string port in portList)
             {
@@ -4267,6 +4267,20 @@ namespace Woodpecker
         bool ifStatementFlag = false;
         string expectedTemperature = string.Empty;
         string expectedVoltage = string.Empty;
+        private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
+        {
+            List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
+            List<string> newLineList = new List<string> { "\r", "\n", "\r\n", "\n\r" };
+            var originAndNewLine = originLineList.Zip(newLineList, (o, n) => new { origin = o, newLine = n });
+            foreach (var line in originAndNewLine)
+            {
+                if (columns_switch.Contains(line.origin))
+                {
+                    port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine)); //發送數據 Rs232
+                }
+            }
+        }
+
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
         {
@@ -4900,7 +4914,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortA.Write(columns_serial + "\n"); //發送數據 Rs232
+                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4928,7 +4942,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortB.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4956,7 +4970,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortC.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4984,7 +4998,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortD.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -5012,7 +5026,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    PortE.Write(columns_serial + @columns_switch); //發送數據 Rs232
+                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -5044,7 +5058,7 @@ namespace Woodpecker
 
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    PortA.Write(serial_content[0] + @switch_content[0]);
+                                    ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5053,7 +5067,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
-                                    PortB.Write(serial_content[1] + @switch_content[1]);
+                                    ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5062,7 +5076,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    PortC.Write(serial_content[2] + @switch_content[2]);
+                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5071,7 +5085,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    PortD.Write(serial_content[3] + @switch_content[3]);
+                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -5080,7 +5094,7 @@ namespace Woodpecker
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    PortE.Write(serial_content[4] + @switch_content[4]);
+                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
@@ -8888,7 +8902,6 @@ namespace Woodpecker
             }
         }
 
-
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
@@ -8976,12 +8989,26 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
-                    pictureBox_Camera.Image = Properties.Resources.ON;
-                    _captureInProgress = false;
-                    OnOffCamera();
-                    button_VirtualRC.Enabled = true;
-                    comboBox_CameraDevice.Enabled = false;
-                    button_Camera.Enabled = true;
+                    try
+                    {
+                        pictureBox_Camera.Image = Properties.Resources.ON;
+                        _captureInProgress = false;
+                        OnOffCamera();
+                        button_VirtualRC.Enabled = true;
+                        comboBox_CameraDevice.Enabled = false;
+                        button_Camera.Enabled = true;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
+                        comboBox_CameraDevice.Items.Clear();
+                        foreach (string cd in cameraDevice)
+                        {
+                            comboBox_CameraDevice.Items.Add(cd);
+                        }
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+
+                    }
                 }
                 else
                 {
@@ -9234,7 +9261,7 @@ namespace Woodpecker
 
                         for (int k = 0; k < DataGridView_Schedule.Columns.Count; k++)
                         {
-                            string scheduleOutput = DataGridView_Schedule.Rows[j].Cells[k].Value.ToString();
+                            string scheduleOutput = DataGridView_Schedule.Rows[j].Cells[k].Value + "";
                             if (scheduleOutput.Contains(","))
                             {
                                 scheduleOutput = String.Format("\"{0}\"", scheduleOutput);
@@ -9391,8 +9418,8 @@ namespace Woodpecker
             string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
             string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
 
-            string TextLine = "";
-            string[] SplitLine;
+            //string TextLine = "";
+            //string[] SplitLine;
             int i = 0;
             if ((File.Exists(SchedulePath) == true) && ScheduleExist == "1" && IsFileLocked(SchedulePath) == false)
             {
@@ -9415,22 +9442,28 @@ namespace Woodpecker
                 string[] parts = new string[11];
                 while (!parser.EndOfData)
                 {
-                    parts = parser.ReadFields();
-                    if (parts == null)
+                    try
                     {
-                        break;
-                    }
+                        parts = parser.ReadFields();
+                        if (parts == null)
+                        {
+                            break;
+                        }
 
-                    if (i != 0)
-                    {
-                        DataGridView_Schedule.Rows.Add(parts);
+                        if (i != 0)
+                        {
+                            DataGridView_Schedule.Rows.Add(parts);
+                        }
+                        i++;
                     }
-                    i++;
+                    catch (MalformedLineException)
+                    {
+                        MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                    }
                 }
                 parser.Close();
 
                 int j = parts.Length;
-                //int j = Int32.Parse(TextLine.Split(',').Length.ToString());
                 if ((j == 11 || j == 10))
                 {
                     long TotalDelay = 0;        //計算各個schedule測試時間
