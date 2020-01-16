@@ -26,6 +26,17 @@ namespace Woodpecker
         private bool BlueRat_UART_Exception_status = false;
         private Capture capture = null;
 
+        //CanReader
+        public CAN_Reader MYCanReader = new CAN_Reader();
+        System.Windows.Forms.Timer timer_canbus = new System.Windows.Forms.Timer();
+
+        //CA310
+        private CA200SRVRLib.Ca200 objCa200;
+        private CA200SRVRLib.Ca objCa;
+        private CA200SRVRLib.Probe objProbe;
+        private Boolean isMsr;
+        System.Windows.Forms.Timer timer_ca310 = new System.Windows.Forms.Timer();
+
         #region -- AutoBox --
         public void ConnectAutoBox2()
         {
@@ -656,6 +667,185 @@ namespace Woodpecker
                 Vread = false;
                 MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }*/
+        }
+        #endregion
+
+        #region -- Canbus --
+        public void ConnectCanBus()
+        {
+            uint status;
+            timer_canbus.Interval = 250;
+            timer_canbus.Tick += new System.EventHandler(this.timer_canbus_Tick);
+
+            status = MYCanReader.Connect();
+            if (status == 1)
+            {
+                status = MYCanReader.StartCAN();
+                if (status == 1)
+                {
+                    timer_canbus.Enabled = true;
+                    //pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    //pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                //pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+        }
+
+        unsafe private void timer_canbus_Tick(object sender, EventArgs e)
+        {
+            UInt32 res = new UInt32();
+
+            res = MYCanReader.ReceiveData();
+
+            if (res == 0)
+            {
+                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                {
+                    timer_canbus.Enabled = false;
+                    MYCanReader.StopCAN();
+                    MYCanReader.Disconnect();
+
+                    //pictureBox_canbus.Image = Properties.Resources.OFF;
+
+                    Init_Parameter.config_parameter.Canbus_Exist = "0";
+
+                    return;
+                }
+                return;
+            }
+            else
+            {
+                uint ID = 0, DLC = 0;
+                const int DATA_LEN = 8;
+                byte[] DATA = new byte[DATA_LEN];
+
+                String str = "";
+                for (UInt32 i = 0; i < res; i++)
+                {
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    Extra_Commander.canbus_text = string.Concat(Extra_Commander.canbus_text, canbus_log_text);
+                    Extra_Commander.schedule_text = string.Concat(Extra_Commander.schedule_text, canbus_log_text);
+                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
+                    {
+                        timer_canbus.Enabled = false;
+                        MYCanReader.StopCAN();
+                        MYCanReader.Disconnect();
+                        //pictureBox_canbus.Image = Properties.Resources.OFF;
+                        Init_Parameter.config_parameter.Canbus_Exist = "0";
+                        return;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        #region -- CA310 --
+        public void ConnectCA310()
+        {
+            uint status;
+
+            status = ExeConnectCA310();
+            if (status == 1)
+            {
+                status = ExeCalZero();
+                if (status == 1)
+                {
+                    isMsr = true;
+                    timer_ca310.Enabled = true;
+                    //pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    //pictureBox_ca310.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                //pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+        }
+
+        private uint ExeConnectCA310()
+        {
+            try
+            {
+                objCa200 = new CA200SRVRLib.Ca200();
+                objCa200.AutoConnect();
+                objCa = objCa200.SingleCa;
+                objProbe = objCa.SingleProbe;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private uint ExeCalZero()
+        {
+            try
+            {
+                objCa.CalZero();
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private void timer_ca310_Tick(object sender, EventArgs e)
+        {
+            if (Init_Parameter.config_parameter.Device_CA310Exist == "1")
+            {
+                try
+                {
+                    objCa.Measure();
+                    string str = "Lv:" + objProbe.Lv.ToString("##0.00") + " Sx:" + objProbe.sx.ToString("0.0000") + " Sy:" + objProbe.sy.ToString("0.0000");
+                    DateTime.Now.ToShortTimeString();
+                    DateTime dt = DateTime.Now;
+                    string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    Extra_Commander.ca310_text = string.Concat(Extra_Commander.ca310_text, ca310_log_text);
+                    Extra_Commander.schedule_text = string.Concat(Extra_Commander.schedule_text, ca310_log_text);
+                }
+                catch (Exception)
+                {
+                    isMsr = false;
+                    timer_ca310.Enabled = false;
+                    //pictureBox_ca310.Image = Properties.Resources.OFF;
+                    //MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void CalZero()
+        {
+            bool calzero_success = false;
+
+            while (calzero_success == false)
+            {
+                try
+                {
+                    objCa.CalZero();
+                    calzero_success = true;
+                }
+                catch (Exception)
+                {
+                    objCa.RemoteMode = 0;
+                }
+            }
         }
         #endregion
     }

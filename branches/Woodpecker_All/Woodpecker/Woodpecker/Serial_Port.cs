@@ -82,9 +82,6 @@ namespace Woodpecker
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
         private TextBox textBox_serial;
 
-        //Canbus Reader
-        public CAN_Reader MYCanReader = new CAN_Reader();
-
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
         private Autokit_Function Autokit_Function_1 = new Autokit_Function();
 

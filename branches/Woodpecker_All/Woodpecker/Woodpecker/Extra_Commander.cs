@@ -30,11 +30,11 @@ namespace Woodpecker
         {
             Console.WriteLine("Extra_Commander: " + orginal_data);
             Init_Parameter.Config_initial();
-            Load();
+            Device_Load();
             Run_command(Readsch(orginal_data));
         }
 
-        private void Load()
+        private void Device_Load()
         {
             this.TopMost = true;
             this.WindowState = FormWindowState.Normal;
@@ -88,39 +88,16 @@ namespace Woodpecker
 
             if (Init_Parameter.config_parameter.Camera_Exist == "1")
             {
-                //pictureBox_Camera.Image = Properties.Resources.ON;
-                Autokit_Device_1.filters = new Autokit_Device_1.Filters();
-                Filter f;
-
-                //comboBox_CameraDevice.Enabled = true;
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
-                {
-                    f = filters.VideoInputDevices[c];
-                    comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                    {
-                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                    }
-                }
-
-                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                {
-                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                }
-                comboBox_CameraDevice.Enabled = false;
+                Autokit_Device_1.Camstart();
             }
             else
             {
                 //pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+            if (Init_Parameter.config_parameter.Device_CA310Exist == "1")
             {
-                ConnectCA310();
+                Autokit_Device_1.ConnectCA310();
                 //pictureBox_ca310.Image = Properties.Resources.ON;
             }
             else
@@ -131,19 +108,19 @@ namespace Woodpecker
             if (Init_Parameter.config_parameter.Canbus_Exist == "1")
             {
                 String can_name;
-                List<String> dev_list = MYCanReader.FindUsbDevice();
+                List<String> dev_list = Autokit_Device_1.MYCanReader.FindUsbDevice();
                 can_name = string.Join(",", dev_list);
-                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
-                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
-                ConnectCanBus();
-                pictureBox_canbus.Image = Properties.Resources.ON;
+                //Init_Parameter.config_parameter.Canbus_DevName = can_name;
+                if (Init_Parameter.config_parameter.Canbus_DevIndex == "")
+                    Init_Parameter.config_parameter.Canbus_DevIndex = "0";
+                if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
+                    Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
+                Autokit_Device_1.ConnectCanBus();
+                //pictureBox_canbus.Image = Properties.Resources.ON;
             }
             else
             {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
+                //pictureBox_canbus.Image = Properties.Resources.OFF;
             }
             /*
             if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
@@ -1480,7 +1457,7 @@ namespace Woodpecker
                     Console.WriteLine("Canbus Send: _Canbus_Send");
                     if (columns_times != "" && columns_serial != "")
                     {
-                        Serial_Device_1.MYCanReader.TransmitData(columns_times, columns_serial);
+                        Autokit_Device_1.MYCanReader.TransmitData(columns_times, columns_serial);
 
                         string Outputstring = "ID: 0x";
                         Outputstring += columns_times + " Data: " + columns_serial;
