@@ -110,12 +110,9 @@ namespace Woodpecker
         }
 
         #region -- SerialPort Setup --
-        protected SerialErrorCode OpenSerialPort(string Port, SerialPortParemeter param)
+        public SerialErrorCode OpenSerialPort(string Port, SerialPortParemeter param)
         {
             SerialErrorCode return_code = new SerialErrorCode();
-            System.Windows.Forms.Timer timer_kline = new System.Windows.Forms.Timer();
-            timer_kline.Interval = 250;
-            timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
 
             switch (Port)
             {
@@ -236,35 +233,42 @@ namespace Woodpecker
                         //MessageBox.Show(Ex.Message.ToString(), "PortE Error");
                     }
                     break;
-                case "kline":
-                    try
-                    {
-                        if (MySerialPort.IsPortOpened() == false)
-                        {
-                            string curItem = MySerialPort.GetPortName();
-                            if (MySerialPort.OpenPort(curItem) == true)
-                            {
-                                //BlueRat_UART_Exception_status = false;
-                                timer_kline.Enabled = true;
-                            }
-                            else
-                            {
-                                timer_kline.Enabled = false;
-                            }
-                        }
-                    }
-                    catch (Exception Ex)
-                    {
-                        return_code.status = SerialErrorStatus.Kline_error;
-                        return_code.ex = Ex;
-                        //MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
-                    }
-                    break;
                 default:
                     return_code.status = SerialErrorStatus.undefined_error;
                     break;
             }
             return return_code;
+        }
+
+        public void OpenKlinePort()
+        {
+            SerialErrorCode return_code = new SerialErrorCode();
+            System.Windows.Forms.Timer timer_kline = new System.Windows.Forms.Timer();
+            timer_kline.Interval = 250;
+            timer_kline.Tick += new System.EventHandler(this.Timer_kline_Tick);
+
+            try
+            {
+                if (MySerialPort.IsPortOpened() == false)
+                {
+                    string curItem = MySerialPort.GetPortName();
+                    if (MySerialPort.OpenPort(curItem) == true)
+                    {
+                        //BlueRat_UART_Exception_status = false;
+                        timer_kline.Enabled = true;
+                    }
+                    else
+                    {
+                        timer_kline.Enabled = false;
+                    }
+                }
+            }
+            catch (Exception Ex)
+            {
+                return_code.status = SerialErrorStatus.Kline_error;
+                return_code.ex = Ex;
+                //MessageBox.Show(Ex.Message.ToString(), "KlinePort Error");
+            }
         }
 
         protected void CloseSerialPort(string Port)
@@ -660,9 +664,9 @@ namespace Woodpecker
             }
         }
         #endregion
-
+/*
         #region -- 關鍵字比對 - serialport_1 --
-        private void MyLog1Camd()
+        public void MyLog1Camd()
         {
             string my_string = "";
             string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortA_keyword.csv";
@@ -684,7 +688,8 @@ namespace Woodpecker
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
+                                Init_Parameter.config_parameter.LogSearch_Num = i;
+                                string compare_string = Init_Parameter.config_parameter.LogSearch_Text + Init_Parameter.config_parameter.LogSearch_Num;
                                 int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1 && my_string.Contains(compare_string) == true)
@@ -787,21 +792,22 @@ namespace Woodpecker
                                         //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(textBox_serial.Text);
+                                        MYFILE.Write(Extra_Commander.logA_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logA_text = string.Empty;
                                         //Txtbox1("", textBox_serial);
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -967,21 +973,22 @@ namespace Woodpecker
 
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog1_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(textBox_serial.Text);
+                                        MYFILE.Write(Extra_Commander.logA_text);
                                         MYFILE.Close();
-                                        Txtbox1("", textBox_serial);
+                                        Extra_Commander.logA_text = string.Empty;
+                                        //Txtbox1("", textBox_serial);
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -1067,7 +1074,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 關鍵字比對 - serialport_2 --
-        private void MyLog2Camd()
+        public void MyLog2Camd()
         {
             string my_string = "";
             string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortB_keyword.csv";
@@ -1146,7 +1153,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -1167,7 +1174,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -1189,23 +1196,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log2_text);
+                                        MYFILE.Write(Extra_Commander.logB_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logB_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -1327,7 +1335,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -1348,7 +1356,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -1370,23 +1378,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log2_text);
+                                        MYFILE.Write(Extra_Commander.logB_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logB_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -1474,7 +1483,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 關鍵字比對 - serialport_3 --
-        private void MyLog3Camd()
+        public void MyLog3Camd()
         {
             string my_string = "";
             string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortC_keyword.csv";
@@ -1553,7 +1562,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -1574,7 +1583,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -1596,23 +1605,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log2_text);
+                                        MYFILE.Write(Extra_Commander.logC_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logC_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -1675,7 +1685,7 @@ namespace Woodpecker
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
-                                string compare_string = ini12.INIRead(MainSettingPath, "LogSearch", "Text" + i, "");
+                                string compare_string = Init_Parameter.config_parameter.LogSearch_Text;
                                 int compare_num = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Times" + i, ""));
                                 string[] ewords = my_string.Split(new string[] { compare_string }, StringSplitOptions.None);
                                 if (Convert.ToInt32(ewords.Length - 1) >= 1 && my_string.Contains(compare_string) == true)
@@ -1734,7 +1744,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -1755,7 +1765,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -1777,23 +1787,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log3_text);
+                                        MYFILE.Write(Extra_Commander.logC_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logC_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -1881,7 +1892,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 關鍵字比對 - serialport_4 --
-        private void MyLog4Camd()
+        public void MyLog4Camd()
         {
             string my_string = "";
             string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortC_keyword.csv";
@@ -1960,7 +1971,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -1981,7 +1992,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -2003,23 +2014,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log2_text);
+                                        MYFILE.Write(Extra_Commander.logD_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logD_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -2141,7 +2153,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -2162,7 +2174,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -2184,23 +2196,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log3_text);
+                                        MYFILE.Write(Extra_Commander.logD_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logD_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -2288,7 +2301,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 關鍵字比對 - serialport_5 --
-        private void MyLog5Camd()
+        public void MyLog5Camd()
         {
             string my_string = "";
             string csvFile = Init_Parameter.config_parameter.Record_LogPath + "\\PortE_keyword.csv";
@@ -2367,7 +2380,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -2388,7 +2401,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -2410,23 +2423,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log2_text);
+                                        MYFILE.Write(Extra_Commander.logE_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logE_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -2548,7 +2562,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = false;
-                                                    pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                                 }
                                             }
                                         }
@@ -2569,7 +2583,7 @@ namespace Woodpecker
                                             {
                                                 {
                                                     Autokit_Device_1.PowerState = true;
-                                                    pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                    //pictureBox_AcPower.Image = Properties.Resources.ON;
                                                 }
                                             }
                                         }
@@ -2591,23 +2605,24 @@ namespace Woodpecker
 
                                         Autokit_Device_1.PowerState = false;
 
-                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                        //pictureBox_AcPower.Image = Properties.Resources.OFF;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SAVE LOG//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Savelog", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Savelog == "1")
                                     {
                                         string fName = "";
 
                                         // 讀取ini中的路徑
-                                        fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                        string t = fName + "\\_SaveLog3_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
+                                        fName = Init_Parameter.config_parameter.Record_LogPath;
+                                        string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(log3_text);
+                                        MYFILE.Write(Extra_Commander.logE_text);
                                         MYFILE.Close();
+                                        Extra_Commander.logE_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
-                                    if (compare_number[i] % compare_num == 0 && ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "") == "1")
+                                    if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
                                     {
                                         Autokit_Function_1.Start_Function();
                                     }
@@ -2693,7 +2708,7 @@ namespace Woodpecker
             }
         }
         #endregion
-
+*/
         #region -- Klite error code --
         private void Timer_kline_Tick(object sender, EventArgs e)
         {

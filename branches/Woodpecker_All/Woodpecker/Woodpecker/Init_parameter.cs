@@ -8,6 +8,13 @@ using System.Windows.Forms;
 
 namespace Woodpecker
 {
+    class LogSearchParemeter
+    {
+        public string Times = "";
+        public string Text = "";
+        public string Display = "";
+    }
+
     class Init_Parameter
     {
         public string Device_AutoboxExist;
@@ -114,6 +121,7 @@ namespace Woodpecker
         public string LogSearch_ACOFF;
         public string LogSearch_Stop;
         public string LogSearch_Nowvalue;
+        public int LogSearch_Num;
         public string LogSearch_Times0;
         public string LogSearch_Times1;
         public string LogSearch_Times2;
@@ -284,6 +292,8 @@ namespace Woodpecker
             config_parameter.LogSearch_ACOFF = ini12.INIRead(MainSettingPath, "LogSearch", "Stop", "");
             config_parameter.LogSearch_Stop = ini12.INIRead(MainSettingPath, "LogSearch", "AC OFF", "");
             config_parameter.LogSearch_Nowvalue = ini12.INIRead(MainSettingPath, "LogSearch", "Nowvalue", "");
+            config_parameter.LogSearch_Num = 0;
+
             config_parameter.LogSearch_Times0 = ini12.INIRead(MainSettingPath, "LogSearch", "Times0", "");
             config_parameter.LogSearch_Times1 = ini12.INIRead(MainSettingPath, "LogSearch", "Times1", "");
             config_parameter.LogSearch_Times2 = ini12.INIRead(MainSettingPath, "LogSearch", "Times2", "");
@@ -346,7 +356,7 @@ namespace Woodpecker
             config_parameter.MailInfo_TeamViewerID = ini12.INIRead(MailPath, "MailInfo", "TeamViewerID", "");
             config_parameter.MailInfo_TeamViewerPassWord = ini12.INIRead(MailPath, "MailInfo", "TeamViewerPassWord", "");
         }
-
+        /*
         public struct Device
         {
             public uint AutoboxExist;
@@ -473,5 +483,6 @@ namespace Woodpecker
             public string Display8;
             public string Display9;
         }
+        */
     }
 }

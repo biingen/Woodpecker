@@ -426,8 +426,6 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        private System.Windows.Forms.PictureBox pictureBox_save;
-
         public void Camstart()
         {
             try
@@ -552,8 +550,11 @@ namespace Woodpecker
             return new Bitmap(source);
         }
 
+        private System.Windows.Forms.PictureBox pictureBox_save;
+
         private void CaptureDone(System.Drawing.Bitmap e)
         {
+
             capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = Init_Parameter.config_parameter.Record_VideoPath;
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
@@ -657,6 +658,5 @@ namespace Woodpecker
             }*/
         }
         #endregion
-
     }
 }

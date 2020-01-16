@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Woodpecker
     class Autokit_Function
     {
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
+        private SerialPortParemeter Serial_Paremeter_1 = new SerialPortParemeter();
         private Serial_Port Serial_Device_1 = new Serial_Port();
 
         #region -- Pause 指令集 --
@@ -40,6 +42,9 @@ namespace Woodpecker
             byte[] val = new byte[2];
             val[0] = 0;
             bool AutoBox_Status;
+            long delayTime = 0;
+            long repeatTime = 0;
+            long timeCountUpdated = 0;
 
             Global.IO_PA10_0_COUNT = 0;
             Global.IO_PA10_1_COUNT = 0;
@@ -61,69 +66,69 @@ namespace Woodpecker
 
             if (AutoBox_Status)//如果電腦有接上AutoBox//
             {
-                button_Schedule1.PerformClick();
+                //button_Schedule1.PerformClick();
 
                 //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
                 //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
 
-                if (StartButtonPressed == true)//按下STOP//
+                if (Global.StartButtonPressed == true)//按下STOP//
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
-                    MainThread.Abort();//停止執行緒//
-                    timer1.Stop();//停止倒數//
+                    //MainThread.Abort();//停止執行緒//
+                    //timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
 
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread1.Abort();
+                            //LogThread1.Abort();
                             //Log1Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread2.Abort();
+                            //LogThread2.Abort();
                             //Log2Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread3.Abort();
+                            //LogThread3.Abort();
                             //Log3Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread4.Abort();
+                            //LogThread4.Abort();
                             //Log4Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread5.Abort();
+                            //LogThread5.Abort();
                             //Log5Data.Abort();
                         }
                     }
 
-                    StartButtonPressed = false;
-                    button_Start.Enabled = false;
-                    button_Setting.Enabled = false;
-                    button_SaveSchedule.Enabled = false;
-                    button_Pause.Enabled = true;
-                    setStyle();
+                    Global.StartButtonPressed = false;
+                    //button_Start.Enabled = false;
+                    //button_Setting.Enabled = false;
+                    //button_SaveSchedule.Enabled = false;
+                    //button_Pause.Enabled = true;
+                    //setStyle();
                     Global.label_Command = "Please wait...";
                 }
                 else//按下START//
@@ -146,126 +151,130 @@ namespace Woodpecker
                     */
                     Global.Break_Out_MyRunCamd = 0;
 
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
-                    MainThread.Start();       // 啟動執行緒
-                    timer1.Start();     //開始倒數
-                    button_Start.Text = "STOP";
+                    Init_Parameter.config_parameter.LogSearch_StartTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                    //MainThread.Start();       // 啟動執行緒
+                    //timer1.Start();     //開始倒數
+                    //button_Start.Text = "STOP";
 
-                    StartButtonPressed = true;
-                    button_Setting.Enabled = false;
-                    button_Pause.Enabled = true;
-                    button_SaveSchedule.Enabled = false;
-                    setStyle();
+                    Global.StartButtonPressed = true;
+                    //button_Setting.Enabled = false;
+                    //button_Pause.Enabled = true;
+                    //button_SaveSchedule.Enabled = false;
+                    //setStyle();
 
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
-                        Serial_Device_1.OpenSerialPort("A");
-                        textBox_serial.Clear();
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                        Serial_Device_1.OpenSerialPort("A", Serial_Paremeter_1);
                         //textBox1.Text = string.Empty;//清空serialport1//
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                         {
-                            LogThread1.IsBackground = true;
-                            LogThread1.Start();
+                            //LogThread1.IsBackground = true;
+                            //LogThread1.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
-                        Serial_Device_1.OpenSerialPort("B");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                        Serial_Device_1.OpenSerialPort("B", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                         {
-                            LogThread2.IsBackground = true;
-                            LogThread2.Start();
+                            //LogThread2.IsBackground = true;
+                            //LogThread2.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
-                        Serial_Device_1.OpenSerialPort("C");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                        Serial_Device_1.OpenSerialPort("C", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                         {
-                            LogThread3.IsBackground = true;
-                            LogThread3.Start();
+                            //LogThread3.IsBackground = true;
+                            //LogThread3.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
-                        Serial_Device_1.OpenSerialPort("D");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                        Serial_Device_1.OpenSerialPort("D", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                         {
-                            LogThread4.IsBackground = true;
-                            LogThread4.Start();
+                            //LogThread4.IsBackground = true;
+                            //LogThread4.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
-                        OpenSerialPort("E");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                        Serial_Device_1.OpenSerialPort("E", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                         {
-                            LogThread5.IsBackground = true;
-                            LogThread5.Start();
+                            //LogThread5.IsBackground = true;
+                            //LogThread5.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.Kline_Exist == "1")
                     {
-                        OpenSerialPort("kline");
-                        textBox_serial.Text = ""; //清空kline//
+                        Serial_Device_1.OpenKlinePort();
+                        //textBox_serial.Text = ""; //清空kline//
                     }
                 }
             }
             else//如果沒接AutoBox//
             {
-                if (StartButtonPressed == true)//按下STOP//
+                if (Global.StartButtonPressed == true)//按下STOP//
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
-                    MainThread.Abort(); //停止執行緒
-                    timer1.Stop();  //停止倒數
+                    //MainThread.Abort(); //停止執行緒
+                    //timer1.Stop();  //停止倒數
                     CloseDtplay();
 
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread1.Abort();
+                            //LogThread1.Abort();
                             //Log1Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread2.Abort();
+                            //LogThread2.Abort();
                             //Log2Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread3.Abort();
+                            //LogThread3.Abort();
                             //Log3Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread4.Abort();
+                            //LogThread4.Abort();
                             //Log4Data.Abort();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
                         {
-                            LogThread5.Abort();
+                            //LogThread5.Abort();
                             //Log4Data.Abort();
                         }
                     }
@@ -275,72 +284,77 @@ namespace Woodpecker
                 else//按下START//
                 {
                     Global.Break_Out_MyRunCamd = 0;
-                    MainThread.Start();// 啟動執行緒
-                    timer1.Start();     //開始倒數
+                    //MainThread.Start();// 啟動執行緒
+                    //timer1.Start();     //開始倒數
 
-                    StartButtonPressed = true;
-                    button_Setting.Enabled = false;
-                    button_Pause.Enabled = true;
-                    pictureBox_AcPower.Image = Properties.Resources.OFF;
-                    button_Start.Text = "STOP";
-                    setStyle();
+                    Global.StartButtonPressed = true;
+                    //button_Setting.Enabled = false;
+                    //button_Pause.Enabled = true;
+                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
+                    //button_Start.Text = "STOP";
+                    //setStyle();
 
-                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
-                        OpenSerialPort("A");
-                        textBox_serial.Clear();
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                        Serial_Device_1.OpenSerialPort("A", Serial_Paremeter_1);
+                        //textBox_serial.Clear();
                         //textBox1.Text = string.Empty;//清空serialport1//
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                         {
-                            LogThread1.IsBackground = true;
-                            LogThread1.Start();
+                            //LogThread1.IsBackground = true;
+                            //LogThread1.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
-                        OpenSerialPort("B");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                        Serial_Device_1.OpenSerialPort("B", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                         {
-                            LogThread2.IsBackground = true;
-                            LogThread2.Start();
+                            //LogThread2.IsBackground = true;
+                            //LogThread2.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
-                        OpenSerialPort("C");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                        Serial_Device_1.OpenSerialPort("C", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                         {
-                            LogThread3.IsBackground = true;
-                            LogThread3.Start();
+                            //LogThread3.IsBackground = true;
+                            //LogThread3.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
-                        OpenSerialPort("D");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                        Serial_Device_1.OpenSerialPort("D", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                         {
-                            LogThread4.IsBackground = true;
-                            LogThread4.Start();
+                            //LogThread4.IsBackground = true;
+                            //LogThread4.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
-                        OpenSerialPort("E");
-                        if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
+                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                        Serial_Device_1.OpenSerialPort("E", Serial_Paremeter_1);
+                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                         {
-                            LogThread5.IsBackground = true;
-                            LogThread5.Start();
+                            //LogThread5.IsBackground = true;
+                            //LogThread5.Start();
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
+                    if (Init_Parameter.config_parameter.Kline_Exist == "1")
                     {
-                        OpenSerialPort("kline");
-                        textBox_serial.Text = ""; //清空kline//
+                        Serial_Device_1.OpenKlinePort();
+                        //textBox_serial.Text = ""; //清空kline//
                     }
                 }
             }
@@ -348,6 +362,30 @@ namespace Woodpecker
         #endregion
 
         #region -- Dektec Play 指令集 --
+        public void StartDtplay()
+        {
+            string StreamName = Extra_Commander.columns_serial;
+            string TvSystem = Extra_Commander.columns_function;
+            string Freq = Extra_Commander.columns_subFunction;
+            string arguments = Global.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
+                               "-mt " + TvSystem + " " +
+                               "-mf " + Freq + " " +
+                               "-r 0 " +
+                               "-l 0";
+
+            Console.WriteLine(arguments);
+            System.Diagnostics.Process Dektec = new System.Diagnostics.Process();
+            Dektec.StartInfo.FileName = Global.StartupPath + @"\\DektecPlayer\\DtPlay.exe";
+            Dektec.StartInfo.UseShellExecute = false;
+            Dektec.StartInfo.RedirectStandardInput = true;
+            Dektec.StartInfo.RedirectStandardOutput = true;
+            Dektec.StartInfo.RedirectStandardError = true;
+            Dektec.StartInfo.CreateNoWindow = true;
+
+            Dektec.StartInfo.Arguments = arguments;
+            Dektec.Start();
+        }
+
         //關閉DtPlay
         public void CloseDtplay()
         {
@@ -400,7 +438,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Please enable Mail Function in Settings.");
+                    //MessageBox.Show("Please enable Mail Function in Settings.");
                 }
             }
             else if (columns_serial.Substring(0, 3) == "_rc")
@@ -516,42 +554,42 @@ namespace Woodpecker
                 String savelog_serialport = columns_serial.Substring(9, 1);
                 if (savelog_serialport == "A")
                 {
-                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logA_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "B")
                 {
-                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logB_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "C")
                 {
-                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logC_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "D")
                 {
-                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logD_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "E")
                 {
-                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logE_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "O")
                 {
-                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(Extra_Commander.logAll_text);
                     MYFILE.Close();

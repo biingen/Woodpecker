@@ -6,9 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using jini;
-using DirectX.Capture;
 using System.IO;
 using System.Timers;
 using Microsoft.VisualBasic.FileIO;
@@ -16,10 +13,11 @@ using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading;
 using KWP_2000;
+using System.Windows.Forms;
 
 namespace Woodpecker
 {
-    public partial class Extra_Commander : Form
+    public class Extra_Commander : Form
     {
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
         private Autokit_Function Autokit_Function_1 = new Autokit_Function();
@@ -28,22 +26,218 @@ namespace Woodpecker
         public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
         public static string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
 
-        private Extra_Commander(string orginal_data)
+        public Extra_Commander(string orginal_data)
         {
-            InitializeComponent();
-
+            Console.WriteLine("Extra_Commander: " + orginal_data);
             Init_Parameter.Config_initial();
+            Load();
+            Run_command(Readsch(orginal_data));
+        }
+
+        private void Load()
+        {
+            this.TopMost = true;
+            this.WindowState = FormWindowState.Normal;
+
+            //根據dpi調整視窗尺寸
+            Graphics graphics = CreateGraphics();
+            float dpiX = graphics.DpiX;
+            float dpiY = graphics.DpiY;
+            /*if (dpiX == 96 && dpiY == 96)
+            {
+                this.Height = 600;
+                this.Width = 1120;
+            }*/
+            int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
+
+            // 針對字體變更Form的大小
+            this.Height = this.Height * intPercent / 100;
+
             if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
             {
+                if (Init_Parameter.config_parameter.Device_AutoboxVerson == "1")
+                {
+                    //Autokit_Device_1.ConnectAutoBox1();
+                }
+
                 if (Init_Parameter.config_parameter.Device_AutoboxVerson == "2")
                 {
                     Autokit_Device_1.ConnectAutoBox2();
                 }
+
+                //pictureBox_BlueRat.Image = Properties.Resources.ON;
                 Autokit_Device_1.GP0_GP1_AC_ON();
                 Autokit_Device_1.GP2_GP3_USB_PC();
             }
+            else
+            {
+                //pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                //pictureBox_AcPower.Image = Properties.Resources.OFF;
+                //pictureBox_ext_board.Image = Properties.Resources.OFF;
+                //button_AcUsb.Enabled = false;
+            }
 
-            Run_command(Readsch(orginal_data));
+            if (Init_Parameter.config_parameter.RedRat_Exist == "1")
+            {
+                //Autokit_Device_1.OpenRedRat3();
+            }
+            else
+            {
+                //pictureBox_RedRat.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Camera_Exist == "1")
+            {
+                //pictureBox_Camera.Image = Properties.Resources.ON;
+                Autokit_Device_1.filters = new Autokit_Device_1.Filters();
+                Filter f;
+
+                //comboBox_CameraDevice.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+
+                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                {
+                    f = filters.VideoInputDevices[c];
+                    comboBox_CameraDevice.Items.Add(f.Name);
+                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                    {
+                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                    }
+                }
+
+                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                {
+                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                }
+                comboBox_CameraDevice.Enabled = false;
+            }
+            else
+            {
+                //pictureBox_Camera.Image = Properties.Resources.OFF;
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+            {
+                ConnectCA310();
+                //pictureBox_ca310.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                //pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Canbus_Exist == "1")
+            {
+                String can_name;
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                ConnectCanBus();
+                pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+            /*
+            if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
+                button_Analysis.Visible = true;
+            else
+                button_Analysis.Visible = false;
+            */
+            /* Hidden serial port.
+            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+            {
+                button_SerialPort1.Visible = true;
+                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
+                button_SerialPort1.Visible = false;
+            }
+            */
+            /*
+            LoadRCDB();
+
+            List<string> SchExist = new List<string> { };
+            for (int i = 2; i < 6; i++)
+            {
+                SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
+            }
+
+            if (SchExist[0] != "")
+            {
+                if (SchExist[0] == "0")
+                    button_Schedule2.Visible = false;
+                else
+                    button_Schedule2.Visible = true;
+            }
+            else
+            {
+                SchExist[0] = "0";
+                button_Schedule2.Visible = false;
+            }
+
+            if (SchExist[1] != "")
+            {
+                if (SchExist[1] == "0")
+                    button_Schedule3.Visible = false;
+                else
+                    button_Schedule3.Visible = true;
+            }
+            else
+            {
+                SchExist[1] = "0";
+                button_Schedule3.Visible = false;
+            }
+
+            if (SchExist[2] != "")
+            {
+                if (SchExist[2] == "0")
+                    button_Schedule4.Visible = false;
+                else
+                    button_Schedule4.Visible = true;
+            }
+            else
+            {
+                SchExist[2] = "0";
+                button_Schedule4.Visible = false;
+            }
+
+            if (SchExist[3] != "")
+            {
+                if (SchExist[3] == "0")
+                    button_Schedule5.Visible = false;
+                else
+                    button_Schedule5.Visible = true;
+            }
+            else
+            {
+                SchExist[3] = "0";
+                button_Schedule5.Visible = false;
+            }
+
+            Global.Schedule_2_Exist = int.Parse(SchExist[0]);
+            Global.Schedule_3_Exist = int.Parse(SchExist[1]);
+            Global.Schedule_4_Exist = int.Parse(SchExist[2]);
+            Global.Schedule_5_Exist = int.Parse(SchExist[3]);
+
+            button_Pause.Enabled = false;
+            button_Schedule.PerformClick();
+            button_Schedule1.PerformClick();
+            */
+            CheckForIllegalCrossThreadCalls = false;
+            TopMost = true;
+            TopMost = false;
+
+            //setStyle();
         }
 
         private string[] Readsch(string ScheduleContent)
@@ -73,7 +267,7 @@ namespace Woodpecker
                 }
                 catch (MalformedLineException)
                 {
-                    MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                    //MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
                 }
             }
             parser.Close();
@@ -122,7 +316,7 @@ namespace Woodpecker
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect!");
+                //MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect!");
             }
 
             string sch_log_text = "[Schedule] [" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
@@ -171,7 +365,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 if (columns_switch == "_off")
@@ -206,7 +400,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 #endregion
@@ -232,7 +426,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 if (columns_switch == "_AC1_OFF")
@@ -255,7 +449,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
 
@@ -279,7 +473,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 if (columns_switch == "_AC2_OFF")
@@ -302,7 +496,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 #endregion
@@ -328,7 +522,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 else if (columns_switch == "_USB1_PC")
@@ -351,7 +545,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
 
@@ -375,7 +569,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 else if (columns_switch == "_USB2_PC")
@@ -398,7 +592,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect an AutoKit!", "Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                 }
                 #endregion
@@ -419,7 +613,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                    //MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                 }
             }
             #endregion
@@ -440,7 +634,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Camera is not connected", "Camera Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                 }
             }
 
@@ -458,7 +652,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //MessageBox.Show("Camera is not connected", "Camera Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                 }
             }
             #endregion
@@ -483,7 +677,7 @@ namespace Woodpecker
                     }
                     else if (columns_serial == "" && columns_switch == "")
                     {
-                        MessageBox.Show("Ascii command is fail, please check the format.");
+                        //MessageBox.Show("Ascii command is fail, please check the format.");
                     }
 
                     DateTime dt = DateTime.Now;
@@ -510,7 +704,7 @@ namespace Woodpecker
                     }
                     else if (columns_serial == "" && columns_switch == "")
                     {
-                        MessageBox.Show("Ascii command is fail, please check the format.");
+                        //MessageBox.Show("Ascii command is fail, please check the format.");
                     }
 
                     DateTime dt = DateTime.Now;
@@ -537,7 +731,7 @@ namespace Woodpecker
                     }
                     else if (columns_serial == "" && columns_switch == "")
                     {
-                        MessageBox.Show("Ascii command is fail, please check the format.");
+                        //MessageBox.Show("Ascii command is fail, please check the format.");
                     }
 
                     DateTime dt = DateTime.Now;
@@ -564,7 +758,7 @@ namespace Woodpecker
                     }
                     else if (columns_serial == "" && columns_switch == "")
                     {
-                        MessageBox.Show("Ascii command is fail, please check the format.");
+                        //MessageBox.Show("Ascii command is fail, please check the format.");
                     }
 
                     DateTime dt = DateTime.Now;
@@ -591,7 +785,7 @@ namespace Woodpecker
                     }
                     else if (columns_serial == "" && columns_switch == "")
                     {
-                        MessageBox.Show("Ascii command is fail, please check the format.");
+                        //MessageBox.Show("Ascii command is fail, please check the format.");
                     }
 
                     DateTime dt = DateTime.Now;
@@ -1016,19 +1210,19 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Content includes other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //MessageBox.Show("Content includes other error code", "ABS code Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                             }
                         }
                     }
                     else
                     {
-                        MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("DTC code file does not exist", "File Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                     Global.label_Command = "(" + columns_command + ") " + columns_serial;
                 }
                 catch (Exception Ex)
                 {
-                    MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error!");
+                    //MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error!");
                 }
             }
             else if (columns_command == "_K_OBD")
@@ -1056,19 +1250,19 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Content includes other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //MessageBox.Show("Content includes other error code", "OBD code Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                             }
                         }
                     }
                     else
                     {
-                        MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("DTC code file does not exist", "File Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                     Global.label_Command = "(" + columns_command + ") " + columns_serial;
                 }
                 catch (Exception Ex)
                 {
-                    MessageBox.Show(Ex.Message.ToString(), "Kline_OBD library error !");
+                    //MessageBox.Show(Ex.Message.ToString(), "Kline_OBD library error !");
                 }
             }
             else if (columns_command == "_K_SEND")
@@ -1332,13 +1526,13 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Content include other signal", "Astro Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //MessageBox.Show("Content include other signal", "Astro Signal Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                             }
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Signal Generator not exist", "File Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
 
                     byte[] endbit = new byte[3] { 0x2c, 0x31, 0x03 };
@@ -1347,7 +1541,7 @@ namespace Woodpecker
                 }
                 catch (Exception Ex)
                 {
-                    MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
+                    //MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
                 }
             }
             #endregion
@@ -1375,13 +1569,13 @@ namespace Woodpecker
                             }
                             else
                             {
-                                MessageBox.Show("Content include other signal", "Quantum Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                //MessageBox.Show("Content include other signal", "Quantum Signal Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                             }
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Signal Generator not exist", "File Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
 
                     switch (columns_subFunction)
@@ -1436,7 +1630,7 @@ namespace Woodpecker
                 }
                 catch (Exception Ex)
                 {
-                    MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
+                    //MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
                 }
             }
             #endregion
@@ -1447,26 +1641,7 @@ namespace Woodpecker
                 if (columns_switch == "_start")
                 {
                     Console.WriteLine("Dektec control: _start");
-                    string StreamName = columns_serial;
-                    string TvSystem = columns_function;
-                    string Freq = columns_subFunction;
-                    string arguments = Application.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
-                                       "-mt " + TvSystem + " " +
-                                       "-mf " + Freq + " " +
-                                       "-r 0 " +
-                                       "-l 0";
-
-                    Console.WriteLine(arguments);
-                    System.Diagnostics.Process Dektec = new System.Diagnostics.Process();
-                    Dektec.StartInfo.FileName = Application.StartupPath + @"\\DektecPlayer\\DtPlay.exe";
-                    Dektec.StartInfo.UseShellExecute = false;
-                    Dektec.StartInfo.RedirectStandardInput = true;
-                    Dektec.StartInfo.RedirectStandardOutput = true;
-                    Dektec.StartInfo.RedirectStandardError = true;
-                    Dektec.StartInfo.CreateNoWindow = true;
-
-                    Dektec.StartInfo.Arguments = arguments;
-                    Dektec.Start();
+                    Autokit_Function_1.StartDtplay();
                     Global.label_Command = "(" + columns_command + ") " + columns_serial;
                 }
 
@@ -1547,7 +1722,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Please check the value equal nine.");
+                    //MessageBox.Show("Please check the value equal nine.");
                 }
                 Global.label_Command = "(" + columns_command + ") " + columns_times;
             }
@@ -1566,7 +1741,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    MessageBox.Show("Please check the value equal nine.");
+                    //MessageBox.Show("Please check the value equal nine.");
                 }
                 Global.label_Command = "(" + columns_command + ") " + columns_times;
             }
@@ -1992,7 +2167,7 @@ namespace Woodpecker
                 }
                 catch (Exception Ex)
                 {
-                    MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
+                    //MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
                 }
             }
             #endregion
@@ -2389,7 +2564,7 @@ namespace Woodpecker
                     }
                     else
                     {
-                        MessageBox.Show("Please connect AutoBox or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        //MessageBox.Show("Please connect AutoBox or RedRat!", "Redrat Open Error", //MessageBoxButtons.OK, //MessageBoxIcon.Error);
                     }
                     Autokit_Device_1.RedRatDBViewer_Delay(sRepeat);
                 }
