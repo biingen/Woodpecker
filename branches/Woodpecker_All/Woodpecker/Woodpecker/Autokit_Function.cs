@@ -13,7 +13,7 @@ namespace Woodpecker
     {
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
         private SerialPortParemeter Serial_Paremeter_1 = new SerialPortParemeter();
-        private Serial_Port Serial_Device_1 = new Serial_Port();
+        private Serial_Port Serial_Port_1 = new Serial_Port();
 
         #region -- Pause 指令集 --
         //Schedule暫停用的參數
@@ -165,7 +165,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
-                        Serial_Device_1.OpenSerialPort("A", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                         {
@@ -177,7 +177,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
-                        Serial_Device_1.OpenSerialPort("B", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                         {
                             //LogThread2.IsBackground = true;
@@ -188,7 +188,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
-                        Serial_Device_1.OpenSerialPort("C", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                         {
                             //LogThread3.IsBackground = true;
@@ -199,7 +199,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
-                        Serial_Device_1.OpenSerialPort("D", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                         {
                             //LogThread4.IsBackground = true;
@@ -210,7 +210,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
-                        Serial_Device_1.OpenSerialPort("E", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                         {
                             //LogThread5.IsBackground = true;
@@ -220,7 +220,7 @@ namespace Woodpecker
 
                     if (Init_Parameter.config_parameter.Kline_Exist == "1")
                     {
-                        Serial_Device_1.OpenKlinePort();
+                        Serial_Port_1.OpenKlinePort();
                         //textBox_serial.Text = ""; //清空kline//
                     }
                 }
@@ -297,7 +297,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
-                        Serial_Device_1.OpenSerialPort("A", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
                         //textBox_serial.Clear();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
@@ -310,7 +310,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
-                        Serial_Device_1.OpenSerialPort("B", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                         {
                             //LogThread2.IsBackground = true;
@@ -321,7 +321,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
-                        Serial_Device_1.OpenSerialPort("C", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                         {
                             //LogThread3.IsBackground = true;
@@ -332,7 +332,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
-                        Serial_Device_1.OpenSerialPort("D", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                         {
                             //LogThread4.IsBackground = true;
@@ -343,7 +343,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
-                        Serial_Device_1.OpenSerialPort("E", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                         {
                             //LogThread5.IsBackground = true;
@@ -353,7 +353,7 @@ namespace Woodpecker
 
                     if (Init_Parameter.config_parameter.Kline_Exist == "1")
                     {
-                        Serial_Device_1.OpenKlinePort();
+                        Serial_Port_1.OpenKlinePort();
                         //textBox_serial.Text = ""; //清空kline//
                     }
                 }
@@ -364,9 +364,9 @@ namespace Woodpecker
         #region -- Dektec Play 指令集 --
         public void StartDtplay()
         {
-            string StreamName = Extra_Commander.columns_serial;
-            string TvSystem = Extra_Commander.columns_function;
-            string Freq = Extra_Commander.columns_subFunction;
+            string StreamName = Autokit_Command.columns_serial;
+            string TvSystem = Autokit_Command.columns_function;
+            string Freq = Autokit_Command.columns_subFunction;
             string arguments = Global.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
                                "-mt " + TvSystem + " " +
                                "-mf " + Freq + " " +
@@ -401,7 +401,7 @@ namespace Woodpecker
         #region -- IO CMD 指令集 --
         public void IO_CMD()
         {
-            string columns_serial = Extra_Commander.columns_serial;
+            string columns_serial = Autokit_Command.columns_serial;
             if (columns_serial == "_pause")
             {
                 Pause_Function();
@@ -469,36 +469,36 @@ namespace Woodpecker
 
                 if (Init_Parameter.config_parameter.PortA_Checked == "1" && log_cmd_serialport == "A")
                 {
-                    Serial_Device_1.PortA.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortA.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortB_Checked == "1" && log_cmd_serialport == "B")
                 {
-                    Serial_Device_1.PortB.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortB.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortC_Checked == "1" && log_cmd_serialport == "C")
                 {
-                    Serial_Device_1.PortC.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortC.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortD_Checked == "1" && log_cmd_serialport == "D")
                 {
-                    Serial_Device_1.PortD.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortD.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortE_Checked == "1" && log_cmd_serialport == "E")
                 {
-                    Serial_Device_1.PortE.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortE.WriteLine(log_cmd_substring);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
-                        Serial_Device_1.PortA.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortA.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
-                        Serial_Device_1.PortB.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortB.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
-                        Serial_Device_1.PortC.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortC.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                        Serial_Device_1.PortD.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortD.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                        Serial_Device_1.PortE.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortE.WriteLine(log_cmd_substring);
                 }
             }
         }
@@ -507,7 +507,7 @@ namespace Woodpecker
         #region -- KEYWORD 指令集 --
         public void KeywordCommand()
         {
-            string columns_serial = Extra_Commander.columns_serial;
+            string columns_serial = Autokit_Command.columns_serial;
             if (columns_serial == "_pause")
             {
                 Pause_Function();
@@ -556,42 +556,42 @@ namespace Woodpecker
                 {
                     string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logA_text);
+                    MYFILE.Write(Autokit_Command.logA_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "B")
                 {
                     string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logB_text);
+                    MYFILE.Write(Autokit_Command.logB_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "C")
                 {
                     string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logC_text);
+                    MYFILE.Write(Autokit_Command.logC_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "D")
                 {
                     string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logD_text);
+                    MYFILE.Write(Autokit_Command.logD_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "E")
                 {
                     string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logE_text);
+                    MYFILE.Write(Autokit_Command.logE_text);
                     MYFILE.Close();
                 }
                 else if (savelog_serialport == "O")
                 {
                     string t = fName + "\\_SaveLogAll_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logAll_text);
+                    MYFILE.Write(Autokit_Command.logAll_text);
                     MYFILE.Close();
                 }
                 Global.label_Command = "KEYWORD_SAVELOG";
@@ -624,36 +624,36 @@ namespace Woodpecker
 
                 if (Init_Parameter.config_parameter.PortA_Checked == "1" && log_cmd_serialport == "A")
                 {
-                    Serial_Device_1.PortA.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortA.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortB_Checked == "1" && log_cmd_serialport == "B")
                 {
-                    Serial_Device_1.PortB.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortB.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortC_Checked == "1" && log_cmd_serialport == "C")
                 {
-                    Serial_Device_1.PortC.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortC.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortD_Checked == "1" && log_cmd_serialport == "D")
                 {
-                    Serial_Device_1.PortD.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortD.WriteLine(log_cmd_substring);
                 }
                 else if (Init_Parameter.config_parameter.PortE_Checked == "1" && log_cmd_serialport == "E")
                 {
-                    Serial_Device_1.PortE.WriteLine(log_cmd_substring);
+                    Serial_Port_1.PortE.WriteLine(log_cmd_substring);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
-                        Serial_Device_1.PortA.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortA.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
-                        Serial_Device_1.PortB.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortB.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
-                        Serial_Device_1.PortC.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortC.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                        Serial_Device_1.PortD.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortD.WriteLine(log_cmd_substring);
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                        Serial_Device_1.PortE.WriteLine(log_cmd_substring);
+                        Serial_Port_1.PortE.WriteLine(log_cmd_substring);
                 }
                 Global.label_Command = "KEYWORD_LOGCMD";
             }

@@ -25,7 +25,7 @@ namespace Woodpecker
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
-        private CAN_Reader MYCanReader = new CAN_Reader();
+        //private CAN_Reader MYCanReader = new CAN_Reader();
 
         private void loadxml()
         {

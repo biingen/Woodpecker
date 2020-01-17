@@ -581,13 +581,13 @@ namespace Woodpecker
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
-            if (Extra_Commander.columns_command == "_shot")
+            if (Autokit_Command.columns_command == "_shot")
             {
-                bitMap_g.DrawString(Extra_Commander.columns_remark,
+                bitMap_g.DrawString(Autokit_Command.columns_remark,
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(Extra_Commander.columns_command + "  ( " + Global.label_Command + " )",
+                bitMap_g.DrawString(Autokit_Command.columns_command + "  ( " + Global.label_Command + " )",
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 80));
@@ -626,7 +626,7 @@ namespace Woodpecker
 
                 srtWriter.WriteLine(starttime + ",001" + " --> " + endtime + ",000");
                 srtWriter.WriteLine(Global.label_Command + "     " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                srtWriter.WriteLine(Extra_Commander.columns_remark);
+                srtWriter.WriteLine(Autokit_Command.columns_remark);
                 srtWriter.WriteLine("");
                 srtWriter.WriteLine("");
                 srtWriter.Close();
@@ -731,8 +731,8 @@ namespace Woodpecker
                     DateTime dt = DateTime.Now;
                     MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                     string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    Extra_Commander.canbus_text = string.Concat(Extra_Commander.canbus_text, canbus_log_text);
-                    Extra_Commander.schedule_text = string.Concat(Extra_Commander.schedule_text, canbus_log_text);
+                    Autokit_Command.canbus_text = string.Concat(Autokit_Command.canbus_text, canbus_log_text);
+                    Autokit_Command.schedule_text = string.Concat(Autokit_Command.schedule_text, canbus_log_text);
                     if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
                     {
                         timer_canbus.Enabled = false;
@@ -816,8 +816,8 @@ namespace Woodpecker
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    Extra_Commander.ca310_text = string.Concat(Extra_Commander.ca310_text, ca310_log_text);
-                    Extra_Commander.schedule_text = string.Concat(Extra_Commander.schedule_text, ca310_log_text);
+                    Autokit_Command.ca310_text = string.Concat(Autokit_Command.ca310_text, ca310_log_text);
+                    Autokit_Command.schedule_text = string.Concat(Autokit_Command.schedule_text, ca310_log_text);
                 }
                 catch (Exception)
                 {

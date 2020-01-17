@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="add_ons.cs" />
+    <Compile Include="Autokit_Command.cs" />
     <Compile Include="Autokit_Function.cs" />
     <Compile Include="BlockMessage.cs" />
     <Compile Include="CAN_Read.cs" />

@@ -313,65 +313,65 @@ namespace Woodpecker
                 case "A":
                     string t = fName + "\\_PortA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logA_text);
+                    MYFILE.Write(Autokit_Command.logA_text);
                     MYFILE.Close();
-                    Extra_Commander.logA_text = String.Empty;
+                    Autokit_Command.logA_text = String.Empty;
                     break;
                 case "B":
                     t = fName + "\\_PortB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logB_text);
+                    MYFILE.Write(Autokit_Command.logB_text);
                     MYFILE.Close();
-                    Extra_Commander.logB_text = String.Empty;
+                    Autokit_Command.logB_text = String.Empty;
                     break;
                 case "C":
                     t = fName + "\\_PortC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logC_text);
+                    MYFILE.Write(Autokit_Command.logC_text);
                     MYFILE.Close();
-                    Extra_Commander.logC_text = String.Empty;
+                    Autokit_Command.logC_text = String.Empty;
                     break;
                 case "D":
                     t = fName + "\\_PortD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logD_text);
+                    MYFILE.Write(Autokit_Command.logD_text);
                     MYFILE.Close();
-                    Extra_Commander.logD_text = String.Empty;
+                    Autokit_Command.logD_text = String.Empty;
                     break;
                 case "E":
                     t = fName + "\\_PortE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logE_text);
+                    MYFILE.Write(Autokit_Command.logE_text);
                     MYFILE.Close();
-                    Extra_Commander.logE_text = String.Empty;
+                    Autokit_Command.logE_text = String.Empty;
                     break;
                 case "CA310":
                     t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.ca310_text);
+                    MYFILE.Write(Autokit_Command.ca310_text);
                     MYFILE.Close();
-                    Extra_Commander.ca310_text = String.Empty;
+                    Autokit_Command.ca310_text = String.Empty;
                     break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.canbus_text);
+                    MYFILE.Write(Autokit_Command.canbus_text);
                     MYFILE.Close();
-                    Extra_Commander.canbus_text = String.Empty;
+                    Autokit_Command.canbus_text = String.Empty;
                     break;
                 case "KlinePort":
                     t = fName + "\\_Kline_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.kline_text);
+                    MYFILE.Write(Autokit_Command.kline_text);
                     MYFILE.Close();
-                    Extra_Commander.kline_text = String.Empty;
+                    Autokit_Command.kline_text = String.Empty;
                     break;
                 case "All":
                     t = fName + "\\_AllPort_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(Extra_Commander.logAll_text);
+                    MYFILE.Write(Autokit_Command.logAll_text);
                     MYFILE.Close();
-                    Extra_Commander.logAll_text = String.Empty;
+                    Autokit_Command.logAll_text = String.Empty;
                     break;
             }
         }
@@ -420,7 +420,7 @@ namespace Woodpecker
                         string hexValues = BitConverter.ToString(dataset).Replace("-", "");
                         dt = DateTime.Now;
                         hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        Extra_Commander.logA_text = string.Concat(Extra_Commander.logA_text, hexValues);
+                        Autokit_Command.logA_text = string.Concat(Autokit_Command.logA_text, hexValues);
                     }
                     else
                     {
@@ -428,7 +428,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        Extra_Commander.logA_text = string.Concat(Extra_Commander.logA_text, strValues);
+                        Autokit_Command.logA_text = string.Concat(Autokit_Command.logA_text, strValues);
                     }
                 }
             }
@@ -468,7 +468,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        Extra_Commander.logB_text = string.Concat(Extra_Commander.logB_text, hexValues);
+                        Autokit_Command.logB_text = string.Concat(Autokit_Command.logB_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
 
@@ -483,7 +483,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        Extra_Commander.logB_text = string.Concat(Extra_Commander.logB_text, strValues);
+                        Autokit_Command.logB_text = string.Concat(Autokit_Command.logB_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
                 }
@@ -524,7 +524,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        Extra_Commander.logC_text = string.Concat(Extra_Commander.logC_text, hexValues);
+                        Autokit_Command.logC_text = string.Concat(Autokit_Command.logC_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
 
@@ -539,7 +539,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        Extra_Commander.logC_text = string.Concat(Extra_Commander.logC_text, strValues);
+                        Autokit_Command.logC_text = string.Concat(Autokit_Command.logC_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
                 }
@@ -580,7 +580,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        Extra_Commander.logD_text = string.Concat(Extra_Commander.logD_text, hexValues);
+                        Autokit_Command.logD_text = string.Concat(Autokit_Command.logD_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
 
@@ -595,7 +595,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        Extra_Commander.logD_text = string.Concat(Extra_Commander.logD_text, strValues);
+                        Autokit_Command.logD_text = string.Concat(Autokit_Command.logD_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
                 }
@@ -636,7 +636,7 @@ namespace Woodpecker
 
                         // Joseph
                         hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        Extra_Commander.logE_text = string.Concat(Extra_Commander.logE_text, hexValues);
+                        Autokit_Command.logE_text = string.Concat(Autokit_Command.logE_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
 
@@ -651,7 +651,7 @@ namespace Woodpecker
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        Extra_Commander.logE_text = string.Concat(Extra_Commander.logE_text, strValues);
+                        Autokit_Command.logE_text = string.Concat(Autokit_Command.logE_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
                 }
@@ -799,9 +799,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logA_text);
+                                        MYFILE.Write(Autokit_Command.logA_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logA_text = string.Empty;
+                                        Autokit_Command.logA_text = string.Empty;
                                         //Txtbox1("", textBox_serial);
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
@@ -980,9 +980,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logA_text);
+                                        MYFILE.Write(Autokit_Command.logA_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logA_text = string.Empty;
+                                        Autokit_Command.logA_text = string.Empty;
                                         //Txtbox1("", textBox_serial);
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
@@ -1206,9 +1206,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logB_text);
+                                        MYFILE.Write(Autokit_Command.logB_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logB_text = string.Empty;
+                                        Autokit_Command.logB_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -1388,9 +1388,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logB_text);
+                                        MYFILE.Write(Autokit_Command.logB_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logB_text = string.Empty;
+                                        Autokit_Command.logB_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -1615,9 +1615,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logC_text);
+                                        MYFILE.Write(Autokit_Command.logC_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logC_text = string.Empty;
+                                        Autokit_Command.logC_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -1797,9 +1797,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logC_text);
+                                        MYFILE.Write(Autokit_Command.logC_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logC_text = string.Empty;
+                                        Autokit_Command.logC_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -2024,9 +2024,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logD_text);
+                                        MYFILE.Write(Autokit_Command.logD_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logD_text = string.Empty;
+                                        Autokit_Command.logD_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -2206,9 +2206,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logD_text);
+                                        MYFILE.Write(Autokit_Command.logD_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logD_text = string.Empty;
+                                        Autokit_Command.logD_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -2433,9 +2433,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logE_text);
+                                        MYFILE.Write(Autokit_Command.logE_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logE_text = string.Empty;
+                                        Autokit_Command.logE_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////SCHEDULE//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -2615,9 +2615,9 @@ namespace Woodpecker
                                         string t = fName + "\\_SaveLogE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + Global.label_LoopNumber + ".txt";
 
                                         StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                        MYFILE.Write(Extra_Commander.logE_text);
+                                        MYFILE.Write(Autokit_Command.logE_text);
                                         MYFILE.Close();
-                                        Extra_Commander.logE_text = string.Empty;
+                                        Autokit_Command.logE_text = string.Empty;
                                     }
                                     ////////////////////////////////////////////////////////////////////////////////////////////////STOP//////////////////
                                     if (compare_number[i] % compare_num == 0 && Init_Parameter.config_parameter.LogSearch_Stop == "1")
@@ -2721,9 +2721,9 @@ namespace Woodpecker
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
                 DisplayKLineBlockMessage(textBox_serial, "raw_input: " + raw_data_in_string + "\n\r");
-                Extra_Commander.kline_text = string.Concat(Extra_Commander.kline_text, textBox_serial);
+                Autokit_Command.kline_text = string.Concat(Autokit_Command.kline_text, textBox_serial);
                 DisplayKLineBlockMessage(textBox_serial, "In - " + in_message.GenerateDebugString() + "\n\r");
-                Extra_Commander.kline_text = string.Concat(Extra_Commander.kline_text, textBox_serial);
+                Autokit_Command.kline_text = string.Concat(Autokit_Command.kline_text, textBox_serial);
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
                 BlockMessage out_message = new BlockMessage();
@@ -2765,7 +2765,7 @@ namespace Woodpecker
 
                 // Show output KLine message for debug purpose
                 DisplayKLineBlockMessage(textBox_serial, "Out - " + out_message.GenerateDebugString() + "\n\r");
-                Extra_Commander.kline_text = textBox_serial.Text;
+                Autokit_Command.kline_text = textBox_serial.Text;
             }
         }
 
