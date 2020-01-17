@@ -83,9 +83,6 @@ namespace Woodpecker
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
         private TextBox textBox_serial;
 
-        private Autokit_Device Autokit_Device_1 = new Autokit_Device();
-        private Autokit_Function Autokit_Function_1 = new Autokit_Function();
-
         public void Serial_Port_Init()
         {
             if (Init_Parameter.config_parameter.Port_Displayhex == "1")

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using KWP_2000;
-using Microsoft.VisualBasic.FileIO;
+using System.Text.RegularExpressions;
 using System.Diagnostics;
 
 namespace Woodpecker
@@ -20,12 +20,15 @@ namespace Woodpecker
 
         public static string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
         public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
+        string[] parts;
 
         public void Autokit_Commander(string value)
         {
             Init_Parameter.Config_initial();
             Device_Load();
-            Run_command(Readsch(value));
+            Read_command(value);
+            Run_command(columns_command, columns_times, columns_interval, columns_comport, columns_function, 
+                columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark);
         }
         
         private void Device_Load()
@@ -191,41 +194,31 @@ namespace Woodpecker
             //setStyle();
         }
 
-        private string[] Readsch(string ScheduleContent)
+        private void Read_command(string CommandContent)
         {
-            TextFieldParser parser = new TextFieldParser(ScheduleContent);
-            parser.Delimiters = new string[] { "," };
-            string[] parts = new string[11];
-            while (!parser.EndOfData)
+            try
             {
-                try
-                {
-                    parts = parser.ReadFields();
-                    if (parts == null)
-                    {
-                        break;
-                    }
-                    columns_command = parts[0].Trim();
-                    columns_times = parts[1].Trim();
-                    columns_interval = parts[2].Trim();
-                    columns_comport = parts[3].Trim();
-                    columns_function = parts[4].Trim();
-                    columns_subFunction = parts[5].Trim();
-                    columns_serial = parts[6].Trim();
-                    columns_switch = parts[7].Trim();
-                    columns_wait = parts[8].Trim();
-                    columns_remark = parts[9].Trim();
-                }
-                catch (MalformedLineException)
-                {
-                    //MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
-                }
+                parts = Regex.Split(CommandContent, ",", RegexOptions.IgnoreCase);
+                columns_command = parts[0].Trim();
+                columns_times = parts[1].Trim();
+                columns_interval = parts[2].Trim();
+                columns_comport = parts[3].Trim();
+                columns_function = parts[4].Trim();
+                columns_subFunction = parts[5].Trim();
+                columns_serial = parts[6].Trim();
+                columns_switch = parts[7].Trim();
+                columns_wait = parts[8].Trim();
+                columns_remark = parts[9].Trim();
             }
-            parser.Close();
-            return parts;
+            catch (Exception Ex)
+            {
+                //MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+            }
         }
 
-        private void Run_command(string[] columns)
+        private void Run_command(string columns_command, string columns_times, string columns_interval, string columns_comport,
+            string columns_function, string columns_subFunction, string columns_serial, string columns_switch, string columns_wait,
+            string columns_remark)
         {
 
             int sRepeat = 0, stime = 0, SysDelay = 0;
@@ -262,7 +255,7 @@ namespace Woodpecker
             {
                 for (int i = 1; i < 10; i++)
                 {
-                    Schedule_log = Schedule_log + delimiter_recordSch + columns[i].Trim();
+                    Schedule_log = Schedule_log + delimiter_recordSch + parts[i].Trim();
                 }
             }
             catch (Exception Ex)
