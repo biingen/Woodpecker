@@ -58,6 +58,7 @@ namespace Woodpecker
         private Queue<byte> SearchLogQueue_C = new Queue<byte>();
         private Queue<byte> SearchLogQueue_D = new Queue<byte>();
         private Queue<byte> SearchLogQueue_E = new Queue<byte>();
+
         private char Keyword_SerialPort_A_temp_char;
         private byte Keyword_SerialPort_A_temp_byte;
         private char Keyword_SerialPort_B_temp_char;

@@ -470,15 +470,16 @@ namespace Woodpecker
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
+            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
-            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice" };
+            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };
-            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] Displayhex = { "Checked" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -585,6 +586,18 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "");
+                    }
+                }
+
+                for (int i = 0; i < Displayhex.Length; i++)
+                {
+                    if (i == (Displayhex.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "");
                     }
                 }
 

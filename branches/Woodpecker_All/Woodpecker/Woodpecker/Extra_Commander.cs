@@ -1,58 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Timers;
 using Microsoft.VisualBasic.FileIO;
 using System.Xml.Linq;
 using System.Diagnostics;
 using System.Threading;
-using KWP_2000;
 using System.Windows.Forms;
+using KWP_2000;
 
 namespace Woodpecker
 {
-    public class Extra_Commander : Form
+    public partial class Extra_Commander : Form
     {
         private Autokit_Device Autokit_Device_1 = new Autokit_Device();
         private Autokit_Function Autokit_Function_1 = new Autokit_Function();
         private Serial_Port Serial_Device_1 = new Serial_Port();
 
-        public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
         public static string columns_command, columns_times, columns_interval, columns_comport, columns_function, columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark;
+        public static string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
 
-        public Extra_Commander(string orginal_data)
+
+        public Extra_Commander()
         {
-            Console.WriteLine("Extra_Commander: " + orginal_data);
+            InitializeComponent();
+        }
+
+        private void Extra_Commander_Load(object sender, EventArgs e)
+        {
             Init_Parameter.Config_initial();
             Device_Load();
-            Run_command(Readsch(orginal_data));
         }
 
         private void Device_Load()
         {
-            this.TopMost = true;
-            this.WindowState = FormWindowState.Normal;
-
-            //根據dpi調整視窗尺寸
-            Graphics graphics = CreateGraphics();
-            float dpiX = graphics.DpiX;
-            float dpiY = graphics.DpiY;
-            /*if (dpiX == 96 && dpiY == 96)
-            {
-                this.Height = 600;
-                this.Width = 1120;
-            }*/
-            int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
-
-            // 針對字體變更Form的大小
-            this.Height = this.Height * intPercent / 100;
-
             if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
             {
                 if (Init_Parameter.config_parameter.Device_AutoboxVerson == "1")
@@ -210,9 +193,6 @@ namespace Woodpecker
             button_Schedule.PerformClick();
             button_Schedule1.PerformClick();
             */
-            CheckForIllegalCrossThreadCalls = false;
-            TopMost = true;
-            TopMost = false;
 
             //setStyle();
         }
@@ -2573,9 +2553,9 @@ namespace Woodpecker
             {
                 Console.WriteLine("Footprint Mode.");
                 //檔案不存在則加入標題
-                if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
+                if (File.Exists(Global.StartupPath + @"\StepRecord.csv") == false)
                 {
-                    File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
+                    File.AppendAllText(Global.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
                         "PA10_0,PA10_1," +
                         "PA11_0,PA11_1," +
                         "PA14_0,PA14_1," +
@@ -2584,7 +2564,7 @@ namespace Woodpecker
                         "PB7_0,PB7_1" +
                         Environment.NewLine);
 
-                    File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
+                    File.AppendAllText(Global.StartupPath + @"\StepRecord.csv",
                     Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + Global.label_Command + "," + Global.IO_INPUT +
                     "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
                     "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +
@@ -2595,7 +2575,7 @@ namespace Woodpecker
                 }
                 else
                 {
-                    File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
+                    File.AppendAllText(Global.StartupPath + @"\StepRecord.csv",
                     Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + Global.label_Command + "," + Global.IO_INPUT +
                     "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
                     "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +

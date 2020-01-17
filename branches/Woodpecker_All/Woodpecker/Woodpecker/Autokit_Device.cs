@@ -20,7 +20,6 @@ namespace Woodpecker
     class Autokit_Device
     {
         private IRedRat3 redRat3 = null;
-        private Add_ons Add_ons = new Add_ons();
         private RedRatDBParser RedRatData = new RedRatDBParser();
         public BlueRat MyBlueRat = new BlueRat();
         private bool BlueRat_UART_Exception_status = false;
