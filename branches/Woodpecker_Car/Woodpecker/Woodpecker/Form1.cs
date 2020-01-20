@@ -3315,6 +3315,7 @@ namespace Woodpecker
                     }
                 }
                 Console.WriteLine("Loop_Number: " + Global.Loop_Number);
+                DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -4034,16 +4035,6 @@ namespace Woodpecker
                     button_AcUsb.Enabled = false;
                     PowerState = false;
                     MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
-                }
-
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
                 }
 
                 List<string> SchExist = new List<string> { };
