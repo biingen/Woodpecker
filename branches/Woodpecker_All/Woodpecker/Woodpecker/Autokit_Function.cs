@@ -15,6 +15,171 @@ namespace Woodpecker
         private SerialPortParemeter Serial_Paremeter_1 = new SerialPortParemeter();
         private Serial_Port Serial_Port_1 = new Serial_Port();
 
+        #region -- 程式啟動預載物件 --
+        public void Device_Load()
+        {
+            if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
+            {
+                if (Init_Parameter.config_parameter.Device_AutoboxVerson == "1")
+                {
+                    //Autokit_Device_1.ConnectAutoBox1();
+                }
+
+                if (Init_Parameter.config_parameter.Device_AutoboxVerson == "2")
+                {
+                    Autokit_Device_1.ConnectAutoBox2();
+                }
+
+                //pictureBox_BlueRat.Image = Properties.Resources.ON;
+                Autokit_Device_1.GP0_GP1_AC_ON();
+                Autokit_Device_1.GP2_GP3_USB_PC();
+            }
+            else
+            {
+                //pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                //pictureBox_AcPower.Image = Properties.Resources.OFF;
+                //pictureBox_ext_board.Image = Properties.Resources.OFF;
+                //button_AcUsb.Enabled = false;
+            }
+
+            if (Init_Parameter.config_parameter.RedRat_Exist == "1")
+            {
+                //Autokit_Device_1.OpenRedRat3();
+            }
+            else
+            {
+                //pictureBox_RedRat.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Camera_Exist == "1")
+            {
+                Autokit_Device_1.Camstart();
+            }
+            else
+            {
+                //pictureBox_Camera.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Device_CA310Exist == "1")
+            {
+                Autokit_Device_1.ConnectCA310();
+                //pictureBox_ca310.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                //pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Canbus_Exist == "1")
+            {
+                String can_name;
+                List<String> dev_list = Autokit_Device_1.MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                //Init_Parameter.config_parameter.Canbus_DevName = can_name;
+                if (Init_Parameter.config_parameter.Canbus_DevIndex == "")
+                    Init_Parameter.config_parameter.Canbus_DevIndex = "0";
+                if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
+                    Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
+                Autokit_Device_1.ConnectCanBus();
+                //pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                //pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+            /*
+            if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
+                button_Analysis.Visible = true;
+            else
+                button_Analysis.Visible = false;
+            */
+            /* Hidden serial port.
+            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+            {
+                button_SerialPort1.Visible = true;
+                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
+                button_SerialPort1.Visible = false;
+            }
+            */
+            /*
+            LoadRCDB();
+
+            List<string> SchExist = new List<string> { };
+            for (int i = 2; i < 6; i++)
+            {
+                SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
+            }
+
+            if (SchExist[0] != "")
+            {
+                if (SchExist[0] == "0")
+                    button_Schedule2.Visible = false;
+                else
+                    button_Schedule2.Visible = true;
+            }
+            else
+            {
+                SchExist[0] = "0";
+                button_Schedule2.Visible = false;
+            }
+
+            if (SchExist[1] != "")
+            {
+                if (SchExist[1] == "0")
+                    button_Schedule3.Visible = false;
+                else
+                    button_Schedule3.Visible = true;
+            }
+            else
+            {
+                SchExist[1] = "0";
+                button_Schedule3.Visible = false;
+            }
+
+            if (SchExist[2] != "")
+            {
+                if (SchExist[2] == "0")
+                    button_Schedule4.Visible = false;
+                else
+                    button_Schedule4.Visible = true;
+            }
+            else
+            {
+                SchExist[2] = "0";
+                button_Schedule4.Visible = false;
+            }
+
+            if (SchExist[3] != "")
+            {
+                if (SchExist[3] == "0")
+                    button_Schedule5.Visible = false;
+                else
+                    button_Schedule5.Visible = true;
+            }
+            else
+            {
+                SchExist[3] = "0";
+                button_Schedule5.Visible = false;
+            }
+
+            Global.Schedule_2_Exist = int.Parse(SchExist[0]);
+            Global.Schedule_3_Exist = int.Parse(SchExist[1]);
+            Global.Schedule_4_Exist = int.Parse(SchExist[2]);
+            Global.Schedule_5_Exist = int.Parse(SchExist[3]);
+
+            button_Pause.Enabled = false;
+            button_Schedule.PerformClick();
+            button_Schedule1.PerformClick();
+            */
+
+            //setStyle();
+        }
+        #endregion
+
         #region -- Pause 指令集 --
         //Schedule暫停用的參數
         public bool Pause = false;
@@ -66,296 +231,155 @@ namespace Woodpecker
 
             if (AutoBox_Status)//如果電腦有接上AutoBox//
             {
-                //button_Schedule1.PerformClick();
+                Init_Parameter.config_parameter.LogSearch_StartTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                //MainThread.Start();       // 啟動執行緒
+                //timer1.Start();     //開始倒數
+                //button_Start.Text = "STOP";
 
-                //Thread Log1Data = new Thread(new ThreadStart(Log1_Receiving_Task));
-                //Thread Log2Data = new Thread(new ThreadStart(Log2_Receiving_Task));
+                //Global.StartButtonPressed = true;
+                //button_Setting.Enabled = false;
+                //button_Pause.Enabled = true;
+                //button_SaveSchedule.Enabled = false;
+                //setStyle();
 
-                if (Global.StartButtonPressed == true)//按下STOP//
+                if (Init_Parameter.config_parameter.PortA_Checked == "1")
                 {
-                    Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
-                    //MainThread.Abort();//停止執行緒//
-                    //timer1.Stop();//停止倒數//
-                    CloseDtplay();//關閉DtPlay//
-
-                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                    Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
+                    //textBox1.Text = string.Empty;//清空serialport1//
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                     {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread1.Abort();
-                            //Log1Data.Abort();
-                        }
+                        //LogThread1.IsBackground = true;
+                        //LogThread1.Start();
                     }
-
-                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread2.Abort();
-                            //Log2Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread3.Abort();
-                            //Log3Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread4.Abort();
-                            //Log4Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread5.Abort();
-                            //Log5Data.Abort();
-                        }
-                    }
-
-                    Global.StartButtonPressed = false;
-                    //button_Start.Enabled = false;
-                    //button_Setting.Enabled = false;
-                    //button_SaveSchedule.Enabled = false;
-                    //button_Pause.Enabled = true;
-                    //setStyle();
-                    Global.label_Command = "Please wait...";
                 }
-                else//按下START//
+
+                if (Init_Parameter.config_parameter.PortB_Checked == "1")
                 {
-                    /*
-                    for (int i = 1; i < 6; i++)
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                    Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                     {
-                        if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_Original") == true)
-                        {
-                            DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_Original");
-                            DIFO.Delete(true);
-                        }
-
-                        if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_NG") == true)
-                        {
-                            DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + i + "_NG");
-                            DIFO.Delete(true);
-                        }                
+                        //LogThread2.IsBackground = true;
+                        //LogThread2.Start();
                     }
-                    */
-                    Global.Break_Out_MyRunCamd = 0;
+                }
 
-                    Init_Parameter.config_parameter.LogSearch_StartTime = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                    //MainThread.Start();       // 啟動執行緒
-                    //timer1.Start();     //開始倒數
-                    //button_Start.Text = "STOP";
-
-                    Global.StartButtonPressed = true;
-                    //button_Setting.Enabled = false;
-                    //button_Pause.Enabled = true;
-                    //button_SaveSchedule.Enabled = false;
-                    //setStyle();
-
-                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
+                if (Init_Parameter.config_parameter.PortC_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                    Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
-                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
-                        //textBox1.Text = string.Empty;//清空serialport1//
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
-                        {
-                            //LogThread1.IsBackground = true;
-                            //LogThread1.Start();
-                        }
+                        //LogThread3.IsBackground = true;
+                        //LogThread3.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
+                if (Init_Parameter.config_parameter.PortD_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                    Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
-                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
-                        {
-                            //LogThread2.IsBackground = true;
-                            //LogThread2.Start();
-                        }
+                        //LogThread4.IsBackground = true;
+                        //LogThread4.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
+                if (Init_Parameter.config_parameter.PortE_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                    Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
-                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
-                        {
-                            //LogThread3.IsBackground = true;
-                            //LogThread3.Start();
-                        }
+                        //LogThread5.IsBackground = true;
+                        //LogThread5.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                    {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
-                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
-                        {
-                            //LogThread4.IsBackground = true;
-                            //LogThread4.Start();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                    {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
-                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
-                        {
-                            //LogThread5.IsBackground = true;
-                            //LogThread5.Start();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.Kline_Exist == "1")
-                    {
-                        Serial_Port_1.OpenKlinePort();
-                        //textBox_serial.Text = ""; //清空kline//
-                    }
+                if (Init_Parameter.config_parameter.Kline_Exist == "1")
+                {
+                    Serial_Port_1.OpenKlinePort();
+                    //textBox_serial.Text = ""; //清空kline//
                 }
             }
+
             else//如果沒接AutoBox//
             {
-                if (Global.StartButtonPressed == true)//按下STOP//
+
+                Global.Break_Out_MyRunCamd = 0;
+                //MainThread.Start();// 啟動執行緒
+                //timer1.Start();     //開始倒數
+
+                Global.StartButtonPressed = true;
+                //button_Setting.Enabled = false;
+                //button_Pause.Enabled = true;
+                //pictureBox_AcPower.Image = Properties.Resources.OFF;
+                //button_Start.Text = "STOP";
+                //setStyle();
+
+                if (Init_Parameter.config_parameter.PortA_Checked == "1")
                 {
-                    Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
-                    //MainThread.Abort(); //停止執行緒
-                    //timer1.Stop();  //停止倒數
-                    CloseDtplay();
-
-                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                    Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
+                    //textBox_serial.Clear();
+                    //textBox1.Text = string.Empty;//清空serialport1//
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                     {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread1.Abort();
-                            //Log1Data.Abort();
-                        }
+                        //LogThread1.IsBackground = true;
+                        //LogThread1.Start();
                     }
-
-                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread2.Abort();
-                            //Log2Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread3.Abort();
-                            //Log3Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread4.Abort();
-                            //Log4Data.Abort();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                    {
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0")
-                        {
-                            //LogThread5.Abort();
-                            //Log4Data.Abort();
-                        }
-                    }
-
-                    Global.label_Command = "Please wait...";
                 }
-                else//按下START//
+
+                if (Init_Parameter.config_parameter.PortB_Checked == "1")
                 {
-                    Global.Break_Out_MyRunCamd = 0;
-                    //MainThread.Start();// 啟動執行緒
-                    //timer1.Start();     //開始倒數
-
-                    Global.StartButtonPressed = true;
-                    //button_Setting.Enabled = false;
-                    //button_Pause.Enabled = true;
-                    //pictureBox_AcPower.Image = Properties.Resources.OFF;
-                    //button_Start.Text = "STOP";
-                    //setStyle();
-
-                    if (Init_Parameter.config_parameter.PortA_Checked == "1")
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                    Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
-                        Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
-                        //textBox_serial.Clear();
-                        //textBox1.Text = string.Empty;//清空serialport1//
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
-                        {
-                            //LogThread1.IsBackground = true;
-                            //LogThread1.Start();
-                        }
+                        //LogThread2.IsBackground = true;
+                        //LogThread2.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortB_Checked == "1")
+                if (Init_Parameter.config_parameter.PortC_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                    Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
-                        Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
-                        {
-                            //LogThread2.IsBackground = true;
-                            //LogThread2.Start();
-                        }
+                        //LogThread3.IsBackground = true;
+                        //LogThread3.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortC_Checked == "1")
+                if (Init_Parameter.config_parameter.PortD_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                    Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
-                        Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
-                        {
-                            //LogThread3.IsBackground = true;
-                            //LogThread3.Start();
-                        }
+                        //LogThread4.IsBackground = true;
+                        //LogThread4.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortD_Checked == "1")
+                if (Init_Parameter.config_parameter.PortE_Checked == "1")
+                {
+                    Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                    Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
+                    if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                     {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
-                        Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
-                        {
-                            //LogThread4.IsBackground = true;
-                            //LogThread4.Start();
-                        }
+                        //LogThread5.IsBackground = true;
+                        //LogThread5.Start();
                     }
+                }
 
-                    if (Init_Parameter.config_parameter.PortE_Checked == "1")
-                    {
-                        Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
-                        Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
-                        if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
-                        {
-                            //LogThread5.IsBackground = true;
-                            //LogThread5.Start();
-                        }
-                    }
-
-                    if (Init_Parameter.config_parameter.Kline_Exist == "1")
-                    {
-                        Serial_Port_1.OpenKlinePort();
-                        //textBox_serial.Text = ""; //清空kline//
-                    }
+                if (Init_Parameter.config_parameter.Kline_Exist == "1")
+                {
+                    Serial_Port_1.OpenKlinePort();
+                    //textBox_serial.Text = ""; //清空kline//
                 }
             }
         }

@@ -47,11 +47,11 @@ namespace Woodpecker
     #region -- Serial Port --
     class Serial_Port
     {
-        public SerialPort PortA;
-        public SerialPort PortB;
-        public SerialPort PortC;
-        public SerialPort PortD;
-        public SerialPort PortE;
+        public SerialPort PortA = new SerialPort();
+        public SerialPort PortB = new SerialPort();
+        public SerialPort PortC = new SerialPort();
+        public SerialPort PortD = new SerialPort();
+        public SerialPort PortE = new SerialPort();
 
         private Queue<byte> SearchLogQueue_A = new Queue<byte>();
         private Queue<byte> SearchLogQueue_B = new Queue<byte>();
@@ -114,8 +114,6 @@ namespace Woodpecker
                 case "A":
                     try
                     {
-                        if (PortA.IsOpen == false)
-                        {
                             PortA.StopBits = param.StopBits;
                             PortA.PortName = param.PortName;
                             PortA.BaudRate = param.BaudRate;
@@ -127,7 +125,6 @@ namespace Woodpecker
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortA);
 
                             return_code.status = SerialErrorStatus.OK;
-                        }
                     }
                     catch (Exception Ex)
                     {
