@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -24,6 +23,8 @@ namespace Woodpecker
         public BlueRat MyBlueRat = new BlueRat();
         private bool BlueRat_UART_Exception_status = false;
         private Capture capture = null;
+        private Filters filters = null;
+        public bool _captureInProgress;
 
         //CanReader
         public CAN_Reader MYCanReader = new CAN_Reader();
@@ -436,6 +437,8 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
+        private System.Windows.Forms.PictureBox panelVideo;
+
         public void Camstart()
         {
             try
@@ -533,11 +536,41 @@ namespace Woodpecker
                     }
                     capture.CaptureComplete += new EventHandler(OnCaptureComplete);
                 }
+
+                if (capture.PreviewWindow == null)
+                {
+                    try
+                    {
+                        capture.PreviewWindow = panelVideo;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
+                    }
+                }
+                else
+                {
+                    capture.PreviewWindow = null;
+                }
             }
             catch (NotSupportedException)
             {
                 Console.Write("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
             };
+        }
+
+        public void OnOffCamera()//啟動攝影機//
+        {
+            if (_captureInProgress == true)
+            {
+                Camstart();
+            }
+
+            if (_captureInProgress == false && capture != null)
+            {
+                capture.Stop();
+                capture.Dispose();
+            }
         }
 
         private void OnCaptureComplete(object sender, EventArgs e)
@@ -560,8 +593,6 @@ namespace Woodpecker
             return new Bitmap(source);
         }
 
-        private System.Windows.Forms.PictureBox pictureBox_save;
-
         private void CaptureDone(System.Drawing.Bitmap e)
         {
 
@@ -572,9 +603,9 @@ namespace Woodpecker
             //圖片印字
             Bitmap newBitmap = CloneBitmap(e);
             newBitmap = CloneBitmap(e);
-            pictureBox_save.Image = newBitmap;
+            panelVideo.Image = newBitmap;
 
-            Graphics bitMap_g = Graphics.FromImage(pictureBox_save.Image);//底圖
+            Graphics bitMap_g = Graphics.FromImage(panelVideo.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
             string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
@@ -604,7 +635,7 @@ namespace Woodpecker
             bitMap_g.Dispose();
 
             string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
-            pictureBox_save.Image.Save(t);
+            panelVideo.Image.Save(t);
         }
         #endregion
 

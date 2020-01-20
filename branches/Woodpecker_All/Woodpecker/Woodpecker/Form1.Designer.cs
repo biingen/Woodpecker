@@ -1584,10 +1584,10 @@ namespace Woodpecker
             this.Controls.Add(this.button_Pause);
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
-            this.Controls.Add(this.comboBox_CameraDevice);
-            this.Controls.Add(this.textBox_serial);
-            this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.DataGridView_Schedule);
+            this.Controls.Add(this.textBox_serial);
+            this.Controls.Add(this.comboBox_CameraDevice);
+            this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);

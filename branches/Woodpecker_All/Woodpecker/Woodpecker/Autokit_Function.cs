@@ -165,7 +165,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortA_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
-                        Serial_Port_1.OpenSerialPort("A", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
                         {
@@ -177,7 +177,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortB_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
-                        Serial_Port_1.OpenSerialPort("B", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
                         {
                             //LogThread2.IsBackground = true;
@@ -188,7 +188,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortC_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
-                        Serial_Port_1.OpenSerialPort("C", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
                         {
                             //LogThread3.IsBackground = true;
@@ -199,7 +199,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortD_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
-                        Serial_Port_1.OpenSerialPort("D", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
                         {
                             //LogThread4.IsBackground = true;
@@ -210,7 +210,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.PortE_Checked == "1")
                     {
                         Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
-                        Serial_Port_1.OpenSerialPort("E", Serial_Paremeter_1);
+                        Serial_Port_1.OpenSerialPort(Serial_Paremeter_1.PortName, Serial_Paremeter_1);
                         if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
                         {
                             //LogThread5.IsBackground = true;

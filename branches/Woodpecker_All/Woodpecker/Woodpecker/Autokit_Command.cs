@@ -26,6 +26,7 @@ namespace Woodpecker
         {
             Init_Parameter.Config_initial();
             Device_Load();
+            Autokit_Function_1.Start_Function();
             Read_command(value);
             Run_command(columns_command, columns_times, columns_interval, columns_comport, columns_function, 
                 columns_subFunction, columns_serial, columns_switch, columns_wait, columns_remark);
@@ -220,7 +221,6 @@ namespace Woodpecker
             string columns_function, string columns_subFunction, string columns_serial, string columns_switch, string columns_wait,
             string columns_remark)
         {
-
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
             string GPIO_INPUT = Autokit_Device_1.IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
