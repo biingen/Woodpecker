@@ -22,6 +22,11 @@ namespace Woodpecker
             InitializeComponent();
         }
 
+        public Extra_Commander(string value)
+        {
+            InitializeComponent();
+        }
+
         private void button_send_Click(object sender, EventArgs e)
         {
             Autokit_Command_1.Autokit_Commander(textBox_command.Text);

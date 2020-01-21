@@ -25,7 +25,7 @@ namespace Woodpecker
         public void Autokit_Commander(string value)
         {
             Init_Parameter.Config_initial();
-            Autokit_Function_1.Device_Load();
+            Autokit_Device_1.Device_Load();
             Serial_Port_1.OpenPort_Function();
             Read_command(value);
             Run_command(columns_command, columns_times, columns_interval, columns_comport, columns_function, 
@@ -1259,7 +1259,11 @@ namespace Woodpecker
                 if (Init_Parameter.config_parameter.Canbus_Exist == "1")
                 {
                     Console.WriteLine("Canbus Send: _Canbus_Send");
-                    if (columns_times != "" && columns_serial != "")
+                    if (columns_serial == "_save")
+                    {
+                        Serial_Port_1.Serialportsave("Canbus"); //存檔rs232
+                    }
+                    else if (columns_times != "" && columns_serial != "")
                     {
                         Autokit_Device_1.MYCanReader.TransmitData(columns_times, columns_serial);
 

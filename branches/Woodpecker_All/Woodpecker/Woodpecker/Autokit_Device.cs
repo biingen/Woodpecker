@@ -37,6 +37,172 @@ namespace Woodpecker
         private Boolean isMsr;
         System.Windows.Forms.Timer timer_ca310 = new System.Windows.Forms.Timer();
 
+
+        #region -- Pre-Load 指令集 --
+        public void Device_Load()
+        {
+            if (Init_Parameter.config_parameter.Device_AutoboxExist == "1")
+            {
+                if (Init_Parameter.config_parameter.Device_AutoboxVerson == "1")
+                {
+                    //Autokit_Device_1.ConnectAutoBox1();
+                }
+
+                if (Init_Parameter.config_parameter.Device_AutoboxVerson == "2")
+                {
+                    ConnectAutoBox2();
+                }
+
+                //pictureBox_BlueRat.Image = Properties.Resources.ON;
+                GP0_GP1_AC_ON();
+                GP2_GP3_USB_PC();
+            }
+            else
+            {
+                //pictureBox_BlueRat.Image = Properties.Resources.OFF;
+                //pictureBox_AcPower.Image = Properties.Resources.OFF;
+                //pictureBox_ext_board.Image = Properties.Resources.OFF;
+                //button_AcUsb.Enabled = false;
+            }
+
+            if (Init_Parameter.config_parameter.RedRat_Exist == "1")
+            {
+                //Autokit_Device_1.OpenRedRat3();
+            }
+            else
+            {
+                //pictureBox_RedRat.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Camera_Exist == "1")
+            {
+                Camstart();
+            }
+            else
+            {
+                //pictureBox_Camera.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Device_CA310Exist == "1")
+            {
+                ConnectCA310();
+                //pictureBox_ca310.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                //pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
+            if (Init_Parameter.config_parameter.Canbus_Exist == "1")
+            {
+                String can_name;
+                List<String> dev_list = MYCanReader.FindUsbDevice();
+                can_name = string.Join(",", dev_list);
+                //Init_Parameter.config_parameter.Canbus_DevName = can_name;
+                if (Init_Parameter.config_parameter.Canbus_DevIndex == "")
+                    Init_Parameter.config_parameter.Canbus_DevIndex = "0";
+                if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
+                    Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
+                ConnectCanBus();
+                //pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                //pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+            /*
+            if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
+                button_Analysis.Visible = true;
+            else
+                button_Analysis.Visible = false;
+            */
+            /* Hidden serial port.
+            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+            {
+                button_SerialPort1.Visible = true;
+                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
+                button_SerialPort1.Visible = false;
+            }
+            */
+            /*
+            LoadRCDB();
+
+            List<string> SchExist = new List<string> { };
+            for (int i = 2; i < 6; i++)
+            {
+                SchExist.Add(ini12.INIRead(MainSettingPath, "Schedule" + i, "Exist", ""));
+            }
+
+            if (SchExist[0] != "")
+            {
+                if (SchExist[0] == "0")
+                    button_Schedule2.Visible = false;
+                else
+                    button_Schedule2.Visible = true;
+            }
+            else
+            {
+                SchExist[0] = "0";
+                button_Schedule2.Visible = false;
+            }
+
+            if (SchExist[1] != "")
+            {
+                if (SchExist[1] == "0")
+                    button_Schedule3.Visible = false;
+                else
+                    button_Schedule3.Visible = true;
+            }
+            else
+            {
+                SchExist[1] = "0";
+                button_Schedule3.Visible = false;
+            }
+
+            if (SchExist[2] != "")
+            {
+                if (SchExist[2] == "0")
+                    button_Schedule4.Visible = false;
+                else
+                    button_Schedule4.Visible = true;
+            }
+            else
+            {
+                SchExist[2] = "0";
+                button_Schedule4.Visible = false;
+            }
+
+            if (SchExist[3] != "")
+            {
+                if (SchExist[3] == "0")
+                    button_Schedule5.Visible = false;
+                else
+                    button_Schedule5.Visible = true;
+            }
+            else
+            {
+                SchExist[3] = "0";
+                button_Schedule5.Visible = false;
+            }
+
+            Global.Schedule_2_Exist = int.Parse(SchExist[0]);
+            Global.Schedule_3_Exist = int.Parse(SchExist[1]);
+            Global.Schedule_4_Exist = int.Parse(SchExist[2]);
+            Global.Schedule_5_Exist = int.Parse(SchExist[3]);
+
+            button_Pause.Enabled = false;
+            button_Schedule.PerformClick();
+            button_Schedule1.PerformClick();
+            */
+
+            //setStyle();
+        }
+        #endregion
+
         #region -- AutoBox --
         public void ConnectAutoBox2()
         {

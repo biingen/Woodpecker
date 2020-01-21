@@ -48,7 +48,7 @@ namespace Woodpecker
             thUI.Join();
             if (args.Length == 0)
             {
-                Application.Run(new Form1());
+                Application.Run(new Extra_Commander());
             }
             else
             {
@@ -57,7 +57,7 @@ namespace Woodpecker
                 //印出傳入的參數
                 Console.WriteLine(args[0].ToString());
 
-                Application.Run(new Form1(args[0].ToString()));
+                Application.Run(new Extra_Commander(args[0].ToString()));
             }
         }
 
