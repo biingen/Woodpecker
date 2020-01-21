@@ -142,37 +142,43 @@ namespace Woodpecker
 
         private void setStyle()
         {
-            // Form design
-            this.MinimumSize = new Size(1097, 659);
-            this.BackColor = Color.FromArgb(18, 18, 18);
+            try
+            {
+                // Form design
+                this.MinimumSize = new Size(1097, 659);
+                this.BackColor = Color.FromArgb(18, 18, 18);
 
-            //Init material skin
-            var skinManager = MaterialSkinManager.Instance;
-            skinManager.AddFormToManage(this);
-            skinManager.Theme = MaterialSkinManager.Themes.DARK;
-            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+                //Init material skin
+                var skinManager = MaterialSkinManager.Instance;
+                skinManager.AddFormToManage(this);
+                skinManager.Theme = MaterialSkinManager.Themes.DARK;
+                skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
-            // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_AcUsb,
+                // Button design
+                List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_AcUsb,
                                                             button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
-            foreach (Button buttonsAll in buttonsList)
-            {
-                if (buttonsAll.Enabled == true)
+                foreach (Button buttonsAll in buttonsList)
                 {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
-                }
-                else
-                {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
-                }
+                    if (buttonsAll.Enabled == true)
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                    }
+                    else
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                    }
 
+                }
             }
-
+            catch (Exception Ex)
+            {
+                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
+            }
         }
 
         private void initComboboxSaveLog()

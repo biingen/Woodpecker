@@ -301,7 +301,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Debug\"
-xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E</PostBuildEvent>
+xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E
+copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Release\"
+xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\\Release\" /Y /I /E</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
