@@ -76,14 +76,16 @@ namespace Woodpecker
         private bool DisplayHexOn_D = false;
         private bool DisplayHexOn_E = false;
 
+        private SerialPortParemeter Serial_Paremeter_1 = new SerialPortParemeter();
+
         //Klite error code
         private MySerial MySerialPort = new MySerial();
         public int kline_send = 0;
         public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
-        private TextBox textBox_serial;
+        private TextBox textBox_serial = new TextBox();
 
-        public void Serial_Port_Init()
+        private void Serial_Port_Init()
         {
             if (Init_Parameter.config_parameter.Port_Displayhex == "1")
             {
@@ -104,8 +106,185 @@ namespace Woodpecker
 
         }
 
+        #region -- Serial Port Start 指令集 --
+        public void StartPort_Function()
+        {
+            if (Init_Parameter.config_parameter.PortA_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt16(Init_Parameter.config_parameter.PortA_BaudRate);
+                OpenSerialPort("A", Serial_Paremeter_1);
+                //textBox1.Text = string.Empty;//清空serialport1//
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
+                {
+                    //LogThread1.IsBackground = true;
+                    //LogThread1.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortB_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt16(Init_Parameter.config_parameter.PortB_BaudRate);
+                OpenSerialPort("B", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
+                {
+                    //LogThread2.IsBackground = true;
+                    //LogThread2.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortC_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt16(Init_Parameter.config_parameter.PortC_BaudRate);
+                OpenSerialPort("C", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
+                {
+                    //LogThread3.IsBackground = true;
+                    //LogThread3.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortD_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt16(Init_Parameter.config_parameter.PortD_BaudRate);
+                OpenSerialPort("D", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
+                {
+                    //LogThread4.IsBackground = true;
+                    //LogThread4.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortE_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt16(Init_Parameter.config_parameter.PortE_BaudRate);
+                OpenSerialPort("E", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
+                {
+                    //LogThread5.IsBackground = true;
+                    //LogThread5.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.Kline_Exist == "1")
+            {
+                OpenKlinePort();
+                //textBox_serial.Text = ""; //清空kline//
+            }
+        }
+        #endregion
+
+        #region -- 外部程式 Serial Port Open 指令集 --
+        public bool OpenPort_Function()
+        {
+            if (Init_Parameter.config_parameter.PortA_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortA_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt32(Init_Parameter.config_parameter.PortA_BaudRate);
+                OpenSerialPort("A", Serial_Paremeter_1);
+                //textBox1.Text = string.Empty;//清空serialport1//
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortA == "1")
+                {
+                    //LogThread1.IsBackground = true;
+                    //LogThread1.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortB_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortB_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt32(Init_Parameter.config_parameter.PortB_BaudRate);
+                OpenSerialPort("B", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortB == "1")
+                {
+                    //LogThread2.IsBackground = true;
+                    //LogThread2.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortC_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortC_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt32(Init_Parameter.config_parameter.PortC_BaudRate);
+                OpenSerialPort("C", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortC == "1")
+                {
+                    //LogThread3.IsBackground = true;
+                    //LogThread3.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortD_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortD_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt32(Init_Parameter.config_parameter.PortD_BaudRate);
+                OpenSerialPort("D", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortD == "1")
+                {
+                    //LogThread4.IsBackground = true;
+                    //LogThread4.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.PortE_Checked == "1")
+            {
+                Serial_Paremeter_1.PortName = Init_Parameter.config_parameter.PortE_PortName;
+                Serial_Paremeter_1.BaudRate = Convert.ToInt32(Init_Parameter.config_parameter.PortE_BaudRate);
+                OpenSerialPort("E", Serial_Paremeter_1);
+                if (Init_Parameter.config_parameter.LogSearch_TextNum != "0" && Init_Parameter.config_parameter.LogSearch_PortE == "1")
+                {
+                    //LogThread5.IsBackground = true;
+                    //LogThread5.Start();
+                }
+            }
+
+            if (Init_Parameter.config_parameter.Kline_Exist == "1")
+            {
+                OpenKlinePort();
+                //textBox_serial.Text = ""; //清空kline//
+            }
+
+            return true;
+        }
+        #endregion
+
+        #region -- 外部程式 Serial Port Close 指令集 --
+        public void ClosePort_Function()
+        {
+            if (Init_Parameter.config_parameter.PortA_Checked == "1")
+            {
+                CloseSerialPort("A");
+            }
+            //如果serialport開著則先關閉//
+            if (Init_Parameter.config_parameter.PortB_Checked == "1")
+            {
+                CloseSerialPort("B");
+            }
+            if (Init_Parameter.config_parameter.PortC_Checked == "1")
+            {
+                CloseSerialPort("C");
+            }
+            if (Init_Parameter.config_parameter.PortD_Checked == "1")
+            {
+                CloseSerialPort("D");
+            }
+            if (Init_Parameter.config_parameter.PortE_Checked == "1")
+            {
+                CloseSerialPort("E");
+            }
+            if (MySerialPort.IsPortOpened() == true)
+            {
+                CloseSerialPort("kline");
+            }
+        }
+        #endregion
+
         #region -- SerialPort Setup --
-        public SerialErrorCode OpenSerialPort(string Port, SerialPortParemeter param)
+        private SerialErrorCode OpenSerialPort(string Port, SerialPortParemeter param)
         {
             SerialErrorCode return_code = new SerialErrorCode();
 
