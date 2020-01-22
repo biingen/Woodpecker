@@ -21,10 +21,11 @@ namespace Woodpecker
         private IRedRat3 redRat3 = null;
         private RedRatDBParser RedRatData = new RedRatDBParser();
         public BlueRat MyBlueRat = new BlueRat();
-        private bool BlueRat_UART_Exception_status = false;
         private Capture capture = null;
         private Filters filters = null;
-        public bool _captureInProgress;
+        private bool BlueRat_UART_Exception_status = false;
+        private bool _captureInProgress;
+        private bool can_status;
 
         //CanReader
         public CAN_Reader MYCanReader = new CAN_Reader();
@@ -36,7 +37,6 @@ namespace Woodpecker
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
         System.Windows.Forms.Timer timer_ca310 = new System.Windows.Forms.Timer();
-
 
         #region -- Pre-Load 指令集 --
         public void Device_Load()
@@ -95,16 +95,24 @@ namespace Woodpecker
 
             if (Init_Parameter.config_parameter.Canbus_Exist == "1")
             {
-                String can_name;
-                List<String> dev_list = MYCanReader.FindUsbDevice();
-                can_name = string.Join(",", dev_list);
-                //Init_Parameter.config_parameter.Canbus_DevName = can_name;
-                if (Init_Parameter.config_parameter.Canbus_DevIndex == "")
-                    Init_Parameter.config_parameter.Canbus_DevIndex = "0";
-                if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
-                    Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
-                ConnectCanBus();
-                //pictureBox_canbus.Image = Properties.Resources.ON;
+                if (can_status == false)
+                {
+                    String can_name;
+                    List<String> dev_list = MYCanReader.FindUsbDevice();
+                    can_name = string.Join(",", dev_list);
+                    //Init_Parameter.config_parameter.Canbus_DevName = can_name;
+                    if (Init_Parameter.config_parameter.Canbus_DevIndex == "")
+                        Init_Parameter.config_parameter.Canbus_DevIndex = "0";
+                    if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
+                        Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
+                    ConnectCanBus();
+                    can_status = true;
+                    //pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+
+                }
             }
             else
             {
