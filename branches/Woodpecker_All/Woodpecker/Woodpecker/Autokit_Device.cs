@@ -24,8 +24,8 @@ namespace Woodpecker
         private Capture capture = null;
         private Filters filters = null;
         private bool BlueRat_UART_Exception_status = false;
-        private bool _captureInProgress;
-        private bool can_status;
+        private bool capture_Progress;
+        private bool can_Progress, camera_Progress;
 
         //CanReader
         public CAN_Reader MYCanReader = new CAN_Reader();
@@ -76,7 +76,29 @@ namespace Woodpecker
 
             if (Init_Parameter.config_parameter.Camera_Exist == "1")
             {
-                Camstart();
+                if (camera_Progress == false)
+                {
+                    filters = new Filters();
+                    Filter f;
+
+                    Init_Parameter.config_parameter.Camera_VideoNumber = filters.VideoInputDevices.Count.ToString();
+
+                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                    {
+                        f = filters.VideoInputDevices[c];
+                        if (f.Name == Init_Parameter.config_parameter.Camera_VideoName)
+                        {
+                            f.Name = Init_Parameter.config_parameter.Camera_VideoName;
+                        }
+                    }
+                    camera_Progress = true;
+                }
+
+                if (!capture_Progress)
+                {
+                    capture_Progress = true;
+                    OnOffCamera();
+                }
             }
             else
             {
@@ -95,7 +117,7 @@ namespace Woodpecker
 
             if (Init_Parameter.config_parameter.Canbus_Exist == "1")
             {
-                if (can_status == false)
+                if (can_Progress == false)
                 {
                     String can_name;
                     List<String> dev_list = MYCanReader.FindUsbDevice();
@@ -106,7 +128,7 @@ namespace Woodpecker
                     if (Init_Parameter.config_parameter.Canbus_BaudRate == "")
                         Init_Parameter.config_parameter.Canbus_BaudRate = "500 Kbps";
                     ConnectCanBus();
-                    can_status = true;
+                    can_Progress = true;
                     //pictureBox_canbus.Image = Properties.Resources.ON;
                 }
                 else
@@ -613,7 +635,7 @@ namespace Woodpecker
         #region -- 拍照 --
         private System.Windows.Forms.PictureBox panelVideo;
 
-        public void Camstart()
+        private void Camstart()
         {
             try
             {
@@ -735,12 +757,12 @@ namespace Woodpecker
 
         public void OnOffCamera()//啟動攝影機//
         {
-            if (_captureInProgress == true)
+            if (capture_Progress == true)
             {
                 Camstart();
             }
 
-            if (_captureInProgress == false && capture != null)
+            if (capture_Progress == false && capture != null)
             {
                 capture.Stop();
                 capture.Dispose();
