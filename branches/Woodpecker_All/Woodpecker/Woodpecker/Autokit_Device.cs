@@ -616,16 +616,27 @@ namespace Woodpecker
 
         public void RedRatDBViewer_Delay(int delay_ms)
         {
-            System.Windows.Forms.Label TimeLabel2 = new System.Windows.Forms.Label();
             //Console.WriteLine("RedRatDBViewer_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             //aTimer.Interval = delay_ms;
             aTimer.Elapsed += new ElapsedEventHandler(RedRatDBViewer_Delay_OnTimedEvent);
-            aTimer.SynchronizingObject = TimeLabel2;
             RedRatDBViewer_Delay_TimeOutIndicator = false;
             aTimer.Enabled = true;
             aTimer.Start();
+            while ((RedRatDBViewer_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+
             aTimer.Stop();
             aTimer.Dispose();
             //Console.WriteLine("RedRatDBViewer_Delay: End.");

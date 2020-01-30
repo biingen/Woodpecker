@@ -15,6 +15,14 @@ namespace Woodpecker
         /// 應用程式的主要進入點。
         /// </summary>
         [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Extra_Commander());
+        }
+/*
+        [STAThread]
         static void Main(string[] args)
         {
             //高Dpi設定
@@ -60,7 +68,7 @@ namespace Woodpecker
                 Application.Run(new Extra_Commander(args[0].ToString()));
             }
         }
-
+*/
         public static frm_Splash SplashForm
         {
             get;

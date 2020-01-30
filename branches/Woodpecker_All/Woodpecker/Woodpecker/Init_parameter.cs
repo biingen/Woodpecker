@@ -1,7 +1,10 @@
 ﻿using jini;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -182,11 +185,12 @@ namespace Woodpecker
         public string MailInfo_Tester;
         public string MailInfo_TeamViewerID;
         public string MailInfo_TeamViewerPassWord;
+
         public static Init_Parameter config_parameter = new Init_Parameter();
         static string MainSettingPath = Application.StartupPath + "\\Config.ini";
         static string MailPath = Application.StartupPath + "\\Mail.ini";
 
-        public static void Config_initial()
+        public void Config_initial()
         {
             config_parameter.Device_AutoboxExist = ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "");
             config_parameter.Device_AutoboxVerson = ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "");
@@ -356,133 +360,75 @@ namespace Woodpecker
             config_parameter.MailInfo_TeamViewerID = ini12.INIRead(MailPath, "MailInfo", "TeamViewerID", "");
             config_parameter.MailInfo_TeamViewerPassWord = ini12.INIRead(MailPath, "MailInfo", "TeamViewerPassWord", "");
         }
-        /*
-        public struct Device
+    }
+
+    class Init_Schedule
+    {
+        public List<string[]> schedule_data = new List<string[]>();
+
+        #region -- Schedule功能 --
+        public void ReadSch(string SchedulePath)
         {
-            public uint AutoboxExist;
-            public uint AutoboxVerson;
-            public string AutoboxPort;
-            public string DOS;
-            public uint RunAfterStartUp;
-            public uint CA310Exist;
+            //string TextLine = "";
+            //string[] SplitLine;
+            int i = 0;
+            if ((File.Exists(SchedulePath) == true) && IsFileLocked(SchedulePath) == false)
+            {
+                TextFieldParser parser = new TextFieldParser(SchedulePath);
+                parser.Delimiters = new string[] { "," };
+                string[] parts = new string[11];
+                while (!parser.EndOfData)
+                {
+                    try
+                    {
+                        parts = parser.ReadFields();
+                        if (parts == null)
+                        {
+                            break;
+                        }
+
+                        if (i != 0)
+                        {
+                            schedule_data.Add(parts);
+                        }
+                        i++;
+                    }
+                    catch (MalformedLineException)
+                    {
+                        //MessageBox.Show("Schedule cannot contain double quote ( \" \" ).", "Schedule foramt error");
+                    }
+                }
+                parser.Close();
+            }
+            else if (IsFileLocked(SchedulePath))
+            {
+                //MessageBox.Show("Please check your .csv file is closed, then press Settings to reload the schedule.", "File lock error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+
+            }
         }
 
-        public struct RedRat
+        public static bool IsFileLocked(string file)
         {
-            public uint RedRatExist;
-            public uint RedRatIndex;
-            public string DBFile;
-            public string Brands;
-            public string SerialNumber;
+            try
+            {
+                using (File.Open(file, FileMode.Open, FileAccess.Write, FileShare.None))
+                {
+                    return false;
+                }
+            }
+            catch (IOException exception)
+            {
+                var errorCode = Marshal.GetHRForException(exception) & 65535;
+                return errorCode == 32 || errorCode == 33;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-
-        public struct Camera
-        {
-            public uint CameraExist;
-            public uint VideoIndex;
-            public uint VideoNumber;
-            public uint VideoName;
-            public uint AudioIndex;
-            public uint AudioNumber;
-            public uint AudioName;
-        }
-
-        public struct SerialPort
-        {
-            public uint Checked;
-            public string PortName;
-            public uint BaudRate;
-            public string DataBit;
-            public string StopBits;
-            public uint DisplayHex;
-        }
-
-        public struct Record
-        {
-            public string VideoPath;
-            public string LogPath;
-            public string Generator;
-            public uint CompareChoose;
-            public uint CompareDifferent;
-            public uint EachVideo;
-            public uint ImportDB;
-            public uint FootprintMode;
-        }
-
-        public struct Schedule
-        {
-            public uint Exist;
-            public uint Loop;
-            public uint OnTimeStart;
-            public string Timer;
-            public string Path;
-        }
-
-        public struct Kline
-        {
-            public uint Exist;
-            public string PortName;
-        }
-
-        public struct Canbus
-        {
-            public uint Exist;
-            public uint Log;
-            public string BaudRate;
-            public uint DevIndex;
-        }
-
-        public struct LogSearch
-        {
-            public uint Comport1;
-            public uint Comport2;
-            public uint Comport3;
-            public uint Comport4;
-            public uint Comport5;
-            public uint TextNum;
-            public uint Camerarecord;
-            public uint Camerashot;
-            public uint Sendmail;
-            public uint Savelog;
-            public uint Showmessage;
-            public uint ACcontrol;
-            public uint ACOFF;
-            public uint Stop;
-            public uint Nowvalue;
-            public uint Times0;
-            public uint Times1;
-            public uint Times2;
-            public uint Times3;
-            public uint Times4;
-            public uint Times5;
-            public uint Times6;
-            public uint Times7;
-            public uint Times8;
-            public uint Times9;
-
-            public string StartTime;
-            public string Path;
-            public string Text0;
-            public string Text1;
-            public string Text2;
-            public string Text3;
-            public string Text4;
-            public string Text5;
-            public string Text6;
-            public string Text7;
-            public string Text8;
-            public string Text9;
-            public string Display0;
-            public string Display1;
-            public string Display2;
-            public string Display3;
-            public string Display4;
-            public string Display5;
-            public string Display6;
-            public string Display7;
-            public string Display8;
-            public string Display9;
-        }
-        */
+        #endregion
     }
 }
