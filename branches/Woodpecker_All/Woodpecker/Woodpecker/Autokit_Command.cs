@@ -89,7 +89,7 @@ namespace Woodpecker
 
                     if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
                         SysDelay = int.Parse(columns_wait); // 指令停止時間
-                    else if (columns_wait != "" && columns_wait.Contains('m') == true)
+                    else if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == true)
                         SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                     else
                         SysDelay = 0;
