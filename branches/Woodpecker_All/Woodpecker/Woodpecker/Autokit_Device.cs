@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DirectX.Capture;
 using BlueRatLibrary;
@@ -644,7 +645,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        private System.Windows.Forms.PictureBox panelVideo;
+        private System.Windows.Forms.PictureBox recVideo;
 
         private void Camstart()
         {
@@ -748,7 +749,7 @@ namespace Woodpecker
                 {
                     try
                     {
-                        capture.PreviewWindow = panelVideo;
+                        capture.PreviewWindow = recVideo;
                     }
                     catch (Exception ex)
                     {
@@ -810,9 +811,9 @@ namespace Woodpecker
             //圖片印字
             Bitmap newBitmap = CloneBitmap(e);
             newBitmap = CloneBitmap(e);
-            panelVideo.Image = newBitmap;
+            recVideo.Image = newBitmap;
 
-            Graphics bitMap_g = Graphics.FromImage(panelVideo.Image);//底圖
+            Graphics bitMap_g = Graphics.FromImage(recVideo.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
             string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
@@ -842,7 +843,7 @@ namespace Woodpecker
             bitMap_g.Dispose();
 
             string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
-            panelVideo.Image.Save(t);
+            recVideo.Image.Save(t);
         }
         #endregion
 
