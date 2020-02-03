@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DirectX.Capture;
 using BlueRatLibrary;
 using Microsoft.Win32.SafeHandles;
 using System.Runtime.InteropServices;
@@ -14,6 +13,8 @@ using RedRat.RedRat3;
 using System.Timers;
 using System.IO;
 using System.Diagnostics;
+using Emgu.CV;
+using Emgu.CV.Structure;
 
 namespace Woodpecker
 {
@@ -22,8 +23,9 @@ namespace Woodpecker
         private IRedRat3 redRat3 = null;
         private RedRatDBParser RedRatData = new RedRatDBParser();
         public BlueRat MyBlueRat = new BlueRat();
-        private Capture capture = null;
-        private Filters filters = null;
+        //判斷是否啟動webcam的frame旗標
+        private bool _captureInProgress = false;
+        private Capture cap = null;                 // Webcam物件
         private bool BlueRat_UART_Exception_status = false;
         private bool capture_Progress;
         private bool can_Progress, camera_Progress;
@@ -79,6 +81,7 @@ namespace Woodpecker
             {
                 if (camera_Progress == false)
                 {
+/*
                     filters = new Filters();
                     Filter f;
 
@@ -93,12 +96,13 @@ namespace Woodpecker
                         }
                     }
                     camera_Progress = true;
+*/
                 }
 
                 if (!capture_Progress)
                 {
                     capture_Progress = true;
-                    OnOffCamera();
+                    //OnOffCamera();
                 }
             }
             else
@@ -646,7 +650,7 @@ namespace Woodpecker
 
         #region -- 拍照 --
         private System.Windows.Forms.PictureBox recVideo;
-
+/*
         private void Camstart()
         {
             try
@@ -905,7 +909,7 @@ namespace Woodpecker
                 Vread = false;
                 MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }*/
-        }
+//        }
         #endregion
 
         #region -- Canbus --

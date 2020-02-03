@@ -403,7 +403,7 @@ namespace Woodpecker
                             Global.caption_Num++;
                             if (Global.Loop_Number == 1)
                                 Global.caption_Sum = Global.caption_Num;
-                            Autokit_Device_1.Myshot();
+                            //Autokit_Device_1.Myshot();
                             Global.label_Command = "Take Picture";
                         }
                         else
@@ -421,9 +421,9 @@ namespace Woodpecker
                         {
                             if (Global.VideoRecording == false)
                             {
-                                Autokit_Device_1.Savevideo(); // 開新檔
+                                //Autokit_Device_1.Savevideo(); // 開新檔
                                 Global.VideoRecording = true;
-                                Autokit_Device_1.MySrtCamd();
+                                //Autokit_Device_1.MySrtCamd();
                             }
                             Global.label_Command = "Start Recording";
                         }
@@ -441,7 +441,7 @@ namespace Woodpecker
                             if (Global.VideoRecording == true)       //判斷是不是正在錄影
                             {
                                 Global.VideoRecording = false;
-                                Autokit_Device_1.Mysstop();      //先將先前的關掉
+                                //Autokit_Device_1.Mysstop();      //先將先前的關掉
                             }
                             Global.label_Command = "Stop Recording";
                         }

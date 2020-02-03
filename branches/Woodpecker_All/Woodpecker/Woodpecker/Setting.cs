@@ -1,4 +1,4 @@
-﻿using DirectX.Capture;
+﻿//using DirectX.Capture;
 using jini;
 using MaterialSkin;
 using RedRat.RedRat3;
@@ -522,6 +522,7 @@ namespace Woodpecker
             #region -- Camera --
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")//Camera存在//
             {
+/*
                 comboBox_CameraDevice.Enabled = true;
                 comboBox_CameraAudio.Enabled = true;
                 try
@@ -581,7 +582,7 @@ namespace Woodpecker
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
-            }
+*/          }
             #endregion
 
             #region -- Canbus --
