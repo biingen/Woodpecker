@@ -81,6 +81,10 @@ namespace Woodpecker
             {
                 if (camera_Progress == false)
                 {
+                    cap = new Capture(0); // 連結到攝影機0，如果你有兩台攝影機，第二台就是1
+                    Application_Idle(); // 在Idle的event下，把畫面設定到pictureBox上(當然你也可以用timer事件)
+                }
+
 /*
                     filters = new Filters();
                     Filter f;
@@ -97,7 +101,6 @@ namespace Woodpecker
                     }
                     camera_Progress = true;
 */
-                }
 
                 if (!capture_Progress)
                 {
@@ -650,266 +653,273 @@ namespace Woodpecker
 
         #region -- 拍照 --
         private System.Windows.Forms.PictureBox recVideo;
-/*
-        private void Camstart()
+
+        void Application_Idle()
         {
-            try
-            {
-                Filters filters = new Filters();
-                Filter f;
-
-                List<string> video = new List<string> { };
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+            Image<Bgr, Byte> frame = cap.QueryFrame(); // 去query該畫面
+            recVideo.Image = frame.ToBitmap(); // 把畫面轉換成bitmap型態，在餵給pictureBox元件
+            CaptureDone(frame.ToBitmap());
+        }
+        /*
+                private void Camstart()
                 {
-                    f = filters.VideoInputDevices[c];
-                    video.Add(f.Name);
-                }
-
-                List<string> audio = new List<string> { };
-                for (int j = 0; j < filters.AudioInputDevices.Count; j++)
-                {
-                    f = filters.AudioInputDevices[j];
-                    audio.Add(f.Name);
-                }
-
-                int scam, saud, VideoNum, AudioNum = 0;
-                if (Init_Parameter.config_parameter.Camera_VideoIndex == "")
-                    scam = 0;
-                else
-                    scam = int.Parse(Init_Parameter.config_parameter.Camera_VideoIndex);
-
-                if (Init_Parameter.config_parameter.Camera_AudioIndex == "")
-                    saud = 0;
-                else
-                    saud = int.Parse(Init_Parameter.config_parameter.Camera_AudioIndex);
-
-                if (Init_Parameter.config_parameter.Camera_VideoNumber == "")
-                    VideoNum = 0;
-                else
-                    VideoNum = int.Parse(Init_Parameter.config_parameter.Camera_VideoNumber);
-
-                if (Init_Parameter.config_parameter.Camera_AudioNumber == "")
-                    AudioNum = 0;
-                else
-                    AudioNum = int.Parse(Init_Parameter.config_parameter.Camera_AudioNumber);
-
-                if (filters.VideoInputDevices.Count < VideoNum ||
-                    filters.AudioInputDevices.Count < AudioNum)
-                {
-
-                }
-                else
-                {
-                    capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
                     try
                     {
-                        capture.FrameSize = new Size(2304, 1296);
-                        Init_Parameter.config_parameter.Camera_Resolution = "2304*1296";
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
-                        try
+                        Filters filters = new Filters();
+                        Filter f;
+
+                        List<string> video = new List<string> { };
+                        for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                         {
-                            capture.FrameSize = new Size(1920, 1080);
-                            Init_Parameter.config_parameter.Camera_Resolution = "1920*1080";
+                            f = filters.VideoInputDevices[c];
+                            video.Add(f.Name);
                         }
-                        catch (Exception ex1)
+
+                        List<string> audio = new List<string> { };
+                        for (int j = 0; j < filters.AudioInputDevices.Count; j++)
                         {
-                            Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
+                            f = filters.AudioInputDevices[j];
+                            audio.Add(f.Name);
+                        }
+
+                        int scam, saud, VideoNum, AudioNum = 0;
+                        if (Init_Parameter.config_parameter.Camera_VideoIndex == "")
+                            scam = 0;
+                        else
+                            scam = int.Parse(Init_Parameter.config_parameter.Camera_VideoIndex);
+
+                        if (Init_Parameter.config_parameter.Camera_AudioIndex == "")
+                            saud = 0;
+                        else
+                            saud = int.Parse(Init_Parameter.config_parameter.Camera_AudioIndex);
+
+                        if (Init_Parameter.config_parameter.Camera_VideoNumber == "")
+                            VideoNum = 0;
+                        else
+                            VideoNum = int.Parse(Init_Parameter.config_parameter.Camera_VideoNumber);
+
+                        if (Init_Parameter.config_parameter.Camera_AudioNumber == "")
+                            AudioNum = 0;
+                        else
+                            AudioNum = int.Parse(Init_Parameter.config_parameter.Camera_AudioNumber);
+
+                        if (filters.VideoInputDevices.Count < VideoNum ||
+                            filters.AudioInputDevices.Count < AudioNum)
+                        {
+
+                        }
+                        else
+                        {
+                            capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
                             try
                             {
-                                capture.FrameSize = new Size(1280, 720);
-                                Init_Parameter.config_parameter.Camera_Resolution = "1280*720";
+                                capture.FrameSize = new Size(2304, 1296);
+                                Init_Parameter.config_parameter.Camera_Resolution = "2304*1296";
                             }
-                            catch (Exception ex2)
+                            catch (Exception ex)
                             {
-                                Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
+                                Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
                                 try
                                 {
-                                    capture.FrameSize = new Size(640, 480);
-                                    Init_Parameter.config_parameter.Camera_Resolution = "640*480";
+                                    capture.FrameSize = new Size(1920, 1080);
+                                    Init_Parameter.config_parameter.Camera_Resolution = "1920*1080";
                                 }
-                                catch (Exception ex3)
+                                catch (Exception ex1)
                                 {
-                                    Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                    Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
                                     try
                                     {
-                                        capture.FrameSize = new Size(320, 240);
-                                        Init_Parameter.config_parameter.Camera_Resolution = "320*240";
+                                        capture.FrameSize = new Size(1280, 720);
+                                        Init_Parameter.config_parameter.Camera_Resolution = "1280*720";
                                     }
-                                    catch (Exception ex4)
+                                    catch (Exception ex2)
                                     {
-                                        Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                        Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
+                                        try
+                                        {
+                                            capture.FrameSize = new Size(640, 480);
+                                            Init_Parameter.config_parameter.Camera_Resolution = "640*480";
+                                        }
+                                        catch (Exception ex3)
+                                        {
+                                            Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                            try
+                                            {
+                                                capture.FrameSize = new Size(320, 240);
+                                                Init_Parameter.config_parameter.Camera_Resolution = "320*240";
+                                            }
+                                            catch (Exception ex4)
+                                            {
+                                                Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                            }
+                                        }
                                     }
                                 }
                             }
+                            capture.CaptureComplete += new EventHandler(OnCaptureComplete);
+                        }
+
+                        if (capture.PreviewWindow == null)
+                        {
+                            try
+                            {
+                                capture.PreviewWindow = recVideo;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
+                            }
+                        }
+                        else
+                        {
+                            capture.PreviewWindow = null;
                         }
                     }
-                    capture.CaptureComplete += new EventHandler(OnCaptureComplete);
-                }
-
-                if (capture.PreviewWindow == null)
-                {
-                    try
+                    catch (NotSupportedException)
                     {
-                        capture.PreviewWindow = recVideo;
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
-                    }
+                        Console.Write("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                    };
                 }
-                else
+
+                public void OnOffCamera()//啟動攝影機//
                 {
-                    capture.PreviewWindow = null;
+                    if (capture_Progress == true)
+                    {
+                        Camstart();
+                    }
+
+                    if (capture_Progress == false && capture != null)
+                    {
+                        capture.Stop();
+                        capture.Dispose();
+                    }
                 }
-            }
-            catch (NotSupportedException)
-            {
-                Console.Write("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
-            };
-        }
 
-        public void OnOffCamera()//啟動攝影機//
-        {
-            if (capture_Progress == true)
-            {
-                Camstart();
-            }
+                private void OnCaptureComplete(object sender, EventArgs e)
+                {
+                    // Demonstrate the Capture.CaptureComplete event.
+                    Debug.WriteLine("Capture complete.");
+                }
 
-            if (capture_Progress == false && capture != null)
-            {
-                capture.Stop();
-                capture.Dispose();
-            }
-        }
+                //private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
 
-        private void OnCaptureComplete(object sender, EventArgs e)
-        {
-            // Demonstrate the Capture.CaptureComplete event.
-            Debug.WriteLine("Capture complete.");
-        }
+                public void Myshot()
+                {
+                    capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+                    capture.GrapImg();
+                }
+*/
+                // 複製原始圖片
+                protected Bitmap CloneBitmap(Bitmap source)
+                {
+                    return new Bitmap(source);
+                }
 
-        //private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+                private void CaptureDone(System.Drawing.Bitmap e)
+                {
 
-        public void Myshot()
-        {
-            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
-            capture.GrapImg();
-        }
+                    //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+                    string fName = Init_Parameter.config_parameter.Record_VideoPath;
+                    //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
-        // 複製原始圖片
-        protected Bitmap CloneBitmap(Bitmap source)
-        {
-            return new Bitmap(source);
-        }
+                    //圖片印字
+                    Bitmap newBitmap = CloneBitmap(e);
+                    newBitmap = CloneBitmap(e);
+                    recVideo.Image = newBitmap;
 
-        private void CaptureDone(System.Drawing.Bitmap e)
-        {
+                    Graphics bitMap_g = Graphics.FromImage(recVideo.Image);//底圖
+                    Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+                    Brush FontColor = new SolidBrush(Color.Red);
+                    string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
+                    int YPoint = int.Parse(Resolution[1]);
 
-            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
-            string fName = Init_Parameter.config_parameter.Record_VideoPath;
-            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+                    //照片印上現在步驟//
+                    if (Autokit_Command.columns_command == "_shot")
+                    {
+                        bitMap_g.DrawString(Autokit_Command.columns_remark,
+                                        Font,
+                                        FontColor,
+                                        new PointF(5, YPoint - 120));
+                        bitMap_g.DrawString(Autokit_Command.columns_command + "  ( " + Global.label_Command + " )",
+                                        Font,
+                                        FontColor,
+                                        new PointF(5, YPoint - 80));
+                    }
 
-            //圖片印字
-            Bitmap newBitmap = CloneBitmap(e);
-            newBitmap = CloneBitmap(e);
-            recVideo.Image = newBitmap;
+                    //照片印上現在時間//
+                    bitMap_g.DrawString(string.Format("{0:R}", DateTime.Now),
+                                        Font,
+                                        FontColor,
+                                        new PointF(5, YPoint - 40));
 
-            Graphics bitMap_g = Graphics.FromImage(recVideo.Image);//底圖
-            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-            Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
-            int YPoint = int.Parse(Resolution[1]);
+                    Font.Dispose();
+                    FontColor.Dispose();
+                    bitMap_g.Dispose();
 
-            //照片印上現在步驟//
-            if (Autokit_Command.columns_command == "_shot")
-            {
-                bitMap_g.DrawString(Autokit_Command.columns_remark,
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(Autokit_Command.columns_command + "  ( " + Global.label_Command + " )",
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 80));
-            }
+                    string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
+                    recVideo.Image.Save(t);
+                }
+                #endregion
 
-            //照片印上現在時間//
-            bitMap_g.DrawString(string.Format("{0:R}", DateTime.Now),
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 40));
+                #region -- 錄影 --
+                public void MySrtCamd()
+                {
+                    int count = 1;
+                    string starttime = "0:0:0";
+                    TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
-            Font.Dispose();
-            FontColor.Dispose();
-            bitMap_g.Dispose();
+                    while (Global.VideoRecording)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
+                        //後面的時間減前面的時間後 轉型成TimeSpan即可印出時間差
+                        string endtime = (time_end - time_start).Hours.ToString() + ":" + (time_end - time_start).Minutes.ToString() + ":" + (time_end - time_start).Seconds.ToString();
+                        StreamWriter srtWriter = new StreamWriter(Global.srtstring, true);
+                        srtWriter.WriteLine(count);
 
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
-            recVideo.Image.Save(t);
-        }
-        #endregion
+                        srtWriter.WriteLine(starttime + ",001" + " --> " + endtime + ",000");
+                        srtWriter.WriteLine(Global.label_Command + "     " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                        srtWriter.WriteLine(Autokit_Command.columns_remark);
+                        srtWriter.WriteLine("");
+                        srtWriter.WriteLine("");
+                        srtWriter.Close();
+                        count++;
+                        starttime = endtime;
+                    }
+                }
 
-        #region -- 錄影 --
-        public void MySrtCamd()
-        {
-            int count = 1;
-            string starttime = "0:0:0";
-            TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
+                //private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
+/*
+                public void Mysstop()
+                {
+                    capture.Stop();
+                    capture.Dispose();
+                    Camstart();
+                }
 
-            while (Global.VideoRecording)
-            {
-                System.Threading.Thread.Sleep(1000);
-                TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
-                //後面的時間減前面的時間後 轉型成TimeSpan即可印出時間差
-                string endtime = (time_end - time_start).Hours.ToString() + ":" + (time_end - time_start).Minutes.ToString() + ":" + (time_end - time_start).Seconds.ToString();
-                StreamWriter srtWriter = new StreamWriter(Global.srtstring, true);
-                srtWriter.WriteLine(count);
+                public void Savevideo()//儲存影片//
+                {
+                    string fName = Init_Parameter.config_parameter.Record_VideoPath;
 
-                srtWriter.WriteLine(starttime + ",001" + " --> " + endtime + ",000");
-                srtWriter.WriteLine(Global.label_Command + "     " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                srtWriter.WriteLine(Autokit_Command.columns_remark);
-                srtWriter.WriteLine("");
-                srtWriter.WriteLine("");
-                srtWriter.Close();
-                count++;
-                starttime = endtime;
-            }
-        }
+                    string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".avi";
+                    Global.srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".srt";
 
-        //private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
+                    if (!capture.Cued)
+                        capture.Filename = t;
 
-        public void Mysstop()
-        {
-            capture.Stop();
-            capture.Dispose();
-            Camstart();
-        }
+                    capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+                    capture.Cue(); // 創一個檔
+                    capture.Start(); // 開始錄影
 
-        public void Savevideo()//儲存影片//
-        {
-            string fName = Init_Parameter.config_parameter.Record_VideoPath;
-
-            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".avi";
-            Global.srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".srt";
-
-            if (!capture.Cued)
-                capture.Filename = t;
-
-            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
-            capture.Cue(); // 創一個檔
-            capture.Start(); // 開始錄影
-
-            /*
-            double chd; //檢查HD 空間 小於100M就停止錄影s
-            chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
-            if (chd < 0.1)
-            {
-                Vread = false;
-                MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
-//        }
+                    /*
+                    double chd; //檢查HD 空間 小於100M就停止錄影s
+                    chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
+                    if (chd < 0.1)
+                    {
+                        Vread = false;
+                        MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }*/
+        //        }
         #endregion
 
         #region -- Canbus --
