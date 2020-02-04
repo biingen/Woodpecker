@@ -46,7 +46,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
@@ -97,9 +97,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Camera_NET">
+      <HintPath>..\..\Camera_NET.dll</HintPath>
+    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
+    </Reference>
+    <Reference Include="DirectShowLib-2010">
+      <HintPath>..\..\DirectShowLib-2010.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.CV">
       <HintPath>..\..\Emgu.CV.dll</HintPath>
@@ -372,8 +378,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Debug\"
-xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E
+xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Release\" /Y /I /E</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

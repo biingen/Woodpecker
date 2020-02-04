@@ -1,5 +1,4 @@
-﻿//using DirectX.Capture;
-using jini;
+﻿using jini;
 using MaterialSkin;
 using RedRat.RedRat3;
 using RedRat.RedRat3.USB;
@@ -12,6 +11,8 @@ using System.Linq;
 using System.Management;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Camera_NET;
+using DirectShowLib;
 
 namespace Woodpecker
 {
@@ -582,8 +583,8 @@ namespace Woodpecker
             {
                 comboBox_CameraDevice.Enabled = false;
                 comboBox_CameraAudio.Enabled = false;
-*/          }
-            #endregion
+*/        }
+          #endregion
 
             #region -- Canbus --
             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")     //Canbus存在//

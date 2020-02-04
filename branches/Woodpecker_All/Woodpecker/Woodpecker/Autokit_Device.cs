@@ -15,6 +15,8 @@ using System.IO;
 using System.Diagnostics;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Camera_NET;
+using DirectShowLib;
 
 namespace Woodpecker
 {
@@ -23,9 +25,11 @@ namespace Woodpecker
         private IRedRat3 redRat3 = null;
         private RedRatDBParser RedRatData = new RedRatDBParser();
         public BlueRat MyBlueRat = new BlueRat();
-        //判斷是否啟動webcam的frame旗標
-        private bool _captureInProgress = false;
-        private Capture cap = null;                 // Webcam物件
+        private Capture _capture = null; //Camera
+        private bool _captureInProgress = false; //Variable to track camera state
+        int CameraDevice = 0; //Variable to track camera device selected
+        CameraChoice cameraChoice = new CameraChoice();
+        CameraControl cameraControl = new CameraControl();
         private bool BlueRat_UART_Exception_status = false;
         private bool capture_Progress;
         private bool can_Progress, camera_Progress;
@@ -81,25 +85,42 @@ namespace Woodpecker
             {
                 if (camera_Progress == false)
                 {
-                    cap = new Capture(0); // 連結到攝影機0，如果你有兩台攝影機，第二台就是1
-                    Application_Idle(); // 在Idle的event下，把畫面設定到pictureBox上(當然你也可以用timer事件)
+                    cameraChoice.UpdateDeviceList();
+
+                    Init_Parameter.config_parameter.Camera_VideoNumber = cameraChoice.Devices.Count().ToString();
+
+                    for (int c = 0; c < cameraChoice.Devices.Count(); c++)
+                    {
+                        DirectShowLib.DsDevice f = cameraChoice.Devices[c];
+                        if (f.Name == Init_Parameter.config_parameter.Camera_VideoName)
+                        {
+                            Init_Parameter.config_parameter.Camera_VideoIndex = c.ToString();
+                        }
+                    }
+
+                    if (Init_Parameter.config_parameter.Camera_VideoIndex == "")
+                        Init_Parameter.config_parameter.Camera_VideoIndex = "0";
+
+                    var moniker = cameraChoice.Devices[Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)].Mon;
+                    ResolutionList resolutions = Camera.GetResolutionList(moniker);
+
+                    try
+                    {
+                        _capture = new Capture();//打开默认的摄像头
+                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, resolutions[0].Width);
+                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, resolutions[0].Height);
+                        camera_Progress = true;
+                    }
+                    catch (NullReferenceException excpt)
+                    {
+                        //MessageBox.Show(excpt.Message);
+                    }
+
+                    camera_Progress = true;
                 }
 
 /*
-                    filters = new Filters();
-                    Filter f;
 
-                    Init_Parameter.config_parameter.Camera_VideoNumber = filters.VideoInputDevices.Count.ToString();
-
-                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
-                    {
-                        f = filters.VideoInputDevices[c];
-                        if (f.Name == Init_Parameter.config_parameter.Camera_VideoName)
-                        {
-                            f.Name = Init_Parameter.config_parameter.Camera_VideoName;
-                        }
-                    }
-                    camera_Progress = true;
 */
 
                 if (!capture_Progress)
@@ -652,14 +673,15 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        private System.Windows.Forms.PictureBox recVideo;
+        //private System.Windows.Forms.PictureBox recVideo;
 
-        void Application_Idle()
+        public void Myshot()
         {
-            Image<Bgr, Byte> frame = cap.QueryFrame(); // 去query該畫面
-            recVideo.Image = frame.ToBitmap(); // 把畫面轉換成bitmap型態，在餵給pictureBox元件
+            Image<Bgr, Byte> frame = _capture.QueryFrame(); // 去query該畫面
+            //recVideo.Image = frame.ToBitmap(); // 把畫面轉換成bitmap型態，在餵給pictureBox元件
             CaptureDone(frame.ToBitmap());
         }
+
         /*
                 private void Camstart()
                 {
@@ -825,13 +847,13 @@ namespace Woodpecker
                     //圖片印字
                     Bitmap newBitmap = CloneBitmap(e);
                     newBitmap = CloneBitmap(e);
-                    recVideo.Image = newBitmap;
+                    //recVideo.Image = newBitmap;
 
-                    Graphics bitMap_g = Graphics.FromImage(recVideo.Image);//底圖
+                    Graphics bitMap_g = Graphics.FromImage(e);//底圖
                     Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
                     Brush FontColor = new SolidBrush(Color.Red);
-                    string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
-                    int YPoint = int.Parse(Resolution[1]);
+//                    string[] Resolution = Init_Parameter.config_parameter.Camera_Resolution.Split('*');
+//                    int YPoint = int.Parse(Resolution[1]);
 
                     //照片印上現在步驟//
                     if (Autokit_Command.columns_command == "_shot")
@@ -839,29 +861,29 @@ namespace Woodpecker
                         bitMap_g.DrawString(Autokit_Command.columns_remark,
                                         Font,
                                         FontColor,
-                                        new PointF(5, YPoint - 120));
+                                        new PointF(5, 120));
                         bitMap_g.DrawString(Autokit_Command.columns_command + "  ( " + Global.label_Command + " )",
                                         Font,
                                         FontColor,
-                                        new PointF(5, YPoint - 80));
+                                        new PointF(5, 80));
                     }
 
                     //照片印上現在時間//
                     bitMap_g.DrawString(string.Format("{0:R}", DateTime.Now),
                                         Font,
                                         FontColor,
-                                        new PointF(5, YPoint - 40));
+                                        new PointF(5, 40));
 
                     Font.Dispose();
                     FontColor.Dispose();
                     bitMap_g.Dispose();
 
                     string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + Global.label_LoopNumber + "-" + Global.caption_Num + ").png";
-                    recVideo.Image.Save(t);
+                    e.Save(t);
                 }
                 #endregion
 
-                #region -- 錄影 --
+        #region -- 錄影 --
                 public void MySrtCamd()
                 {
                     int count = 1;

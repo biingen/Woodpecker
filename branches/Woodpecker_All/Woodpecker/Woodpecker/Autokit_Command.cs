@@ -403,7 +403,7 @@ namespace Woodpecker
                             Global.caption_Num++;
                             if (Global.Loop_Number == 1)
                                 Global.caption_Sum = Global.caption_Num;
-                            //Autokit_Device_1.Myshot();
+                            Autokit_Device_1.Myshot();
                             Global.label_Command = "Take Picture";
                         }
                         else
