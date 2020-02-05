@@ -103,12 +103,13 @@ namespace Woodpecker
 
                     var moniker = cameraChoice.Devices[Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)].Mon;
                     ResolutionList resolutions = Camera.GetResolutionList(moniker);
+                    string[] Resolution = Init_Parameter.config_parameter.Camera_AudioName.Split('x');
 
                     try
                     {
-                        _capture = new Capture();//打开默认的摄像头
-                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, resolutions[0].Width);
-                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, resolutions[0].Height);
+                        _capture = new Capture(Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex));//打开默认的摄像头
+                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH, int.Parse(Resolution[0]));
+                        _capture.SetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT, int.Parse(Resolution[1]));
                         camera_Progress = true;
                     }
                     catch (NullReferenceException excpt)
@@ -119,9 +120,6 @@ namespace Woodpecker
                     camera_Progress = true;
                 }
 
-/*
-
-*/
 
                 if (!capture_Progress)
                 {

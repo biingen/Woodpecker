@@ -27,6 +27,8 @@ namespace Woodpecker
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
         //private CAN_Reader MYCanReader = new CAN_Reader();
+        CameraChoice cameraChoice = new CameraChoice();
+        CameraControl cameraControl = new CameraControl();
 
         private void loadxml()
         {
@@ -161,8 +163,8 @@ namespace Woodpecker
             //Camera Device, Audio//
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraResolution.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraResolution.Text);
 
             //RedRat Brands, Select RC//
             ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
@@ -523,55 +525,64 @@ namespace Woodpecker
             #region -- Camera --
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")//Camera存在//
             {
-/*
                 comboBox_CameraDevice.Enabled = true;
-                comboBox_CameraAudio.Enabled = true;
+                comboBox_CameraResolution.Enabled = true;
                 try
                 {
-                    Filters filters = new Filters();
-                    Filter f;
+                    cameraChoice.UpdateDeviceList();
 
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", (cameraChoice.Devices.Count()-1).ToString());
+                    //ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
 
-                    List<string> cameraDeviceList = new List<string> { };
-                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                    for (int c = 0; c < cameraChoice.Devices.Count(); c++)
                     {
-                        f = filters.VideoInputDevices[c];
+                        DirectShowLib.DsDevice f = cameraChoice.Devices[c];
                         comboBox_CameraDevice.Items.Add(f.Name);
-                        cameraDeviceList.Add(f.Name);
-                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        if (f.Name == Init_Parameter.config_parameter.Camera_VideoName)
                         {
-                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                            Init_Parameter.config_parameter.Camera_VideoIndex = c.ToString();
                         }
                     }
-                    string cameraDevice = String.Join(",", cameraDeviceList.ToArray());
+                    string cameraDevice = String.Join(",", cameraChoice.Devices[Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)].Name);
                     ini12.INIWrite(MainSettingPath, "Camera", "CameraDevice", cameraDevice);
 
-                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                    if (comboBox_CameraDevice.Text == "" && cameraChoice.Devices.Count() > 0)
                     {
-                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                        comboBox_CameraDevice.SelectedIndex = cameraChoice.Devices.Count() - 1;
                         ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
                         ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
                     }
+                    /*
+                                        for (int j = 0; j < filters.AudioInputDevices.Count; j++)
+                                        {
+                                            f = filters.AudioInputDevices[j];
+                                            comboBox_CameraAudio.Items.Add(f.Name);
+                                            if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
+                                            {
+                                                comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+                                            }
+                                        }
 
-                    for (int j = 0; j < filters.AudioInputDevices.Count; j++)
+                                        if (comboBox_CameraAudio.Text == "" && filters.AudioInputDevices.Count > 0)
+                                        {
+                                            comboBox_CameraAudio.SelectedIndex = filters.AudioInputDevices.Count - 1;
+                                            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
+                                            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+                                        }
+                    */
+                    var moniker = cameraChoice.Devices[Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)].Mon;
+                    ResolutionList resolutions = Camera.GetResolutionList(moniker);
+
+                    for (int j = 0; j < resolutions.Count; j++)
                     {
-                        f = filters.AudioInputDevices[j];
-                        comboBox_CameraAudio.Items.Add(f.Name);
-                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
+                        comboBox_CameraResolution.Items.Add(resolutions[j].ToString()); 
+                        if (resolutions[j].ToString() == Init_Parameter.config_parameter.Camera_AudioName)
                         {
-                            comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
+                            Init_Parameter.config_parameter.Camera_AudioIndex = j.ToString();
                         }
                     }
 
-                    if (comboBox_CameraAudio.Text == "" && filters.AudioInputDevices.Count > 0)
-                    {
-                        comboBox_CameraAudio.SelectedIndex = filters.AudioInputDevices.Count - 1;
-                        ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-                        ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
-                    }
-                    label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+                    //label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
                 }
                 catch (Exception)
                 {
@@ -582,9 +593,9 @@ namespace Woodpecker
             else
             {
                 comboBox_CameraDevice.Enabled = false;
-                comboBox_CameraAudio.Enabled = false;
-*/        }
-          #endregion
+                comboBox_CameraResolution.Enabled = false;
+            }
+            #endregion
 
             #region -- Canbus --
             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")     //Canbus存在//
@@ -1245,8 +1256,8 @@ namespace Woodpecker
 
         private void comboBox_CameraAudio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraResolution.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraResolution.Text);
         }
 
         private void comboBox_TvBrands_SelectedIndexChanged(object sender, EventArgs e)
