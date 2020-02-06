@@ -573,6 +573,7 @@ namespace Woodpecker
                     var moniker = cameraChoice.Devices[Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)].Mon;
                     ResolutionList resolutions = Camera.GetResolutionList(moniker);
 
+                    comboBox_CameraResolution.Items.Clear();
                     for (int j = 0; j < resolutions.Count; j++)
                     {
                         comboBox_CameraResolution.Items.Add(resolutions[j].ToString()); 
@@ -1252,6 +1253,19 @@ namespace Woodpecker
         {
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+
+            var moniker = cameraChoice.Devices[Convert.ToInt16(comboBox_CameraDevice.SelectedIndex.ToString())].Mon;
+            ResolutionList resolutions = Camera.GetResolutionList(moniker);
+
+            comboBox_CameraResolution.Items.Clear();
+            for (int j = 0; j < resolutions.Count; j++)
+            {
+                comboBox_CameraResolution.Items.Add(resolutions[j].ToString());
+                if (resolutions[j].ToString() == Init_Parameter.config_parameter.Camera_AudioName)
+                {
+                    Init_Parameter.config_parameter.Camera_AudioIndex = j.ToString();
+                }
+            }
         }
 
         private void comboBox_CameraAudio_SelectedIndexChanged(object sender, EventArgs e)
