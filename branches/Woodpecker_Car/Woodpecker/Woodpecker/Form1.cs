@@ -658,7 +658,7 @@ namespace Woodpecker
             {
                 temp_version = MyBlueRat.FW_VER;
                 float v = temp_version;
-                label_BoxVersion.Text = "_" + (v / 100).ToString();
+                label_BoxVersion.Text = "_" + (v / 100).ToString("0.00");
 
                 MyBlueRat.Force_Init_BlueRat();
                 MyBlueRat.Reset_SX1509();
