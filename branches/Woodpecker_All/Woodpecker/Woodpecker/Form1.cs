@@ -1657,11 +1657,23 @@ namespace Woodpecker
                     {
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
-
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, strValues);
-                        // textBox1.AppendText(strValues);
+
+                        if (strValues.Contains("\r"))   //For showing temperature recorder log 
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                log1_text = string.Concat(log1_text, strValues);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log1_text = string.Concat(log1_text, strValues);
+                        }
                     }
                 }
             }
