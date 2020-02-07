@@ -30,6 +30,9 @@ namespace Woodpecker
         int CameraDevice = 0; //Variable to track camera device selected
         CameraChoice cameraChoice = new CameraChoice();
         CameraControl cameraControl = new CameraControl();
+        VideoWriter VW;
+        bool recordstate = false;
+        int FrameCount;
         private bool BlueRat_UART_Exception_status = false;
         private bool capture_Progress;
         private bool can_Progress, camera_Progress;
@@ -787,57 +790,72 @@ namespace Woodpecker
                 starttime = endtime;
             }
         }
-        /*
-        private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
+
+        //private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         public void Mysstop()
         {
-            capture.Stop();
-            capture.Dispose();
+            _capture.Dispose();
             Camstart();
         }
-        */
+
+        public void Mysvideo()
+        {
+            _capture = new Capture();
+            if (_capture == null)
+            {
+                Console.WriteLine("can't find a camera");
+            }
+
+            Image<Bgr, byte> temp = _capture.QueryFrame();
+
+            string fName = Init_Parameter.config_parameter.Record_VideoPath;
+
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".avi";
+            Global.srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".srt";
+
+            VideoWriter video = new VideoWriter(t, CvInvoke.CV_FOURCC('X', 'V', 'I', 'D'), 20, Convert.ToInt32(_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_WIDTH)), Convert.ToInt32(_capture.GetCaptureProperty(Emgu.CV.CvEnum.CAP_PROP.CV_CAP_PROP_FRAME_HEIGHT)), true);
+
+            while (temp != null)
+            {
+                CvInvoke.cvShowImage("camera", temp.Ptr);
+                temp = _capture.QueryFrame();
+                int c = CvInvoke.cvWaitKey(20);
+                video.WriteFrame<Bgr, byte>(temp);
+                if (c == 27) break;
+            }
+            video.Dispose();
+            CvInvoke.cvDestroyWindow("camera");
+
+            //錄影完需將影像停止不然會出錯
+
+            _captureInProgress = false;
+        }
+        /*
         public void Savevideo()//儲存影片//
         {
             string fName = Init_Parameter.config_parameter.Record_VideoPath;
 
             string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".avi";
             Global.srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + Global.label_LoopNumber + ".srt";
-            /*
-            Image<Bgr, Byte> frame = _capture.RetrieveBgrFrame(Convert.ToInt16(Init_Parameter.config_parameter.Camera_VideoIndex)); //capture to a Image variable so we can use it for writing to the VideoWriter
-            DisplayImage(_Capture.RetrieveBgrFrame().ToBitmap()); //Show the image
 
-            //if we wanted to compresse the image to a smaller size to save space on our video we could use
-            //frame.Resize(100,100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR)
-            //But the VideoWriter must be set up with the correct size
-
-            if (recordstate && VW.Ptr != IntPtr.Zero)
-            {
-                VW.WriteFrame(frame); //If we are recording and videowriter is avaliable add the image to the videowriter 
-                                      //Update frame number
-                FrameCount++;
-                UpdateTextBox("Frame: " + FrameCount.ToString(), Frame_lbl);
-
-                //Show time stamp or there abouts
-                UpdateTextBox("Time: " + TimeSpan.FromMilliseconds(SW.ElapsedMilliseconds).ToString(), Time_Label);
-            }
             if (!capture.Cued)
                 capture.Filename = t;
 
             capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
             capture.Cue(); // 創一個檔
             capture.Start(); // 開始錄影
-            */
-            /*
+
             double chd; //檢查HD 空間 小於100M就停止錄影s
             chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
             if (chd < 0.1)
             {
                 Vread = false;
                 MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }*/
-            //        }
+            }
+
         }
+        */
         #endregion
 
         #region -- Canbus --
