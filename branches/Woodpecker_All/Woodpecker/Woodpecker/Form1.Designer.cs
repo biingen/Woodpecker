@@ -134,6 +134,10 @@ namespace Woodpecker
             this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
             this.label_ca310 = new System.Windows.Forms.Label();
             this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
+            this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
+            this.button_BluetoothSearch = new System.Windows.Forms.Button();
+            this.button_Send = new System.Windows.Forms.Button();
+            this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -145,14 +149,6 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.comboBox_Bluetooth = new System.Windows.Forms.ComboBox();
-            this.button_BluetoothSearch = new System.Windows.Forms.Button();
-            this.button_Send = new System.Windows.Forms.Button();
-            this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
-            this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
-            this.label_ca310 = new System.Windows.Forms.Label();
-            this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
-            this.timer_PowerSupply = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1342,6 +1338,7 @@ namespace Woodpecker
             this.button_BluetoothConnect.Text = "Connect";
             this.button_BluetoothConnect.UseVisualStyleBackColor = true;
             this.button_BluetoothConnect.Click += new System.EventHandler(this.button_BluetoothConnect_Click);
+            // 
             // timer_ca310
             // 
             this.timer_ca310.Interval = 250;
@@ -1364,12 +1361,46 @@ namespace Woodpecker
             // 
             this.pictureBox_ca310.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ca310.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ca310.Location = new System.Drawing.Point(520, 88);
+            this.pictureBox_ca310.Location = new System.Drawing.Point(520, 90);
             this.pictureBox_ca310.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ca310.Name = "pictureBox_ca310";
             this.pictureBox_ca310.Size = new System.Drawing.Size(13, 13);
             this.pictureBox_ca310.TabIndex = 113;
             this.pictureBox_ca310.TabStop = false;
+            // 
+            // comboBox_Bluetooth
+            // 
+            this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Bluetooth.FormattingEnabled = true;
+            this.comboBox_Bluetooth.Location = new System.Drawing.Point(974, 262);
+            this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
+            this.comboBox_Bluetooth.Size = new System.Drawing.Size(110, 24);
+            this.comboBox_Bluetooth.TabIndex = 118;
+            // 
+            // button_BluetoothSearch
+            // 
+            this.button_BluetoothSearch.Location = new System.Drawing.Point(1010, 317);
+            this.button_BluetoothSearch.Name = "button_BluetoothSearch";
+            this.button_BluetoothSearch.Size = new System.Drawing.Size(75, 23);
+            this.button_BluetoothSearch.TabIndex = 119;
+            this.button_BluetoothSearch.Text = "Search";
+            this.button_BluetoothSearch.UseVisualStyleBackColor = true;
+            this.button_BluetoothSearch.Click += new System.EventHandler(this.button_BluetoothSearch_Click);
+            // 
+            // button_Send
+            // 
+            this.button_Send.Location = new System.Drawing.Point(1010, 344);
+            this.button_Send.Name = "button_Send";
+            this.button_Send.Size = new System.Drawing.Size(75, 23);
+            this.button_Send.TabIndex = 120;
+            this.button_Send.Text = "Send";
+            this.button_Send.UseVisualStyleBackColor = true;
+            this.button_Send.Click += new System.EventHandler(this.button_Check_Click);
+            // 
+            // timer_Chamber
+            // 
+            this.timer_Chamber.Interval = 10000;
+            this.timer_Chamber.Tick += new System.EventHandler(this.timer_Chamber_Tick);
             // 
             // DataGridView_Schedule
             // 
@@ -1529,74 +1560,6 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // comboBox_Bluetooth
-            // 
-            this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Bluetooth.FormattingEnabled = true;
-            this.comboBox_Bluetooth.Location = new System.Drawing.Point(974, 262);
-            this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
-            this.comboBox_Bluetooth.Size = new System.Drawing.Size(110, 24);
-            this.comboBox_Bluetooth.TabIndex = 118;
-            // 
-            // button_BluetoothSearch
-            // 
-            this.button_BluetoothSearch.Location = new System.Drawing.Point(1010, 317);
-            this.button_BluetoothSearch.Name = "button_BluetoothSearch";
-            this.button_BluetoothSearch.Size = new System.Drawing.Size(75, 23);
-            this.button_BluetoothSearch.TabIndex = 119;
-            this.button_BluetoothSearch.Text = "Search";
-            this.button_BluetoothSearch.UseVisualStyleBackColor = true;
-            this.button_BluetoothSearch.Click += new System.EventHandler(this.button_BluetoothSearch_Click);
-            // 
-            // button_Send
-            // 
-            this.button_Send.Location = new System.Drawing.Point(1010, 344);
-            this.button_Send.Name = "button_Send";
-            this.button_Send.Size = new System.Drawing.Size(75, 23);
-            this.button_Send.TabIndex = 120;
-            this.button_Send.Text = "Send";
-            this.button_Send.UseVisualStyleBackColor = true;
-            this.button_Send.Click += new System.EventHandler(this.button_Check_Click);
-            // 
-            // timer_Chamber
-            // 
-            this.timer_Chamber.Interval = 2000;
-            this.timer_Chamber.Tick += new System.EventHandler(this.timer_Chamber_Tick);
-            // 
-            // timer_ca310
-            // 
-            this.timer_ca310.Interval = 250;
-            this.timer_ca310.Tick += new System.EventHandler(this.timer_ca310_Tick);
-            // 
-            // label_ca310
-            // 
-            this.label_ca310.AutoSize = true;
-            this.label_ca310.BackColor = System.Drawing.Color.Transparent;
-            this.label_ca310.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ca310.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_ca310.Location = new System.Drawing.Point(553, 86);
-            this.label_ca310.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_ca310.Name = "label_ca310";
-            this.label_ca310.Size = new System.Drawing.Size(50, 17);
-            this.label_ca310.TabIndex = 114;
-            this.label_ca310.Text = "CA310";
-            // 
-            // pictureBox_ca310
-            // 
-            this.pictureBox_ca310.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ca310.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ca310.Location = new System.Drawing.Point(536, 90);
-            this.pictureBox_ca310.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_ca310.Name = "pictureBox_ca310";
-            this.pictureBox_ca310.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_ca310.TabIndex = 113;
-            this.pictureBox_ca310.TabStop = false;
-            // 
-            // timer_PowerSupply
-            // 
-            this.timer_PowerSupply.Interval = 2000;
-            this.timer_PowerSupply.Tick += new System.EventHandler(this.timer_PowerSupply_Tick);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1654,7 +1617,6 @@ namespace Woodpecker
             this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel_AcUsb);
-            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.textBox_serial);
             this.Controls.Add(this.panelVideo);
             this.Controls.Add(this.DataGridView_Schedule);
@@ -1821,7 +1783,6 @@ namespace Woodpecker
         private System.Windows.Forms.Timer timer_ca310;
         private System.Windows.Forms.Label label_ca310;
         private System.Windows.Forms.PictureBox pictureBox_ca310;
-        private System.Windows.Forms.Timer timer_PowerSupply;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
     }
 }
