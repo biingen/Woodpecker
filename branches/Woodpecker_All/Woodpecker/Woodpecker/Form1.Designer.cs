@@ -297,9 +297,9 @@ namespace Woodpecker
             this.label_FwVersion.Location = new System.Drawing.Point(2, 118);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
-            this.label_FwVersion.Size = new System.Drawing.Size(88, 20);
+            this.label_FwVersion.Size = new System.Drawing.Size(92, 20);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.13";
+            this.label_FwVersion.Text = "Ver. 0.0.0.0";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -895,12 +895,12 @@ namespace Woodpecker
             this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_BoxVersion.ForeColor = System.Drawing.Color.SteelBlue;
             this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_BoxVersion.Location = new System.Drawing.Point(94, 118);
+            this.label_BoxVersion.Location = new System.Drawing.Point(101, 117);
             this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_BoxVersion.Name = "label_BoxVersion";
-            this.label_BoxVersion.Size = new System.Drawing.Size(18, 20);
+            this.label_BoxVersion.Size = new System.Drawing.Size(49, 20);
             this.label_BoxVersion.TabIndex = 100;
-            this.label_BoxVersion.Text = "_";
+            this.label_BoxVersion.Text = "_0.00";
             this.label_BoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_Remark
@@ -1147,7 +1147,7 @@ namespace Woodpecker
             this.button_Analysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Analysis.ForeColor = System.Drawing.Color.White;
             this.button_Analysis.Location = new System.Drawing.Point(1245, 612);
-            this.button_Analysis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_Analysis.Margin = new System.Windows.Forms.Padding(4);
             this.button_Analysis.Name = "button_Analysis";
             this.button_Analysis.Size = new System.Drawing.Size(108, 38);
             this.button_Analysis.TabIndex = 109;
@@ -1308,7 +1308,7 @@ namespace Woodpecker
             this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_savelog.ForeColor = System.Drawing.Color.White;
             this.button_savelog.Location = new System.Drawing.Point(1245, 566);
-            this.button_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.button_savelog.Name = "button_savelog";
             this.button_savelog.Size = new System.Drawing.Size(108, 39);
             this.button_savelog.TabIndex = 112;
@@ -1322,7 +1322,7 @@ namespace Woodpecker
             this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
             this.comboBox_savelog.Location = new System.Drawing.Point(1245, 529);
-            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(106, 28);
             this.comboBox_savelog.TabIndex = 111;

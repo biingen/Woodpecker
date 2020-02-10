@@ -282,6 +282,7 @@ namespace Woodpecker
                 this.Width = 1120;
             }*/
             int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
+            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
@@ -7226,6 +7227,7 @@ namespace Woodpecker
                     #endregion
                 }
                 Console.WriteLine("Loop_Number: " + Global.Loop_Number);
+                DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -8914,15 +8916,6 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-                }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
