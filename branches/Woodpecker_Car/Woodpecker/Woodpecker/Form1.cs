@@ -230,6 +230,9 @@ namespace Woodpecker
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
 
+            // FwVersion
+            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")

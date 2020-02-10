@@ -202,6 +202,7 @@
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="USB_CAN_Adaptor.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -300,10 +301,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Debug\"
-xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E
-copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Release\"
-xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\\Release\" /Y /I /E</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E
+xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Release\" /Y /I /E</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
