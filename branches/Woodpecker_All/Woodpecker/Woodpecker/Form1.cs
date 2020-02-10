@@ -282,10 +282,12 @@ namespace Woodpecker
                 this.Width = 1120;
             }*/
             int intPercent = (dpiX == 96) ? 100 : (dpiX == 120) ? 125 : 150;
-            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
+
+            // FwVersion
+            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
