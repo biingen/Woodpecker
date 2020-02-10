@@ -191,34 +191,41 @@ namespace Woodpecker
 
         private void setStyle()
         {
-            // Form design
-            this.MinimumSize = new Size(1097, 659);
-            this.BackColor = Color.FromArgb(18, 18, 18);
+            try
+            {
+                // Form design
+                this.MinimumSize = new Size(1097, 659);
+                this.BackColor = Color.FromArgb(18, 18, 18);
 
-            //Init material skin
-            var skinManager = MaterialSkinManager.Instance;
-            skinManager.AddFormToManage(this);
-            skinManager.Theme = MaterialSkinManager.Themes.DARK;
-            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+                //Init material skin
+                var skinManager = MaterialSkinManager.Instance;
+                skinManager.AddFormToManage(this);
+                skinManager.Theme = MaterialSkinManager.Themes.DARK;
+                skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
-            // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
+                // Button design
+                List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
                                                             button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
-            foreach (Button buttonsAll in buttonsList)
+                foreach (Button buttonsAll in buttonsList)
+                {
+                    if (buttonsAll.Enabled == true)
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                    }
+                    else
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                    }
+                }
+            }
+            catch (Exception Ex)
             {
-                if (buttonsAll.Enabled == true)
-                {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
-                }
-                else
-                {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
-                }
+                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
         }
 
@@ -933,7 +940,7 @@ namespace Woodpecker
             {
                 temp_version = MyBlueRat.FW_VER;
                 float v = temp_version;
-                label_BoxVersion.Text = "_" + (v / 100).ToString();
+                label_BoxVersion.Text = "_" + (v / 100).ToString("0.00");
 
                 // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
                 MyBlueRat.Force_Init_BlueRat();
