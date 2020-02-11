@@ -124,6 +124,10 @@ namespace Woodpecker
 
         //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
+        private bool CanRepeat = false;//是否正在發送Can//
+        private string CanID = "";
+        private string CanData = "";
+        private string CanRate = "";
 
         //Klite error code
         public int kline_send = 0;
@@ -5672,9 +5676,10 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                             {
-                                Console.WriteLine("Canbus Send: _Canbus_Send");
-                                if (columns_times != "" && columns_serial != "")
+                                Thread canthread = new Thread(new ThreadStart(MyCanRepeat));
+                                if (columns_function == "" && columns_times != "" && columns_serial != "")
                                 {
+                                    Console.WriteLine("Canbus Send: _Canbus_Send");
                                     MYCanReader.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
@@ -5683,6 +5688,19 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                                else if (columns_function == "repeat" && columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    Console.WriteLine("Canbus Repeat: _Canbus_Repeat");
+                                    CanID = columns_times;
+                                    CanData = columns_serial;
+                                    CanRate = columns_interval;
+                                    CanRepeat = true;
+                                    canthread.Start();
+                                }
+                                else if (columns_function == "end")
+                                {
+                                    canthread.Abort();
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -8248,6 +8266,26 @@ namespace Woodpecker
                 button_Start.PerformClick();
             };
         }
+
+        #region -- CanRepeat --
+        private void MyCanRepeat()
+        {
+            while (CanRepeat)
+            {
+                Console.WriteLine("Canbus Repeat: _Canbus_Send");
+                MYCanReader.TransmitData(CanID, CanData);
+
+                string Outputstring = "ID: 0x";
+                Outputstring += CanID + " Data: " + CanData;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                canbus_text = string.Concat(canbus_text, canbus_log_text);
+                schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                Thread.Sleep(int.Parse(CanRate));
+            }
+        }
+        #endregion
 
         #region -- 讀取RC DB並填入combobox --
         private void LoadRCDB()
