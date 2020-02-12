@@ -270,6 +270,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
     <Compile Include="Serial_Port.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="USB_CAN_Adaptor.cs" />
     <EmbeddedResource Include="Extra_Commander.resx">
       <DependentUpon>Extra_Commander.cs</DependentUpon>
@@ -319,7 +320,9 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Properties\app.manifest" />
+    <None Include="Properties\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -396,8 +399,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)ControlCAN.dll" "$(ProjectDir)bin\Debug\"
-xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Debug\" /Y /I /E
+xcopy "$(ProjectDir)Reference\*.*" "$(ProjectDir)bin\Release\" /Y /I /E</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

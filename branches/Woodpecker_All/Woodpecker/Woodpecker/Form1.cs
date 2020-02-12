@@ -123,6 +123,10 @@ namespace Woodpecker
 
         //CanReader
         private CAN_Reader MYCanReader = new CAN_Reader();
+        private bool CanRepeat = false;//是否正在發送Can//
+        private string CanID = "";
+        private string CanData = "";
+        private string CanRate = "";
 
         //Klite error code
         public int kline_send = 0;
@@ -190,34 +194,41 @@ namespace Woodpecker
 
         private void setStyle()
         {
-            // Form design
-            this.MinimumSize = new Size(1097, 659);
-            this.BackColor = Color.FromArgb(18, 18, 18);
+            try
+            {
+                // Form design
+                this.MinimumSize = new Size(1097, 659);
+                this.BackColor = Color.FromArgb(18, 18, 18);
 
-            //Init material skin
-            var skinManager = MaterialSkinManager.Instance;
-            skinManager.AddFormToManage(this);
-            skinManager.Theme = MaterialSkinManager.Themes.DARK;
-            skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+                //Init material skin
+                var skinManager = MaterialSkinManager.Instance;
+                skinManager.AddFormToManage(this);
+                skinManager.Theme = MaterialSkinManager.Themes.DARK;
+                skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
 
-            // Button design
-            List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
+                // Button design
+                List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
                                                             button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
                                                             button_Schedule4, button_Schedule5, button_savelog};
-            foreach (Button buttonsAll in buttonsList)
+                foreach (Button buttonsAll in buttonsList)
+                {
+                    if (buttonsAll.Enabled == true)
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                    }
+                    else
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                    }
+                }
+            }
+            catch (Exception Ex)
             {
-                if (buttonsAll.Enabled == true)
-                {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
-                }
-                else
-                {
-                    buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
-                    buttonsAll.FlatAppearance.BorderSize = 1;
-                    buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
-                }
+                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
         }
 
@@ -277,6 +288,9 @@ namespace Woodpecker
 
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
+
+            // FwVersion
+            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
@@ -932,7 +946,7 @@ namespace Woodpecker
             {
                 temp_version = MyBlueRat.FW_VER;
                 float v = temp_version;
-                label_BoxVersion.Text = "_" + (v / 100).ToString();
+                label_BoxVersion.Text = "_" + (v / 100).ToString("0.00");
 
                 // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
                 MyBlueRat.Force_Init_BlueRat();
@@ -1656,11 +1670,23 @@ namespace Woodpecker
                     {
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
-
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, strValues);
-                        // textBox1.AppendText(strValues);
+
+                        if (strValues.Contains("\r"))   //For showing temperature recorder log 
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                log1_text = string.Concat(log1_text, strValues);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log1_text = string.Concat(log1_text, strValues);
+                        }
                     }
                 }
             }
@@ -5651,9 +5677,10 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                             {
-                                Console.WriteLine("Canbus Send: _Canbus_Send");
-                                if (columns_times != "" && columns_serial != "")
+                                Thread canthread = new Thread(new ThreadStart(MyCanRepeat));
+                                if (columns_function == "" && columns_times != "" && columns_serial != "")
                                 {
+                                    Console.WriteLine("Canbus Send: _Canbus_Send");
                                     MYCanReader.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
@@ -5662,6 +5689,19 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                                else if (columns_function == "repeat" && columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    Console.WriteLine("Canbus Repeat: _Canbus_Repeat");
+                                    CanID = columns_times;
+                                    CanData = columns_serial;
+                                    CanRate = columns_interval;
+                                    CanRepeat = true;
+                                    canthread.Start();
+                                }
+                                else if (columns_function == "end")
+                                {
+                                    canthread.Abort();
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -7209,6 +7249,7 @@ namespace Woodpecker
                     #endregion
                 }
                 Console.WriteLine("Loop_Number: " + Global.Loop_Number);
+                DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -8228,6 +8269,26 @@ namespace Woodpecker
             };
         }
 
+        #region -- CanRepeat --
+        private void MyCanRepeat()
+        {
+            while (CanRepeat)
+            {
+                Console.WriteLine("Canbus Repeat: _Canbus_Send");
+                MYCanReader.TransmitData(CanID, CanData);
+
+                string Outputstring = "ID: 0x";
+                Outputstring += CanID + " Data: " + CanData;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                canbus_text = string.Concat(canbus_text, canbus_log_text);
+                schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                Thread.Sleep(int.Parse(CanRate));
+            }
+        }
+        #endregion
+
         #region -- 讀取RC DB並填入combobox --
         private void LoadRCDB()
         {
@@ -8897,15 +8958,6 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-                }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;

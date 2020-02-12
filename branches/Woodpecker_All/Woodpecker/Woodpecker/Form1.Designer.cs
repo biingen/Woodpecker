@@ -298,9 +298,9 @@ namespace Woodpecker
             this.label_FwVersion.Location = new System.Drawing.Point(2, 118);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
-            this.label_FwVersion.Size = new System.Drawing.Size(88, 20);
+            this.label_FwVersion.Size = new System.Drawing.Size(92, 20);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.13";
+            this.label_FwVersion.Text = "Ver. 0.0.0.0";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -896,12 +896,12 @@ namespace Woodpecker
             this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_BoxVersion.ForeColor = System.Drawing.Color.SteelBlue;
             this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_BoxVersion.Location = new System.Drawing.Point(94, 118);
+            this.label_BoxVersion.Location = new System.Drawing.Point(98, 117);
             this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_BoxVersion.Name = "label_BoxVersion";
-            this.label_BoxVersion.Size = new System.Drawing.Size(27, 20);
+            this.label_BoxVersion.Size = new System.Drawing.Size(49, 20);
             this.label_BoxVersion.TabIndex = 100;
-            this.label_BoxVersion.Text = "_2";
+            this.label_BoxVersion.Text = "_0.00";
             this.label_BoxVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label_Remark
@@ -1371,6 +1371,7 @@ namespace Woodpecker
             this.button_extra.TabIndex = 115;
             this.button_extra.Text = "Extra Command";
             this.button_extra.UseVisualStyleBackColor = false;
+            this.button_extra.Visible = false;
             this.button_extra.Click += new System.EventHandler(this.button_extra_Click);
             // 
             // DataGridView_Schedule
