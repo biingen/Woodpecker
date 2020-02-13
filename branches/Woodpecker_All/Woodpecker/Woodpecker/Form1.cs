@@ -31,6 +31,7 @@ using DTC_ABS;
 using DTC_OBD;
 using MySerialLibrary;
 using KWP_2000;
+using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
 using Microsoft.VisualBasic.FileIO;
@@ -127,6 +128,8 @@ namespace Woodpecker
         private string CanID = "";
         private string CanData = "";
         private string CanRate = "";
+        public int can_send = 0;
+        public List<CAN_Data> can_data_list = new List<CAN_Data>();
 
         //Klite error code
         public int kline_send = 0;
@@ -5708,6 +5711,34 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- Canbus Write --
+                        else if (columns_command == "_Canbus_Write")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            {
+                                if (columns_times != "" && columns_serial != "")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_Write");
+                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(columns_serial);
+                                    can_data_list.Add(new CAN_Data(Convert.ToByte(columns_times), Outputbytes));
+                                }
+                                else if (columns_function == "send")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_write");
+                                    can_send = 1;
+                                }
+                                else if (columns_function == "clear")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_write");
+                                    can_send = 0;
+                                    can_data_list.Clear();
+                                }
+                            }
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                        }
+                        #endregion
+
                         #region -- Astro Timing --
                         else if (columns_command == "_astro")
                         {
@@ -8325,6 +8356,7 @@ namespace Woodpecker
             RCDB.Items.Add("_TX_I2C_Read");
             RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("_Canbus_Send");
+            RCDB.Items.Add("_Canbus_Write");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
@@ -10415,8 +10447,20 @@ namespace Woodpecker
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)
         {
             UInt32 res = new UInt32();
-
             res = MYCanReader.ReceiveData();
+            CAN_Data can_data = new CAN_Data();
+
+            if (can_send == 1)
+            {
+                foreach (var can in can_data_list)
+                {
+                    can_data.CAN_Write_Queue_Add(can);
+                }
+            }
+            else
+            {
+                can_data.CAN_Write_Queue_Clear();
+            }
 
             if (res == 0)
             {
