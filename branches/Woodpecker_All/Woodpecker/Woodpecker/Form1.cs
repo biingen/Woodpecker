@@ -5721,7 +5721,7 @@ namespace Woodpecker
                                     Console.WriteLine("Canbus Write: _Canbus_Write");
                                     byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(columns_serial);
-                                    can_data_list.Add(new CAN_Data(Convert.ToByte(columns_times), Outputbytes));
+                                    can_data_list.Add(new CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
                                 }
                                 else if (columns_function == "send")
                                 {
@@ -8896,11 +8896,6 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
-            if (MYCanReader.Connect() == 1)
-            {
-                MYCanReader.StopCAN();
-                MYCanReader.Disconnect();
-            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -10448,18 +10443,19 @@ namespace Woodpecker
         {
             UInt32 res = new UInt32();
             res = MYCanReader.ReceiveData();
-            CAN_Data can_data = new CAN_Data();
+            USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
             if (can_send == 1)
             {
                 foreach (var can in can_data_list)
                 {
-                    can_data.CAN_Write_Queue_Add(can);
+                    usb_can_2c.CAN_Write_Queue_Add(can);
                 }
+                usb_can_2c.CAN_Write_Queue_SendData();
             }
             else
             {
-                can_data.CAN_Write_Queue_Clear();
+                usb_can_2c.CAN_Write_Queue_Clear();
             }
 
             if (res == 0)
