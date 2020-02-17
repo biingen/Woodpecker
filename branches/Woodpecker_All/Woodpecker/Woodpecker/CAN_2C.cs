@@ -44,8 +44,9 @@ namespace USB_CAN2C
     {
         private Queue<CAN_Data> CAN_Write_Data_Queue = new Queue<CAN_Data>();
         USB_CAN_Adaptor can_adaptor = new USB_CAN_Adaptor();
-        private static System.Timers.Timer aTimer;
         List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
+        private static System.Timers.Timer aTimer;
+        int timer = 0;
 
         public void CAN_Write_Queue_Clear()
         {
@@ -73,6 +74,7 @@ namespace USB_CAN2C
         unsafe public void CAN_Write_Queue_SendData()
         {
             VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
+            int id = 0, rate = 0;
 
             while ((CAN_Write_Data_Queue.Count > 0))
             {
@@ -80,17 +82,25 @@ namespace USB_CAN2C
                 sendobj.RemoteFlag = this_can_ctl.RemoteFlag;
                 sendobj.ExternFlag = this_can_ctl.ExternFlag;
                 sendobj.ID = this_can_ctl.ID;
+                id = (int)this_can_ctl.ID;
                 sendobj.DataLen = this_can_ctl.DataLen;
                 for (int i=0;i< this_can_ctl.DataLen; i++)
                 {
                     sendobj.Data[i] = this_can_ctl.Data[i];
                 }
-                aTimer = new System.Timers.Timer((int)this_can_ctl.TimeStamp);
+                sendobj.TimeStamp = this_can_ctl.TimeStamp;
+                rate = (int)this_can_ctl.TimeStamp;
                 sendobj_list.Add(sendobj);
             }
-            aTimer.Elapsed += TransmitTimer;
-            aTimer.AutoReset = true;
-            aTimer.Enabled = true;
+            
+            if (timer == 0)
+            {
+                timer = 1;
+                aTimer = new System.Timers.Timer(rate);
+                aTimer.Elapsed += TransmitTimer;
+                aTimer.AutoReset = true;
+                aTimer.Enabled = true;
+            }
         }
     }
 }
