@@ -126,6 +126,7 @@ namespace Woodpecker
         private CAN_Reader MYCanReader = new CAN_Reader();
         public int can_send = 0;
         public List<CAN_Data> can_data_list = new List<CAN_Data>();
+        USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
         //Klite error code
         public int kline_send = 0;
@@ -8547,6 +8548,7 @@ namespace Woodpecker
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
+                    can_send = 0;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -8699,6 +8701,7 @@ namespace Woodpecker
                     MainThread.Abort(); //停止執行緒
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
+                    can_send = 0;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -10405,7 +10408,6 @@ namespace Woodpecker
         {
             UInt32 res = new UInt32();
             res = MYCanReader.ReceiveData();
-            USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
             if (can_send == 1)
             {
@@ -10414,6 +10416,7 @@ namespace Woodpecker
                     usb_can_2c.CAN_Write_Queue_Add(can);
                 }
                 usb_can_2c.CAN_Write_Queue_SendData();
+                can_data_list.Clear();
             }
             else
             {

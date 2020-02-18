@@ -44,9 +44,7 @@ namespace USB_CAN2C
     {
         private Queue<CAN_Data> CAN_Write_Data_Queue = new Queue<CAN_Data>();
         USB_CAN_Adaptor can_adaptor = new USB_CAN_Adaptor();
-        List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
-        private static System.Timers.Timer aTimer;
-        int timer = 0;
+        //private static System.Timers.Timer aTimer;
 
         public void CAN_Write_Queue_Clear()
         {
@@ -58,49 +56,47 @@ namespace USB_CAN2C
             CAN_Write_Data_Queue.Enqueue(can_data);
         }
 
-        public void TransmitTimer(object sender, System.Timers.ElapsedEventArgs e)
-        {
-            UInt32 default_canind = 1;
-            VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
-            uint sendout_obj_len = (uint)sendobj_list.Count;
-
-            if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
-            {
-                //MessageBox.Show("发送失败", "错误",
-                //MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-        }
-
         unsafe public void CAN_Write_Queue_SendData()
         {
-            VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
-            int id = 0, rate = 0;
+            UInt32 default_canind = 1;
 
             while ((CAN_Write_Data_Queue.Count > 0))
             {
+                List<VCI_CAN_OBJ> sendobj_list = new List<VCI_CAN_OBJ>();
+                VCI_CAN_OBJ sendobj = new VCI_CAN_OBJ();
+
                 CAN_Data this_can_ctl = CAN_Write_Data_Queue.Dequeue();
                 sendobj.RemoteFlag = this_can_ctl.RemoteFlag;
                 sendobj.ExternFlag = this_can_ctl.ExternFlag;
                 sendobj.ID = this_can_ctl.ID;
-                id = (int)this_can_ctl.ID;
                 sendobj.DataLen = this_can_ctl.DataLen;
+                //sendobj.TimeStamp = this_can_ctl.TimeStamp;
+
                 for (int i=0;i< this_can_ctl.DataLen; i++)
                 {
                     sendobj.Data[i] = this_can_ctl.Data[i];
                 }
-                sendobj.TimeStamp = this_can_ctl.TimeStamp;
-                rate = (int)this_can_ctl.TimeStamp;
                 sendobj_list.Add(sendobj);
-            }
-            
-            if (timer == 0)
-            {
-                timer = 1;
-                aTimer = new System.Timers.Timer(rate);
-                aTimer.Elapsed += TransmitTimer;
-                aTimer.AutoReset = true;
-                aTimer.Enabled = true;
+
+                VCI_CAN_OBJ[] sendout_obj = sendobj_list.ToArray();
+                uint sendout_obj_len = (uint)sendobj_list.Count;
+
+                if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
+                {
+                    //MessageBox.Show("发送失败", "错误",
+                    //MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+                System.Threading.Thread.Sleep((int)this_can_ctl.TimeStamp);
             }
         }
+        /*
+        public void TransmitTimer(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            aTimer = new System.Timers.Timer(this_can_ctl.TimeStamp);
+            aTimer.Elapsed += TransmitTimer;
+            aTimer.AutoReset = false;
+            aTimer.Enabled = true;
+        }
+        */
     }
 }
