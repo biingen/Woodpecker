@@ -126,7 +126,6 @@ namespace Woodpecker
         private CAN_Reader MYCanReader = new CAN_Reader();
         public int can_send = 0;
         public List<CAN_Data> can_data_list = new List<CAN_Data>();
-        USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
         //Klite error code
         public int kline_send = 0;
@@ -5677,7 +5676,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                             {
-                                if (columns_times != "" && columns_serial != "")
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
                                     MYCanReader.TransmitData(columns_times, columns_serial);
@@ -5688,13 +5687,15 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                                    System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion
 
-                        #region -- Canbus Write --
+                        #region -- Canbus Queue --
                         else if (columns_command == "_Canbus_Queue")
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
@@ -10408,6 +10409,7 @@ namespace Woodpecker
         {
             UInt32 res = new UInt32();
             res = MYCanReader.ReceiveData();
+            USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
             if (can_send == 1)
             {
