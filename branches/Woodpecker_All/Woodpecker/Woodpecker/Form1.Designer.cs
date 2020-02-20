@@ -133,7 +133,6 @@ namespace Woodpecker
             this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
             this.label_ca310 = new System.Windows.Forms.Label();
             this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
-            this.button_extra = new System.Windows.Forms.Button();
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -1357,23 +1356,6 @@ namespace Woodpecker
             this.pictureBox_ca310.TabIndex = 113;
             this.pictureBox_ca310.TabStop = false;
             // 
-            // button_extra
-            // 
-            this.button_extra.BackColor = System.Drawing.SystemColors.Control;
-            this.button_extra.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.button_extra.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_extra.ForeColor = System.Drawing.Color.Black;
-            this.button_extra.Location = new System.Drawing.Point(1219, 330);
-            this.button_extra.Margin = new System.Windows.Forms.Padding(2);
-            this.button_extra.Name = "button_extra";
-            this.button_extra.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.button_extra.Size = new System.Drawing.Size(138, 50);
-            this.button_extra.TabIndex = 115;
-            this.button_extra.Text = "Extra Command";
-            this.button_extra.UseVisualStyleBackColor = false;
-            this.button_extra.Visible = false;
-            this.button_extra.Click += new System.EventHandler(this.button_extra_Click);
-            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
@@ -1539,7 +1521,6 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1371, 824);
-            this.Controls.Add(this.button_extra);
             this.Controls.Add(this.label_ca310);
             this.Controls.Add(this.pictureBox_ca310);
             this.Controls.Add(this.button_savelog);
@@ -1748,7 +1729,6 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_ca310;
         private System.Windows.Forms.PictureBox pictureBox_ca310;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
-        private System.Windows.Forms.Button button_extra;
     }
 }
 

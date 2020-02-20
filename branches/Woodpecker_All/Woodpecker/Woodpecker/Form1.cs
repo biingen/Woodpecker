@@ -10493,12 +10493,6 @@ namespace Woodpecker
             }
         }
 
-        private void button_extra_Click(object sender, EventArgs e)
-        {
-            Extra_Commander Extra_Commander = new Extra_Commander();
-            Extra_Commander.Show();
-        }
-
         private void CalZero()
         {
             bool calzero_success = false;
