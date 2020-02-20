@@ -9,17 +9,19 @@ using vxlapi_NET;
 
 namespace USB_VN1630A
 {
-    class USB_VECTOR_Process
+    class USB_VECTOR_Lib
     {
         // -----------------------------------------------------------------------------------------------
         // Global variables
         // -----------------------------------------------------------------------------------------------
         // Driver access through XLDriver (wrapper)
-        private static XLDriver CANDemo = new XLDriver();
-        private static String appName = "xlCANdemoNET";
+        public static XLDriver CANDrive = new XLDriver();
+        public XLDefine.XL_Status XL_status = new XLDefine.XL_Status();
+        private static String appName = "Woodpecker";
+        private bool Connect_result;
 
         // Driver configuration
-        private static XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
+        public static XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
 
         // Variables required by XLDriver
         private static XLDefine.XL_HardwareType hwType = XLDefine.XL_HardwareType.XL_HWTYPE_NONE;
@@ -34,12 +36,75 @@ namespace USB_VN1630A
         private static int rxCi = -1;
         private static EventWaitHandle xlEvWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, null);
 
+
+
         // RX thread
         private static Thread rxThread;
         private static bool blockRxThread = false;
         // -----------------------------------------------------------------------------------------------
 
+        public uint Connect()
+        {
+            uint connection_status = ~(1U);
+            XLDefine.XL_Status status;
 
+            Console.WriteLine("-------------------------------------------------------------------");
+            Console.WriteLine("                     xlCANdemo.NET C# V11.0                        ");
+            Console.WriteLine("Copyright (c) 2019 by Vector Informatik GmbH.  All rights reserved.");
+            Console.WriteLine("-------------------------------------------------------------------\n");
+
+            // print .NET wrapper version
+            Console.WriteLine("vxlapi_NET        : " + typeof(XLDriver).Assembly.GetName().Version);
+
+            // Open XL Driver
+            status = CANDrive.XL_OpenDriver();
+            Console.WriteLine("Open Driver       : " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            // Get XL Driver configuration
+            status = CANDrive.XL_GetDriverConfig(ref driverConfig);
+            Console.WriteLine("Get Driver Config : " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+            
+            // Convert the dll version number into a readable string
+            Console.WriteLine("DLL Version       : " + CANDrive.VersionToString(driverConfig.dllVersion));
+
+
+            // Display channel count
+            Console.WriteLine("Channels found    : " + driverConfig.channelCount);
+
+
+            // Display all found channels
+            for (int i = 0; i < driverConfig.channelCount; i++)
+            {
+                Console.WriteLine("\n                   [{0}] " + driverConfig.channel[i].name, i);
+                Console.WriteLine("                    - Channel Mask    : " + driverConfig.channel[i].channelMask);
+                Console.WriteLine("                    - Transceiver Name: " + driverConfig.channel[i].transceiverName);
+                Console.WriteLine("                    - Serial Number   : " + driverConfig.channel[i].serialNumber);
+            }
+
+            // If the application name cannot be found in VCANCONF...
+            if ((CANDrive.XL_GetApplConfig(appName, 0, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS) ||
+                (CANDrive.XL_GetApplConfig(appName, 1, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS))
+            {
+                //...create the item with two CAN channels
+                CANDrive.XL_SetApplConfig(appName, 0, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+                CANDrive.XL_SetApplConfig(appName, 1, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+                CANDrive.XL_PopupHwConfig();
+                connection_status = 0x03;
+            }
+
+            // Request the user to assign channels until both CAN1 (Tx) and CAN2 (Rx) are assigned to usable channels
+            if (!GetAppChannelAndTestIsOk(0, ref txMask, ref txCi) || !GetAppChannelAndTestIsOk(1, ref rxMask, ref rxCi))
+            {
+                CANDrive.XL_PopupHwConfig();
+                connection_status = 0x03;
+            }
+
+            return connection_status;
+        }
 
 
         // -----------------------------------------------------------------------------------------------
@@ -64,19 +129,19 @@ namespace USB_VN1630A
             Console.WriteLine("vxlapi_NET        : " + typeof(XLDriver).Assembly.GetName().Version);
 
             // Open XL Driver
-            status = CANDemo.XL_OpenDriver();
+            status = CANDrive.XL_OpenDriver();
             Console.WriteLine("Open Driver       : " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
 
             // Get XL Driver configuration
-            status = CANDemo.XL_GetDriverConfig(ref driverConfig);
+            status = CANDrive.XL_GetDriverConfig(ref driverConfig);
             Console.WriteLine("Get Driver Config : " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
 
             // Convert the dll version number into a readable string
-            Console.WriteLine("DLL Version       : " + CANDemo.VersionToString(driverConfig.dllVersion));
+            Console.WriteLine("DLL Version       : " + CANDrive.VersionToString(driverConfig.dllVersion));
 
 
             // Display channel count
@@ -93,12 +158,12 @@ namespace USB_VN1630A
             }
 
             // If the application name cannot be found in VCANCONF...
-            if ((CANDemo.XL_GetApplConfig(appName, 0, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS) ||
-                (CANDemo.XL_GetApplConfig(appName, 1, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS))
+            if ((CANDrive.XL_GetApplConfig(appName, 0, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS) ||
+                (CANDrive.XL_GetApplConfig(appName, 1, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN) != XLDefine.XL_Status.XL_SUCCESS))
             {
                 //...create the item with two CAN channels
-                CANDemo.XL_SetApplConfig(appName, 0, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
-                CANDemo.XL_SetApplConfig(appName, 1, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+                CANDrive.XL_SetApplConfig(appName, 0, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+                CANDrive.XL_SetApplConfig(appName, 1, XLDefine.XL_HardwareType.XL_HWTYPE_NONE, 0, 0, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
                 PrintAssignErrorAndPopupHwConf();
             }
 
@@ -114,30 +179,30 @@ namespace USB_VN1630A
             permissionMask = accessMask;
 
             // Open port
-            status = CANDemo.XL_OpenPort(ref portHandle, appName, accessMask, ref permissionMask, 1024, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+            status = CANDrive.XL_OpenPort(ref portHandle, appName, accessMask, ref permissionMask, 1024, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
             Console.WriteLine("\n\nOpen Port             : " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
             // Check port
-            status = CANDemo.XL_CanRequestChipState(portHandle, accessMask);
+            status = CANDrive.XL_CanRequestChipState(portHandle, accessMask);
             Console.WriteLine("Can Request Chip State: " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
             // Activate channel
-            status = CANDemo.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_NONE);
+            status = CANDrive.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_NONE);
             Console.WriteLine("Activate Channel      : " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
             // Initialize EventWaitHandle object with RX event handle provided by DLL
             int tempInt = -1;
-            status = CANDemo.XL_SetNotification(portHandle, ref tempInt, 1);
+            status = CANDrive.XL_SetNotification(portHandle, ref tempInt, 1);
             xlEvWaitHandle.SafeWaitHandle = new SafeWaitHandle(new IntPtr(tempInt), true);
 
             Console.WriteLine("Set Notification      : " + status);
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
             // Reset time stamp clock
-            status = CANDemo.XL_ResetClock(portHandle);
+            status = CANDrive.XL_ResetClock(portHandle);
             Console.WriteLine("Reset Clock           : " + status + "\n\n");
             if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
 
@@ -176,21 +241,19 @@ namespace USB_VN1630A
 
             // Kill Rx thread
             rxThread.Abort();
-            Console.WriteLine("Close Port                     : " + CANDemo.XL_ClosePort(portHandle));
-            Console.WriteLine("Close Driver                   : " + CANDemo.XL_CloseDriver());
+            Console.WriteLine("Close Port                     : " + CANDrive.XL_ClosePort(portHandle));
+            Console.WriteLine("Close Driver                   : " + CANDrive.XL_CloseDriver());
 
             return 0;
         }
         // -----------------------------------------------------------------------------------------------
 
 
-
-
         // -----------------------------------------------------------------------------------------------
         /// <summary>
         /// Error message/exit in case of a functional call does not return XL_SUCCESS
         /// </summary>
-        // -----------------------------------------------------------------------------------------------
+            // -----------------------------------------------------------------------------------------------
         private static int PrintFunctionError()
         {
             Console.WriteLine("\nERROR: Function call failed!\nPress any key to continue...");
@@ -215,7 +278,7 @@ namespace USB_VN1630A
             {
                 Console.WriteLine("-------------------------------------------------------------------");
                 Console.WriteLine("Configured Hardware Channel : " + driverConfig.channel[channelIndex].name);
-                Console.WriteLine("Hardware Driver Version     : " + CANDemo.VersionToString(driverConfig.channel[channelIndex].driverVersion));
+                Console.WriteLine("Hardware Driver Version     : " + CANDrive.VersionToString(driverConfig.channel[channelIndex].driverVersion));
                 Console.WriteLine("Used Transceiver            : " + driverConfig.channel[channelIndex].transceiverName);
             }
 
@@ -234,7 +297,7 @@ namespace USB_VN1630A
         private static void PrintAssignErrorAndPopupHwConf()
         {
             Console.WriteLine("\nPlease check application settings of \"" + appName + " CAN1/CAN2\",\nassign them to available hardware channels and press enter.");
-            CANDemo.XL_PopupHwConfig();
+            CANDrive.XL_PopupHwConfig();
             Console.ReadKey();
         }
         // -----------------------------------------------------------------------------------------------
@@ -246,15 +309,15 @@ namespace USB_VN1630A
         // -----------------------------------------------------------------------------------------------
         private static bool GetAppChannelAndTestIsOk(uint appChIdx, ref UInt64 chMask, ref int chIdx)
         {
-            XLDefine.XL_Status status = CANDemo.XL_GetApplConfig(appName, appChIdx, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+            XLDefine.XL_Status status = CANDrive.XL_GetApplConfig(appName, appChIdx, ref hwType, ref hwIndex, ref hwChannel, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
             if (status != XLDefine.XL_Status.XL_SUCCESS)
             {
                 Console.WriteLine("XL_GetApplConfig      : " + status);
                 PrintFunctionError();
             }
 
-            chMask = CANDemo.XL_GetChannelMask(hwType, (int)hwIndex, (int)hwChannel);
-            chIdx = CANDemo.XL_GetChannelIndex(hwType, (int)hwIndex, (int)hwChannel);
+            chMask = CANDrive.XL_GetChannelMask(hwType, (int)hwIndex, (int)hwChannel);
+            chIdx = CANDrive.XL_GetChannelIndex(hwType, (int)hwIndex, (int)hwChannel);
             if (chIdx < 0 || chIdx >= driverConfig.channelCount)
             {
                 // the (hwType, hwIndex, hwChannel) triplet stored in the application configuration does not refer to any available channel.
@@ -309,7 +372,7 @@ namespace USB_VN1630A
 
 
             // Transmit events
-            txStatus = CANDemo.XL_CanTransmit(portHandle, txMask, xlEventCollection);
+            txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
             Console.WriteLine("Transmit Message      : " + txStatus);
         }
         // -----------------------------------------------------------------------------------------------
@@ -349,7 +412,7 @@ namespace USB_VN1630A
                         while (blockRxThread) { Thread.Sleep(1000); }
 
                         // ...receive data from hardware.
-                        xlStatus = CANDemo.XL_Receive(portHandle, ref receivedEvent);
+                        xlStatus = CANDrive.XL_Receive(portHandle, ref receivedEvent);
 
                         //  If receiving succeed....
                         if (xlStatus == XLDefine.XL_Status.XL_SUCCESS)
@@ -382,7 +445,7 @@ namespace USB_VN1630A
 
                                 else
                                 {
-                                    Console.WriteLine(CANDemo.XL_GetEventString(receivedEvent));
+                                    Console.WriteLine(CANDrive.XL_GetEventString(receivedEvent));
                                 }
                             }
                         }

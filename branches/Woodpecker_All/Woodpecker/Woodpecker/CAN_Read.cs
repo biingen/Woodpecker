@@ -8,11 +8,11 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using jini;
 using System.Linq;
-using Can_Reader_Lib;
+using CAN_USB2C_Lib;
 
 namespace Woodpecker
 {
-    public class CAN_Reader 
+    public class CAN_USB2C 
     {
 
         //static USB_DEVICE_ID m_devtype = 4;//USBCAN2
@@ -33,8 +33,8 @@ namespace Woodpecker
         //
         // Function for external use
         //
-        public CAN_Reader() { }
-        ~CAN_Reader() { }
+        public CAN_USB2C() { }
+        ~CAN_USB2C() { }
 
         USB_DEVICE_ID default_devtype = USB_DEVICE_ID.DEV_USBCAN2;
         UInt32 default_devint = 0;

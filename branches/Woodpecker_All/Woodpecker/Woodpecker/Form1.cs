@@ -35,6 +35,7 @@ using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
 using Microsoft.VisualBasic.FileIO;
+using USB_VN1630A;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -123,9 +124,10 @@ namespace Woodpecker
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         //CanReader
-        private CAN_Reader MYCanReader = new CAN_Reader();
-        public int can_send = 0;
-        public List<CAN_Data> can_data_list = new List<CAN_Data>();
+        private CAN_USB2C Can_Usb2C = new CAN_USB2C();
+        private USB_VECTOR_Lib Can_1630A = new USB_VECTOR_Lib();
+        private int can_send = 0;
+        private List<CAN_Data> can_data_list = new List<CAN_Data>();
 
         //Klite error code
         public int kline_send = 0;
@@ -369,7 +371,7 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
             {
                 String can_name;
-                List<String> dev_list = MYCanReader.FindUsbDevice();
+                List<String> dev_list = Can_Usb2C.FindUsbDevice();
                 can_name = string.Join(",", dev_list);
                 ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
                 if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
@@ -378,6 +380,16 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
                 ConnectCanBus();
                 pictureBox_canbus.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+            {
+                if (Can_1630A.Connect() == 1)
+                    pictureBox_canbus.Image = Properties.Resources.ON;
             }
             else
             {
@@ -1002,10 +1014,10 @@ namespace Woodpecker
         {
             uint status;
 
-            status = MYCanReader.Connect();
+            status = Can_Usb2C.Connect();
             if (status == 1)
             {
-                status = MYCanReader.StartCAN();
+                status = Can_Usb2C.StartCAN();
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
@@ -5679,7 +5691,7 @@ namespace Woodpecker
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
-                                    MYCanReader.TransmitData(columns_times, columns_serial);
+                                    Can_Usb2C.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -10408,7 +10420,7 @@ namespace Woodpecker
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)
         {
             UInt32 res = new UInt32();
-            res = MYCanReader.ReceiveData();
+            res = Can_Usb2C.ReceiveData();
             USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
             if (can_send == 1)
@@ -10427,11 +10439,11 @@ namespace Woodpecker
 
             if (res == 0)
             {
-                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                if (res >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
                 {
                     timer_canbus.Enabled = false;
-                    MYCanReader.StopCAN();
-                    MYCanReader.Disconnect();
+                    Can_Usb2C.StopCAN();
+                    Can_Usb2C.Disconnect();
 
                     pictureBox_canbus.Image = Properties.Resources.OFF;
 
@@ -10452,15 +10464,15 @@ namespace Woodpecker
                 {
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
-                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                    Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                     string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                     schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
+                    if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
                     {
                         timer_canbus.Enabled = false;
-                        MYCanReader.StopCAN();
-                        MYCanReader.Disconnect();
+                        Can_Usb2C.StopCAN();
+                        Can_Usb2C.Disconnect();
                         pictureBox_canbus.Image = Properties.Resources.OFF;
                         ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
                         return;
@@ -10520,7 +10532,7 @@ namespace Woodpecker
 
             /*
                         uint canBusStatus;
-                        canBusStatus = MYCanReader.Connect();
+                        canBusStatus = Can_Usb2C.Connect();
 
                         if (Global.TEXTBOX_FOCUS == 1)
                         {
