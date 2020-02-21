@@ -963,7 +963,7 @@ namespace Woodpecker
             {
                 temp_version = MyBlueRat.FW_VER;
                 float v = temp_version;
-                label_BoxVersion.Text = "_" + (v / 100).ToString();
+                label_BoxVersion.Text = "_" + (v / 100).ToString("0.00");
 
                 // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
                 MyBlueRat.Force_Init_BlueRat();
@@ -1696,7 +1696,7 @@ namespace Woodpecker
                             foreach (string s in log)
                             {
                                 Thread.Sleep(500);
-                                strValues1 = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                strValues1 = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
                                 if (s.Substring(2, 1) == temperatureChannel &&
                                     !s.Contains('\u0018') &&
                                     strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14)
@@ -1708,7 +1708,7 @@ namespace Woodpecker
                         }
                         else
                         {
-                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log1_text = string.Concat(log1_text, strValues);
                         }
                         // textBox1.AppendText(strValues);
@@ -2211,6 +2211,7 @@ namespace Woodpecker
                         string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
                         double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
                         double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+/*                      
                         int addTemperatureInt = Int16.Parse(addTemperature);
 
                         List<double> temperatureList = new List<double> { };
@@ -2228,7 +2229,7 @@ namespace Woodpecker
                                 temperatureList.Add(i);
                             }
                         }
-
+*/
                         if (temperatureList.Contains(currentTemperature))
                         {
                             if (ShotFlag)
@@ -2240,11 +2241,13 @@ namespace Woodpecker
                                 Jes();
                                 label_Command.Text = "SHOT";
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
+                                temperatureList.Dequeue();
                             }
                             else if (PauseFlag)
                             {
                                 button_Pause.PerformClick();
                                 label_Command.Text = "PAUSE";
+                                temperatureList.Dequeue();
                             }
                         }
                         else
@@ -4412,7 +4415,7 @@ namespace Woodpecker
         string initialTemperature = string.Empty;
         string finalTemperature = string.Empty;
         string temperatureChannel = string.Empty;
-
+        Queue<double> temperatureList = new Queue<double> { };
 
         string expectedVoltage = string.Empty;
         bool ChamberIsFound = false;
@@ -5325,6 +5328,23 @@ namespace Woodpecker
                                                 else
                                                 {
                                                     addTemperature = columns_serial.Substring(columns_serial.IndexOf("+") + 1);
+                                                }
+
+                                                int addTemperatureInt = Int16.Parse(addTemperature);
+
+                                                if (addTemperatureInt < 0)
+                                                {
+                                                    for (int i = Convert.ToInt16(initialTemperature); i >= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                                                    {
+                                                        temperatureList.Enqueue(i);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    for (int i = Convert.ToInt16(initialTemperature); i <= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                                                    {
+                                                        temperatureList.Enqueue(i);
+                                                    }
                                                 }
                                             }
                                         }
@@ -10958,6 +10978,7 @@ namespace Woodpecker
 
         string chamberCommandLog = string.Empty;
         bool chamberTimer_IsTick = false;
+
         private void timer_Chamber_Tick(object sender, EventArgs e)
         {
             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
