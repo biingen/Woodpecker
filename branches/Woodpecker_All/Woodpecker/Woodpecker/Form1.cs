@@ -147,6 +147,21 @@ namespace Woodpecker
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
 
+        //Search chamber parameter
+        string addTemperature = string.Empty;
+        string initialTemperature = string.Empty;
+        string finalTemperature = string.Empty;
+        string temperatureChannel = string.Empty;
+        Queue<double> temperatureList = new Queue<double> { };
+        Queue<string> temperatureString = new Queue<string> { };
+
+        bool ifStatementFlag = false;
+        bool ChamberIsFound = false;
+        bool TemperatureIsFound = false;
+        bool PowerSupplyIsFound = false;
+        string expectedVoltage = string.Empty;
+        string PowerSupplyCommandLog = string.Empty;
+
         public Form1()
         {
             InitializeComponent();
@@ -1702,6 +1717,7 @@ namespace Woodpecker
                                     strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14)
                                 {
                                     tempStr = strValues1;
+                                    temperatureString.Enqueue(tempStr);
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);
                             }
@@ -2204,10 +2220,11 @@ namespace Woodpecker
         {
             while (StartButtonFlag)
             {
-                if (TemperatureIsFound)
+                while (TemperatureIsFound)
                 {
-                    if (tempStr != "")
+                    if (temperatureString.Count() > 0)
                     {
+                        string tempStr = temperatureString.Dequeue();
                         string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
                         double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
                         double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
@@ -2252,7 +2269,7 @@ namespace Woodpecker
                         }
                         else
                         {
-                            Console.WriteLine("~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
                         }
 
                         tempStr = "";
@@ -4408,21 +4425,6 @@ namespace Woodpecker
                 }
             }
         }
-
-        bool ifStatementFlag = false;
-
-        string addTemperature = string.Empty;
-        string initialTemperature = string.Empty;
-        string finalTemperature = string.Empty;
-        string temperatureChannel = string.Empty;
-        Queue<double> temperatureList = new Queue<double> { };
-
-        string expectedVoltage = string.Empty;
-        bool ChamberIsFound = false;
-        bool PowerSupplyIsFound = false;
-        string PowerSupplyCommandLog = string.Empty;
-
-        bool TemperatureIsFound = false;
 
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
