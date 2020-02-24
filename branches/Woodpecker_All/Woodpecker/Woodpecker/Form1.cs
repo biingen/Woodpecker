@@ -388,8 +388,8 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
             {
-                if (Can_1630A.Connect() == 1)
-                    pictureBox_canbus.Image = Properties.Resources.ON;
+                ConnectVectorCAN();
+                pictureBox_canbus.Image = Properties.Resources.ON;
             }
             else
             {
@@ -1021,6 +1021,29 @@ namespace Woodpecker
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+        }
+
+        protected void ConnectVectorCAN()
+        {
+            uint status;
+
+            status = Can_1630A.Connect();
+            if (status == 1)
+            {
+                status = Can_1630A.StartCAN();
+                if (status == 1)
+                {
                     pictureBox_canbus.Image = Properties.Resources.ON;
                 }
                 else
@@ -5703,6 +5726,24 @@ namespace Woodpecker
                                     System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
                                 }
                             }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                            {
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    Console.WriteLine("Canbus Send: _Canbus_Send");
+                                    Can_1630A.CANTransmit(columns_times, columns_serial);
+
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                                    System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
+                                }
+                            }
+
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
                         }
                         #endregion

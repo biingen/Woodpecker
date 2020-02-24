@@ -18,7 +18,6 @@ namespace USB_VN1630A
         public static XLDriver CANDrive = new XLDriver();
         public XLDefine.XL_Status XL_status = new XLDefine.XL_Status();
         private static String appName = "Woodpecker";
-        private bool Connect_result;
 
         // Driver configuration
         public static XLClass.xl_driver_config driverConfig = new XLClass.xl_driver_config();
@@ -106,6 +105,80 @@ namespace USB_VN1630A
             return connection_status;
         }
 
+        public uint StartCAN()
+        {
+            uint connection_status = ~(1U);
+            XLDefine.XL_Status status;
+
+            PrintConfig();
+
+            accessMask = txMask | rxMask;
+            permissionMask = accessMask;
+
+            // Open port
+            status = CANDrive.XL_OpenPort(ref portHandle, appName, accessMask, ref permissionMask, 1024, XLDefine.XL_InterfaceVersion.XL_INTERFACE_VERSION, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN);
+            Console.WriteLine("\n\nOpen Port             : " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            // Check port
+            status = CANDrive.XL_CanRequestChipState(portHandle, accessMask);
+            Console.WriteLine("Can Request Chip State: " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            // Activate channel
+            status = CANDrive.XL_ActivateChannel(portHandle, accessMask, XLDefine.XL_BusTypes.XL_BUS_TYPE_CAN, XLDefine.XL_AC_Flags.XL_ACTIVATE_NONE);
+            Console.WriteLine("Activate Channel      : " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            // Initialize EventWaitHandle object with RX event handle provided by DLL
+            int tempInt = -1;
+            status = CANDrive.XL_SetNotification(portHandle, ref tempInt, 1);
+            xlEvWaitHandle.SafeWaitHandle = new SafeWaitHandle(new IntPtr(tempInt), true);
+
+            Console.WriteLine("Set Notification      : " + status);
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            // Reset time stamp clock
+            status = CANDrive.XL_ResetClock(portHandle);
+            Console.WriteLine("Reset Clock           : " + status + "\n\n");
+            if (status != XLDefine.XL_Status.XL_SUCCESS) PrintFunctionError();
+            else connection_status = 0x01;
+
+            return connection_status;
+        }
+
+        public void CANTransmit(string ID, string Data)
+        {
+            XLDefine.XL_Status txStatus;
+
+            // Create an event collection with 1 messages (events)
+            XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
+
+            // event 1
+            xlEventCollection.xlEvent[0].tagData.can_Msg.id = System.Convert.ToUInt32("0x" + ID, 16);
+            int len = Data.Split(' ').Length;
+            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = System.Convert.ToByte(len);
+            string[] orginal_array = Data.Split(' ');
+            byte[] orginal_bytes = new byte[orginal_array.Count()];
+            int orginal_index = 0;
+            foreach (string hex in orginal_array)
+            {
+                // Convert the number expressed in base-16 to an integer.
+                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                // Get the character corresponding to the integral value.
+                xlEventCollection.xlEvent[0].tagData.can_Msg.data[orginal_index++] = number;
+            }
+
+            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
+
+            // Transmit events
+            txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
+            Console.WriteLine("Transmit Message      : " + txStatus);
+        }
 
         // -----------------------------------------------------------------------------------------------
         /// <summary>
