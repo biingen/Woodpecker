@@ -34,12 +34,14 @@ using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
 using Camera_NET;
-using DirectShowLib;
+//using DirectShowLib;
 using InTheHand.Net.Sockets;
 using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
+using AForge.Video;
+using AForge.Video.DirectShow;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -161,6 +163,10 @@ namespace Woodpecker
         bool PowerSupplyIsFound = false;
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
+
+        //webcam
+        public FilterInfoCollection USB_Webcams = null;//FilterInfoCollection類別實體化
+        public VideoCaptureDevice Cam = null;//攝像頭的初始化
 
         public Form1()
         {
@@ -343,10 +349,19 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
                 pictureBox_Camera.Image = Properties.Resources.ON;
-                filters = new Filters();
-                Filter f;
+                USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("No video input device is connected.");
+                }
 
                 comboBox_CameraDevice.Enabled = true;
+
+/*
                 ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
 
                 for (int c = 0; c < filters.VideoInputDevices.Count; c++)
@@ -365,6 +380,7 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
                 }
+*/
                 comboBox_CameraDevice.Enabled = false;
             }
             else
@@ -833,6 +849,12 @@ namespace Woodpecker
             setStyle();
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
+        }
+
+        void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            //throw new NotImplementedException();
+            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
         }
 
         // 複製原始圖片
@@ -8452,8 +8474,13 @@ namespace Woodpecker
 
         private void Camstart()
         {
+
             try
             {
+                Cam = new VideoCaptureDevice(USB_Webcams[0].MonikerString);
+                Cam.NewFrame += Cam_NewFrame;//Press Tab  to   create
+                Cam.Start();
+/*
                 Filters filters = new Filters();
                 Filter f;
 
@@ -8565,6 +8592,7 @@ namespace Woodpecker
                 {
                     capture.PreviewWindow = null;
                 }
+*/
             }
             catch (NotSupportedException)
             {
