@@ -1,5 +1,5 @@
 ﻿using BlueRatLibrary;
-using DirectX.Capture;
+//using DirectX.Capture;
 using jini;
 using Microsoft.Win32.SafeHandles;
 using RedRat.IR;
@@ -69,8 +69,8 @@ namespace Woodpecker
         }
 
         private bool FormIsClosing = false;
-        private Capture capture = null;
-        private Filters filters = null;
+        //private Capture capture = null;
+        //private Filters filters = null;
         private bool _captureInProgress;
         private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
         //private bool excelstat = false;
@@ -164,9 +164,11 @@ namespace Woodpecker
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
 
-        //webcam
+        //Webcam
         public FilterInfoCollection USB_Webcams = null;//FilterInfoCollection類別實體化
         public VideoCaptureDevice Cam = null;//攝像頭的初始化
+        private int Cam_Indexof = 0;
+        private int Res_Indexof = 0;
 
         public Form1()
         {
@@ -349,17 +351,32 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
                 pictureBox_Camera.Image = Properties.Resources.ON;
+                comboBox_CameraDevice.Enabled = true;
+
                 USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
                 if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
                 {
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
+                    foreach (FilterInfo device in USB_Webcams)
+                    {
+                        comboBox_CameraDevice.Items.Add(device.Name);
+                        if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        {
+                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        }
+                    }
 
+                    if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
+                    {
+                        comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("No video input device is connected.");
                 }
-
-                comboBox_CameraDevice.Enabled = true;
 
 /*
                 ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
@@ -841,6 +858,7 @@ namespace Woodpecker
         }
 
         #region -- 拍照 --
+/*
         private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
 
         private void Myshot()
@@ -850,11 +868,20 @@ namespace Woodpecker
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
         }
-
+*/
         void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             //throw new NotImplementedException();
             panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
+        }
+
+        void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
+        {
+            button_Start.Enabled = false;
+            setStyle();
+            //throw new NotImplementedException();
+            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
+            CaptureDone((Bitmap)eventArgs.Frame.Clone());
         }
 
         // 複製原始圖片
@@ -865,7 +892,7 @@ namespace Woodpecker
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
-            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
@@ -2277,7 +2304,7 @@ namespace Woodpecker
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Jes();
+                                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
                                 label_Command.Text = "SHOT";
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                                 temperatureList.Dequeue();
@@ -4927,7 +4954,7 @@ namespace Woodpecker
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Jes();
+                                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
                                 label_Command.Text = "Take Picture";
                             }
                             else
@@ -7840,7 +7867,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Jes();
+                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
                 label_Command.Text = "IO CMD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -7946,7 +7973,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Jes();
+                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
                 label_Command.Text = "KEYWORD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -8429,8 +8456,8 @@ namespace Woodpecker
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
         {
-            capture.Stop();
-            capture.Dispose();
+            Cam.Stop();
+            //capture.Dispose();
             Camstart();
         }));
 
@@ -8440,14 +8467,14 @@ namespace Woodpecker
 
             string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
             srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
-
+/*
             if (!capture.Cued)
                 capture.Filename = t;
 
             capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
             capture.Cue(); // 創一個檔
             capture.Start(); // 開始錄影
-
+*/
             /*
             double chd; //檢查HD 空間 小於100M就停止錄影s
             chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
@@ -8465,19 +8492,26 @@ namespace Woodpecker
                 Camstart();
             }
 
-            if (_captureInProgress == false && capture != null)
+            if (_captureInProgress == false && Cam != null)
             {
-                capture.Stop();
-                capture.Dispose();
+                Cam.Stop();
+                //capture.Dispose();
             }
         }
 
         private void Camstart()
         {
-
             try
             {
-                Cam = new VideoCaptureDevice(USB_Webcams[0].MonikerString);
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") != "")
+                    Cam_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                else
+                    Cam_Indexof = 0;
+                Cam = new VideoCaptureDevice(USB_Webcams[Cam_Indexof].MonikerString);
+                if (ini12.INIRead(MainSettingPath, "Camera", "Resolution", "") != "")
+                    Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
+                else
+                    Cam.VideoResolution = Cam.VideoCapabilities[Cam.VideoCapabilities.Length - 1];
                 Cam.NewFrame += Cam_NewFrame;//Press Tab  to   create
                 Cam.Start();
 /*
@@ -10578,8 +10612,8 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             if (_captureInProgress == true)
             {
-                capture.Stop();
-                capture.Dispose();
+                Cam.Stop();
+                //capture.Dispose();
                 Camstart();
             }
         }
