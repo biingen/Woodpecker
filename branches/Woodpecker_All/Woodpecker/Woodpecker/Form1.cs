@@ -127,7 +127,7 @@ namespace Woodpecker
         private CAN_USB2C Can_Usb2C = new CAN_USB2C();
         private USB_VECTOR_Lib Can_1630A = new USB_VECTOR_Lib();
         private int can_send = 0;
-        private List<CAN_Data> can_data_list = new List<CAN_Data>();
+        private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
 
         //Klite error code
         public int kline_send = 0;
@@ -378,7 +378,7 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
                 if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
                     ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
-                ConnectCanBus();
+                ConnectUsbCAN();
                 pictureBox_canbus.Image = Properties.Resources.ON;
             }
             else
@@ -1010,7 +1010,7 @@ namespace Woodpecker
             }
         }
 
-        protected void ConnectCanBus()
+        protected void ConnectUsbCAN()
         {
             uint status;
 
@@ -5758,7 +5758,28 @@ namespace Woodpecker
                                     Console.WriteLine("Canbus Write: _Canbus_Queue");
                                     byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(columns_serial);
-                                    can_data_list.Add(new CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                }
+                                else if (columns_function == "send")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    can_send = 1;
+                                }
+                                else if (columns_function == "clear")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    can_send = 0;
+                                    can_data_list.Clear();
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                            {
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(columns_serial);
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
                                 }
                                 else if (columns_function == "send")
                                 {
@@ -10466,16 +10487,29 @@ namespace Woodpecker
 
             if (can_send == 1)
             {
-                foreach (var can in can_data_list)
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                 {
-                    usb_can_2c.CAN_Write_Queue_Add(can);
+                    foreach (var can in can_data_list)
+                    {
+                        usb_can_2c.CAN_Write_Queue_Add(can);
+                    }
+                    usb_can_2c.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
                 }
-                usb_can_2c.CAN_Write_Queue_SendData();
-                can_data_list.Clear();
+                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                {
+                    foreach (var can in can_data_list)
+                    {
+                        Can_1630A.CAN_Write_Queue_Add(can);
+                    }
+                    Can_1630A.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
+                }
             }
             else
             {
                 usb_can_2c.CAN_Write_Queue_Clear();
+                Can_1630A.CAN_Write_Queue_Clear();
             }
 
             if (res == 0)

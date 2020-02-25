@@ -151,6 +151,46 @@ namespace USB_VN1630A
             return connection_status;
         }
 
+        private Queue<USB_CAN2C.CAN_Data> CAN_Write_Data_Queue = new Queue<USB_CAN2C.CAN_Data>();
+
+        public void CAN_Write_Queue_Clear()
+        {
+            CAN_Write_Data_Queue.Clear();
+        }
+
+        public void CAN_Write_Queue_Add(USB_CAN2C.CAN_Data can_data)
+        {
+            CAN_Write_Data_Queue.Enqueue(can_data);
+        }
+
+        public void CAN_Write_Queue_SendData()
+        {
+            while ((CAN_Write_Data_Queue.Count > 0))
+            {
+                XLDefine.XL_Status txStatus;
+
+                // Create an event collection with 1 messages (events)
+                XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection((uint)CAN_Write_Data_Queue.Count);
+
+                // event
+                for(int i = 0; i< CAN_Write_Data_Queue.Count; i++)
+                {
+                    USB_CAN2C.CAN_Data this_can_ctl = CAN_Write_Data_Queue.Dequeue();
+                    xlEventCollection.xlEvent[i].tagData.can_Msg.id = this_can_ctl.ID;
+                    xlEventCollection.xlEvent[i].tagData.can_Msg.dlc = this_can_ctl.DataLen;
+                    for (int j = 0; j < this_can_ctl.DataLen; i++)
+                    {
+                        xlEventCollection.xlEvent[i].tagData.can_Msg.data[j] = this_can_ctl.Data[j];
+                    }
+                    xlEventCollection.xlEvent[i].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
+                }
+
+                // Transmit events
+                txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
+                Console.WriteLine("Transmit Message      : " + txStatus);
+            }
+        }
+
         public void CANTransmit(string ID, string Data)
         {
             XLDefine.XL_Status txStatus;
