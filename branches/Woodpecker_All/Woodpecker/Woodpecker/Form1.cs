@@ -1657,6 +1657,7 @@ namespace Woodpecker
                         hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                         log1_text = string.Concat(log1_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox1.AppendText(hexValues);
                         // End
 
@@ -1677,14 +1678,16 @@ namespace Woodpecker
                             foreach (string s in log)
                             {
                                 Thread.Sleep(500);
-                                strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
                                 log1_text = string.Concat(log1_text, strValues);
+                                logAll_text = string.Concat(logAll_text, strValues);
                             }
                         }
                         else
                         {
-                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log1_text = string.Concat(log1_text, strValues);
+                            logAll_text = string.Concat(logAll_text, strValues);
                         }
                     }
                 }
@@ -1868,6 +1871,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
 
@@ -1883,6 +1887,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
                 }
@@ -1924,6 +1929,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
 
@@ -1939,6 +1945,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
                 }
@@ -1980,6 +1987,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
 
@@ -1995,6 +2003,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
                 }
@@ -2036,6 +2045,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
 
@@ -2051,6 +2061,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
                 }
