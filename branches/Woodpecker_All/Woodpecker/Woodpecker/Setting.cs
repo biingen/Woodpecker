@@ -564,9 +564,10 @@ namespace Woodpecker
                     Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
                     if (Cam.VideoCapabilities.Count() > 0)
                     {
+                        comboBox_CameraAudio.Items.Clear();
                         foreach (VideoCapabilities device in Cam.VideoCapabilities)
                         {
-                            comboBox_CameraAudio.Items.Add(device.FrameSize.ToString());
+                            comboBox_CameraAudio.Items.Add(device.FrameSize);
                             if (device.FrameSize.ToString() == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
                             {
                                 comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
@@ -1180,6 +1181,33 @@ namespace Woodpecker
             }
         }
 
+        private void CamSupportedFrameSizes(VideoCaptureDevice videoSource)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            comboBox_CameraAudio.Items.Clear();
+            VideoCapabilities[] videoCapabilities;
+            try
+            {
+                videoCapabilities = videoSource.VideoCapabilities;
+                foreach (VideoCapabilities capabilty in videoCapabilities)
+                {
+                    if (!comboBox_CameraAudio.Items.Contains(capabilty.FrameSize))
+                    {
+                         comboBox_CameraAudio.Items.Add(capabilty.FrameSize);
+                    }
+                }
+                if (videoCapabilities.Length == 0)
+                {
+                    MessageBox.Show("Not supported any resolution");
+                }
+                comboBox_CameraAudio.SelectedIndex = 0;
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
+            }
+        }
+
         private void textBox_ImagePath_TextChanged(object sender, EventArgs e)
         {
             if (Directory.Exists(textBox_ImagePath.Text.Trim()) == true)
@@ -1249,6 +1277,11 @@ namespace Woodpecker
         {
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+            if (USB_Webcams.Count != 0)
+            {
+                Cam = new VideoCaptureDevice(USB_Webcams[comboBox_CameraDevice.SelectedIndex].MonikerString);
+                CamSupportedFrameSizes(Cam);
+            }
         }
 
         private void comboBox_CameraAudio_SelectedIndexChanged(object sender, EventArgs e)

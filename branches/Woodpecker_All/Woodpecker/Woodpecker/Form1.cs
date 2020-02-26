@@ -880,7 +880,6 @@ namespace Woodpecker
             button_Start.Enabled = false;
             setStyle();
             //throw new NotImplementedException();
-            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
             CaptureDone((Bitmap)eventArgs.Frame.Clone());
         }
 
@@ -892,6 +891,7 @@ namespace Woodpecker
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
+            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   delete();
             //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
@@ -943,7 +943,7 @@ namespace Woodpecker
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
@@ -2273,55 +2273,58 @@ namespace Woodpecker
                 {
                     if (temperatureString.Count() > 0)
                     {
-                        string tempStr = temperatureString.Dequeue();
-                        string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
-                        double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
-                        double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-/*                      
-                        int addTemperatureInt = Int16.Parse(addTemperature);
+                        tempStr = temperatureString.Dequeue();
+                        if (tempStr != "")
+                        {
+                            string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
+                            double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
+                            double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                            /*                      
+                                                    int addTemperatureInt = Int16.Parse(addTemperature);
 
-                        List<double> temperatureList = new List<double> { };
-                        if (addTemperatureInt < 0)
-                        {
-                            for (int i = Convert.ToInt16(currentTemperature); i >= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                                                    List<double> temperatureList = new List<double> { };
+                                                    if (addTemperatureInt < 0)
+                                                    {
+                                                        for (int i = Convert.ToInt16(currentTemperature); i >= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                                                        {
+                                                            temperatureList.Add(i);
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        for (int i = Convert.ToInt16(currentTemperature); i <= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                                                        {
+                                                            temperatureList.Add(i);
+                                                        }
+                                                    }
+                            */
+                            if (temperatureList.Contains(currentTemperature))
                             {
-                                temperatureList.Add(i);
+                                if (ShotFlag)
+                                {
+                                    Thread.Sleep(10);
+                                    Global.caption_Num++;
+                                    if (Global.Loop_Number == 1)
+                                        Global.caption_Sum = Global.caption_Num;
+                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                                    label_Command.Text = "SHOT";
+                                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
+                                    temperatureList.Dequeue();
+                                }
+                                else if (PauseFlag)
+                                {
+                                    button_Pause.PerformClick();
+                                    label_Command.Text = "PAUSE";
+                                    temperatureList.Dequeue();
+                                }
                             }
-                        }
-                        else
-                        {
-                            for (int i = Convert.ToInt16(currentTemperature); i <= Int16.Parse(finalTemperature); i += addTemperatureInt)
+                            else
                             {
-                                temperatureList.Add(i);
+                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
                             }
-                        }
-*/
-                        if (temperatureList.Contains(currentTemperature))
-                        {
-                            if (ShotFlag)
-                            {
-                                Thread.Sleep(10);
-                                Global.caption_Num++;
-                                if (Global.Loop_Number == 1)
-                                    Global.caption_Sum = Global.caption_Num;
-                                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
-                                label_Command.Text = "SHOT";
-                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                                temperatureList.Dequeue();
-                            }
-                            else if (PauseFlag)
-                            {
-                                button_Pause.PerformClick();
-                                label_Command.Text = "PAUSE";
-                                temperatureList.Dequeue();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                        }
 
-                        tempStr = "";
+                            tempStr = "";
+                        } 
                     }
                 }
                 /*while (SearchLogQueue1.Count > 0) // SearchLogQueue1.Count經常為0，故先註解
@@ -4954,7 +4957,7 @@ namespace Woodpecker
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
+                                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
                                 label_Command.Text = "Take Picture";
                             }
                             else
@@ -7867,7 +7870,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
+                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
                 label_Command.Text = "IO CMD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -7973,7 +7976,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += Cam_Myshot;//Press Tab  to   create();
+                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
                 label_Command.Text = "KEYWORD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -8508,12 +8511,12 @@ namespace Woodpecker
                 else
                     Cam_Indexof = 0;
                 Cam = new VideoCaptureDevice(USB_Webcams[Cam_Indexof].MonikerString);
-                if (ini12.INIRead(MainSettingPath, "Camera", "Resolution", "") != "")
-                    Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") != "")
+                    Res_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
                 else
-                    Cam.VideoResolution = Cam.VideoCapabilities[Cam.VideoCapabilities.Length - 1];
-                Cam.NewFrame += Cam_NewFrame;//Press Tab  to   create
-                Cam.Start();
+                    Res_Indexof = 0;
+                Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
+                Cam.NewFrame += new NewFrameEventHandler(Cam_NewFrame);//Press Tab  to   create
 /*
                 Filters filters = new Filters();
                 Filter f;
@@ -8628,11 +8631,11 @@ namespace Woodpecker
                 }
 */
             }
-            catch (NotSupportedException)
+            finally
             {
-                MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
-                button_Start.PerformClick();
-            };
+                Cam.Start();
+            }
+
         }
 
         #region -- 讀取RC DB並填入combobox --

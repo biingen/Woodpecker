@@ -833,7 +833,7 @@
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
             this.comboBox_CameraAudio.Size = new System.Drawing.Size(135, 23);
             this.comboBox_CameraAudio.TabIndex = 50;
-            this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
+            //this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
             // 
             // groupBox_RcDB
