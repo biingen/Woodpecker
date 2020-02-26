@@ -178,7 +178,7 @@ namespace USB_VN1630A
                     USB_CAN2C.CAN_Data this_can_ctl = CAN_Write_Data_Queue.Dequeue();
                     xlEventCollection.xlEvent[i].tagData.can_Msg.id = this_can_ctl.ID;
                     xlEventCollection.xlEvent[i].tagData.can_Msg.dlc = this_can_ctl.DataLen;
-                    for (int j = 0; j < this_can_ctl.DataLen; i++)
+                    for (int j = 0; j < this_can_ctl.DataLen; j++)
                     {
                         xlEventCollection.xlEvent[i].tagData.can_Msg.data[j] = this_can_ctl.Data[j];
                     }

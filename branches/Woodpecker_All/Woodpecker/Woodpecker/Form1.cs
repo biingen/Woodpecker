@@ -1044,6 +1044,7 @@ namespace Woodpecker
                 status = Can_1630A.StartCAN();
                 if (status == 1)
                 {
+                    timer_canbus.Enabled = true;
                     pictureBox_canbus.Image = Properties.Resources.ON;
                 }
                 else
@@ -10512,45 +10513,48 @@ namespace Woodpecker
                 Can_1630A.CAN_Write_Queue_Clear();
             }
 
-            if (res == 0)
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
             {
-                if (res >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                if (res == 0)
                 {
-                    timer_canbus.Enabled = false;
-                    Can_Usb2C.StopCAN();
-                    Can_Usb2C.Disconnect();
-
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-
-                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
-
-                    return;
-                }
-                return;
-            }
-            else
-            {
-                uint ID = 0, DLC = 0;
-                const int DATA_LEN = 8;
-                byte[] DATA = new byte[DATA_LEN];
-
-                String str = "";
-                for (UInt32 i = 0; i < res; i++)
-                {
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                    schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
+                    if (res >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
                     {
                         timer_canbus.Enabled = false;
                         Can_Usb2C.StopCAN();
                         Can_Usb2C.Disconnect();
+
                         pictureBox_canbus.Image = Properties.Resources.OFF;
+
                         ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+
                         return;
+                    }
+                    return;
+                }
+                else
+                {
+                    uint ID = 0, DLC = 0;
+                    const int DATA_LEN = 8;
+                    byte[] DATA = new byte[DATA_LEN];
+
+                    String str = "";
+                    for (UInt32 i = 0; i < res; i++)
+                    {
+                        DateTime.Now.ToShortTimeString();
+                        DateTime dt = DateTime.Now;
+                        Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                        string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                        canbus_text = string.Concat(canbus_text, canbus_log_text);
+                        schedule_text = string.Concat(schedule_text, canbus_log_text);
+                        if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
+                        {
+                            timer_canbus.Enabled = false;
+                            Can_Usb2C.StopCAN();
+                            Can_Usb2C.Disconnect();
+                            pictureBox_canbus.Image = Properties.Resources.OFF;
+                            ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                            return;
+                        }
                     }
                 }
             }
