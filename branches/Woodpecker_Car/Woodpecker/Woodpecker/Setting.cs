@@ -19,12 +19,11 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
-
         }
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
-        private CAN_Reader MYCanReader = new CAN_Reader();
+        //private CAN_Reader MYCanReader = new CAN_Reader();
 
         private void setStyle()
         {
@@ -441,15 +440,19 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
                     ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
 
+                    List<string> cameraDeviceList = new List<string> { };
                     for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
                         f = filters.VideoInputDevices[c];
                         comboBox_CameraDevice.Items.Add(f.Name);
+                        cameraDeviceList.Add(f.Name);
                         if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
                         {
                             comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
                         }
                     }
+                    string cameraDevice = String.Join(",", cameraDeviceList.ToArray());
+                    ini12.INIWrite(MainSettingPath, "Camera", "CameraDevice", cameraDevice);
 
                     if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
                     {

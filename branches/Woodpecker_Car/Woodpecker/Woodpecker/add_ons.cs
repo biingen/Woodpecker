@@ -179,6 +179,7 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] Displayhex = { "Checked" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "EachVideo"};
             string[] Schedule1 = { "Exist", "Loop", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "Path" };
@@ -269,6 +270,18 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "");
+                    }
+                }
+
+                for (int i = 0; i < Displayhex.Length; i++)
+                {
+                    if (i == (Displayhex.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "");
                     }
                 }
 
