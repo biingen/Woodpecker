@@ -42,6 +42,7 @@ using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using AForge.Video.FFMPEG;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -169,6 +170,11 @@ namespace Woodpecker
         public VideoCaptureDevice Cam = null;//攝像頭的初始化
         private int Cam_Indexof = 0;
         private int Res_Indexof = 0;
+        private Bitmap video;
+        //private AVIWriter AVIwriter = new AVIWriter();
+        private VideoCaptureDeviceForm captureDevice;
+        private VideoFileWriter FileWriter = new VideoFileWriter();
+        private SaveFileDialog saveAvi;
 
         public Form1()
         {
@@ -856,125 +862,6 @@ namespace Woodpecker
                 ctl.Text = value;
             }
         }
-
-        #region -- 拍照 --
-/*
-        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
-
-        private void Myshot()
-        {
-            button_Start.Enabled = false;
-            setStyle();
-            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
-            capture.GrapImg();
-        }
-*/
-        void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            //throw new NotImplementedException();
-            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
-        }
-
-        void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
-        {
-            button_Start.Enabled = false;
-            setStyle();
-            //throw new NotImplementedException();
-            CaptureDone((Bitmap)eventArgs.Frame.Clone());
-        }
-
-        // 複製原始圖片
-        protected Bitmap CloneBitmap(Bitmap source)
-        {
-            return new Bitmap(source);
-        }
-
-        private void CaptureDone(System.Drawing.Bitmap e)
-        {
-            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   delete();
-            //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
-            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
-
-            //圖片印字
-            Bitmap newBitmap = CloneBitmap(e);
-            newBitmap = CloneBitmap(e);
-            pictureBox4.Image = newBitmap;
-
-            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
-            {
-                // Create Compare folder
-                string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
-                //string ngPath = fName + "\\" + ngFolder;
-                string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
-                if (Global.caption_Num == 0)
-                    Global.caption_Num++;
-                /*
-                if (Directory.Exists(ngPath))
-                {
-
-                }
-                else
-                {
-                    Directory.CreateDirectory(ngPath);
-                }
-                */
-                // 圖片比較
-
-                /*
-                newBitmap = CloneBitmap(e);
-                newBitmap = RGB2Gray(newBitmap);
-                newBitmap = ConvertTo1Bpp2(newBitmap);
-                newBitmap = SobelEdgeDetect(newBitmap);                
-                this.pictureBox4.Image = newBitmap;
-                */
-                pictureBox4.Image.Save(compareFile);
-                if (Global.Loop_Number < 2)
-                {
-
-                }
-                else
-                {
-                    Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
-                    MyCompareThread.Start();
-                }
-            }
-
-            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-            Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
-            int YPoint = int.Parse(Resolution[1]);
-
-            //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
-            {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 80));
-            }
-
-            //照片印上現在時間//
-            bitMap_g.DrawString(TimeLabel.Text,
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 40));
-
-            Font.Dispose();
-            FontColor.Dispose();
-            bitMap_g.Dispose();
-
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
-            pictureBox4.Image.Save(t);
-            button_Start.Enabled = true;
-            setStyle();
-        }
-        #endregion
 
         protected void OpenRedRat3()
         {
@@ -4977,7 +4864,7 @@ namespace Woodpecker
                             {
                                 if (VideoRecording == false)
                                 {
-                                    Mysvideo(); // 開新檔
+                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myvideo); // 開新檔
                                     VideoRecording = true;
                                     Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                                     oThreadC.Start();
@@ -4999,7 +4886,7 @@ namespace Woodpecker
                                 if (VideoRecording == true)       //判斷是不是正在錄影
                                 {
                                     VideoRecording = false;
-                                    Mysstop();      //先將先前的關掉
+                                    Cam_Mystop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
                             }
@@ -7629,14 +7516,14 @@ namespace Woodpecker
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
-                            Mysvideo(); // 開新檔
+                            Cam.NewFrame += new NewFrameEventHandler(Cam_Myvideo); // 開新檔
                             VideoRecording = true;
                             Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                             oThreadC.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
                             VideoRecording = false;
-                            Mysstop();
+                            Cam_Mystop();
                             oThreadC.Abort();
                             Thread.Sleep(1500);
                             label_Command.Text = "Vdieo recording completely.";
@@ -8427,6 +8314,125 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 拍照 --
+        /*
+        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+
+        private void Myshot()
+        {
+            button_Start.Enabled = false;
+            setStyle();
+            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+            capture.GrapImg();
+        }
+        */
+        void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
+        {
+            //throw new NotImplementedException();
+            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
+        }
+
+        void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
+        {
+            button_Start.Enabled = false;
+            setStyle();
+            //throw new NotImplementedException();
+            CaptureDone((Bitmap)eventArgs.Frame.Clone());
+        }
+
+        // 複製原始圖片
+        protected Bitmap CloneBitmap(Bitmap source)
+        {
+            return new Bitmap(source);
+        }
+
+        private void CaptureDone(System.Drawing.Bitmap e)
+        {
+            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   delete();
+            //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+
+            //圖片印字
+            Bitmap newBitmap = CloneBitmap(e);
+            newBitmap = CloneBitmap(e);
+            pictureBox4.Image = newBitmap;
+
+            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
+            {
+                // Create Compare folder
+                string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
+                //string ngPath = fName + "\\" + ngFolder;
+                string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
+                if (Global.caption_Num == 0)
+                    Global.caption_Num++;
+                /*
+                if (Directory.Exists(ngPath))
+                {
+
+                }
+                else
+                {
+                    Directory.CreateDirectory(ngPath);
+                }
+                */
+                // 圖片比較
+
+                /*
+                newBitmap = CloneBitmap(e);
+                newBitmap = RGB2Gray(newBitmap);
+                newBitmap = ConvertTo1Bpp2(newBitmap);
+                newBitmap = SobelEdgeDetect(newBitmap);                
+                this.pictureBox4.Image = newBitmap;
+                */
+                pictureBox4.Image.Save(compareFile);
+                if (Global.Loop_Number < 2)
+                {
+
+                }
+                else
+                {
+                    Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
+                    MyCompareThread.Start();
+                }
+            }
+
+            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
+            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+            Brush FontColor = new SolidBrush(Color.Red);
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+            int YPoint = int.Parse(Resolution[1]);
+
+            //照片印上現在步驟//
+            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 120));
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
+            }
+
+            //照片印上現在時間//
+            bitMap_g.DrawString(TimeLabel.Text,
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 40));
+
+            Font.Dispose();
+            FontColor.Dispose();
+            bitMap_g.Dispose();
+
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            pictureBox4.Image.Save(t);
+            button_Start.Enabled = true;
+            setStyle();
+        }
+        #endregion
+
         #region -- 字幕 --
         private void MySrtCamd()
         {
@@ -8454,7 +8460,7 @@ namespace Woodpecker
             }
         }
         #endregion
-
+        /*
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
@@ -8463,6 +8469,18 @@ namespace Woodpecker
             //capture.Dispose();
             Camstart();
         }));
+        */
+        private void Cam_Myvideo(object sender, NewFrameEventArgs eventArgs)
+        {
+            Savevideo();
+        }
+
+        private void Cam_Mystop()
+        {
+            Cam.Stop();
+            //capture.Dispose();
+            Camstart();
+        }
 
         private void Savevideo()//儲存影片//
         {
@@ -8470,14 +8488,26 @@ namespace Woodpecker
 
             string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
             srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
-/*
-            if (!capture.Cued)
-                capture.Filename = t;
 
-            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
-            capture.Cue(); // 創一個檔
-            capture.Start(); // 開始錄影
-*/
+            int h = captureDevice.VideoDevice.VideoResolution.FrameSize.Height;
+            int w = captureDevice.VideoDevice.VideoResolution.FrameSize.Width;
+            FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
+            FileWriter.WriteVideoFrame((Bitmap)panelVideo.Image);
+
+            //AVIwriter.Open(saveAvi.FileName, w, h);
+            //butStop.Text = "Stop Record";
+            //FinalVideo = captureDevice.VideoDevice;
+            //FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
+            //FinalVideo.Start();
+
+            /*
+                        if (!capture.Cued)
+                            capture.Filename = t;
+
+                        capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+                        capture.Cue(); // 創一個檔
+                        capture.Start(); // 開始錄影
+            */
             /*
             double chd; //檢查HD 空間 小於100M就停止錄影s
             chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
@@ -9445,6 +9475,15 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
             {
                 DisconnectAutoBox2();
+            }
+
+            if (Cam == null)
+            { return; }
+            if (Cam.IsRunning)
+            {
+                this.Cam.Stop();
+                FileWriter.Close();
+                //this.AVIwriter.Close();
             }
 
             Application.ExitThread();
