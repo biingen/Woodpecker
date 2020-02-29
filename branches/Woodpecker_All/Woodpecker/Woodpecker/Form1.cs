@@ -172,9 +172,9 @@ namespace Woodpecker
         private int Res_Indexof = 0;
         private Bitmap video;
         //private AVIWriter AVIwriter = new AVIWriter();
-        private VideoCaptureDeviceForm captureDevice;
         private VideoFileWriter FileWriter = new VideoFileWriter();
-        private SaveFileDialog saveAvi;
+        private Thread workerThread = null;
+        private bool stopProcess = false;
 
         public Form1()
         {
@@ -4864,10 +4864,8 @@ namespace Woodpecker
                             {
                                 if (VideoRecording == false)
                                 {
-                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myvideo); // 開新檔
+                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
                                     VideoRecording = true;
-                                    Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
-                                    oThreadC.Start();
                                 }
                                 label_Command.Text = "Start Recording";
                             }
@@ -4886,7 +4884,7 @@ namespace Woodpecker
                                 if (VideoRecording == true)       //判斷是不是正在錄影
                                 {
                                     VideoRecording = false;
-                                    Cam_Mystop();      //先將先前的關掉
+                                    Cam_Myvstop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
                             }
@@ -7516,15 +7514,15 @@ namespace Woodpecker
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
-                            Cam.NewFrame += new NewFrameEventHandler(Cam_Myvideo); // 開新檔
+                            Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
                             VideoRecording = true;
-                            Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
-                            oThreadC.Start();
+                            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
+                            MySrtThread.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
                             VideoRecording = false;
-                            Cam_Mystop();
-                            oThreadC.Abort();
+                            Cam_Myvstop();
+                            MySrtThread.Abort();
                             Thread.Sleep(1500);
                             label_Command.Text = "Vdieo recording completely.";
                         }
@@ -8329,6 +8327,7 @@ namespace Woodpecker
         void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             //throw new NotImplementedException();
+            video = (Bitmap)eventArgs.Frame.Clone();
             panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
         }
 
@@ -8470,29 +8469,38 @@ namespace Woodpecker
             Camstart();
         }));
         */
-        private void Cam_Myvideo(object sender, NewFrameEventArgs eventArgs)
+        private void Cam_Myvstart(object sender, NewFrameEventArgs eventArgs)
         {
+            Cam.Start();
             Savevideo();
         }
 
-        private void Cam_Mystop()
+        private void Cam_Myvstop()
         {
-            Cam.Stop();
-            //capture.Dispose();
-            Camstart();
+            stopProcess = true;
+            VideoRecording = false;
+            workerThread.Abort();
+            video = null;
         }
 
         private void Savevideo()//儲存影片//
         {
+            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myvstart);//Press Tab  to   delete();
+
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
 
-            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
+            string t = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".avi";
+            srtstring = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".srt";
 
-            int h = captureDevice.VideoDevice.VideoResolution.FrameSize.Height;
-            int w = captureDevice.VideoDevice.VideoResolution.FrameSize.Width;
+            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
+            MySrtThread.Start();
+
+            int h = Cam.VideoResolution.FrameSize.Height;
+            int w = Cam.VideoResolution.FrameSize.Width;
             FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
-            FileWriter.WriteVideoFrame((Bitmap)panelVideo.Image);
+            stopProcess = false;
+            workerThread = new Thread(new ThreadStart(recordLiveCam));
+            workerThread.Start();
 
             //AVIwriter.Open(saveAvi.FileName, w, h);
             //butStop.Text = "Stop Record";
@@ -8516,6 +8524,22 @@ namespace Woodpecker
                 Vread = false;
                 MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }*/
+        }
+
+        private void recordLiveCam()
+        {
+            if (!stopProcess)
+            {
+                while (VideoRecording)
+                {
+                    FileWriter.WriteVideoFrame(video);
+                }
+                FileWriter.Close();
+            }
+            else
+            {
+                workerThread.Abort();
+            }
         }
 
         private void OnOffCamera()//啟動攝影機//
@@ -9319,13 +9343,32 @@ namespace Woodpecker
                         button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
-                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
                         comboBox_CameraDevice.Items.Clear();
-                        foreach (string cd in cameraDevice)
+                        USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                        if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
                         {
-                            comboBox_CameraDevice.Items.Add(cd);
+                            ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
+                            foreach (FilterInfo device in USB_Webcams)
+                            {
+                                comboBox_CameraDevice.Items.Add(device.Name);
+                                if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                                {
+                                    comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                                }
+                            }
+
+                            if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
+                            {
+                                comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
+                                ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                                ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
+                                comboBox_CameraDevice.SelectedIndex = 0;
+                            else
+                                comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                         }
-                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
                     catch (ArgumentOutOfRangeException)
                     {
