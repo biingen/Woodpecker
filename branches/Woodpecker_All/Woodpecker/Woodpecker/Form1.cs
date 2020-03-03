@@ -2194,14 +2194,14 @@ namespace Woodpecker
                                     if (Global.Loop_Number == 1)
                                         Global.caption_Sum = Global.caption_Num;
                                     Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
-                                    label_Command.Text = "SHOT";
+                                    label_Command.Text = "SHOT Temperature: " + currentTemperature;
                                     Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                                     temperatureList.Dequeue();
                                 }
                                 else if (PauseFlag)
                                 {
                                     button_Pause.PerformClick();
-                                    label_Command.Text = "PAUSE";
+                                    label_Command.Text = "PAUSE Temperature: " + currentTemperature;
                                     temperatureList.Dequeue();
                                 }
                             }
@@ -8414,7 +8414,13 @@ namespace Woodpecker
                                 FontColor,
                                 new PointF(5, YPoint - 80));
             }
-
+            else
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                Font,
+                FontColor,
+                new PointF(5, YPoint - 80));
+            }
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text,
                                 Font,
@@ -9037,7 +9043,7 @@ namespace Woodpecker
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
-                    ifThread1.IsBackground = true;
+                    //ifThread1.IsBackground = true;
                     ifThread1.Start();
                     timer1.Start();     //開始倒數
                     button_Start.Text = "STOP";
@@ -9177,7 +9183,7 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
-                    ifThread1.IsBackground = true;
+                    //ifThread1.IsBackground = true;
                     ifThread1.Start();
                     StartButtonPressed = true;
                     StartButtonFlag = true;
