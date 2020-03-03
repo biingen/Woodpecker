@@ -128,6 +128,11 @@ namespace Woodpecker
         private USB_VECTOR_Lib Can_1630A = new USB_VECTOR_Lib();
         private int can_send = 0;
         private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
+        private bool set_timer_rate = false;
+        private List<string> can_id = new List<string>();
+        private List<string> can_timerate = new List<string>();
+        private List<string> can_data = new List<string>();
+
 
         //Klite error code
         public int kline_send = 0;
@@ -1273,6 +1278,44 @@ namespace Woodpecker
 
             aTimer.Stop();
             aTimer.Dispose();
+            //Console.WriteLine("RedRatDBViewer_Delay: End.");
+        }
+
+        // 這個can專用的delay的內部資料與function
+        static bool CAN_Delay_TimeOutIndicator = false;
+        private void CAN_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
+            CAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void CAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("CAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer cTimer = new System.Timers.Timer(delay_ms);
+            //aTimer.Interval = delay_ms;
+            cTimer.Elapsed += new ElapsedEventHandler(CAN_Delay_OnTimedEvent);
+            cTimer.SynchronizingObject = this.TimeLabel2;
+            CAN_Delay_TimeOutIndicator = false;
+            cTimer.Enabled = true;
+            cTimer.Start();
+            while ((FormIsClosing == false) && (CAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("CAN_Delay_TimeOutIndicator: false.");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+
+            cTimer.Stop();
+            cTimer.Dispose();
             //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
 
@@ -5712,9 +5755,9 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
                             {
-                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
-                                    Console.WriteLine("Canbus Send: _Canbus_Send");
+                                    Console.WriteLine("Canbus Send (Event): _Canbus_Send");
                                     Can_Usb2C.TransmitData(columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
@@ -5723,8 +5766,15 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
-
-                                    System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    set_timer_rate = true;
+                                    can_id.Add(columns_times);
+                                    can_timerate.Add(columns_interval);
+                                    can_data.Add(columns_serial);
+                                    Thread CanSetTimeRate = new Thread(new ThreadStart(canloop));
+                                    CanSetTimeRate.Start();
                                 }
                             }
                             else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
@@ -5732,7 +5782,7 @@ namespace Woodpecker
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
-                                    Can_1630A.CANTransmit(columns_times, columns_serial);
+                                    Can_1630A.CANTransmit(Convert.ToUInt32(columns_interval), columns_times, columns_serial);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -5740,8 +5790,6 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
-
-                                    System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
                                 }
                             }
 
@@ -6304,7 +6352,7 @@ namespace Woodpecker
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     Console.WriteLine("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
-                                    Thread.Sleep(sRepeat);
+                                    RedRatDBViewer_Delay(sRepeat);
                                     int length = columns_serial.Length;
                                     string status = columns_serial.Substring(length - 1, 1);
                                     string reverse = "";
@@ -8625,6 +8673,7 @@ namespace Woodpecker
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     can_send = 0;
+                    set_timer_rate = false;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -8778,6 +8827,7 @@ namespace Woodpecker
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     can_send = 0;
+                    set_timer_rate = false;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -10478,6 +10528,28 @@ namespace Woodpecker
                 default:
                     break;
             }
+        }
+
+        private void canloop()
+        {
+            while (set_timer_rate)
+            {
+                Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
+                string columns_times = can_id[0];
+                string columns_serial = can_data[0];
+                string columns_interval = can_timerate[0];
+                Can_Usb2C.TransmitData(columns_times, columns_serial);
+
+                string Outputstring = "ID: 0x";
+                //Outputstring += columns_times + " Data: " + columns_serial;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                canbus_text = string.Concat(canbus_text, canbus_log_text);
+                schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                CAN_Delay(int.Parse(columns_interval));
+            }
+
         }
 
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)

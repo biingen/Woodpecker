@@ -219,8 +219,8 @@ namespace Woodpecker
             uint sendout_obj_len = (uint)sendobj_list.Count;
             if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
             {
-                MessageBox.Show("发送失败", "错误",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    MessageBox.Show("发送失败", "错误",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             //sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
             //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj

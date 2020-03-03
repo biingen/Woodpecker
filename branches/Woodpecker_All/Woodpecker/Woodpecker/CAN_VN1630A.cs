@@ -191,10 +191,12 @@ namespace USB_VN1630A
             }
         }
 
-        public void CANTransmit(string ID, string Data)
+        public void CANTransmit(uint timeRate, string ID, string Data)
         {
             XLDefine.XL_Status txStatus;
 
+            txStatus = CANDrive.XL_SetTimerRate(portHandle, timeRate*100);
+            Console.WriteLine("Transmit Message      : " + txStatus);
             // Create an event collection with 1 messages (events)
             XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
 
