@@ -129,10 +129,9 @@ namespace Woodpecker
         private int can_send = 0;
         private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
         private bool set_timer_rate = false;
-        private List<string> can_id = new List<string>();
-        private List<string> can_timerate = new List<string>();
-        private List<string> can_data = new List<string>();
-
+        private string can_id;
+        private Dictionary<uint, string> can_data = new Dictionary<uint, string>();
+        private Dictionary<uint, int> can_rate = new Dictionary<uint, int>();
 
         //Klite error code
         public int kline_send = 0;
@@ -5770,16 +5769,40 @@ namespace Woodpecker
                                 else if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     set_timer_rate = true;
-                                    can_id.Add(columns_times);
-                                    can_timerate.Add(columns_interval);
-                                    can_data.Add(columns_serial);
-                                    Thread CanSetTimeRate = new Thread(new ThreadStart(canloop));
-                                    CanSetTimeRate.Start();
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(Convert.ToUInt32(columns_times)))
+                                            {
+                                                can_id = columns_times;
+                                                can_rate[Convert.ToUInt32(can_id)] = Convert.ToInt32(columns_interval);
+                                                can_data[Convert.ToUInt32(can_id)] = columns_serial;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_id = columns_times;
+                                                can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
+                                                can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                                Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
+                                                CanSetTimeRate.Start();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_id = columns_times;
+                                        can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
+                                        can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                        Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
+                                        CanSetTimeRate.Start();
+                                    }
                                 }
                             }
                             else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
                             {
-                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
                                     Can_1630A.CANTransmit(Convert.ToUInt32(columns_interval), columns_times, columns_serial);
@@ -5790,6 +5813,39 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    set_timer_rate = true;
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(Convert.ToUInt32(columns_times)))
+                                            {
+                                                can_id = columns_times;
+                                                can_rate[Convert.ToUInt32(can_id)] = Convert.ToInt32(columns_interval);
+                                                can_data[Convert.ToUInt32(can_id)] = columns_serial;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_id = columns_times;
+                                                can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
+                                                can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                                Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                                CanSetTimeRate.Start();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_id = columns_times;
+                                        can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
+                                        can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                        Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                        CanSetTimeRate.Start();
+                                    }
                                 }
                             }
 
@@ -10530,14 +10586,14 @@ namespace Woodpecker
             }
         }
 
-        private void canloop()
+        private void usbcanloop()
         {
             while (set_timer_rate)
             {
                 Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
-                string columns_times = can_id[0];
-                string columns_serial = can_data[0];
-                string columns_interval = can_timerate[0];
+                string columns_times = can_id;
+                string columns_serial = can_data[Convert.ToUInt32(columns_times)];
+                int columns_interval = can_rate[Convert.ToUInt32(columns_times)];
                 Can_Usb2C.TransmitData(columns_times, columns_serial);
 
                 string Outputstring = "ID: 0x";
@@ -10547,7 +10603,29 @@ namespace Woodpecker
                 canbus_text = string.Concat(canbus_text, canbus_log_text);
                 schedule_text = string.Concat(schedule_text, canbus_log_text);
 
-                CAN_Delay(int.Parse(columns_interval));
+                CAN_Delay(columns_interval);
+            }
+
+        }
+
+        private void vectorcanloop()
+        {
+            while (set_timer_rate)
+            {
+                Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
+                string columns_times = can_id;
+                string columns_serial = can_data[Convert.ToUInt32(columns_times)];
+                int columns_interval = can_rate[Convert.ToUInt32(columns_times)];
+                Can_1630A.CANTransmit(Convert.ToUInt32(columns_interval), columns_times, columns_serial);
+
+                string Outputstring = "ID: 0x";
+                //Outputstring += columns_times + " Data: " + columns_serial;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                canbus_text = string.Concat(canbus_text, canbus_log_text);
+                schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                CAN_Delay(columns_interval);
             }
 
         }

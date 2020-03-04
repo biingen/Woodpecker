@@ -83,6 +83,7 @@ namespace USB_CAN2C
 
                 if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
                 {
+                    Console.WriteLine("Failed to send!");
                     //MessageBox.Show("发送失败", "错误",
                     //MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
