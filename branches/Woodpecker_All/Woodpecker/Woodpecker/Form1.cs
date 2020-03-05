@@ -129,9 +129,9 @@ namespace Woodpecker
         private int can_send = 0;
         private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
         private bool set_timer_rate = false;
-        private string can_id;
-        private Dictionary<uint, string> can_data = new Dictionary<uint, string>();
-        private Dictionary<uint, int> can_rate = new Dictionary<uint, int>();
+        private uint can_id;
+        private Dictionary<uint, uint> can_rate = new Dictionary<uint, uint>();
+        private Dictionary<uint, byte[]> can_data = new Dictionary<uint, byte[]>();
 
         //Klite error code
         public int kline_send = 0;
@@ -5757,7 +5757,9 @@ namespace Woodpecker
                                 if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send (Event): _Canbus_Send");
-                                    Can_Usb2C.TransmitData(columns_times, columns_serial);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_Usb2C.TransmitData(Convert.ToUInt32(columns_times), Outputdata);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -5769,22 +5771,23 @@ namespace Woodpecker
                                 else if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
                                     if (can_rate.Count > 0)
                                     {
                                         foreach (var OneItem in can_rate)
                                         {
-                                            if (can_rate.ContainsKey(Convert.ToUInt32(columns_times)))
+                                            if (can_rate.ContainsKey(can_id))
                                             {
-                                                can_id = columns_times;
-                                                can_rate[Convert.ToUInt32(can_id)] = Convert.ToInt32(columns_interval);
-                                                can_data[Convert.ToUInt32(can_id)] = columns_serial;
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
                                                 break;
                                             }
                                             else
                                             {
-                                                can_id = columns_times;
-                                                can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
-                                                can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
                                                 Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
                                                 CanSetTimeRate.Start();
                                             }
@@ -5792,9 +5795,8 @@ namespace Woodpecker
                                     }
                                     else
                                     {
-                                        can_id = columns_times;
-                                        can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
-                                        can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
                                         Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
                                         CanSetTimeRate.Start();
                                     }
@@ -5805,7 +5807,9 @@ namespace Woodpecker
                                 if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
-                                    Can_1630A.CANTransmit(Convert.ToUInt32(columns_interval), columns_times, columns_serial);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_1630A.CANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -5817,22 +5821,23 @@ namespace Woodpecker
                                 else if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
                                     set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
                                     if (can_rate.Count > 0)
                                     {
                                         foreach (var OneItem in can_rate)
                                         {
-                                            if (can_rate.ContainsKey(Convert.ToUInt32(columns_times)))
+                                            if (can_rate.ContainsKey(can_id))
                                             {
-                                                can_id = columns_times;
-                                                can_rate[Convert.ToUInt32(can_id)] = Convert.ToInt32(columns_interval);
-                                                can_data[Convert.ToUInt32(can_id)] = columns_serial;
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
                                                 break;
                                             }
                                             else
                                             {
-                                                can_id = columns_times;
-                                                can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
-                                                can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
                                                 Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
                                                 CanSetTimeRate.Start();
                                             }
@@ -5840,9 +5845,8 @@ namespace Woodpecker
                                     }
                                     else
                                     {
-                                        can_id = columns_times;
-                                        can_rate.Add(Convert.ToUInt32(can_id), Convert.ToInt32(columns_interval));
-                                        can_data.Add(Convert.ToUInt32(can_id), columns_serial);
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
                                         Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
                                         CanSetTimeRate.Start();
                                     }
@@ -8730,6 +8734,8 @@ namespace Woodpecker
                     CloseDtplay();//關閉DtPlay//
                     can_send = 0;
                     set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -8884,6 +8890,8 @@ namespace Woodpecker
                     CloseDtplay();
                     can_send = 0;
                     set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -10591,9 +10599,9 @@ namespace Woodpecker
             while (set_timer_rate)
             {
                 Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
-                string columns_times = can_id;
-                string columns_serial = can_data[Convert.ToUInt32(columns_times)];
-                int columns_interval = can_rate[Convert.ToUInt32(columns_times)];
+                uint columns_times = can_id;
+                byte[] columns_serial = can_data[columns_times];
+                int columns_interval = (int)can_rate[columns_times];
                 Can_Usb2C.TransmitData(columns_times, columns_serial);
 
                 string Outputstring = "ID: 0x";
@@ -10613,10 +10621,10 @@ namespace Woodpecker
             while (set_timer_rate)
             {
                 Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
-                string columns_times = can_id;
-                string columns_serial = can_data[Convert.ToUInt32(columns_times)];
-                int columns_interval = can_rate[Convert.ToUInt32(columns_times)];
-                Can_1630A.CANTransmit(Convert.ToUInt32(columns_interval), columns_times, columns_serial);
+                uint columns_times = can_id;
+                byte[] columns_serial = can_data[columns_times];
+                int columns_interval = (int)can_rate[columns_times];
+                Can_1630A.CANTransmit(columns_times, (uint)columns_interval, columns_serial);
 
                 string Outputstring = "ID: 0x";
                 //Outputstring += columns_times + " Data: " + columns_serial;
@@ -10625,7 +10633,7 @@ namespace Woodpecker
                 canbus_text = string.Concat(canbus_text, canbus_log_text);
                 schedule_text = string.Concat(schedule_text, canbus_log_text);
 
-                CAN_Delay(columns_interval);
+                //CAN_Delay(columns_interval);
             }
 
         }

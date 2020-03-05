@@ -187,7 +187,7 @@ namespace Woodpecker
             return res;
         }
 
-        unsafe public void TransmitData(string ID, string Data)
+        unsafe public void TransmitData(uint ID, byte[] Data)
         {
             if (m_bOpen == 0)
                 return;
@@ -197,18 +197,13 @@ namespace Woodpecker
             //sendobj.Init();
             sendobj.RemoteFlag = default_RemoteFlag;
             sendobj.ExternFlag = default_ExternFlag;
-            sendobj.ID = System.Convert.ToUInt32("0x" + ID, 16);
-            int len = Data.Split(' ').Length;
+            sendobj.ID = ID;
+            int len = Data.Length;
             sendobj.DataLen = System.Convert.ToByte(len);
-            string[] orginal_array = Data.Split(' ');
-            byte[] orginal_bytes = new byte[orginal_array.Count()];
-            int orginal_index = 0;
-            foreach (string hex in orginal_array)
+            for (int orginal_index = 0; orginal_index < len; orginal_index++)
             {
-                // Convert the number expressed in base-16 to an integer.
-                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                 // Get the character corresponding to the integral value.
-                sendobj.Data[orginal_index++] = number;
+                sendobj.Data[orginal_index] = Data[orginal_index];
             }
 
             sendobj_list.Add(sendobj);

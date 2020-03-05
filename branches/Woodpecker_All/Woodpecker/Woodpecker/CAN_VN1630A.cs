@@ -191,28 +191,22 @@ namespace USB_VN1630A
             }
         }
 
-        public void CANTransmit(uint timeRate, string ID, string Data)
+        public void CANTransmit(uint ID, uint timeRate, byte[] Data)
         {
             XLDefine.XL_Status txStatus;
 
-            //txStatus = CANDrive.XL_SetTimerRate(portHandle, timeRate*100);
-            //Console.WriteLine("Transmit Message      : " + txStatus);
+            txStatus = CANDrive.XL_SetTimerRate(portHandle, timeRate*100);
+            Console.WriteLine("Transmit Message      : " + txStatus);
             // Create an event collection with 1 messages (events)
             XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
 
             // event 1
-            xlEventCollection.xlEvent[0].tagData.can_Msg.id = System.Convert.ToUInt32("0x" + ID, 16);
-            int len = Data.Split(' ').Length;
-            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = System.Convert.ToByte(len);
-            string[] orginal_array = Data.Split(' ');
-            byte[] orginal_bytes = new byte[orginal_array.Count()];
-            int orginal_index = 0;
-            foreach (string hex in orginal_array)
+            xlEventCollection.xlEvent[0].tagData.can_Msg.id = ID;
+            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = (ushort)Data.Length;
+            
+            for (int orginal_index = 0; orginal_index < Data.Length; orginal_index++)
             {
-                // Convert the number expressed in base-16 to an integer.
-                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
-                // Get the character corresponding to the integral value.
-                xlEventCollection.xlEvent[0].tagData.can_Msg.data[orginal_index++] = number;
+                xlEventCollection.xlEvent[0].tagData.can_Msg.data[orginal_index] = Data[orginal_index];
             }
 
             xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
