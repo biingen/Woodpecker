@@ -8539,6 +8539,7 @@ namespace Woodpecker
                 while (VideoRecording)
                 {
                     FileWriter.WriteVideoFrame(video);
+                    Thread.Sleep(28);
                 }
                 FileWriter.Close();
             }
