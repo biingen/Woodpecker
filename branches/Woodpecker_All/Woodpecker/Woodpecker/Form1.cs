@@ -33,8 +33,6 @@ using MySerialLibrary;
 using KWP_2000;
 using MaterialSkin.Controls;
 using MaterialSkin;
-using Camera_NET;
-//using DirectShowLib;
 using InTheHand.Net.Sockets;
 using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
@@ -1531,6 +1529,7 @@ namespace Woodpecker
         byte[] dataset;
         string strValues1 = string.Empty;
         string tempStr = string.Empty;
+        string tempValue = string.Empty;
         #region -- 接受SerialPort1資料 --
         /*
                 public class SerialReceivedData
@@ -1650,9 +1649,12 @@ namespace Woodpecker
                                 strValues1 = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
                                 if (s.Substring(2, 1) == temperatureChannel &&
                                     !s.Contains('\u0018') &&
-                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14)
+                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+                                    tempValue != strValues1 &&
+                                    TemperatureIsFound)
                                 {
                                     tempStr = strValues1;
+                                    tempValue = strValues1;
                                     temperatureString.Enqueue(tempStr);
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);

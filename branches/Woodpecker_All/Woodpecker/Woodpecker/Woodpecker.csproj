@@ -115,17 +115,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Camera_NET, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Camera_NET.dll</HintPath>
-    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
-    </Reference>
-    <Reference Include="DShowNET, Version=1.0.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\DShowNET.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\ICSharpCode.SharpZipLib.dll</HintPath>
@@ -343,7 +335,9 @@
       <DependentUpon>Setting.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
