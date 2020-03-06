@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Threading;
 using Woodpecker;
-using System.Diagnostics;
 
 namespace Woodpecker
 {
