@@ -5752,7 +5752,7 @@ namespace Woodpecker
                         #region -- Canbus Send --
                         else if (columns_command == "_Canbus_Send")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
                                 if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
@@ -5802,7 +5802,7 @@ namespace Woodpecker
                                     }
                                 }
                             }
-                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
                             {
                                 if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
@@ -5860,7 +5860,7 @@ namespace Woodpecker
                         #region -- Canbus Queue --
                         else if (columns_command == "_Canbus_Queue")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
@@ -5881,7 +5881,7 @@ namespace Woodpecker
                                     can_data_list.Clear();
                                 }
                             }
-                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
                             {
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
@@ -10646,7 +10646,7 @@ namespace Woodpecker
 
             if (can_send == 1)
             {
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                 {
                     foreach (var can in can_data_list)
                     {
@@ -10655,7 +10655,7 @@ namespace Woodpecker
                     usb_can_2c.CAN_Write_Queue_SendData();
                     can_data_list.Clear();
                 }
-                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
                 {
                     foreach (var can in can_data_list)
                     {
@@ -10671,7 +10671,7 @@ namespace Woodpecker
                 Can_1630A.CAN_Write_Queue_Clear();
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
             {
                 if (res == 0)
                 {
