@@ -1866,8 +1866,36 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, strValues);
+
+                        if (strValues.Contains("\r"))
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues1 = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                if (s.Substring(2, 1) == temperatureChannel &&
+                                    !s.Contains('\u0018') &&
+                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+                                    TemperatureIsFound)
+                                {
+                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                                    if (beforeTemperature != currentTemperature)
+                                    {
+                                        temperatureString.Enqueue(strValues1);
+                                        beforeTemperature = currentTemperature;
+                                    }
+                                }
+                                log2_text = string.Concat(log2_text, strValues1);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log2_text = string.Concat(log2_text, strValues);
+                        }
                         //textBox2.AppendText(strValues);
                     }
                 }
@@ -1922,8 +1950,36 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, strValues);
+
+                        if (strValues.Contains("\r"))
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues1 = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                if (s.Substring(2, 1) == temperatureChannel &&
+                                    !s.Contains('\u0018') &&
+                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+                                    TemperatureIsFound)
+                                {
+                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                                    if (beforeTemperature != currentTemperature)
+                                    {
+                                        temperatureString.Enqueue(strValues1);
+                                        beforeTemperature = currentTemperature;
+                                    }
+                                }
+                                log3_text = string.Concat(log3_text, strValues1);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log3_text = string.Concat(log3_text, strValues);
+                        }
                         //textBox3.AppendText(strValues);
                     }
                 }
@@ -1978,8 +2034,36 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, strValues);
+
+                        if (strValues.Contains("\r"))
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues1 = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                if (s.Substring(2, 1) == temperatureChannel &&
+                                    !s.Contains('\u0018') &&
+                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+                                    TemperatureIsFound)
+                                {
+                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                                    if (beforeTemperature != currentTemperature)
+                                    {
+                                        temperatureString.Enqueue(strValues1);
+                                        beforeTemperature = currentTemperature;
+                                    }
+                                }
+                                log4_text = string.Concat(log4_text, strValues1);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log4_text = string.Concat(log4_text, strValues);
+                        }
                         //textBox4.AppendText(strValues);
                     }
                 }
@@ -2034,8 +2118,36 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-                        strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, strValues);
+
+                        if (strValues.Contains("\r"))
+                        {
+                            string[] log = strValues.Split('\r');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues1 = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                if (s.Substring(2, 1) == temperatureChannel &&
+                                    !s.Contains('\u0018') &&
+                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+                                    TemperatureIsFound)
+                                {
+                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                                    if (beforeTemperature != currentTemperature)
+                                    {
+                                        temperatureString.Enqueue(strValues1);
+                                        beforeTemperature = currentTemperature;
+                                    }
+                                }
+                                log5_text = string.Concat(log5_text, strValues1);
+                            }
+                        }
+                        else
+                        {
+                            strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log5_text = string.Concat(log5_text, strValues);
+                        }
                         //textBox5.AppendText(strValues);
                     }
                 }
