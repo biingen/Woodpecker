@@ -1347,7 +1347,7 @@ namespace Woodpecker
 
                             PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortD.Open();
-                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortD);
                         }
                     }
                     catch (Exception Ex)
@@ -1375,9 +1375,9 @@ namespace Woodpecker
                             PortE.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort5_DataReceived);       // DataReceived呼叫函式
                             PortE.Open();
-                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortE);
                         }
                     }
                     catch (Exception Ex)
@@ -3640,7 +3640,7 @@ namespace Woodpecker
         private void MyLog4Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortD_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
             int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
@@ -3652,7 +3652,7 @@ namespace Woodpecker
                     Keyword_SerialPort_4_temp_byte = SearchLogQueue4.Dequeue();
                     Keyword_SerialPort_4_temp_char = (char)Keyword_SerialPort_4_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
                         if ((Keyword_SerialPort_4_temp_char == '\n'))
@@ -4047,7 +4047,7 @@ namespace Woodpecker
         private void MyLog5Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortE_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
             int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
@@ -4059,7 +4059,7 @@ namespace Woodpecker
                     Keyword_SerialPort_5_temp_byte = SearchLogQueue5.Dequeue();
                     Keyword_SerialPort_5_temp_char = (char)Keyword_SerialPort_5_temp_byte;
 
-                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
+                    if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
                         if ((Keyword_SerialPort_5_temp_char == '\n'))
@@ -5321,7 +5321,11 @@ namespace Woodpecker
                         {
                             if (columns_command.Substring(10) == "1")
                             {
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                                 {
                                     if (columns_function == "start")
                                     {
