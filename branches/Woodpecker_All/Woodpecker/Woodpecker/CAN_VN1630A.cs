@@ -34,9 +34,7 @@ namespace USB_VN1630A
         private static int txCi = -1;
         private static int rxCi = -1;
         private static EventWaitHandle xlEvWaitHandle = new EventWaitHandle(false, EventResetMode.AutoReset, null);
-
-
-
+        
         // RX thread
         private static Thread rxThread;
         private static bool blockRxThread = false;
@@ -191,25 +189,51 @@ namespace USB_VN1630A
             }
         }
 
-        public void CANTransmit(uint ID, uint timeRate, byte[] Data)
+        public void LoopCANTransmit(uint ID, uint timeRate, byte[] Data)
         {
             XLDefine.XL_Status txStatus;
 
             txStatus = CANDrive.XL_SetTimerRate(portHandle, timeRate*100);
-            Console.WriteLine("Transmit Message      : " + txStatus);
+            Console.WriteLine("TimerRate Transmit Message      : " + txStatus);
             // Create an event collection with 1 messages (events)
             XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
 
             // event 1
             xlEventCollection.xlEvent[0].tagData.can_Msg.id = ID;
             xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = (ushort)Data.Length;
-            
+            xlEventCollection.xlEvent[0].flags = 0;
+
             for (int orginal_index = 0; orginal_index < Data.Length; orginal_index++)
             {
                 xlEventCollection.xlEvent[0].tagData.can_Msg.data[orginal_index] = Data[orginal_index];
             }
 
             xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
+            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
+
+            // Transmit events
+            txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
+            Console.WriteLine("Transmit Message      : " + txStatus);
+        }
+
+        public void OnceCANTransmit(uint ID, byte[] Data)
+        {
+            XLDefine.XL_Status txStatus;
+            // Create an event collection with 1 messages (events)
+            XLClass.xl_event_collection xlEventCollection = new XLClass.xl_event_collection(1);
+
+            // event 1
+            xlEventCollection.xlEvent[0].tagData.can_Msg.id = ID;
+            xlEventCollection.xlEvent[0].tagData.can_Msg.dlc = (ushort)Data.Length;
+            xlEventCollection.xlEvent[0].flags = 0;
+
+            for (int orginal_index = 0; orginal_index < Data.Length; orginal_index++)
+            {
+                xlEventCollection.xlEvent[0].tagData.can_Msg.data[orginal_index] = Data[orginal_index];
+            }
+
+            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
+            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
 
             // Transmit events
             txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);

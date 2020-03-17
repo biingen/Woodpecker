@@ -5719,7 +5719,7 @@ namespace Woodpecker
                                     Console.WriteLine("Canbus Send: _Canbus_Send");
                                     byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
                                     Outputdata = HexConverter.StrToByte(columns_serial);
-                                    Can_1630A.CANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
+                                    Can_1630A.LoopCANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -10586,13 +10586,20 @@ namespace Woodpecker
 
         private void vectorcanloop()
         {
+            bool timerate = false;
             while (set_timer_rate)
             {
                 Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
                 uint columns_times = can_id;
                 byte[] columns_serial = can_data[columns_times];
                 int columns_interval = (int)can_rate[columns_times];
-                Can_1630A.CANTransmit(columns_times, (uint)columns_interval, columns_serial);
+                if (timerate == false)
+                {
+                    Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+                    timerate = true;
+                }
+                else
+                    Can_1630A.OnceCANTransmit(columns_times, columns_serial);
 
                 string Outputstring = "ID: 0x";
                 //Outputstring += columns_times + " Data: " + columns_serial;

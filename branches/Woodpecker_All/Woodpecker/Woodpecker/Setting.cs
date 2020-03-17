@@ -284,6 +284,7 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
             {
                 checkBox_CAN_Log.Checked = true;
+                comboBox_CAN_Choice.Enabled = true;
                 comboBox_CAN_DevIndex.Enabled = true;
                 comboBox_CAN_BaudRate.Enabled = true;
             }
@@ -613,12 +614,13 @@ namespace Woodpecker
                         comboBox_CAN_DevIndex.SelectedIndex = 0;
                     comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
                 }
-
+                comboBox_CAN_Choice.Text = ini12.INIRead(MainSettingPath, "Canbus", "Device", "");
                 comboBox_CAN_BaudRate.Text = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
             }
             else
             {
                 checkBox_CAN_Log.Checked = false;
+                comboBox_CAN_Choice.Enabled = false;
                 comboBox_CAN_DevIndex.Enabled = false;
                 comboBox_CAN_BaudRate.Enabled = false;
             }
