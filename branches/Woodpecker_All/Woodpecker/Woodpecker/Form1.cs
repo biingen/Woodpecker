@@ -1663,8 +1663,13 @@ namespace Woodpecker
                         }
                         else
                         {
-                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log1_text = string.Concat(log1_text, strValues);
+                            string[] log = strValues.Split('\n');
+                            foreach (string s in log)
+                            {
+                                Thread.Sleep(500);
+                                strValues1 = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                log1_text = string.Concat(log1_text, strValues1);
+                            }
                         }
                         // textBox1.AppendText(strValues);
                     }
