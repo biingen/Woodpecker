@@ -5386,7 +5386,7 @@ namespace Woodpecker
                                                 int addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
                                                 if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf("m)") - columns_serial.IndexOf("(") - 1));
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf("m)") - columns_serial.IndexOf("(") - 1)) * 60000;
                                                 else
                                                     duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf(")") - columns_serial.IndexOf("(") - 1));
 
