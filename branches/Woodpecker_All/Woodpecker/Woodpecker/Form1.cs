@@ -1,5 +1,4 @@
 ﻿using BlueRatLibrary;
-//using DirectX.Capture;
 using jini;
 using Microsoft.Win32.SafeHandles;
 using RedRat.IR;
@@ -1656,6 +1655,18 @@ namespace Woodpecker
                                     {
                                         temperatureString.Enqueue(strValues1);
                                         beforeTemperature = currentTemperature;
+                                        foreach (Temperature_Data item in temperatureList)
+                                        {
+                                            if (item.temperatureShot == false ||
+                                                item.temperaturePause == false &&
+                                                item.temperatureMax <= currentTemperature &&
+                                                item.temperatureMin >= currentTemperature
+                                                )
+                                            {
+                                                item.temperatureShot = true;
+                                                item.temperaturePause = true;
+                                            }
+                                        }
                                     }
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);
@@ -2416,6 +2427,16 @@ namespace Woodpecker
                     }
                 }*/
             }
+        }
+
+        private void duringTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            Global.caption_Num++;
+            if (Global.Loop_Number == 1)
+                Global.caption_Sum = Global.caption_Num;
+            Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+            label_Command.Text = "Timer: matched.";
+            Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
         }
 
         #region -- 關鍵字比對 - serialport_1 --
@@ -5375,13 +5396,9 @@ namespace Woodpecker
                                                 Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
                                                 Temperature_Data.temperatureChannel = columns_serial.Substring(columns_serial.IndexOf("Temperature") + 11, columns_serial.IndexOf("=") - columns_serial.IndexOf("Temperature") - 11);
                                                 if (columns_serial.Contains("-"))
-                                                {
                                                     Temperature_Data.addTemperature = Int16.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("-") - 1));
-                                                }
                                                 else
-                                                {
                                                     Temperature_Data.addTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("+") - 1));
-                                                }
 
                                                 int addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
@@ -5389,6 +5406,23 @@ namespace Woodpecker
                                                     duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf("m)") - columns_serial.IndexOf("(") - 1)) * 60000;
                                                 else
                                                     duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf(")") - columns_serial.IndexOf("(") - 1));
+
+                                                if (duringTimeInt > 0)
+                                                {
+                                                    // Create a timer and set a two second interval.
+                                                    System.Timers.Timer aTimer = new System.Timers.Timer(duringTimeInt);
+                                                    aTimer.Interval = duringTimeInt;
+
+                                                    // Hook up the Elapsed event for the timer. 
+                                                    aTimer.Elapsed += new System.Timers.ElapsedEventHandler(duringTimedEvent);
+
+                                                    // Have the timer fire repeated events (true is the default)
+                                                    aTimer.AutoReset = true;
+
+                                                    // Start the timer
+                                                    aTimer.Enabled = true;
+                                                }
+                                                    
 
                                                 if (addTemperatureInt < 0)
                                                 {
