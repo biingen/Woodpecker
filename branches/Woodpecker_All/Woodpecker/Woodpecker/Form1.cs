@@ -387,28 +387,27 @@ namespace Woodpecker
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
             {
-                String can_name;
-                List<String> dev_list = Can_Usb2C.FindUsbDevice();
-                can_name = string.Join(",", dev_list);
-                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
-                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
-                ConnectUsbCAN();
-                pictureBox_canbus.Image = Properties.Resources.ON;
-            }
-            else
-            {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
+                {
+                    String can_name;
+                    List<String> dev_list = Can_Usb2C.FindUsbDevice();
+                    can_name = string.Join(",", dev_list);
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                    ConnectUsbCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
-            {
-                ConnectVectorCAN();
-                pictureBox_canbus.Image = Properties.Resources.ON;
+                if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                {
+                    ConnectVectorCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
             }
             else
             {
@@ -1192,26 +1191,38 @@ namespace Woodpecker
             //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
 
-        // 這個can專用的delay的內部資料與function
-        static bool CAN_Delay_TimeOutIndicator = false;
-        private void CAN_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
+        // 這個usbcan專用的delay的內部資料與function
+        static bool UsbCAN_Delay_TimeOutIndicator = false;
+        static UInt64 CAN_Count = 0;
+        private void UsbCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
-            CAN_Delay_TimeOutIndicator = true;
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_Usb2C.TransmitData(columns_times, columns_serial);
+            Console.WriteLine("USB_Can_Send (Repeat): " + CAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_UsbCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            canbus_text = string.Concat(canbus_text, canbus_log_text);
+            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            CAN_Count++;
         }
 
-        private void CAN_Delay(int delay_ms)
+        private void UsbCAN_Delay(int delay_ms)
         {
             //Console.WriteLine("CAN_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer cTimer = new System.Timers.Timer(delay_ms);
-            //aTimer.Interval = delay_ms;
-            cTimer.Elapsed += new ElapsedEventHandler(CAN_Delay_OnTimedEvent);
-            cTimer.SynchronizingObject = this.TimeLabel2;
-            CAN_Delay_TimeOutIndicator = false;
+            cTimer.Interval = delay_ms;
+            cTimer.Elapsed += new ElapsedEventHandler(UsbCAN_Delay_UsbOnTimedEvent);
             cTimer.Enabled = true;
             cTimer.Start();
-            while ((FormIsClosing == false) && (CAN_Delay_TimeOutIndicator == false))
+            cTimer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (UsbCAN_Delay_TimeOutIndicator == false))
             {
                 //Console.WriteLine("CAN_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
@@ -1224,12 +1235,8 @@ namespace Woodpecker
                     break;
                 }
             }
-
-            cTimer.Stop();
-            cTimer.Dispose();
             //Console.WriteLine("RedRatDBViewer_Delay: End.");
         }
-
 
         private void Log(string msg)
         {
@@ -5662,7 +5669,7 @@ namespace Woodpecker
                         #region -- Canbus Send --
                         else if (columns_command == "_Canbus_Send")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
                                 if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
@@ -5698,8 +5705,8 @@ namespace Woodpecker
                                             {
                                                 can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                                 can_data.Add(can_id, Outputdata);
-                                                Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
-                                                CanSetTimeRate.Start();
+                                                CAN_Count = 0;
+                                                UsbCAN_Delay(Convert.ToInt16(columns_interval));
                                             }
                                         }
                                     }
@@ -5707,8 +5714,8 @@ namespace Woodpecker
                                     {
                                         can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                         can_data.Add(can_id, Outputdata);
-                                        Thread CanSetTimeRate = new Thread(new ThreadStart(usbcanloop));
-                                        CanSetTimeRate.Start();
+                                        CAN_Count = 0;
+                                        UsbCAN_Delay(Convert.ToInt16(columns_interval));
                                     }
                                 }
                             }
@@ -5770,7 +5777,7 @@ namespace Woodpecker
                         #region -- Canbus Queue --
                         else if (columns_command == "_Canbus_Queue")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
@@ -10562,44 +10569,16 @@ namespace Woodpecker
             }
         }
 
-        private void usbcanloop()
-        {
-            while (set_timer_rate)
-            {
-                Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
-                uint columns_times = can_id;
-                byte[] columns_serial = can_data[columns_times];
-                int columns_interval = (int)can_rate[columns_times];
-                Can_Usb2C.TransmitData(columns_times, columns_serial);
-
-                string Outputstring = "ID: 0x";
-                //Outputstring += columns_times + " Data: " + columns_serial;
-                DateTime dt = DateTime.Now;
-                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                canbus_text = string.Concat(canbus_text, canbus_log_text);
-                schedule_text = string.Concat(schedule_text, canbus_log_text);
-
-                CAN_Delay(columns_interval);
-            }
-
-        }
-
         private void vectorcanloop()
         {
-            bool timerate = false;
+            UInt64 CAN_Count = 0;
             while (set_timer_rate)
             {
-                Console.WriteLine("Canbus Send (Repeat): _Canbus_Send");
+                Console.WriteLine("Vector_Can_Send (Repeat): " + CAN_Count + " times.");
                 uint columns_times = can_id;
                 byte[] columns_serial = can_data[columns_times];
                 int columns_interval = (int)can_rate[columns_times];
-                if (timerate == false)
-                {
-                    Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
-                    timerate = true;
-                }
-                else
-                    Can_1630A.OnceCANTransmit(columns_times, columns_serial);
+                Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
 
                 string Outputstring = "ID: 0x";
                 //Outputstring += columns_times + " Data: " + columns_serial;
@@ -10608,7 +10587,7 @@ namespace Woodpecker
                 canbus_text = string.Concat(canbus_text, canbus_log_text);
                 schedule_text = string.Concat(schedule_text, canbus_log_text);
 
-                //CAN_Delay(columns_interval);
+                CAN_Count++;
             }
 
         }
@@ -10621,7 +10600,7 @@ namespace Woodpecker
 
             if (can_send == 1)
             {
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                 {
                     foreach (var can in can_data_list)
                     {
@@ -10646,7 +10625,7 @@ namespace Woodpecker
                 Can_1630A.CAN_Write_Queue_Clear();
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
             {
                 if (res == 0)
                 {
@@ -10658,7 +10637,7 @@ namespace Woodpecker
 
                         pictureBox_canbus.Image = Properties.Resources.OFF;
 
-                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
 
                         return;
                     }
@@ -10685,7 +10664,7 @@ namespace Woodpecker
                             Can_Usb2C.StopCAN();
                             Can_Usb2C.Disconnect();
                             pictureBox_canbus.Image = Properties.Resources.OFF;
-                            ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                            ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
                             return;
                         }
                     }

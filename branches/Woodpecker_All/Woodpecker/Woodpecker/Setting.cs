@@ -597,23 +597,27 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")     //Canbus存在//
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")     //Canbus存在//
             {
-                string[] dev_list = ini12.INIRead(MainSettingPath, "Canbus", "DevName", "").Split(',');
-                comboBox_CAN_DevIndex.Items.Clear();
-                foreach (String dev_str in dev_list)
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
                 {
-                    comboBox_CAN_DevIndex.Items.Add(dev_str);
+                    string[] dev_list = ini12.INIRead(MainSettingPath, "Canbus", "DevName", "").Split(',');
+                    comboBox_CAN_DevIndex.Items.Clear();
+                    foreach (String dev_str in dev_list)
+                    {
+                        comboBox_CAN_DevIndex.Items.Add(dev_str);
+                    }
+
+                    if (comboBox_CAN_DevIndex.Items.Count > 0)
+                    {
+                        if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
+                            comboBox_CAN_DevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
+                        else
+                            comboBox_CAN_DevIndex.SelectedIndex = 0;
+                        comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
+                    }
                 }
 
-                if (comboBox_CAN_DevIndex.Items.Count > 0)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
-                        comboBox_CAN_DevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
-                    else
-                        comboBox_CAN_DevIndex.SelectedIndex = 0;
-                    comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
-                }
                 comboBox_CAN_Choice.Text = ini12.INIRead(MainSettingPath, "Canbus", "Device", "");
                 comboBox_CAN_BaudRate.Text = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
             }
@@ -1404,7 +1408,23 @@ namespace Woodpecker
         {
             if (checkBox_CAN_Log.Checked == true)
             {
-                comboBox_CAN_Choice.Enabled = true;
+                if (comboBox_CAN_Choice.Text == "Vector")
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_BaudRate.Enabled = true;
+                }
+                else if (comboBox_CAN_Choice.Text == "UsbCAN")
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_DevIndex.Enabled = true;
+                    comboBox_CAN_BaudRate.Enabled = true;
+                }
+                else
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_DevIndex.Enabled = false;
+                    comboBox_CAN_BaudRate.Enabled = false;
+                }
                 ini12.INIWrite(MainSettingPath, "Canbus", "Log", "1");
             }
             else

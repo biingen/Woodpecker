@@ -287,7 +287,8 @@ namespace Woodpecker
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
             ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "KlineExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
@@ -445,7 +446,7 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "1");
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "1");
                     }
                     #endregion
 

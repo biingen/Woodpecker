@@ -209,7 +209,7 @@ namespace USB_VN1630A
             }
 
             xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
-            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
+            //xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
 
             // Transmit events
             txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
@@ -233,7 +233,7 @@ namespace USB_VN1630A
             }
 
             xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TRANSMIT_MSG;
-            xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
+            //xlEventCollection.xlEvent[0].tag = XLDefine.XL_EventTags.XL_TIMER;
 
             // Transmit events
             txStatus = CANDrive.XL_CanTransmit(portHandle, txMask, xlEventCollection);
