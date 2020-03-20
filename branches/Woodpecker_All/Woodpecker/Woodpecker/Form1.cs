@@ -1209,11 +1209,12 @@ namespace Woodpecker
             canbus_text = string.Concat(canbus_text, canbus_log_text);
             schedule_text = string.Concat(schedule_text, canbus_log_text);
             CAN_Count++;
+            UsbCAN_Delay_TimeOutIndicator = true;
         }
 
         private void UsbCAN_Delay(int delay_ms)
         {
-            //Console.WriteLine("CAN_Delay: Start.");
+            //Console.WriteLine("UsbCAN_Delay: Start.");
             if (delay_ms <= 0) return;
             System.Timers.Timer cTimer = new System.Timers.Timer(delay_ms);
             cTimer.Interval = delay_ms;
@@ -1224,7 +1225,7 @@ namespace Woodpecker
 
             while ((FormIsClosing == false) && (UsbCAN_Delay_TimeOutIndicator == false))
             {
-                //Console.WriteLine("CAN_Delay_TimeOutIndicator: false.");
+                //Console.WriteLine("UsbCAN_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
@@ -1235,7 +1236,9 @@ namespace Woodpecker
                     break;
                 }
             }
-            //Console.WriteLine("RedRatDBViewer_Delay: End.");
+            cTimer.Stop();
+            cTimer.Dispose();
+            //Console.WriteLine("UsbCAN_Delay: Stop.");
         }
 
         private void Log(string msg)
