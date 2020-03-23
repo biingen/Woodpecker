@@ -148,7 +148,7 @@ namespace Woodpecker
         private Boolean isMsr;
 
         //Search chamber parameter
-        static List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
+        List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<string> temperatureString = new Queue<string> { };
 
         bool ifStatementFlag = false;
@@ -1655,18 +1655,6 @@ namespace Woodpecker
                                     {
                                         temperatureString.Enqueue(strValues1);
                                         beforeTemperature = currentTemperature;
-                                        foreach (Temperature_Data item in temperatureList)
-                                        {
-                                            if (item.temperatureShot == false ||
-                                                item.temperaturePause == false &&
-                                                item.temperatureMax <= currentTemperature &&
-                                                item.temperatureMin >= currentTemperature
-                                                )
-                                            {
-                                                item.temperatureShot = true;
-                                                item.temperaturePause = true;
-                                            }
-                                        }
                                     }
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);
@@ -2310,7 +2298,6 @@ namespace Woodpecker
                                 Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
                                 label_Command.Text = "Condition: " + targetTemperature + ", SHOT: " + currentTemperature;
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                                item.temperatureShot = false;
                             }
                             else if (item.temperatureMax >= currentTemperature &&
                                      item.temperatureMin <= currentTemperature && 
@@ -2321,7 +2308,6 @@ namespace Woodpecker
                                 button_Pause.PerformClick();
                                 label_Command.Text = "Condition: " + targetTemperature + ", PAUSE: " + currentTemperature;
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                item.temperaturePause = false;
                             }
                             else
                             {
