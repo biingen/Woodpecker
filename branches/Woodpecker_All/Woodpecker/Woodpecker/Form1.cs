@@ -1193,14 +1193,14 @@ namespace Woodpecker
 
         // 這個usbcan專用的delay的內部資料與function
         static bool UsbCAN_Delay_TimeOutIndicator = false;
-        static UInt64 CAN_Count = 0;
+        static UInt64 UsbCAN_Count = 0;
         private void UsbCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
         {
             uint columns_times = can_id;
             byte[] columns_serial = can_data[columns_times];
             int columns_interval = (int)can_rate[columns_times];
             Can_Usb2C.TransmitData(columns_times, columns_serial);
-            Console.WriteLine("USB_Can_Send (Repeat): " + CAN_Count + " times.");
+            Console.WriteLine("USB_Can_Send (Repeat): " + UsbCAN_Count + " times.");
 
             string Outputstring = "ID: 0x";
             //Outputstring += columns_times + " Data: " + columns_serial;
@@ -1208,7 +1208,7 @@ namespace Woodpecker
             string canbus_log_text = "[Send_UsbCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
             canbus_text = string.Concat(canbus_text, canbus_log_text);
             schedule_text = string.Concat(schedule_text, canbus_log_text);
-            CAN_Count++;
+            UsbCAN_Count++;
             UsbCAN_Delay_TimeOutIndicator = true;
         }
 
@@ -1216,12 +1216,12 @@ namespace Woodpecker
         {
             //Console.WriteLine("UsbCAN_Delay: Start.");
             if (delay_ms <= 0) return;
-            System.Timers.Timer cTimer = new System.Timers.Timer(delay_ms);
-            cTimer.Interval = delay_ms;
-            cTimer.Elapsed += new ElapsedEventHandler(UsbCAN_Delay_UsbOnTimedEvent);
-            cTimer.Enabled = true;
-            cTimer.Start();
-            cTimer.AutoReset = true;
+            System.Timers.Timer UsbCAN_Timer = new System.Timers.Timer(delay_ms);
+            UsbCAN_Timer.Interval = delay_ms;
+            UsbCAN_Timer.Elapsed += new ElapsedEventHandler(UsbCAN_Delay_UsbOnTimedEvent);
+            UsbCAN_Timer.Enabled = true;
+            UsbCAN_Timer.Start();
+            UsbCAN_Timer.AutoReset = true;
 
             while ((FormIsClosing == false) && (UsbCAN_Delay_TimeOutIndicator == false))
             {
@@ -1236,9 +1236,59 @@ namespace Woodpecker
                     break;
                 }
             }
-            cTimer.Stop();
-            cTimer.Dispose();
+            UsbCAN_Timer.Stop();
+            UsbCAN_Timer.Dispose();
             //Console.WriteLine("UsbCAN_Delay: Stop.");
+        }
+
+        // 這個vectorcan專用的delay的內部資料與function
+        static bool VectorCAN_Delay_TimeOutIndicator = false;
+        static UInt64 VectorCAN_Count = 0;
+        private void VectorCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+            Console.WriteLine("VectorCAN_Can_Send (Repeat): " + VectorCAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_VectorCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            canbus_text = string.Concat(canbus_text, canbus_log_text);
+            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            VectorCAN_Count++;
+            VectorCAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void VectorCAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("VectorCAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer VectorCAN_Timer = new System.Timers.Timer(delay_ms);
+            VectorCAN_Timer.Interval = delay_ms;
+            VectorCAN_Timer.Elapsed += new ElapsedEventHandler(VectorCAN_Delay_UsbOnTimedEvent);
+            VectorCAN_Timer.Enabled = true;
+            VectorCAN_Timer.Start();
+            VectorCAN_Timer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (VectorCAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("VectorCAN_Delay_TimeOutIndicator: false.");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+            VectorCAN_Timer.Stop();
+            VectorCAN_Timer.Dispose();
+            //Console.WriteLine("VectorCAN_Delay: Stop.");
         }
 
         private void Log(string msg)
@@ -5708,7 +5758,7 @@ namespace Woodpecker
                                             {
                                                 can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                                 can_data.Add(can_id, Outputdata);
-                                                CAN_Count = 0;
+                                                UsbCAN_Count = 0;
                                                 UsbCAN_Delay(Convert.ToInt16(columns_interval));
                                             }
                                         }
@@ -5717,7 +5767,7 @@ namespace Woodpecker
                                     {
                                         can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                         can_data.Add(can_id, Outputdata);
-                                        CAN_Count = 0;
+                                        UsbCAN_Count = 0;
                                         UsbCAN_Delay(Convert.ToInt16(columns_interval));
                                     }
                                 }
@@ -5758,6 +5808,8 @@ namespace Woodpecker
                                             {
                                                 can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                                 can_data.Add(can_id, Outputdata);
+                                                //VectorCAN_Count = 0;
+                                                //VectorCAN_Delay(Convert.ToInt16(columns_interval));
                                                 Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
                                                 CanSetTimeRate.Start();
                                             }
@@ -5767,6 +5819,8 @@ namespace Woodpecker
                                     {
                                         can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
                                         can_data.Add(can_id, Outputdata);
+                                        //VectorCAN_Count = 0;
+                                        //VectorCAN_Delay(Convert.ToInt16(columns_interval));
                                         Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
                                         CanSetTimeRate.Start();
                                     }
