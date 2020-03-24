@@ -38,6 +38,8 @@
             this.comboBox_CAN_BaudRate = new System.Windows.Forms.ComboBox();
             this.label_CAN_BaudRate = new System.Windows.Forms.Label();
             this.comboBox_CAN_DevIndex = new System.Windows.Forms.ComboBox();
+            this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
+            this.pictureBox_SerialPort5 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort5 = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort5_BaudRate_Value = new System.Windows.Forms.ComboBox();
             this.comboBox_KlinePort_PortName_Value = new System.Windows.Forms.ComboBox();
@@ -46,12 +48,16 @@
             this.comboBox_SerialPort5_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort5_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort5_BaudRate = new System.Windows.Forms.Label();
+            this.pictureBox_SerialPort4 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort4 = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort4_BaudRate_Value = new System.Windows.Forms.ComboBox();
             this.comboBox_SerialPort4_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort4_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort4_BaudRate = new System.Windows.Forms.Label();
             this.checkBox_CAN_Log = new System.Windows.Forms.CheckBox();
+            this.pictureBox_SerialPort3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_SerialPort2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox_SerialPort1 = new System.Windows.Forms.PictureBox();
             this.checkBox_SerialPort3 = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort3_PortName_Value = new System.Windows.Forms.ComboBox();
             this.comboBox_SerialPort3_BaudRate_Value = new System.Windows.Forms.ComboBox();
@@ -70,9 +76,11 @@
             this.textBox_RcDbPath = new System.Windows.Forms.TextBox();
             this.textBox_LogPath = new System.Windows.Forms.TextBox();
             this.groupBox_Camera = new System.Windows.Forms.GroupBox();
+            this.label_resolution = new System.Windows.Forms.Label();
             this.label_CameraResolution = new System.Windows.Forms.Label();
             this.label_CameraDevice = new System.Windows.Forms.Label();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
+            this.label_CameraAudio = new System.Windows.Forms.Label();
             this.comboBox_CameraAudio = new System.Windows.Forms.ComboBox();
             this.groupBox_RcDB = new System.Windows.Forms.GroupBox();
             this.label_TvBrands = new System.Windows.Forms.Label();
@@ -96,13 +104,13 @@
             this.pictureBox_RcDbPath = new System.Windows.Forms.PictureBox();
             this.pictureBox_LogPath = new System.Windows.Forms.PictureBox();
             this.pictureBox_ImagePath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
-            this.pictureBox_SerialPort5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_SerialPort4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_SerialPort3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_SerialPort2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox_SerialPort1 = new System.Windows.Forms.PictureBox();
             this.GroupBox_Rs232.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).BeginInit();
             this.groupBox_Camera.SuspendLayout();
             this.groupBox_RcDB.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_DosPath)).BeginInit();
@@ -110,12 +118,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RcDbPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_LogPath)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ImagePath)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).BeginInit();
             this.SuspendLayout();
             // 
             // GroupBox_Rs232
@@ -269,6 +271,30 @@
             this.comboBox_CAN_DevIndex.TabIndex = 151;
             this.comboBox_CAN_DevIndex.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_DevIndex_SelectedIndexChanged);
             // 
+            // pictureBox_klinePort
+            // 
+            this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_klinePort.Location = new System.Drawing.Point(430, 246);
+            this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_klinePort.Name = "pictureBox_klinePort";
+            this.pictureBox_klinePort.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_klinePort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_klinePort.TabIndex = 137;
+            this.pictureBox_klinePort.TabStop = false;
+            // 
+            // pictureBox_SerialPort5
+            // 
+            this.pictureBox_SerialPort5.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_SerialPort5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_SerialPort5.Location = new System.Drawing.Point(234, 62);
+            this.pictureBox_SerialPort5.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_SerialPort5.Name = "pictureBox_SerialPort5";
+            this.pictureBox_SerialPort5.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_SerialPort5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_SerialPort5.TabIndex = 150;
+            this.pictureBox_SerialPort5.TabStop = false;
+            // 
             // checkBox_SerialPort5
             // 
             this.checkBox_SerialPort5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -388,6 +414,18 @@
             this.label_SerialPort5_BaudRate.TabIndex = 144;
             this.label_SerialPort5_BaudRate.Text = "Baud Rate";
             // 
+            // pictureBox_SerialPort4
+            // 
+            this.pictureBox_SerialPort4.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_SerialPort4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_SerialPort4.Location = new System.Drawing.Point(6, 275);
+            this.pictureBox_SerialPort4.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_SerialPort4.Name = "pictureBox_SerialPort4";
+            this.pictureBox_SerialPort4.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_SerialPort4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_SerialPort4.TabIndex = 143;
+            this.pictureBox_SerialPort4.TabStop = false;
+            // 
             // checkBox_SerialPort4
             // 
             this.checkBox_SerialPort4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
@@ -479,6 +517,42 @@
             this.checkBox_CAN_Log.TabIndex = 136;
             this.checkBox_CAN_Log.UseVisualStyleBackColor = true;
             this.checkBox_CAN_Log.CheckedChanged += new System.EventHandler(this.checkBox_CANLog_CheckedChanged);
+            // 
+            // pictureBox_SerialPort3
+            // 
+            this.pictureBox_SerialPort3.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_SerialPort3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(4, 205);
+            this.pictureBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_SerialPort3.Name = "pictureBox_SerialPort3";
+            this.pictureBox_SerialPort3.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_SerialPort3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_SerialPort3.TabIndex = 97;
+            this.pictureBox_SerialPort3.TabStop = false;
+            // 
+            // pictureBox_SerialPort2
+            // 
+            this.pictureBox_SerialPort2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_SerialPort2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(4, 135);
+            this.pictureBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_SerialPort2.Name = "pictureBox_SerialPort2";
+            this.pictureBox_SerialPort2.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_SerialPort2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_SerialPort2.TabIndex = 96;
+            this.pictureBox_SerialPort2.TabStop = false;
+            // 
+            // pictureBox_SerialPort1
+            // 
+            this.pictureBox_SerialPort1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_SerialPort1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(4, 62);
+            this.pictureBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_SerialPort1.Name = "pictureBox_SerialPort1";
+            this.pictureBox_SerialPort1.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_SerialPort1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_SerialPort1.TabIndex = 95;
+            this.pictureBox_SerialPort1.TabStop = false;
             // 
             // checkBox_SerialPort3
             // 
@@ -743,9 +817,11 @@
             // groupBox_Camera
             // 
             this.groupBox_Camera.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox_Camera.Controls.Add(this.label_resolution);
             this.groupBox_Camera.Controls.Add(this.label_CameraResolution);
             this.groupBox_Camera.Controls.Add(this.label_CameraDevice);
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraDevice);
+            this.groupBox_Camera.Controls.Add(this.label_CameraAudio);
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraAudio);
             this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
@@ -753,17 +829,28 @@
             this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_Camera.Name = "groupBox_Camera";
             this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_Camera.Size = new System.Drawing.Size(275, 105);
+            this.groupBox_Camera.Size = new System.Drawing.Size(275, 157);
             this.groupBox_Camera.TabIndex = 56;
             this.groupBox_Camera.TabStop = false;
             this.groupBox_Camera.Text = "CAMERA";
+            // 
+            // label_resolution
+            // 
+            this.label_resolution.AutoSize = true;
+            this.label_resolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_resolution.ForeColor = System.Drawing.Color.White;
+            this.label_resolution.Location = new System.Drawing.Point(134, 108);
+            this.label_resolution.Name = "label_resolution";
+            this.label_resolution.Size = new System.Drawing.Size(44, 18);
+            this.label_resolution.TabIndex = 52;
+            this.label_resolution.Text = "None";
             // 
             // label_CameraResolution
             // 
             this.label_CameraResolution.AutoSize = true;
             this.label_CameraResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraResolution.ForeColor = System.Drawing.Color.White;
-            this.label_CameraResolution.Location = new System.Drawing.Point(6, 67);
+            this.label_CameraResolution.Location = new System.Drawing.Point(6, 108);
             this.label_CameraResolution.Name = "label_CameraResolution";
             this.label_CameraResolution.Size = new System.Drawing.Size(79, 18);
             this.label_CameraResolution.TabIndex = 51;
@@ -786,13 +873,24 @@
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(65, 28);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(103, 28);
             this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
-            this.comboBox_CameraDevice.Size = new System.Drawing.Size(198, 26);
+            this.comboBox_CameraDevice.Size = new System.Drawing.Size(160, 26);
             this.comboBox_CameraDevice.TabIndex = 43;
             this.comboBox_CameraDevice.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
+            // 
+            // label_CameraAudio
+            // 
+            this.label_CameraAudio.AutoSize = true;
+            this.label_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_CameraAudio.ForeColor = System.Drawing.Color.White;
+            this.label_CameraAudio.Location = new System.Drawing.Point(5, 71);
+            this.label_CameraAudio.Name = "label_CameraAudio";
+            this.label_CameraAudio.Size = new System.Drawing.Size(36, 18);
+            this.label_CameraAudio.TabIndex = 49;
+            this.label_CameraAudio.Text = "Mic.";
             // 
             // comboBox_CameraAudio
             // 
@@ -800,12 +898,12 @@
             this.comboBox_CameraAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraAudio.FormattingEnabled = true;
-            this.comboBox_CameraAudio.Location = new System.Drawing.Point(92, 63);
-            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.comboBox_CameraAudio.Location = new System.Drawing.Point(103, 68);
+            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
-            this.comboBox_CameraAudio.Size = new System.Drawing.Size(171, 26);
+            this.comboBox_CameraAudio.Size = new System.Drawing.Size(160, 26);
             this.comboBox_CameraAudio.TabIndex = 50;
-            //this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
+            this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
             // 
             // groupBox_RcDB
@@ -1082,78 +1180,6 @@
             this.pictureBox_ImagePath.TabIndex = 90;
             this.pictureBox_ImagePath.TabStop = false;
             // 
-            // pictureBox_klinePort
-            // 
-            this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_klinePort.Location = new System.Drawing.Point(430, 246);
-            this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_klinePort.Name = "pictureBox_klinePort";
-            this.pictureBox_klinePort.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_klinePort.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_klinePort.TabIndex = 137;
-            this.pictureBox_klinePort.TabStop = false;
-            // 
-            // pictureBox_SerialPort5
-            // 
-            this.pictureBox_SerialPort5.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_SerialPort5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort5.Location = new System.Drawing.Point(234, 62);
-            this.pictureBox_SerialPort5.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_SerialPort5.Name = "pictureBox_SerialPort5";
-            this.pictureBox_SerialPort5.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_SerialPort5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_SerialPort5.TabIndex = 150;
-            this.pictureBox_SerialPort5.TabStop = false;
-            // 
-            // pictureBox_SerialPort4
-            // 
-            this.pictureBox_SerialPort4.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_SerialPort4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort4.Location = new System.Drawing.Point(6, 275);
-            this.pictureBox_SerialPort4.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_SerialPort4.Name = "pictureBox_SerialPort4";
-            this.pictureBox_SerialPort4.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_SerialPort4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_SerialPort4.TabIndex = 143;
-            this.pictureBox_SerialPort4.TabStop = false;
-            // 
-            // pictureBox_SerialPort3
-            // 
-            this.pictureBox_SerialPort3.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_SerialPort3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort3.Location = new System.Drawing.Point(4, 205);
-            this.pictureBox_SerialPort3.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_SerialPort3.Name = "pictureBox_SerialPort3";
-            this.pictureBox_SerialPort3.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_SerialPort3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_SerialPort3.TabIndex = 97;
-            this.pictureBox_SerialPort3.TabStop = false;
-            // 
-            // pictureBox_SerialPort2
-            // 
-            this.pictureBox_SerialPort2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_SerialPort2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort2.Location = new System.Drawing.Point(4, 135);
-            this.pictureBox_SerialPort2.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_SerialPort2.Name = "pictureBox_SerialPort2";
-            this.pictureBox_SerialPort2.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_SerialPort2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_SerialPort2.TabIndex = 96;
-            this.pictureBox_SerialPort2.TabStop = false;
-            // 
-            // pictureBox_SerialPort1
-            // 
-            this.pictureBox_SerialPort1.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_SerialPort1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_SerialPort1.Location = new System.Drawing.Point(4, 62);
-            this.pictureBox_SerialPort1.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_SerialPort1.Name = "pictureBox_SerialPort1";
-            this.pictureBox_SerialPort1.Size = new System.Drawing.Size(29, 29);
-            this.pictureBox_SerialPort1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox_SerialPort1.TabIndex = 95;
-            this.pictureBox_SerialPort1.TabStop = false;
-            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -1193,6 +1219,12 @@
             this.Load += new System.EventHandler(this.Setting_Load);
             this.GroupBox_Rs232.ResumeLayout(false);
             this.GroupBox_Rs232.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).EndInit();
             this.groupBox_Camera.ResumeLayout(false);
             this.groupBox_Camera.PerformLayout();
             this.groupBox_RcDB.ResumeLayout(false);
@@ -1202,12 +1234,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RcDbPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_LogPath)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ImagePath)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1229,6 +1255,7 @@
         private System.Windows.Forms.GroupBox groupBox_Camera;
         private System.Windows.Forms.Label label_CameraDevice;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
+        private System.Windows.Forms.Label label_CameraAudio;
         private System.Windows.Forms.ComboBox comboBox_CameraAudio;
         private System.Windows.Forms.GroupBox groupBox_RcDB;
         private System.Windows.Forms.Label label_TvBrands;
@@ -1256,6 +1283,7 @@
         private System.Windows.Forms.CheckBox checkBox_Kline;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
+        private System.Windows.Forms.Label label_resolution;
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_ImagePath;
         private System.Windows.Forms.Button button_LogPath;

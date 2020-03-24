@@ -1,4 +1,5 @@
 ﻿using BlueRatLibrary;
+using DirectX.Capture;
 using jini;
 using Microsoft.Win32.SafeHandles;
 using RedRat.IR;
@@ -35,9 +36,6 @@ using MaterialSkin.Controls;
 using MaterialSkin;
 using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using AForge.Video.FFMPEG;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -65,6 +63,8 @@ namespace Woodpecker
         }
 
         private bool FormIsClosing = false;
+        private Capture capture = null;
+        private Filters filters = null;
         private bool _captureInProgress;
         private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
         //private bool excelstat = false;
@@ -148,16 +148,6 @@ namespace Woodpecker
         private CA200SRVRLib.Ca objCa;
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
-        //Webcam
-        public FilterInfoCollection USB_Webcams = null;//FilterInfoCollection類別實體化
-        public VideoCaptureDevice Cam = null;//攝像頭的初始化
-        private int Cam_Indexof = 0;
-        private int Res_Indexof = 0;
-        private Bitmap video;
-        //private AVIWriter AVIwriter = new AVIWriter();
-        private VideoFileWriter FileWriter = new VideoFileWriter();
-        private Thread workerThread = null;
-        private bool stopProcess = false;
 
         public Form1()
         {
@@ -343,33 +333,28 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
                 pictureBox_Camera.Image = Properties.Resources.ON;
+                filters = new Filters();
+                Filter f;
+
                 comboBox_CameraDevice.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
 
-                USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-                if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
+                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                 {
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
-                    foreach (FilterInfo device in USB_Webcams)
+                    f = filters.VideoInputDevices[c];
+                    comboBox_CameraDevice.Items.Add(f.Name);
+                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
                     {
-                        comboBox_CameraDevice.Items.Add(device.Name);
-                        if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                        {
-                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                        }
-                    }
-
-                    if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
-                    {
-                        comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
                     }
                 }
-                else
-                {
-                    MessageBox.Show("No video input device is connected.");
-                }
 
+                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                {
+                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                }
                 comboBox_CameraDevice.Enabled = false;
             }
             else
@@ -1707,6 +1692,7 @@ namespace Woodpecker
                         hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                         log1_text = string.Concat(log1_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox1.AppendText(hexValues);
                         // End
 
@@ -1727,14 +1713,16 @@ namespace Woodpecker
                             foreach (string s in log)
                             {
                                 Thread.Sleep(500);
-                                strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+                                strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
                                 log1_text = string.Concat(log1_text, strValues);
+                                logAll_text = string.Concat(logAll_text, strValues);
                             }
                         }
                         else
                         {
-                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log1_text = string.Concat(log1_text, strValues);
+                            logAll_text = string.Concat(logAll_text, strValues);
                         }
                     }
                 }
@@ -1918,6 +1906,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
 
@@ -1933,6 +1922,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox2.AppendText(strValues);
                     }
                 }
@@ -1974,6 +1964,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
 
@@ -1989,6 +1980,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox3.AppendText(strValues);
                     }
                 }
@@ -2030,6 +2022,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
 
@@ -2045,6 +2038,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox4.AppendText(strValues);
                     }
                 }
@@ -2086,6 +2080,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
 
@@ -2101,6 +2096,7 @@ namespace Woodpecker
                         dt = DateTime.Now;
                         strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, strValues);
+                        logAll_text = string.Concat(logAll_text, strValues);
                         //textBox5.AppendText(strValues);
                     }
                 }
@@ -4748,7 +4744,7 @@ namespace Woodpecker
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                                Jes();
                                 label_Command.Text = "Take Picture";
                             }
                             else
@@ -4768,8 +4764,10 @@ namespace Woodpecker
                             {
                                 if (Global.VideoRecording == false)
                                 {
-                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
+                                    Mysvideo(); // 開新檔
                                     Global.VideoRecording = true;
+                                    Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
+                                    oThreadC.Start();
                                 }
                                 label_Command.Text = "Start Recording";
                             }
@@ -4788,7 +4786,7 @@ namespace Woodpecker
                                 if (Global.VideoRecording == true)       //判斷是不是正在錄影
                                 {
                                     Global.VideoRecording = false;
-                                    Cam_Myvstop();      //先將先前的關掉
+                                    Mysstop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
                             }
@@ -5046,7 +5044,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5055,7 +5053,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5064,7 +5062,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5073,7 +5071,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5082,7 +5080,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -6235,7 +6233,7 @@ namespace Woodpecker
                                             PortA.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6271,7 +6269,7 @@ namespace Woodpecker
                                             PortB.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6307,7 +6305,7 @@ namespace Woodpecker
                                             PortC.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6343,7 +6341,7 @@ namespace Woodpecker
                                             PortD.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6379,7 +6377,7 @@ namespace Woodpecker
                                             PortE.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6427,7 +6425,7 @@ namespace Woodpecker
                                             PortA.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6463,7 +6461,7 @@ namespace Woodpecker
                                             PortB.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6499,7 +6497,7 @@ namespace Woodpecker
                                             PortC.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6535,7 +6533,7 @@ namespace Woodpecker
                                             PortD.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6571,7 +6569,7 @@ namespace Woodpecker
                                             PortE.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -7436,15 +7434,15 @@ namespace Woodpecker
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
-                            Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
+                            Mysvideo(); // 開新檔
                             Global.VideoRecording = true;
-                            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
-                            MySrtThread.Start();
+                            Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
+                            oThreadC.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
                             Global.VideoRecording = false;
-                            Cam_Myvstop();
-                            MySrtThread.Abort();
+                            Mysstop();
+                            oThreadC.Abort();
                             Thread.Sleep(1500);
                             label_Command.Text = "Vdieo recording completely.";
                         }
@@ -7687,7 +7685,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                Jes();
                 label_Command.Text = "IO CMD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -7793,7 +7791,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                Jes();
                 label_Command.Text = "KEYWORD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -8245,19 +8243,14 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            //throw new NotImplementedException();
-            video = (Bitmap)eventArgs.Frame.Clone();
-            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
-        }
+        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
 
-        void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
+        private void Myshot()
         {
             button_Start.Enabled = false;
             setStyle();
-            //throw new NotImplementedException();
-            CaptureDone((Bitmap)eventArgs.Frame.Clone());
+            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+            capture.GrapImg();
         }
 
         // 複製原始圖片
@@ -8268,8 +8261,7 @@ namespace Woodpecker
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
-            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   delete();
-            //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
@@ -8320,7 +8312,7 @@ namespace Woodpecker
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
@@ -8335,13 +8327,7 @@ namespace Woodpecker
                                 FontColor,
                                 new PointF(5, YPoint - 80));
             }
-            else
-            {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                Font,
-                FontColor,
-                new PointF(5, YPoint - 80));
-            }
+
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text,
                                 Font,
@@ -8387,57 +8373,39 @@ namespace Woodpecker
         }
         #endregion
 
-        private void Cam_Myvstart(object sender, NewFrameEventArgs eventArgs)
-        {
-            Cam.Start();
-            Savevideo();
-        }
+        private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
-        private void Cam_Myvstop()
+        private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
         {
-            stopProcess = true;
-            Global.VideoRecording = false;
-            workerThread.Abort();
-            video = null;
-        }
+            capture.Stop();
+            capture.Dispose();
+            Camstart();
+        }));
 
         private void Savevideo()//儲存影片//
         {
-            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myvstart);//Press Tab  to   delete();
-
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
 
-            string t = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".srt";
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
+            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
 
-            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
-            MySrtThread.Start();
+            if (!capture.Cued)
+                capture.Filename = t;
 
-            int h = Cam.VideoResolution.FrameSize.Height;
-            int w = Cam.VideoResolution.FrameSize.Width;
-            FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
-            stopProcess = false;
-            workerThread = new Thread(new ThreadStart(recordLiveCam));
-            workerThread.Start();
+            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+            capture.Cue(); // 創一個檔
+            capture.Start(); // 開始錄影
 
+            /*
+            double chd; //檢查HD 空間 小於100M就停止錄影s
+            chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
+            if (chd < 0.1)
+            {
+                Vread = false;
+                MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }*/
         }
 
-        private void recordLiveCam()
-        {
-            if (!stopProcess)
-            {
-                while (Global.VideoRecording)
-                {
-                    FileWriter.WriteVideoFrame(video);
-                    Thread.Sleep(28);
-                }
-                FileWriter.Close();
-            }
-            else
-            {
-                workerThread.Abort();
-            }
-        }
         private void OnOffCamera()//啟動攝影機//
         {
             if (_captureInProgress == true)
@@ -8445,9 +8413,10 @@ namespace Woodpecker
                 Camstart();
             }
 
-            if (_captureInProgress == false && Cam != null)
+            if (_captureInProgress == false && capture != null)
             {
-                Cam.Stop();
+                capture.Stop();
+                capture.Dispose();
             }
         }
 
@@ -8455,22 +8424,122 @@ namespace Woodpecker
         {
             try
             {
-                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") != "")
-                    Cam_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                Filters filters = new Filters();
+                Filter f;
+
+                List<string> video = new List<string> { };
+                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                {
+                    f = filters.VideoInputDevices[c];
+                    video.Add(f.Name);
+                }
+
+                List<string> audio = new List<string> { };
+                for (int j = 0; j < filters.AudioInputDevices.Count; j++)
+                {
+                    f = filters.AudioInputDevices[j];
+                    audio.Add(f.Name);
+                }
+
+                int scam, saud, VideoNum, AudioNum = 0;
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
+                    scam = 0;
                 else
-                    Cam_Indexof = 0;
-                Cam = new VideoCaptureDevice(USB_Webcams[Cam_Indexof].MonikerString);
-                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") != "")
-                    Res_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+                    scam = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") == "")
+                    saud = 0;
                 else
-                    Res_Indexof = 0;
-                Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
-                Cam.NewFrame += new NewFrameEventHandler(Cam_NewFrame);//Press Tab  to   create
+                    saud = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", "") == "")
+                    VideoNum = 0;
+                else
+                    VideoNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoNumber", ""));
+
+                if (ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", "") == "")
+                    AudioNum = 0;
+                else
+                    AudioNum = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioNumber", ""));
+
+                if (filters.VideoInputDevices.Count < VideoNum ||
+                    filters.AudioInputDevices.Count < AudioNum)
+                {
+                    MessageBox.Show("Please reset video or audio device and select OK.", "Camera Status Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    button_Setting.PerformClick();
+                }
+                else
+                {
+                    capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
+                    try
+                    {
+                        capture.FrameSize = new Size(2304, 1296);
+                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
+                        try
+                        {
+                            capture.FrameSize = new Size(1920, 1080);
+                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
+                        }
+                        catch (Exception ex1)
+                        {
+                            Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
+                            try
+                            {
+                                capture.FrameSize = new Size(1280, 720);
+                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
+                            }
+                            catch (Exception ex2)
+                            {
+                                Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
+                                try
+                                {
+                                    capture.FrameSize = new Size(640, 480);
+                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
+                                }
+                                catch (Exception ex3)
+                                {
+                                    Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
+                                    try
+                                    {
+                                        capture.FrameSize = new Size(320, 240);
+                                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
+                                    }
+                                    catch (Exception ex4)
+                                    {
+                                        Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    capture.CaptureComplete += new EventHandler(OnCaptureComplete);
+                }
+
+                if (capture.PreviewWindow == null)
+                {
+                    try
+                    {
+                        capture.PreviewWindow = panelVideo;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.Message.ToString(), "Please set the supported resolution!\n\r");
+                    }
+                }
+                else
+                {
+                    capture.PreviewWindow = null;
+                }
             }
-            finally
+            catch (NotSupportedException)
             {
-                Cam.Start();
-            }
+                MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                button_Start.PerformClick();
+            };
         }
 
         #region -- 讀取RC DB並填入combobox --
@@ -9117,32 +9186,13 @@ namespace Woodpecker
                         button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
                         comboBox_CameraDevice.Items.Clear();
-                        USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-                        if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
+                        foreach (string cd in cameraDevice)
                         {
-                            ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
-                            foreach (FilterInfo device in USB_Webcams)
-                            {
-                                comboBox_CameraDevice.Items.Add(device.Name);
-                                if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                                {
-                                    comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                                }
-                            }
-
-                            if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
-                            {
-                                comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
-                                ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                                ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
-                                comboBox_CameraDevice.SelectedIndex = 0;
-                            else
-                                comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                            comboBox_CameraDevice.Items.Add(cd);
                         }
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -9283,14 +9333,6 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
             {
                 DisconnectAutoBox2();
-            }
-
-            if (Cam == null)
-            { return; }
-            if (Cam.IsRunning)
-            {
-                this.Cam.Stop();
-                FileWriter.Close();
             }
 
             Application.ExitThread();
@@ -10425,7 +10467,8 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             if (_captureInProgress == true)
             {
-                Cam.Stop();
+                capture.Stop();
+                capture.Dispose();
                 Camstart();
             }
         }
