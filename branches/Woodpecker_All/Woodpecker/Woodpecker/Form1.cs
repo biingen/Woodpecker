@@ -1415,7 +1415,7 @@ namespace Woodpecker
 
                             PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortD.Open();
-                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortD);
                         }
                     }
                     catch (Exception Ex)
@@ -1443,9 +1443,9 @@ namespace Woodpecker
                             PortE.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort5_DataReceived);       // DataReceived呼叫函式
                             PortE.Open();
-                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
+                            object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortE);
                         }
                     }
                     catch (Exception Ex)
@@ -1732,8 +1732,8 @@ namespace Woodpecker
                 Console.WriteLine(ex.Message);
             }
         }
-        //Jeremy code
         /*
+        //Jeremy code
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             int data = 500;
@@ -3447,7 +3447,7 @@ namespace Woodpecker
         private void MyLog4Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortD_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
             int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
@@ -3854,7 +3854,7 @@ namespace Woodpecker
         private void MyLog5Camd()
         {
             string my_string = "";
-            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortC_keyword.csv";
+            string csvFile = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\PortE_keyword.csv";
             int[] compare_number = new int[10];
             bool[] send_status = new bool[10];
             int compare_paremeter = Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", ""));
@@ -7430,7 +7430,8 @@ namespace Woodpecker
                     #endregion
                 }
                 debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Loop_Number: " + Global.Loop_Number + ", \r\n");
-                DisposeRam();
+                Serialportsave("Debug");
+				DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -7616,7 +7617,6 @@ namespace Woodpecker
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
                 setStyle();
-                
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
@@ -8343,7 +8343,13 @@ namespace Woodpecker
                                 FontColor,
                                 new PointF(5, YPoint - 80));
             }
-
+            else
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                Font,
+                FontColor,
+                new PointF(5, YPoint - 80));
+            }
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text,
                                 Font,
