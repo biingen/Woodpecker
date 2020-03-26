@@ -304,7 +304,7 @@ namespace Woodpecker
             this.label_FwVersion.Name = "label_FwVersion";
             this.label_FwVersion.Size = new System.Drawing.Size(97, 20);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.13d";
+            this.label_FwVersion.Text = "Ver. 1.0.13e";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
@@ -1151,7 +1151,7 @@ namespace Woodpecker
             this.button_Analysis.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_Analysis.ForeColor = System.Drawing.Color.White;
             this.button_Analysis.Location = new System.Drawing.Point(1245, 612);
-            this.button_Analysis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_Analysis.Margin = new System.Windows.Forms.Padding(4);
             this.button_Analysis.Name = "button_Analysis";
             this.button_Analysis.Size = new System.Drawing.Size(108, 38);
             this.button_Analysis.TabIndex = 109;
@@ -1312,7 +1312,7 @@ namespace Woodpecker
             this.button_savelog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_savelog.ForeColor = System.Drawing.Color.White;
             this.button_savelog.Location = new System.Drawing.Point(1245, 566);
-            this.button_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.button_savelog.Name = "button_savelog";
             this.button_savelog.Size = new System.Drawing.Size(108, 39);
             this.button_savelog.TabIndex = 112;
@@ -1326,7 +1326,7 @@ namespace Woodpecker
             this.comboBox_savelog.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_savelog.FormattingEnabled = true;
             this.comboBox_savelog.Location = new System.Drawing.Point(1245, 529);
-            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_savelog.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(106, 28);
             this.comboBox_savelog.TabIndex = 111;
@@ -1334,7 +1334,7 @@ namespace Woodpecker
             // button_BluetoothConnect
             // 
             this.button_BluetoothConnect.Location = new System.Drawing.Point(1261, 364);
-            this.button_BluetoothConnect.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_BluetoothConnect.Margin = new System.Windows.Forms.Padding(4);
             this.button_BluetoothConnect.Name = "button_BluetoothConnect";
             this.button_BluetoothConnect.Size = new System.Drawing.Size(94, 29);
             this.button_BluetoothConnect.TabIndex = 115;
@@ -1376,7 +1376,7 @@ namespace Woodpecker
             this.comboBox_Bluetooth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Bluetooth.FormattingEnabled = true;
             this.comboBox_Bluetooth.Location = new System.Drawing.Point(1218, 328);
-            this.comboBox_Bluetooth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox_Bluetooth.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_Bluetooth.Name = "comboBox_Bluetooth";
             this.comboBox_Bluetooth.Size = new System.Drawing.Size(136, 28);
             this.comboBox_Bluetooth.TabIndex = 118;
@@ -1384,7 +1384,7 @@ namespace Woodpecker
             // button_BluetoothSearch
             // 
             this.button_BluetoothSearch.Location = new System.Drawing.Point(1262, 396);
-            this.button_BluetoothSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_BluetoothSearch.Margin = new System.Windows.Forms.Padding(4);
             this.button_BluetoothSearch.Name = "button_BluetoothSearch";
             this.button_BluetoothSearch.Size = new System.Drawing.Size(94, 29);
             this.button_BluetoothSearch.TabIndex = 119;
@@ -1395,7 +1395,7 @@ namespace Woodpecker
             // button_Send
             // 
             this.button_Send.Location = new System.Drawing.Point(1262, 430);
-            this.button_Send.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button_Send.Margin = new System.Windows.Forms.Padding(4);
             this.button_Send.Name = "button_Send";
             this.button_Send.Size = new System.Drawing.Size(94, 29);
             this.button_Send.TabIndex = 120;

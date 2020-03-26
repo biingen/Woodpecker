@@ -1,4 +1,5 @@
 ﻿using BlueRatLibrary;
+using DirectX.Capture;
 using jini;
 using Microsoft.Win32.SafeHandles;
 using RedRat.IR;
@@ -37,9 +38,6 @@ using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using AForge.Video.FFMPEG;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -67,12 +65,11 @@ namespace Woodpecker
         }
 
         private bool FormIsClosing = false;
-        //private Capture capture = null;
-        //private Filters filters = null;
+        private Capture capture = null;
+        private Filters filters = null;
         private bool _captureInProgress;
         private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
         //private bool excelstat = false;
-        private bool VideoRecording = false;//是否正在錄影//
         private bool TimerPanel = false;
         //private bool VirtualRcPanel = false;
         private bool AcUsbPanel = false;
@@ -83,21 +80,21 @@ namespace Woodpecker
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
-        private Queue<byte> SearchLogQueue1 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue2 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue3 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue4 = new Queue<byte>();
-        private Queue<byte> SearchLogQueue5 = new Queue<byte>();
-        private char Keyword_SerialPort_1_temp_char;
-        private byte Keyword_SerialPort_1_temp_byte;
-        private char Keyword_SerialPort_2_temp_char;
-        private byte Keyword_SerialPort_2_temp_byte;
-        private char Keyword_SerialPort_3_temp_char;
-        private byte Keyword_SerialPort_3_temp_byte;
-        private char Keyword_SerialPort_4_temp_char;
-        private byte Keyword_SerialPort_4_temp_byte;
-        private char Keyword_SerialPort_5_temp_char;
-        private byte Keyword_SerialPort_5_temp_byte;
+        private Queue<byte> SearchLogQueue_A = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_B = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_C = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_D = new Queue<byte>();
+        private Queue<byte> SearchLogQueue_E = new Queue<byte>();
+        private char Keyword_SerialPort_A_temp_char;
+        private byte Keyword_SerialPort_A_temp_byte;
+        private char Keyword_SerialPort_B_temp_char;
+        private byte Keyword_SerialPort_B_temp_byte;
+        private char Keyword_SerialPort_C_temp_char;
+        private byte Keyword_SerialPort_C_temp_byte;
+        private char Keyword_SerialPort_D_temp_char;
+        private byte Keyword_SerialPort_D_temp_byte;
+        private char Keyword_SerialPort_E_temp_char;
+        private byte Keyword_SerialPort_E_temp_byte;
 
         //Schedule暫停用的參數
         private bool Pause = false;
@@ -139,7 +136,7 @@ namespace Woodpecker
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private String log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
+        private String log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text, debug_text;
 
         //ca310
         private CA200SRVRLib.Ca200 objCa200;
@@ -150,6 +147,7 @@ namespace Woodpecker
         //Search chamber parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<string> temperatureString = new Queue<string> { };
+        System.Timers.Timer duringTimer = new System.Timers.Timer();
 
         bool ifStatementFlag = false;
         bool ChamberIsFound = false;
@@ -157,17 +155,6 @@ namespace Woodpecker
         bool PowerSupplyIsFound = false;
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
-
-        //Webcam
-        public FilterInfoCollection USB_Webcams = null;//FilterInfoCollection類別實體化
-        public VideoCaptureDevice Cam = null;//攝像頭的初始化
-        private int Cam_Indexof = 0;
-        private int Res_Indexof = 0;
-        private Bitmap video;
-        //private AVIWriter AVIwriter = new AVIWriter();
-        private VideoFileWriter FileWriter = new VideoFileWriter();
-        private Thread workerThread = null;
-        private bool stopProcess = false;
 
         public Form1()
         {
@@ -314,6 +301,9 @@ namespace Woodpecker
             // 針對字體變更Form的大小
             this.Height = this.Height * intPercent / 100;
 
+            // FwVersion
+            label_FwVersion.Text = "Ver. " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
             {
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "1")
@@ -350,34 +340,10 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
                 pictureBox_Camera.Image = Properties.Resources.ON;
+                filters = new Filters();
+                Filter f;
+
                 comboBox_CameraDevice.Enabled = true;
-
-                USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-                if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
-                {
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
-                    foreach (FilterInfo device in USB_Webcams)
-                    {
-                        comboBox_CameraDevice.Items.Add(device.Name);
-                        if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                        {
-                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                        }
-                    }
-
-                    if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
-                    {
-                        comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("No video input device is connected.");
-                }
-
-/*
                 ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
 
                 for (int c = 0; c < filters.VideoInputDevices.Count; c++)
@@ -396,7 +362,6 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
                 }
-*/
                 comboBox_CameraDevice.Enabled = false;
             }
             else
@@ -780,7 +745,6 @@ namespace Woodpecker
         private delegate void UpdateUICallBack1(string value, DataGridView ctl);
         private void GridUI(string i, DataGridView gv)
         {
-
             if (InvokeRequired)
             {
                 UpdateUICallBack1 uu = new UpdateUICallBack1(GridUI);
@@ -797,7 +761,6 @@ namespace Woodpecker
         private delegate void UpdateUICallBack3(string value, DataGridView ctl);
         private void Gridscroll(string i, DataGridView gv)
         {
-
             if (InvokeRequired)
             {
                 UpdateUICallBack3 uu = new UpdateUICallBack3(Gridscroll);
@@ -1524,7 +1487,6 @@ namespace Woodpecker
         byte[] dataset;
         string strValues1 = string.Empty;
         string tempStr = string.Empty;
-        double beforeTemperature = 0;
 
         #region -- 接受SerialPort1資料 --
         /*
@@ -1604,7 +1566,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue1.Enqueue(dataset[index]);
+                        SearchLogQueue_A.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1622,6 +1584,7 @@ namespace Woodpecker
                         hexValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValue + "\r\n"; //OK
                         // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
                         log1_text = string.Concat(log1_text, hexValue);
+						logAll_text = string.Concat(logAll_text, hexValue);
                         // textBox1.AppendText(hexValues);
                         // End
 
@@ -1651,13 +1614,14 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (beforeTemperature != currentTemperature)
+                                    if (targetTemperature != currentTemperature)
                                     {
                                         temperatureString.Enqueue(strValues1);
-                                        beforeTemperature = currentTemperature;
+                                        targetTemperature = currentTemperature;
                                     }
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues);
                             }
                         }
                         else
@@ -1668,6 +1632,7 @@ namespace Woodpecker
                                 Thread.Sleep(500);
                                 strValues1 = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
                                 log1_text = string.Concat(log1_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues);
                             }
                         }
                         // textBox1.AppendText(strValues);
@@ -1837,7 +1802,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue2.Enqueue(dataset[index]);
+                        SearchLogQueue_B.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1853,6 +1818,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log2_text = string.Concat(log2_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox2.AppendText(hexValues);
                         // End
 
@@ -1882,19 +1848,21 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (beforeTemperature != currentTemperature)
+                                    if (targetTemperature != currentTemperature)
                                     {
                                         temperatureString.Enqueue(strValues1);
-                                        beforeTemperature = currentTemperature;
+                                        targetTemperature = currentTemperature;
                                     }
                                 }
                                 log2_text = string.Concat(log2_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues);
                             }
                         }
                         else
                         {
                             strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log2_text = string.Concat(log2_text, strValues);
+							logAll_text = string.Concat(logAll_text, strValues);
                         }
                         //textBox2.AppendText(strValues);
                     }
@@ -1921,7 +1889,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue3.Enqueue(dataset[index]);
+                        SearchLogQueue_C.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -1937,6 +1905,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log3_text = string.Concat(log3_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox3.AppendText(hexValues);
                         // End
 
@@ -1966,19 +1935,21 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (beforeTemperature != currentTemperature)
+                                    if (targetTemperature != currentTemperature)
                                     {
                                         temperatureString.Enqueue(strValues1);
-                                        beforeTemperature = currentTemperature;
+                                        targetTemperature = currentTemperature;
                                     }
                                 }
                                 log3_text = string.Concat(log3_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues1);
                             }
                         }
                         else
                         {
                             strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log3_text = string.Concat(log3_text, strValues);
+							logAll_text = string.Concat(logAll_text, strValues);
                         }
                         //textBox3.AppendText(strValues);
                     }
@@ -2005,7 +1976,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue4.Enqueue(dataset[index]);
+                        SearchLogQueue_D.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -2021,6 +1992,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log4_text = string.Concat(log4_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox4.AppendText(hexValues);
                         // End
 
@@ -2050,19 +2022,21 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (beforeTemperature != currentTemperature)
+                                    if (targetTemperature != currentTemperature)
                                     {
                                         temperatureString.Enqueue(strValues1);
-                                        beforeTemperature = currentTemperature;
+                                        targetTemperature = currentTemperature;
                                     }
                                 }
                                 log4_text = string.Concat(log4_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues1);
                             }
                         }
                         else
                         {
                             strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log4_text = string.Concat(log4_text, strValues);
+							logAll_text = string.Concat(logAll_text, strValues);
                         }
                         //textBox4.AppendText(strValues);
                     }
@@ -2089,7 +2063,7 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        SearchLogQueue5.Enqueue(dataset[index]);
+                        SearchLogQueue_E.Enqueue(dataset[index]);
                         index++;
                         data_to_read--;
                     }
@@ -2105,6 +2079,7 @@ namespace Woodpecker
                         // Joseph
                         hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
                         log5_text = string.Concat(log5_text, hexValues);
+                        logAll_text = string.Concat(logAll_text, hexValues);
                         // textBox5.AppendText(hexValues);
                         // End
 
@@ -2134,19 +2109,21 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (beforeTemperature != currentTemperature)
+                                    if (targetTemperature != currentTemperature)
                                     {
                                         temperatureString.Enqueue(strValues1);
-                                        beforeTemperature = currentTemperature;
+                                        targetTemperature = currentTemperature;
                                     }
                                 }
                                 log5_text = string.Concat(log5_text, strValues1);
+								logAll_text = string.Concat(logAll_text, strValues1);
                             }
                         }
                         else
                         {
                             strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
                             log5_text = string.Concat(log5_text, strValues);
+							logAll_text = string.Concat(logAll_text, strValues);
                         }
                         //textBox5.AppendText(strValues);
                     }
@@ -2232,6 +2209,13 @@ namespace Woodpecker
                     MYFILE.Close();
                     logAll_text = String.Empty;
                     break;
+                case "Debug":
+                    t = fName + "\\_Debug_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(debug_text);
+                    MYFILE.Close();
+                    debug_text = String.Empty;
+                    break;
             }
         }
         #endregion
@@ -2285,9 +2269,7 @@ namespace Woodpecker
                         double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
                         foreach (Temperature_Data item in temperatureList)
                         {
-                            if (item.temperatureMax >= currentTemperature && 
-                                item.temperatureMin <= currentTemperature && 
-                                item.temperatureList == currentTemperature && 
+                            if (item.temperatureList == currentTemperature && 
                                 item.temperatureShot == true)
                             {
                                 targetTemperature = currentTemperature;
@@ -2295,13 +2277,11 @@ namespace Woodpecker
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                                Jes();
                                 label_Command.Text = "Condition: " + targetTemperature + ", SHOT: " + currentTemperature;
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                             }
-                            else if (item.temperatureMax >= currentTemperature &&
-                                     item.temperatureMin <= currentTemperature && 
-                                     item.temperatureList == currentTemperature && 
+                            else if (item.temperatureList == currentTemperature && 
                                      item.temperaturePause == true)
                             {
                                 targetTemperature = currentTemperature;
@@ -2420,7 +2400,7 @@ namespace Woodpecker
             Global.caption_Num++;
             if (Global.Loop_Number == 1)
                 Global.caption_Sum = Global.caption_Num;
-            Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+            Jes();
             label_Command.Text = "Timer: matched.";
             Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
         }
@@ -2436,15 +2416,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue1.Count > 0)
+                while (SearchLogQueue_A.Count > 0)
                 {
-                    Keyword_SerialPort_1_temp_byte = SearchLogQueue1.Dequeue();
-                    Keyword_SerialPort_1_temp_char = (char)Keyword_SerialPort_1_temp_byte;
+                    Keyword_SerialPort_A_temp_byte = SearchLogQueue_A.Dequeue();
+                    Keyword_SerialPort_A_temp_char = (char)Keyword_SerialPort_A_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2624,7 +2604,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -2808,24 +2788,24 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                     else
                     {
-                        if ((Keyword_SerialPort_1_temp_char == '\n'))
+                        if ((Keyword_SerialPort_A_temp_char == '\n'))
                         {
                             //textBox1.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_1_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_A_temp_char == '\r'))
                         {
                             //textBox1.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_1_temp_char;
+                            my_string = my_string + Keyword_SerialPort_A_temp_char;
                         }
                     }
                 }
@@ -2845,15 +2825,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue2.Count > 0)
+                while (SearchLogQueue_B.Count > 0)
                 {
-                    Keyword_SerialPort_2_temp_byte = SearchLogQueue2.Dequeue();
-                    Keyword_SerialPort_2_temp_char = (char)Keyword_SerialPort_2_temp_byte;
+                    Keyword_SerialPort_B_temp_byte = SearchLogQueue_B.Dequeue();
+                    Keyword_SerialPort_B_temp_char = (char)Keyword_SerialPort_B_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3032,7 +3012,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3214,25 +3194,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_2_temp_char == '\n'))
+                        if ((Keyword_SerialPort_B_temp_char == '\n'))
                         {
                             //textBox2.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_2_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_B_temp_char == '\r'))
                         {
                             //textBox2.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_2_temp_char;
+                            my_string = my_string + Keyword_SerialPort_B_temp_char;
                         }
                     }
                 }
@@ -3252,15 +3232,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue3.Count > 0)
+                while (SearchLogQueue_C.Count > 0)
                 {
-                    Keyword_SerialPort_3_temp_byte = SearchLogQueue3.Dequeue();
-                    Keyword_SerialPort_3_temp_char = (char)Keyword_SerialPort_3_temp_byte;
+                    Keyword_SerialPort_C_temp_byte = SearchLogQueue_C.Dequeue();
+                    Keyword_SerialPort_C_temp_char = (char)Keyword_SerialPort_C_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3439,7 +3419,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3621,25 +3601,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_3_temp_char == '\n'))
+                        if ((Keyword_SerialPort_C_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_3_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_C_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_3_temp_char;
+                            my_string = my_string + Keyword_SerialPort_C_temp_char;
                         }
                     }
                 }
@@ -3659,15 +3639,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue4.Count > 0)
+                while (SearchLogQueue_D.Count > 0)
                 {
-                    Keyword_SerialPort_4_temp_byte = SearchLogQueue4.Dequeue();
-                    Keyword_SerialPort_4_temp_char = (char)Keyword_SerialPort_4_temp_byte;
+                    Keyword_SerialPort_D_temp_byte = SearchLogQueue_D.Dequeue();
+                    Keyword_SerialPort_D_temp_char = (char)Keyword_SerialPort_D_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -3846,7 +3826,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -4028,25 +4008,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_4_temp_char == '\n'))
+                        if ((Keyword_SerialPort_D_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_4_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_D_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_4_temp_char;
+                            my_string = my_string + Keyword_SerialPort_D_temp_char;
                         }
                     }
                 }
@@ -4066,15 +4046,15 @@ namespace Woodpecker
 
             while (StartButtonPressed == true)
             {
-                while (SearchLogQueue5.Count > 0)
+                while (SearchLogQueue_E.Count > 0)
                 {
-                    Keyword_SerialPort_5_temp_byte = SearchLogQueue5.Dequeue();
-                    Keyword_SerialPort_5_temp_char = (char)Keyword_SerialPort_5_temp_byte;
+                    Keyword_SerialPort_E_temp_byte = SearchLogQueue_E.Dequeue();
+                    Keyword_SerialPort_E_temp_char = (char)Keyword_SerialPort_E_temp_byte;
 
                     if (Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "")) == 1 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "")) > 0)
                     {
                         #region \n
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -4253,7 +4233,7 @@ namespace Woodpecker
                         #endregion
 
                         #region \r
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             for (int i = 0; i < compare_paremeter; i++)
                             {
@@ -4435,25 +4415,25 @@ namespace Woodpecker
 
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                     else
                     {
 
-                        if ((Keyword_SerialPort_5_temp_char == '\n'))
+                        if ((Keyword_SerialPort_E_temp_char == '\n'))
                         {
                             //textBox3.AppendText(my_string + '\n');
                             my_string = "";
                         }
-                        else if ((Keyword_SerialPort_5_temp_char == '\r'))
+                        else if ((Keyword_SerialPort_E_temp_char == '\r'))
                         {
                             //textBox3.AppendText(my_string + '\r');
                             my_string = "";
                         }
                         else
                         {
-                            my_string = my_string + Keyword_SerialPort_5_temp_char;
+                            my_string = my_string + Keyword_SerialPort_E_temp_char;
                         }
                     }
                 }
@@ -4568,6 +4548,7 @@ namespace Woodpecker
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
+                Global.label_LoopNumber = j.ToString();
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
@@ -4593,6 +4574,7 @@ namespace Woodpecker
                         {
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -4635,14 +4617,13 @@ namespace Woodpecker
                         else
                             SysDelay = 0;
 
-
                         #region -- Record Schedule --
                         string delimiter_recordSch = ",";
                         string Schedule_log = "";
                         DateTime.Now.ToShortTimeString();
                         DateTime sch_dt = DateTime.Now;
 
-                        Console.WriteLine("Record Schedule.");
+                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Record Schedule," + "\r\n");
                         Schedule_log = columns_command;
                         try
                         {
@@ -4949,13 +4930,13 @@ namespace Woodpecker
                         #region -- 拍照 --
                         else if (columns_command == "_shot")
                         {
-                            Console.WriteLine("Take Picture: _shot");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Take Picture: _shot_start," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
-                                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                                Jes();
                                 label_Command.Text = "Take Picture";
                             }
                             else
@@ -4970,13 +4951,15 @@ namespace Woodpecker
                         #region -- 錄影 --
                         else if (columns_command == "_rec_start")
                         {
-                            Console.WriteLine("Take Record: _rec_start");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Take Record: _rec_start," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (VideoRecording == false)
+                                if (Global.VideoRecording == false)
                                 {
-                                    Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
-                                    VideoRecording = true;
+                                    Mysvideo(); // 開新檔
+                                    Global.VideoRecording = true;
+                                    Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
+                                    oThreadC.Start();
                                 }
                                 label_Command.Text = "Start Recording";
                             }
@@ -4989,13 +4972,13 @@ namespace Woodpecker
 
                         else if (columns_command == "_rec_stop")
                         {
-                            Console.WriteLine("Take Record: _rec_stop");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Take Record: _rec_stop," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (VideoRecording == true)       //判斷是不是正在錄影
+                                if (Global.VideoRecording == true)       //判斷是不是正在錄影
                                 {
-                                    VideoRecording = false;
-                                    Cam_Myvstop();      //先將先前的關掉
+                                    Global.VideoRecording = false;
+                                    Mysstop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
                             }
@@ -5096,7 +5079,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("Ascii Log: _PortA");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _PortA," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("A"); //存檔rs232
@@ -5124,7 +5107,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("Ascii Log: _PortB");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _PortB," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("B"); //存檔rs232
@@ -5152,7 +5135,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("Ascii Log: _PortC");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _PortC," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("C"); //存檔rs232
@@ -5180,7 +5163,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("Ascii Log: _PortD");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _PortD," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("D"); //存檔rs232
@@ -5208,7 +5191,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("Ascii Log: _PortE");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _PortE," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("E"); //存檔rs232
@@ -5236,7 +5219,7 @@ namespace Woodpecker
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Ascii Log: _All");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Ascii Log: _All," + "\r\n");
                                 string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
                                 string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -5253,7 +5236,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log1_text = string.Concat(log1_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5262,7 +5245,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log2_text = string.Concat(log2_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5271,7 +5254,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log3_text = string.Concat(log3_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5280,7 +5263,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log4_text = string.Concat(log4_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5289,7 +5272,7 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     textBox_serial.AppendText(text);
                                     log5_text = string.Concat(log5_text, text);
                                     logAll_text = string.Concat(logAll_text, text);
@@ -5396,17 +5379,16 @@ namespace Woodpecker
                                                 if (duringTimeInt > 0)
                                                 {
                                                     // Create a timer and set a two second interval.
-                                                    System.Timers.Timer aTimer = new System.Timers.Timer(duringTimeInt);
-                                                    aTimer.Interval = duringTimeInt;
+                                                    duringTimer.Interval = duringTimeInt;
 
                                                     // Hook up the Elapsed event for the timer. 
-                                                    aTimer.Elapsed += new System.Timers.ElapsedEventHandler(duringTimedEvent);
+                                                    duringTimer.Elapsed += new System.Timers.ElapsedEventHandler(duringTimedEvent);
 
                                                     // Have the timer fire repeated events (true is the default)
-                                                    aTimer.AutoReset = true;
+                                                    duringTimer.AutoReset = true;
 
                                                     // Start the timer
-                                                    aTimer.Enabled = true;
+                                                    duringTimer.Enabled = true;
                                                 }
                                                     
 
@@ -5415,9 +5397,7 @@ namespace Woodpecker
                                                     for (int i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                     {
                                                         double conditionList = Convert.ToDouble(i);
-                                                        double allowableMax = Convert.ToDouble(i + (addTemperatureInt / 2.0));
-                                                        double allowableMin = Convert.ToDouble(i - (addTemperatureInt / 2.0));
-                                                        temperatureList.Add(new Temperature_Data(conditionList, allowableMax, allowableMin, false, false));
+                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
                                                 else
@@ -5425,9 +5405,7 @@ namespace Woodpecker
                                                     for (int i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                     {
                                                         double conditionList = Convert.ToDouble(i);
-                                                        double allowableMax = Convert.ToDouble(i + (addTemperatureInt / 2.0));
-                                                        double allowableMin = Convert.ToDouble(i - (addTemperatureInt / 2.0));
-                                                        temperatureList.Add(new Temperature_Data(conditionList, allowableMax, allowableMin, false, false));
+                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
                                             }
@@ -5465,7 +5443,7 @@ namespace Woodpecker
                             string Outputstring = "";
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("Hex Log: _PortA");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _PortA," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("A"); //存檔rs232
@@ -5503,11 +5481,9 @@ namespace Woodpecker
                                 logAll_text = string.Concat(logAll_text, text);
                             }
 
-
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-
-                                Console.WriteLine("Hex Log: _PortB");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _PortB," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("B"); //存檔rs232
@@ -5547,7 +5523,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("Hex Log: _PortC");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _PortC," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("C"); //存檔rs232
@@ -5587,7 +5563,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("Hex Log: _PortD");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _PortD," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("D"); //存檔rs232
@@ -5627,7 +5603,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("Hex Log: _PortE");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _PortE," + "\r\n");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("E"); //存檔rs232
@@ -5667,7 +5643,7 @@ namespace Woodpecker
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Hex Log: _All");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Hex Log: _All," + "\r\n");
                                 string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                                 if (columns_serial == "_save")
@@ -5802,7 +5778,7 @@ namespace Woodpecker
                         #region -- K-Line --
                         else if (columns_command == "_K_ABS")
                         {
-                            Console.WriteLine("K-line control: _K_ABS");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "K-line control: _K_ABS," + "\r\n");
                             try
                             {
                                 // K-lite ABS指令檔案匯入
@@ -5842,7 +5818,7 @@ namespace Woodpecker
                         }
                         else if (columns_command == "_K_OBD")
                         {
-                            Console.WriteLine("K-line control: _K_OBD");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "K-line control: _K_OBD," + "\r\n");
                             try
                             {
                                 // K-lite OBD指令檔案匯入
@@ -5897,7 +5873,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Read Log: _TX_I2C_Read_PortA," + "\r\n");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -5915,7 +5891,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Read Log: _TX_I2C_Read_PortB," + "\r\n");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -5933,7 +5909,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Read Log: _TX_I2C_Read_PortC," + "\r\n");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -5951,7 +5927,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Read Log: _TX_I2C_Read_PortD," + "\r\n");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -5969,7 +5945,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Read Log: _TX_I2C_Read_PortE," + "\r\n");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -5992,7 +5968,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortA");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Write Log: _TX_I2C_Write_PortA," + "\r\n");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -6011,7 +5987,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortB");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Write Log: _TX_I2C_Write_PortB," + "\r\n");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -6030,7 +6006,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortC");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Write Log: _TX_I2C_Write_PortC," + "\r\n");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -6049,7 +6025,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortD");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Write Log: _TX_I2C_Write_PortD," + "\r\n");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -6068,7 +6044,7 @@ namespace Woodpecker
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortE");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "I2C Write Log: _TX_I2C_Write_PortE," + "\r\n");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -6112,7 +6088,7 @@ namespace Woodpecker
                         #region -- Astro Timing --
                         else if (columns_command == "_astro")
                         {
-                            Console.WriteLine("Astro control: _astro");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Astro control: _astro," + "\r\n");
                             try
                             {
                                 // Astro指令
@@ -6164,7 +6140,7 @@ namespace Woodpecker
                         #region -- Quantum Timing --
                         else if (columns_command == "_quantum")
                         {
-                            Console.WriteLine("Quantum control: _quantum");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Quantum control: _quantum," + "\r\n");
                             try
                             {
                                 // Quantum指令檔案匯入
@@ -6255,7 +6231,7 @@ namespace Woodpecker
                         {
                             if (columns_switch == "_start")
                             {
-                                Console.WriteLine("Dektec control: _start");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Dektec control: _start," + "\r\n");
                                 string StreamName = columns_serial;
                                 string TvSystem = columns_function;
                                 string Freq = columns_subFunction;
@@ -6281,7 +6257,7 @@ namespace Woodpecker
 
                             if (columns_switch == "_stop")
                             {
-                                Console.WriteLine("Dektec control: _stop");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Dektec control: _stop," + "\r\n");
                                 CloseDtplay();
                             }
                         }
@@ -6290,7 +6266,7 @@ namespace Woodpecker
                         #region -- 命令提示 --
                         else if (columns_command == "_DOS")
                         {
-                            Console.WriteLine("DOS command: _DOS");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "DOS command: _DOS," + "\r\n");
                             if (columns_serial != "")
                             {
                                 string Command = columns_serial;
@@ -6326,13 +6302,13 @@ namespace Woodpecker
                         #region -- GPIO_INPUT_OUTPUT --
                         else if (columns_command == "_IO_Input")
                         {
-                            Console.WriteLine("GPIO control: _IO_Input");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "GPIO control: _IO_Input," + "\r\n");
                             IO_INPUT();
                         }
 
                         else if (columns_command == "_IO_Output")
                         {
-                            Console.WriteLine("GPIO control: _IO_Output");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "GPIO control: _IO_Output," + "\r\n");
                             //string GPIO = "01010101";
                             string GPIO = columns_times;
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
@@ -6344,7 +6320,7 @@ namespace Woodpecker
                         #region -- Extend_GPIO_OUTPUT --
                         else if (columns_command == "_WaterTemp")
                         {
-                            Console.WriteLine("Extend GPIO control: _WaterTemp");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Extend GPIO control: _WaterTemp," + "\r\n");
                             string GPIO = columns_times; // GPIO = "010101010";
                             if (GPIO.Length == 9)
                             {
@@ -6363,7 +6339,7 @@ namespace Woodpecker
 
                         else if (columns_command == "_FuelDisplay")
                         {
-                            Console.WriteLine("Extend GPIO control: _FuelDisplay");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Extend GPIO control: _FuelDisplay," + "\r\n");
                             string GPIO = columns_times;
                             if (GPIO.Length == 9)
                             {
@@ -6382,7 +6358,7 @@ namespace Woodpecker
 
                         else if (columns_command == "_Temperature")
                         {
-                            Console.WriteLine("Extend GPIO control: _Temperature");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Extend GPIO control: _Temperature," + "\r\n");
                             //string GPIO = "01010101";
                             string GPIO = columns_serial;
                             int GPIO_B = int.Parse(GPIO);
@@ -6431,7 +6407,7 @@ namespace Woodpecker
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
-                                    Console.WriteLine("Extend GPIO control: _FuncKey:" + k + " times");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Extend GPIO control: _FuncKey:" + k + " times," + "\r\n");
                                     label_Command.Text = "(Push CMD)" + columns_serial;
                                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                     {
@@ -6464,7 +6440,7 @@ namespace Woodpecker
                                             PortA.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6500,7 +6476,7 @@ namespace Woodpecker
                                             PortB.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6536,7 +6512,7 @@ namespace Woodpecker
                                             PortC.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6572,7 +6548,7 @@ namespace Woodpecker
                                             PortD.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6608,14 +6584,14 @@ namespace Woodpecker
                                             PortE.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    Console.WriteLine("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
-                                    Thread.Sleep(sRepeat);
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms," + "\r\n");
+                                    RedRatDBViewer_Delay(sRepeat);
                                     int length = columns_serial.Length;
                                     string status = columns_serial.Substring(length - 1, 1);
                                     string reverse = "";
@@ -6656,7 +6632,7 @@ namespace Woodpecker
                                             PortA.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log1_text = string.Concat(log1_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6692,7 +6668,7 @@ namespace Woodpecker
                                             PortB.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log2_text = string.Concat(log2_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6728,7 +6704,7 @@ namespace Woodpecker
                                             PortC.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log3_text = string.Concat(log3_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6764,7 +6740,7 @@ namespace Woodpecker
                                             PortD.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log4_text = string.Concat(log4_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6800,7 +6776,7 @@ namespace Woodpecker
                                             PortE.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
                                         textBox_serial.AppendText(text);
                                         log5_text = string.Concat(log5_text, text);
                                         logAll_text = string.Concat(logAll_text, text);
@@ -6819,7 +6795,7 @@ namespace Woodpecker
                         #region -- MonkeyTest --
                         else if (columns_command == "_MonkeyTest")
                         {
-                            Console.WriteLine("Android control: _MonkeyTest");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Android control: _MonkeyTest," + "\r\n");
                             Add_ons MonkeyTest = new Add_ons();
                             MonkeyTest.MonkeyTest();
                             MonkeyTest.CreateExcelFile();
@@ -6883,7 +6859,7 @@ namespace Woodpecker
                                 {
                                     #region -- PA10 --
                                     case "10":
-                                        Console.WriteLine("IO CMD: PA10");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PA10," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(10, 1) == "0")
                                         {
@@ -6919,7 +6895,7 @@ namespace Woodpecker
 
                                     #region -- PA11 --
                                     case "11":
-                                        Console.WriteLine("IO CMD: PA11");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PA11," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(8, 1) == "0")
                                         {
@@ -6951,7 +6927,7 @@ namespace Woodpecker
 
                                     #region -- PA14 --
                                     case "14":
-                                        Console.WriteLine("IO CMD: PA14");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PA14," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(6, 1) == "0")
                                         {
@@ -6983,7 +6959,7 @@ namespace Woodpecker
 
                                     #region -- PA15 --
                                     case "15":
-                                        Console.WriteLine("IO CMD: PA15");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PA15," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(4, 1) == "0")
                                         {
@@ -7015,7 +6991,7 @@ namespace Woodpecker
 
                                     #region -- PB01 --
                                     case "01":
-                                        Console.WriteLine("IO CMD: PB01");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PB01," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(2, 1) == "0")
                                         {
@@ -7048,7 +7024,7 @@ namespace Woodpecker
 
                                     #region -- PB07 --
                                     case "07":
-                                        Console.WriteLine("IO CMD: PB07");
+                                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "IO CMD: PB07," + "\r\n");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(0, 1) == "0")
                                         {
@@ -7226,7 +7202,7 @@ namespace Woodpecker
                         #region -- Audio Debounce --
                         else if (columns_command == "_audio_debounce")
                         {
-                            Console.WriteLine("Audio Detect: _audio_debounce");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Audio Detect: _audio_debounce," + "\r\n");
                             bool Debounce_Time_PB1, Debounce_Time_PB7;
                             if (columns_interval != "")
                             {
@@ -7251,7 +7227,7 @@ namespace Woodpecker
                             switch (columns_times)
                             {
                                 case "1":
-                                    Console.WriteLine("Keyword Search: 1");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 1," + "\r\n");
                                     if (Global.keyword_1 == "true")
                                     {
                                         KeywordCommand();
@@ -7264,7 +7240,7 @@ namespace Woodpecker
                                     break;
 
                                 case "2":
-                                    Console.WriteLine("Keyword Search: 2");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 2," + "\r\n");
                                     if (Global.keyword_2 == "true")
                                     {
                                         KeywordCommand();
@@ -7277,7 +7253,7 @@ namespace Woodpecker
                                     break;
 
                                 case "3":
-                                    Console.WriteLine("Keyword Search: 3");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 3," + "\r\n");
                                     if (Global.keyword_3 == "true")
                                     {
                                         KeywordCommand();
@@ -7290,7 +7266,7 @@ namespace Woodpecker
                                     break;
 
                                 case "4":
-                                    Console.WriteLine("Keyword Search: 4");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 4," + "\r\n");
                                     if (Global.keyword_4 == "true")
                                     {
                                         KeywordCommand();
@@ -7303,7 +7279,7 @@ namespace Woodpecker
                                     break;
 
                                 case "5":
-                                    Console.WriteLine("Keyword Search: 5");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 5," + "\r\n");
                                     if (Global.keyword_5 == "true")
                                     {
                                         KeywordCommand();
@@ -7316,7 +7292,7 @@ namespace Woodpecker
                                     break;
 
                                 case "6":
-                                    Console.WriteLine("Keyword Search: 6");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 6," + "\r\n");
                                     if (Global.keyword_6 == "true")
                                     {
                                         KeywordCommand();
@@ -7329,7 +7305,7 @@ namespace Woodpecker
                                     break;
 
                                 case "7":
-                                    Console.WriteLine("Keyword Search: 7");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 7," + "\r\n");
                                     if (Global.keyword_7 == "true")
                                     {
                                         KeywordCommand();
@@ -7342,7 +7318,7 @@ namespace Woodpecker
                                     break;
 
                                 case "8":
-                                    Console.WriteLine("Keyword Search: 8");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 8," + "\r\n");
                                     if (Global.keyword_8 == "true")
                                     {
                                         KeywordCommand();
@@ -7355,7 +7331,7 @@ namespace Woodpecker
                                     break;
 
                                 case "9":
-                                    Console.WriteLine("Keyword Search: 9");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 9," + "\r\n");
                                     if (Global.keyword_9 == "true")
                                     {
                                         KeywordCommand();
@@ -7368,7 +7344,7 @@ namespace Woodpecker
                                     break;
 
                                 default:
-                                    Console.WriteLine("Keyword Search: 10");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Keyword Search: 10," + "\r\n");
                                     if (columns_times == "10")
                                     {
                                         if (Global.keyword_10 == "true")
@@ -7381,7 +7357,7 @@ namespace Woodpecker
                                         }
                                         Global.keyword_10 = "false";
                                     }
-                                    Console.WriteLine("keyword not found_schedule");
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "keyword not found_schedule," + "\r\n");
                                     break;
 
                             }
@@ -7391,7 +7367,7 @@ namespace Woodpecker
                         #region -- PWM1 --
                         else if (columns_command == "_pwm1")
                         {
-                            Console.WriteLine("PWM Control: _pwm1");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "PWM Control: _pwm1," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -7426,7 +7402,7 @@ namespace Woodpecker
                         #region -- PWM2 --
                         else if (columns_command == "_pwm2")
                         {
-                            Console.WriteLine("PWM Control: _pwm2");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "PWM Control: _pwm2," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -7461,7 +7437,7 @@ namespace Woodpecker
                         #region -- PWM3 --
                         else if (columns_command == "_pwm3")
                         {
-                            Console.WriteLine("PWM Control: _pwm3");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "PWM Control: _pwm3," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                             {
                                 string pwm_output;
@@ -7496,7 +7472,7 @@ namespace Woodpecker
                         #region -- 遙控器指令 --
                         else
                         {
-                            Console.WriteLine("Remote Control: TV_rc_key");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Remote Control: TV_rc_key," + "\r\n");
                             for (int k = 0; k < stime; k++)
                             {
                                 label_Command.Text = columns_command;
@@ -7535,26 +7511,27 @@ namespace Woodpecker
 
                         //Thread MyExportText = new Thread(new ThreadStart(MyExportCamd));
                         //MyExportText.Start();
-                        Console.WriteLine("CloseTime record.");
+                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "CloseTime record.," + "\r\n");
                         ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
 
 
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
-                            Console.WriteLine("Break schedule.");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Break schedule.," + "\r\n");
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
                         Nowpoint = DataGridView_Schedule.Rows[Global.Scheduler_Row].Index;
-                        Console.WriteLine("Nowpoint record: " + Nowpoint);
+                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Nowpoint record: " + Nowpoint + ",\r\n");
                         if (Breakfunction == true)
                         {
-                            Console.WriteLine("Breakfunction.");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Breakfunction.," + "\r\n");
                             if (Breakpoint == Nowpoint)
                             {
-                                Console.WriteLine("Breakpoint = Nowpoint");
+                                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Breakpoint = Nowpoint," + "\r\n");
                                 button_Pause.PerformClick();
                             }
                         }
@@ -7563,18 +7540,19 @@ namespace Woodpecker
                         {
                             timer1.Stop();
                             SchedulePause.WaitOne();
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "SchedulePause_WaitOne," + "\r\n");
                         }
                         else
                         {
                             RedRatDBViewer_Delay(SysDelay);
-                            Console.WriteLine("RedRatDBViewer_Delay.");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "RedRatDBViewer_Delay: " + SysDelay + ",\r\n");
                         }
 
                         #region -- 足跡模式 --
                         //假如足跡模式打開則會append足跡上去
                         if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1" && SysDelay != 0)
                         {
-                            Console.WriteLine("Footprint Mode.");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Footprint Mode Start," + "\r\n");
                             //檔案不存在則加入標題
                             if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
                             {
@@ -7607,9 +7585,10 @@ namespace Woodpecker
                                 "," + Global.IO_PB1_0_COUNT + "," + Global.IO_PB1_1_COUNT +
                                 "," + Global.IO_PB7_0_COUNT + "," + Global.IO_PB7_1_COUNT + Environment.NewLine);
                             }
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Footprint Mode Stop," + "\r\n");
                         }
                         #endregion
-                        Console.WriteLine("End.");
+                        debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "End.," + "\r\n");
                     }
 
                     #region -- Import database --
@@ -7648,7 +7627,8 @@ namespace Woodpecker
                     }
                     #endregion
                 }
-                Console.WriteLine("Loop_Number: " + Global.Loop_Number);
+                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Loop_Number: " + Global.Loop_Number + ", \r\n");
+                DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -7659,19 +7639,19 @@ namespace Woodpecker
                 {
                     if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                     {
-                        if (VideoRecording == false)
+                        if (Global.VideoRecording == false)
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
-                            Cam.NewFrame += new NewFrameEventHandler(Cam_Myvstart); // 開新檔
-                            VideoRecording = true;
-                            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
-                            MySrtThread.Start();
+                            Mysvideo(); // 開新檔
+                            Global.VideoRecording = true;
+                            Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
+                            oThreadC.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
-                            VideoRecording = false;
-                            Cam_Myvstop();
-                            MySrtThread.Abort();
+                            Global.VideoRecording = false;
+                            Mysstop();
+                            oThreadC.Abort();
                             Thread.Sleep(1500);
                             label_Command.Text = "Vdieo recording completely.";
                         }
@@ -7904,7 +7884,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                Jes();
                 label_Command.Text = "IO CMD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -8010,7 +7990,7 @@ namespace Woodpecker
                 Global.caption_Num++;
                 if (Global.Loop_Number == 1)
                     Global.caption_Sum = Global.caption_Num;
-                Cam.NewFrame += new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   create();
+                Jes();
                 label_Command.Text = "KEYWORD_SHOT";
             }
             else if (columns_serial == "_mail")
@@ -8462,42 +8442,29 @@ namespace Woodpecker
         #endregion
 
         #region -- 拍照 --
-        /*
         private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
 
         private void Myshot()
         {
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Start the Myshot function," + "\r\n");
             button_Start.Enabled = false;
             setStyle();
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
-        }
-        */
-        void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            //throw new NotImplementedException();
-            video = (Bitmap)eventArgs.Frame.Clone();
-            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
-        }
-
-        void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
-        {
-            button_Start.Enabled = false;
-            setStyle();
-            //throw new NotImplementedException();
-            CaptureDone((Bitmap)eventArgs.Frame.Clone());
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Stop the Myshot function," + "\r\n");
         }
 
         // 複製原始圖片
         protected Bitmap CloneBitmap(Bitmap source)
         {
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "CloneBitmap function," + "\r\n");
             return new Bitmap(source);
         }
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
-            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myshot);//Press Tab  to   delete();
-            //capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Start the CaptureDone function," + "\r\n");
+            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
@@ -8548,7 +8515,7 @@ namespace Woodpecker
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
             Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
@@ -8582,8 +8549,10 @@ namespace Woodpecker
 
             string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
             pictureBox4.Image.Save(t);
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Save the CaptureDone Picture," + "\r\n");
             button_Start.Enabled = true;
             setStyle();
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Stop the CaptureDone function," + "\r\n");
         }
         #endregion
 
@@ -8594,7 +8563,7 @@ namespace Woodpecker
             string starttime = "0:0:0";
             TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
-            while (VideoRecording)
+            while (Global.VideoRecording)
             {
                 System.Threading.Thread.Sleep(1000);
                 TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
@@ -8614,63 +8583,30 @@ namespace Woodpecker
             }
         }
         #endregion
-        /*
+
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
         {
-            Cam.Stop();
-            //capture.Dispose();
+            capture.Stop();
+            capture.Dispose();
             Camstart();
         }));
-        */
-        private void Cam_Myvstart(object sender, NewFrameEventArgs eventArgs)
-        {
-            Cam.Start();
-            Savevideo();
-        }
-
-        private void Cam_Myvstop()
-        {
-            stopProcess = true;
-            VideoRecording = false;
-            workerThread.Abort();
-            video = null;
-        }
 
         private void Savevideo()//儲存影片//
         {
-            Cam.NewFrame -= new NewFrameEventHandler(Cam_Myvstart);//Press Tab  to   delete();
-
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
 
-            string t = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_rec_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".srt";
+            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
+            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
 
-            Thread MySrtThread = new Thread(new ThreadStart(MySrtCamd));
-            MySrtThread.Start();
+            if (!capture.Cued)
+                capture.Filename = t;
 
-            int h = Cam.VideoResolution.FrameSize.Height;
-            int w = Cam.VideoResolution.FrameSize.Width;
-            FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
-            stopProcess = false;
-            workerThread = new Thread(new ThreadStart(recordLiveCam));
-            workerThread.Start();
+            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+            capture.Cue(); // 創一個檔
+            capture.Start(); // 開始錄影
 
-            //AVIwriter.Open(saveAvi.FileName, w, h);
-            //butStop.Text = "Stop Record";
-            //FinalVideo = captureDevice.VideoDevice;
-            //FinalVideo.NewFrame += new NewFrameEventHandler(FinalVideo_NewFrame);
-            //FinalVideo.Start();
-
-            /*
-                        if (!capture.Cued)
-                            capture.Filename = t;
-
-                        capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
-                        capture.Cue(); // 創一個檔
-                        capture.Start(); // 開始錄影
-            */
             /*
             double chd; //檢查HD 空間 小於100M就停止錄影s
             chd = ImageOpacity.ChDisk(ImageOpacity.Dkroot(fName));
@@ -8681,23 +8617,6 @@ namespace Woodpecker
             }*/
         }
 
-        private void recordLiveCam()
-        {
-            if (!stopProcess)
-            {
-                while (VideoRecording)
-                {
-                    FileWriter.WriteVideoFrame(video);
-                    Thread.Sleep(28);
-                }
-                FileWriter.Close();
-            }
-            else
-            {
-                workerThread.Abort();
-            }
-        }
-
         private void OnOffCamera()//啟動攝影機//
         {
             if (_captureInProgress == true)
@@ -8705,10 +8624,10 @@ namespace Woodpecker
                 Camstart();
             }
 
-            if (_captureInProgress == false && Cam != null)
+            if (_captureInProgress == false && capture != null)
             {
-                Cam.Stop();
-                //capture.Dispose();
+                capture.Stop();
+                capture.Dispose();
             }
         }
 
@@ -8716,18 +8635,6 @@ namespace Woodpecker
         {
             try
             {
-                if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") != "")
-                    Cam_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                else
-                    Cam_Indexof = 0;
-                Cam = new VideoCaptureDevice(USB_Webcams[Cam_Indexof].MonikerString);
-                if (ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", "") != "")
-                    Res_Indexof = int.Parse(ini12.INIRead(MainSettingPath, "Camera", "AudioIndex", ""));
-                else
-                    Res_Indexof = 0;
-                Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
-                Cam.NewFrame += new NewFrameEventHandler(Cam_NewFrame);//Press Tab  to   create
-/*
                 Filters filters = new Filters();
                 Filter f;
 
@@ -8775,7 +8682,6 @@ namespace Woodpecker
                 else
                 {
                     capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
-
                     try
                     {
                         capture.FrameSize = new Size(2304, 1296);
@@ -8839,13 +8745,12 @@ namespace Woodpecker
                 {
                     capture.PreviewWindow = null;
                 }
-*/
             }
-            finally
+            catch (NotSupportedException)
             {
-                Cam.Start();
-            }
-
+                MessageBox.Show("Camera is disconnected unexpectedly!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                button_Start.PerformClick();
+            };
         }
 
         #region -- 讀取RC DB並填入combobox --
@@ -9117,6 +9022,7 @@ namespace Woodpecker
                     ifThread1.Abort();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
+                    duringTimer.Enabled = false;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -9273,6 +9179,7 @@ namespace Woodpecker
                     ifThread1.Abort();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
+                    duringTimer.Enabled = false;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -9499,32 +9406,13 @@ namespace Woodpecker
                         button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
                         comboBox_CameraDevice.Items.Clear();
-                        USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
-                        if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
+                        foreach (string cd in cameraDevice)
                         {
-                            ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
-                            foreach (FilterInfo device in USB_Webcams)
-                            {
-                                comboBox_CameraDevice.Items.Add(device.Name);
-                                if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                                {
-                                    comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                                }
-                            }
-
-                            if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
-                            {
-                                comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
-                                ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                                ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "") == "")
-                                comboBox_CameraDevice.SelectedIndex = 0;
-                            else
-                                comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                            comboBox_CameraDevice.Items.Add(cd);
                         }
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
                     catch (ArgumentOutOfRangeException)
                     {
@@ -9674,15 +9562,6 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
             {
                 DisconnectAutoBox2();
-            }
-
-            if (Cam == null)
-            { return; }
-            if (Cam.IsRunning)
-            {
-                this.Cam.Stop();
-                FileWriter.Close();
-                //this.AVIwriter.Close();
             }
 
             Application.ExitThread();
@@ -10215,9 +10094,9 @@ namespace Woodpecker
                 setStyle();
                 SchedulePause.Reset();
 
-                //Console.WriteLine("Datagridview highlight.");
+                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Datagridview highlight.," + "\r\n");
                 GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                //Console.WriteLine("Datagridview scollbar.");
+                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Datagridview scollbar.," + "\r\n");
                 Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
@@ -10853,8 +10732,8 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             if (_captureInProgress == true)
             {
-                Cam.Stop();
-                //capture.Dispose();
+                capture.Stop();
+                capture.Dispose();
                 Camstart();
             }
         }
@@ -11481,6 +11360,7 @@ namespace Woodpecker
         public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
         public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
         public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
+        public static string StartupPath = Application.StartupPath;
 
         public static int Scheduler_Row = 0;
         public static List<string> VID = new List<string> { };
@@ -11546,6 +11426,12 @@ namespace Woodpecker
         public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
         public static bool FormRC = false;
         public static int TEXTBOX_FOCUS = 0;
+        public static string label_Command = "";
+        public static string label_Remark = "";
+        public static string label_LoopNumber = "";
+        public static bool VideoRecording = false;
+        public static string srtstring = "";
+        public static bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
     }
@@ -11665,11 +11551,9 @@ namespace Woodpecker
 
     class Temperature_Data
     {
-        public Temperature_Data(double list, double max, double min, bool shot, bool pause)
+        public Temperature_Data(double list, bool shot, bool pause)
         {
             temperatureList = list;
-            temperatureMax = max;
-            temperatureMin = min;
             temperatureShot = shot;
             temperaturePause = pause;
         }
@@ -11700,16 +11584,6 @@ namespace Woodpecker
         }
 
         public double temperatureList
-        {
-            get; set;
-        }
-
-        public double temperatureMax
-        {
-            get; set;
-        }
-
-        public double temperatureMin
         {
             get; set;
         }
