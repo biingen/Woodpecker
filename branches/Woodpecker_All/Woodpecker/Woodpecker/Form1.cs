@@ -2254,6 +2254,46 @@ namespace Woodpecker
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
         double targetTemperature = 0;
+        double beforeTemperature = 0;
+        bool temperatureAction = false;
+
+        private void timer_ifLogReceived_Tick(object sender, EventArgs e)
+        {
+            if (temperatureString.Count() > 0 && temperatureAction == true)
+            {
+                tempStr = temperatureString.Dequeue();
+                string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
+                double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
+                double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                foreach (Temperature_Data item in temperatureList)
+                {
+                    if (item.temperatureList == currentTemperature &&
+                        item.temperatureShot == true)
+                    {
+                        beforeTemperature = currentTemperature;
+                        Thread.Sleep(10);
+                        Global.caption_Num++;
+                        if (Global.Loop_Number == 1)
+                            Global.caption_Sum = Global.caption_Num;
+                        Jes();
+                        label_Command.Text = "Condition: " + beforeTemperature + ", SHOT: " + currentTemperature;
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
+                    }
+                    else if (item.temperatureList == currentTemperature &&
+                             item.temperaturePause == true)
+                    {
+                        beforeTemperature = currentTemperature;
+                        button_Pause.PerformClick();
+                        label_Command.Text = "Condition: " + beforeTemperature + ", PAUSE: " + currentTemperature;
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+                    }
+                }
+            }
+        }
 
         private void ifLogReceived()
         {
@@ -2272,21 +2312,21 @@ namespace Woodpecker
                             if (item.temperatureList == currentTemperature && 
                                 item.temperatureShot == true)
                             {
-                                targetTemperature = currentTemperature;
+                                beforeTemperature = currentTemperature;
                                 Thread.Sleep(10);
                                 Global.caption_Num++;
                                 if (Global.Loop_Number == 1)
                                     Global.caption_Sum = Global.caption_Num;
+                                label_Command.Text = "Condition: " + beforeTemperature + ", SHOT: " + currentTemperature;
                                 Jes();
-                                label_Command.Text = "Condition: " + targetTemperature + ", SHOT: " + currentTemperature;
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                             }
                             else if (item.temperatureList == currentTemperature && 
                                      item.temperaturePause == true)
                             {
-                                targetTemperature = currentTemperature;
+                                beforeTemperature = currentTemperature;
+                                label_Command.Text = "Condition: " + beforeTemperature + ", PAUSE: " + currentTemperature;
                                 button_Pause.PerformClick();
-                                label_Command.Text = "Condition: " + targetTemperature + ", PAUSE: " + currentTemperature;
                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                             }
                             else
@@ -5299,6 +5339,7 @@ namespace Woodpecker
                                 {
                                     item.temperaturePause = true;
                                 }
+                                temperatureAction = true;
                             }
                             else if (columns_serial == "_shot")
                             {
@@ -5306,6 +5347,7 @@ namespace Woodpecker
                                 {
                                     item.temperatureShot = true;
                                 }
+                                temperatureAction = true;
                             }
                         }
 
@@ -5337,11 +5379,11 @@ namespace Woodpecker
                                                 Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
                                                 if (columns_serial.Contains("-"))
                                                 {
-                                                    Temperature_Data.addTemperature = Int16.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
+                                                    Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
                                                 }
                                                 else
                                                 {
-                                                    Temperature_Data.addTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
+                                                    Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
                                                 }
                                             }
                                             else if (columns_serial.Contains("PowerSupply_Voltage"))
@@ -5365,11 +5407,11 @@ namespace Woodpecker
                                                 Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
                                                 Temperature_Data.temperatureChannel = columns_serial.Substring(columns_serial.IndexOf("Temperature") + 11, columns_serial.IndexOf("=") - columns_serial.IndexOf("Temperature") - 11);
                                                 if (columns_serial.Contains("-"))
-                                                    Temperature_Data.addTemperature = Int16.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("-") - 1));
+                                                    Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("-") - 1));
                                                 else
-                                                    Temperature_Data.addTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("+") - 1));
+                                                    Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("+") - 1));
 
-                                                int addTemperatureInt = Temperature_Data.addTemperature;
+                                                float addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
                                                 if (columns_serial.Contains("m)"))
                                                     duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf("m)") - columns_serial.IndexOf("(") - 1)) * 60000;
@@ -5394,7 +5436,7 @@ namespace Woodpecker
 
                                                 if (addTemperatureInt < 0)
                                                 {
-                                                    for (int i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                     {
                                                         double conditionList = Convert.ToDouble(i);
                                                         temperatureList.Add(new Temperature_Data(conditionList, false, false));
@@ -5402,12 +5444,14 @@ namespace Woodpecker
                                                 }
                                                 else
                                                 {
-                                                    for (int i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                     {
                                                         double conditionList = Convert.ToDouble(i);
                                                         temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
+
+                                                timer_ifLogReceived.Start();
                                             }
                                         }
                                     }
@@ -5423,6 +5467,7 @@ namespace Woodpecker
                                         timer_Chamber.Enabled = false;
 
                                         chamberTimer_IsTick = false;
+                                        timer_ifLogReceived.Stop();
 
                                         foreach (Temperature_Data item in temperatureList)
                                         {
@@ -9003,8 +9048,6 @@ namespace Woodpecker
             Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
-            Thread ifThread1 = new Thread(new ThreadStart(ifLogReceived));
-            ifThread1.Name = "ifThread1 Thread";
 
             startTime = DateTime.Now;
 
@@ -9019,7 +9062,7 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
-                    ifThread1.Abort();
+                    timer_ifLogReceived.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
@@ -9099,8 +9142,6 @@ namespace Woodpecker
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
-                    //ifThread1.IsBackground = true;
-                    ifThread1.Start();
                     timer1.Start();     //開始倒數
                     button_Start.Text = "STOP";
 
@@ -9176,7 +9217,7 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
-                    ifThread1.Abort();
+                    timer_ifLogReceived.Stop();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
@@ -9240,8 +9281,6 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
-                    //ifThread1.IsBackground = true;
-                    ifThread1.Start();
                     StartButtonPressed = true;
                     StartButtonFlag = true;
                     button_Setting.Enabled = false;
@@ -11563,7 +11602,7 @@ namespace Woodpecker
             get; set;
         }
 
-        public static int addTemperature
+        public static float addTemperature
         {
             get; set;
         }

@@ -197,7 +197,7 @@ namespace Woodpecker
             try
             {
                 SmtpClient MySmtp = new SmtpClient("smtp.gmail.com", 587);
-                MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "auoasc2019");     //設定你的帳號密碼
+                MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "Auoasc2019");     //設定你的帳號密碼
                 MySmtp.EnableSsl = true;      //Gmial 的 smtp 需打開 SSL
                 MySmtp.Send(msg);
             }

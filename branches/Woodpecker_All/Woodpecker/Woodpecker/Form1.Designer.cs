@@ -149,6 +149,7 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timer_ifLogReceived = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1566,6 +1567,10 @@ namespace Woodpecker
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // timer_ifLogReceived
+            // 
+            this.timer_ifLogReceived.Tick += new System.EventHandler(this.timer_ifLogReceived_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -1790,6 +1795,7 @@ namespace Woodpecker
         private System.Windows.Forms.Label label_ca310;
         private System.Windows.Forms.PictureBox pictureBox_ca310;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
+        private System.Windows.Forms.Timer timer_ifLogReceived;
     }
 }
 
