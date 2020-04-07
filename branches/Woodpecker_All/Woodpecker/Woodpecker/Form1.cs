@@ -10806,7 +10806,12 @@ namespace Woodpecker
                 try
                 {
                     objCa.Measure();
-                    string str = "Lv:" + objProbe.Lv.ToString("##0.00") + " Sx:" + objProbe.sx.ToString("0.0000") + " Sy:" + objProbe.sy.ToString("0.0000");
+                    string str =    "Lv:" + objProbe.Lv.ToString("##0.00") + 
+                                    " Sx:" + objProbe.sx.ToString("0.0000") + 
+                                    " Sy:" + objProbe.sy.ToString("0.0000") + 
+                                    " R:" + objProbe.R.ToString("##0.00") + 
+                                    " G:" + objProbe.G.ToString("##0.00") + 
+                                    " B:" + objProbe.B.ToString("##0.00");
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
