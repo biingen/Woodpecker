@@ -225,7 +225,7 @@ namespace Woodpecker
                     }
                 }
             }
-            catch (Exception Ex)
+            catch (InvalidOperationException)
             {
                 //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
@@ -790,109 +790,6 @@ namespace Woodpecker
                 ctl.Text = value;
             }
         }
-
-        #region -- 拍照 --
-        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
-
-        private void Myshot()
-        {
-            button_Start.Enabled = false;
-            setStyle();
-            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
-            capture.GrapImg();
-        }
-
-        // 複製原始圖片
-        protected Bitmap CloneBitmap(Bitmap source)
-        {
-            return new Bitmap(source);
-        }
-
-        private void CaptureDone(System.Drawing.Bitmap e)
-        {
-            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
-            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
-
-            //圖片印字
-            Bitmap newBitmap = CloneBitmap(e);
-            newBitmap = CloneBitmap(e);
-            pictureBox4.Image = newBitmap;
-
-            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
-            {
-                // Create Compare folder
-                string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
-                //string ngPath = fName + "\\" + ngFolder;
-                string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
-                if (Global.caption_Num == 0)
-                    Global.caption_Num++;
-                /*
-                if (Directory.Exists(ngPath))
-                {
-
-                }
-                else
-                {
-                    Directory.CreateDirectory(ngPath);
-                }
-                */
-                // 圖片比較
-
-                /*
-                newBitmap = CloneBitmap(e);
-                newBitmap = RGB2Gray(newBitmap);
-                newBitmap = ConvertTo1Bpp2(newBitmap);
-                newBitmap = SobelEdgeDetect(newBitmap);                
-                this.pictureBox4.Image = newBitmap;
-                */
-                pictureBox4.Image.Save(compareFile);
-                if (Global.Loop_Number < 2)
-                {
-
-                }
-                else
-                {
-                    Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
-                    MyCompareThread.Start();
-                }
-            }
-
-            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-            Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
-            int YPoint = int.Parse(Resolution[1]);
-
-            //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
-            {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 80));
-            }
-
-            //照片印上現在時間//
-            bitMap_g.DrawString(TimeLabel.Text,
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 40));
-
-            Font.Dispose();
-            FontColor.Dispose();
-            bitMap_g.Dispose();
-
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
-            pictureBox4.Image.Save(t);
-            button_Start.Enabled = true;
-            setStyle();
-        }
-        #endregion
 
         protected void OpenRedRat3()
         {
@@ -6240,7 +6137,7 @@ namespace Woodpecker
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     Console.WriteLine("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
-                                    Thread.Sleep(sRepeat);
+                                    RedRatDBViewer_Delay(sRepeat);
                                     int length = columns_serial.Length;
                                     string status = columns_serial.Substring(length - 1, 1);
                                     string reverse = "";
@@ -8095,6 +7992,109 @@ namespace Woodpecker
                 RedratLable.Text = "End Compare Picture.";
                 */
             }
+        }
+        #endregion
+
+        #region -- 拍照 --
+        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+
+        private void Myshot()
+        {
+            button_Start.Enabled = false;
+            setStyle();
+            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+            capture.GrapImg();
+        }
+
+        // 複製原始圖片
+        protected Bitmap CloneBitmap(Bitmap source)
+        {
+            return new Bitmap(source);
+        }
+
+        private void CaptureDone(System.Drawing.Bitmap e)
+        {
+            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+
+            //圖片印字
+            Bitmap newBitmap = CloneBitmap(e);
+            newBitmap = CloneBitmap(e);
+            pictureBox4.Image = newBitmap;
+
+            if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
+            {
+                // Create Compare folder
+                string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
+                //string ngPath = fName + "\\" + ngFolder;
+                string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
+                if (Global.caption_Num == 0)
+                    Global.caption_Num++;
+                /*
+                if (Directory.Exists(ngPath))
+                {
+
+                }
+                else
+                {
+                    Directory.CreateDirectory(ngPath);
+                }
+                */
+                // 圖片比較
+
+                /*
+                newBitmap = CloneBitmap(e);
+                newBitmap = RGB2Gray(newBitmap);
+                newBitmap = ConvertTo1Bpp2(newBitmap);
+                newBitmap = SobelEdgeDetect(newBitmap);                
+                this.pictureBox4.Image = newBitmap;
+                */
+                pictureBox4.Image.Save(compareFile);
+                if (Global.Loop_Number < 2)
+                {
+
+                }
+                else
+                {
+                    Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
+                    MyCompareThread.Start();
+                }
+            }
+
+            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
+            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+            Brush FontColor = new SolidBrush(Color.Red);
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
+            int YPoint = int.Parse(Resolution[1]);
+
+            //照片印上現在步驟//
+            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 120));
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
+            }
+
+            //照片印上現在時間//
+            bitMap_g.DrawString(TimeLabel.Text,
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 40));
+
+            Font.Dispose();
+            FontColor.Dispose();
+            bitMap_g.Dispose();
+
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            pictureBox4.Image.Save(t);
+            button_Start.Enabled = true;
+            setStyle();
         }
         #endregion
 

@@ -1250,7 +1250,6 @@ namespace Woodpecker
         private void comboBox_TvBrands_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
-
         }
 
         private void comboBox__SelectRedrat_SelectedIndexChanged(object sender, EventArgs e)
