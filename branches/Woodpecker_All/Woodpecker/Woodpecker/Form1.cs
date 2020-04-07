@@ -1616,8 +1616,10 @@ namespace Woodpecker
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
                                     if (targetTemperature != currentTemperature)
                                     {
+                                        Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                                         temperatureString.Enqueue(strValues1);
                                         targetTemperature = currentTemperature;
+                                        Console.WriteLine("Enqueue temperature: " + strValues1);
                                     }
                                 }
                                 log1_text = string.Concat(log1_text, strValues1);
@@ -2262,6 +2264,7 @@ namespace Woodpecker
             if (temperatureString.Count() > 0 && temperatureAction == true)
             {
                 tempStr = temperatureString.Dequeue();
+                Console.WriteLine("Dequeue temperature: " + tempStr);
                 string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
                 double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
                 double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
@@ -2275,16 +2278,16 @@ namespace Woodpecker
                         Global.caption_Num++;
                         if (Global.Loop_Number == 1)
                             Global.caption_Sum = Global.caption_Num;
-                        Jes();
                         label_Command.Text = "Condition: " + beforeTemperature + ", SHOT: " + currentTemperature;
+                        Jes();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                     }
                     else if (item.temperatureList == currentTemperature &&
                              item.temperaturePause == true)
                     {
                         beforeTemperature = currentTemperature;
-                        button_Pause.PerformClick();
                         label_Command.Text = "Condition: " + beforeTemperature + ", PAUSE: " + currentTemperature;
+                        button_Pause.PerformClick();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                     }
                     else
@@ -2435,13 +2438,13 @@ namespace Woodpecker
             }
         }
 
-        private void duringTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
+        private void timer_duringShot_Tick(object sender, EventArgs e)
         {
             Global.caption_Num++;
             if (Global.Loop_Number == 1)
                 Global.caption_Sum = Global.caption_Num;
-            Jes();
             label_Command.Text = "Timer: matched.";
+            Jes();
             Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
         }
 
@@ -5421,16 +5424,10 @@ namespace Woodpecker
                                                 if (duringTimeInt > 0)
                                                 {
                                                     // Create a timer and set a two second interval.
-                                                    duringTimer.Interval = duringTimeInt;
-
-                                                    // Hook up the Elapsed event for the timer. 
-                                                    duringTimer.Elapsed += new System.Timers.ElapsedEventHandler(duringTimedEvent);
-
-                                                    // Have the timer fire repeated events (true is the default)
-                                                    duringTimer.AutoReset = true;
+                                                    timer_duringShot.Interval = duringTimeInt;
 
                                                     // Start the timer
-                                                    duringTimer.Enabled = true;
+                                                    timer_duringShot.Start();
                                                 }
                                                     
 
@@ -5468,6 +5465,7 @@ namespace Woodpecker
 
                                         chamberTimer_IsTick = false;
                                         timer_ifLogReceived.Stop();
+                                        timer_duringShot.Stop();
 
                                         foreach (Temperature_Data item in temperatureList)
                                         {
@@ -9063,6 +9061,7 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
                     timer_ifLogReceived.Stop();
+                    timer_duringShot.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
@@ -9218,6 +9217,7 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer_ifLogReceived.Stop();
+                    timer_duringShot.Stop();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
