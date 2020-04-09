@@ -138,6 +138,9 @@ namespace Woodpecker
             this.button_BluetoothSearch = new System.Windows.Forms.Button();
             this.button_Send = new System.Windows.Forms.Button();
             this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
+            this.timer_ifLogReceived = new System.Windows.Forms.Timer(this.components);
+            this.timer_duringShot = new System.Windows.Forms.Timer(this.components);
+            this.timer_logA = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -149,9 +152,6 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.timer_ifLogReceived = new System.Windows.Forms.Timer(this.components);
-            this.timer_duringShot = new System.Windows.Forms.Timer(this.components);
-            this.timer_logA = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1411,6 +1411,19 @@ namespace Woodpecker
             this.timer_Chamber.Interval = 10000;
             this.timer_Chamber.Tick += new System.EventHandler(this.timer_Chamber_Tick);
             // 
+            // timer_ifLogReceived
+            // 
+            this.timer_ifLogReceived.Tick += new System.EventHandler(this.timer_ifLogReceived_Tick);
+            // 
+            // timer_duringShot
+            // 
+            this.timer_duringShot.Tick += new System.EventHandler(this.timer_duringShot_Tick);
+            // 
+            // timer_logA
+            // 
+            this.timer_logA.Interval = 1000;
+            this.timer_logA.Tick += new System.EventHandler(this.timer_logA_Tick);
+            // 
             // DataGridView_Schedule
             // 
             this.DataGridView_Schedule.AllowUserToResizeColumns = false;
@@ -1568,18 +1581,6 @@ namespace Woodpecker
             this.Column10.Name = "Column10";
             this.Column10.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Column10.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // timer_ifLogReceived
-            // 
-            this.timer_ifLogReceived.Tick += new System.EventHandler(this.timer_ifLogReceived_Tick);
-            // 
-            // timer_duringShot
-            // 
-            this.timer_duringShot.Tick += new System.EventHandler(this.timer_duringShot_Tick);
-            // 
-            // timer_logA
-            // 
-            this.timer_logA.Tick += new System.EventHandler(this.timer_logA_Tick);
             // 
             // Form1
             // 
