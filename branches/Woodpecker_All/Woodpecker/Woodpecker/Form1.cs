@@ -1217,7 +1217,6 @@ namespace Woodpecker
 
                             PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
                             PortA.Open();
-                            timer_logA.Start();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortA);
                         }
                     }
@@ -1382,7 +1381,6 @@ namespace Woodpecker
                 case "A":
                     PortA.Dispose();
                     PortA.Close();
-                    timer_logA.Stop();
                     break;
                 case "B":
                     PortB.Dispose();
@@ -5239,7 +5237,6 @@ namespace Woodpecker
                                 {
                                     item.temperaturePause = true;
                                 }
-                                temperatureAction = true;
                             }
                             else if (columns_serial == "_shot")
                             {
@@ -5247,7 +5244,6 @@ namespace Woodpecker
                                 {
                                     item.temperatureShot = true;
                                 }
-                                temperatureAction = true;
                             }
                         }
 
@@ -5326,7 +5322,6 @@ namespace Woodpecker
                                                     // Start the timer
                                                     timer_duringShot.Start();
                                                 }
-                                                    
 
                                                 if (addTemperatureInt < 0)
                                                 {
@@ -8942,6 +8937,7 @@ namespace Woodpecker
             Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
+            Thread LogAThread = new Thread(new ThreadStart(logA_analysis));
 
             startTime = DateTime.Now;
 
@@ -8956,9 +8952,9 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
+                    LogAThread.Abort();
                     timer_ifLogReceived.Stop();
                     timer_duringShot.Stop();
-                    timer_logA.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
@@ -9039,6 +9035,7 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數
+                    LogAThread.Start();
                     button_Start.Text = "STOP";
 
                     StartButtonPressed = true;
@@ -9115,7 +9112,7 @@ namespace Woodpecker
                     MainThread.Abort(); //停止執行緒
                     timer_ifLogReceived.Stop();
                     timer_duringShot.Stop();
-                    timer_logA.Stop();
+                    LogAThread.Abort();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
@@ -9179,6 +9176,7 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
+                    LogAThread.Start();
                     StartButtonPressed = true;
                     StartButtonFlag = true;
                     button_Setting.Enabled = false;
@@ -9411,7 +9409,7 @@ namespace Woodpecker
         }
 
         //系統時間
-        private void Timer1_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
             TimeLabel.Text = string.Format("{0:R}", dt);            //拍照打印時間
@@ -10076,9 +10074,8 @@ namespace Woodpecker
             }
         }
 
-        private void Timer1_Tick_1(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-
             timer1.Interval = 500;
             TimeSpan timeElapsed = DateTime.Now - startTime;
 
@@ -11096,14 +11093,16 @@ namespace Woodpecker
                 Console.WriteLine("Finish writing data.....");
             }
         }
-
-        private void timer_logA_Tick(object sender, EventArgs e)
+        private void logA_analysis()
         {
-            if (LogQueue_A.Count > 0)
+            while (StartButtonPressed == true)
             {
-                logA_dequeue();
-                logA_recorder();
-                logA_temperature();
+                if (LogQueue_A.Count > 0)
+                {
+                    logA_dequeue();
+                    logA_recorder();
+                    logA_temperature();
+                }
             }
         }
 
@@ -11114,54 +11113,66 @@ namespace Woodpecker
         {
             while (LogQueue_A.Count > 0)
             {
-                Log_record.Add(LogQueue_A.Peek());
-                Log_temperature.Add(LogQueue_A.Dequeue());
+                if (ifStatementFlag == true)
+                {
+                    Log_record.Add(LogQueue_A.Peek());
+                    Log_temperature.Add(LogQueue_A.Dequeue());
+                }
+                else
+                {
+                    Log_record.Add(LogQueue_A.Dequeue());
+                }
             }
         }
 
         private void logA_recorder()
         {
             DateTime dt;
-            byte[] byteMessage = new byte[1000];
+            byte[] byteMessage = new byte[Log_record.Count];
             int bytelength = 0;
-            foreach (byte myByteList in Log_record)
+            lock (Log_record)
             {
-                if (myByteList == 0x0A || myByteList == 0x0D)
+                foreach (byte myByteList in Log_record)
                 {
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    if (myByteList == 0x0A || myByteList == 0x0D)
                     {
-                        string hexValue = BitConverter.ToString(byteMessage).Replace("-", "");
-                        dt = DateTime.Now;
+                        if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                        {
+                            string hexValue = BitConverter.ToString(byteMessage).Replace("-", "");
+                            dt = DateTime.Now;
 
-                        // Joseph
-                        hexValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValue + "\r\n"; //OK
-                                                                                                                              // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                        log1_text = string.Concat(log1_text, hexValue);
-                        logAll_text = string.Concat(logAll_text, hexValue);
-                        bytelength = 0;
-                        // textBox1.AppendText(hexValues);
-                        // End
+                            // Joseph
+                            hexValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValue + "\r\n"; //OK
+                                                                                                                                  // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                            log1_text = string.Concat(log1_text, hexValue);
+                            logAll_text = string.Concat(logAll_text, hexValue);
+                            bytelength = 0;
+                            // textBox1.AppendText(hexValues);
+                            // End
 
-                        // Jeremy
-                        // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                        // textBox1.AppendText(hexValues + "\r\n");
-                        // End
+                            // Jeremy
+                            // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                            // textBox1.AppendText(hexValues + "\r\n");
+                            // End
+                        }
+                        else
+                        {
+                            // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+                            string strValues = Encoding.ASCII.GetString(byteMessage);
+                            dt = DateTime.Now;
+                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+                            log1_text = string.Concat(log1_text, strValues);
+                            logAll_text = string.Concat(logAll_text, strValues);
+                            bytelength = 0;
+                        }
+                        Log_record.RemoveAt(Log_record.IndexOf(myByteList));
                     }
                     else
                     {
-                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                        string strValues = Encoding.ASCII.GetString(byteMessage);
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                        log1_text = string.Concat(log1_text, strValues);
-                        logAll_text = string.Concat(logAll_text, strValues);
-                        bytelength = 0;
+                        byteMessage[bytelength] = myByteList;
+                        bytelength++;
+                        Log_record.RemoveAt(Log_record.IndexOf(myByteList));
                     }
-                }
-                else
-                {
-                    byteMessage[bytelength] = myByteList;
-                    bytelength++;
                 }
             }
         }
@@ -11170,74 +11181,54 @@ namespace Woodpecker
         {
             byte[] byteMessage = new byte[16];
             int bytelength = 0;
-            foreach (byte myByteList in Log_record)
+            lock (Log_temperature)
             {
-                if (myByteList == 0x02)
+                foreach (byte myByteList in Log_temperature)
                 {
-                    if (byteMessage.Count() == 16 && byteMessage[2] == Temperature_Data.temperatureChannel && byteMessage[14] != 0x18 && byteMessage[15] == 0x0D)
+                    if (myByteList == 0x0D)
                     {
-                        int j = 0;
-                        byte[] byteArray = new byte[4];
-                        for (int i = 11; i < 15; i++)
+                        byteMessage[bytelength] = myByteList;
+                        if (byteMessage[0] == 0x02 && byteMessage[1] == 0x34 && byteMessage[2] == Temperature_Data.temperatureChannel && byteMessage[14] != 0x18 && byteMessage[15] == 0x0D)
                         {
-                            byteArray[j] = byteMessage[i];
-                            j++;
-                        }
-                        string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
-                        double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - 48));
-                        double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                        if (targetTemperature != currentTemperature )
-                        {
-                            /*
-                            foreach (Temperature_Data item in temperatureList)
+                            int j = 0;
+                            byte[] byteArray = new byte[4];
+                            for (int i = 11; i < 15; i++)
                             {
-                                if (item.temperatureList == currentTemperature &&
-                                    item.temperatureShot == true)
-                                {
-                                    targetTemperature = currentTemperature;
-                                    Thread.Sleep(10);
-                                    Global.caption_Num++;
-                                    if (Global.Loop_Number == 1)
-                                        Global.caption_Sum = Global.caption_Num;
-                                    label_Command.Text = "Condition: " + targetTemperature + ", SHOT: " + currentTemperature;
-                                    Jes();
-                                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                                }
-                                else if (item.temperatureList == currentTemperature &&
-                                         item.temperaturePause == true)
-                                {
-                                    targetTemperature = currentTemperature;
-                                    label_Command.Text = "Condition: " + targetTemperature + ", PAUSE: " + currentTemperature;
-                                    button_Pause.PerformClick();
-                                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                                }
+                                byteArray[j] = byteMessage[i];
+                                j++;
                             }
-                            */
-                            Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
-                            temperatureDouble.Enqueue(currentTemperature);
-                            targetTemperature = currentTemperature;
-                            Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                            
+                            string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
+                            double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - 48));
+                            double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                            if (targetTemperature != currentTemperature)
+                            {
+                                Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                                temperatureDouble.Enqueue(currentTemperature);
+                                targetTemperature = currentTemperature;
+                                Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                            }
+                            bytelength = 0;
+                            Log_temperature.RemoveRange(Log_temperature.IndexOf(myByteList), 16);
                         }
-                        bytelength = 0;
+                        else
+                        {
+                            bytelength = 0;
+                            Log_temperature.RemoveAt(Log_temperature.IndexOf(myByteList));
+                        }
                     }
                     else
                     {
-                        bytelength = 0;
+                        byteMessage[bytelength] = myByteList;
+                        bytelength++;
+                        Log_temperature.RemoveAt(Log_temperature.IndexOf(myByteList));
                     }
                 }
-                byteMessage[bytelength] = myByteList;
-                bytelength++;
             }
         }
 
         private void timer_ifLogReceived_Tick(object sender, EventArgs e)
         {
-            if (temperatureDouble.Count() > 0 && temperatureAction == true)
+            if (temperatureDouble.Count() > 0)
             {
                 currentTemperature = temperatureDouble.Dequeue();
                 Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
