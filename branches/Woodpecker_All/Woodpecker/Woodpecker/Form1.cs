@@ -78,11 +78,11 @@ namespace Woodpecker
         private string videostring = "";
         private string srtstring = "";
 
-        private Queue<byte> LogQueue_A = new Queue<byte>();
-
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
+        private Queue<byte> LogQueue_A = new Queue<byte>();
         private Queue<byte> SearchLogQueue_A = new Queue<byte>();
+        private Queue<byte> TemperatureQueue_A = new Queue<byte>();
         private Queue<byte> SearchLogQueue_B = new Queue<byte>();
         private Queue<byte> SearchLogQueue_C = new Queue<byte>();
         private Queue<byte> SearchLogQueue_D = new Queue<byte>();
@@ -1568,16 +1568,133 @@ namespace Woodpecker
                     int index = 0;
                     while (data_to_read > 0)
                     {
-                        LogQueue_A.Enqueue(dataset[index]);
-                        SearchLogQueue_A.Enqueue(dataset[index]);
+                        byte data_byte = dataset[index];
+                        LogQueue_A.Enqueue(data_byte);
+                        SearchLogQueue_A.Enqueue(data_byte);
+                        if (TemperatureIsFound == true)
+                            TemperatureQueue_A.Enqueue(data_byte);
                         index++;
                         data_to_read--;
                     }
                 }
+                Thread.Sleep(200);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void logA_analysis()
+        {
+            while (StartButtonPressed == true)
+            {
+                if (LogQueue_A.Count > 0)
+                {
+                    logA_recorder();
+                }
+
+                if (TemperatureQueue_A.Count > 0)
+                {
+                    logA_temperature();
+                }
+            }
+        }
+
+        private void logA_recorder()
+        {
+            DateTime dt;
+            byte[] byteMessage = new byte[LogQueue_A.Count];
+            int bytelength = 0;
+            byte myByteList;
+
+            while (LogQueue_A.Count > 0)
+            {
+                myByteList = LogQueue_A.Dequeue();
+                if (myByteList == 0x0A)
+                {
+                    string dataValue = "";
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        dataValue = BitConverter.ToString(byteMessage).Replace("-", "");
+                    }
+                    else
+                    {
+                        dataValue = Encoding.ASCII.GetString(byteMessage);
+                    }
+                    dt = DateTime.Now;
+                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    log1_text = string.Concat(log1_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    bytelength = 0;
+                }
+                else if (myByteList == 0x0D)
+                {
+                    string dataValue = "";
+                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    {
+                        dataValue = BitConverter.ToString(byteMessage).Replace("-", "");
+                    }
+                    else
+                    {
+                        dataValue = Encoding.ASCII.GetString(byteMessage);
+                    }
+                    dt = DateTime.Now;
+                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    log1_text = string.Concat(log1_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    bytelength = 0;
+                }
+                else
+                {
+                    byteMessage[bytelength] = myByteList;
+                    bytelength++;
+                }
+            }
+        }
+
+        private void logA_temperature()
+        {
+            byte[] byteMessage = new byte[32];
+            int bytelength = 0;
+            byte myByteList;
+            while (TemperatureQueue_A.Count > 0)
+            {
+                myByteList = TemperatureQueue_A.Dequeue();
+                if (myByteList == 0x0D)
+                {
+                    byteMessage[bytelength] = myByteList;
+                    if (byteMessage[0] == 0x02 && byteMessage[1] == 0x34 && byteMessage[2] == Temperature_Data.temperatureChannel && byteMessage[14] != 0x18 && byteMessage[15] == 0x0D)
+                    {
+                        int j = 0;
+                        byte[] byteArray = new byte[4];
+                        for (int i = 11; i < 15; i++)
+                        {
+                            byteArray[j] = byteMessage[i];
+                            j++;
+                        }
+                        string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
+                        double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - 48));
+                        double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                        if (targetTemperature != currentTemperature)
+                        {
+                            Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                            temperatureDouble.Enqueue(currentTemperature);
+                            targetTemperature = currentTemperature;
+                            Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                        }
+                        bytelength = 0;
+                    }
+                    else
+                    {
+                        bytelength = 0;
+                    }
+                }
+                else
+                {
+                    byteMessage[bytelength] = myByteList;
+                    bytelength++;
+                }
             }
         }
         /*
@@ -2191,7 +2308,6 @@ namespace Woodpecker
         bool PowerSupplyCheck = false;
         double targetTemperature = 0;
         double beforeTemperature = 0;
-        bool temperatureAction = false;
 /*
         private void ifLogReceived()
         {
@@ -11091,138 +11207,6 @@ namespace Woodpecker
                 stream.Flush();
                 stream.Close();
                 Console.WriteLine("Finish writing data.....");
-            }
-        }
-        private void logA_analysis()
-        {
-            while (StartButtonPressed == true)
-            {
-                if (LogQueue_A.Count > 0)
-                {
-                    logA_dequeue();
-                    logA_recorder();
-                    logA_temperature();
-                }
-            }
-        }
-
-        List<byte> Log_record = new List<byte> { };
-        List<byte> Log_temperature = new List<byte> { };
-
-        private void logA_dequeue()
-        {
-            while (LogQueue_A.Count > 0)
-            {
-                if (ifStatementFlag == true)
-                {
-                    Log_record.Add(LogQueue_A.Peek());
-                    Log_temperature.Add(LogQueue_A.Dequeue());
-                }
-                else
-                {
-                    Log_record.Add(LogQueue_A.Dequeue());
-                }
-            }
-        }
-
-        private void logA_recorder()
-        {
-            DateTime dt;
-            byte[] byteMessage = new byte[Log_record.Count];
-            int bytelength = 0;
-            lock (Log_record)
-            {
-                foreach (byte myByteList in Log_record)
-                {
-                    if (myByteList == 0x0A || myByteList == 0x0D)
-                    {
-                        if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                        {
-                            string hexValue = BitConverter.ToString(byteMessage).Replace("-", "");
-                            dt = DateTime.Now;
-
-                            // Joseph
-                            hexValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValue + "\r\n"; //OK
-                                                                                                                                  // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
-                            log1_text = string.Concat(log1_text, hexValue);
-                            logAll_text = string.Concat(logAll_text, hexValue);
-                            bytelength = 0;
-                            // textBox1.AppendText(hexValues);
-                            // End
-
-                            // Jeremy
-                            // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                            // textBox1.AppendText(hexValues + "\r\n");
-                            // End
-                        }
-                        else
-                        {
-                            // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                            string strValues = Encoding.ASCII.GetString(byteMessage);
-                            dt = DateTime.Now;
-                            strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log1_text = string.Concat(log1_text, strValues);
-                            logAll_text = string.Concat(logAll_text, strValues);
-                            bytelength = 0;
-                        }
-                        Log_record.RemoveAt(Log_record.IndexOf(myByteList));
-                    }
-                    else
-                    {
-                        byteMessage[bytelength] = myByteList;
-                        bytelength++;
-                        Log_record.RemoveAt(Log_record.IndexOf(myByteList));
-                    }
-                }
-            }
-        }
-
-        private void logA_temperature()
-        {
-            byte[] byteMessage = new byte[16];
-            int bytelength = 0;
-            lock (Log_temperature)
-            {
-                foreach (byte myByteList in Log_temperature)
-                {
-                    if (myByteList == 0x0D)
-                    {
-                        byteMessage[bytelength] = myByteList;
-                        if (byteMessage[0] == 0x02 && byteMessage[1] == 0x34 && byteMessage[2] == Temperature_Data.temperatureChannel && byteMessage[14] != 0x18 && byteMessage[15] == 0x0D)
-                        {
-                            int j = 0;
-                            byte[] byteArray = new byte[4];
-                            for (int i = 11; i < 15; i++)
-                            {
-                                byteArray[j] = byteMessage[i];
-                                j++;
-                            }
-                            string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
-                            double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - 48));
-                            double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                            if (targetTemperature != currentTemperature)
-                            {
-                                Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
-                                temperatureDouble.Enqueue(currentTemperature);
-                                targetTemperature = currentTemperature;
-                                Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                            }
-                            bytelength = 0;
-                            Log_temperature.RemoveRange(Log_temperature.IndexOf(myByteList), 16);
-                        }
-                        else
-                        {
-                            bytelength = 0;
-                            Log_temperature.RemoveAt(Log_temperature.IndexOf(myByteList));
-                        }
-                    }
-                    else
-                    {
-                        byteMessage[bytelength] = myByteList;
-                        bytelength++;
-                        Log_temperature.RemoveAt(Log_temperature.IndexOf(myByteList));
-                    }
-                }
             }
         }
 
