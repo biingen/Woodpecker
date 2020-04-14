@@ -1604,31 +1604,15 @@ namespace Woodpecker
         private void logA_recorder()
         {
             DateTime dt;
-            byte[] byteMessage = new byte[LogQueue_A.Count];
-            int bytelength = 0;
             byte myByteList;
+            const int byteMessage_max = 1024;
+            byte[] byteMessage = new byte[byteMessage_max];
+            int bytelength = 0;
 
             while (LogQueue_A.Count > 0)
             {
                 myByteList = LogQueue_A.Dequeue();
-                if (myByteList == 0x0A)
-                {
-                    string dataValue = "";
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
-                    {
-                        dataValue = BitConverter.ToString(byteMessage).Replace("-", "");
-                    }
-                    else
-                    {
-                        dataValue = Encoding.ASCII.GetString(byteMessage);
-                    }
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-                    log1_text = string.Concat(log1_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
-                    bytelength = 0;
-                }
-                else if (myByteList == 0x0D)
+                if ((myByteList == 0x0A) || (myByteList == 0x0D) || (bytelength >= byteMessage_max))
                 {
                     string dataValue = "";
                     if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
@@ -1655,45 +1639,47 @@ namespace Woodpecker
 
         private void logA_temperature()
         {
-            byte[] byteMessage = new byte[32];
-            int bytelength = 0;
             byte myByteList;
+            const int byteMessage_max = 64;
+            byte[] byteMessage = new byte[byteMessage_max];
+            int byteMessage_length = 0;
             while (TemperatureQueue_A.Count > 0)
             {
                 myByteList = TemperatureQueue_A.Dequeue();
                 if (myByteList == 0x0D)
                 {
-                    byteMessage[bytelength] = myByteList;
+                    byteMessage[byteMessage_length] = myByteList;
                     if (byteMessage[0] == 0x02 && byteMessage[1] == 0x34 && byteMessage[2] == Temperature_Data.temperatureChannel && byteMessage[14] != 0x18 && byteMessage[15] == 0x0D)
                     {
-                        int j = 0;
+                        int DP_convert = 48;
+                        int byteArray_position = 0;
                         byte[] byteArray = new byte[4];
-                        for (int i = 11; i < 15; i++)
+                        for (int byteMessage_position = 11; byteMessage_position < 15; byteMessage_position++)
                         {
-                            byteArray[j] = byteMessage[i];
-                            j++;
+                            byteArray[byteArray_position] = byteMessage[byteMessage_position];
+                            byteArray_position++;
                         }
                         string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
-                        double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - 48));
+                        double digit = Math.Pow(10, Convert.ToInt32(byteMessage[6] - DP_convert));
                         double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
                         if (targetTemperature != currentTemperature)
                         {
                             Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                             temperatureDouble.Enqueue(currentTemperature);
-                            targetTemperature = currentTemperature;
                             Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                            targetTemperature = currentTemperature;
                         }
-                        bytelength = 0;
+                        byteMessage_length = 0;
                     }
                     else
                     {
-                        bytelength = 0;
+                        byteMessage_length = 0;
                     }
                 }
                 else
                 {
-                    byteMessage[bytelength] = myByteList;
-                    bytelength++;
+                    byteMessage[byteMessage_length] = myByteList;
+                    byteMessage_length++;
                 }
             }
         }
@@ -2307,7 +2293,6 @@ namespace Woodpecker
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
         double targetTemperature = 0;
-        double beforeTemperature = 0;
 /*
         private void ifLogReceived()
         {
@@ -11221,20 +11206,17 @@ namespace Woodpecker
                     if (item.temperatureList == currentTemperature &&
                         item.temperatureShot == true)
                     {
-                        beforeTemperature = currentTemperature;
-                        Thread.Sleep(10);
                         Global.caption_Num++;
                         if (Global.Loop_Number == 1)
                             Global.caption_Sum = Global.caption_Num;
-                        label_Command.Text = "Condition: " + beforeTemperature + ", SHOT: " + currentTemperature;
+                        label_Command.Text = "Condition: " + item.temperatureList + ", SHOT: " + currentTemperature;
                         Jes();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                     }
                     else if (item.temperatureList == currentTemperature &&
                              item.temperaturePause == true)
                     {
-                        beforeTemperature = currentTemperature;
-                        label_Command.Text = "Condition: " + beforeTemperature + ", PAUSE: " + currentTemperature;
+                        label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
                         button_Pause.PerformClick();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                     }
