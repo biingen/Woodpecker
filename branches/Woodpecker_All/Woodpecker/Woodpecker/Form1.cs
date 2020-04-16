@@ -1721,6 +1721,7 @@ namespace Woodpecker
             const int temp_data3_offset = -4;
             const int temp_data2_offset = -3;
             const int temp_data1_offset = -2;
+            const double temp_abs_value = 0.1; 
 
             byteTemperature[byteTemperature_length] = ch;
             byteTemperature_length++;
@@ -1745,23 +1746,30 @@ namespace Woodpecker
                                     // data is valid
                                     int DP_convert = '0';
                                     int byteArray_position = 0;
-                                    byte[] byteArray = new byte[4];
-                                    for (int pos = byteTemperature_length + temp_data4_offset;
+                                    byte[] byteArray = new byte[8];
+                                    for (int pos = byteTemperature_length + temp_data8_offset;
                                                 pos <= (byteTemperature_length + temp_data1_offset);
                                                 pos++)
                                     {
                                         byteArray[byteArray_position] = byteTemperature[pos];
                                         byteArray_position++;
                                     }
+
                                     string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
-                                    double digit = Math.Pow(10, Convert.ToInt32(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
+                                    double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (targetTemperature != currentTemperature)
+                                    if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
                                     {
-                                        Console.WriteLine("~~~ targetTemperature ~~~ " + targetTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                                        //F value
+                                        currentTemperature = ((currentTemperature - 32) / 1.8);
+                                    }
+
+                                    if (previousTemperature != currentTemperature)
+                                    {
+                                        Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                                         temperatureDouble.Enqueue(currentTemperature);
                                         Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                                        targetTemperature = currentTemperature;
+                                        previousTemperature = currentTemperature;
                                     }
                                 }
                             }
@@ -2021,10 +2029,10 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (targetTemperature != currentTemperature)
+                                    if (previousTemperature != currentTemperature)
                                     {
                                         //temperatureDouble.Enqueue(strValues1);
-                                        targetTemperature = currentTemperature;
+                                        previousTemperature = currentTemperature;
                                     }
                                 }
                                 log2_text = string.Concat(log2_text, strValues1);
@@ -2108,10 +2116,10 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (targetTemperature != currentTemperature)
+                                    if (previousTemperature != currentTemperature)
                                     {
                                         //temperatureDouble.Enqueue(strValues1);
-                                        targetTemperature = currentTemperature;
+                                        previousTemperature = currentTemperature;
                                     }
                                 }
                                 log3_text = string.Concat(log3_text, strValues1);
@@ -2195,10 +2203,10 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (targetTemperature != currentTemperature)
+                                    if (previousTemperature != currentTemperature)
                                     {
                                         //temperatureDouble.Enqueue(strValues1);
-                                        targetTemperature = currentTemperature;
+                                        previousTemperature = currentTemperature;
                                     }
                                 }
                                 log4_text = string.Concat(log4_text, strValues1);
@@ -2282,10 +2290,10 @@ namespace Woodpecker
                                     string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
                                     double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (targetTemperature != currentTemperature)
+                                    if (previousTemperature != currentTemperature)
                                     {
                                         //temperatureDouble.Enqueue(strValues1);
-                                        targetTemperature = currentTemperature;
+                                        previousTemperature = currentTemperature;
                                     }
                                 }
                                 log5_text = string.Concat(log5_text, strValues1);
@@ -2426,7 +2434,7 @@ namespace Woodpecker
         string logAdd = string.Empty;
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
-        double targetTemperature = 0;
+        double previousTemperature = -300;
 /*
         private void ifLogReceived()
         {
