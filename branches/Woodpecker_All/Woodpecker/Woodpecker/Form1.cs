@@ -1758,6 +1758,13 @@ namespace Woodpecker
                                     string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
                                     double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+
+                                    // is value negative?
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] != '1')
+                                    {
+                                        currentTemperature = -currentTemperature;
+                                    }
+
                                     if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
                                     {
                                         //F value
@@ -5739,7 +5746,7 @@ namespace Woodpecker
                                                 ChamberIsFound = true;
                                                 Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
                                                 Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
-                                                if (columns_serial.Contains("-"))
+                                                if (columns_serial.Contains("/-"))
                                                 {
                                                     Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
                                                 }
@@ -5764,14 +5771,12 @@ namespace Woodpecker
                                             else if (columns_serial.Contains("Temperature"))
                                             {
                                                 TemperatureIsFound = true;
-
+                                                string initialTemperature = columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1);
+                                                Temperature_Data.initialTemperature = Int16.Parse(initialTemperature);
                                                 Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
                                                 Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
                                                 Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(columns_serial.Substring(columns_serial.IndexOf("Temperature") + 11, columns_serial.IndexOf("=") - columns_serial.IndexOf("Temperature") - 11)) + 48);
-                                                if (columns_serial.Contains("-"))
-                                                    Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("-") - 1));
-                                                else
-                                                    Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("+") - 1));
+                                                Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("/") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("/") - 1));
 
                                                 float addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
