@@ -1760,15 +1760,15 @@ namespace Woodpecker
                                     double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
 
                                     // is value negative?
-                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] != '1')
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
                                     {
                                         currentTemperature = -currentTemperature;
                                     }
 
+                                    // is value Fahrenheit?
                                     if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
-                                    {
-                                        //F value
-                                        currentTemperature = ((currentTemperature - 32) / 1.8);
+                                    { 
+                                        currentTemperature = (Math.Round((currentTemperature - 32) / 1.8));
                                     }
 
                                     if (previousTemperature != currentTemperature)
@@ -5771,19 +5771,29 @@ namespace Woodpecker
                                             else if (columns_serial.Contains("Temperature"))
                                             {
                                                 TemperatureIsFound = true;
-                                                string initialTemperature = columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1);
+
+                                                int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                int symbel_equal_2f = columns_serial.IndexOf("/");
+                                                int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+                                                string initialTemperature = columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1);
+                                                string finalTemperature = columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1);
+                                                string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+                                                string addTemperature = columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1);
                                                 Temperature_Data.initialTemperature = Int16.Parse(initialTemperature);
-                                                Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
-                                                Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
-                                                Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(columns_serial.Substring(columns_serial.IndexOf("Temperature") + 11, columns_serial.IndexOf("=") - columns_serial.IndexOf("Temperature") - 11)) + 48);
-                                                Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("/") + 1, columns_serial.IndexOf("(") - columns_serial.IndexOf("/") - 1));
+                                                Temperature_Data.finalTemperature = Int16.Parse(finalTemperature);
+                                                Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
+                                                Temperature_Data.addTemperature = float.Parse(addTemperature);
 
                                                 float addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
                                                 if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf("m)") - columns_serial.IndexOf("(") - 1)) * 60000;
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
                                                 else
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("(") + 1, columns_serial.IndexOf(")") - columns_serial.IndexOf("(") - 1));
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_28 - symbel_equal_28 - 1));
 
                                                 if (duringTimeInt > 0)
                                                 {
