@@ -1832,6 +1832,35 @@ namespace Woodpecker
         //    }
         //}
 
+        const int byteChamber_max = 64;
+        byte[] byteChamber = new byte[byteChamber_max];
+        int byteChamber_length = 0;
+
+        private void logA_chamber(byte ch)
+        {
+            const int header_data1_offset = -9;
+            const int header_data2_offset = -8;
+            const int header_data3_offset = -7;
+            const int chamber_data6_offset = -6;
+            const int chamber_data5_offset = -5;
+            const int chamber_data4_offset = -4;
+            const int chamber_data3_offset = -3;
+            const int chamber_data2_offset = -2;
+            const int chamber_data1_offset = -1;
+
+            byteChamber[byteChamber_length] = ch;
+            byteChamber_length++;
+
+            if (((byteChamber_length + header_data1_offset) >= 0) &&
+                 (byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
+                 (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
+                 (byteChamber[byteChamber_length + header_data2_offset] == 0x04))
+                {
+
+                }
+            byteChamber_length = 0;
+        }
+
         /*
         //Jeremy code
         private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
