@@ -1721,7 +1721,7 @@ namespace Woodpecker
             const int temp_data3_offset = -4;
             const int temp_data2_offset = -3;
             const int temp_data1_offset = -2;
-            const double temp_abs_value = 0.1; 
+            const double temp_abs_value = 0.1;
 
             byteTemperature[byteTemperature_length] = ch;
             byteTemperature_length++;
@@ -1757,7 +1757,7 @@ namespace Woodpecker
 
                                     string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
                                     double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
-                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+                                    double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit;
 
                                     // is value negative?
                                     if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
@@ -1768,10 +1768,11 @@ namespace Woodpecker
                                     // is value Fahrenheit?
                                     if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
                                     { 
-                                        currentTemperature = (Math.Round((currentTemperature - 32) / 1.8));
+                                        currentTemperature = (currentTemperature - 32.0) / 1.8;
                                     }
 
-                                    if (previousTemperature != currentTemperature)
+                                    // check whether 2 temperatures are close enough
+                                    if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
                                     {
                                         Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                                         temperatureDouble.Enqueue(currentTemperature);
@@ -5808,12 +5809,12 @@ namespace Woodpecker
                                                 int symbel_equal_29 = columns_serial.IndexOf(")");
                                                 int symbel_equal_6d29 = columns_serial.IndexOf("m)");
                                                 int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                string initialTemperature = columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1);
-                                                string finalTemperature = columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1);
+                                                string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
                                                 string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
-                                                string addTemperature = columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1);
-                                                Temperature_Data.initialTemperature = Int16.Parse(initialTemperature);
-                                                Temperature_Data.finalTemperature = Int16.Parse(finalTemperature);
+                                                string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                Temperature_Data.initialTemperature = int.Parse(initialTemperature);
+                                                Temperature_Data.finalTemperature = int.Parse(finalTemperature);
                                                 Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
                                                 Temperature_Data.addTemperature = float.Parse(addTemperature);
 
@@ -12045,12 +12046,12 @@ namespace Woodpecker
             get; set;
         }
 
-        public static int initialTemperature
+        public static float initialTemperature
         {
             get; set;
         }
 
-        public static int finalTemperature
+        public static float finalTemperature
         {
             get; set;
         }
