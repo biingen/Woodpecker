@@ -1757,7 +1757,7 @@ namespace Woodpecker
 
                                     string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
                                     double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
-                                    double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit;
+                                    double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
 
                                     // is value negative?
                                     if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
@@ -1768,7 +1768,8 @@ namespace Woodpecker
                                     // is value Fahrenheit?
                                     if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
                                     { 
-                                        currentTemperature = (currentTemperature - 32.0) / 1.8;
+                                        currentTemperature = (currentTemperature - 32) / 1.8;
+                                        currentTemperature = Math.Round((currentTemperature),2,MidpointRounding.AwayFromZero);
                                     }
 
                                     // check whether 2 temperatures are close enough
@@ -1842,20 +1843,18 @@ namespace Woodpecker
             const int header_data1_offset = -9;
             const int header_data2_offset = -8;
             const int header_data3_offset = -7;
-            const int chamber_data6_offset = -6;
-            const int chamber_data5_offset = -5;
-            const int chamber_data4_offset = -4;
-            const int chamber_data3_offset = -3;
-            const int chamber_data2_offset = -2;
-            const int chamber_data1_offset = -1;
+            const int chamber_data1_offset = -6;
+            const int chamber_data2_offset = -5;
+            const int chamber_data3_offset = -4;
+            const int chamber_data4_offset = -3;
+            const int crc16_highbit_offset = -2;
+            const int crc16_lowbit_offset = -1;
 
             byteChamber[byteChamber_length] = ch;
             byteChamber_length++;
 
-            if (((byteChamber_length + header_data1_offset) >= 0) &&
-                 (byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
-                 (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
-                 (byteChamber[byteChamber_length + header_data2_offset] == 0x04))
+            if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
+                (byteChamber[byteChamber_length + header_data2_offset] == 0x03))
                 {
 
                 }
