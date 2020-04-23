@@ -1632,6 +1632,11 @@ namespace Woodpecker
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
                 }
+                else
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                }
             }
             else
             {
@@ -1706,6 +1711,7 @@ namespace Woodpecker
 
         private void logA_temperature(byte ch)
         {
+            const int packet_len = 16;
             const int header_offset_1 = -16;
             const int header_offset_2 = -15;
             const int temp_ch_offset = -14;
@@ -1722,6 +1728,17 @@ namespace Woodpecker
             const int temp_data2_offset = -3;
             const int temp_data1_offset = -2;
             const double temp_abs_value = 0.1;
+
+            // If data_buffer is too long, cut off data not needed
+            if(byteTemperature_length>= byteTemperature_max)
+            {
+                int destinationIndex = 0;
+                for (int i = (byteTemperature_max-packet_len); i < byteTemperature_max; i++)
+                {
+                    byteTemperature[destinationIndex++] = byteTemperature[i];
+                }
+                byteTemperature_length = destinationIndex;
+            }
 
             byteTemperature[byteTemperature_length] = ch;
             byteTemperature_length++;
@@ -1842,7 +1859,7 @@ namespace Woodpecker
         {
             const int header_data1_offset = -9;
             const int header_data2_offset = -8;
-            const int header_data3_offset = -7;
+            const int length_data_offset = -7;
             const int chamber_data1_offset = -6;
             const int chamber_data2_offset = -5;
             const int chamber_data3_offset = -4;
