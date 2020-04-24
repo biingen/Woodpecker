@@ -1150,6 +1150,38 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
+
+                if (temperatureDouble.Count() > 0)
+                {
+                    currentTemperature = temperatureDouble.Dequeue();
+                //    Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
+                //    foreach (Temperature_Data item in temperatureList)
+                //    {
+                //        if (item.temperatureList == currentTemperature &&
+                //            item.temperatureShot == true)
+                //        {
+                            Global.caption_Num++;
+                            if (Global.Loop_Number == 1)
+                                Global.caption_Sum = Global.caption_Num;
+                            label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
+                            Jes();
+                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
+                //        }
+                //        else if (item.temperatureList == currentTemperature &&
+                //                 item.temperaturePause == true)
+                //        {
+                //            label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
+                //            button_Pause.PerformClick();
+                //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                //        }
+                //        else
+                //        {
+                //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+                //        }
+                //    }
+                }
+
+
                 //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
@@ -1792,12 +1824,30 @@ namespace Woodpecker
                                     // check whether 2 temperatures are close enough
                                     if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
                                     {
-                                        Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
-                                        temperatureDouble.Enqueue(currentTemperature);
-                                        Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
                                         previousTemperature = currentTemperature;
+                                        foreach (Temperature_Data item in temperatureList)
+                                        {
+                                            if (item.temperatureList == currentTemperature &&
+                                                item.temperatureShot == true)
+                                            {
+                                                Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                                                temperatureDouble.Enqueue(currentTemperature);
+                                                Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                                            }
+                                            else if (item.temperatureList == currentTemperature &&
+                                                     item.temperaturePause == true)
+                                            {
+                                                label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
+                                                button_Pause.PerformClick();
+                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+                                            }
+                                        }
                                     }
-                                }
+                                    }
                             }
                         }
                     }
@@ -11623,35 +11673,35 @@ namespace Woodpecker
 
         private void timer_ifLogReceived_Tick(object sender, EventArgs e)
         {
-            if (temperatureDouble.Count() > 0)
-            {
-                currentTemperature = temperatureDouble.Dequeue();
-                Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
-                foreach (Temperature_Data item in temperatureList)
-                {
-                    if (item.temperatureList == currentTemperature &&
-                        item.temperatureShot == true)
-                    {
-                        Global.caption_Num++;
-                        if (Global.Loop_Number == 1)
-                            Global.caption_Sum = Global.caption_Num;
-                        label_Command.Text = "Condition: " + item.temperatureList + ", SHOT: " + currentTemperature;
-                        Jes();
-                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                    }
-                    else if (item.temperatureList == currentTemperature &&
-                             item.temperaturePause == true)
-                    {
-                        label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
-                        button_Pause.PerformClick();
-                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                    }
-                }
-            }
+            //if (temperatureDouble.Count() > 0)
+            //{
+            //    currentTemperature = temperatureDouble.Dequeue();
+            //    Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
+            //    foreach (Temperature_Data item in temperatureList)
+            //    {
+            //        if (item.temperatureList == currentTemperature &&
+            //            item.temperatureShot == true)
+            //        {
+            //            Global.caption_Num++;
+            //            if (Global.Loop_Number == 1)
+            //                Global.caption_Sum = Global.caption_Num;
+            //            label_Command.Text = "Condition: " + item.temperatureList + ", SHOT: " + currentTemperature;
+            //            Jes();
+            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
+            //        }
+            //        else if (item.temperatureList == currentTemperature &&
+            //                 item.temperaturePause == true)
+            //        {
+            //            label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
+            //            button_Pause.PerformClick();
+            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+            //        }
+            //    }
+            //}
         }
 
         string chamberCommandLog = string.Empty;
