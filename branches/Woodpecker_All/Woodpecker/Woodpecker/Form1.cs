@@ -1139,7 +1139,7 @@ namespace Woodpecker
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay: Start.");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "RedRatDBViewer_Delay_S," + "\r\n");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             //aTimer.Interval = delay_ms;
@@ -1154,34 +1154,15 @@ namespace Woodpecker
                 if (temperatureDouble.Count() > 0)
                 {
                     currentTemperature = temperatureDouble.Dequeue();
-                //    Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
-                //    foreach (Temperature_Data item in temperatureList)
-                //    {
-                //        if (item.temperatureList == currentTemperature &&
-                //            item.temperatureShot == true)
-                //        {
-                            Global.caption_Num++;
-                            if (Global.Loop_Number == 1)
-                                Global.caption_Sum = Global.caption_Num;
-                            label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
-                            Jes();
-                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                //        }
-                //        else if (item.temperatureList == currentTemperature &&
-                //                 item.temperaturePause == true)
-                //        {
-                //            label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
-                //            button_Pause.PerformClick();
-                //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                //        }
-                //        else
-                //        {
-                //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                //        }
-                //    }
+                    Global.caption_Num++;
+                    if (Global.Loop_Number == 1)
+                        Global.caption_Sum = Global.caption_Num;
+                    label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
+                    Jes();
+                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
                 }
 
-                if(time_match)
+                if (time_match)
                 {
                     time_match = false;
                     Global.caption_Num++;
@@ -1189,26 +1170,25 @@ namespace Woodpecker
                         Global.caption_Sum = Global.caption_Num;
                     label_Command.Text = "Timer: matched.";
                     Jes();
-
                     Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
                 }
 
 
-                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false.");
+                debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "RedRatDBViewer_Delay_TimeOutIndicator_false," + "\r\n");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
                 if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
                     Global.Break_Out_MyRunCamd = 0;
-                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Break_Out_MyRunCamd_0," + "\r\n");
                     break;
                 }
             }
 
             aTimer.Stop();
             aTimer.Dispose();
-            //Console.WriteLine("RedRatDBViewer_Delay: End.");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "RedRatDBViewer_Delay_E," + "\r\n");
         }
 
 
@@ -2548,158 +2528,11 @@ namespace Woodpecker
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
         double previousTemperature = -300;
-        /*
-                private void ifLogReceived()
-                {
-                    while (StartButtonFlag)
-                    {
-                        while (TemperatureIsFound)
-                        {
-                            if (temperatureDouble.Count() > 0)
-                            {
-                                tempStr = temperatureDouble.Dequeue();
-                                string tempSubstring = tempStr.Substring(tempStr.IndexOf('\u0002') + 11, 4);
-                                double digit = Math.Pow(10, Convert.ToInt32(tempStr.Substring(tempStr.IndexOf('\u0002') + 6, 1)));
-                                double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                foreach (Temperature_Data item in temperatureList)
-                                {
-                                    if (item.temperatureList == currentTemperature && 
-                                        item.temperatureShot == true)
-                                    {
-                                        beforeTemperature = currentTemperature;
-                                        Thread.Sleep(10);
-                                        Global.caption_Num++;
-                                        if (Global.Loop_Number == 1)
-                                            Global.caption_Sum = Global.caption_Num;
-                                        label_Command.Text = "Condition: " + beforeTemperature + ", SHOT: " + currentTemperature;
-                                        Jes();
-                                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                                    }
-                                    else if (item.temperatureList == currentTemperature && 
-                                             item.temperaturePause == true)
-                                    {
-                                        beforeTemperature = currentTemperature;
-                                        label_Command.Text = "Condition: " + beforeTemperature + ", PAUSE: " + currentTemperature;
-                                        button_Pause.PerformClick();
-                                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                                    }
-                                }
-                            }
-                        }
-                        while (SearchLogQueue1.Count > 0) // SearchLogQueue1.Count經常為0，故先註解
-                        {
-                            Keyword_SerialPort_1_temp_byte = SearchLogQueue1.Dequeue();
-                            Keyword_SerialPort_1_temp_char = (char)Keyword_SerialPort_1_temp_byte; //For Ascii
-
-                            string logReceivedHex = BitConverter.ToString(dataset).Replace("-", ""); //For Hex
-                            if (ChamberIsFound && chamberTimer_IsTick)
-                            {
-                                if (logReceivedHex.Length >= 18 && logReceivedHex.Substring(0, 6) == "010304")
-                                {
-                                    //logReceivedHex.Substring(0, 18);
-                                    double currentTemperature = Math.Floor(Convert.ToDouble(Convert.ToInt32(logReceivedHex.Substring(6, 4), 16)) / 100);
-                                    int addTemperatureInt = Int16.Parse(addTemperature);
-
-                                    List<double> temperatureList = new List<double> { };
-                                    if (addTemperatureInt < 0)
-                                    {
-                                        for (int i = Convert.ToInt16(currentTemperature); i >= Int16.Parse(finalTemperature); i += addTemperatureInt)
-                                        {
-                                            temperatureList.Add(i);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        for (int i = Convert.ToInt16(currentTemperature); i <= Int16.Parse(finalTemperature); i += addTemperatureInt)
-                                        {
-                                            temperatureList.Add(i);
-                                        }
-                                    }
-
-                                    if (temperatureList.Contains(currentTemperature))
-                                    {
-                                        ChamberCheck = true;
-                                        if (ShotFlag)
-                                        {
-                                            Thread.Sleep(10);
-                                        Global.caption_Num++;
-                                        if (Global.Loop_Number == 1)
-                                            Global.caption_Sum = Global.caption_Num;
-                                        Jes();
-                                        label_Command.Text = "SHOT";
-                                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                                        }
-                                        else if (PauseFlag)
-                                        {
-                                            button_Pause.PerformClick();
-                                            label_Command.Text = "PAUSE";
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ChamberCheck = false;
-                                        Console.WriteLine("~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-                                    }
-                                    logReceivedHex = "";
-                                }
-                            }
-
-
-                            #region \n
-                            if ((Keyword_SerialPort_1_temp_char == '\n'))
-                            {
-                                if (PowerSupplyIsFound)
-                                {
-                                    Double currentVoltage = Double.Parse(logReceivedHex.Substring(0, logReceivedHex.IndexOf(',')));
-                                    Double expectedVoltageInt = Double.Parse(expectedVoltage);
-                                    condition = (currentVoltage <= expectedVoltageInt && currentVoltage >= expectedVoltageInt - 0.0050);
-                                    if (condition)
-                                    {
-                                        PowerSupplyCheck = true;
-                                        Console.WriteLine("~~~~~~~~~Voltage matched the expected value.~~~~~~~~~");
-                                    }
-                                    else
-                                    {
-                                        PowerSupplyCheck = false;
-                                        Console.WriteLine("~~~~~~~~~Voltage didn't match the expected value.~~~~~~~~~");
-                                    }
-                                    logReceived = "";
-                                }
-
-
-                            }
-                            #endregion
-
-                            #region \r
-                            else if ((Keyword_SerialPort_1_temp_char == '\r'))
-                            {
-                                \\Same as \n
-                            }
-                            #endregion
-
-                            else
-                            {
-                                logReceived = logReceived + Keyword_SerialPort_1_temp_char;
-                            }
-                        }
-                    }
-                }
-        */
         bool time_match = false;
+
         private void timer_duringShot_Tick(object sender, EventArgs e)
         {
             time_match = true;
-            //Global.caption_Num++;
-            //if (Global.Loop_Number == 1)
-            //    Global.caption_Sum = Global.caption_Num;
-            //label_Command.Text = "Timer: matched.";
-            //Jes();
-
-            //Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
         }
 
         #region -- 關鍵字比對 - serialport_1 --
@@ -5450,7 +5283,7 @@ namespace Woodpecker
                         #region -- 拍照 --
                         else if (columns_command == "_shot")
                         {
-                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Take Picture: _shot_start," + "\r\n");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("HH:mm:ss,") + "_shot," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 Global.caption_Num++;
@@ -5892,6 +5725,9 @@ namespace Woodpecker
                                                 string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
                                                 string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
                                                 string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                string duringTime_minsecond = columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1);
+                                                string duringTime_millisecond = columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1);
+
                                                 Temperature_Data.initialTemperature = int.Parse(initialTemperature);
                                                 Temperature_Data.finalTemperature = int.Parse(finalTemperature);
                                                 Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
@@ -5900,9 +5736,9 @@ namespace Woodpecker
                                                 float addTemperatureInt = Temperature_Data.addTemperature;
                                                 int duringTimeInt = Temperature_Data.temperatureDuringtime;
                                                 if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                    duringTimeInt = Int16.Parse(duringTime_minsecond) * 60000;
                                                 else
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_28 - symbel_equal_28 - 1));
+                                                    duringTimeInt = Int16.Parse(duringTime_millisecond);
 
                                                 if (duringTimeInt > 0)
                                                 {
@@ -8968,24 +8804,24 @@ namespace Woodpecker
 
         private void Myshot()
         {
-            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Start the Myshot function," + "\r\n");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Start Myshot," + "\r\n");
             button_Start.Enabled = false;
             setStyle();
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
-            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Stop the Myshot function," + "\r\n");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Stop Myshot," + "\r\n");
         }
 
         // 複製原始圖片
         protected Bitmap CloneBitmap(Bitmap source)
         {
-            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "CloneBitmap function," + "\r\n");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "CloneBitmap," + "\r\n");
             return new Bitmap(source);
         }
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
-            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Start the CaptureDone function," + "\r\n");
+            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "CaptureDone," + "\r\n");
             capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
