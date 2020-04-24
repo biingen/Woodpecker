@@ -1833,6 +1833,7 @@ namespace Woodpecker
                                                 Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                                                 temperatureDouble.Enqueue(currentTemperature);
                                                 Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                                                break;
                                             }
                                             else if (item.temperatureList == currentTemperature &&
                                                      item.temperaturePause == true)
@@ -1840,14 +1841,11 @@ namespace Woodpecker
                                                 label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
                                                 button_Pause.PerformClick();
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
+                                                break;
                                             }
                                         }
                                     }
-                                    }
+                                }
                             }
                         }
                     }
@@ -5916,7 +5914,6 @@ namespace Woodpecker
                                                         temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
-                                                timer_ifLogReceived.Start();
                                             }
                                         }
                                     }
@@ -5932,7 +5929,6 @@ namespace Woodpecker
                                         timer_Chamber.Enabled = false;
 
                                         chamberTimer_IsTick = false;
-                                        timer_ifLogReceived.Stop();
                                         timer_duringShot.Stop();
 
                                         foreach (Temperature_Data item in temperatureList)
@@ -9530,7 +9526,6 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
                     LogAThread.Abort();
-                    timer_ifLogReceived.Stop();
                     timer_duringShot.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
@@ -9687,7 +9682,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
-                    timer_ifLogReceived.Stop();
                     timer_duringShot.Stop();
                     LogAThread.Abort();
                     timer1.Stop();  //停止倒數
@@ -11669,39 +11663,6 @@ namespace Woodpecker
                 stream.Close();
                 Console.WriteLine("Finish writing data.....");
             }
-        }
-
-        private void timer_ifLogReceived_Tick(object sender, EventArgs e)
-        {
-            //if (temperatureDouble.Count() > 0)
-            //{
-            //    currentTemperature = temperatureDouble.Dequeue();
-            //    Console.WriteLine("~~~ Dequeue temperature ~~~ " + currentTemperature);
-            //    foreach (Temperature_Data item in temperatureList)
-            //    {
-            //        if (item.temperatureList == currentTemperature &&
-            //            item.temperatureShot == true)
-            //        {
-            //            Global.caption_Num++;
-            //            if (Global.Loop_Number == 1)
-            //                Global.caption_Sum = Global.caption_Num;
-            //            label_Command.Text = "Condition: " + item.temperatureList + ", SHOT: " + currentTemperature;
-            //            Jes();
-            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-            //        }
-            //        else if (item.temperatureList == currentTemperature &&
-            //                 item.temperaturePause == true)
-            //        {
-            //            label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
-            //            button_Pause.PerformClick();
-            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-            //        }
-            //        else
-            //        {
-            //            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature didn't match. Do nothing.~~~~~~~~~");
-            //        }
-            //    }
-            //}
         }
 
         string chamberCommandLog = string.Empty;
