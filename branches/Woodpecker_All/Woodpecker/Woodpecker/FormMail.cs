@@ -404,7 +404,7 @@ namespace Woodpecker
             System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
 
             //設定你的帳號密碼
-            MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "auoasc2019");
+            MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "Auoasc2019");
 
             //Gmial 的 smtp 使用 SSL
             MySmtp.EnableSsl = true;

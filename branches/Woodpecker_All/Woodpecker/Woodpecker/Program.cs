@@ -39,7 +39,7 @@ namespace Woodpecker
             };
             th.Start();
             th.Join();
-            
+
             if (SplashForm != null)
             {
                 SplashForm.Invoke(new MethodInvoker(delegate { SplashForm.Close(); }));
@@ -51,6 +51,11 @@ namespace Woodpecker
             }
             else
             {
+                //印出程式的名稱
+                Console.WriteLine(AppDomain.CurrentDomain.FriendlyName);
+                //印出傳入的參數
+                Console.WriteLine(args[0].ToString());
+
                 Application.Run(new Form1(args[0].ToString()));
             }
         }

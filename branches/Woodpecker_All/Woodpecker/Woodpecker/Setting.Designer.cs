@@ -32,8 +32,10 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
+            this.comboBox_CAN_Choice = new System.Windows.Forms.ComboBox();
+            this.label_CAN_choice = new System.Windows.Forms.Label();
             this.label_CAN_deviceid = new System.Windows.Forms.Label();
-            this.comboBox_CAN_BaudRate_Value = new System.Windows.Forms.ComboBox();
+            this.comboBox_CAN_BaudRate = new System.Windows.Forms.ComboBox();
             this.label_CAN_BaudRate = new System.Windows.Forms.Label();
             this.comboBox_CAN_DevIndex = new System.Windows.Forms.ComboBox();
             this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
@@ -90,11 +92,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.textBox_DosPath = new System.Windows.Forms.TextBox();
             this.folderBrowserDialog3 = new System.Windows.Forms.FolderBrowserDialog();
-            this.pictureBox_DosPath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_GeneratorPath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_RcDbPath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_LogPath = new System.Windows.Forms.PictureBox();
-            this.pictureBox_ImagePath = new System.Windows.Forms.PictureBox();
             this.button_Save = new System.Windows.Forms.Button();
             this.button_ImagePath = new System.Windows.Forms.Button();
             this.button_LogPath = new System.Windows.Forms.Button();
@@ -102,6 +99,11 @@
             this.button_GeneratorPath = new System.Windows.Forms.Button();
             this.button_DosPath = new System.Windows.Forms.Button();
             this.textBox_ImagePath = new System.Windows.Forms.TextBox();
+            this.pictureBox_DosPath = new System.Windows.Forms.PictureBox();
+            this.pictureBox_GeneratorPath = new System.Windows.Forms.PictureBox();
+            this.pictureBox_RcDbPath = new System.Windows.Forms.PictureBox();
+            this.pictureBox_LogPath = new System.Windows.Forms.PictureBox();
+            this.pictureBox_ImagePath = new System.Windows.Forms.PictureBox();
             this.GroupBox_Rs232.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
@@ -121,8 +123,10 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_Choice);
+            this.GroupBox_Rs232.Controls.Add(this.label_CAN_choice);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_deviceid);
-            this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_BaudRate_Value);
+            this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_BaudRate);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_BaudRate);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_DevIndex);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
@@ -171,25 +175,53 @@
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
             // 
+            // comboBox_CAN_Choice
+            // 
+            this.comboBox_CAN_Choice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CAN_Choice.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CAN_Choice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CAN_Choice.FormattingEnabled = true;
+            this.comboBox_CAN_Choice.Items.AddRange(new object[] {
+            "Vector",
+            "UsbCAN"});
+            this.comboBox_CAN_Choice.Location = new System.Drawing.Point(342, 108);
+            this.comboBox_CAN_Choice.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.comboBox_CAN_Choice.Name = "comboBox_CAN_Choice";
+            this.comboBox_CAN_Choice.Size = new System.Drawing.Size(109, 26);
+            this.comboBox_CAN_Choice.TabIndex = 156;
+            this.comboBox_CAN_Choice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_Choice_SelectedIndexChanged);
+            // 
+            // label_CAN_choice
+            // 
+            this.label_CAN_choice.AutoSize = true;
+            this.label_CAN_choice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.label_CAN_choice.ForeColor = System.Drawing.Color.White;
+            this.label_CAN_choice.Location = new System.Drawing.Point(261, 110);
+            this.label_CAN_choice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_CAN_choice.Name = "label_CAN_choice";
+            this.label_CAN_choice.Size = new System.Drawing.Size(55, 18);
+            this.label_CAN_choice.TabIndex = 155;
+            this.label_CAN_choice.Text = "Choice";
+            // 
             // label_CAN_deviceid
             // 
             this.label_CAN_deviceid.AutoSize = true;
             this.label_CAN_deviceid.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CAN_deviceid.ForeColor = System.Drawing.Color.White;
-            this.label_CAN_deviceid.Location = new System.Drawing.Point(261, 108);
+            this.label_CAN_deviceid.Location = new System.Drawing.Point(261, 141);
             this.label_CAN_deviceid.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_CAN_deviceid.Name = "label_CAN_deviceid";
             this.label_CAN_deviceid.Size = new System.Drawing.Size(71, 18);
             this.label_CAN_deviceid.TabIndex = 154;
             this.label_CAN_deviceid.Text = "Device ID";
             // 
-            // comboBox_CAN_BaudRate_Value
+            // comboBox_CAN_BaudRate
             // 
-            this.comboBox_CAN_BaudRate_Value.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_CAN_BaudRate_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox_CAN_BaudRate_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox_CAN_BaudRate_Value.FormattingEnabled = true;
-            this.comboBox_CAN_BaudRate_Value.Items.AddRange(new object[] {
+            this.comboBox_CAN_BaudRate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CAN_BaudRate.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CAN_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CAN_BaudRate.FormattingEnabled = true;
+            this.comboBox_CAN_BaudRate.Items.AddRange(new object[] {
             "10 Kbps",
             "20 Kbps",
             "40 Kbps",
@@ -207,19 +239,19 @@
             "33.33 Kbps",
             "66.66 Kbps",
             "83.33 Kbps"});
-            this.comboBox_CAN_BaudRate_Value.Location = new System.Drawing.Point(341, 136);
-            this.comboBox_CAN_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.comboBox_CAN_BaudRate_Value.Name = "comboBox_CAN_BaudRate_Value";
-            this.comboBox_CAN_BaudRate_Value.Size = new System.Drawing.Size(109, 26);
-            this.comboBox_CAN_BaudRate_Value.TabIndex = 153;
-            this.comboBox_CAN_BaudRate_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_BaudRate_Value_SelectedIndexChanged);
+            this.comboBox_CAN_BaudRate.Location = new System.Drawing.Point(342, 169);
+            this.comboBox_CAN_BaudRate.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.comboBox_CAN_BaudRate.Name = "comboBox_CAN_BaudRate";
+            this.comboBox_CAN_BaudRate.Size = new System.Drawing.Size(109, 26);
+            this.comboBox_CAN_BaudRate.TabIndex = 153;
+            this.comboBox_CAN_BaudRate.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_BaudRate_SelectedIndexChanged);
             // 
             // label_CAN_BaudRate
             // 
             this.label_CAN_BaudRate.AutoSize = true;
             this.label_CAN_BaudRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CAN_BaudRate.ForeColor = System.Drawing.Color.White;
-            this.label_CAN_BaudRate.Location = new System.Drawing.Point(260, 140);
+            this.label_CAN_BaudRate.Location = new System.Drawing.Point(261, 173);
             this.label_CAN_BaudRate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_CAN_BaudRate.Name = "label_CAN_BaudRate";
             this.label_CAN_BaudRate.Size = new System.Drawing.Size(77, 18);
@@ -232,18 +264,18 @@
             this.comboBox_CAN_DevIndex.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CAN_DevIndex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CAN_DevIndex.FormattingEnabled = true;
-            this.comboBox_CAN_DevIndex.Location = new System.Drawing.Point(341, 105);
+            this.comboBox_CAN_DevIndex.Location = new System.Drawing.Point(342, 138);
             this.comboBox_CAN_DevIndex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_CAN_DevIndex.Name = "comboBox_CAN_DevIndex";
             this.comboBox_CAN_DevIndex.Size = new System.Drawing.Size(109, 26);
             this.comboBox_CAN_DevIndex.TabIndex = 151;
-            this.comboBox_CAN_DevIndex.SelectedIndexChanged += new System.EventHandler(this.comboBox_CANDevIndex_SelectedIndexChanged);
+            this.comboBox_CAN_DevIndex.SelectedIndexChanged += new System.EventHandler(this.comboBox_CAN_DevIndex_SelectedIndexChanged);
             // 
             // pictureBox_klinePort
             // 
             this.pictureBox_klinePort.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_klinePort.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_klinePort.Location = new System.Drawing.Point(430, 176);
+            this.pictureBox_klinePort.Location = new System.Drawing.Point(430, 246);
             this.pictureBox_klinePort.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_klinePort.Name = "pictureBox_klinePort";
             this.pictureBox_klinePort.Size = new System.Drawing.Size(29, 29);
@@ -311,7 +343,7 @@
             this.comboBox_KlinePort_PortName_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_KlinePort_PortName_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_KlinePort_PortName_Value.FormattingEnabled = true;
-            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(342, 176);
+            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(342, 246);
             this.comboBox_KlinePort_PortName_Value.Margin = new System.Windows.Forms.Padding(2, 2, 50, 2);
             this.comboBox_KlinePort_PortName_Value.Name = "comboBox_KlinePort_PortName_Value";
             this.comboBox_KlinePort_PortName_Value.Size = new System.Drawing.Size(80, 26);
@@ -323,7 +355,7 @@
             this.checkBox_Kline.AutoSize = true;
             this.checkBox_Kline.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Kline.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Kline.Location = new System.Drawing.Point(242, 178);
+            this.checkBox_Kline.Location = new System.Drawing.Point(242, 248);
             this.checkBox_Kline.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Kline.Name = "checkBox_Kline";
             this.checkBox_Kline.Size = new System.Drawing.Size(94, 22);
@@ -336,7 +368,7 @@
             // 
             this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(242, 209);
+            this.checkBox_Displayhex.Location = new System.Drawing.Point(242, 279);
             this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox_Displayhex.Name = "checkBox_Displayhex";
             this.checkBox_Displayhex.Size = new System.Drawing.Size(62, 22);
@@ -793,11 +825,11 @@
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraAudio);
             this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
-            this.groupBox_Camera.Location = new System.Drawing.Point(38, 227);
-            this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.groupBox_Camera.Location = new System.Drawing.Point(38, 222);
+            this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_Camera.Name = "groupBox_Camera";
-            this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox_Camera.Size = new System.Drawing.Size(275, 155);
+            this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox_Camera.Size = new System.Drawing.Size(275, 157);
             this.groupBox_Camera.TabIndex = 56;
             this.groupBox_Camera.TabStop = false;
             this.groupBox_Camera.Text = "CAMERA";
@@ -844,10 +876,10 @@
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(81, 35);
-            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(65, 28);
+            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
-            this.comboBox_CameraDevice.Size = new System.Drawing.Size(186, 26);
+            this.comboBox_CameraDevice.Size = new System.Drawing.Size(198, 26);
             this.comboBox_CameraDevice.TabIndex = 43;
             this.comboBox_CameraDevice.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
@@ -870,10 +902,10 @@
             this.comboBox_CameraAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraAudio.FormattingEnabled = true;
-            this.comboBox_CameraAudio.Location = new System.Drawing.Point(81, 76);
-            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.comboBox_CameraAudio.Location = new System.Drawing.Point(65, 68);
+            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
-            this.comboBox_CameraAudio.Size = new System.Drawing.Size(186, 26);
+            this.comboBox_CameraAudio.Size = new System.Drawing.Size(198, 26);
             this.comboBox_CameraAudio.TabIndex = 50;
             this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
@@ -1152,6 +1184,66 @@
             this.textBox_ImagePath.TabIndex = 28;
             this.textBox_ImagePath.TextChanged += new System.EventHandler(this.textBox_ImagePath_TextChanged);
             // 
+            // pictureBox_DosPath
+            // 
+            this.pictureBox_DosPath.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_DosPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_DosPath.Location = new System.Drawing.Point(614, 180);
+            this.pictureBox_DosPath.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_DosPath.Name = "pictureBox_DosPath";
+            this.pictureBox_DosPath.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_DosPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_DosPath.TabIndex = 94;
+            this.pictureBox_DosPath.TabStop = false;
+            // 
+            // pictureBox_GeneratorPath
+            // 
+            this.pictureBox_GeneratorPath.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_GeneratorPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(615, 142);
+            this.pictureBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_GeneratorPath.Name = "pictureBox_GeneratorPath";
+            this.pictureBox_GeneratorPath.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_GeneratorPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_GeneratorPath.TabIndex = 93;
+            this.pictureBox_GeneratorPath.TabStop = false;
+            // 
+            // pictureBox_RcDbPath
+            // 
+            this.pictureBox_RcDbPath.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_RcDbPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(615, 102);
+            this.pictureBox_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_RcDbPath.Name = "pictureBox_RcDbPath";
+            this.pictureBox_RcDbPath.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_RcDbPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_RcDbPath.TabIndex = 92;
+            this.pictureBox_RcDbPath.TabStop = false;
+            // 
+            // pictureBox_LogPath
+            // 
+            this.pictureBox_LogPath.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_LogPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_LogPath.Location = new System.Drawing.Point(615, 62);
+            this.pictureBox_LogPath.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_LogPath.Name = "pictureBox_LogPath";
+            this.pictureBox_LogPath.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_LogPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_LogPath.TabIndex = 91;
+            this.pictureBox_LogPath.TabStop = false;
+            // 
+            // pictureBox_ImagePath
+            // 
+            this.pictureBox_ImagePath.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_ImagePath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pictureBox_ImagePath.Location = new System.Drawing.Point(615, 20);
+            this.pictureBox_ImagePath.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_ImagePath.Name = "pictureBox_ImagePath";
+            this.pictureBox_ImagePath.Size = new System.Drawing.Size(29, 29);
+            this.pictureBox_ImagePath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox_ImagePath.TabIndex = 90;
+            this.pictureBox_ImagePath.TabStop = false;
+            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -1282,9 +1374,11 @@
         internal System.Windows.Forms.ComboBox comboBox_SerialPort2_BaudRate_Value;
         internal System.Windows.Forms.ComboBox comboBox_SerialPort3_BaudRate_Value;
         internal System.Windows.Forms.ComboBox comboBox_CAN_DevIndex;
-        internal System.Windows.Forms.ComboBox comboBox_CAN_BaudRate_Value;
+        internal System.Windows.Forms.ComboBox comboBox_CAN_BaudRate;
         internal System.Windows.Forms.Label label_CAN_BaudRate;
         internal System.Windows.Forms.Label label_CAN_deviceid;
         protected internal System.Windows.Forms.CheckBox checkBox_CAN_Log;
+        internal System.Windows.Forms.ComboBox comboBox_CAN_Choice;
+        internal System.Windows.Forms.Label label_CAN_choice;
     }
 }

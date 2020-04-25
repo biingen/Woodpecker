@@ -287,7 +287,8 @@ namespace Woodpecker
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
             ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "KlineExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
@@ -432,10 +433,10 @@ namespace Woodpecker
                     }
                     #endregion
 
-                    #region 偵測CANbus
+                    #region 偵測USB_Can2C
                     if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        Console.WriteLine("-----------------Canbus------------------");
+                        Console.WriteLine("-----------------USB_Can2C------------------");
                         Console.WriteLine("DeviceID: {0}\n" +
                                               "Name: {1}\n" +
                                               "Description: {2}\n" +
@@ -445,7 +446,24 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "1");
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "1");
+                    }
+                    #endregion
+
+                    #region 偵測USB_Vector_VN1630A
+                    if (deviceId.IndexOf("USB\\VID_1248&PID_1061\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------USB_Vector_VN1630A------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "1");
                     }
                     #endregion
                 }
@@ -470,22 +488,23 @@ namespace Woodpecker
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp" };
+            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
-            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice" };
+            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };
-            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
-            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits" };
+            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] Displayhex = { "Checked" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule4 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule5 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
-            string[] LogSearch = { "StartTime", "Comport1", "Comport2", "TextNum", "Camerarecord", "Camerashot", "Sendmail", "Savelog", "Showmessage", "ACcontrol", "Stop", "AC OFF", "Nowvalue",
+            string[] LogSearch = { "StartTime", "Comport1", "Comport2", "Comport3", "Comport4", "Comport5", "TextNum", "Camerarecord", "Camerashot", "Sendmail", "Savelog", "Showmessage", "ACcontrol", "Stop", "AC OFF", "Nowvalue",
                                    "Text0", "Text1", "Text2", "Text3", "Text4", "Text5", "Text6", "Text7", "Text8", "Text9",
                                    "Times0", "Times1", "Times2", "Times3", "Times4", "Times5", "Times6", "Times7", "Times8", "Times9",
                                    "Display0", "Display1", "Display2", "Display3", "Display4", "Display5", "Display6", "Display7", "Display8", "Display9" };
@@ -585,6 +604,18 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "");
+                    }
+                }
+
+                for (int i = 0; i < Displayhex.Length; i++)
+                {
+                    if (i == (Displayhex.Length - 1))
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "" + Environment.NewLine + Environment.NewLine);
+                    }
+                    else
+                    {
+                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "");
                     }
                 }
 

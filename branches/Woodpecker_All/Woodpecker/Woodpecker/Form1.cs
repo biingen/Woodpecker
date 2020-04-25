@@ -31,6 +31,7 @@ using DTC_ABS;
 using DTC_OBD;
 using MySerialLibrary;
 using KWP_2000;
+using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
 using InTheHand.Net.Sockets;
@@ -38,6 +39,7 @@ using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
+using USB_VN1630A;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -128,7 +130,14 @@ namespace Woodpecker
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         //CanReader
-        private CAN_Reader MYCanReader = new CAN_Reader();
+        private CAN_USB2C Can_Usb2C = new CAN_USB2C();
+        private USB_VECTOR_Lib Can_1630A = new USB_VECTOR_Lib();
+        private int can_send = 0;
+        private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
+        private bool set_timer_rate = false;
+        private uint can_id;
+        private Dictionary<uint, uint> can_rate = new Dictionary<uint, uint>();
+        private Dictionary<uint, byte[]> can_data = new Dictionary<uint, byte[]>();
 
         //Klite error code
         public int kline_send = 0;
@@ -242,7 +251,7 @@ namespace Woodpecker
             }
             catch (InvalidOperationException)
             {
-
+                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
         }
 
@@ -381,18 +390,27 @@ namespace Woodpecker
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
             {
-                String can_name;
-                List<String> dev_list = MYCanReader.FindUsbDevice();
-                can_name = string.Join(",", dev_list);
-                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
-                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
-                ConnectCanBus();
-                pictureBox_canbus.Image = Properties.Resources.ON;
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
+                {
+                    String can_name;
+                    List<String> dev_list = Can_Usb2C.FindUsbDevice();
+                    can_name = string.Join(",", dev_list);
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                    ConnectUsbCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                {
+                    ConnectVectorCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
             }
             else
             {
@@ -925,14 +943,38 @@ namespace Woodpecker
             }
         }
 
-        protected void ConnectCanBus()
+        protected void ConnectUsbCAN()
         {
             uint status;
 
-            status = MYCanReader.Connect();
+            status = Can_Usb2C.Connect();
             if (status == 1)
             {
-                status = MYCanReader.StartCAN();
+                status = Can_Usb2C.StartCAN();
+                if (status == 1)
+                {
+                    timer_canbus.Enabled = true;
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+        }
+
+        protected void ConnectVectorCAN()
+        {
+            uint status;
+
+            status = Can_1630A.Connect();
+            if (status == 1)
+            {
+                status = Can_1630A.StartCAN();
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
@@ -1191,6 +1233,105 @@ namespace Woodpecker
             debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "RedRatDBViewer_Delay_E," + "\r\n");
         }
 
+        // 這個usbcan專用的delay的內部資料與function
+        static bool UsbCAN_Delay_TimeOutIndicator = false;
+        static UInt64 UsbCAN_Count = 0;
+        private void UsbCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_Usb2C.TransmitData(columns_times, columns_serial);
+            Console.WriteLine("USB_Can_Send (Repeat): " + UsbCAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_UsbCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            canbus_text = string.Concat(canbus_text, canbus_log_text);
+            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            UsbCAN_Count++;
+            UsbCAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void UsbCAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("UsbCAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer UsbCAN_Timer = new System.Timers.Timer(delay_ms);
+            UsbCAN_Timer.Interval = delay_ms;
+            UsbCAN_Timer.Elapsed += new ElapsedEventHandler(UsbCAN_Delay_UsbOnTimedEvent);
+            UsbCAN_Timer.Enabled = true;
+            UsbCAN_Timer.Start();
+            UsbCAN_Timer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (UsbCAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("UsbCAN_Delay_TimeOutIndicator: false.");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+            UsbCAN_Timer.Stop();
+            UsbCAN_Timer.Dispose();
+            //Console.WriteLine("UsbCAN_Delay: Stop.");
+        }
+
+        // 這個vectorcan專用的delay的內部資料與function
+        static bool VectorCAN_Delay_TimeOutIndicator = false;
+        static UInt64 VectorCAN_Count = 0;
+        private void VectorCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+            Console.WriteLine("VectorCAN_Can_Send (Repeat): " + VectorCAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_VectorCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            canbus_text = string.Concat(canbus_text, canbus_log_text);
+            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            VectorCAN_Count++;
+            VectorCAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void VectorCAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("VectorCAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer VectorCAN_Timer = new System.Timers.Timer(delay_ms);
+            VectorCAN_Timer.Interval = delay_ms;
+            VectorCAN_Timer.Elapsed += new ElapsedEventHandler(VectorCAN_Delay_UsbOnTimedEvent);
+            VectorCAN_Timer.Enabled = true;
+            VectorCAN_Timer.Start();
+            VectorCAN_Timer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (VectorCAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("VectorCAN_Delay_TimeOutIndicator: false.");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+            VectorCAN_Timer.Stop();
+            VectorCAN_Timer.Dispose();
+            //Console.WriteLine("VectorCAN_Delay: Stop.");
+        }
 
         private void Log(string msg)
         {
@@ -2106,7 +2247,6 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-
                         if (strValues.Contains("\r"))
                         {
                             string[] log = strValues.Split('\r');
@@ -2193,7 +2333,6 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-
                         if (strValues.Contains("\r"))
                         {
                             string[] log = strValues.Split('\r');
@@ -2225,7 +2364,6 @@ namespace Woodpecker
                             log3_text = string.Concat(log3_text, strValues);
 							logAll_text = string.Concat(logAll_text, strValues);
                         }
-                        //textBox3.AppendText(strValues);
                     }
                 }
             }
@@ -2280,7 +2418,6 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-
                         if (strValues.Contains("\r"))
                         {
                             string[] log = strValues.Split('\r');
@@ -2367,7 +2504,6 @@ namespace Woodpecker
                         // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                         string strValues = Encoding.ASCII.GetString(dataset);
                         dt = DateTime.Now;
-
                         if (strValues.Contains("\r"))
                         {
                             string[] log = strValues.Split('\r');
@@ -5283,7 +5419,7 @@ namespace Woodpecker
                         #region -- 拍照 --
                         else if (columns_command == "_shot")
                         {
-                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("HH:mm:ss,") + "_shot," + "\r\n");
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "_shot," + "\r\n");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 Global.caption_Num++;
@@ -5298,6 +5434,7 @@ namespace Woodpecker
                                 MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                                 setStyle();
                             }
+                            debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Take Picture: _shot_stop," + "\r\n");
                         }
                         #endregion
 
@@ -6424,12 +6561,14 @@ namespace Woodpecker
                         #region -- Canbus Send --
                         else if (columns_command == "_Canbus_Send")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
-                                Console.WriteLine("Canbus Send: _Canbus_Send");
-                                if (columns_times != "" && columns_serial != "")
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
-                                    MYCanReader.TransmitData(columns_times, columns_serial);
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Send (Event): _Canbus_Send," + "\r\n");
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_Usb2C.TransmitData(Convert.ToUInt32(columns_times), Outputdata);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
@@ -6437,6 +6576,144 @@ namespace Woodpecker
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     canbus_text = string.Concat(canbus_text, canbus_log_text);
                                     schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(can_id))
+                                            {
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
+                                                UsbCAN_Count = 0;
+                                                UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
+                                        UsbCAN_Count = 0;
+                                        UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                    }
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                            {
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Send: Vector_Canbus_once," + "\r\n");
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_1630A.LoopCANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
+
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
+                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Send: Vector_Canbus_loop," + "\r\n");
+                                    set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(can_id))
+                                            {
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
+                                                //VectorCAN_Count = 0;
+                                                //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                                Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                                CanSetTimeRate.Start();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
+                                        //VectorCAN_Count = 0;
+                                        //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                        Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                        CanSetTimeRate.Start();
+                                    }
+                                }
+                            }
+
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                        }
+                        #endregion
+
+                        #region -- Canbus Queue --
+                        else if (columns_command == "_Canbus_Queue")
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                            {
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: UsbCAN_Canbus_Queue_data," + "\r\n");
+                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(columns_serial);
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                }
+                                else if (columns_function == "send")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: UsbCAN_Canbus_Queue_send," + "\r\n");
+                                    can_send = 1;
+                                }
+                                else if (columns_function == "clear")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: UsbCAN_Canbus_Queue_clean," + "\r\n");
+                                    can_send = 0;
+                                    can_data_list.Clear();
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                            {
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: Vector_Canbus_Queue_data," + "\r\n");
+                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(columns_serial);
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                }
+                                else if (columns_function == "send")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: Vector_Canbus_Queue_send," + "\r\n");
+                                    can_send = 1;
+                                }
+                                else if (columns_function == "clear")
+                                {
+                                    debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Canbus Write: Vector_Canbus_Queue_clean," + "\r\n");
+                                    can_send = 0;
+                                    can_data_list.Clear();
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -7986,7 +8263,8 @@ namespace Woodpecker
                     #endregion
                 }
                 debug_text = string.Concat(debug_text, DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff,") + "Loop_Number: " + Global.Loop_Number + ", \r\n");
-                DisposeRam();
+                Serialportsave("Debug");
+				DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -9148,6 +9426,7 @@ namespace Woodpecker
             RCDB.Items.Add("_TX_I2C_Read");
             RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("_Canbus_Send");
+            RCDB.Items.Add("_Canbus_Queue");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
@@ -9381,6 +9660,11 @@ namespace Woodpecker
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
+                    can_send = 0;
+                    set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
+                    Serialportsave("Debug");
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -9538,6 +9822,12 @@ namespace Woodpecker
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
+
+                    can_send = 0;
+                    set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
+                    Serialportsave("Debug");
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -9698,11 +9988,6 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
-            if (MYCanReader.Connect() == 1)
-            {
-                MYCanReader.StopCAN();
-                MYCanReader.Disconnect();
-            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -9792,15 +10077,6 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
-                {
-                    ConnectCanBus();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-                }
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
                 button_SerialPort2.Visible = ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ? true : false;
@@ -10581,6 +10857,7 @@ namespace Woodpecker
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseAutobox();
+            Serialportsave("Debug");
         }
 
         private void button_Input_Click(object sender, EventArgs e)
@@ -11290,51 +11567,104 @@ namespace Woodpecker
             }
         }
 
+        private void vectorcanloop()
+        {
+            UInt64 CAN_Count = 0;
+            while (set_timer_rate)
+            {
+                Console.WriteLine("Vector_Can_Send (Repeat): " + CAN_Count + " times.");
+                uint columns_times = can_id;
+                byte[] columns_serial = can_data[columns_times];
+                int columns_interval = (int)can_rate[columns_times];
+                Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+
+                string Outputstring = "ID: 0x";
+                //Outputstring += columns_times + " Data: " + columns_serial;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                canbus_text = string.Concat(canbus_text, canbus_log_text);
+                schedule_text = string.Concat(schedule_text, canbus_log_text);
+
+                CAN_Count++;
+            }
+
+        }
+
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)
         {
             UInt32 res = new UInt32();
+            res = Can_Usb2C.ReceiveData();
+            USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
-            res = MYCanReader.ReceiveData();
-
-            if (res == 0)
+            if (can_send == 1)
             {
-                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                 {
-                    timer_canbus.Enabled = false;
-                    MYCanReader.StopCAN();
-                    MYCanReader.Disconnect();
-
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
-
-                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
-
-                    return;
+                    foreach (var can in can_data_list)
+                    {
+                        usb_can_2c.CAN_Write_Queue_Add(can);
+                    }
+                    usb_can_2c.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
                 }
-                return;
+                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                {
+                    foreach (var can in can_data_list)
+                    {
+                        Can_1630A.CAN_Write_Queue_Add(can);
+                    }
+                    Can_1630A.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
+                }
             }
             else
             {
-                uint ID = 0, DLC = 0;
-                const int DATA_LEN = 8;
-                byte[] DATA = new byte[DATA_LEN];
+                usb_can_2c.CAN_Write_Queue_Clear();
+                Can_1630A.CAN_Write_Queue_Clear();
+            }
 
-                String str = "";
-                for (UInt32 i = 0; i < res; i++)
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+            {
+                if (res == 0)
                 {
-                    DateTime.Now.ToShortTimeString();
-                    DateTime dt = DateTime.Now;
-                    MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
-                    string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                    schedule_text = string.Concat(schedule_text, canbus_log_text);
-                    if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
+                    if (res >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
                     {
                         timer_canbus.Enabled = false;
-                        MYCanReader.StopCAN();
-                        MYCanReader.Disconnect();
+                        Can_Usb2C.StopCAN();
+                        Can_Usb2C.Disconnect();
+
                         pictureBox_canbus.Image = Properties.Resources.OFF;
-                        ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+
+                        ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
+
                         return;
+                    }
+                    return;
+                }
+                else
+                {
+                    uint ID = 0, DLC = 0;
+                    const int DATA_LEN = 8;
+                    byte[] DATA = new byte[DATA_LEN];
+
+                    String str = "";
+                    for (UInt32 i = 0; i < res; i++)
+                    {
+                        DateTime.Now.ToShortTimeString();
+                        DateTime dt = DateTime.Now;
+                        Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                        string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                        canbus_text = string.Concat(canbus_text, canbus_log_text);
+                        schedule_text = string.Concat(schedule_text, canbus_log_text);
+                        if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
+                        {
+                            timer_canbus.Enabled = false;
+                            Can_Usb2C.StopCAN();
+                            Can_Usb2C.Disconnect();
+                            pictureBox_canbus.Image = Properties.Resources.OFF;
+                            ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
+                            return;
+                        }
                     }
                 }
             }
@@ -11347,7 +11677,12 @@ namespace Woodpecker
                 try
                 {
                     objCa.Measure();
-                    string str = "Lv:" + objProbe.Lv.ToString("##0.00") + " Sx:" + objProbe.sx.ToString("0.0000") + " Sy:" + objProbe.sy.ToString("0.0000");
+                    string str =    "Lv:" + objProbe.Lv.ToString("##0.00") + 
+                                    " Sx:" + objProbe.sx.ToString("0.0000") + 
+                                    " Sy:" + objProbe.sy.ToString("0.0000") + 
+                                    " R:" + objProbe.R.ToString("##0.00") + 
+                                    " G:" + objProbe.G.ToString("##0.00") + 
+                                    " B:" + objProbe.B.ToString("##0.00");
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
@@ -11544,7 +11879,7 @@ namespace Woodpecker
             System.Diagnostics.Process.Start(Application.StartupPath + @"\Canlog\CANLog.exe", fName);
 
             uint canBusStatus;
-            canBusStatus = MYCanReader.Connect();
+            canBusStatus = Can_Usb2C.Connect();
 
             if (Global.TEXTBOX_FOCUS == 1)
             {
