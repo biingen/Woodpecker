@@ -1751,7 +1751,7 @@ namespace Woodpecker
             const int temp_data3_offset = -4;
             const int temp_data2_offset = -3;
             const int temp_data1_offset = -2;
-            const double temp_abs_value = 0.1;
+            const double temp_abs_value = 0.05;
 
             // If data_buffer is too long, cut off data not needed
             if(byteTemperature_length>= byteTemperature_max)
