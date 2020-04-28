@@ -1772,23 +1772,31 @@ namespace Woodpecker
                             }
                         }
                     }
+                    //else
+                    //{
+                    //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
+                    //}
                 }
             }
         }
 
-        const int byteMessage_max_A = 1024;
-        byte[] byteMessage_A = new byte[byteMessage_max_A];
+        const int byteMessage_max_Hex = 16;
+        const int byteMessage_max_Ascii = 256;
+        byte[] byteMessage_A = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
         int byteMessage_length_A = 0;
 
-        private void logA_recorder(byte ch)
+        private void logA_recorder(byte ch, bool SaveToLog = false)
         {
             DateTime dt;
 
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-                byteMessage_A[byteMessage_length_A] = ch;
-                byteMessage_length_A++;
-                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_A))
+               // if (SaveToLog == false)
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
                     dt = DateTime.Now;
@@ -1797,15 +1805,10 @@ namespace Woodpecker
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
                 }
-                else
-                {
-                    byteMessage_A[byteMessage_length_A] = ch;
-                    byteMessage_length_A++;
-                }
             }
             else
             {
-                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_A))
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
                     dt = DateTime.Now;
@@ -5857,13 +5860,16 @@ namespace Woodpecker
                                                 int symbel_equal_28 = columns_serial.IndexOf("(");
                                                 int symbel_equal_29 = columns_serial.IndexOf(")");
                                                 int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                int duringTimeInt = 0;
                                                 int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
                                                 string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
                                                 string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
                                                 string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
                                                 string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
-                                                string duringTime_minsecond = columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1);
-                                                string duringTime_millisecond = columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1);
+                                                if (columns_serial.Contains("m)"))
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1));
+                                                else
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
 
                                                 Temperature_Data.initialTemperature = int.Parse(initialTemperature);
                                                 Temperature_Data.finalTemperature = int.Parse(finalTemperature);
@@ -5871,11 +5877,6 @@ namespace Woodpecker
                                                 Temperature_Data.addTemperature = float.Parse(addTemperature);
 
                                                 float addTemperatureInt = Temperature_Data.addTemperature;
-                                                int duringTimeInt = Temperature_Data.temperatureDuringtime;
-                                                if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(duringTime_minsecond) * 60000;
-                                                else
-                                                    duringTimeInt = Int16.Parse(duringTime_millisecond);
 
                                                 if (duringTimeInt > 0)
                                                 {
