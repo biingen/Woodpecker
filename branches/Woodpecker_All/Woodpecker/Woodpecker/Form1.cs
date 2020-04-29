@@ -1611,31 +1611,28 @@ namespace Woodpecker
 
         private void logA_analysis()
         {
-            while (StartButtonPressed == true)
+            if (PortA.IsOpen == true)
             {
-                if (PortA.IsOpen == true)
+                int data_to_read = PortA.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortA.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortA.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortA.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logA_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logA_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
-                    //else
-                    //{
-                    //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
-                    //}
                 }
+                //else
+                //{
+                //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -1736,7 +1733,7 @@ namespace Woodpecker
         byte[] byteTemperature = new byte[byteTemperature_max];
         int byteTemperature_length = 0;
 
-        private void logA_temperature(byte ch)
+        private void log_temperature(byte ch)
         {
             const int packet_len = 16;
             const int header_offset_1 = -16;
@@ -2154,31 +2151,28 @@ namespace Woodpecker
 
         private void logB_analysis()
         {
-            while (StartButtonPressed == true)
+            if (PortB.IsOpen == true)
             {
-                if (PortB.IsOpen == true)
+                int data_to_read = PortB.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortB.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortB.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortB.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logB_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logB_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
-                    //else
-                    //{
-                    //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
-                    //}
                 }
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -2314,31 +2308,28 @@ namespace Woodpecker
 
         private void logC_analysis()
         {
-            while (StartButtonPressed == true)
+            if (PortC.IsOpen == true)
             {
-                if (PortC.IsOpen == true)
+                int data_to_read = PortC.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortC.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortC.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortC.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logC_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logC_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
-                    //else
-                    //{
-                    //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
-                    //}
                 }
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -2475,31 +2466,28 @@ namespace Woodpecker
 
         private void logD_analysis()
         {
-            while (StartButtonPressed == true)
+            if (PortD.IsOpen == true)
             {
-                if (PortD.IsOpen == true)
+                int data_to_read = PortD.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortD.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortD.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortD.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logD_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logD_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
-                    //else
-                    //{
-                    //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
-                    //}
                 }
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -2636,31 +2624,28 @@ namespace Woodpecker
 
         private void logE_analysis()
         {
-            while (StartButtonPressed == true)
+            if (PortE.IsOpen == true)
             {
-                if (PortE.IsOpen == true)
+                int data_to_read = PortE.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortE.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortE.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortE.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logE_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logE_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
-                    //else
-                    //{
-                    //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
-                    //}
                 }
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -6011,56 +5996,63 @@ namespace Woodpecker
                                             }
                                             else if (columns_serial.Contains("Temperature"))
                                             {
-                                                TemperatureIsFound = true;
-
-                                                int symbel_equal_3d = columns_serial.IndexOf("=");
-                                                int symbel_equal_7e = columns_serial.IndexOf("~");
-                                                int symbel_equal_2f = columns_serial.IndexOf("/");
-                                                int symbel_equal_28 = columns_serial.IndexOf("(");
-                                                int symbel_equal_29 = columns_serial.IndexOf(")");
-                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
-                                                int duringTimeInt = 0;
-                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
-                                                string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
-                                                string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
-                                                if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
-                                                else
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
-
-                                                Temperature_Data.initialTemperature = int.Parse(initialTemperature);
-                                                Temperature_Data.finalTemperature = int.Parse(finalTemperature);
-                                                Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
-                                                Temperature_Data.addTemperature = float.Parse(addTemperature);
-
-                                                float addTemperatureInt = Temperature_Data.addTemperature;
-
-                                                if (duringTimeInt > 0)
+                                                try
                                                 {
-                                                    // Create a timer and set a two second interval.
-                                                    timer_duringShot.Interval = duringTimeInt;
+                                                    TemperatureIsFound = true;
 
-                                                    // Start the timer
-                                                    timer_duringShot.Start();
-                                                }
+                                                    int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                    int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                    int symbel_equal_2f = columns_serial.IndexOf("/");
+                                                    int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                    int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                    int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                    int duringTimeInt = 0;
+                                                    int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+                                                    string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                    string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                    string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+                                                    string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                    if (columns_serial.Contains("m)"))
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                    else
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
 
-                                                if (addTemperatureInt < 0)
-                                                {
-                                                    for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    Temperature_Data.initialTemperature = int.Parse(initialTemperature);
+                                                    Temperature_Data.finalTemperature = int.Parse(finalTemperature);
+                                                    Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
+                                                    Temperature_Data.addTemperature = float.Parse(addTemperature);
+
+                                                    float addTemperatureInt = Temperature_Data.addTemperature;
+
+                                                    if (duringTimeInt > 0)
                                                     {
-                                                        double conditionList = Convert.ToDouble(i);
-                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        // Create a timer and set a two second interval.
+                                                        timer_duringShot.Interval = duringTimeInt;
+
+                                                        // Start the timer
+                                                        timer_duringShot.Start();
+                                                    }
+
+                                                    if (addTemperatureInt < 0)
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(i);
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(i);
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        }
                                                     }
                                                 }
-                                                else
+                                                catch(Exception Ex)
                                                 {
-                                                    for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
-                                                    {
-                                                        double conditionList = Convert.ToDouble(i);
-                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
-                                                    }
+                                                    MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                                 }
                                             }
                                         }
@@ -9763,11 +9755,6 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數
-                    LogAThread.Start();
-                    LogBThread.Start();
-                    LogCThread.Start();
-                    LogDThread.Start();
-                    LogEThread.Start();
                     button_Start.Text = "STOP";
 
                     StartButtonPressed = true;
@@ -9781,6 +9768,7 @@ namespace Woodpecker
                     {
                         OpenSerialPort("A");
                         textBox_serial.Clear();
+                        LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
@@ -9792,6 +9780,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -9802,6 +9791,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -9812,6 +9802,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -9822,6 +9813,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;
@@ -9843,17 +9835,13 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer_duringShot.Stop();
-                    LogAThread.Abort();
-                    LogBThread.Abort();
-                    LogCThread.Abort();
-                    LogDThread.Abort();
-                    LogEThread.Abort();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -9863,6 +9851,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -9872,6 +9861,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -9881,6 +9871,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -9890,6 +9881,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -9911,11 +9903,6 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
-                    LogAThread.Start();
-                    LogBThread.Start();
-                    LogCThread.Start();
-                    LogDThread.Start();
-                    LogEThread.Start();
                     StartButtonPressed = true;
                     StartButtonFlag = true;
                     button_Setting.Enabled = false;
@@ -9928,6 +9915,7 @@ namespace Woodpecker
                     {
                         OpenSerialPort("A");
                         textBox_serial.Clear();
+                        LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
@@ -9939,6 +9927,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -9949,6 +9938,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -9959,6 +9949,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -9969,6 +9960,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;
