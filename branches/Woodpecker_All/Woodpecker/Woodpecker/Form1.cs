@@ -1611,7 +1611,7 @@ namespace Woodpecker
 
         private void logA_analysis()
         {
-            if (PortA.IsOpen == true)
+            while (PortA.IsOpen == true)
             {
                 int data_to_read = PortA.BytesToRead;
                 if (data_to_read > 0)
@@ -1643,8 +1643,6 @@ namespace Woodpecker
 
         private void logA_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
                // if (SaveToLog == false)
@@ -1654,9 +1652,14 @@ namespace Woodpecker
                 }
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
                     string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log1_text = string.Concat(log1_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
@@ -1666,9 +1669,14 @@ namespace Woodpecker
             {
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
                 {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
                     string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log1_text = string.Concat(log1_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
@@ -2151,7 +2159,7 @@ namespace Woodpecker
 
         private void logB_analysis()
         {
-            if (PortB.IsOpen == true)
+            while (PortB.IsOpen == true)
             {
                 int data_to_read = PortB.BytesToRead;
                 if (data_to_read > 0)
@@ -2165,7 +2173,7 @@ namespace Woodpecker
                         logB_recorder(input_ch);
                         if (TemperatureIsFound == true)
                         {
-                            log_temperature(input_ch);
+                            //log_temperature(input_ch);
                         }
                     }
                 }
@@ -2181,8 +2189,6 @@ namespace Woodpecker
 
         private void logB_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
                 // if (SaveToLog == false)
@@ -2193,8 +2199,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_B).Replace("-", "").Substring(0, byteMessage_length_B * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log2_text = string.Concat(log2_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_B = 0;
@@ -2205,8 +2214,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_B).Substring(0, byteMessage_length_B);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log2_text = string.Concat(log2_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_B = 0;
@@ -2308,7 +2320,7 @@ namespace Woodpecker
 
         private void logC_analysis()
         {
-            if (PortC.IsOpen == true)
+            while (PortC.IsOpen == true)
             {
                 int data_to_read = PortC.BytesToRead;
                 if (data_to_read > 0)
@@ -2322,7 +2334,7 @@ namespace Woodpecker
                         logC_recorder(input_ch);
                         if (TemperatureIsFound == true)
                         {
-                            log_temperature(input_ch);
+                            //log_temperature(input_ch);
                         }
                     }
                 }
@@ -2338,8 +2350,6 @@ namespace Woodpecker
 
         private void logC_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
                 // if (SaveToLog == false)
@@ -2350,8 +2360,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_C).Replace("-", "").Substring(0, byteMessage_length_C * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log3_text = string.Concat(log3_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_C = 0;
@@ -2362,8 +2375,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_C).Substring(0, byteMessage_length_C);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log3_text = string.Concat(log3_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_C = 0;
@@ -2466,7 +2482,7 @@ namespace Woodpecker
 
         private void logD_analysis()
         {
-            if (PortD.IsOpen == true)
+            while (PortD.IsOpen == true)
             {
                 int data_to_read = PortD.BytesToRead;
                 if (data_to_read > 0)
@@ -2480,7 +2496,7 @@ namespace Woodpecker
                         logD_recorder(input_ch);
                         if (TemperatureIsFound == true)
                         {
-                            log_temperature(input_ch);
+                            //log_temperature(input_ch);
                         }
                     }
                 }
@@ -2496,8 +2512,6 @@ namespace Woodpecker
 
         private void logD_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
                 // if (SaveToLog == false)
@@ -2508,8 +2522,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_D).Replace("-", "").Substring(0, byteMessage_length_D * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log4_text = string.Concat(log4_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_D = 0;
@@ -2520,8 +2537,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_D).Substring(0, byteMessage_length_D);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log4_text = string.Concat(log4_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_D = 0;
@@ -2624,7 +2644,7 @@ namespace Woodpecker
 
         private void logE_analysis()
         {
-            if (PortE.IsOpen == true)
+            while (PortE.IsOpen == true)
             {
                 int data_to_read = PortE.BytesToRead;
                 if (data_to_read > 0)
@@ -2638,7 +2658,7 @@ namespace Woodpecker
                         logE_recorder(input_ch);
                         if (TemperatureIsFound == true)
                         {
-                            log_temperature(input_ch);
+                            //log_temperature(input_ch);
                         }
                     }
                 }
@@ -2654,8 +2674,6 @@ namespace Woodpecker
 
         private void logE_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
                 // if (SaveToLog == false)
@@ -2666,8 +2684,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_E).Replace("-", "").Substring(0, byteMessage_length_E * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log5_text = string.Concat(log5_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_E = 0;
@@ -2678,8 +2699,11 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_E).Substring(0, byteMessage_length_E);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log5_text = string.Concat(log5_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_E = 0;
@@ -5999,7 +6023,7 @@ namespace Woodpecker
                                                 try
                                                 {
                                                     TemperatureIsFound = true;
-
+                                                    temperatureList.Clear();
                                                     int symbel_equal_3d = columns_serial.IndexOf("=");
                                                     int symbel_equal_7e = columns_serial.IndexOf("~");
                                                     int symbel_equal_2f = columns_serial.IndexOf("/");
@@ -9669,11 +9693,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
-                    LogAThread.Abort();
-                    LogBThread.Abort();
-                    LogCThread.Abort();
-                    LogDThread.Abort();
-                    LogEThread.Abort();
                     timer_duringShot.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
@@ -9681,6 +9700,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -9690,6 +9710,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -9699,6 +9720,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -9708,6 +9730,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -9717,6 +9740,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();

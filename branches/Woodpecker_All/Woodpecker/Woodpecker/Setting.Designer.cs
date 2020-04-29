@@ -42,7 +42,7 @@
             this.comboBox_SerialPort5_BaudRate_Value = new System.Windows.Forms.ComboBox();
             this.comboBox_KlinePort_PortName_Value = new System.Windows.Forms.ComboBox();
             this.checkBox_Kline = new System.Windows.Forms.CheckBox();
-            this.checkBox_Displayhex = new System.Windows.Forms.CheckBox();
+            this.checkBox_hex = new System.Windows.Forms.CheckBox();
             this.comboBox_SerialPort5_PortName_Value = new System.Windows.Forms.ComboBox();
             this.label_SerialPort5_PortName = new System.Windows.Forms.Label();
             this.label_SerialPort5_BaudRate = new System.Windows.Forms.Label();
@@ -102,6 +102,7 @@
             this.button_GeneratorPath = new System.Windows.Forms.Button();
             this.button_DosPath = new System.Windows.Forms.Button();
             this.textBox_ImagePath = new System.Windows.Forms.TextBox();
+            this.checkBox_timestamp = new System.Windows.Forms.CheckBox();
             this.GroupBox_Rs232.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_klinePort)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_SerialPort5)).BeginInit();
@@ -121,6 +122,7 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_timestamp);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_deviceid);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_BaudRate_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_BaudRate);
@@ -131,7 +133,7 @@
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_BaudRate_Value);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_KlinePort_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.checkBox_Kline);
-            this.GroupBox_Rs232.Controls.Add(this.checkBox_Displayhex);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_hex);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_SerialPort5_PortName_Value);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_PortName);
             this.GroupBox_Rs232.Controls.Add(this.label_SerialPort5_BaudRate);
@@ -332,18 +334,18 @@
             this.checkBox_Kline.UseVisualStyleBackColor = true;
             this.checkBox_Kline.CheckedChanged += new System.EventHandler(this.checkBox_Kline_CheckedChanged);
             // 
-            // checkBox_Displayhex
+            // checkBox_hex
             // 
-            this.checkBox_Displayhex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_Displayhex.ForeColor = System.Drawing.Color.White;
-            this.checkBox_Displayhex.Location = new System.Drawing.Point(242, 209);
-            this.checkBox_Displayhex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.checkBox_Displayhex.Name = "checkBox_Displayhex";
-            this.checkBox_Displayhex.Size = new System.Drawing.Size(62, 22);
-            this.checkBox_Displayhex.TabIndex = 64;
-            this.checkBox_Displayhex.Text = "Hex";
-            this.checkBox_Displayhex.UseVisualStyleBackColor = true;
-            this.checkBox_Displayhex.CheckedChanged += new System.EventHandler(this.checkBox_Displayhex_CheckedChanged);
+            this.checkBox_hex.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_hex.ForeColor = System.Drawing.Color.White;
+            this.checkBox_hex.Location = new System.Drawing.Point(242, 209);
+            this.checkBox_hex.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkBox_hex.Name = "checkBox_hex";
+            this.checkBox_hex.Size = new System.Drawing.Size(62, 22);
+            this.checkBox_hex.TabIndex = 64;
+            this.checkBox_hex.Text = "Hex";
+            this.checkBox_hex.UseVisualStyleBackColor = true;
+            this.checkBox_hex.CheckedChanged += new System.EventHandler(this.checkBox_hex_CheckedChanged);
             // 
             // comboBox_SerialPort5_PortName_Value
             // 
@@ -1152,6 +1154,19 @@
             this.textBox_ImagePath.TabIndex = 28;
             this.textBox_ImagePath.TextChanged += new System.EventHandler(this.textBox_ImagePath_TextChanged);
             // 
+            // checkBox_timestamp
+            // 
+            this.checkBox_timestamp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_timestamp.ForeColor = System.Drawing.Color.White;
+            this.checkBox_timestamp.Location = new System.Drawing.Point(312, 210);
+            this.checkBox_timestamp.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkBox_timestamp.Name = "checkBox_timestamp";
+            this.checkBox_timestamp.Size = new System.Drawing.Size(110, 22);
+            this.checkBox_timestamp.TabIndex = 155;
+            this.checkBox_timestamp.Text = "Timestamp";
+            this.checkBox_timestamp.UseVisualStyleBackColor = true;
+            this.checkBox_timestamp.CheckedChanged += new System.EventHandler(this.checkBox_timestamp_CheckedChanged);
+            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -1250,7 +1265,7 @@
         internal System.Windows.Forms.Label label_SerialPort3_PortName;
         internal System.Windows.Forms.Label label_SerialPort3_BaudRate;
         private System.Windows.Forms.PictureBox pictureBox_SerialPort3;
-        private System.Windows.Forms.CheckBox checkBox_Displayhex;
+        private System.Windows.Forms.CheckBox checkBox_hex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
         private System.Windows.Forms.CheckBox checkBox_Kline;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
@@ -1286,5 +1301,6 @@
         internal System.Windows.Forms.Label label_CAN_BaudRate;
         internal System.Windows.Forms.Label label_CAN_deviceid;
         protected internal System.Windows.Forms.CheckBox checkBox_CAN_Log;
+        private System.Windows.Forms.CheckBox checkBox_timestamp;
     }
 }
