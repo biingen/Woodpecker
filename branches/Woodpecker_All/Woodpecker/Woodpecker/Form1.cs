@@ -341,30 +341,38 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
-                pictureBox_Camera.Image = Properties.Resources.ON;
-                filters = new Filters();
-                Filter f;
-
-                comboBox_CameraDevice.Enabled = true;
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                try
                 {
-                    f = filters.VideoInputDevices[c];
-                    comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                    pictureBox_Camera.Image = Properties.Resources.ON;
+                    filters = new Filters();
+                    Filter f;
+
+                    comboBox_CameraDevice.Enabled = true;
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+
+                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
-                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        f = filters.VideoInputDevices[c];
+                        comboBox_CameraDevice.Items.Add(f.Name);
+                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        {
+                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        }
                     }
-                }
 
-                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                {
-                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                    {
+                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    }
+                    comboBox_CameraDevice.Enabled = false;
                 }
-                comboBox_CameraDevice.Enabled = false;
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    MessageBox.Show(Ex.Message.ToString(), "Camera audio open error!");
+                }
             }
             else
             {
@@ -6041,8 +6049,8 @@ namespace Woodpecker
                                                     else
                                                         duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
 
-                                                    Temperature_Data.initialTemperature = int.Parse(initialTemperature);
-                                                    Temperature_Data.finalTemperature = int.Parse(finalTemperature);
+                                                    Temperature_Data.initialTemperature = float.Parse(initialTemperature);
+                                                    Temperature_Data.finalTemperature = float.Parse(finalTemperature);
                                                     Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
                                                     Temperature_Data.addTemperature = float.Parse(addTemperature);
 
@@ -6061,7 +6069,7 @@ namespace Woodpecker
                                                     {
                                                         for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
-                                                            double conditionList = Convert.ToDouble(i);
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
                                                             temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                         }
                                                     }
@@ -6069,7 +6077,7 @@ namespace Woodpecker
                                                     {
                                                         for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
-                                                            double conditionList = Convert.ToDouble(i);
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
                                                             temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                         }
                                                     }
@@ -8395,6 +8403,7 @@ namespace Woodpecker
                     }       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                     ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
                     button_Schedule2.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8414,6 +8423,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
                     button_Schedule3.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8434,6 +8444,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
                     button_Schedule4.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8455,6 +8466,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
                     button_Schedule5.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
             }
@@ -8517,7 +8529,40 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
+            timer_duringShot.Stop();
             CloseDtplay();
+
+            //如果serialport開著則先關閉//
+            if (PortA.IsOpen == true)
+            {
+                CloseSerialPort("A");
+            }
+            if (PortB.IsOpen == true)
+            {
+                CloseSerialPort("B");
+            }
+            if (PortC.IsOpen == true)
+            {
+                CloseSerialPort("C");
+            }
+            if (PortD.IsOpen == true)
+            {
+                CloseSerialPort("D");
+            }
+            if (PortE.IsOpen == true)
+            {
+                CloseSerialPort("E");
+            }
+            if (MySerialPort.IsPortOpened() == true)
+            {
+                CloseSerialPort("kline");
+            }
+            if (MYCanReader.Connect() == 1)
+            {
+                MYCanReader.StopCAN();
+                MYCanReader.Disconnect();
+            }
+
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
             Global.Scheduler_Row = 0;
@@ -9693,7 +9738,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
-                    timer_duringShot.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
@@ -9850,6 +9894,8 @@ namespace Woodpecker
                         OpenSerialPort("kline");
                         textBox_serial.Text = ""; //清空kline//
                     }
+
+                    label_Command.Text = "";
                 }
             }
             else//如果沒接AutoBox//
@@ -9858,7 +9904,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
-                    timer_duringShot.Stop();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
@@ -9997,6 +10042,8 @@ namespace Woodpecker
                         OpenSerialPort("kline");
                         textBox_serial.Text = ""; //清空kline//
                     }
+
+                    label_Command.Text = "";
                 }
             }
         }
@@ -10005,37 +10052,6 @@ namespace Woodpecker
         {
             FormTabControl FormTabControl = new FormTabControl();
             Global.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-
-            //如果serialport開著則先關閉//
-            if (PortA.IsOpen == true)
-            {
-                CloseSerialPort("A");
-            }
-            if (PortB.IsOpen == true)
-            {
-                CloseSerialPort("B");
-            }
-            if (PortC.IsOpen == true)
-            {
-                CloseSerialPort("C");
-            }
-            if (PortD.IsOpen == true)
-            {
-                CloseSerialPort("D");
-            }
-            if (PortE.IsOpen == true)
-            {
-                CloseSerialPort("E");
-            }
-            if (MySerialPort.IsPortOpened() == true)
-            {
-                CloseSerialPort("kline");
-            }
-            if (MYCanReader.Connect() == 1)
-            {
-                MYCanReader.StopCAN();
-                MYCanReader.Disconnect();
-            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)

@@ -303,9 +303,9 @@ namespace Woodpecker
             this.label_FwVersion.Location = new System.Drawing.Point(2, 118);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
-            this.label_FwVersion.Size = new System.Drawing.Size(97, 20);
+            this.label_FwVersion.Size = new System.Drawing.Size(92, 20);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 1.0.13e";
+            this.label_FwVersion.Text = "Ver. 0.0.0.0";
             this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_FwVersion.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LabelVersion_MouseClick);
             // 
