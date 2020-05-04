@@ -368,11 +368,20 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                 {
-                    checkBox_Displayhex.Checked = true;
+                    checkBox_hex.Checked = true;
                 }
                 else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
                 {
-                    checkBox_Displayhex.Checked = false;
+                    checkBox_hex.Checked = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                {
+                    checkBox_timestamp.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
+                {
+                    checkBox_timestamp.Checked = false;
                 }
 
             }
@@ -454,11 +463,20 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
                 {
-                    checkBox_Displayhex.Checked = true;
+                    checkBox_hex.Checked = true;
                 }
                 else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
                 {
-                    checkBox_Displayhex.Checked = false;
+                    checkBox_hex.Checked = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                {
+                    checkBox_timestamp.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
+                {
+                    checkBox_timestamp.Checked = false;
                 }
             }
 
@@ -867,18 +885,6 @@ namespace Woodpecker
                 comboBox_SerialPort5_BaudRate_Value.Enabled = false;
                 comboBox_SerialPort5_PortName_Value.Enabled = false;
                 PortCheck();
-            }
-        }
-
-        private void checkBox_Displayhex_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_Displayhex.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "0");
             }
         }
 
@@ -1424,6 +1430,30 @@ namespace Woodpecker
         private void comboBox_CAN_BaudRate_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", comboBox_CAN_BaudRate.Text.Trim());
+        }
+
+        private void checkBox_hex_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_hex.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "0");
+            }
+        }
+
+        private void checkBox_timestamp_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_timestamp.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "0");
+            }
         }
     }
 }

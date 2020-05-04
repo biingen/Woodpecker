@@ -350,30 +350,38 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
-                pictureBox_Camera.Image = Properties.Resources.ON;
-                filters = new Filters();
-                Filter f;
-
-                comboBox_CameraDevice.Enabled = true;
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                try
                 {
-                    f = filters.VideoInputDevices[c];
-                    comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                    pictureBox_Camera.Image = Properties.Resources.ON;
+                    filters = new Filters();
+                    Filter f;
+
+                    comboBox_CameraDevice.Enabled = true;
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+
+                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
-                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        f = filters.VideoInputDevices[c];
+                        comboBox_CameraDevice.Items.Add(f.Name);
+                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        {
+                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        }
                     }
-                }
 
-                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                {
-                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                    {
+                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    }
+                    comboBox_CameraDevice.Enabled = false;
                 }
-                comboBox_CameraDevice.Enabled = false;
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    MessageBox.Show(Ex.Message.ToString(), "Camera audio open error!");
+                }
             }
             else
             {
@@ -1410,7 +1418,7 @@ namespace Woodpecker
                             PortB.ReadTimeout = 2000;
                             // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortB.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
+                            // PortB.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
                             PortB.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortB);
                         }
@@ -1440,7 +1448,7 @@ namespace Woodpecker
                             PortC.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortC.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
+                            // PortC.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
                             PortC.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
                         }
@@ -1470,7 +1478,7 @@ namespace Woodpecker
                             PortD.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            // PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortD.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortD);
                         }
@@ -1500,7 +1508,7 @@ namespace Woodpecker
                             PortE.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort5_DataReceived);       // DataReceived呼叫函式
+                            // PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort5_DataReceived);       // DataReceived呼叫函式
                             PortE.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortE);
                         }
@@ -1752,24 +1760,21 @@ namespace Woodpecker
 
         private void logA_analysis()
         {
-            while (StartButtonPressed == true)
+            while (PortA.IsOpen == true)
             {
-                if (PortA.IsOpen == true)
+                int data_to_read = PortA.BytesToRead;
+                if (data_to_read > 0)
                 {
-                    int data_to_read = PortA.BytesToRead;
-                    if (data_to_read > 0)
-                    {
-                        byte[] dataset = new byte[data_to_read];
-                        PortA.Read(dataset, 0, data_to_read);
+                    byte[] dataset = new byte[data_to_read];
+                    PortA.Read(dataset, 0, data_to_read);
 
-                        for (int index = 0; index < data_to_read; index++)
+                    for (int index = 0; index < data_to_read; index++)
+                    {
+                        byte input_ch = dataset[index];
+                        logA_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            byte input_ch = dataset[index];
-                            logA_recorder(input_ch);
-                            if (TemperatureIsFound == true)
-                            {
-                                logA_temperature(input_ch);
-                            }
+                            log_temperature(input_ch);
                         }
                     }
                     //else
@@ -1777,6 +1782,10 @@ namespace Woodpecker
                     //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
                     //}
                 }
+                //else
+                //{
+                //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
 
@@ -1787,20 +1796,23 @@ namespace Woodpecker
 
         private void logA_recorder(byte ch, bool SaveToLog = false)
         {
-            DateTime dt;
-
             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-               // if (SaveToLog == false)
+                // if (SaveToLog == false)
                 {
                     byteMessage_A[byteMessage_length_A] = ch;
                     byteMessage_length_A++;
                 }
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
                     string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log1_text = string.Concat(log1_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
@@ -1810,9 +1822,14 @@ namespace Woodpecker
             {
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
                 {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
                     string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
-                    dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
                     log1_text = string.Concat(log1_text, dataValue);
                     logAll_text = string.Concat(logAll_text, dataValue);
                     byteMessage_length_A = 0;
@@ -1877,7 +1894,7 @@ namespace Woodpecker
         byte[] byteTemperature = new byte[byteTemperature_max];
         int byteTemperature_length = 0;
 
-        private void logA_temperature(byte ch)
+        private void log_temperature(byte ch)
         {
             const int packet_len = 16;
             const int header_offset_1 = -16;
@@ -2207,346 +2224,651 @@ namespace Woodpecker
         #endregion
 
         #region -- 接受SerialPort2資料 --
-        private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // {
+        //     try
+        //     {
+        //         int data_to_read = PortB.BytesToRead;
+        //         if (data_to_read > 0)
+        //         {
+        //             byte[] dataset = new byte[data_to_read];
+
+        //             PortB.Read(dataset, 0, data_to_read);
+        //             int index = 0;
+        //             while (data_to_read > 0)
+        //             {
+        //                 SearchLogQueue_B.Enqueue(dataset[index]);
+        //                 index++;
+        //                 data_to_read--;
+        //             }
+
+        //             DateTime dt;
+        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             {
+        //                 // hex to string
+        //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+        //                 DateTime.Now.ToShortTimeString();
+        //                 dt = DateTime.Now;
+
+        //                 // Joseph
+        //                 hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
+        //                 log2_text = string.Concat(log2_text, hexValues);
+        //                 logAll_text = string.Concat(logAll_text, hexValues);
+        //                 // textBox2.AppendText(hexValues);
+        //                 // End
+
+        //                 // Jeremy
+        //                 // textBox2.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox2.AppendText(hexValues + "\r\n");
+        //                 // End
+        //             }
+        //             else
+        //             {
+        //                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+        //                 string strValues = Encoding.ASCII.GetString(dataset);
+        //                 dt = DateTime.Now;
+
+        //                 if (strValues.Contains("\r"))
+        //                 {
+        //                     string[] log = strValues.Split('\r');
+        //                     foreach (string s in log)
+        //                     {
+        //                         Thread.Sleep(500);
+        //                         strValues1 = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+        //                         if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
+        //                             !s.Contains('\u0018') &&
+        //                             strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+        //                             TemperatureIsFound)
+        //                         {
+        //                             string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+        //                             double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+        //                             double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+        //                             if (previousTemperature != currentTemperature)
+        //                             {
+        //                                 //temperatureDouble.Enqueue(strValues1);
+        //                                 previousTemperature = currentTemperature;
+        //                             }
+        //                         }
+        //                         log2_text = string.Concat(log2_text, strValues1);
+        //	logAll_text = string.Concat(logAll_text, strValues);
+        //                     }
+        //                 }
+        //                 else
+        //                 {
+        //                     strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+        //                     log2_text = string.Concat(log2_text, strValues);
+        //logAll_text = string.Concat(logAll_text, strValues);
+        //                 }
+        //                 //textBox2.AppendText(strValues);
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //     }
+        // }
+
+
+        private void logB_analysis()
         {
-            try
+            while (PortB.IsOpen == true)
             {
                 int data_to_read = PortB.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortB.Read(dataset, 0, data_to_read);
-                    int index = 0;
-                    while (data_to_read > 0)
-                    {
-                        SearchLogQueue_B.Enqueue(dataset[index]);
-                        index++;
-                        data_to_read--;
-                    }
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-
-                        // Joseph
-                        hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                        // textBox2.AppendText(hexValues);
-                        // End
-
-                        // Jeremy
-                        // textBox2.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                        // textBox2.AppendText(hexValues + "\r\n");
-                        // End
-                    }
-                    else
-                    {
-                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                        string strValues = Encoding.ASCII.GetString(dataset);
-                        dt = DateTime.Now;
-                        if (strValues.Contains("\r"))
+                        byte input_ch = dataset[index];
+                        logB_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            string[] log = strValues.Split('\r');
-                            foreach (string s in log)
-                            {
-                                Thread.Sleep(500);
-                                strValues1 = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
-                                if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
-                                    !s.Contains('\u0018') &&
-                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
-                                    TemperatureIsFound)
-                                {
-                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
-                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
-                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (previousTemperature != currentTemperature)
-                                    {
-                                        //temperatureDouble.Enqueue(strValues1);
-                                        previousTemperature = currentTemperature;
-                                    }
-                                }
-                                log2_text = string.Concat(log2_text, strValues1);
-								logAll_text = string.Concat(logAll_text, strValues);
-                            }
+                            log_temperature(input_ch);
                         }
-                        else
-                        {
-                            strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log2_text = string.Concat(log2_text, strValues);
-							logAll_text = string.Concat(logAll_text, strValues);
-                        }
-                        //textBox2.AppendText(strValues);
                     }
                 }
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
-            catch (Exception ex)
+        }
+
+        byte[] byteMessage_B = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_B = 0;
+
+        private void logB_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-                Console.WriteLine(ex.Message);
+                // if (SaveToLog == false)
+                {
+                    byteMessage_B[byteMessage_length_B] = ch;
+                    byteMessage_length_B++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_B).Replace("-", "").Substring(0, byteMessage_length_B * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log2_text = string.Concat(log2_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_B = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_B).Substring(0, byteMessage_length_B);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log2_text = string.Concat(log2_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_B = 0;
+                }
+                else
+                {
+                    byteMessage_B[byteMessage_length_B] = ch;
+                    byteMessage_length_B++;
+                }
             }
         }
         #endregion
 
         #region -- 接受SerialPort3資料 --
-        private void SerialPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void SerialPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // {
+        //     try
+        //     {
+        //         int data_to_read = PortC.BytesToRead;
+        //         if (data_to_read > 0)
+        //         {
+        //             byte[] dataset = new byte[data_to_read];
+
+        //             PortC.Read(dataset, 0, data_to_read);
+        //             int index = 0;
+        //             while (data_to_read > 0)
+        //             {
+        //                 SearchLogQueue_C.Enqueue(dataset[index]);
+        //                 index++;
+        //                 data_to_read--;
+        //             }
+
+        //             DateTime dt;
+        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             {
+        //                 // hex to string
+        //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+        //                 DateTime.Now.ToShortTimeString();
+        //                 dt = DateTime.Now;
+
+        //                 // Joseph
+        //                 hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
+        //                 log3_text = string.Concat(log3_text, hexValues);
+        //                 logAll_text = string.Concat(logAll_text, hexValues);
+        //                 // textBox3.AppendText(hexValues);
+        //                 // End
+
+        //                 // Jeremy
+        //                 // textBox3.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox3.AppendText(hexValues + "\r\n");
+        //                 // End
+        //             }
+        //             else
+        //             {
+        //                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+        //                 string strValues = Encoding.ASCII.GetString(dataset);
+        //                 dt = DateTime.Now;
+
+        //                 if (strValues.Contains("\r"))
+        //                 {
+        //                     string[] log = strValues.Split('\r');
+        //                     foreach (string s in log)
+        //                     {
+        //                         Thread.Sleep(500);
+        //                         strValues1 = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+        //                         if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
+        //                             !s.Contains('\u0018') &&
+        //                             strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+        //                             TemperatureIsFound)
+        //                         {
+        //                             string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+        //                             double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+        //                             double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+        //                             if (previousTemperature != currentTemperature)
+        //                             {
+        //                                 //temperatureDouble.Enqueue(strValues1);
+        //                                 previousTemperature = currentTemperature;
+        //                             }
+        //                         }
+        //                         log3_text = string.Concat(log3_text, strValues1);
+        //	logAll_text = string.Concat(logAll_text, strValues1);
+        //                     }
+        //                 }
+        //                 else
+        //                 {
+        //                     strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+        //                     log3_text = string.Concat(log3_text, strValues);
+        //logAll_text = string.Concat(logAll_text, strValues);
+        //                 }
+        //                 //textBox3.AppendText(strValues);
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //     }
+        // }
+
+        private void logC_analysis()
         {
-            try
+            while (PortC.IsOpen == true)
             {
                 int data_to_read = PortC.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortC.Read(dataset, 0, data_to_read);
-                    int index = 0;
-                    while (data_to_read > 0)
-                    {
-                        SearchLogQueue_C.Enqueue(dataset[index]);
-                        index++;
-                        data_to_read--;
-                    }
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-
-                        // Joseph
-                        hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                        // textBox3.AppendText(hexValues);
-                        // End
-
-                        // Jeremy
-                        // textBox3.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                        // textBox3.AppendText(hexValues + "\r\n");
-                        // End
-                    }
-                    else
-                    {
-                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                        string strValues = Encoding.ASCII.GetString(dataset);
-                        dt = DateTime.Now;
-                        if (strValues.Contains("\r"))
+                        byte input_ch = dataset[index];
+                        logC_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            string[] log = strValues.Split('\r');
-                            foreach (string s in log)
-                            {
-                                Thread.Sleep(500);
-                                strValues1 = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
-                                if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
-                                    !s.Contains('\u0018') &&
-                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
-                                    TemperatureIsFound)
-                                {
-                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
-                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
-                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (previousTemperature != currentTemperature)
-                                    {
-                                        //temperatureDouble.Enqueue(strValues1);
-                                        previousTemperature = currentTemperature;
-                                    }
-                                }
-                                log3_text = string.Concat(log3_text, strValues1);
-								logAll_text = string.Concat(logAll_text, strValues1);
-                            }
-                        }
-                        else
-                        {
-                            strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log3_text = string.Concat(log3_text, strValues);
-							logAll_text = string.Concat(logAll_text, strValues);
+                            log_temperature(input_ch);
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
+
+        byte[] byteMessage_C = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_C = 0;
+
+        private void logC_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // if (SaveToLog == false)
+                {
+                    byteMessage_C[byteMessage_length_C] = ch;
+                    byteMessage_length_C++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_C).Replace("-", "").Substring(0, byteMessage_length_C * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log3_text = string.Concat(log3_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_C = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_C).Substring(0, byteMessage_length_C);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log3_text = string.Concat(log3_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_C = 0;
+                }
+                else
+                {
+                    byteMessage_C[byteMessage_length_C] = ch;
+                    byteMessage_length_C++;
+                }
+            }
+        }
+
         #endregion
 
         #region -- 接受SerialPort4資料 --
-        private void SerialPort4_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void SerialPort4_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // {
+        //     try
+        //     {
+        //         int data_to_read = PortD.BytesToRead;
+        //         if (data_to_read > 0)
+        //         {
+        //             byte[] dataset = new byte[data_to_read];
+
+        //             PortD.Read(dataset, 0, data_to_read);
+        //             int index = 0;
+        //             while (data_to_read > 0)
+        //             {
+        //                 SearchLogQueue_D.Enqueue(dataset[index]);
+        //                 index++;
+        //                 data_to_read--;
+        //             }
+
+        //             DateTime dt;
+        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             {
+        //                 // hex to string
+        //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+        //                 DateTime.Now.ToShortTimeString();
+        //                 dt = DateTime.Now;
+
+        //                 // Joseph
+        //                 hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
+        //                 log4_text = string.Concat(log4_text, hexValues);
+        //                 logAll_text = string.Concat(logAll_text, hexValues);
+        //                 // textBox4.AppendText(hexValues);
+        //                 // End
+
+        //                 // Jeremy
+        //                 // textBox4.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox4.AppendText(hexValues + "\r\n");
+        //                 // End
+        //             }
+        //             else
+        //             {
+        //                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+        //                 string strValues = Encoding.ASCII.GetString(dataset);
+        //                 dt = DateTime.Now;
+
+        //                 if (strValues.Contains("\r"))
+        //                 {
+        //                     string[] log = strValues.Split('\r');
+        //                     foreach (string s in log)
+        //                     {
+        //                         Thread.Sleep(500);
+        //                         strValues1 = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+        //                         if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
+        //                             !s.Contains('\u0018') &&
+        //                             strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+        //                             TemperatureIsFound)
+        //                         {
+        //                             string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+        //                             double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+        //                             double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+        //                             if (previousTemperature != currentTemperature)
+        //                             {
+        //                                 //temperatureDouble.Enqueue(strValues1);
+        //                                 previousTemperature = currentTemperature;
+        //                             }
+        //                         }
+        //                         log4_text = string.Concat(log4_text, strValues1);
+        //	logAll_text = string.Concat(logAll_text, strValues1);
+        //                     }
+        //                 }
+        //                 else
+        //                 {
+        //                     strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+        //                     log4_text = string.Concat(log4_text, strValues);
+        //logAll_text = string.Concat(logAll_text, strValues);
+        //                 }
+        //                 //textBox4.AppendText(strValues);
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //     }
+        // }
+
+        private void logD_analysis()
         {
-            try
+            while (PortD.IsOpen == true)
             {
                 int data_to_read = PortD.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortD.Read(dataset, 0, data_to_read);
-                    int index = 0;
-                    while (data_to_read > 0)
-                    {
-                        SearchLogQueue_D.Enqueue(dataset[index]);
-                        index++;
-                        data_to_read--;
-                    }
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-
-                        // Joseph
-                        hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                        // textBox4.AppendText(hexValues);
-                        // End
-
-                        // Jeremy
-                        // textBox4.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                        // textBox4.AppendText(hexValues + "\r\n");
-                        // End
-                    }
-                    else
-                    {
-                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                        string strValues = Encoding.ASCII.GetString(dataset);
-                        dt = DateTime.Now;
-                        if (strValues.Contains("\r"))
+                        byte input_ch = dataset[index];
+                        logD_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            string[] log = strValues.Split('\r');
-                            foreach (string s in log)
-                            {
-                                Thread.Sleep(500);
-                                strValues1 = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
-                                if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
-                                    !s.Contains('\u0018') &&
-                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
-                                    TemperatureIsFound)
-                                {
-                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
-                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
-                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (previousTemperature != currentTemperature)
-                                    {
-                                        //temperatureDouble.Enqueue(strValues1);
-                                        previousTemperature = currentTemperature;
-                                    }
-                                }
-                                log4_text = string.Concat(log4_text, strValues1);
-								logAll_text = string.Concat(logAll_text, strValues1);
-                            }
+                            log_temperature(input_ch);
                         }
-                        else
-                        {
-                            strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log4_text = string.Concat(log4_text, strValues);
-							logAll_text = string.Concat(logAll_text, strValues);
-                        }
-                        //textBox4.AppendText(strValues);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
+
+        byte[] byteMessage_D = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_D = 0;
+
+        private void logD_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // if (SaveToLog == false)
+                {
+                    byteMessage_D[byteMessage_length_D] = ch;
+                    byteMessage_length_D++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_D).Replace("-", "").Substring(0, byteMessage_length_D * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log4_text = string.Concat(log4_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_D = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_D).Substring(0, byteMessage_length_D);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log4_text = string.Concat(log4_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_D = 0;
+                }
+                else
+                {
+                    byteMessage_D[byteMessage_length_D] = ch;
+                    byteMessage_length_D++;
+                }
+            }
+        }
+
         #endregion
 
         #region -- 接受SerialPort5資料 --
-        private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // {
+        //     try
+        //     {
+        //         int data_to_read = PortE.BytesToRead;
+        //         if (data_to_read > 0)
+        //         {
+        //             byte[] dataset = new byte[data_to_read];
+
+        //             PortE.Read(dataset, 0, data_to_read);
+        //             int index = 0;
+        //             while (data_to_read > 0)
+        //             {
+        //                 SearchLogQueue_E.Enqueue(dataset[index]);
+        //                 index++;
+        //                 data_to_read--;
+        //             }
+
+        //             DateTime dt;
+        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             {
+        //                 // hex to string
+        //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
+        //                 DateTime.Now.ToShortTimeString();
+        //                 dt = DateTime.Now;
+
+        //                 // Joseph
+        //                 hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
+        //                 log5_text = string.Concat(log5_text, hexValues);
+        //                 logAll_text = string.Concat(logAll_text, hexValues);
+        //                 // textBox5.AppendText(hexValues);
+        //                 // End
+
+        //                 // Jeremy
+        //                 // textBox5.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox5.AppendText(hexValues + "\r\n");
+        //                 // End
+        //             }
+        //             else
+        //             {
+        //                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
+        //                 string strValues = Encoding.ASCII.GetString(dataset);
+        //                 dt = DateTime.Now;
+
+        //                 if (strValues.Contains("\r"))
+        //                 {
+        //                     string[] log = strValues.Split('\r');
+        //                     foreach (string s in log)
+        //                     {
+        //                         Thread.Sleep(500);
+        //                         strValues1 = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
+        //                         if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
+        //                             !s.Contains('\u0018') &&
+        //                             strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
+        //                             TemperatureIsFound)
+        //                         {
+        //                             string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
+        //                             double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
+        //                             double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
+        //                             if (previousTemperature != currentTemperature)
+        //                             {
+        //                                 //temperatureDouble.Enqueue(strValues1);
+        //                                 previousTemperature = currentTemperature;
+        //                             }
+        //                         }
+        //                         log5_text = string.Concat(log5_text, strValues1);
+        //	logAll_text = string.Concat(logAll_text, strValues1);
+        //                     }
+        //                 }
+        //                 else
+        //                 {
+        //                     strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
+        //                     log5_text = string.Concat(log5_text, strValues);
+        //logAll_text = string.Concat(logAll_text, strValues);
+        //                 }
+        //                 //textBox5.AppendText(strValues);
+        //             }
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine(ex.Message);
+        //     }
+        // }
+
+        private void logE_analysis()
         {
-            try
+            while (PortE.IsOpen == true)
             {
                 int data_to_read = PortE.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortE.Read(dataset, 0, data_to_read);
-                    int index = 0;
-                    while (data_to_read > 0)
-                    {
-                        SearchLogQueue_E.Enqueue(dataset[index]);
-                        index++;
-                        data_to_read--;
-                    }
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-
-                        // Joseph
-                        hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                        // textBox5.AppendText(hexValues);
-                        // End
-
-                        // Jeremy
-                        // textBox5.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
-                        // textBox5.AppendText(hexValues + "\r\n");
-                        // End
-                    }
-                    else
-                    {
-                        // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
-                        string strValues = Encoding.ASCII.GetString(dataset);
-                        dt = DateTime.Now;
-                        if (strValues.Contains("\r"))
+                        byte input_ch = dataset[index];
+                        logE_recorder(input_ch);
+                        if (TemperatureIsFound == true)
                         {
-                            string[] log = strValues.Split('\r');
-                            foreach (string s in log)
-                            {
-                                Thread.Sleep(500);
-                                strValues1 = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + s + "\r\n";
-                                if (//s.Substring(2, 1) == Temperature_Data.temperatureChannel &&
-                                    !s.Contains('\u0018') &&
-                                    strValues1.Substring(strValues1.IndexOf('\u0002') + 1, strValues1.IndexOf('\r') - strValues1.IndexOf('\u0002') - 1).Length == 14 &&
-                                    TemperatureIsFound)
-                                {
-                                    string tempSubstring = strValues1.Substring(strValues1.IndexOf('\u0002') + 11, 4);
-                                    double digit = Math.Pow(10, Convert.ToInt32(strValues1.Substring(strValues1.IndexOf('\u0002') + 6, 1)));
-                                    double currentTemperature = Math.Round(Convert.ToDouble(Convert.ToInt32(tempSubstring)) / digit, 0, MidpointRounding.AwayFromZero);
-                                    if (previousTemperature != currentTemperature)
-                                    {
-                                        //temperatureDouble.Enqueue(strValues1);
-                                        previousTemperature = currentTemperature;
-                                    }
-                                }
-                                log5_text = string.Concat(log5_text, strValues1);
-								logAll_text = string.Concat(logAll_text, strValues1);
-                            }
+                            log_temperature(input_ch);
                         }
-                        else
-                        {
-                            strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n";
-                            log5_text = string.Concat(log5_text, strValues);
-							logAll_text = string.Concat(logAll_text, strValues);
-                        }
-                        //textBox5.AppendText(strValues);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
+
+        byte[] byteMessage_E = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_E = 0;
+
+        private void logE_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // if (SaveToLog == false)
+                {
+                    byteMessage_E[byteMessage_length_E] = ch;
+                    byteMessage_length_E++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_E).Replace("-", "").Substring(0, byteMessage_length_E * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log5_text = string.Concat(log5_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_E = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_E).Substring(0, byteMessage_length_E);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log5_text = string.Concat(log5_text, dataValue);
+                    logAll_text = string.Concat(logAll_text, dataValue);
+                    byteMessage_length_E = 0;
+                }
+                else
+                {
+                    byteMessage_E[byteMessage_length_E] = ch;
+                    byteMessage_length_E++;
+                }
+            }
+        }
+
         #endregion
 
         #region -- 儲存SerialPort的log --
@@ -5852,56 +6174,63 @@ namespace Woodpecker
                                             }
                                             else if (columns_serial.Contains("Temperature"))
                                             {
-                                                TemperatureIsFound = true;
-
-                                                int symbel_equal_3d = columns_serial.IndexOf("=");
-                                                int symbel_equal_7e = columns_serial.IndexOf("~");
-                                                int symbel_equal_2f = columns_serial.IndexOf("/");
-                                                int symbel_equal_28 = columns_serial.IndexOf("(");
-                                                int symbel_equal_29 = columns_serial.IndexOf(")");
-                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
-                                                int duringTimeInt = 0;
-                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
-                                                string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
-                                                string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
-                                                if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1));
-                                                else
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
-
-                                                Temperature_Data.initialTemperature = int.Parse(initialTemperature);
-                                                Temperature_Data.finalTemperature = int.Parse(finalTemperature);
-                                                Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
-                                                Temperature_Data.addTemperature = float.Parse(addTemperature);
-
-                                                float addTemperatureInt = Temperature_Data.addTemperature;
-
-                                                if (duringTimeInt > 0)
+                                                try
                                                 {
-                                                    // Create a timer and set a two second interval.
-                                                    timer_duringShot.Interval = duringTimeInt;
+                                                    TemperatureIsFound = true;
+                                                    temperatureList.Clear();
+                                                    int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                    int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                    int symbel_equal_2f = columns_serial.IndexOf("/");
+                                                    int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                    int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                    int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                    int duringTimeInt = 0;
+                                                    int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+                                                    string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                    string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                    string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+                                                    string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                    if (columns_serial.Contains("m)"))
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                    else
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
 
-                                                    // Start the timer
-                                                    timer_duringShot.Start();
-                                                }
+                                                    Temperature_Data.initialTemperature = float.Parse(initialTemperature);
+                                                    Temperature_Data.finalTemperature = float.Parse(finalTemperature);
+                                                    Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
+                                                    Temperature_Data.addTemperature = float.Parse(addTemperature);
 
-                                                if (addTemperatureInt < 0)
-                                                {
-                                                    for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    float addTemperatureInt = Temperature_Data.addTemperature;
+
+                                                    if (duringTimeInt > 0)
                                                     {
-                                                        double conditionList = Convert.ToDouble(i);
-                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        // Create a timer and set a two second interval.
+                                                        timer_duringShot.Interval = duringTimeInt;
+
+                                                        // Start the timer
+                                                        timer_duringShot.Start();
+                                                    }
+
+                                                    if (addTemperatureInt < 0)
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                        }
                                                     }
                                                 }
-                                                else
+                                                catch(Exception Ex)
                                                 {
-                                                    for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
-                                                    {
-                                                        double conditionList = Convert.ToDouble(i);
-                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
-                                                    }
+                                                    MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                                 }
                                             }
                                         }
@@ -8361,6 +8690,7 @@ namespace Woodpecker
                     }       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                     ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
                     button_Schedule2.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8380,6 +8710,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
                     button_Schedule3.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8400,6 +8731,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
                     button_Schedule4.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -8421,6 +8753,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
                     button_Schedule5.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
             }
@@ -8483,7 +8816,40 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
+            timer_duringShot.Stop();
             CloseDtplay();
+
+            //如果serialport開著則先關閉//
+            if (PortA.IsOpen == true)
+            {
+                CloseSerialPort("A");
+            }
+            if (PortB.IsOpen == true)
+            {
+                CloseSerialPort("B");
+            }
+            if (PortC.IsOpen == true)
+            {
+                CloseSerialPort("C");
+            }
+            if (PortD.IsOpen == true)
+            {
+                CloseSerialPort("D");
+            }
+            if (PortE.IsOpen == true)
+            {
+                CloseSerialPort("E");
+            }
+            if (MySerialPort.IsPortOpened() == true)
+            {
+                CloseSerialPort("kline");
+            }
+            if (Can_Usb2C.Connect() == 1)
+            {
+                Can_Usb2C.StopCAN();
+                Can_Usb2C.Disconnect();
+            }
+
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
             Global.Scheduler_Row = 0;
@@ -9642,6 +10008,10 @@ namespace Woodpecker
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
             Thread LogAThread = new Thread(new ThreadStart(logA_analysis));
+            Thread LogBThread = new Thread(new ThreadStart(logB_analysis));
+            Thread LogCThread = new Thread(new ThreadStart(logC_analysis));
+            Thread LogDThread = new Thread(new ThreadStart(logD_analysis));
+            Thread LogEThread = new Thread(new ThreadStart(logE_analysis));
 
             startTime = DateTime.Now;
 
@@ -9656,8 +10026,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
-                    LogAThread.Abort();
-                    timer_duringShot.Stop();
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
@@ -9669,6 +10037,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -9678,6 +10047,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -9687,6 +10057,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -9696,6 +10067,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -9705,6 +10077,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -9743,7 +10116,6 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數
-                    LogAThread.Start();
                     button_Start.Text = "STOP";
 
                     StartButtonPressed = true;
@@ -9757,6 +10129,7 @@ namespace Woodpecker
                     {
                         OpenSerialPort("A");
                         textBox_serial.Clear();
+                        LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
@@ -9768,6 +10141,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -9778,6 +10152,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -9788,6 +10163,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -9798,6 +10174,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;
@@ -9810,6 +10187,8 @@ namespace Woodpecker
                         OpenSerialPort("kline");
                         textBox_serial.Text = ""; //清空kline//
                     }
+
+                    label_Command.Text = "";
                 }
             }
             else//如果沒接AutoBox//
@@ -9818,8 +10197,6 @@ namespace Woodpecker
                 {
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
-                    timer_duringShot.Stop();
-                    LogAThread.Abort();
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
@@ -9832,6 +10209,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -9841,6 +10219,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -9850,6 +10229,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -9859,6 +10239,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -9868,6 +10249,7 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -9889,7 +10271,6 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
-                    LogAThread.Start();
                     StartButtonPressed = true;
                     StartButtonFlag = true;
                     button_Setting.Enabled = false;
@@ -9902,6 +10283,7 @@ namespace Woodpecker
                     {
                         OpenSerialPort("A");
                         textBox_serial.Clear();
+                        LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
@@ -9913,6 +10295,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -9923,6 +10306,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -9933,6 +10317,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -9943,6 +10328,7 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;
@@ -9955,6 +10341,8 @@ namespace Woodpecker
                         OpenSerialPort("kline");
                         textBox_serial.Text = ""; //清空kline//
                     }
+
+                    label_Command.Text = "";
                 }
             }
         }
@@ -9963,32 +10351,6 @@ namespace Woodpecker
         {
             FormTabControl FormTabControl = new FormTabControl();
             Global.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-
-            //如果serialport開著則先關閉//
-            if (PortA.IsOpen == true)
-            {
-                CloseSerialPort("A");
-            }
-            if (PortB.IsOpen == true)
-            {
-                CloseSerialPort("B");
-            }
-            if (PortC.IsOpen == true)
-            {
-                CloseSerialPort("C");
-            }
-            if (PortD.IsOpen == true)
-            {
-                CloseSerialPort("D");
-            }
-            if (PortE.IsOpen == true)
-            {
-                CloseSerialPort("E");
-            }
-            if (MySerialPort.IsPortOpened() == true)
-            {
-                CloseSerialPort("kline");
-            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
