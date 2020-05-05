@@ -6129,6 +6129,122 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- Measure --
+                        else if (columns_command.Contains("_M_"))
+                        {
+                            if (columns_command.Substring(4) == "temperature")
+                            {
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                                {
+                                    if (int.Parse(columns_times) > 0 && int.Parse(columns_times) <= 12)
+                                    {
+                                        ifStatementFlag = true;
+                                        expectedVoltage = "";
+                                        if (columns_function != "")
+                                        {
+                                            try
+                                            {
+                                                TemperatureIsFound = true;
+                                                int symbel_equal_7e = columns_function.IndexOf("~");
+                                                int symbel_equal_2b = columns_function.IndexOf("+");
+                                                int symbel_equal_2d = columns_function.IndexOf("-");
+                                                int symbel_equal_2f = columns_function.IndexOf("/");
+                                                int duringTimeInt = 0;
+                                                string initialTemperature = string.Format("{0:0.00}", columns_function.Substring(0, symbel_equal_7e - 1));
+                                                string finalTemperature = string.Format("{0:0.00}", columns_function.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                string temperatureChannel = columns_times;
+                                                int temperature_equal_10 = int.Parse(temperatureChannel) + 65 - 10;
+                                                int temperature_equal_1 = int.Parse(temperatureChannel) + 48;
+                                                string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1));
+                                                if (columns_interval.Contains("m"))
+                                                    duringTimeInt = Int16.Parse(columns_interval) * 60000;
+                                                else
+                                                    duringTimeInt = Int16.Parse(columns_interval);
+
+                                                Temperature_Data.initialTemperature = float.Parse(initialTemperature);
+                                                Temperature_Data.finalTemperature = float.Parse(finalTemperature);
+                                                Temperature_Data.addTemperature = float.Parse(addTemperature);
+
+                                                float addTemperatureInt = Temperature_Data.addTemperature;
+
+                                                if (duringTimeInt > 0)
+                                                {
+                                                    // Create a timer and set a two second interval.
+                                                    timer_duringShot.Interval = duringTimeInt;
+
+                                                    // Start the timer
+                                                    timer_duringShot.Start();
+                                                }
+
+                                                if (addTemperatureInt < 0)
+                                                {
+                                                    for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    {
+                                                        byte channelList;
+                                                        if (int.Parse(temperatureChannel) > 9)
+                                                            channelList = Convert.ToByte(temperature_equal_10);
+                                                        else
+                                                            channelList = Convert.ToByte(temperature_equal_1);
+                                                        double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                        temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                    {
+                                                        byte channelList;
+                                                        if (int.Parse(temperatureChannel) > 9)
+                                                            channelList = Convert.ToByte(temperature_equal_10);
+                                                        else
+                                                            channelList = Convert.ToByte(temperature_equal_1);
+                                                        double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                        temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                    }
+                                                }
+                                            }
+                                            catch (Exception Ex)
+                                            {
+                                                MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (columns_command.Substring(4) == "send")
+                            {
+
+                            }
+                            if (columns_command.Substring(4) == "clear")
+                            {
+                                temperatureList.Clear();
+                                ifStatementFlag = false;
+
+                                PowerSupplyCheck = false;
+                                PowerSupplyIsFound = false;
+
+                                ChamberCheck = false;
+                                ChamberIsFound = false;
+                                timer_Chamber.Enabled = false;
+
+                                chamberTimer_IsTick = false;
+                                timer_duringShot.Stop();
+
+                                foreach (Temperature_Data item in temperatureList)
+                                {
+                                    item.temperaturePause = false;
+                                    item.temperatureShot = false;
+                                }
+
+                                StartButtonFlag = false;
+                            }
+                        }
+                        #endregion
+
                         #region -- Hex --
                         else if (columns_command == "_HEX")
                         {
@@ -12264,57 +12380,6 @@ namespace Woodpecker
             {
                 queue.Enqueue(i);
             }
-        }
-    }
-
-    class Temperature_Data
-    {
-        public Temperature_Data(byte channel, double list, bool shot, bool pause)
-        {
-            temperatureChannel = channel;
-            temperatureList = list;
-            temperatureShot = shot;
-            temperaturePause = pause;
-        }
-
-        public static float addTemperature
-        {
-            get; set;
-        }
-
-        public static float initialTemperature
-        {
-            get; set;
-        }
-
-        public static float finalTemperature
-        {
-            get; set;
-        }
-
-        public static int temperatureDuringtime
-        {
-            get; set;
-        }
-
-        public byte temperatureChannel
-        {
-            get; set;
-        }
-
-        public double temperatureList
-        {
-            get; set;
-        }
-
-        public bool temperatureShot
-        {
-            get; set;
-        }
-
-        public bool temperaturePause
-        {
-            get; set;
         }
     }
 }
