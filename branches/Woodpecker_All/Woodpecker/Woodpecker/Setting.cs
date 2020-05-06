@@ -384,6 +384,14 @@ namespace Woodpecker
                     checkBox_timestamp.Checked = false;
                 }
 
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    checkBox_autosavelog.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                {
+                    checkBox_autosavelog.Checked = false;
+                }
             }
             else
             {
@@ -477,6 +485,15 @@ namespace Woodpecker
                 else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
                 {
                     checkBox_timestamp.Checked = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    checkBox_autosavelog.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                {
+                    checkBox_autosavelog.Checked = false;
                 }
             }
 
@@ -1453,6 +1470,18 @@ namespace Woodpecker
             else
             {
                 ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "0");
+            }
+        }
+
+        private void checkBox_autosavelog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_autosavelog.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "0");
             }
         }
     }

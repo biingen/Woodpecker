@@ -148,9 +148,7 @@ namespace Woodpecker
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
         private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text, debug_text;
-        private int logA_text_max_length = 100000, logB_text_max_length = 100000, logC_text_max_length = 100000, logD_text_max_length = 100000, logE_text_max_length = 100000,
-            ca310_text_max_length = 100000, canbus_text_max_length = 100000, kline_text_max_length = 100000, schedule_text_max_length = 100000, logAll_text_max_length = 100000,
-            debug_text_max_length = 100000;
+        private int log_max_length = 2147483640, debug_max_length = 2147483640;
 
         //ca310
         private CA200SRVRLib.Ca200 objCa200;
@@ -1226,52 +1224,115 @@ namespace Woodpecker
                     Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
                 }
 
-                if (logA_text.Length > logA_text_max_length)
+                if (logA_text.Length > log_max_length)
                 {
-                    Serialportsave("A");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("A");
+                    }
+                    else
+                    {
+                        logA_text = string.Empty;
+                    }
                 }
 
-                if (logB_text.Length > logB_text_max_length)
+                if (logB_text.Length > log_max_length)
                 {
-                    Serialportsave("B");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("B");
+                    }
+                    else
+                    {
+                        logB_text = string.Empty;
+                    }
                 }
 
-                if (logC_text.Length > logC_text_max_length)
+                if (logC_text.Length > log_max_length)
                 {
-                    Serialportsave("C");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("C");
+                    }
+                    else
+                    {
+                        logC_text = string.Empty;
+                    }
                 }
 
-                if (logD_text.Length > logD_text_max_length)
+                if (logD_text.Length > log_max_length)
                 {
-                    Serialportsave("D");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("D");
+                    }
+                    else
+                    {
+                        logD_text = string.Empty;
+                    }
                 }
 
-                if (logE_text.Length > logE_text_max_length)
+                if (logE_text.Length > log_max_length)
                 {
-                    Serialportsave("E");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("E");
+                    }
+                    else
+                    {
+                        logE_text = string.Empty;
+                    }
                 }
 
-                if (logAll_text.Length > logAll_text_max_length)
+                if (logAll_text.Length > log_max_length)
                 {
-                    Serialportsave("All");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("All");
+                    }
+                    else
+                    {
+                        logAll_text = string.Empty;
+                    }
                 }
 
-                if (ca310_text.Length > ca310_text_max_length)
+                if (ca310_text.Length > log_max_length)
                 {
-                    Serialportsave("CA310");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("CA310");
+                    }
+                    else
+                    {
+                        ca310_text = string.Empty;
+                    }
                 }
 
-                if (canbus_text.Length > canbus_text_max_length)
+                if (canbus_text.Length > log_max_length)
                 {
-                    Serialportsave("Canbus");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("Canbus");
+                    }
+                    else
+                    {
+                        canbus_text = string.Empty;
+                    }
                 }
 
-                if (kline_text.Length > kline_text_max_length)
+                if (kline_text.Length > log_max_length)
                 {
-                    Serialportsave("KlinePort");
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("KlinePort");
+                    }
+                    else
+                    {
+                        kline_text = string.Empty;
+                    }
                 }
 
-                if (debug_text.Length > debug_text_max_length)
+                if (debug_text.Length > debug_max_length)
                 {
                     Serialportsave("Debug");
                 }
