@@ -6,63 +6,29 @@ using System.Threading.Tasks;
 
 namespace Woodpecker
 {
-    public class Temperature_Data
+    class Temperature_Measure
     {
-        private byte dtc_high;
-        private byte dtc_low;
-        private byte status_of_dtc;
+        private byte temperature_channel;
+        private double temperature_value;
+        private int temperature_interval;
+        private string temperature_unit;
+        private bool temperature_shot;
+        private bool temperature_pause;
+        private bool temperature_stop;
+        private bool temperature_acrestart;
+        private bool temperature_mail;
 
-        public Temperature_Data(byte channel, double list, bool shot, bool pause)
+        public Temperature_Measure(byte channel, double temperature, int interval, string unit, bool shot, bool pause, bool stop, bool acrestart, bool mail)
         {
-            temperatureChannel = channel;
-            temperatureList = list;
-            temperatureShot = shot;
-            temperaturePause = pause;
+            temperature_channel = channel;
+            temperature_value = temperature;
+            temperature_interval = interval;
+            temperature_unit = unit;
+            temperature_shot = shot;
+            temperature_pause = pause;
+            temperature_stop = stop;
+            temperature_acrestart = acrestart;
+            temperature_mail = mail;
         }
-
-        public static float addTemperature
-        {
-            get; set;
-        }
-
-        public static float initialTemperature
-        {
-            get; set;
-        }
-
-        public static float finalTemperature
-        {
-            get; set;
-        }
-
-        public static int temperatureDuringtime
-        {
-            get; set;
-        }
-
-        public byte temperatureChannel
-        {
-            get; set;
-        }
-
-        public double temperatureList
-        {
-            get; set;
-        }
-
-        public bool temperatureShot
-        {
-            get; set;
-        }
-
-        public bool temperaturePause
-        {
-            get; set;
-        }
-    }
-
-    class BTM_4208SD
-    {
-
     }
 }

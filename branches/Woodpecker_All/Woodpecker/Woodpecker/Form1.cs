@@ -1770,10 +1770,10 @@ namespace Woodpecker
             const double temp_abs_value = 0.05;
 
             // If data_buffer is too long, cut off data not needed
-            if(byteTemperature_length>= byteTemperature_max)
+            if (byteTemperature_length >= byteTemperature_max)
             {
                 int destinationIndex = 0;
-                for (int i = (byteTemperature_max-packet_len); i < byteTemperature_max; i++)
+                for (int i = (byteTemperature_max - packet_len); i < byteTemperature_max; i++)
                 {
                     byteTemperature[destinationIndex++] = byteTemperature[i];
                 }
@@ -1785,57 +1785,56 @@ namespace Woodpecker
 
             if (ch == 0x0D)
             {
-                if ( ((byteTemperature_length + header_offset_1)>=0) &&
+                if (((byteTemperature_length + header_offset_1) >= 0) &&
                      (byteTemperature[byteTemperature_length + header_offset_1] == 0x02) &&
-                     (byteTemperature[byteTemperature_length + header_offset_2] == '4') )
+                     (byteTemperature[byteTemperature_length + header_offset_2] == '4'))
                 {
-                    foreach (Temperature_Data item in temperatureList)
+                    // Packet is valid here
+                    if (byteTemperature[byteTemperature_length + temp_ch_offset] == Temperature_Data.temperatureChannel)
                     {
-                        // Packet is valid here
-                        if (byteTemperature[byteTemperature_length + temp_ch_offset] == item.temperatureChannel)
+                        // Channel number is checked and ok here
+                        if ((byteTemperature[byteTemperature_length + temp_unit_02] == '0'))
                         {
-                            // Channel number is checked and ok here
-                            if ((byteTemperature[byteTemperature_length + temp_unit_02] == '0'))
+                            if ((byteTemperature[byteTemperature_length + temp_unit_01] == '1')
+                                || (byteTemperature[byteTemperature_length + temp_unit_01] == '2'))
                             {
-                                if ((byteTemperature[byteTemperature_length + temp_unit_01] == '1')
-                                    || (byteTemperature[byteTemperature_length + temp_unit_01] == '2'))
+                                if ((byteTemperature[byteTemperature_length + temp_data1_offset] != 0x18))
                                 {
-                                    if ((byteTemperature[byteTemperature_length + temp_data1_offset] != 0x18))
+                                    // data is valid
+                                    int DP_convert = '0';
+                                    int byteArray_position = 0;
+                                    byte[] byteArray = new byte[8];
+                                    for (int pos = byteTemperature_length + temp_data8_offset;
+                                                pos <= (byteTemperature_length + temp_data1_offset);
+                                                pos++)
                                     {
-                                        // data is valid
-                                        int DP_convert = '0';
-                                        int byteArray_position = 0;
-                                        byte[] byteArray = new byte[8];
-                                        for (int pos = byteTemperature_length + temp_data8_offset;
-                                                    pos <= (byteTemperature_length + temp_data1_offset);
-                                                    pos++)
+                                        byteArray[byteArray_position] = byteTemperature[pos];
+                                        byteArray_position++;
+                                    }
+
+                                    string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
+                                    double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
+                                    double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
+
+                                    // is value negative?
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
+                                    {
+                                        currentTemperature = -currentTemperature;
+                                    }
+
+                                    // is value Fahrenheit?
+                                    if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
+                                    {
+                                        currentTemperature = (currentTemperature - 32) / 1.8;
+                                        currentTemperature = Math.Round((currentTemperature), 2, MidpointRounding.AwayFromZero);
+                                    }
+
+                                    // check whether 2 temperatures are close enough
+                                    if (Math.Abs(previousTemperature - currentTemperature) >= temp_abs_value)
+                                    {
+                                        previousTemperature = currentTemperature;
+                                        foreach (Temperature_Data item in temperatureList)
                                         {
-                                            byteArray[byteArray_position] = byteTemperature[pos];
-                                            byteArray_position++;
-                                        }
-
-                                        string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
-                                        double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
-                                        double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
-
-                                        // is value negative?
-                                        if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
-                                        {
-                                            currentTemperature = -currentTemperature;
-                                        }
-
-                                        // is value Fahrenheit?
-                                        if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
-                                        {
-                                            currentTemperature = (currentTemperature - 32) / 1.8;
-                                            currentTemperature = Math.Round((currentTemperature), 2, MidpointRounding.AwayFromZero);
-                                        }
-
-                                        // check whether 2 temperatures are close enough
-                                        if (Math.Abs(previousTemperature - currentTemperature) >= temp_abs_value)
-                                        {
-                                            previousTemperature = currentTemperature;
-
                                             if (item.temperatureList == currentTemperature &&
                                                 item.temperatureShot == true)
                                             {
@@ -1852,7 +1851,6 @@ namespace Woodpecker
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                                                 break;
                                             }
-
                                         }
                                     }
                                 }
@@ -6078,7 +6076,7 @@ namespace Woodpecker
                                                             else
                                                                 channelList = Convert.ToByte(temperature_equal_1);
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                         }
                                                     }
                                                     else
@@ -6091,7 +6089,7 @@ namespace Woodpecker
                                                             else
                                                                 channelList = Convert.ToByte(temperature_equal_1);
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                         }
                                                     }
                                                 }
@@ -6190,7 +6188,7 @@ namespace Woodpecker
                                                         else
                                                             channelList = Convert.ToByte(temperature_equal_1);
                                                         double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                        temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
                                                 else
@@ -6203,7 +6201,7 @@ namespace Woodpecker
                                                         else
                                                             channelList = Convert.ToByte(temperature_equal_1);
                                                         double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                        temperatureList.Add(new Temperature_Data(channelList, conditionList, false, false));
+                                                        temperatureList.Add(new Temperature_Data(conditionList, false, false));
                                                     }
                                                 }
                                             }
@@ -9619,6 +9617,9 @@ namespace Woodpecker
             }
             RCDB.Items.Add("_Condition1");
             RCDB.Items.Add("_Execute");
+            RCDB.Items.Add("_M_temperature");
+            RCDB.Items.Add("_M_send");
+            RCDB.Items.Add("_M_clear");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
             RCDB.Items.Add("_ascii");
@@ -12380,6 +12381,56 @@ namespace Woodpecker
             {
                 queue.Enqueue(i);
             }
+        }
+    }
+
+    class Temperature_Data
+    {
+        public Temperature_Data(double list, bool shot, bool pause)
+        {
+            temperatureList = list;
+            temperatureShot = shot;
+            temperaturePause = pause;
+        }
+
+        public static byte temperatureChannel
+        {
+            get; set;
+        }
+
+        public static float addTemperature
+        {
+            get; set;
+        }
+
+        public static float initialTemperature
+        {
+            get; set;
+        }
+
+        public static float finalTemperature
+        {
+            get; set;
+        }
+
+        public static int temperatureDuringtime
+        {
+            get; set;
+        }
+
+        public double temperatureList
+        {
+            get; set;
+        }
+
+        public bool temperatureShot
+        {
+            get; set;
+        }
+
+        public bool temperaturePause
+        {
+            get; set;
         }
     }
 }
