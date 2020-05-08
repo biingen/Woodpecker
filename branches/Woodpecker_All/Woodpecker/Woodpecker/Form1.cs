@@ -147,8 +147,8 @@ namespace Woodpecker
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text, debug_text;
-        private int log_max_length = 147483640, debug_max_length = 147483640;
+        private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+        private int log_max_length = 10000000, debug_max_length = 10000000;
 
         //ca310
         private CA200SRVRLib.Ca200 objCa200;
@@ -1194,11 +1194,54 @@ namespace Woodpecker
             }
         }
 
+        // Log record function 
+        private void log_process(string port, string log)
+        {
+            try
+            {
+                switch (port)
+                {
+                    case "A":
+                        logA_text = string.Concat(logA_text, log);
+                        break;
+                    case "B":
+                        logB_text = string.Concat(logB_text, log);
+                        break;
+                    case "C":
+                        logC_text = string.Concat(logC_text, log);
+                        break;
+                    case "D":
+                        logD_text = string.Concat(logD_text, log);
+                        break;
+                    case "E":
+                        logE_text = string.Concat(logE_text, log);
+                        break;
+                    case "CA310":
+                        ca310_text = string.Concat(ca310_text, log);
+                        break;
+                    case "Canbus":
+                        canbus_text = string.Concat(canbus_text, log);
+                        break;
+                    case "KlinePort":
+                        kline_text = string.Concat(kline_text, log);
+                        break;
+                    case "All":
+                        logAll_text = string.Concat(logAll_text, log);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message.ToString());
+                Serialportsave("All");
+            }
+        }
+
         // 這個主程式專用的delay的內部資料與function
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
         private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True.");
+            //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_True");
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
@@ -1339,7 +1382,7 @@ namespace Woodpecker
                     Serialportsave("Debug");
                 }
 
-                debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
+                //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
@@ -1371,8 +1414,7 @@ namespace Woodpecker
             //Outputstring += columns_times + " Data: " + columns_serial;
             DateTime dt = DateTime.Now;
             string canbus_log_text = "[Send_UsbCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-            canbus_text = string.Concat(canbus_text, canbus_log_text);
-            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            log_process("Canbus", canbus_log_text);
             UsbCAN_Count++;
             UsbCAN_Delay_TimeOutIndicator = true;
         }
@@ -1421,8 +1463,7 @@ namespace Woodpecker
             //Outputstring += columns_times + " Data: " + columns_serial;
             DateTime dt = DateTime.Now;
             string canbus_log_text = "[Send_VectorCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-            canbus_text = string.Concat(canbus_text, canbus_log_text);
-            schedule_text = string.Concat(schedule_text, canbus_log_text);
+            log_process("Canbus", canbus_log_text);
             VectorCAN_Count++;
             VectorCAN_Delay_TimeOutIndicator = true;
         }
@@ -1928,8 +1969,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logA_text = string.Concat(logA_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("A", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_A = 0;
                 }
             }
@@ -1945,8 +1986,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logA_text = string.Concat(logA_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("A", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_A = 0;
                 }
                 else
@@ -1974,8 +2015,8 @@ namespace Woodpecker
         //                string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
         //                dt = DateTime.Now;
         //                dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-        //                logA_text = string.Concat(logA_text, dataValue);
-        //                logAll_text = string.Concat(logAll_text, dataValue);
+        //                log_process("A", dataValue);
+        //                log_process("All", dataValue);
         //                byteMessage_length_A = 0;
         //            }
         //        }
@@ -1992,8 +2033,8 @@ namespace Woodpecker
         //                dataValue = dataValue.Substring(0, byteMessage_length_A);
         //                dt = DateTime.Now;
         //                dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-        //                logA_text = string.Concat(logA_text, dataValue);
-        //                logAll_text = string.Concat(logAll_text, dataValue);
+        //                log_process("A", dataValue);
+        //                log_process("All", dataValue);
         //                byteMessage_length_A = 0;
         //            }
         //            else
@@ -2472,8 +2513,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logB_text = string.Concat(logB_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("B", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_B = 0;
                 }
             }
@@ -2487,8 +2528,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logB_text = string.Concat(logB_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("B", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_B = 0;
                 }
                 else
@@ -2633,8 +2674,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logC_text = string.Concat(logC_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("C", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_C = 0;
                 }
             }
@@ -2648,8 +2689,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logC_text = string.Concat(logC_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("C", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_C = 0;
                 }
                 else
@@ -2795,8 +2836,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logD_text = string.Concat(logD_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("D", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_D = 0;
                 }
             }
@@ -2810,8 +2851,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logD_text = string.Concat(logD_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("D", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_D = 0;
                 }
                 else
@@ -2957,8 +2998,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logE_text = string.Concat(logE_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("E", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_E = 0;
                 }
             }
@@ -2972,8 +3013,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    logE_text = string.Concat(logE_text, dataValue);
-                    logAll_text = string.Concat(logAll_text, dataValue);
+                    log_process("E", dataValue);
+                    log_process("All", dataValue);
                     byteMessage_length_E = 0;
                 }
                 else
@@ -5567,14 +5608,14 @@ namespace Woodpecker
                         }
 
                         string sch_log_text = "[Schedule] [" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        logA_text = string.Concat(logA_text, sch_log_text);
-                        logB_text = string.Concat(logB_text, sch_log_text);
-                        logC_text = string.Concat(logC_text, sch_log_text);
-                        logD_text = string.Concat(logD_text, sch_log_text);
-                        logE_text = string.Concat(logE_text, sch_log_text);
-                        logAll_text = string.Concat(logAll_text, sch_log_text);
-                        canbus_text = string.Concat(canbus_text, sch_log_text);
-                        kline_text = string.Concat(kline_text, sch_log_text);
+                        log_process("A", sch_log_text);
+                        log_process("B", sch_log_text);
+                        log_process("C", sch_log_text);
+                        log_process("D", sch_log_text);
+                        log_process("E", sch_log_text);
+                        log_process("All", sch_log_text);
+                        log_process("Canbus", sch_log_text);
+                        log_process("KlinePort", sch_log_text);
                         textBox_serial.AppendText(sch_log_text);
                         #endregion
 
@@ -6029,9 +6070,9 @@ namespace Woodpecker
                                 /*
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
-                                textBox_serial.AppendText(text);
-                                logA_text = string.Concat(logA_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                textBox_serial.AppendText(dataValue);
+                                log_process("A", dataValue);
+                                log_process("All", dataValue);
                                 */
                             }
 
@@ -6057,9 +6098,9 @@ namespace Woodpecker
                                 /*
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logB_text = string.Concat(logB_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                textBox_serial.AppendText(dataValue);
+                                log_process("B", dataValue);
+                                log_process("All", dataValue);
                                 */
                             }
 
@@ -6085,9 +6126,9 @@ namespace Woodpecker
                                 /*
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logC_text = string.Concat(logC_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                textBox_serial.AppendText(dataValue);
+                                log_process("C", dataValue);
+                                log_process("All", dataValue);
                                 */
                             }
 
@@ -6113,9 +6154,9 @@ namespace Woodpecker
                                 /*
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logD_text = string.Concat(logD_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                textBox_serial.AppendText(dataValue);
+                                log_process("D", dataValue);
+                                log_process("All", dataValue);
                                 */
                             }
 
@@ -6141,9 +6182,9 @@ namespace Woodpecker
                                 /*
                                 DateTime dt = DateTime.Now;
                                 string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logE_text = string.Concat(logE_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                textBox_serial.AppendText(dataValue);
+                                log_process("E", dataValue);
+                                log_process("All", dataValue);
                                 */
                             }
 
@@ -6166,46 +6207,46 @@ namespace Woodpecker
                                 {
                                     ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logA_text = string.Concat(logA_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("A", dataValue);
+                                    logAll_text = string.Concat(logAll_text, dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
                                     ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logB_text = string.Concat(logB_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("B", dataValue);
+                                    logAll_text = string.Concat(logAll_text, dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
                                     ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logC_text = string.Concat(logC_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
                                     ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logD_text = string.Concat(logD_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
                                     ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logE_text = string.Concat(logE_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6415,10 +6456,10 @@ namespace Woodpecker
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logA_text = string.Concat(logA_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("A", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
@@ -6455,10 +6496,10 @@ namespace Woodpecker
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logB_text = string.Concat(logB_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("B", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
@@ -6495,10 +6536,10 @@ namespace Woodpecker
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logC_text = string.Concat(logC_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("C", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
@@ -6535,10 +6576,10 @@ namespace Woodpecker
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logD_text = string.Concat(logD_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("D", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
@@ -6575,10 +6616,10 @@ namespace Woodpecker
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(text);
-                                logE_text = string.Concat(logE_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("E", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (columns_comport == "ALL")
@@ -6613,10 +6654,10 @@ namespace Woodpecker
                                         PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logA_text = string.Concat(logA_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
@@ -6636,10 +6677,10 @@ namespace Woodpecker
                                         PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logB_text = string.Concat(logB_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
@@ -6659,10 +6700,10 @@ namespace Woodpecker
                                         PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logC_text = string.Concat(logC_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
@@ -6682,10 +6723,10 @@ namespace Woodpecker
                                         PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logD_text = string.Concat(logD_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
@@ -6705,10 +6746,10 @@ namespace Woodpecker
                                         PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
-                                    textBox_serial.AppendText(text);
-                                    logE_text = string.Concat(logE_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
+                                    textBox_serial.AppendText(dataValue);
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + Outputstring;
@@ -6823,9 +6864,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logA_text = string.Concat(logA_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6841,9 +6882,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logB_text = string.Concat(logB_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6859,9 +6900,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logC_text = string.Concat(logC_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6877,9 +6918,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logD_text = string.Concat(logD_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6895,9 +6936,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logE_text = string.Concat(logE_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                         }
@@ -6919,9 +6960,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logA_text = string.Concat(logA_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6938,9 +6979,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logB_text = string.Concat(logB_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6957,9 +6998,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logC_text = string.Concat(logC_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6976,9 +7017,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logD_text = string.Concat(logD_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
@@ -6995,9 +7036,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    logE_text = string.Concat(logE_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                         }
@@ -7019,8 +7060,8 @@ namespace Woodpecker
                                     Outputstring += columns_times + " Data: " + columns_serial;
                                     DateTime dt = DateTime.Now;
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                    log_process("Canbus", canbus_log_text);
+                                    log_process("All", canbus_log_text);
                                 }
                                 else if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
@@ -7069,8 +7110,8 @@ namespace Woodpecker
                                     Outputstring += columns_times + " Data: " + columns_serial;
                                     DateTime dt = DateTime.Now;
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                    log_process("Canbus", canbus_log_text);
+                                    log_process("All", canbus_log_text);
                                 }
                                 else if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
@@ -7520,10 +7561,10 @@ namespace Woodpecker
                                             PortA.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logA_text = string.Concat(logA_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                     {
@@ -7556,10 +7597,10 @@ namespace Woodpecker
                                             PortB.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logB_text = string.Concat(logB_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                     {
@@ -7592,10 +7633,10 @@ namespace Woodpecker
                                             PortC.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logC_text = string.Concat(logC_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                     {
@@ -7628,10 +7669,10 @@ namespace Woodpecker
                                             PortD.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logD_text = string.Concat(logD_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                     {
@@ -7664,10 +7705,10 @@ namespace Woodpecker
                                             PortE.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logE_text = string.Concat(logE_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     debug_process("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
@@ -7712,10 +7753,10 @@ namespace Woodpecker
                                             PortA.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logA_text = string.Concat(logA_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                     {
@@ -7748,10 +7789,10 @@ namespace Woodpecker
                                             PortB.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logB_text = string.Concat(logB_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                     {
@@ -7784,10 +7825,10 @@ namespace Woodpecker
                                             PortC.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logC_text = string.Concat(logC_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                     {
@@ -7820,10 +7861,10 @@ namespace Woodpecker
                                             PortD.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logD_text = string.Concat(logD_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                     {
@@ -7856,10 +7897,10 @@ namespace Woodpecker
                                             PortE.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(text);
-                                        logE_text = string.Concat(logE_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     Thread.Sleep(500);
@@ -12060,9 +12101,8 @@ namespace Woodpecker
                 //Outputstring += columns_times + " Data: " + columns_serial;
                 DateTime dt = DateTime.Now;
                 string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                canbus_text = string.Concat(canbus_text, canbus_log_text);
-                schedule_text = string.Concat(schedule_text, canbus_log_text);
-
+                log_process("Canbus", canbus_log_text);
+                log_process("All", canbus_log_text);
                 CAN_Count++;
             }
 
@@ -12132,8 +12172,8 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                         string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                        canbus_text = string.Concat(canbus_text, canbus_log_text);
-                        schedule_text = string.Concat(schedule_text, canbus_log_text);
+                        log_process("Canbus", canbus_log_text);
+                        log_process("All", canbus_log_text);
                         if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
                         {
                             timer_canbus.Enabled = false;
@@ -12164,8 +12204,8 @@ namespace Woodpecker
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    ca310_text = string.Concat(ca310_text, ca310_log_text);
-                    schedule_text = string.Concat(schedule_text, ca310_log_text);
+                    log_process("CA310", ca310_log_text);
+                    log_process("All", ca310_log_text);
                 }
                 catch (Exception)
                 {
@@ -12431,9 +12471,11 @@ namespace Woodpecker
                 String raw_data_in_string = MySerialPort.KLineRawDataInStringList[0];
                 MySerialPort.KLineRawDataInStringList.RemoveAt(0);
                 DisplayKLineBlockMessage(textBox_serial, "raw_input: " + raw_data_in_string + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
+                log_process("KlinePort",  textBox_serial.Text);
+                log_process("All", textBox_serial.Text);
                 DisplayKLineBlockMessage(textBox_serial, "In - " + in_message.GenerateDebugString() + "\n\r");
-                kline_text = string.Concat(kline_text, textBox_serial);
+                log_process("KlinePort", textBox_serial.Text);
+                log_process("All", textBox_serial.Text);
                 // Process input Kline message and generate output KLine message
                 KWP_2000_Process kwp_2000_process = new KWP_2000_Process();
                 BlockMessage out_message = new BlockMessage();
@@ -12475,7 +12517,8 @@ namespace Woodpecker
 
                 // Show output KLine message for debug purpose
                 DisplayKLineBlockMessage(textBox_serial, "Out - " + out_message.GenerateDebugString() + "\n\r");
-                kline_text = textBox_serial.Text;
+                log_process("KlinePort", textBox_serial.Text);
+                log_process("All", textBox_serial.Text);
             }
         }
 
