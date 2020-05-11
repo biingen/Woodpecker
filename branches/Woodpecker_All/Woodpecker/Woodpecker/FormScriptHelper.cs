@@ -94,7 +94,7 @@ namespace Woodpecker
                 case "_Pin + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
-                    CmdList.Add("_restart");
+                    CmdList.Add("_ac_restart");
                     CmdList.Add("_shot");
                     CmdList.Add("_accumulate");
                     CmdList.Add("_mail");
@@ -118,7 +118,7 @@ namespace Woodpecker
                 case "_keyword + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
-                    CmdList.Add("_restart");
+                    CmdList.Add("_ac_restart");
                     CmdList.Add("_shot");
                     CmdList.Add("_mail");
                     CmdList.Add("_savelog1");
