@@ -7722,6 +7722,7 @@ namespace Woodpecker
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     debug_process("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
+
                                     RedRatDBViewer_Delay(sRepeat);
                                     int length = columns_serial.Length;
                                     string status = columns_serial.Substring(length - 1, 1);
