@@ -150,13 +150,13 @@ namespace Woodpecker
         private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
         private int log_max_length = 10000000, debug_max_length = 10000000;
 
-        //ca310
+        //Ca310
         private CA200SRVRLib.Ca200 objCa200;
         private CA200SRVRLib.Ca objCa;
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
 
-        //Search chamber parameter
+        //Search temperature parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<double> temperatureDouble = new Queue<double> { };
         System.Timers.Timer duringTimer = new System.Timers.Timer();
@@ -2217,10 +2217,10 @@ namespace Woodpecker
             const int header_data1_offset = -9;
             const int header_data2_offset = -8;
             const int length_data_offset = -7;
-            const int chamber_data1_offset = -6;
-            const int chamber_data2_offset = -5;
-            const int chamber_data3_offset = -4;
-            const int chamber_data4_offset = -3;
+            const int data_actual2_offset = -6;
+            const int data_actual1_offset = -5;
+            const int data_target2_offset = -4;
+            const int data_target1_offset = -3;
             const int crc16_highbit_offset = -2;
             const int crc16_lowbit_offset = -1;
 
@@ -2228,10 +2228,20 @@ namespace Woodpecker
             byteChamber_length++;
 
             if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
-                (byteChamber[byteChamber_length + header_data2_offset] == 0x03))
-                {
-
-                }
+                (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
+                (byteChamber[byteChamber_length + length_data_offset] == 0x04))
+            {
+                byte[] byteActual = new byte[2];
+                byte[] byteTarget = new byte[2];
+                byteActual[0] = byteChamber[byteChamber_length + data_actual2_offset];
+                byteActual[1] = byteChamber[byteChamber_length + data_actual1_offset];
+                byteTarget[0] = byteChamber[byteChamber_length + data_target2_offset];
+                byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
+                string stringActual = System.Text.Encoding.Default.GetString(byteActual);
+                string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
+                int intActual = Convert.ToInt32(stringActual, 16);
+                int intTarget = Convert.ToInt32(stringTarget, 16);
+            }
             byteChamber_length = 0;
         }
 
