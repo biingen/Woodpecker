@@ -34,9 +34,6 @@ using KWP_2000;
 using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
-using InTheHand.Net.Sockets;
-using InTheHand.Net;
-using InTheHand.Net.Bluetooth;
 using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
@@ -444,22 +441,6 @@ namespace Woodpecker
             }
             */
             LoadRCDB();
-            /*comboBox_Bluetooth.Items.Clear();
-            Thread t1 = new Thread(BlutoothSearch);
-            t1.Start();*/
-
-
-            button_BluetoothSearch.Enabled = false;
-            button_BluetoothConnect.Enabled = false;
-            //建立一個BackgroundWorker執行緒
-            bw = new BackgroundWorker();
-            //指定可以讓執行緒停止
-            bw.WorkerSupportsCancellation = true;
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_WorkerCompleted);
-            //建立一個DoWork事件，指定bw_DoWork方法去做事
-            bw.DoWork += new DoWorkEventHandler(BlutoothSearch);
-            //開始執行
-            bw.RunWorkerAsync();
 
             List<string> SchExist = new List<string> { };
             for (int i = 2; i < 6; i++)
@@ -12246,140 +12227,6 @@ namespace Woodpecker
             }
         }
 
-        Dictionary<string, BluetoothAddress> deviceAddressesDic = new Dictionary<string, BluetoothAddress>();
-        BluetoothRadio BuleRadio = BluetoothRadio.PrimaryRadio;
-        BluetoothClient blueclient;
-        BluetoothDeviceInfo[] Devices;
-        BackgroundWorker bw;
-
-        string pin = "0000";
-        private void BlutoothSearch(object sender, DoWorkEventArgs e)
-        {
-            try
-            {
-                Console.WriteLine("Searching bluetooth device....");
-                blueclient = new BluetoothClient();
-                BuleRadio.Mode = RadioMode.Connectable;
-
-                Devices = blueclient.DiscoverDevices(10, true, false, true, true);
-
-                EventHandler<BluetoothWin32AuthenticationEventArgs> handler = new EventHandler<BluetoothWin32AuthenticationEventArgs>(handleRequests);
-                BluetoothWin32Authentication authenticator = new BluetoothWin32Authentication(handler);
-                deviceAddressesDic.Clear();
-                foreach (BluetoothDeviceInfo device in Devices)
-                {
-                    Console.WriteLine("====== " + device.DeviceName + " (" + device.DeviceAddress + ") =====");
-                    comboBox_Bluetooth.Items.Add(device.DeviceName);
-                    deviceAddressesDic[device.DeviceName] = device.DeviceAddress;
-                }
-
-                if (comboBox_Bluetooth.Items.Count != 0)
-                {
-                    comboBox_Bluetooth.SelectedIndex = 0;
-                }
-
-                Console.WriteLine("Searching finished!!!!");
-
-                bw.CancelAsync();
-                //獲取當前執行緒是否得到停止的指令
-                if (bw.CancellationPending)
-                {
-                    e.Cancel = true;
-                    Console.WriteLine("Thread finished!!!!");
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("Cannot find any bluetooth on this device.");
-                return;
-            }
-        }
-
-        private void bw_WorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Cancelled)
-            {
-                button_BluetoothSearch.Enabled = true;
-                button_BluetoothConnect.Enabled = true;
-                MessageBox.Show("Bluetooth searching finished.", "Bluetooth");
-            }
-        }
-
-        string temp = string.Empty;
-        private void button_BluetoothConnect_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                temp = comboBox_Bluetooth.SelectedItem.ToString();
-                BluetoothAddress DeviceAddress = deviceAddressesDic[temp];
-
-                blueclient.SetPin(DeviceAddress, pin);
-                blueclient.Connect(DeviceAddress, BluetoothService.Handsfree);
-
-                if (blueclient.Connected)
-                {
-                    Console.WriteLine("Connect to " + temp + " successfully.");
-                    MessageBox.Show("Connect to " + temp + " successfully.", "Check connection");
-                    bw.CancelAsync();
-                }
-                else
-                {
-                    MessageBox.Show("Connect Failed. Please search again.", "Error");
-                    blueclient.Dispose();
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Connection Error. Please search again.", "Error");
-                blueclient.Dispose();
-            }
-        }
-
-
-        public static void handleRequests(Object thing, BluetoothWin32AuthenticationEventArgs args)
-        {
-            args.Confirm = true;
-        }
-
-        private void button_BluetoothSearch_Click(object sender, EventArgs e)
-        {
-            button_BluetoothSearch.Enabled = false;
-            button_BluetoothConnect.Enabled = false;
-            blueclient.Dispose();
-            comboBox_Bluetooth.Items.Clear();
-
-            bw = new BackgroundWorker();
-            bw.WorkerSupportsCancellation = true;
-            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_WorkerCompleted);
-            bw.DoWork += new DoWorkEventHandler(BlutoothSearch);
-            bw.RunWorkerAsync();
-        }
-
-        private NetworkStream stream = null;
-        private void button_Check_Click(object sender, EventArgs e)
-        {
-            string content = string.Empty;
-            stream = blueclient.GetStream();
-            if (stream.CanWrite)
-            {
-                Console.WriteLine("Start writing data.....");
-                content = "0D 4E 41 56 49 00 1E 30 1E 41 00 1E 0D";
-                string[] contentSplit = content.Split(' ');
-                byte[] buffer = new byte[contentSplit.Count()];
-                int index = 0;
-                foreach (string s in contentSplit)
-                {
-                    byte number = Convert.ToByte(Convert.ToInt32(s, 16));
-                    buffer[index++] = number;
-                }
-                stream.Write(buffer, 0, buffer.Length);
-                stream.Flush();
-                stream.Close();
-                Console.WriteLine("Finish writing data.....");
-            }
-        }
-
         string chamberCommandLog = string.Empty;
         bool chamberTimer_IsTick = false;
 
@@ -12398,7 +12245,6 @@ namespace Woodpecker
                 logA_text = string.Concat(logA_text, chamberCommandLog); // Save log for sending chamber command
             }
         }
-
 
         //Select & copy log from textbox
         private void Button_Copy_Click(object sender, EventArgs e)
