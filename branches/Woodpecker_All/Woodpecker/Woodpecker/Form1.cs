@@ -161,6 +161,7 @@ namespace Woodpecker
         bool ifStatementFlag = false;
         bool ChamberIsFound = false;
         bool TemperatureIsFound = false;
+        string temperatureValue = "";
         bool PowerSupplyIsFound = false;
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
@@ -6273,11 +6274,166 @@ namespace Woodpecker
 
                         #endregion
 
-                        #region -- Condition --
-                        else if (columns_command.Contains("_Condition"))
+                        #region -- Condition_AND --
+                        else if (columns_command == "_Condition_AND")
                         {
-                            if (columns_command.Substring(10) == "1")
+                            //if (columns_command.Substring(13) == "1")
+                            //{
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                             {
+                                if (columns_function == "start")
+                                {
+                                    ifStatementFlag = true;
+                                    expectedVoltage = "";
+                                    if (columns_serial != "")
+                                    {
+                                        columns_serial.Replace(" ", "");
+                                        if (columns_serial.Contains("chamber_temp"))
+                                        {
+                                            timer_Chamber.Enabled = true;
+                                            ChamberIsFound = true;
+                                            Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
+                                            Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
+                                            if (columns_serial.Contains("/-"))
+                                            {
+                                                Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
+                                            }
+                                            else
+                                            {
+                                                Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
+                                            }
+                                        }
+                                        else if (columns_serial.Contains("PowerSupply_Voltage"))
+                                        {
+                                            PowerSupplyIsFound = true;
+                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
+
+                                            string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
+                                            ReplaceNewLine(PortA, powerCommand, columns_switch);
+
+                                            //Append Power Supply command to log
+                                            DateTime dt = DateTime.Now;
+                                            PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                            logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                        }
+                                        else if (columns_serial.Contains("Temperature"))
+                                        {
+                                            try
+                                            {
+                                                //	lt：less than 小於
+                                                //	le：less than or equal to 小於等於
+                                                //	eq：equal to 等於
+                                                //	ne：not equal to 不等於
+                                                //	ge：greater than or equal to 大於等於
+                                                //	gt：greater than 大於
+
+                                                TemperatureIsFound = true;
+                                                int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                int symbel_equal_3b = columns_serial.IndexOf(";");
+                                                int symbel_equal_3c = columns_serial.IndexOf("<");
+                                                int symbel_equal_3c3d = columns_serial.IndexOf("<=");
+                                                int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                int symbel_equal_213d = columns_serial.IndexOf("!=");
+                                                int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                int symbel_equal_3e3d = columns_serial.IndexOf(">=");
+                                                int duringTimeInt = 0;
+                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+
+                                                if (columns_serial.Contains(";"))
+                                                {
+                                                    if (columns_serial.Contains("<"))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("<="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("=="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("!="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_213d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains(">"))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains(">="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
+                                                }
+                                                else
+                                                {
+                                                    if (columns_serial.Contains("<"))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("<="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("=="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("!="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_213d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains(">"))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains(">="))
+                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
+                                                }
+
+                                                string string_temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+
+                                                if (columns_serial.Contains("m)"))
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                else
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
+
+                                                byte temperatureChannel = Convert.ToByte(int.Parse(string_temperatureChannel) + 48);
+
+                                                if (duringTimeInt > 0)
+                                                {
+                                                    // Create a timer and set a two second interval.
+                                                    timer_duringShot.Interval = duringTimeInt;
+
+                                                    // Start the timer
+                                                    timer_duringShot.Start();
+                                                }
+                                            }
+                                            catch (Exception Ex)
+                                            {
+                                                MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (columns_function == "end")
+                                {
+                                    ifStatementFlag = false;
+
+                                    PowerSupplyCheck = false;
+                                    PowerSupplyIsFound = false;
+
+                                    ChamberCheck = false;
+                                    ChamberIsFound = false;
+                                    timer_Chamber.Enabled = false;
+
+                                    chamberTimer_IsTick = false;
+                                    timer_duringShot.Stop();
+
+                                    foreach (Temperature_Data item in temperatureList)
+                                    {
+                                        item.temperaturePause = false;
+                                        item.temperatureShot = false;
+                                    }
+
+                                    StartButtonFlag = false;
+                                }
+                            }
+                            //}
+                        }
+                        #endregion
+
+                        #region -- Condition_OR --
+                        else if (columns_command == "_Condition_OR")
+                        {
+                            //if (columns_command.Substring(13) == "1")
+                            //{
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
                                     ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
                                     ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
@@ -6405,7 +6561,7 @@ namespace Woodpecker
                                         StartButtonFlag = false;
                                     }
                                 }
-                            }
+                            //}
                         }
                         #endregion
 
@@ -9923,8 +10079,9 @@ namespace Woodpecker
             {
                 Console.WriteLine("Select Device Error: " + devicename);
             }
-            RCDB.Items.Add("_Condition1");
             RCDB.Items.Add("_Execute");
+            RCDB.Items.Add("_Condition_AND");
+            RCDB.Items.Add("_Condition_OR");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
             RCDB.Items.Add("_ascii");

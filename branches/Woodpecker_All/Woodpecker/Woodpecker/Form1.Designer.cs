@@ -133,7 +133,6 @@ namespace Woodpecker
             this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
             this.label_ca310 = new System.Windows.Forms.Label();
             this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
-            this.button_Send = new System.Windows.Forms.Button();
             this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
             this.timer_duringShot = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
@@ -1356,16 +1355,6 @@ namespace Woodpecker
             this.pictureBox_ca310.TabIndex = 113;
             this.pictureBox_ca310.TabStop = false;
             // 
-            // button_Send
-            // 
-            this.button_Send.Location = new System.Drawing.Point(1262, 430);
-            this.button_Send.Margin = new System.Windows.Forms.Padding(4);
-            this.button_Send.Name = "button_Send";
-            this.button_Send.Size = new System.Drawing.Size(94, 29);
-            this.button_Send.TabIndex = 120;
-            this.button_Send.Text = "Send";
-            this.button_Send.UseVisualStyleBackColor = true;
-            // 
             // timer_Chamber
             // 
             this.timer_Chamber.Interval = 10000;
@@ -1539,7 +1528,6 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1371, 811);
-            this.Controls.Add(this.button_Send);
             this.Controls.Add(this.label_ca310);
             this.Controls.Add(this.pictureBox_ca310);
             this.Controls.Add(this.button_savelog);
@@ -1743,7 +1731,6 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column8;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column9;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
-        private System.Windows.Forms.Button button_Send;
         protected internal System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Timer timer_Chamber;
         private System.Windows.Forms.Timer timer_ca310;
