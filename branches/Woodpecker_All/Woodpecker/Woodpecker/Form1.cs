@@ -161,7 +161,7 @@ namespace Woodpecker
         bool ifStatementFlag = false;
         bool ChamberIsFound = false;
         bool TemperatureIsFound = false;
-        string temperatureValue = "";
+        string MaxTemperature, MinTemperature = "";
         bool PowerSupplyIsFound = false;
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
@@ -6332,51 +6332,46 @@ namespace Woodpecker
                                                 //	gt：greater than 大於
 
                                                 TemperatureIsFound = true;
-                                                int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                int symbel_equal_7e = columns_serial.IndexOf("~");
                                                 int symbel_equal_28 = columns_serial.IndexOf("(");
                                                 int symbel_equal_29 = columns_serial.IndexOf(")");
                                                 int symbel_equal_6d29 = columns_serial.IndexOf("m)");
-                                                int symbel_equal_3b = columns_serial.IndexOf(";");
+                                                int symbel_equal_3d = columns_serial.IndexOf("=");
                                                 int symbel_equal_3c = columns_serial.IndexOf("<");
-                                                int symbel_equal_3c3d = columns_serial.IndexOf("<=");
-                                                int symbel_equal_3d3d = columns_serial.IndexOf("==");
-                                                int symbel_equal_213d = columns_serial.IndexOf("!=");
                                                 int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                int symbel_equal_3c3e = columns_serial.IndexOf("<>");
+                                                int symbel_equal_3c3d = columns_serial.IndexOf("<=");
                                                 int symbel_equal_3e3d = columns_serial.IndexOf(">=");
                                                 int duringTimeInt = 0;
                                                 int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
 
-                                                if (columns_serial.Contains(";"))
+                                                if (columns_serial.Contains("~") && columns_serial.Contains("<>"))
                                                 {
-                                                    if (columns_serial.Contains("<"))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains("<="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains("=="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains("!="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_213d - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains(">"))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains(">="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
+
+                                                }
+                                                else if (columns_serial.Contains("~") && columns_serial.Contains("="))
+                                                {
+                                                    MaxTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                    MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+
                                                 }
                                                 else
                                                 {
                                                     if (columns_serial.Contains("<"))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
                                                     else if (columns_serial.Contains("<="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
                                                     else if (columns_serial.Contains("=="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
-                                                    else if (columns_serial.Contains("!="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_213d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
+                                                    else if (columns_serial.Contains("<>"))
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3e - symbel_equal_3d - 1));
                                                     else if (columns_serial.Contains(">"))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
                                                     else if (columns_serial.Contains(">="))
-                                                        temperatureValue = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
                                                 }
-
+                                                
                                                 string string_temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
 
                                                 if (columns_serial.Contains("m)"))
