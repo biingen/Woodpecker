@@ -6411,30 +6411,30 @@ namespace Woodpecker
                                                 int duringTimeInt = 0;
                                                 int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
 
-                                                if (columns_serial.Contains("~") && columns_serial.Contains("<>"))
+                                                if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
                                                 {
-
+                                                    MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                    MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
                                                 }
-                                                else if (columns_serial.Contains("~") && columns_serial.Contains("="))
+                                                else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
                                                 {
-                                                    MaxTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                    MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
-
+                                                    MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                    MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
                                                 }
-                                                else
+                                                else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
                                                 {
                                                     if (columns_serial.Contains("<"))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
                                                     else if (columns_serial.Contains("<="))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
                                                     else if (columns_serial.Contains("=="))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3d3d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
                                                     else if (columns_serial.Contains("<>"))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3c3e - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
                                                     else if (columns_serial.Contains(">"))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
                                                     else if (columns_serial.Contains(">="))
-                                                        MinTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_3e3d - symbel_equal_3d - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
                                                 }
                                                 
                                                 string string_temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
@@ -6547,12 +6547,45 @@ namespace Woodpecker
                                                     int symbel_equal_28 = columns_serial.IndexOf("(");
                                                     int symbel_equal_29 = columns_serial.IndexOf(")");
                                                     int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                    int symbel_equal_3c = columns_serial.IndexOf("<");
+                                                    int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                    int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                    int symbel_equal_3c3e = columns_serial.IndexOf("<>");
+                                                    int symbel_equal_3c3d = columns_serial.IndexOf("<=");
+                                                    int symbel_equal_3e3d = columns_serial.IndexOf(">=");
                                                     int duringTimeInt = 0;
                                                     int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
                                                     string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
                                                     string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
                                                     string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
                                                     string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
+                                                    {
+                                                        MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                    }
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
+                                                    {
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                    }
+                                                    else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
+                                                    {
+                                                        if (columns_serial.Contains("<"))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                        else if (columns_serial.Contains("<="))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
+                                                        else if (columns_serial.Contains("=="))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
+                                                        else if (columns_serial.Contains("<>"))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
+                                                        else if (columns_serial.Contains(">"))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                        else if (columns_serial.Contains(">="))
+                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
+                                                    }
+
                                                     if (columns_serial.Contains("m)"))
                                                         duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
                                                     else
@@ -6612,11 +6645,7 @@ namespace Woodpecker
                                         chamberTimer_IsTick = false;
                                         timer_duringShot.Stop();
 
-                                        foreach (Temperature_Data item in temperatureList)
-                                        {
-                                            item.temperaturePause = false;
-                                            item.temperatureShot = false;
-                                        }
+                                        temperatureList.Clear();
 
                                         StartButtonFlag = false;
                                     }
