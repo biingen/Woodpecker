@@ -2134,6 +2134,62 @@ namespace Woodpecker
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                                                 break;
                                             }
+                                            else if (item.temperatureList == currentTemperature &&
+                                                     item.temperaturePort != "" &&
+                                                     item.temperatureLog != "" &&
+                                                     item.temperatureNewline != "")
+                                            {
+                                                label_Command.Text = "Condition: " + item.temperatureList + ", Log: " + currentTemperature;
+                                                if (item.temperatureLog.Contains('|'))
+                                                {
+                                                    string[] logArray = item.temperatureLog.Split('|');
+                                                    switch (item.temperaturePort)
+                                                    {
+                                                        case "A":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "B":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "C":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "D":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "E":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    switch (item.temperaturePort)
+                                                    {
+                                                        case "A":
+                                                            ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "B":
+                                                            ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "C":
+                                                            ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "D":
+                                                            ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "E":
+                                                            ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                    }
+                                                }
+                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
+                                            }
                                         }
                                     }
                                 }
@@ -6270,6 +6326,15 @@ namespace Woodpecker
                                     item.temperatureShot = true;
                                 }
                             }
+                            else if (columns_comport == "A" || columns_comport == "B" || columns_comport == "C" || columns_comport == "D" || columns_comport == "E")
+                            {
+                                foreach (Temperature_Data item in temperatureList)
+                                {
+                                    item.temperaturePort = columns_comport;
+                                    item.temperatureLog = columns_serial;
+                                    item.temperatureNewline = columns_switch;
+                                }
+                            }
                         }
 
                         #endregion
@@ -6514,7 +6579,7 @@ namespace Woodpecker
                                                         for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
                                                         }
                                                     }
                                                     else
@@ -6522,7 +6587,7 @@ namespace Woodpecker
                                                         for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
                                                         }
                                                     }
                                                 }
@@ -12772,11 +12837,14 @@ namespace Woodpecker
 
     class Temperature_Data
     {
-        public Temperature_Data(double list, bool shot, bool pause)
+        public Temperature_Data(double list, bool shot, bool pause, string port, string log, string line)
         {
             temperatureList = list;
             temperatureShot = shot;
             temperaturePause = pause;
+            temperaturePort = port;
+            temperatureLog = log;
+            temperatureNewline = line;
         }
 
         public static byte temperatureChannel
@@ -12815,6 +12883,20 @@ namespace Woodpecker
         }
 
         public bool temperaturePause
+        {
+            get; set;
+        }
+
+        public string temperaturePort
+        {
+            get; set;
+        }
+
+        public string temperatureLog
+        {
+            get; set;
+        }
+        public string temperatureNewline
         {
             get; set;
         }
