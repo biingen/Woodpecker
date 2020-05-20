@@ -161,8 +161,8 @@ namespace Woodpecker
         bool ifStatementFlag = false;
         bool ChamberIsFound = false;
         bool TemperatureIsFound = false;
-        string MaxTemperature, MinTemperature = "";
         bool PowerSupplyIsFound = false;
+        string MaxTemperature = "", MinTemperature = "";
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
 
@@ -1240,27 +1240,23 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-
-                if (temperatureDouble.Count() > 0)
+                if (temperatureDouble.Count() > 0 || timer_matched)
                 {
-                    currentTemperature = temperatureDouble.Dequeue();
+                    if (temperatureDouble.Count() > 0)
+                    {
+                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
+                        currentTemperature = temperatureDouble.Dequeue();
+                    }
+                    else if (timer_matched)
+                    {
+                        label_Command.Text = "Timer: matched.";
+                        timer_matched = false;
+                    }
+
                     Global.caption_Num++;
                     if (Global.Loop_Number == 1)
                         Global.caption_Sum = Global.caption_Num;
-                    label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                     Jes();
-                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Take a picture.~~~~~~~~~");
-                }
-
-                if (time_match)
-                {
-                    time_match = false;
-                    Global.caption_Num++;
-                    if (Global.Loop_Number == 1)
-                        Global.caption_Sum = Global.caption_Num;
-                    label_Command.Text = "Timer: matched.";
-                    Jes();
-                    Console.WriteLine("Timer: ~~~~~~~~~Timer matched. Take a picture.~~~~~~~~~");
                 }
 
                 if (logA_text.Length > log_max_length)
@@ -2126,15 +2122,17 @@ namespace Woodpecker
                                                 Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
                                                 break;
                                             }
-                                            else if (item.temperatureList == currentTemperature &&
-                                                     item.temperaturePause == true)
+
+                                            if (item.temperatureList == currentTemperature &&
+                                                item.temperaturePause == true)
                                             {
                                                 label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
                                                 button_Pause.PerformClick();
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                                                 break;
                                             }
-                                            else if (item.temperatureList == currentTemperature &&
+
+                                            if (item.temperatureList == currentTemperature &&
                                                      item.temperaturePort != "" &&
                                                      item.temperatureLog != "" &&
                                                      item.temperatureNewline != "")
@@ -3193,11 +3191,11 @@ namespace Woodpecker
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
         double previousTemperature = -300;
-        bool time_match = false;
+        bool timer_matched = false;
 
         private void timer_duringShot_Tick(object sender, EventArgs e)
         {
-            time_match = true;
+            timer_matched = true;
         }
 
         #region -- 關鍵字比對 - serialport_1 --
@@ -5460,6 +5458,7 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 換行符號置換 --
         private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
         {
             List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
@@ -5473,6 +5472,7 @@ namespace Woodpecker
                 }
             }
         }
+        #endregion
 
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
@@ -6539,6 +6539,13 @@ namespace Woodpecker
                                             {
                                                 try
                                                 {
+                                                    //	lt：less than 小於
+                                                    //	le：less than or equal to 小於等於
+                                                    //	eq：equal to 等於
+                                                    //	ne：not equal to 不等於
+                                                    //	ge：greater than or equal to 大於等於
+                                                    //	gt：greater than 大於
+
                                                     TemperatureIsFound = true;
                                                     temperatureList.Clear();
                                                     int symbel_equal_3d = columns_serial.IndexOf("=");
@@ -6555,35 +6562,59 @@ namespace Woodpecker
                                                     int symbel_equal_3e3d = columns_serial.IndexOf(">=");
                                                     int duringTimeInt = 0;
                                                     int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                    string initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                    string finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                    string initialTemperature = "", finalTemperature = "", addTemperature = "", symbel_equal_Math = "";
                                                     string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
-                                                    string addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
 
-                                                    if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
                                                     {
-                                                        MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
-                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                        addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                    }
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
+                                                    {
+                                                        initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                        finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        symbel_equal_Math = "<>";
                                                     }
                                                     else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
                                                     {
-                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                        MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        symbel_equal_Math = "==";
                                                     }
                                                     else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
                                                     {
                                                         if (columns_serial.Contains("<"))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                        {
+                                                            symbel_equal_Math = "<";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                        }
                                                         else if (columns_serial.Contains("<="))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
+                                                        {
+                                                            symbel_equal_Math = "<=";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
+                                                        }
                                                         else if (columns_serial.Contains("=="))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
+                                                        {
+                                                            symbel_equal_Math = "==";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
+                                                        }
                                                         else if (columns_serial.Contains("<>"))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
+                                                        {
+                                                            symbel_equal_Math = "<>";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
+                                                        }
                                                         else if (columns_serial.Contains(">"))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                        {
+                                                            symbel_equal_Math = ">";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                        }
                                                         else if (columns_serial.Contains(">="))
-                                                            MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
+                                                        {
+                                                            symbel_equal_Math = ">=";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
+                                                        }
                                                     }
 
                                                     if (columns_serial.Contains("m)"))
@@ -6591,11 +6622,14 @@ namespace Woodpecker
                                                     else
                                                         duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
 
-                                                    Temperature_Data.initialTemperature = float.Parse(initialTemperature);
+                                                    if (columns_serial.Contains("~"))
+                                                        Temperature_Data.initialTemperature = float.Parse(initialTemperature);
                                                     Temperature_Data.finalTemperature = float.Parse(finalTemperature);
                                                     Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
-                                                    Temperature_Data.addTemperature = float.Parse(addTemperature);
-
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
+                                                    {
+                                                        Temperature_Data.addTemperature = float.Parse(addTemperature);
+                                                    }
                                                     float addTemperatureInt = Temperature_Data.addTemperature;
 
                                                     if (duringTimeInt > 0)
@@ -6615,12 +6649,36 @@ namespace Woodpecker
                                                             temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
                                                         }
                                                     }
-                                                    else
+                                                    else if (addTemperatureInt >= 0)
                                                     {
                                                         for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
                                                             temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (symbel_equal_Math)
+                                                        {
+                                                            case "<":
+
+                                                                break;
+                                                            case "<=":
+
+                                                                break;
+                                                            case "==":
+
+                                                                break;
+                                                            case "<>":
+
+                                                                break;
+                                                            case ">":
+
+                                                                break;
+                                                            case "=>":
+
+                                                                break;
                                                         }
                                                     }
                                                 }
@@ -9980,6 +10038,7 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 錄影 --
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
@@ -10012,6 +10071,7 @@ namespace Woodpecker
                 MessageBox.Show("Check the HD Capacity!", "HD Capacity Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }*/
         }
+        #endregion
 
         private void OnOffCamera()//啟動攝影機//
         {
