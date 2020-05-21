@@ -1240,23 +1240,88 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-                if (temperatureDouble.Count() > 0 || timer_matched)
+                if (temperatureDouble.Count() > 0 || timer_matched && timer_shot)
                 {
                     if (temperatureDouble.Count() > 0)
                     {
                         label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                         currentTemperature = temperatureDouble.Dequeue();
                     }
-                    else if (timer_matched)
+                    else if (timer_matched && timer_shot)
                     {
-                        label_Command.Text = "Timer: matched.";
+                        label_Command.Text = "Timer: shot matched.";
                         timer_matched = false;
+                        if (timer_pause || timer_log)
+                            timer_matched = true;
                     }
 
                     Global.caption_Num++;
                     if (Global.Loop_Number == 1)
                         Global.caption_Sum = Global.caption_Num;
                     Jes();
+                }
+                
+                if (timer_matched && timer_pause)
+                {
+                    label_Command.Text = "Timer: pause matched.";
+                    timer_matched = false;
+                    if (timer_log)
+                        timer_matched = true;
+                    button_Pause.PerformClick();
+                }
+
+                if (timer_matched && timer_log)
+                {
+                    label_Command.Text = "Timer: log matched.";
+                    timer_matched = false;
+                    if (timer_log_cmd.Contains('|'))
+                    {
+                        string[] logArray = timer_log_cmd.Split('|');
+                        switch (timer_log_port)
+                        {
+                            case "A":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortA, logArray[i], timer_log_newline);
+                                break;
+                            case "B":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortB, logArray[i], timer_log_newline);
+                                break;
+                            case "C":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortC, logArray[i], timer_log_newline);
+                                break;
+                            case "D":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortD, logArray[i], timer_log_newline);
+                                break;
+                            case "E":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortE, logArray[i], timer_log_newline);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (timer_log_port)
+                        {
+                            case "A":
+                                ReplaceNewLine(PortA, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "B":
+                                ReplaceNewLine(PortB, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "C":
+                                ReplaceNewLine(PortC, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "D":
+                                ReplaceNewLine(PortD, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "E":
+                                ReplaceNewLine(PortE, timer_log_cmd, timer_log_newline);
+                                break;
+                        }
+                    }
                 }
 
                 if (logA_text.Length > log_max_length)
@@ -2125,7 +2190,6 @@ namespace Woodpecker
                                             if (item.temperatureList == currentTemperature &&
                                                 item.temperaturePause == true)
                                             {
-                                                label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
                                                 button_Pause.PerformClick();
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                                             }
@@ -2135,7 +2199,6 @@ namespace Woodpecker
                                                      item.temperatureLog != "" &&
                                                      item.temperatureNewline != "")
                                             {
-                                                label_Command.Text = "Condition: " + item.temperatureList + ", Log: " + currentTemperature;
                                                 if (item.temperatureLog.Contains('|'))
                                                 {
                                                     string[] logArray = item.temperatureLog.Split('|');
@@ -3189,9 +3252,14 @@ namespace Woodpecker
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
         double previousTemperature = -300;
-        bool timer_matched = false;
 
-        private void timer_duringShot_Tick(object sender, EventArgs e)
+        bool timer_matched = false;
+        bool timer_shot = false;
+        bool timer_pause = false;
+        bool timer_log = false;
+        string timer_log_port = "", timer_log_cmd = "", timer_log_newline = "";
+        
+        private void timer_during_Tick(object sender, EventArgs e)
         {
             timer_matched = true;
         }
@@ -6316,6 +6384,7 @@ namespace Woodpecker
                                 {
                                     item.temperaturePause = true;
                                 }
+                                timer_pause = true;
                             }
                             else if (columns_serial == "_shot")
                             {
@@ -6323,6 +6392,7 @@ namespace Woodpecker
                                 {
                                     item.temperatureShot = true;
                                 }
+                                timer_shot = true;
                             }
                             else if (columns_comport == "A" || columns_comport == "B" || columns_comport == "C" || columns_comport == "D" || columns_comport == "E")
                             {
@@ -6332,6 +6402,10 @@ namespace Woodpecker
                                     item.temperatureLog = columns_serial;
                                     item.temperatureNewline = columns_switch;
                                 }
+                                timer_log = true;
+                                timer_log_port = columns_comport;
+                                timer_log_cmd = columns_serial;
+                                timer_log_newline = columns_switch;
                             }
                         }
 
@@ -6447,10 +6521,10 @@ namespace Woodpecker
                                                 if (duringTimeInt > 0)
                                                 {
                                                     // Create a timer and set a two second interval.
-                                                    timer_duringShot.Interval = duringTimeInt;
+                                                    timer_during.Interval = duringTimeInt;
 
                                                     // Start the timer
-                                                    timer_duringShot.Start();
+                                                    timer_during.Start();
                                                 }
                                             }
                                             catch (Exception Ex)
@@ -6472,7 +6546,10 @@ namespace Woodpecker
                                     timer_Chamber.Enabled = false;
 
                                     chamberTimer_IsTick = false;
-                                    timer_duringShot.Stop();
+                                    timer_during.Stop();
+                                    timer_shot = false;
+                                    timer_pause = false;
+                                    timer_log = false;
 
                                     foreach (Temperature_Data item in temperatureList)
                                     {
@@ -6625,18 +6702,18 @@ namespace Woodpecker
                                                     Temperature_Data.finalTemperature = float.Parse(finalTemperature);
                                                     Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
                                                     if (columns_serial.Contains("~") && columns_serial.Contains("/"))
-                                                    {
                                                         Temperature_Data.addTemperature = float.Parse(addTemperature);
-                                                    }
+                                                    else
+                                                        Temperature_Data.addTemperature = 0;
                                                     float addTemperatureInt = Temperature_Data.addTemperature;
 
                                                     if (duringTimeInt > 0)
                                                     {
                                                         // Create a timer and set a two second interval.
-                                                        timer_duringShot.Interval = duringTimeInt;
+                                                        timer_during.Interval = duringTimeInt;
 
                                                         // Start the timer
-                                                        timer_duringShot.Start();
+                                                        timer_during.Start();
                                                     }
 
                                                     if (addTemperatureInt < 0)
@@ -6647,7 +6724,7 @@ namespace Woodpecker
                                                             temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
                                                         }
                                                     }
-                                                    else if (addTemperatureInt >= 0)
+                                                    else if (addTemperatureInt > 0)
                                                     {
                                                         for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
@@ -6699,7 +6776,7 @@ namespace Woodpecker
                                         timer_Chamber.Enabled = false;
 
                                         chamberTimer_IsTick = false;
-                                        timer_duringShot.Stop();
+                                        timer_during.Stop();
 
                                         temperatureList.Clear();
 
@@ -9139,7 +9216,7 @@ namespace Woodpecker
                     }       //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                     ini12.INIWrite(MainSettingPath, "Schedule1", "OnTimeStart", "0");
                     button_Schedule2.PerformClick();
-                    timer_duringShot.Stop();
+                    timer_during.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -9159,7 +9236,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule2", "OnTimeStart", "0");
                     button_Schedule3.PerformClick();
-                    timer_duringShot.Stop();
+                    timer_during.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -9180,7 +9257,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule3", "OnTimeStart", "0");
                     button_Schedule4.PerformClick();
-                    timer_duringShot.Stop();
+                    timer_during.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -9202,7 +9279,7 @@ namespace Woodpecker
                     }
                     ini12.INIWrite(MainSettingPath, "Schedule4", "OnTimeStart", "0");
                     button_Schedule5.PerformClick();
-                    timer_duringShot.Stop();
+                    timer_during.Stop();
                     MyRunCamd();
                 }
             }
@@ -9265,7 +9342,7 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
-            timer_duringShot.Stop();
+            timer_during.Stop();
             CloseDtplay();
 
             //如果serialport開著則先關閉//

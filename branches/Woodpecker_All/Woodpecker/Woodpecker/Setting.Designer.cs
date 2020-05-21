@@ -291,7 +291,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort5_BaudRate_Value.Location = new System.Drawing.Point(370, 62);
             this.comboBox_SerialPort5_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort5_BaudRate_Value.Name = "comboBox_SerialPort5_BaudRate_Value";
@@ -477,7 +478,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort4_BaudRate_Value.Location = new System.Drawing.Point(144, 276);
             this.comboBox_SerialPort4_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort4_BaudRate_Value.Name = "comboBox_SerialPort4_BaudRate_Value";
@@ -618,7 +620,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(144, 206);
             this.comboBox_SerialPort3_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort3_BaudRate_Value.Name = "comboBox_SerialPort3_BaudRate_Value";
@@ -697,7 +700,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(144, 66);
             this.comboBox_SerialPort1_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort1_BaudRate_Value.Name = "comboBox_SerialPort1_BaudRate_Value";
@@ -777,7 +781,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(144, 136);
             this.comboBox_SerialPort2_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort2_BaudRate_Value.Name = "comboBox_SerialPort2_BaudRate_Value";
