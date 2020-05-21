@@ -2120,7 +2120,6 @@ namespace Woodpecker
                                                 Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                                                 temperatureDouble.Enqueue(currentTemperature);
                                                 Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                                                break;
                                             }
 
                                             if (item.temperatureList == currentTemperature &&
@@ -2129,7 +2128,6 @@ namespace Woodpecker
                                                 label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
                                                 button_Pause.PerformClick();
                                                 Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                                break;
                                             }
 
                                             if (item.temperatureList == currentTemperature &&
