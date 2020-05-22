@@ -161,6 +161,8 @@ namespace Woodpecker
         bool ifStatementFlag = false;
         bool ChamberIsFound = false;
         bool TemperatureIsFound = false;
+        bool TemperatureAndCmd = false;
+        bool TemperatureOrCmd = false;
         bool PowerSupplyIsFound = false;
         string MaxTemperature = "", MinTemperature = "";
         string expectedVoltage = string.Empty;
@@ -1240,190 +1242,7 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-                if (temperatureDouble.Count() > 0 || timer_matched && timer_shot)
-                {
-                    if (temperatureDouble.Count() > 0)
-                    {
-                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
-                        currentTemperature = temperatureDouble.Dequeue();
-                    }
-                    else if (timer_matched && timer_shot)
-                    {
-                        label_Command.Text = "Timer: shot matched.";
-                        timer_matched = false;
-                        if (timer_pause || timer_log)
-                            timer_matched = true;
-                    }
-
-                    Global.caption_Num++;
-                    if (Global.Loop_Number == 1)
-                        Global.caption_Sum = Global.caption_Num;
-                    Jes();
-                }
-                
-                if (timer_matched && timer_pause)
-                {
-                    label_Command.Text = "Timer: pause matched.";
-                    timer_matched = false;
-                    if (timer_log)
-                        timer_matched = true;
-                    button_Pause.PerformClick();
-                }
-
-                if (timer_matched && timer_log)
-                {
-                    label_Command.Text = "Timer: log matched.";
-                    timer_matched = false;
-                    if (timer_log_cmd.Contains('|'))
-                    {
-                        string[] logArray = timer_log_cmd.Split('|');
-                        switch (timer_log_port)
-                        {
-                            case "A":
-                                for (int i = 0; i < logArray.Length; i++)
-                                    ReplaceNewLine(PortA, logArray[i], timer_log_newline);
-                                break;
-                            case "B":
-                                for (int i = 0; i < logArray.Length; i++)
-                                    ReplaceNewLine(PortB, logArray[i], timer_log_newline);
-                                break;
-                            case "C":
-                                for (int i = 0; i < logArray.Length; i++)
-                                    ReplaceNewLine(PortC, logArray[i], timer_log_newline);
-                                break;
-                            case "D":
-                                for (int i = 0; i < logArray.Length; i++)
-                                    ReplaceNewLine(PortD, logArray[i], timer_log_newline);
-                                break;
-                            case "E":
-                                for (int i = 0; i < logArray.Length; i++)
-                                    ReplaceNewLine(PortE, logArray[i], timer_log_newline);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (timer_log_port)
-                        {
-                            case "A":
-                                ReplaceNewLine(PortA, timer_log_cmd, timer_log_newline);
-                                break;
-                            case "B":
-                                ReplaceNewLine(PortB, timer_log_cmd, timer_log_newline);
-                                break;
-                            case "C":
-                                ReplaceNewLine(PortC, timer_log_cmd, timer_log_newline);
-                                break;
-                            case "D":
-                                ReplaceNewLine(PortD, timer_log_cmd, timer_log_newline);
-                                break;
-                            case "E":
-                                ReplaceNewLine(PortE, timer_log_cmd, timer_log_newline);
-                                break;
-                        }
-                    }
-                }
-
-                if (logA_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("A");
-                    }
-                    else
-                    {
-                        logA_text = string.Empty;
-                    }
-                }
-
-                if (logB_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("B");
-                    }
-                    else
-                    {
-                        logB_text = string.Empty;
-                    }
-                }
-
-                if (logC_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("C");
-                    }
-                    else
-                    {
-                        logC_text = string.Empty;
-                    }
-                }
-
-                if (logD_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("D");
-                    }
-                    else
-                    {
-                        logD_text = string.Empty;
-                    }
-                }
-
-                if (logE_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("E");
-                    }
-                    else
-                    {
-                        logE_text = string.Empty;
-                    }
-                }
-
-                if (logAll_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("All");
-                    }
-                    else
-                    {
-                        logAll_text = string.Empty;
-                    }
-                }
-
-                if (canbus_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("Canbus");
-                    }
-                    else
-                    {
-                        canbus_text = string.Empty;
-                    }
-                }
-
-                if (kline_text.Length > log_max_length)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
-                    {
-                        Serialportsave("KlinePort");
-                    }
-                    else
-                    {
-                        kline_text = string.Empty;
-                    }
-                }
-
-                if (debug_text.Length > debug_max_length)
-                {
-                    Serialportsave("Debug");
-                }
+                Thread_condition();
 
                 //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
                 Application.DoEvents();
@@ -2177,79 +1996,7 @@ namespace Woodpecker
                                     if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
                                     {
                                         previousTemperature = currentTemperature;
-                                        foreach (Temperature_Data item in temperatureList)
-                                        {
-                                            if (item.temperatureList == currentTemperature &&
-                                                item.temperatureShot == true)
-                                            {
-                                                Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
-                                                temperatureDouble.Enqueue(currentTemperature);
-                                                Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                                            }
-
-                                            if (item.temperatureList == currentTemperature &&
-                                                item.temperaturePause == true)
-                                            {
-                                                button_Pause.PerformClick();
-                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                                            }
-
-                                            if (item.temperatureList == currentTemperature &&
-                                                     item.temperaturePort != "" &&
-                                                     item.temperatureLog != "" &&
-                                                     item.temperatureNewline != "")
-                                            {
-                                                if (item.temperatureLog.Contains('|'))
-                                                {
-                                                    string[] logArray = item.temperatureLog.Split('|');
-                                                    switch (item.temperaturePort)
-                                                    {
-                                                        case "A":
-                                                            for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
-                                                            break;
-                                                        case "B":
-                                                            for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
-                                                            break;
-                                                        case "C":
-                                                            for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
-                                                            break;
-                                                        case "D":
-                                                            for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
-                                                            break;
-                                                        case "E":
-                                                            for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
-                                                            break;
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    switch (item.temperaturePort)
-                                                    {
-                                                        case "A":
-                                                            ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
-                                                            break;
-                                                        case "B":
-                                                            ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
-                                                            break;
-                                                        case "C":
-                                                            ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
-                                                            break;
-                                                        case "D":
-                                                            ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
-                                                            break;
-                                                        case "E":
-                                                            ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
-                                                            break;
-                                                    }
-                                                }
-                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
-                                            }
-                                        }
+                                        Temperature_condition();
                                     }
                                 }
                             }
@@ -6394,10 +6141,11 @@ namespace Woodpecker
                                 }
                                 timer_shot = true;
                             }
-                            else if (columns_comport == "A" || columns_comport == "B" || columns_comport == "C" || columns_comport == "D" || columns_comport == "E")
+                            else if (columns_comport != "" && columns_serial != "" && columns_switch != "")
                             {
                                 foreach (Temperature_Data item in temperatureList)
                                 {
+                                    item.temperatureAscii = true;
                                     item.temperaturePort = columns_comport;
                                     item.temperatureLog = columns_serial;
                                     item.temperatureNewline = columns_switch;
@@ -6469,6 +6217,7 @@ namespace Woodpecker
                                                 //	gt：greater than 大於
 
                                                 TemperatureIsFound = true;
+                                                TemperatureAndCmd = true;
                                                 int symbel_equal_7e = columns_serial.IndexOf("~");
                                                 int symbel_equal_28 = columns_serial.IndexOf("(");
                                                 int symbel_equal_29 = columns_serial.IndexOf(")");
@@ -6622,6 +6371,7 @@ namespace Woodpecker
                                                     //	gt：greater than 大於
 
                                                     TemperatureIsFound = true;
+                                                    TemperatureOrCmd = true;
                                                     temperatureList.Clear();
                                                     int symbel_equal_3d = columns_serial.IndexOf("=");
                                                     int symbel_equal_7e = columns_serial.IndexOf("~");
@@ -6637,7 +6387,7 @@ namespace Woodpecker
                                                     int symbel_equal_3e3d = columns_serial.IndexOf(">=");
                                                     int duringTimeInt = 0;
                                                     int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                    string initialTemperature = "", finalTemperature = "", addTemperature = "", symbel_equal_Math = "";
+                                                    string initialTemperature = "", finalTemperature = "", addTemperature = "", symbelOperation = "";
                                                     string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
 
                                                     if (columns_serial.Contains("~") && columns_serial.Contains("/"))
@@ -6650,44 +6400,44 @@ namespace Woodpecker
                                                     {
                                                         initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
                                                         finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
-                                                        symbel_equal_Math = "<>";
+                                                        symbelOperation = "<>";
                                                     }
                                                     else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
                                                     {
                                                         finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
                                                         initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
-                                                        symbel_equal_Math = "==";
+                                                        symbelOperation = "==";
                                                     }
                                                     else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
                                                     {
                                                         if (columns_serial.Contains("<"))
                                                         {
-                                                            symbel_equal_Math = "<";
+                                                            symbelOperation = "<";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
                                                         }
                                                         else if (columns_serial.Contains("<="))
                                                         {
-                                                            symbel_equal_Math = "<=";
+                                                            symbelOperation = "<=";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
                                                         }
                                                         else if (columns_serial.Contains("=="))
                                                         {
-                                                            symbel_equal_Math = "==";
+                                                            symbelOperation = "==";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
                                                         }
                                                         else if (columns_serial.Contains("<>"))
                                                         {
-                                                            symbel_equal_Math = "<>";
+                                                            symbelOperation = "<>";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
                                                         }
                                                         else if (columns_serial.Contains(">"))
                                                         {
-                                                            symbel_equal_Math = ">";
+                                                            symbelOperation = ">";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
                                                         }
                                                         else if (columns_serial.Contains(">="))
                                                         {
-                                                            symbel_equal_Math = ">=";
+                                                            symbelOperation = ">=";
                                                             finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
                                                         }
                                                     }
@@ -6706,6 +6456,10 @@ namespace Woodpecker
                                                     else
                                                         Temperature_Data.addTemperature = 0;
                                                     float addTemperatureInt = Temperature_Data.addTemperature;
+                                                    if (symbelOperation != "")
+                                                    {
+                                                        Temperature_Data.symbelOperation = symbelOperation;
+                                                    }
 
                                                     if (duringTimeInt > 0)
                                                     {
@@ -6721,7 +6475,7 @@ namespace Woodpecker
                                                         for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, false));
                                                         }
                                                     }
                                                     else if (addTemperatureInt > 0)
@@ -6729,31 +6483,7 @@ namespace Woodpecker
                                                         for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
                                                         {
                                                             double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        switch (symbel_equal_Math)
-                                                        {
-                                                            case "<":
-
-                                                                break;
-                                                            case "<=":
-
-                                                                break;
-                                                            case "==":
-
-                                                                break;
-                                                            case "<>":
-
-                                                                break;
-                                                            case ">":
-
-                                                                break;
-                                                            case "=>":
-
-                                                                break;
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, false));
                                                         }
                                                     }
                                                 }
@@ -12787,6 +12517,401 @@ namespace Woodpecker
             button_Camera.FlatAppearance.BorderSize = 3;
             button_Camera.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
         }
+
+        private void Temperature_condition()
+        {
+            bool Exists = false;
+            bool Shot = false;
+            bool Pause = false;
+            bool Ascii = false;
+            float Add = Temperature_Data.addTemperature;
+            string Operation = Temperature_Data.symbelOperation;
+
+            if (Operation == "")
+            {
+                Exists = temperatureList.Exists(x => x.temperatureList == currentTemperature);
+                Shot = temperatureList.Exists(s => s.temperatureShot == true);
+                Pause = temperatureList.Exists(p => p.temperaturePause == true);
+                Ascii = temperatureList.Exists(l => l.temperatureAscii == true);
+
+                if (TemperatureOrCmd)
+                {
+                    if (Exists == true &&
+                        Shot == true)
+                    {
+                        Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                        temperatureDouble.Enqueue(currentTemperature);
+                        Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                    }
+
+                    if (Exists == true &&
+                        Pause == true)
+                    {
+                        button_Pause.PerformClick();
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                    }
+
+                    if (Exists == true &&
+                        Ascii == true)
+                    {
+                        foreach (Temperature_Data item in temperatureList)
+                        {
+                            if (item.temperatureLog.Contains('|'))
+                            {
+                                string[] logArray = item.temperatureLog.Split('|');
+                                switch (item.temperaturePort)
+                                {
+                                    case "A":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "B":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "C":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "D":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "E":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                switch (item.temperaturePort)
+                                {
+                                    case "A":
+                                        ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "B":
+                                        ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "C":
+                                        ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "D":
+                                        ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "E":
+                                        ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                }
+                            }
+                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
+                        }
+                    }
+
+                    else if (TemperatureAndCmd)
+                    {
+
+                    }
+                }
+            }
+            else
+            {
+                switch (Operation)
+                {
+                    case "<>":
+                        if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                    case "==":
+                        if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                    case "<":
+                        if (currentTemperature < Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                    case "<=":
+                        if (currentTemperature <= Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                    case ">":
+                        if (currentTemperature > Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                    case ">=":
+                        if (currentTemperature >= Temperature_Data.finalTemperature)
+                        { Exists = true; }
+                        break;
+                }
+
+                if (Exists == true &&
+                    Shot == true)
+                {
+                    Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                    temperatureDouble.Enqueue(currentTemperature);
+                    Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                }
+
+                if (Exists == true &&
+                    Pause == true)
+                {
+                    button_Pause.PerformClick();
+                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                }
+
+                if (Exists == true &&
+                    Ascii == true)
+                {
+                    foreach (Temperature_Data item in temperatureList)
+                    {
+                        if (item.temperatureLog.Contains('|'))
+                        {
+                            string[] logArray = item.temperatureLog.Split('|');
+                            switch (item.temperaturePort)
+                            {
+                                case "A":
+                                    for (int i = 0; i < logArray.Length; i++)
+                                        ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                    break;
+                                case "B":
+                                    for (int i = 0; i < logArray.Length; i++)
+                                        ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                    break;
+                                case "C":
+                                    for (int i = 0; i < logArray.Length; i++)
+                                        ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                    break;
+                                case "D":
+                                    for (int i = 0; i < logArray.Length; i++)
+                                        ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                    break;
+                                case "E":
+                                    for (int i = 0; i < logArray.Length; i++)
+                                        ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (item.temperaturePort)
+                            {
+                                case "A":
+                                    ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                    break;
+                                case "B":
+                                    ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                    break;
+                                case "C":
+                                    ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                    break;
+                                case "D":
+                                    ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                    break;
+                                case "E":
+                                    ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                    break;
+                            }
+                        }
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
+                    }
+                }
+            }
+        }
+
+        private void Thread_condition()
+        {
+            if (TemperatureOrCmd)
+            {
+                if (temperatureDouble.Count() > 0 || timer_matched && timer_shot)
+                {
+                    if (temperatureDouble.Count() > 0)
+                    {
+                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
+                        currentTemperature = temperatureDouble.Dequeue();
+                    }
+                    else if (timer_matched && timer_shot)
+                    {
+                        label_Command.Text = "Timer: shot matched.";
+                        timer_matched = false;
+                        if (timer_pause || timer_log)
+                            timer_matched = true;
+                    }
+
+                    Global.caption_Num++;
+                    if (Global.Loop_Number == 1)
+                        Global.caption_Sum = Global.caption_Num;
+                    Jes();
+                }
+
+                if (timer_matched && timer_pause)
+                {
+                    label_Command.Text = "Timer: pause matched.";
+                    timer_matched = false;
+                    if (timer_log)
+                        timer_matched = true;
+                    button_Pause.PerformClick();
+                }
+
+                if (timer_matched && timer_log)
+                {
+                    label_Command.Text = "Timer: log matched.";
+                    timer_matched = false;
+                    if (timer_log_cmd.Contains('|'))
+                    {
+                        string[] logArray = timer_log_cmd.Split('|');
+                        switch (timer_log_port)
+                        {
+                            case "A":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortA, logArray[i], timer_log_newline);
+                                break;
+                            case "B":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortB, logArray[i], timer_log_newline);
+                                break;
+                            case "C":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortC, logArray[i], timer_log_newline);
+                                break;
+                            case "D":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortD, logArray[i], timer_log_newline);
+                                break;
+                            case "E":
+                                for (int i = 0; i < logArray.Length; i++)
+                                    ReplaceNewLine(PortE, logArray[i], timer_log_newline);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (timer_log_port)
+                        {
+                            case "A":
+                                ReplaceNewLine(PortA, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "B":
+                                ReplaceNewLine(PortB, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "C":
+                                ReplaceNewLine(PortC, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "D":
+                                ReplaceNewLine(PortD, timer_log_cmd, timer_log_newline);
+                                break;
+                            case "E":
+                                ReplaceNewLine(PortE, timer_log_cmd, timer_log_newline);
+                                break;
+                        }
+                    }
+                }
+            }
+            else if (TemperatureAndCmd)
+            {
+
+            }
+
+            if (logA_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("A");
+                }
+                else
+                {
+                    logA_text = string.Empty;
+                }
+            }
+
+            if (logB_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("B");
+                }
+                else
+                {
+                    logB_text = string.Empty;
+                }
+            }
+
+            if (logC_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("C");
+                }
+                else
+                {
+                    logC_text = string.Empty;
+                }
+            }
+
+            if (logD_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("D");
+                }
+                else
+                {
+                    logD_text = string.Empty;
+                }
+            }
+
+            if (logE_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("E");
+                }
+                else
+                {
+                    logE_text = string.Empty;
+                }
+            }
+
+            if (logAll_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("All");
+                }
+                else
+                {
+                    logAll_text = string.Empty;
+                }
+            }
+
+            if (canbus_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("Canbus");
+                }
+                else
+                {
+                    canbus_text = string.Empty;
+                }
+            }
+
+            if (kline_text.Length > log_max_length)
+            {
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    Serialportsave("KlinePort");
+                }
+                else
+                {
+                    kline_text = string.Empty;
+                }
+            }
+
+            if (debug_text.Length > debug_max_length)
+            {
+                Serialportsave("Debug");
+            }
+        }
     }
 
     public class SafeDataGridView : DataGridView
@@ -13001,14 +13126,12 @@ namespace Woodpecker
 
     class Temperature_Data
     {
-        public Temperature_Data(double list, bool shot, bool pause, string port, string log, string line)
+        public Temperature_Data(double list, bool shot, bool pause, bool ascii)
         {
             temperatureList = list;
             temperatureShot = shot;
             temperaturePause = pause;
-            temperaturePort = port;
-            temperatureLog = log;
-            temperatureNewline = line;
+            temperatureAscii = ascii;
         }
 
         public static byte temperatureChannel
@@ -13036,6 +13159,11 @@ namespace Woodpecker
             get; set;
         }
 
+        public static string symbelOperation
+        {
+            get; set;
+        }
+
         public double temperatureList
         {
             get; set;
@@ -13051,6 +13179,11 @@ namespace Woodpecker
             get; set;
         }
 
+        public bool temperatureAscii
+        {
+            get; set;
+        }
+
         public string temperaturePort
         {
             get; set;
@@ -13060,6 +13193,7 @@ namespace Woodpecker
         {
             get; set;
         }
+
         public string temperatureNewline
         {
             get; set;
