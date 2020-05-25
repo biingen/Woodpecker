@@ -1244,8 +1244,8 @@ namespace Woodpecker
                 {
                     if (temperatureDouble.Count() > 0)
                     {
-                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                         currentTemperature = temperatureDouble.Dequeue();
+                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                     }
                     else if (timer_matched)
                     {
@@ -10227,7 +10227,7 @@ namespace Woodpecker
                 Console.WriteLine("Select Device Error: " + devicename);
             }
             RCDB.Items.Add("_Execute");
-            RCDB.Items.Add("_Condition_AND");
+            //RCDB.Items.Add("_Condition_AND");
             RCDB.Items.Add("_Condition_OR");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
