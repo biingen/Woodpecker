@@ -12527,15 +12527,15 @@ namespace Woodpecker
             float Add = Temperature_Data.addTemperature;
             string Operation = Temperature_Data.symbelOperation;
 
-            if (Operation == "")
+            if (TemperatureOrCmd)
             {
-                Exists = temperatureList.Exists(x => x.temperatureList == currentTemperature);
-                Shot = temperatureList.Exists(s => s.temperatureShot == true);
-                Pause = temperatureList.Exists(p => p.temperaturePause == true);
-                Ascii = temperatureList.Exists(l => l.temperatureAscii == true);
-
-                if (TemperatureOrCmd)
+                if (Operation == "")
                 {
+                    Exists = temperatureList.Exists(x => x.temperatureList == currentTemperature);
+                    Shot = temperatureList.Exists(s => s.temperatureShot == true);
+                    Pause = temperatureList.Exists(p => p.temperaturePause == true);
+                    Ascii = temperatureList.Exists(l => l.temperatureAscii == true);
+
                     if (Exists == true &&
                         Shot == true)
                     {
@@ -12607,114 +12607,113 @@ namespace Woodpecker
                             Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
                         }
                     }
-
-                    else if (TemperatureAndCmd)
+                }
+                else
+                {
+                    switch (Operation)
                     {
+                        case "<>":
+                            if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                        case "==":
+                            if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                        case "<":
+                            if (currentTemperature < Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                        case "<=":
+                            if (currentTemperature <= Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                        case ">":
+                            if (currentTemperature > Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                        case ">=":
+                            if (currentTemperature >= Temperature_Data.finalTemperature)
+                            { Exists = true; }
+                            break;
+                    }
 
+                    if (Exists == true &&
+                        Shot == true)
+                    {
+                        Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                        temperatureDouble.Enqueue(currentTemperature);
+                        Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                    }
+
+                    if (Exists == true &&
+                        Pause == true)
+                    {
+                        button_Pause.PerformClick();
+                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                    }
+
+                    if (Exists == true &&
+                        Ascii == true)
+                    {
+                        foreach (Temperature_Data item in temperatureList)
+                        {
+                            if (item.temperatureLog.Contains('|'))
+                            {
+                                string[] logArray = item.temperatureLog.Split('|');
+                                switch (item.temperaturePort)
+                                {
+                                    case "A":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "B":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "C":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "D":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                        break;
+                                    case "E":
+                                        for (int i = 0; i < logArray.Length; i++)
+                                            ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                switch (item.temperaturePort)
+                                {
+                                    case "A":
+                                        ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "B":
+                                        ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "C":
+                                        ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "D":
+                                        ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                    case "E":
+                                        ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                        break;
+                                }
+                            }
+                            Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
+                        }
                     }
                 }
             }
-            else
+            else if (TemperatureAndCmd)
             {
-                switch (Operation)
-                {
-                    case "<>":
-                        if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                    case "==":
-                        if (Temperature_Data.initialTemperature > currentTemperature && currentTemperature < Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                    case "<":
-                        if (currentTemperature < Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                    case "<=":
-                        if (currentTemperature <= Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                    case ">":
-                        if (currentTemperature > Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                    case ">=":
-                        if (currentTemperature >= Temperature_Data.finalTemperature)
-                        { Exists = true; }
-                        break;
-                }
 
-                if (Exists == true &&
-                    Shot == true)
-                {
-                    Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
-                    temperatureDouble.Enqueue(currentTemperature);
-                    Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
-                }
-
-                if (Exists == true &&
-                    Pause == true)
-                {
-                    button_Pause.PerformClick();
-                    Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
-                }
-
-                if (Exists == true &&
-                    Ascii == true)
-                {
-                    foreach (Temperature_Data item in temperatureList)
-                    {
-                        if (item.temperatureLog.Contains('|'))
-                        {
-                            string[] logArray = item.temperatureLog.Split('|');
-                            switch (item.temperaturePort)
-                            {
-                                case "A":
-                                    for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
-                                    break;
-                                case "B":
-                                    for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
-                                    break;
-                                case "C":
-                                    for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
-                                    break;
-                                case "D":
-                                    for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
-                                    break;
-                                case "E":
-                                    for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            switch (item.temperaturePort)
-                            {
-                                case "A":
-                                    ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
-                                    break;
-                                case "B":
-                                    ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
-                                    break;
-                                case "C":
-                                    ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
-                                    break;
-                                case "D":
-                                    ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
-                                    break;
-                                case "E":
-                                    ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
-                                    break;
-                            }
-                        }
-                        Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
-                    }
-                }
             }
         }
 
