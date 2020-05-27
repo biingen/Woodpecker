@@ -19,7 +19,8 @@ namespace Woodpecker
             //預設AutoBox沒接上
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "0");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "KlineExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
@@ -147,10 +148,10 @@ namespace Woodpecker
                     }
                     #endregion
 
-                    #region 偵測CANbus
+                    #region 偵測USB_Can2C
                     if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        Console.WriteLine("-----------------Canbus------------------");
+                        Console.WriteLine("-----------------USB_Can2C------------------");
                         Console.WriteLine("DeviceID: {0}\n" +
                                               "Name: {1}\n" +
                                               "Description: {2}\n" +
@@ -160,7 +161,24 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CANbusExist", "1");
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "1");
+                    }
+                    #endregion
+
+                    #region 偵測USB_Vector_VN1630A
+                    if (deviceId.IndexOf("USB\\VID_1248&PID_1061\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------USB_Vector_VN1630A------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "1");
                     }
                     #endregion
                 }

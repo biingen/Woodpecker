@@ -110,6 +110,7 @@ namespace Woodpecker
             this.PortD = new System.IO.Ports.SerialPort(this.components);
             this.PortE = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
+            this.timer_duringShot = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -164,7 +165,7 @@ namespace Woodpecker
             this.label_Power.BackColor = System.Drawing.Color.Transparent;
             this.label_Power.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Power.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_Power.Location = new System.Drawing.Point(239, 108);
+            this.label_Power.Location = new System.Drawing.Point(232, 109);
             this.label_Power.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Power.Name = "label_Power";
             this.label_Power.Size = new System.Drawing.Size(56, 20);
@@ -177,7 +178,7 @@ namespace Woodpecker
             this.label_Camera.BackColor = System.Drawing.Color.Transparent;
             this.label_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Camera.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_Camera.Location = new System.Drawing.Point(136, 108);
+            this.label_Camera.Location = new System.Drawing.Point(130, 109);
             this.label_Camera.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Camera.Name = "label_Camera";
             this.label_Camera.Size = new System.Drawing.Size(68, 20);
@@ -232,7 +233,6 @@ namespace Woodpecker
             // 
             this.timer.Enabled = true;
             this.timer.Interval = 1;
-            this.timer.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // label_FwVersion
             // 
@@ -244,10 +244,9 @@ namespace Woodpecker
             this.label_FwVersion.Location = new System.Drawing.Point(2, 118);
             this.label_FwVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_FwVersion.Name = "label_FwVersion";
-            this.label_FwVersion.Size = new System.Drawing.Size(101, 20);
+            this.label_FwVersion.Size = new System.Drawing.Size(92, 20);
             this.label_FwVersion.TabIndex = 46;
-            this.label_FwVersion.Text = "Ver. 0.0.0.00";
-            this.label_FwVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label_FwVersion.Text = "Ver. 0.0.0.0";
             // 
             // button_Schedule1
             // 
@@ -383,7 +382,6 @@ namespace Woodpecker
             // timer1
             // 
             this.timer1.Interval = 1;
-            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick_1);
             // 
             // button_SaveSchedule
             // 
@@ -493,11 +491,11 @@ namespace Woodpecker
             this.label_Command.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Command.ForeColor = System.Drawing.Color.Tomato;
             this.label_Command.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Command.Location = new System.Drawing.Point(668, 706);
+            this.label_Command.Location = new System.Drawing.Point(626, 702);
             this.label_Command.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Command.Name = "label_Command";
             this.label_Command.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label_Command.Size = new System.Drawing.Size(535, 49);
+            this.label_Command.Size = new System.Drawing.Size(576, 49);
             this.label_Command.TabIndex = 45;
             this.label_Command.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
@@ -584,7 +582,6 @@ namespace Woodpecker
             this.panel_VirtualRC.Name = "panel_VirtualRC";
             this.panel_VirtualRC.Size = new System.Drawing.Size(1188, 144);
             this.panel_VirtualRC.TabIndex = 92;
-            this.panel_VirtualRC.Paint += new System.Windows.Forms.PaintEventHandler(this.panel_VirtualRC_Paint);
             // 
             // label_BoxVersion
             // 
@@ -593,7 +590,7 @@ namespace Woodpecker
             this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_BoxVersion.ForeColor = System.Drawing.Color.SteelBlue;
             this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_BoxVersion.Location = new System.Drawing.Point(98, 118);
+            this.label_BoxVersion.Location = new System.Drawing.Point(96, 118);
             this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_BoxVersion.Name = "label_BoxVersion";
             this.label_BoxVersion.Size = new System.Drawing.Size(49, 20);
@@ -607,7 +604,7 @@ namespace Woodpecker
             this.label_Remark.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Remark.ForeColor = System.Drawing.Color.Tomato;
             this.label_Remark.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_Remark.Location = new System.Drawing.Point(649, 95);
+            this.label_Remark.Location = new System.Drawing.Point(649, 91);
             this.label_Remark.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Remark.Name = "label_Remark";
             this.label_Remark.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -782,8 +779,8 @@ namespace Woodpecker
             this.comboBox_CameraDevice.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
-            this.comboBox_CameraDevice.Location = new System.Drawing.Point(893, 151);
-            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CameraDevice.Location = new System.Drawing.Point(892, 151);
+            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
             this.comboBox_CameraDevice.Size = new System.Drawing.Size(312, 26);
             this.comboBox_CameraDevice.TabIndex = 95;
@@ -795,7 +792,7 @@ namespace Woodpecker
             this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ext_board.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_ext_board.Location = new System.Drawing.Point(331, 108);
+            this.label_ext_board.Location = new System.Drawing.Point(322, 109);
             this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ext_board.Name = "label_ext_board";
             this.label_ext_board.Size = new System.Drawing.Size(84, 20);
@@ -813,7 +810,7 @@ namespace Woodpecker
             this.label_canbus.BackColor = System.Drawing.Color.Transparent;
             this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_canbus.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_canbus.Location = new System.Drawing.Point(452, 108);
+            this.label_canbus.Location = new System.Drawing.Point(445, 109);
             this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_canbus.Name = "label_canbus";
             this.label_canbus.Size = new System.Drawing.Size(80, 20);
@@ -845,7 +842,7 @@ namespace Woodpecker
             // 
             this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(433, 110);
+            this.pictureBox_canbus.Location = new System.Drawing.Point(425, 111);
             this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_canbus.Name = "pictureBox_canbus";
             this.pictureBox_canbus.Size = new System.Drawing.Size(16, 16);
@@ -856,7 +853,7 @@ namespace Woodpecker
             // 
             this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(312, 110);
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(303, 111);
             this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ext_board.Name = "pictureBox_ext_board";
             this.pictureBox_ext_board.Size = new System.Drawing.Size(16, 16);
@@ -917,7 +914,7 @@ namespace Woodpecker
             // 
             this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_AcPower.Location = new System.Drawing.Point(220, 110);
+            this.pictureBox_AcPower.Location = new System.Drawing.Point(213, 111);
             this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_AcPower.Name = "pictureBox_AcPower";
             this.pictureBox_AcPower.Size = new System.Drawing.Size(16, 16);
@@ -927,7 +924,7 @@ namespace Woodpecker
             // pictureBox_Camera
             // 
             this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(118, 110);
+            this.pictureBox_Camera.Location = new System.Drawing.Point(111, 111);
             this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Camera.Name = "pictureBox_Camera";
             this.pictureBox_Camera.Size = new System.Drawing.Size(16, 16);
@@ -981,6 +978,10 @@ namespace Woodpecker
             this.comboBox_savelog.Name = "comboBox_savelog";
             this.comboBox_savelog.Size = new System.Drawing.Size(106, 28);
             this.comboBox_savelog.TabIndex = 111;
+            // 
+            // timer_duringShot
+            // 
+            this.timer_duringShot.Tick += new System.EventHandler(this.timer_duringShot_Tick);
             // 
             // DataGridView_Schedule
             // 
@@ -1144,7 +1145,7 @@ namespace Woodpecker
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1371, 824);
+            this.ClientSize = new System.Drawing.Size(1371, 811);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1179,6 +1180,7 @@ namespace Woodpecker
             this.Controls.Add(this.button_Setting);
             this.Controls.Add(this.panel_VirtualRC);
             this.Controls.Add(this.panel_AcUsb);
+            this.Controls.Add(this.DataGridView_Schedule);
             this.Controls.Add(this.comboBox_CameraDevice);
             this.Controls.Add(this.panelVideo);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1311,6 +1313,7 @@ namespace Woodpecker
         private System.Windows.Forms.DataGridViewTextBoxColumn Column10;
         protected internal System.Windows.Forms.Button button_Pause;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
+        private System.Windows.Forms.Timer timer_duringShot;
     }
 }
 

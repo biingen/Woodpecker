@@ -32,6 +32,7 @@ using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
 using Microsoft.VisualBasic.FileIO;
+using USB_VN1630A;
 
 namespace Woodpecker
 {
@@ -90,9 +91,14 @@ namespace Woodpecker
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
         //CanReader
-        private CAN_Reader MYCanReader = new CAN_Reader();
-        public int can_send = 0;
-        public List<CAN_Data> can_data_list = new List<CAN_Data>();
+        private CAN_USB2C Can_Usb2C = new CAN_USB2C();
+        private USB_VECTOR_Lib Can_1630A = new USB_VECTOR_Lib();
+        private int can_send = 0;
+        private List<USB_CAN2C.CAN_Data> can_data_list = new List<USB_CAN2C.CAN_Data>();
+        private bool set_timer_rate = false;
+        private uint can_id;
+        private Dictionary<uint, uint> can_rate = new Dictionary<uint, uint>();
+        private Dictionary<uint, byte[]> can_data = new Dictionary<uint, byte[]>();
 
         //Klite error code
         public int kline_send = 0;
@@ -102,7 +108,20 @@ namespace Woodpecker
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private String log1_text, log2_text, log3_text, log4_text, log5_text, ca310_text, canbus_text, kline_text, schedule_text, logAll_text;
+        private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+        private int log_max_length = 10000000, debug_max_length = 10000000;
+        //Search temperature parameter
+        List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
+        Queue<double> temperatureDouble = new Queue<double> { };
+        System.Timers.Timer duringTimer = new System.Timers.Timer();
+
+        bool ifStatementFlag = false;
+        bool ChamberIsFound = false;
+        bool TemperatureIsFound = false;
+        bool PowerSupplyIsFound = false;
+        string MaxTemperature = "", MinTemperature = "";
+        string expectedVoltage = string.Empty;
+        string PowerSupplyCommandLog = string.Empty;
 
         public Form1()
         {
@@ -179,7 +198,7 @@ namespace Woodpecker
 
                 }
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
@@ -258,48 +277,65 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
             {
-                pictureBox_Camera.Image = Properties.Resources.ON;
-                filters = new Filters();
-                Filter f;
-
-                comboBox_CameraDevice.Enabled = true;
-                ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-
-                for (int c = 0; c < filters.VideoInputDevices.Count; c++)
+                try
                 {
-                    f = filters.VideoInputDevices[c];
-                    comboBox_CameraDevice.Items.Add(f.Name);
-                    if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                    pictureBox_Camera.Image = Properties.Resources.ON;
+                    filters = new Filters();
+                    Filter f;
+
+                    comboBox_CameraDevice.Enabled = true;
+                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
+
+                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
-                        comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        f = filters.VideoInputDevices[c];
+                        comboBox_CameraDevice.Items.Add(f.Name);
+                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                        {
+                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                        }
                     }
-                }
 
-                if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                {
-                    comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
+                    {
+                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                    }
+                    comboBox_CameraDevice.Enabled = false;
                 }
-                comboBox_CameraDevice.Enabled = false;
+                catch (Exception Ex)
+                {
+                    Console.WriteLine(Ex);
+                    MessageBox.Show(Ex.Message.ToString(), "Camera audio open error!");
+                }
             }
             else
             {
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
             {
-                String can_name;
-                List<String> dev_list = MYCanReader.FindUsbDevice();
-                can_name = string.Join(",", dev_list);
-                ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
-                if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
-                if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
-                    ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
-                ConnectCanBus();
-                pictureBox_canbus.Image = Properties.Resources.ON;
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
+                {
+                    String can_name;
+                    List<String> dev_list = Can_Usb2C.FindUsbDevice();
+                    can_name = string.Join(",", dev_list);
+                    ini12.INIWrite(MainSettingPath, "Canbus", "DevName", can_name);
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", "0");
+                    if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
+                        ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
+                    ConnectUsbCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                {
+                    ConnectVectorCAN();
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
             }
             else
             {
@@ -594,68 +630,6 @@ namespace Woodpecker
             }
         }
 
-        #region -- 拍照 --
-        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
-
-        private void Myshot()
-        {
-            button_Start.Enabled = false;
-            setStyle();
-            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
-            capture.GrapImg();
-        }
-
-        // 複製原始圖片
-        protected Bitmap CloneBitmap(Bitmap source)
-        {
-            return new Bitmap(source);
-        }
-
-        private void CaptureDone(System.Drawing.Bitmap e)
-        {
-            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
-            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-
-            //圖片印字
-            Bitmap newBitmap = CloneBitmap(e);
-            newBitmap = CloneBitmap(e);
-            pictureBox4.Image = newBitmap;
-
-            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-            Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
-            int YPoint = int.Parse(Resolution[1]);
-
-            //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
-            {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 80));
-            }
-
-            //照片印上現在時間//
-            bitMap_g.DrawString(TimeLabel.Text,
-                                Font,
-                                FontColor,
-                                new PointF(5, YPoint - 40));
-
-            Font.Dispose();
-            FontColor.Dispose();
-            bitMap_g.Dispose();
-
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
-            pictureBox4.Image.Save(t);
-            button_Start.Enabled = true;
-            setStyle();
-        }
-        #endregion
 
         private void ConnectAutoBox2()
         {
@@ -715,14 +689,14 @@ namespace Woodpecker
             }
         }
 
-        protected void ConnectCanBus()
+        protected void ConnectUsbCAN()
         {
             uint status;
 
-            status = MYCanReader.Connect();
+            status = Can_Usb2C.Connect();
             if (status == 1)
             {
-                status = MYCanReader.StartCAN();
+                status = Can_Usb2C.StartCAN();
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
@@ -739,17 +713,96 @@ namespace Woodpecker
             }
         }
 
+        protected void ConnectVectorCAN()
+        {
+            uint status;
+
+            status = Can_1630A.Connect();
+            if (status == 1)
+            {
+                status = Can_1630A.StartCAN();
+                if (status == 1)
+                {
+                    timer_canbus.Enabled = true;
+                    pictureBox_canbus.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_canbus.Image = Properties.Resources.OFF;
+            }
+        }
+        // Woodpecker debug function 
+        private void debug_process(string log)
+        {
+            try
+            {
+                debug_text = string.Concat(debug_text, "[Debug] [" + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + log + "\r\n");
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message.ToString());
+                Serialportsave("Debug");
+            }
+        }
+
+        // Log record function 
+        private void log_process(string port, string log)
+        {
+            try
+            {
+                switch (port)
+                {
+                    case "A":
+                        logA_text = string.Concat(logA_text, log);
+                        break;
+                    case "B":
+                        logB_text = string.Concat(logB_text, log);
+                        break;
+                    case "C":
+                        logC_text = string.Concat(logC_text, log);
+                        break;
+                    case "D":
+                        logD_text = string.Concat(logD_text, log);
+                        break;
+                    case "E":
+                        logE_text = string.Concat(logE_text, log);
+                        break;
+                    case "CA310":
+                        ca310_text = string.Concat(ca310_text, log);
+                        break;
+                    case "Canbus":
+                        canbus_text = string.Concat(canbus_text, log);
+                        break;
+                    case "KlinePort":
+                        kline_text = string.Concat(kline_text, log);
+                        break;
+                    case "All":
+                        logAll_text = string.Concat(logAll_text, log);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message.ToString());
+                Serialportsave("All");
+            }
+        }
         // 這個主程式專用的delay的內部資料與function
         static bool RedRatDBViewer_Delay_TimeOutIndicator = false;
         private void RedRatDBViewer_Delay_OnTimedEvent(object source, ElapsedEventArgs e)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: True."); //Debug使用
+            //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_True");
             RedRatDBViewer_Delay_TimeOutIndicator = true;
         }
 
         private void RedRatDBViewer_Delay(int delay_ms)
         {
-            //Console.WriteLine("RedRatDBViewer_Delay: Start."); //Debug使用
+            debug_process("RedRatDBViewer_Delay_S");
             if (delay_ms <= 0) return;
             System.Timers.Timer aTimer = new System.Timers.Timer(delay_ms);
             //aTimer.Interval = delay_ms;
@@ -760,7 +813,177 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-                //Console.WriteLine("RedRatDBViewer_Delay_TimeOutIndicator: false."); //Debug使用
+                if (temperatureDouble.Count() > 0 || timer_matched)
+                {
+                    if (temperatureDouble.Count() > 0)
+                    {
+                        currentTemperature = temperatureDouble.Dequeue();
+                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
+                    }
+                    else if (timer_matched)
+                    {
+                        label_Command.Text = "Timer: matched.";
+                        timer_matched = false;
+                    }
+
+                    Global.caption_Num++;
+                    if (Global.Loop_Number == 1)
+                        Global.caption_Sum = Global.caption_Num;
+                    Jes();
+                }
+
+                if (logA_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("A");
+                    }
+                    else
+                    {
+                        logA_text = string.Empty;
+                    }
+                }
+
+                if (logB_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("B");
+                    }
+                    else
+                    {
+                        logB_text = string.Empty;
+                    }
+                }
+
+                if (logC_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("C");
+                    }
+                    else
+                    {
+                        logC_text = string.Empty;
+                    }
+                }
+
+                if (logD_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("D");
+                    }
+                    else
+                    {
+                        logD_text = string.Empty;
+                    }
+                }
+
+                if (logE_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("E");
+                    }
+                    else
+                    {
+                        logE_text = string.Empty;
+                    }
+                }
+
+                if (logAll_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("All");
+                    }
+                    else
+                    {
+                        logAll_text = string.Empty;
+                    }
+                }
+
+                if (canbus_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("Canbus");
+                    }
+                    else
+                    {
+                        canbus_text = string.Empty;
+                    }
+                }
+
+                if (kline_text.Length > log_max_length)
+                {
+                    if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                    {
+                        Serialportsave("KlinePort");
+                    }
+                    else
+                    {
+                        kline_text = string.Empty;
+                    }
+                }
+
+                if (debug_text.Length > debug_max_length)
+                {
+                    Serialportsave("Debug");
+                }
+
+                //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    debug_process("Break_Out_MyRunCamd_0");
+                    break;
+                }
+            }
+
+            aTimer.Stop();
+            aTimer.Dispose();
+            debug_process("RedRatDBViewer_Delay_E");
+        }
+
+        // 這個usbcan專用的delay的內部資料與function
+        static bool UsbCAN_Delay_TimeOutIndicator = false;
+        static UInt64 UsbCAN_Count = 0;
+        private void UsbCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_Usb2C.TransmitData(columns_times, columns_serial);
+            Console.WriteLine("USB_Can_Send (Repeat): " + UsbCAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_UsbCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            log_process("Canbus", canbus_log_text);
+            UsbCAN_Count++;
+            UsbCAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void UsbCAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("UsbCAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer UsbCAN_Timer = new System.Timers.Timer(delay_ms);
+            UsbCAN_Timer.Interval = delay_ms;
+            UsbCAN_Timer.Elapsed += new ElapsedEventHandler(UsbCAN_Delay_UsbOnTimedEvent);
+            UsbCAN_Timer.Enabled = true;
+            UsbCAN_Timer.Start();
+            UsbCAN_Timer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (UsbCAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("UsbCAN_Delay_TimeOutIndicator: false.");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
@@ -771,10 +994,58 @@ namespace Woodpecker
                     break;
                 }
             }
+            UsbCAN_Timer.Stop();
+            UsbCAN_Timer.Dispose();
+            //Console.WriteLine("UsbCAN_Delay: Stop.");
+        }
 
-            aTimer.Stop();
-            aTimer.Dispose();
-            //Console.WriteLine("RedRatDBViewer_Delay: End."); //Debug使用
+        // 這個vectorcan專用的delay的內部資料與function
+        static bool VectorCAN_Delay_TimeOutIndicator = false;
+        static UInt64 VectorCAN_Count = 0;
+        private void VectorCAN_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            uint columns_times = can_id;
+            byte[] columns_serial = can_data[columns_times];
+            int columns_interval = (int)can_rate[columns_times];
+            Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+            Console.WriteLine("VectorCAN_Can_Send (Repeat): " + VectorCAN_Count + " times.");
+
+            string Outputstring = "ID: 0x";
+            //Outputstring += columns_times + " Data: " + columns_serial;
+            DateTime dt = DateTime.Now;
+            string canbus_log_text = "[Send_VectorCAN] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+            log_process("Canbus", canbus_log_text);
+            VectorCAN_Count++;
+            VectorCAN_Delay_TimeOutIndicator = true;
+        }
+
+        private void VectorCAN_Delay(int delay_ms)
+        {
+            //Console.WriteLine("VectorCAN_Delay: Start.");
+            if (delay_ms <= 0) return;
+            System.Timers.Timer VectorCAN_Timer = new System.Timers.Timer(delay_ms);
+            VectorCAN_Timer.Interval = delay_ms;
+            VectorCAN_Timer.Elapsed += new ElapsedEventHandler(VectorCAN_Delay_UsbOnTimedEvent);
+            VectorCAN_Timer.Enabled = true;
+            VectorCAN_Timer.Start();
+            VectorCAN_Timer.AutoReset = true;
+
+            while ((FormIsClosing == false) && (VectorCAN_Delay_TimeOutIndicator == false))
+            {
+                //Console.WriteLine("VectorCAN_Delay_TimeOutIndicator: false.");
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+
+                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                {
+                    Global.Break_Out_MyRunCamd = 0;
+                    //Console.WriteLine("Break_Out_MyRunCamd = 0");
+                    break;
+                }
+            }
+            VectorCAN_Timer.Stop();
+            VectorCAN_Timer.Dispose();
+            //Console.WriteLine("VectorCAN_Delay: Stop.");
         }
 
         public static string ByteToHexStr(byte[] bytes)
@@ -814,7 +1085,7 @@ namespace Woodpecker
                             PortA.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "BaudRate", ""));
                             PortA.ReadTimeout = 2000;
 
-                            PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
+                            // PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
                             PortA.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortA);
                         }
@@ -843,7 +1114,7 @@ namespace Woodpecker
                             PortB.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port B", "BaudRate", ""));
                             PortB.ReadTimeout = 2000;
 
-                            PortB.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
+                            // PortB.DataReceived += new SerialDataReceivedEventHandler(SerialPort2_DataReceived);       // DataReceived呼叫函式
                             PortB.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortB);
                         }
@@ -872,7 +1143,7 @@ namespace Woodpecker
                             PortC.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port C", "BaudRate", ""));
                             PortC.ReadTimeout = 2000;
 
-                            PortC.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
+                            // PortC.DataReceived += new SerialDataReceivedEventHandler(SerialPort3_DataReceived);       // DataReceived呼叫函式
                             PortC.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
                         }
@@ -901,7 +1172,7 @@ namespace Woodpecker
                             PortD.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port D", "BaudRate", ""));
                             PortD.ReadTimeout = 2000;
 
-                            PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            // PortD.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortD.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
                         }
@@ -930,7 +1201,7 @@ namespace Woodpecker
                             PortE.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port E", "BaudRate", ""));
                             PortE.ReadTimeout = 2000;
 
-                            PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
+                            // PortE.DataReceived += new SerialDataReceivedEventHandler(SerialPort4_DataReceived);       // DataReceived呼叫函式
                             PortE.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortC);
                         }
@@ -1004,209 +1275,607 @@ namespace Woodpecker
         #endregion
 
         #region -- 接受SerialPort1資料 --
-        private void SerialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+
+        private void logA_analysis()
         {
-            try
+            while (PortA.IsOpen == true)
             {
                 int data_to_read = PortA.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortA.Read(dataset, 0, data_to_read);
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-
-                        dt = DateTime.Now;
-                        hexValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, hexValues);
-						logAll_text = string.Concat(logAll_text, hexValues);
+                        byte input_ch = dataset[index];
+                        logA_recorder(input_ch);
+                        if (TemperatureIsFound == true)
+                        {
+                            log_temperature(input_ch);
+                        }
                     }
-                    else
+                    //else
+                    //{
+                    //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
+                    //}
+                }
+                //else
+                //{
+                //    logA_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
+            }
+        }
+
+        const int byteMessage_max_Hex = 16;
+        const int byteMessage_max_Ascii = 256;
+        byte[] byteMessage_A = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_A = 0;
+
+        private void logA_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // if (SaveToLog == false)
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                    string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                     {
-                        string strValues = Encoding.ASCII.GetString(dataset);
-
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log1_text = string.Concat(log1_text, strValues);
-						logAll_text = string.Concat(logAll_text, strValues);
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
+                    log_process("A", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_A = 0;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("A", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_A = 0;
+                }
+                else
+                {
+                    byteMessage_A[byteMessage_length_A] = ch;
+                    byteMessage_length_A++;
+                }
             }
+        }
+
+        const int byteTemperature_max = 64;
+        byte[] byteTemperature = new byte[byteTemperature_max];
+        int byteTemperature_length = 0;
+
+        private void log_temperature(byte ch)
+        {
+            const int packet_len = 16;
+            const int header_offset_1 = -16;
+            const int header_offset_2 = -15;
+            const int temp_ch_offset = -14;
+            const int temp_unit_02 = -13;
+            const int temp_unit_01 = -12;
+            const int temp_polarity_offset = -11;
+            const int temp_dp_offset = -10;
+            const int temp_data8_offset = -9;
+            const int temp_data7_offset = -8;
+            const int temp_data6_offset = -7;
+            const int temp_data5_offset = -6;
+            const int temp_data4_offset = -5;
+            const int temp_data3_offset = -4;
+            const int temp_data2_offset = -3;
+            const int temp_data1_offset = -2;
+            const double temp_abs_value = 0.05;
+
+            // If data_buffer is too long, cut off data not needed
+            if(byteTemperature_length>= byteTemperature_max)
+            {
+                int destinationIndex = 0;
+                for (int i = (byteTemperature_max-packet_len); i < byteTemperature_max; i++)
+                {
+                    byteTemperature[destinationIndex++] = byteTemperature[i];
+                }
+                byteTemperature_length = destinationIndex;
+            }
+
+            byteTemperature[byteTemperature_length] = ch;
+            byteTemperature_length++;
+
+            if (ch == 0x0D)
+            {
+                if ( ((byteTemperature_length + header_offset_1)>=0) &&
+                     (byteTemperature[byteTemperature_length + header_offset_1] == 0x02) &&
+                     (byteTemperature[byteTemperature_length + header_offset_2] == '4') )
+                {
+                    // Packet is valid here
+                    if (byteTemperature[byteTemperature_length + temp_ch_offset] == Temperature_Data.temperatureChannel)
+                    {
+                        // Channel number is checked and ok here
+                        if ((byteTemperature[byteTemperature_length + temp_unit_02] == '0'))
+                        {
+                            if ((byteTemperature[byteTemperature_length + temp_unit_01] == '1')
+                                || (byteTemperature[byteTemperature_length + temp_unit_01] == '2'))
+                            {
+                                if ((byteTemperature[byteTemperature_length + temp_data1_offset] != 0x18))
+                                {
+                                    // data is valid
+                                    int DP_convert = '0';
+                                    int byteArray_position = 0;
+                                    byte[] byteArray = new byte[8];
+                                    for (int pos = byteTemperature_length + temp_data8_offset;
+                                                pos <= (byteTemperature_length + temp_data1_offset);
+                                                pos++)
+                                    {
+                                        byteArray[byteArray_position] = byteTemperature[pos];
+                                        byteArray_position++;
+                                    }
+
+                                    string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
+                                    double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
+                                    double currentTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
+
+                                    // is value negative?
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
+                                    {
+                                        currentTemperature = -currentTemperature;
+                                    }
+
+                                    // is value Fahrenheit?
+                                    if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
+                                    { 
+                                        currentTemperature = (currentTemperature - 32) / 1.8;
+                                        currentTemperature = Math.Round((currentTemperature),2,MidpointRounding.AwayFromZero);
+                                    }
+
+                                    // check whether 2 temperatures are close enough
+                                    if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
+                                    {
+                                        previousTemperature = currentTemperature;
+                                        foreach (Temperature_Data item in temperatureList)
+                                        {
+                                            if (item.temperatureList == currentTemperature &&
+                                                item.temperatureShot == true)
+                                            {
+                                                Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
+                                                temperatureDouble.Enqueue(currentTemperature);
+                                                Console.WriteLine("~~~ Enqueue temperature ~~~ " + currentTemperature);
+                                            }
+
+                                            if (item.temperatureList == currentTemperature &&
+                                                item.temperaturePause == true)
+                                            {
+                                                label_Command.Text = "Condition: " + item.temperatureList + ", PAUSE: " + currentTemperature;
+                                                button_Pause.PerformClick();
+                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
+                                            }
+
+                                            if (item.temperatureList == currentTemperature &&
+                                                     item.temperaturePort != "" &&
+                                                     item.temperatureLog != "" &&
+                                                     item.temperatureNewline != "")
+                                            {
+                                                label_Command.Text = "Condition: " + item.temperatureList + ", Log: " + currentTemperature;
+                                                if (item.temperatureLog.Contains('|'))
+                                                {
+                                                    string[] logArray = item.temperatureLog.Split('|');
+                                                    switch (item.temperaturePort)
+                                                    {
+                                                        case "A":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "B":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "C":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "D":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                        case "E":
+                                                            for (int i = 0; i < logArray.Length; i++)
+                                                                ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                                            break;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    switch (item.temperaturePort)
+                                                    {
+                                                        case "A":
+                                                            ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "B":
+                                                            ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "C":
+                                                            ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "D":
+                                                            ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                        case "E":
+                                                            ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                                            break;
+                                                    }
+                                                }
+                                                Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Send the log to device.~~~~~~~~~");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                byteTemperature_length = 0;
+            }
+        }
+
+        const int byteChamber_max = 64;
+        byte[] byteChamber = new byte[byteChamber_max];
+        int byteChamber_length = 0;
+
+        private void logA_chamber(byte ch)
+        {
+            const int header_data1_offset = -9;
+            const int header_data2_offset = -8;
+            const int length_data_offset = -7;
+            const int data_actual2_offset = -6;
+            const int data_actual1_offset = -5;
+            const int data_target2_offset = -4;
+            const int data_target1_offset = -3;
+            const int crc16_highbit_offset = -2;
+            const int crc16_lowbit_offset = -1;
+
+            byteChamber[byteChamber_length] = ch;
+            byteChamber_length++;
+
+            if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
+                (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
+                (byteChamber[byteChamber_length + length_data_offset] == 0x04))
+            {
+                byte[] byteActual = new byte[2];
+                byte[] byteTarget = new byte[2];
+                byteActual[0] = byteChamber[byteChamber_length + data_actual2_offset];
+                byteActual[1] = byteChamber[byteChamber_length + data_actual1_offset];
+                byteTarget[0] = byteChamber[byteChamber_length + data_target2_offset];
+                byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
+                string stringActual = System.Text.Encoding.Default.GetString(byteActual);
+                string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
+                int intActual = Convert.ToInt32(stringActual, 16);
+                int intTarget = Convert.ToInt32(stringTarget, 16);
+            }
+            byteChamber_length = 0;
         }
         #endregion
 
+
         #region -- 接受SerialPort2資料 --
-        private void SerialPort2_DataReceived(object sender, SerialDataReceivedEventArgs e)
+
+        private void logB_analysis()
         {
-            try
+            while (PortB.IsOpen == true)
             {
                 int data_to_read = PortB.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortB.Read(dataset, 0, data_to_read);
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-                        hexValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                    }
-                    else
-                    {
-                        string strValues = Encoding.ASCII.GetString(dataset);
-
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log2_text = string.Concat(log2_text, strValues);
-                        logAll_text = string.Concat(logAll_text, strValues);
+                        byte input_ch = dataset[index];
+                        logB_recorder(input_ch);
+                        if (TemperatureIsFound == true)
+                        {
+                            log_temperature(input_ch);
+                        }
                     }
                 }
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
-            catch (Exception ex)
+        }
+
+        byte[] byteMessage_B = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_B = 0;
+
+        private void logB_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-                Console.WriteLine(ex.Message);
+                // if (SaveToLog == false)
+                {
+                    byteMessage_B[byteMessage_length_B] = ch;
+                    byteMessage_length_B++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_B).Replace("-", "").Substring(0, byteMessage_length_B * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("B", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_B = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_B).Substring(0, byteMessage_length_B);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("B", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_B = 0;
+                }
+                else
+                {
+                    byteMessage_B[byteMessage_length_B] = ch;
+                    byteMessage_length_B++;
+                }
             }
         }
         #endregion
 
         #region -- 接受SerialPort3資料 --
-        private void SerialPort3_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void logC_analysis()
         {
-            try
+            while (PortC.IsOpen == true)
             {
                 int data_to_read = PortC.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortC.Read(dataset, 0, data_to_read);
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        // hex to string
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-                        hexValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                    }
-                    else
-                    {
-                        string strValues = Encoding.ASCII.GetString(dataset);
-
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log3_text = string.Concat(log3_text, strValues);
-                        logAll_text = string.Concat(logAll_text, strValues);
+                        byte input_ch = dataset[index];
+                        logC_recorder(input_ch);
+                        if (TemperatureIsFound == true)
+                        {
+                            log_temperature(input_ch);
+                        }
                     }
                 }
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
-            catch (Exception ex)
+        }
+
+        byte[] byteMessage_C = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_C = 0;
+
+        private void logC_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-                Console.WriteLine(ex.Message);
+                // if (SaveToLog == false)
+                {
+                    byteMessage_C[byteMessage_length_C] = ch;
+                    byteMessage_length_C++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_C).Replace("-", "").Substring(0, byteMessage_length_C * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("C", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_C = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_C).Substring(0, byteMessage_length_C);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("C", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_C = 0;
+                }
+                else
+                {
+                    byteMessage_C[byteMessage_length_C] = ch;
+                    byteMessage_length_C++;
+                }
             }
         }
         #endregion
 
         #region -- 接受SerialPort4資料 --
-        private void SerialPort4_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void logD_analysis()
         {
-            try
+            while (PortD.IsOpen == true)
             {
                 int data_to_read = PortD.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortD.Read(dataset, 0, data_to_read);
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-                        hexValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                    }
-                    else
-                    {
-                        string strValues = Encoding.ASCII.GetString(dataset);
-
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log4_text = string.Concat(log4_text, strValues);
-                        logAll_text = string.Concat(logAll_text, strValues);
+                        byte input_ch = dataset[index];
+                        logD_recorder(input_ch);
+                        if (TemperatureIsFound == true)
+                        {
+                            log_temperature(input_ch);
+                        }
                     }
                 }
+                //else
+                //{
+                //    logD_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
-            catch (Exception ex)
+        }
+
+        byte[] byteMessage_D = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_D = 0;
+
+        private void logD_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
             {
-                Console.WriteLine(ex.Message);
+                // if (SaveToLog == false)
+                {
+                    byteMessage_D[byteMessage_length_D] = ch;
+                    byteMessage_length_D++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_D).Replace("-", "").Substring(0, byteMessage_length_D * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("D", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_D = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_D).Substring(0, byteMessage_length_D);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("D", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_D = 0;
+                }
+                else
+                {
+                    byteMessage_D[byteMessage_length_D] = ch;
+                    byteMessage_length_D++;
+                }
             }
         }
         #endregion
 
         #region -- 接受SerialPort5資料 --
-        private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void logE_analysis()
         {
-            try
+            while (PortE.IsOpen == true)
             {
                 int data_to_read = PortE.BytesToRead;
                 if (data_to_read > 0)
                 {
                     byte[] dataset = new byte[data_to_read];
-
                     PortE.Read(dataset, 0, data_to_read);
 
-                    DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    for (int index = 0; index < data_to_read; index++)
                     {
-                        string hexValues = BitConverter.ToString(dataset).Replace("-", "");
-
-                        DateTime.Now.ToShortTimeString();
-                        dt = DateTime.Now;
-                        hexValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, hexValues);
-                        logAll_text = string.Concat(logAll_text, hexValues);
-                    }
-                    else
-                    {
-                        string strValues = Encoding.ASCII.GetString(dataset);
-
-                        dt = DateTime.Now;
-                        strValues = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strValues + "\r\n"; //OK
-                        log5_text = string.Concat(log5_text, strValues);
-                        logAll_text = string.Concat(logAll_text, strValues);
+                        byte input_ch = dataset[index];
+                        logE_recorder(input_ch);
+                        if (TemperatureIsFound == true)
+                        {
+                            log_temperature(input_ch);
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                //else
+                //{
+                //    logB_recorder(0x00,true); // tell log_recorder no more data for now.
+                //}
             }
         }
+
+        byte[] byteMessage_E = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
+        int byteMessage_length_E = 0;
+
+        private void logE_recorder(byte ch, bool SaveToLog = false)
+        {
+            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            {
+                // if (SaveToLog == false)
+                {
+                    byteMessage_E[byteMessage_length_E] = ch;
+                    byteMessage_length_E++;
+                }
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
+                {
+                    string dataValue = BitConverter.ToString(byteMessage_E).Replace("-", "").Substring(0, byteMessage_length_E * 2);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("E", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_E = 0;
+                }
+            }
+            else
+            {
+                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Ascii))
+                {
+                    string dataValue = Encoding.ASCII.GetString(byteMessage_E).Substring(0, byteMessage_length_E);
+                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("E", dataValue);
+                    log_process("All", dataValue);
+                    byteMessage_length_E = 0;
+                }
+                else
+                {
+                    byteMessage_E[byteMessage_length_E] = ch;
+                    byteMessage_length_E++;
+                }
+            }
+        }
+
         #endregion
 
         #region -- 儲存SerialPort的log --
@@ -1221,37 +1890,37 @@ namespace Woodpecker
                 case "A":
                     string t = fName + "\\_PortA_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log1_text);
+                    MYFILE.Write(logA_text);
                     MYFILE.Close();
-                    log1_text = String.Empty;
+                    logA_text = String.Empty;
                     break;
                 case "B":
                     t = fName + "\\_PortB_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log2_text);
+                    MYFILE.Write(logB_text);
                     MYFILE.Close();
-                    log2_text = String.Empty;
+                    logB_text = String.Empty;
                     break;
                 case "C":
                     t = fName + "\\_PortC_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log3_text);
+                    MYFILE.Write(logC_text);
                     MYFILE.Close();
-                    log3_text = String.Empty;
+                    logC_text = String.Empty;
                     break;
                 case "D":
                     t = fName + "\\_PortD_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log4_text);
+                    MYFILE.Write(logD_text);
                     MYFILE.Close();
-                    log4_text = String.Empty;
+                    logD_text = String.Empty;
                     break;
                 case "E":
                     t = fName + "\\_PortE_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(log5_text);
+                    MYFILE.Write(logE_text);
                     MYFILE.Close();
-                    log5_text = String.Empty;
+                    logE_text = String.Empty;
                     break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -1274,10 +1943,29 @@ namespace Woodpecker
                     MYFILE.Close();
                     logAll_text = String.Empty;
                     break;
+                case "Debug":
+                    t = fName + "\\_Debug_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(debug_text);
+                    MYFILE.Close();
+                    debug_text = String.Empty;
+                    break;
             }
         }
         #endregion
 
+        double currentTemperature = 0;
+        double previousTemperature = -300;
+        bool ChamberCheck = false;
+        bool PowerSupplyCheck = false;
+        bool timer_matched = false;
+        
+        private void timer_duringShot_Tick(object sender, EventArgs e)
+        {
+            timer_matched = true;
+        }
+
+        #region -- 換行符號置換 --
         private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
         {
             List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
@@ -1291,6 +1979,7 @@ namespace Woodpecker
                 }
             }
         }
+        #endregion
 
         #region -- 跑Schedule的指令集 --
         private void MyRunCamd()
@@ -1308,6 +1997,7 @@ namespace Woodpecker
             {
                 Global.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
+                Global.label_LoopNumber = j.ToString();
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
@@ -1329,11 +2019,11 @@ namespace Woodpecker
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
                         Global.Schedule_Step = Global.Scheduler_Row;
-
                         if (StartButtonPressed == false)
                         {
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -1382,7 +2072,7 @@ namespace Woodpecker
                         DateTime.Now.ToShortTimeString();
                         DateTime sch_dt = DateTime.Now;
 
-                        Console.WriteLine("Record Schedule.");
+                        debug_process("Record Schedule");
                         Schedule_log = columns_command;
                         try
                         {
@@ -1397,14 +2087,14 @@ namespace Woodpecker
                         }
 
                         string sch_log_text = "[Schedule] [" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        log1_text = string.Concat(log1_text, sch_log_text);
-                        log2_text = string.Concat(log2_text, sch_log_text);
-                        log3_text = string.Concat(log3_text, sch_log_text);
-                        log4_text = string.Concat(log4_text, sch_log_text);
-                        log5_text = string.Concat(log5_text, sch_log_text);
-                        logAll_text = string.Concat(logAll_text, sch_log_text);
-                        canbus_text = string.Concat(canbus_text, sch_log_text);
-                        kline_text = string.Concat(kline_text, sch_log_text);
+                        log_process("A", sch_log_text);
+                        log_process("B", sch_log_text);
+                        log_process("C", sch_log_text);
+                        log_process("D", sch_log_text);
+                        log_process("E", sch_log_text);
+                        log_process("All", sch_log_text);
+                        log_process("Canbus", sch_log_text);
+                        log_process("KlinePort", sch_log_text);
                         #endregion
 
                         #region -- _cmd --
@@ -1688,7 +2378,7 @@ namespace Woodpecker
                         #region -- 拍照 --
                         else if (columns_command == "_shot")
                         {
-                            Console.WriteLine("Take Picture: _shot");
+                            debug_process("_shot");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 Global.caption_Num++;
@@ -1703,19 +2393,20 @@ namespace Woodpecker
                                 MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
                                 setStyle();
                             }
+                            debug_process("Take Picture: _shot_stop");
                         }
                         #endregion
 
                         #region -- 錄影 --
                         else if (columns_command == "_rec_start")
                         {
-                            Console.WriteLine("Take Record: _rec_start");
+                            debug_process("Take Record: _rec_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (VideoRecording == false)
+                                if (Global.VideoRecording == false)
                                 {
                                     Mysvideo(); // 開新檔
-                                    VideoRecording = true;
+                                    Global.VideoRecording = true;
                                     Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                                     oThreadC.Start();
                                 }
@@ -1730,7 +2421,7 @@ namespace Woodpecker
 
                         else if (columns_command == "_rec_stop")
                         {
-                            Console.WriteLine("Take Record: _rec_stop");
+                            debug_process("Take Record: _rec_stop");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 if (Global.VideoRecording == true)       //判斷是不是正在錄影
@@ -1753,132 +2444,112 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("Ascii Log: _PortA");
+                                debug_process("Ascii Log: _PortA");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("A"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log1_text = string.Empty; //清除log1_text
+                                    logA_text = string.Empty; //清除logA_text
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortA, columns_serial, columns_switch);    //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
                                     MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
-                                log1_text = string.Concat(log1_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("Ascii Log: _PortB");
+                                debug_process("Ascii Log: _PortB");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("B"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log2_text = string.Empty; //清除log2_text
+                                    logB_text = string.Empty; //清除logB_text
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortB, columns_serial, columns_switch);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
                                     MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                log2_text = string.Concat(log2_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("Ascii Log: _PortC");
+                                debug_process("Ascii Log: _PortC");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("C"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log3_text = string.Empty; //清除log3_text
+                                    logC_text = string.Empty; //清除logC_text
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortC, columns_serial, columns_switch);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
                                     MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                log3_text = string.Concat(log3_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("Ascii Log: _PortD");
+                                debug_process("Ascii Log: _PortD");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("D"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log4_text = string.Empty; //清除log4_text
+                                    logD_text = string.Empty; //清除logD_text
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortD, columns_serial, columns_switch);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
                                     MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                log4_text = string.Concat(log4_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("Ascii Log: _PortE");
+                                debug_process("Ascii Log: _PortE");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("E"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log5_text = string.Empty; //清除log5_text
+                                    logE_text = string.Empty; //清除logE_text
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortE, columns_serial, columns_switch);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
                                     MessageBox.Show("Ascii command is fail, please check the format.");
                                 }
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                log5_text = string.Concat(log5_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
                             }
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Ascii Log: _All");
+                                debug_process("Ascii Log: _All");
                                 string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
                                 string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -1891,48 +2562,450 @@ namespace Woodpecker
                                     logAll_text = string.Empty; //清除logAll_text
                                 }
 
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" || switch_content[0] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    ReplaceNewLine(PortA, serial_content[0], switch_content[0]);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    log1_text = string.Concat(log1_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    log_process("A", dataValue);
+                                    logAll_text = string.Concat(logAll_text, dataValue);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" || switch_content[1] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                 {
-                                    ReplaceNewLine(PortB, serial_content[1], switch_content[1]);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    log2_text = string.Concat(log2_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    log_process("B", dataValue);
+                                    logAll_text = string.Concat(logAll_text, dataValue);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" || switch_content[2] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    log3_text = string.Concat(log3_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" || switch_content[3] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    log4_text = string.Concat(log4_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
-                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" || switch_content[4] != "")
+                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);  //發送數據 Rs232 + \r\n
+                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    log5_text = string.Concat(log5_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                        }
+                        #endregion
+
+                        #region -- Execute --
+                        else if (columns_command == "_Execute")
+                        {
+                            //If voltage matched the expected value
+                            if (PowerSupplyCheck)
+                            {
+                                IO_CMD();
+                            }
+                            PowerSupplyCheck = false;
+
+                            if (columns_serial == "_pause")
+                            {
+                                foreach (Temperature_Data item in temperatureList)
+                                {
+                                    item.temperaturePause = true;
+                                }
+                            }
+                            else if (columns_serial == "_shot")
+                            {
+                                foreach (Temperature_Data item in temperatureList)
+                                {
+                                    item.temperatureShot = true;
+                                }
+                            }
+                            else if (columns_comport == "A" || columns_comport == "B" || columns_comport == "C" || columns_comport == "D" || columns_comport == "E")
+                            {
+                                foreach (Temperature_Data item in temperatureList)
+                                {
+                                    item.temperaturePort = columns_comport;
+                                    item.temperatureLog = columns_serial;
+                                    item.temperatureNewline = columns_switch;
+                                }
+                            }
+                        }
+
+                        #endregion
+
+                        #region -- Condition_AND --
+                        else if (columns_command == "_Condition_AND")
+                        {
+                            //if (columns_command.Substring(13) == "1")
+                            //{
+                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                            {
+                                if (columns_function == "start")
+                                {
+                                    ifStatementFlag = true;
+                                    expectedVoltage = "";
+                                    if (columns_serial != "")
+                                    {
+                                        columns_serial.Replace(" ", "");
+                                        if (columns_serial.Contains("chamber_temp"))
+                                        {
+                                            ChamberIsFound = true;
+                                            Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
+                                            Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
+                                            if (columns_serial.Contains("/-"))
+                                            {
+                                                Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
+                                            }
+                                            else
+                                            {
+                                                Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
+                                            }
+                                        }
+                                        else if (columns_serial.Contains("PowerSupply_Voltage"))
+                                        {
+                                            PowerSupplyIsFound = true;
+                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
+
+                                            string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
+                                            ReplaceNewLine(PortA, powerCommand, columns_switch);
+
+                                            //Append Power Supply command to log
+                                            DateTime dt = DateTime.Now;
+                                            PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                            logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                        }
+                                        else if (columns_serial.Contains("Temperature"))
+                                        {
+                                            try
+                                            {
+                                                //	lt：less than 小於
+                                                //	le：less than or equal to 小於等於
+                                                //	eq：equal to 等於
+                                                //	ne：not equal to 不等於
+                                                //	ge：greater than or equal to 大於等於
+                                                //	gt：greater than 大於
+
+                                                TemperatureIsFound = true;
+                                                int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                int symbel_equal_3c = columns_serial.IndexOf("<");
+                                                int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                int symbel_equal_3c3e = columns_serial.IndexOf("<>");
+                                                int symbel_equal_3c3d = columns_serial.IndexOf("<=");
+                                                int symbel_equal_3e3d = columns_serial.IndexOf(">=");
+                                                int duringTimeInt = 0;
+                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+
+                                                if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
+                                                {
+                                                    MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                    MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                }
+                                                else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
+                                                {
+                                                    MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                    MaxTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                }
+                                                else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
+                                                {
+                                                    if (columns_serial.Contains("<"))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                    else if (columns_serial.Contains("<="))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
+                                                    else if (columns_serial.Contains("=="))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
+                                                    else if (columns_serial.Contains("<>"))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
+                                                    else if (columns_serial.Contains(">"))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                    else if (columns_serial.Contains(">="))
+                                                        MinTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
+                                                }
+                                                
+                                                string string_temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+
+                                                if (columns_serial.Contains("m)"))
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                else
+                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
+
+                                                byte temperatureChannel = Convert.ToByte(int.Parse(string_temperatureChannel) + 48);
+
+                                                if (duringTimeInt > 0)
+                                                {
+                                                    // Create a timer and set a two second interval.
+                                                    timer_duringShot.Interval = duringTimeInt;
+
+                                                    // Start the timer
+                                                    timer_duringShot.Start();
+                                                }
+                                            }
+                                            catch (Exception Ex)
+                                            {
+                                                MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (columns_function == "end")
+                                {
+                                    ifStatementFlag = false;
+
+                                    PowerSupplyCheck = false;
+                                    PowerSupplyIsFound = false;
+
+                                    ChamberCheck = false;
+                                    ChamberIsFound = false;
+
+                                    timer_duringShot.Stop();
+
+                                    foreach (Temperature_Data item in temperatureList)
+                                    {
+                                        item.temperaturePause = false;
+                                        item.temperatureShot = false;
+                                    }
+
+                                }
+                            }
+                            //}
+                        }
+                        #endregion
+
+                        #region -- Condition_OR --
+                        else if (columns_command == "_Condition_OR")
+                        {
+                            //if (columns_command.Substring(13) == "1")
+                            //{
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                                {
+                                    if (columns_function == "start")
+                                    {
+                                        ifStatementFlag = true;
+                                        expectedVoltage = "";
+                                        if (columns_serial != "")
+                                        {
+                                            columns_serial.Replace(" ", "");
+                                            if (columns_serial.Contains("chamber_temp"))
+                                            {
+                                                ChamberIsFound = true;
+                                                Temperature_Data.initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
+                                                Temperature_Data.finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
+                                                if (columns_serial.Contains("/-"))
+                                                {
+                                                    Temperature_Data.addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
+                                                }
+                                                else
+                                                {
+                                                    Temperature_Data.addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
+                                                }
+                                            }
+                                            else if (columns_serial.Contains("PowerSupply_Voltage"))
+                                            {
+                                                PowerSupplyIsFound = true;
+                                                expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
+
+                                                string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
+                                                ReplaceNewLine(PortA, powerCommand, columns_switch);
+
+                                                //Append Power Supply command to log
+                                                DateTime dt = DateTime.Now;
+                                                PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                            }
+                                            else if (columns_serial.Contains("Temperature"))
+                                            {
+                                                try
+                                                {
+                                                    //	lt：less than 小於
+                                                    //	le：less than or equal to 小於等於
+                                                    //	eq：equal to 等於
+                                                    //	ne：not equal to 不等於
+                                                    //	ge：greater than or equal to 大於等於
+                                                    //	gt：greater than 大於
+
+                                                    TemperatureIsFound = true;
+                                                    temperatureList.Clear();
+                                                    int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                    int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                    int symbel_equal_2f = columns_serial.IndexOf("/");
+                                                    int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                    int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                    int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                    int symbel_equal_3c = columns_serial.IndexOf("<");
+                                                    int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                    int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                    int symbel_equal_3c3e = columns_serial.IndexOf("<>");
+                                                    int symbel_equal_3c3d = columns_serial.IndexOf("<=");
+                                                    int symbel_equal_3e3d = columns_serial.IndexOf(">=");
+                                                    int duringTimeInt = 0;
+                                                    int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+                                                    string initialTemperature = "", finalTemperature = "", addTemperature = "", symbel_equal_Math = "";
+                                                    string temperatureChannel = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
+                                                    {
+                                                        initialTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        finalTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                        addTemperature = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                    }
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
+                                                    {
+                                                        initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                        finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        symbel_equal_Math = "<>";
+                                                    }
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
+                                                    {
+                                                        finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        initialTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        symbel_equal_Math = "==";
+                                                    }
+                                                    else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
+                                                    {
+                                                        if (columns_serial.Contains("<"))
+                                                        {
+                                                            symbel_equal_Math = "<";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                        }
+                                                        else if (columns_serial.Contains("<="))
+                                                        {
+                                                            symbel_equal_Math = "<=";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 1, symbel_equal_28 - symbel_equal_3c3d - 1));
+                                                        }
+                                                        else if (columns_serial.Contains("=="))
+                                                        {
+                                                            symbel_equal_Math = "==";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 1, symbel_equal_28 - symbel_equal_3d3d - 1));
+                                                        }
+                                                        else if (columns_serial.Contains("<>"))
+                                                        {
+                                                            symbel_equal_Math = "<>";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_28 - symbel_equal_3c3e - 1));
+                                                        }
+                                                        else if (columns_serial.Contains(">"))
+                                                        {
+                                                            symbel_equal_Math = ">";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                        }
+                                                        else if (columns_serial.Contains(">="))
+                                                        {
+                                                            symbel_equal_Math = ">=";
+                                                            finalTemperature = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 1, symbel_equal_28 - symbel_equal_3e3d - 1));
+                                                        }
+                                                    }
+
+                                                    if (columns_serial.Contains("m)"))
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                    else
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
+
+                                                    if (columns_serial.Contains("~"))
+                                                        Temperature_Data.initialTemperature = float.Parse(initialTemperature);
+                                                    Temperature_Data.finalTemperature = float.Parse(finalTemperature);
+                                                    Temperature_Data.temperatureChannel = Convert.ToByte(int.Parse(temperatureChannel) + 48);
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
+                                                    {
+                                                        Temperature_Data.addTemperature = float.Parse(addTemperature);
+                                                    }
+                                                    float addTemperatureInt = Temperature_Data.addTemperature;
+
+                                                    if (duringTimeInt > 0)
+                                                    {
+                                                        // Create a timer and set a two second interval.
+                                                        timer_duringShot.Interval = duringTimeInt;
+
+                                                        // Start the timer
+                                                        timer_duringShot.Start();
+                                                    }
+
+                                                    if (addTemperatureInt < 0)
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i >= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
+                                                        }
+                                                    }
+                                                    else if (addTemperatureInt >= 0)
+                                                    {
+                                                        for (float i = Temperature_Data.initialTemperature; i <= Temperature_Data.finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(new Temperature_Data(conditionList, false, false, "", "", ""));
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        switch (symbel_equal_Math)
+                                                        {
+                                                            case "<":
+
+                                                                break;
+                                                            case "<=":
+
+                                                                break;
+                                                            case "==":
+
+                                                                break;
+                                                            case "<>":
+
+                                                                break;
+                                                            case ">":
+
+                                                                break;
+                                                            case "=>":
+
+                                                                break;
+                                                        }
+                                                    }
+                                                }
+                                                catch(Exception Ex)
+                                                {
+                                                    MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
+                                                }
+                                            }
+                                        }
+                                    }
+                                    else if (columns_function == "end")
+                                    {
+                                        ifStatementFlag = false;
+
+                                        PowerSupplyCheck = false;
+                                        PowerSupplyIsFound = false;
+
+                                        ChamberCheck = false;
+                                        ChamberIsFound = false;
+
+                                        timer_duringShot.Stop();
+
+                                        temperatureList.Clear();
+
+                                    }
+                                }
+                            //}
                         }
                         #endregion
 
@@ -1942,14 +3015,14 @@ namespace Woodpecker
                             string Outputstring = "";
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("Hex Log: _PortA");
+                                debug_process("Hex Log: _PortA");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("A"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log1_text = string.Empty; //清除log1_text
+                                    logA_text = string.Empty; //清除logA_text
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -1974,21 +3047,21 @@ namespace Woodpecker
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                log1_text = string.Concat(log1_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                log_process("A", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("Hex Log: _PortB");
+                                debug_process("Hex Log: _PortB");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("B"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log2_text = string.Empty; //清除log2_text
+                                    logB_text = string.Empty; //清除logB_text
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -2013,21 +3086,21 @@ namespace Woodpecker
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                log2_text = string.Concat(log2_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                log_process("B", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("Hex Log: _PortC");
+                                debug_process("Hex Log: _PortC");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("C"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log3_text = string.Empty; //清除log3_text
+                                    logC_text = string.Empty; //清除logC_text
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -2052,21 +3125,21 @@ namespace Woodpecker
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                log3_text = string.Concat(log3_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                log_process("C", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("Hex Log: _PortD");
+                                debug_process("Hex Log: _PortD");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("D"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log4_text = string.Empty; //清除log4_text
+                                    logD_text = string.Empty; //清除logD_text
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -2091,21 +3164,21 @@ namespace Woodpecker
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                log4_text = string.Concat(log4_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                log_process("D", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("Hex Log: _PortE");
+                                debug_process("Hex Log: _PortE");
                                 if (columns_serial == "_save")
                                 {
                                     Serialportsave("E"); //存檔rs232
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    log5_text = string.Empty; //清除log5_text
+                                    logE_text = string.Empty; //清除logE_text
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -2130,14 +3203,14 @@ namespace Woodpecker
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                log5_text = string.Concat(log5_text, text);
-                                logAll_text = string.Concat(logAll_text, text);
+                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                log_process("E", dataValue);
+                                log_process("All", dataValue);
                             }
 
                             if (columns_comport == "ALL")
                             {
-                                Console.WriteLine("Hex Log: _All");
+                                debug_process("Hex Log: _All");
                                 string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
 
                                 if (columns_serial == "_save")
@@ -2167,9 +3240,9 @@ namespace Woodpecker
                                         PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log1_text = string.Concat(log1_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
                                 {
@@ -2189,9 +3262,9 @@ namespace Woodpecker
                                         PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log2_text = string.Concat(log2_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
                                 {
@@ -2211,9 +3284,9 @@ namespace Woodpecker
                                         PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log3_text = string.Concat(log3_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
                                 {
@@ -2233,9 +3306,9 @@ namespace Woodpecker
                                         PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log4_text = string.Concat(log4_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                                 if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
                                 {
@@ -2255,9 +3328,9 @@ namespace Woodpecker
                                         PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
-                                    log5_text = string.Concat(log5_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + Outputstring;
@@ -2267,7 +3340,7 @@ namespace Woodpecker
                         #region -- K-Line --
                         else if (columns_command == "_K_ABS")
                         {
-                            Console.WriteLine("K-line control: _K_ABS");
+                            debug_process("K-line control: _K_ABS");
                             try
                             {
                                 // K-lite ABS指令檔案匯入
@@ -2307,7 +3380,7 @@ namespace Woodpecker
                         }
                         else if (columns_command == "_K_OBD")
                         {
-                            Console.WriteLine("K-line control: _K_OBD");
+                            debug_process("K-line control: _K_OBD");
                             try
                             {
                                 // K-lite OBD指令檔案匯入
@@ -2362,7 +3435,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortA");
+                                debug_process("I2C Read Log: _TX_I2C_Read_PortA");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -2372,15 +3445,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log1_text = string.Concat(log1_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortB");
+                                debug_process("I2C Read Log: _TX_I2C_Read_PortB");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -2390,15 +3463,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log2_text = string.Concat(log2_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortC");
+                                debug_process("I2C Read Log: _TX_I2C_Read_PortC");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -2408,15 +3481,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log3_text = string.Concat(log3_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortD");
+                                debug_process("I2C Read Log: _TX_I2C_Read_PortD");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -2426,15 +3499,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log4_text = string.Concat(log4_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("I2C Read Log: _TX_I2C_Read_PortE");
+                                debug_process("I2C Read Log: _TX_I2C_Read_PortE");
                                 if (columns_times != "" && columns_function != "")
                                 {
                                     string orginal_data = columns_times + " " + columns_function + " " + "20";
@@ -2444,9 +3517,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log5_text = string.Concat(log5_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                         }
@@ -2457,7 +3530,7 @@ namespace Woodpecker
                         {
                             if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortA");
+                                debug_process("I2C Write Log: _TX_I2C_Write_PortA");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -2468,15 +3541,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log1_text = string.Concat(log1_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("A", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortB");
+                                debug_process("I2C Write Log: _TX_I2C_Write_PortB");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -2487,15 +3560,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log2_text = string.Concat(log2_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("B", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortC");
+                                debug_process("I2C Write Log: _TX_I2C_Write_PortC");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -2506,15 +3579,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log3_text = string.Concat(log3_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("C", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortD");
+                                debug_process("I2C Write Log: _TX_I2C_Write_PortD");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -2525,15 +3598,15 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log4_text = string.Concat(log4_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("D", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
 
                             if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                             {
-                                Console.WriteLine("I2C Write Log: _TX_I2C_Write_PortE");
+                                debug_process("I2C Write Log: _TX_I2C_Write_PortE");
                                 if (columns_function != "" && columns_subFunction != "")
                                 {
                                     int Data_length = columns_subFunction.Split(' ').Count();
@@ -2544,9 +3617,9 @@ namespace Woodpecker
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
-                                    string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log5_text = string.Concat(log5_text, text);
-                                    logAll_text = string.Concat(logAll_text, text);
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
                                 }
                             }
                         }
@@ -2555,21 +3628,109 @@ namespace Woodpecker
                         #region -- Canbus Send --
                         else if (columns_command == "_Canbus_Send")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
-                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                 {
-                                    Console.WriteLine("Canbus Send: _Canbus_Send");
-                                    MYCanReader.TransmitData(columns_times, columns_serial);
+                                    debug_process("Canbus Send (Event): _Canbus_Send");
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_Usb2C.TransmitData(Convert.ToUInt32(columns_times), Outputdata);
 
                                     string Outputstring = "ID: 0x";
                                     Outputstring += columns_times + " Data: " + columns_serial;
                                     DateTime dt = DateTime.Now;
                                     string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    canbus_text = string.Concat(canbus_text, canbus_log_text);
-                                    schedule_text = string.Concat(schedule_text, canbus_log_text);
+                                    log_process("Canbus", canbus_log_text);
+                                    log_process("All", canbus_log_text);
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(can_id))
+                                            {
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
+                                                UsbCAN_Count = 0;
+                                                UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
+                                        UsbCAN_Count = 0;
+                                        UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                    }
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                            {
+                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
+                                {
+                                    debug_process("Canbus Send: Vector_Canbus_once");
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    Can_1630A.LoopCANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
 
-                                    System.Threading.Thread.Sleep(Convert.ToInt32(columns_interval));
+                                    string Outputstring = "ID: 0x";
+                                    Outputstring += columns_times + " Data: " + columns_serial;
+                                    DateTime dt = DateTime.Now;
+                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    log_process("Canbus", canbus_log_text);
+                                    log_process("All", canbus_log_text);
+                                }
+                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    debug_process("Canbus Send: Vector_Canbus_loop");
+                                    set_timer_rate = true;
+                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                    Outputdata = HexConverter.StrToByte(columns_serial);
+                                    if (can_rate.Count > 0)
+                                    {
+                                        foreach (var OneItem in can_rate)
+                                        {
+                                            if (can_rate.ContainsKey(can_id))
+                                            {
+                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                can_data[can_id] = Outputdata;
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                can_data.Add(can_id, Outputdata);
+                                                //VectorCAN_Count = 0;
+                                                //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                                Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                                CanSetTimeRate.Start();
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                        can_data.Add(can_id, Outputdata);
+                                        //VectorCAN_Count = 0;
+                                        //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                        Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                        CanSetTimeRate.Start();
+                                    }
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -2579,23 +3740,44 @@ namespace Woodpecker
                         #region -- Canbus Queue --
                         else if (columns_command == "_Canbus_Queue")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                             {
                                 if (columns_times != "" && columns_interval != "" && columns_serial != "")
                                 {
-                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_data");
                                     byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(columns_serial);
-                                    can_data_list.Add(new CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
                                 }
                                 else if (columns_function == "send")
                                 {
-                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_send");
                                     can_send = 1;
                                 }
                                 else if (columns_function == "clear")
                                 {
-                                    Console.WriteLine("Canbus Write: _Canbus_Queue");
+                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_clean");
+                                    can_send = 0;
+                                    can_data_list.Clear();
+                                }
+                            }
+                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                            {
+                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                {
+                                    debug_process("Canbus Write: Vector_Canbus_Queue_data");
+                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(columns_serial);
+                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                }
+                                else if (columns_function == "send")
+                                {
+                                    debug_process("Canbus Write: Vector_Canbus_Queue_send");
+                                    can_send = 1;
+                                }
+                                else if (columns_function == "clear")
+                                {
+                                    debug_process("Canbus Write: Vector_Canbus_Queue_clean");
                                     can_send = 0;
                                     can_data_list.Clear();
                                 }
@@ -2607,7 +3789,7 @@ namespace Woodpecker
                         #region -- 命令提示 --
                         else if (columns_command == "_DOS")
                         {
-                            Console.WriteLine("DOS command: _DOS");
+                            debug_process("DOS command: _DOS");
                             if (columns_serial != "")
                             {
                                 string Command = columns_serial;
@@ -2643,13 +3825,13 @@ namespace Woodpecker
                         #region -- GPIO_INPUT_OUTPUT --
                         else if (columns_command == "_IO_Input")
                         {
-                            Console.WriteLine("GPIO control: _IO_Input");
+                            debug_process("GPIO control: _IO_Input");
                             IO_INPUT();
                         }
 
                         else if (columns_command == "_IO_Output")
                         {
-                            Console.WriteLine("GPIO control: _IO_Output");
+                            debug_process("GPIO control: _IO_Output");
                             //string GPIO = "01010101";
                             string GPIO = columns_times;
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
@@ -2661,7 +3843,7 @@ namespace Woodpecker
                         #region -- Extend_GPIO_OUTPUT --
                         else if (columns_command == "_WaterTemp")
                         {
-                            Console.WriteLine("Extend GPIO control: _WaterTemp");
+                            debug_process("Extend GPIO control: _WaterTemp");
                             string GPIO = columns_times; // GPIO = "010101010";
                             if (GPIO.Length == 9)
                             {
@@ -2680,7 +3862,7 @@ namespace Woodpecker
 
                         else if (columns_command == "_FuelDisplay")
                         {
-                            Console.WriteLine("Extend GPIO control: _FuelDisplay");
+                            debug_process("Extend GPIO control: _FuelDisplay");
                             string GPIO = columns_times;
                             if (GPIO.Length == 9)
                             {
@@ -2699,7 +3881,7 @@ namespace Woodpecker
 
                         else if (columns_command == "_Temperature")
                         {
-                            Console.WriteLine("Extend GPIO control: _Temperature");
+                            debug_process("Extend GPIO control: _Temperature");
                             //string GPIO = "01010101";
                             string GPIO = columns_serial;
                             int GPIO_B = int.Parse(GPIO);
@@ -2748,7 +3930,7 @@ namespace Woodpecker
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
-                                    Console.WriteLine("Extend GPIO control: _FuncKey:" + k + " times");
+                                    debug_process("Extend GPIO control: _FuncKey:" + k + " times");
                                     label_Command.Text = "(Push CMD)" + columns_serial;
                                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                     {
@@ -2758,7 +3940,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_serial == "_clear")
                                         {
-                                            log1_text = string.Empty; //清除textbox1
+                                            logA_text = string.Empty; //清除textbox1
                                         }
                                         else if (columns_serial != "" && columns_switch == @"\r")
                                         {
@@ -2781,9 +3963,9 @@ namespace Woodpecker
                                             PortA.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        log1_text = string.Concat(log1_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                     {
@@ -2793,7 +3975,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_serial == "_clear")
                                         {
-                                            log2_text = string.Empty; //清除log2_text
+                                            logB_text = string.Empty; //清除logB_text
                                         }
                                         else if (columns_serial != "" && columns_switch == @"\r")
                                         {
@@ -2816,9 +3998,9 @@ namespace Woodpecker
                                             PortB.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        log2_text = string.Concat(log2_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                     {
@@ -2828,7 +4010,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_serial == "_clear")
                                         {
-                                            log3_text = string.Empty; //清除log3_text
+                                            logC_text = string.Empty; //清除logC_text
                                         }
                                         else if (columns_serial != "" && columns_switch == @"\r")
                                         {
@@ -2851,9 +4033,9 @@ namespace Woodpecker
                                             PortC.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        log3_text = string.Concat(log3_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                     {
@@ -2863,7 +4045,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_serial == "_clear")
                                         {
-                                            log4_text = string.Empty; //清除log4_text
+                                            logD_text = string.Empty; //清除logD_text
                                         }
                                         else if (columns_serial != "" && columns_switch == @"\r")
                                         {
@@ -2886,9 +4068,9 @@ namespace Woodpecker
                                             PortD.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        log4_text = string.Concat(log4_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                     {
@@ -2898,7 +4080,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_serial == "_clear")
                                         {
-                                            log5_text = string.Empty; //清除log5_text
+                                            logE_text = string.Empty; //清除logE_text
                                         }
                                         else if (columns_serial != "" && columns_switch == @"\r")
                                         {
@@ -2921,13 +4103,14 @@ namespace Woodpecker
                                             PortE.Write(columns_serial); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        log5_text = string.Concat(log5_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    Console.WriteLine("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
-                                    Thread.Sleep(sRepeat);
+                                    debug_process("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
+
+                                    RedRatDBViewer_Delay(sRepeat);
                                     int length = columns_serial.Length;
                                     string status = columns_serial.Substring(length - 1, 1);
                                     string reverse = "";
@@ -2945,7 +4128,7 @@ namespace Woodpecker
                                         }
                                         else if (reverse == "_clear")
                                         {
-                                            log1_text = string.Empty; //清除textbox1
+                                            logA_text = string.Empty; //清除textbox1
                                         }
                                         else if (reverse != "" && columns_switch == @"\r")
                                         {
@@ -2968,9 +4151,9 @@ namespace Woodpecker
                                             PortA.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        log1_text = string.Concat(log1_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                     {
@@ -2980,7 +4163,7 @@ namespace Woodpecker
                                         }
                                         else if (reverse == "_clear")
                                         {
-                                            log2_text = string.Empty; //清除log2_text
+                                            logB_text = string.Empty; //清除logB_text
                                         }
                                         else if (reverse != "" && columns_switch == @"\r")
                                         {
@@ -3003,9 +4186,9 @@ namespace Woodpecker
                                             PortB.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        log2_text = string.Concat(log2_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                     {
@@ -3015,7 +4198,7 @@ namespace Woodpecker
                                         }
                                         else if (reverse == "_clear")
                                         {
-                                            log3_text = string.Empty; //清除log3_text
+                                            logC_text = string.Empty; //清除logC_text
                                         }
                                         else if (reverse != "" && columns_switch == @"\r")
                                         {
@@ -3038,9 +4221,9 @@ namespace Woodpecker
                                             PortC.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        log3_text = string.Concat(log3_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                     {
@@ -3050,7 +4233,7 @@ namespace Woodpecker
                                         }
                                         else if (reverse == "_clear")
                                         {
-                                            log4_text = string.Empty; //清除log4_text
+                                            logD_text = string.Empty; //清除logD_text
                                         }
                                         else if (reverse != "" && columns_switch == @"\r")
                                         {
@@ -3073,9 +4256,9 @@ namespace Woodpecker
                                             PortD.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        log4_text = string.Concat(log4_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                     {
@@ -3085,7 +4268,7 @@ namespace Woodpecker
                                         }
                                         else if (reverse == "_clear")
                                         {
-                                            log5_text = string.Empty; //清除log5_text
+                                            logE_text = string.Empty; //清除logE_text
                                         }
                                         else if (reverse != "" && columns_switch == @"\r")
                                         {
@@ -3108,9 +4291,9 @@ namespace Woodpecker
                                             PortE.Write(reverse); //發送數據 HEX Rs232
                                         }
                                         DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        log5_text = string.Concat(log5_text, text);
-                                        logAll_text = string.Concat(logAll_text, text);
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     Thread.Sleep(500);
@@ -3132,7 +4315,7 @@ namespace Woodpecker
                                 {
                                     #region -- PA10 --
                                     case "10":
-                                        Console.WriteLine("IO CMD: PA10");
+                                        debug_process("IO CMD: PA10");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(10, 1) == "0")
                                         {
@@ -3168,7 +4351,7 @@ namespace Woodpecker
 
                                     #region -- PA11 --
                                     case "11":
-                                        Console.WriteLine("IO CMD: PA11");
+                                        debug_process("IO CMD: PA11");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(8, 1) == "0")
                                         {
@@ -3200,7 +4383,7 @@ namespace Woodpecker
 
                                     #region -- PA14 --
                                     case "14":
-                                        Console.WriteLine("IO CMD: PA14");
+                                        debug_process("IO CMD: PA14");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(6, 1) == "0")
                                         {
@@ -3232,7 +4415,7 @@ namespace Woodpecker
 
                                     #region -- PA15 --
                                     case "15":
-                                        Console.WriteLine("IO CMD: PA15");
+                                        debug_process("IO CMD: PA15");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(4, 1) == "0")
                                         {
@@ -3264,7 +4447,7 @@ namespace Woodpecker
 
                                     #region -- PB01 --
                                     case "01":
-                                        Console.WriteLine("IO CMD: PB01");
+                                        debug_process("IO CMD: PB01");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(2, 1) == "0")
                                         {
@@ -3297,7 +4480,7 @@ namespace Woodpecker
 
                                     #region -- PB07 --
                                     case "07":
-                                        Console.WriteLine("IO CMD: PB07");
+                                        debug_process("IO CMD: PB07");
                                         if (columns_comport.Substring(6, 1) == "0" &&
                                             Global.IO_INPUT.Substring(0, 1) == "0")
                                         {
@@ -3342,14 +4525,15 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        Console.WriteLine("CloseTime record.");
+                        debug_process("CloseTime record.");
                         ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
 
                         if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
-                            Console.WriteLine("Break schedule.");
+                            debug_process("Break schedule.");
                             j = Global.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
+                            Global.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -3357,18 +4541,20 @@ namespace Woodpecker
                         {
                             timer1.Stop();
                             SchedulePause.WaitOne();
+                            debug_process("SchedulePause_WaitOne");
                         }
                         else
                         {
                             RedRatDBViewer_Delay(SysDelay);
-                            Console.WriteLine("RedRatDBViewer_Delay.");
+                            debug_process("RedRatDBViewer_Delay: " + SysDelay + ",\r\n");
                         }
 
-                        Console.WriteLine("End.");
+                        debug_process("End.");
                     }
                 }
-                Console.WriteLine("Loop_Number: " + Global.Loop_Number);
-                DisposeRam();
+                debug_process("Loop_Number: " + Global.Loop_Number + ", \r\n");
+                Serialportsave("Debug");
+				DisposeRam();
                 Global.Loop_Number++;
             }
 
@@ -3411,6 +4597,7 @@ namespace Woodpecker
                 if (Global.Schedule_2_Exist == 1 && Global.Schedule_Number == 1)
                 {
                     button_Schedule2.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -3418,6 +4605,7 @@ namespace Woodpecker
                     Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 2)
                 {
                     button_Schedule3.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -3426,6 +4614,7 @@ namespace Woodpecker
                     Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 3)
                 {
                     button_Schedule4.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
                 else if (
@@ -3435,6 +4624,7 @@ namespace Woodpecker
                     Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 4)
                 {
                     button_Schedule5.PerformClick();
+                    timer_duringShot.Stop();
                     MyRunCamd();
                 }
             }
@@ -3487,6 +4677,38 @@ namespace Woodpecker
             label_Remark.Text = "";
             button_Schedule1.PerformClick();
             timer1.Stop();
+            timer_duringShot.Stop();
+            //如果serialport開著則先關閉//
+            if (PortA.IsOpen == true)
+            {
+                CloseSerialPort("A");
+            }
+            if (PortB.IsOpen == true)
+            {
+                CloseSerialPort("B");
+            }
+            if (PortC.IsOpen == true)
+            {
+                CloseSerialPort("C");
+            }
+            if (PortD.IsOpen == true)
+            {
+                CloseSerialPort("D");
+            }
+            if (PortE.IsOpen == true)
+            {
+                CloseSerialPort("E");
+            }
+            if (MySerialPort.IsPortOpened() == true)
+            {
+                CloseSerialPort("kline");
+            }
+            if (Can_Usb2C.Connect() == 1)
+            {
+                Can_Usb2C.StopCAN();
+                Can_Usb2C.Disconnect();
+            }
+
             timeCount = Global.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
             Global.Scheduler_Row = 0;
@@ -3582,6 +4804,82 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 拍照 --
+        private void Jes() => Invoke(new EventHandler(delegate { Myshot(); }));
+
+        private void Myshot()
+        {
+            debug_process("Start Myshot");
+            button_Start.Enabled = false;
+            setStyle();
+            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+            capture.GrapImg();
+            debug_process("Stop Myshot");
+        }
+
+        // 複製原始圖片
+        protected Bitmap CloneBitmap(Bitmap source)
+        {
+            debug_process("CloneBitmap");
+            return new Bitmap(source);
+        }
+
+        private void CaptureDone(System.Drawing.Bitmap e)
+        {
+            debug_process("CaptureDone");
+            capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
+            string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
+            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+
+            //圖片印字
+            Bitmap newBitmap = CloneBitmap(e);
+            newBitmap = CloneBitmap(e);
+            pictureBox4.Image = newBitmap;
+
+            Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
+            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+            Brush FontColor = new SolidBrush(Color.Red);
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
+            int YPoint = int.Parse(Resolution[1]);
+
+            //照片印上現在步驟//
+            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 120));
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 80));
+            }
+            else
+            {
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                Font,
+                FontColor,
+                new PointF(5, YPoint - 80));
+            }
+            //照片印上現在時間//
+            bitMap_g.DrawString(TimeLabel.Text,
+                                Font,
+                                FontColor,
+                                new PointF(5, YPoint - 40));
+
+            Font.Dispose();
+            FontColor.Dispose();
+            bitMap_g.Dispose();
+
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            pictureBox4.Image.Save(t);
+            debug_process("Save the CaptureDone Picture");
+            button_Start.Enabled = true;
+            setStyle();
+            debug_process("Stop the CaptureDone function");
+        }
+        #endregion
+
         #region -- 字幕 --
         private void MySrtCamd()
         {
@@ -3610,6 +4908,7 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- 錄影 --
         private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
@@ -3633,6 +4932,7 @@ namespace Woodpecker
             capture.Cue(); // 創一個檔
             capture.Start(); // 開始錄影
         }
+        #endregion
 
         private void OnOffCamera()//啟動攝影機//
         {
@@ -3775,6 +5075,9 @@ namespace Woodpecker
         {
             DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
 
+            RCDB.Items.Add("_Execute");
+            //RCDB.Items.Add("_Condition_AND");
+            RCDB.Items.Add("_Condition_OR");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
             RCDB.Items.Add("_ascii");
@@ -3886,6 +5189,11 @@ namespace Woodpecker
             }
 
             Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
+            Thread LogAThread = new Thread(new ThreadStart(logA_analysis));
+            Thread LogBThread = new Thread(new ThreadStart(logB_analysis));
+            Thread LogCThread = new Thread(new ThreadStart(logC_analysis));
+            Thread LogDThread = new Thread(new ThreadStart(logD_analysis));
+            Thread LogEThread = new Thread(new ThreadStart(logE_analysis));
 
             startTime = DateTime.Now;
 
@@ -3898,7 +5206,12 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
+                    duringTimer.Enabled = false;
                     can_send = 0;
+                    set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
+                    Serialportsave("Debug");
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -3960,7 +5273,12 @@ namespace Woodpecker
                     Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer1.Stop();  //停止倒數
+                    duringTimer.Enabled = false;
                     can_send = 0;
+                    set_timer_rate = false;
+                    can_rate.Clear();
+                    can_data.Clear();
+                    Serialportsave("Debug");
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -4013,6 +5331,7 @@ namespace Woodpecker
                     {
                         OpenSerialPort("kline");
                     }
+                    label_Command.Text = "";
                 }
             }
         }
@@ -4022,56 +5341,9 @@ namespace Woodpecker
         {
             FormTabControl FormTabControl = new FormTabControl();
 
-            //如果serialport開著則先關閉//
-            if (PortA.IsOpen == true)
-            {
-                CloseSerialPort("A");
-            }
-            if (PortB.IsOpen == true)
-            {
-                CloseSerialPort("B");
-            }
-            if (PortC.IsOpen == true)
-            {
-                CloseSerialPort("C");
-            }
-            if (PortD.IsOpen == true)
-            {
-                CloseSerialPort("D");
-            }
-            if (PortE.IsOpen == true)
-            {
-                CloseSerialPort("E");
-            }
-            if (MySerialPort.IsPortOpened() == true)
-            {
-                CloseSerialPort("kline");
-            }
-
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
-                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
-                {
-                    try
-                    {
-                        pictureBox_Camera.Image = Properties.Resources.ON;
-                        _captureInProgress = false;
-                        OnOffCamera();
-                        comboBox_CameraDevice.Enabled = false;
-                        button_Camera.Enabled = true;
-                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-
-                    }
-                }
-                else
-                {
-                    pictureBox_Camera.Image = Properties.Resources.OFF;
-                }
-
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                 {
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
@@ -4093,6 +5365,33 @@ namespace Woodpecker
                     MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
                 }
 
+                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
+                {
+                    try
+                    {
+                        pictureBox_Camera.Image = Properties.Resources.ON;
+                        _captureInProgress = false;
+                        OnOffCamera();
+                        comboBox_CameraDevice.Enabled = false;
+                        button_Camera.Enabled = true;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
+                        comboBox_CameraDevice.Items.Clear();
+                        foreach (string cd in cameraDevice)
+                        {
+                            comboBox_CameraDevice.Items.Add(cd);
+                        }
+                        comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    }
+                    catch (ArgumentOutOfRangeException)
+                    {
+
+                    }
+                }
+                else
+                {
+                    pictureBox_Camera.Image = Properties.Resources.OFF;
+                    button_Camera.Enabled = false;
+                }
                 List<string> SchExist = new List<string> { };
                 for (int i = 2; i < 6; i++)
                 {
@@ -4107,7 +5406,6 @@ namespace Woodpecker
                 button_Schedule4.Visible = SchExist[2] == "0" ? false : true;
                 button_Schedule5.Visible = SchExist[3] == "0" ? false : true;
             }
-            //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
             FormTabControl.Dispose();
             button_Schedule1.Enabled = true;
@@ -4117,7 +5415,7 @@ namespace Woodpecker
         }
 
         //系統時間
-        private void Timer1_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
             TimeLabel.Text = string.Format("{0:R}", dt);            //拍照打印時間
@@ -4566,9 +5864,9 @@ namespace Woodpecker
                 setStyle();
                 SchedulePause.Reset();
 
-                //Console.WriteLine("Datagridview highlight.");
+                debug_process("Datagridview highlight.");
                 GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                //Console.WriteLine("Datagridview scollbar.");
+                debug_process("Datagridview scollbar.");
                 Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
@@ -4591,7 +5889,6 @@ namespace Woodpecker
                     {
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
                     }
-
                     if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
                         delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
                     else
@@ -4612,9 +5909,8 @@ namespace Woodpecker
             }
         }
 
-        private void Timer1_Tick_1(object sender, EventArgs e)
+        private void timer1_Tick(object sender, EventArgs e)
         {
-
             timer1.Interval = 500;
             TimeSpan timeElapsed = DateTime.Now - startTime;
 
@@ -4685,6 +5981,7 @@ namespace Woodpecker
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseAutobox();
+            Serialportsave("Debug");
         }
 
         #region -- GPIO --
@@ -5147,67 +6444,101 @@ namespace Woodpecker
             }
         }
 
+        private void vectorcanloop()
+        {
+            UInt64 CAN_Count = 0;
+            while (set_timer_rate)
+            {
+                Console.WriteLine("Vector_Can_Send (Repeat): " + CAN_Count + " times.");
+                uint columns_times = can_id;
+                byte[] columns_serial = can_data[columns_times];
+                int columns_interval = (int)can_rate[columns_times];
+                Can_1630A.LoopCANTransmit(columns_times, (uint)columns_interval, columns_serial);
+
+                string Outputstring = "ID: 0x";
+                //Outputstring += columns_times + " Data: " + columns_serial;
+                DateTime dt = DateTime.Now;
+                string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                log_process("Canbus", canbus_log_text);
+                log_process("All", canbus_log_text);
+                CAN_Count++;
+            }
+
+        }
+
         unsafe private void timer_canbus_Tick(object sender, EventArgs e)
         {
             UInt32 res = new UInt32();
-
-            res = MYCanReader.ReceiveData();
+            res = Can_Usb2C.ReceiveData();
             USB_CAN_Process usb_can_2c = new USB_CAN_Process();
 
             if (can_send == 1)
             {
-                foreach (var can in can_data_list)
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
                 {
-                    usb_can_2c.CAN_Write_Queue_Add(can);
+                    foreach (var can in can_data_list)
+                    {
+                        usb_can_2c.CAN_Write_Queue_Add(can);
+                    }
+                    usb_can_2c.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
                 }
-                usb_can_2c.CAN_Write_Queue_SendData();
-                can_data_list.Clear();
+                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                {
+                    foreach (var can in can_data_list)
+                    {
+                        Can_1630A.CAN_Write_Queue_Add(can);
+                    }
+                    Can_1630A.CAN_Write_Queue_SendData();
+                    can_data_list.Clear();
+                }
             }
             else
             {
                 usb_can_2c.CAN_Write_Queue_Clear();
+                Can_1630A.CAN_Write_Queue_Clear();
             }
 
-            if (res == 0)
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
             {
-                if (res >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                if (res == 0)
                 {
-                    timer_canbus.Enabled = false;
-                    MYCanReader.StopCAN();
-                    MYCanReader.Disconnect();
+                    if (res >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)     // Must be something wrong
+                    {
+                        timer_canbus.Enabled = false;
+                        Can_Usb2C.StopCAN();
+                        Can_Usb2C.Disconnect();
 
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                        pictureBox_canbus.Image = Properties.Resources.OFF;
 
-                    ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                        ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
 
+                        return;
+                    }
                     return;
                 }
-                return;
-            }
-            else
-            {
-                uint ID = 0, DLC = 0;
-                const int DATA_LEN = 8;
-                byte[] DATA = new byte[DATA_LEN];
-
-                if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")
+                else
                 {
+                    uint ID = 0, DLC = 0;
+                    const int DATA_LEN = 8;
+                    byte[] DATA = new byte[DATA_LEN];
+
                     String str = "";
                     for (UInt32 i = 0; i < res; i++)
                     {
                         DateTime.Now.ToShortTimeString();
                         DateTime dt = DateTime.Now;
-                        MYCanReader.GetOneCommand(i, out str, out ID, out DLC, out DATA);
+                        Can_Usb2C.GetOneCommand(i, out str, out ID, out DLC, out DATA);
                         string canbus_log_text = "[Receive_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                        canbus_text = string.Concat(canbus_text, canbus_log_text);
-                        schedule_text = string.Concat(schedule_text, canbus_log_text);
-                        if (MYCanReader.ReceiveData() >= CAN_Reader.MAX_CAN_OBJ_ARRAY_LEN)
+                        log_process("Canbus", canbus_log_text);
+                        log_process("All", canbus_log_text);
+                        if (Can_Usb2C.ReceiveData() >= CAN_USB2C.MAX_CAN_OBJ_ARRAY_LEN)
                         {
                             timer_canbus.Enabled = false;
-                            MYCanReader.StopCAN();
-                            MYCanReader.Disconnect();
+                            Can_Usb2C.StopCAN();
+                            Can_Usb2C.Disconnect();
                             pictureBox_canbus.Image = Properties.Resources.OFF;
-                            ini12.INIWrite(MainSettingPath, "Device", "CANbusExist", "0");
+                            ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
                             return;
                         }
                     }
@@ -5295,11 +6626,6 @@ namespace Woodpecker
             button_Camera.FlatAppearance.BorderSize = 3;
             button_Camera.BackColor = System.Drawing.Color.FromArgb(242, 242, 242);
         }
-
-        private void panel_VirtualRC_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 
     public class SafeDataGridView : DataGridView
@@ -5368,7 +6694,76 @@ namespace Woodpecker
         public static int Break_Out_Schedule = 0;//定時器中斷變數//
         public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
         public static bool FormRC = false;
-		public static bool VideoRecording = false;
+        public static string label_Command = "";
+        public static string label_Remark = "";
+        public static string label_LoopNumber = "";
+        public static bool VideoRecording = false;
         public static string srtstring = "";
+    }
+    class Temperature_Data
+    {
+        public Temperature_Data(double list, bool shot, bool pause, string port, string log, string line)
+        {
+            temperatureList = list;
+            temperatureShot = shot;
+            temperaturePause = pause;
+            temperaturePort = port;
+            temperatureLog = log;
+            temperatureNewline = line;
+        }
+
+        public static byte temperatureChannel
+        {
+            get; set;
+        }
+
+        public static float addTemperature
+        {
+            get; set;
+        }
+
+        public static float initialTemperature
+        {
+            get; set;
+        }
+
+        public static float finalTemperature
+        {
+            get; set;
+        }
+
+        public static int temperatureDuringtime
+        {
+            get; set;
+        }
+
+        public double temperatureList
+        {
+            get; set;
+        }
+
+        public bool temperatureShot
+        {
+            get; set;
+        }
+
+        public bool temperaturePause
+        {
+            get; set;
+        }
+
+        public string temperaturePort
+        {
+            get; set;
+        }
+
+        public string temperatureLog
+        {
+            get; set;
+        }
+        public string temperatureNewline
+        {
+            get; set;
+        }
     }
 }

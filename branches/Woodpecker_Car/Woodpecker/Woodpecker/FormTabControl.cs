@@ -235,7 +235,7 @@ namespace Woodpecker
             List<CheckBox> portCheckBoxList = new List<CheckBox> { FormSetting.checkBox_SerialPort1, FormSetting.checkBox_SerialPort2, FormSetting.checkBox_SerialPort3,
                 FormSetting.checkBox_SerialPort4, FormSetting.checkBox_SerialPort5, FormSetting.checkBox_CAN_Log };
             List<ComboBox> baudRateComboBoxList = new List<ComboBox> { FormSetting.comboBox_SerialPort1_BaudRate_Value, FormSetting.comboBox_SerialPort2_BaudRate_Value,
-                FormSetting.comboBox_SerialPort3_BaudRate_Value, FormSetting.comboBox_SerialPort4_BaudRate_Value, FormSetting.comboBox_SerialPort5_BaudRate_Value, FormSetting.comboBox_CAN_BaudRate_Value };
+                FormSetting.comboBox_SerialPort3_BaudRate_Value, FormSetting.comboBox_SerialPort4_BaudRate_Value, FormSetting.comboBox_SerialPort5_BaudRate_Value, FormSetting.comboBox_CAN_BaudRate };
 
             var portAndBaudRate = portCheckBoxList.Zip(baudRateComboBoxList, (p, b) => new { port = p, baudRate = b });
             foreach (var number in portAndBaudRate)
