@@ -31,6 +31,7 @@ using KWP_2000;
 using USB_CAN2C;
 using MaterialSkin.Controls;
 using MaterialSkin;
+using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
 
@@ -5213,6 +5214,31 @@ namespace Woodpecker
                     can_data.Clear();
                     Serialportsave("Debug");
 
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    {
+                        LogAThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    {
+                        LogBThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    {
+                        LogCThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    {
+                        LogDThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    {
+                        LogEThread.Abort();
+                    }
+
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
                     button_Setting.Enabled = false;
@@ -5238,32 +5264,39 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
                         OpenSerialPort("A");
+                        LogAThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
                     }
+
+                    label_Command.Text = "";
                 }
             }
             else//如果沒接Autokit//
@@ -5279,6 +5312,31 @@ namespace Woodpecker
                     can_rate.Clear();
                     can_data.Clear();
                     Serialportsave("Debug");
+
+                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
+                    {
+                        LogAThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
+                    {
+                        LogBThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
+                    {
+                        LogCThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
+                    {
+                        LogDThread.Abort();
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                    {
+                        LogEThread.Abort();
+                    }
 
                     StartButtonPressed = false;
                     button_Start.Enabled = false;
@@ -5305,32 +5363,38 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
                         OpenSerialPort("A");
+                        LogAThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
                     {
                         OpenSerialPort("B");
+                        LogBThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
                     {
                         OpenSerialPort("C");
+                        LogCThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
                     {
                         OpenSerialPort("D");
+                        LogDThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
                     {
                         OpenSerialPort("E");
+                        LogEThread.Start();
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
                     }
+
                     label_Command.Text = "";
                 }
             }
