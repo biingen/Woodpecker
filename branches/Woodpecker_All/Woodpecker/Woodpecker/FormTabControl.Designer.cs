@@ -1,4 +1,6 @@
-﻿namespace Woodpecker
+﻿using jini;
+
+namespace Woodpecker
 {
     partial class FormTabControl
     {
@@ -33,7 +35,10 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            }
             this.MainSettingBtn = new System.Windows.Forms.Button();
             this.ScheduleSettingBtn = new System.Windows.Forms.Button();
             this.MailSettingBtn = new System.Windows.Forms.Button();
@@ -44,7 +49,10 @@
             this.tabPage_MainSetting = new System.Windows.Forms.TabPage();
             this.tabPage_MultiSchedule = new System.Windows.Forms.TabPage();
             this.tabPage_Mail = new System.Windows.Forms.TabPage();
-            this.tabPage_KeywordSearch = new System.Windows.Forms.TabPage();
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.tabPage_KeywordSearch = new System.Windows.Forms.TabPage();
+            }
             this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ClosePicBox)).BeginInit();
@@ -55,11 +63,21 @@
             // 
             this.menuStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4});
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.toolStripMenuItem1,
+                this.toolStripMenuItem2,
+                this.toolStripMenuItem3,
+                this.toolStripMenuItem4});
+            }
+            else
+            {
+                this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+                this.toolStripMenuItem1,
+                this.toolStripMenuItem2,
+                this.toolStripMenuItem3});
+            }
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 2, 0, 2);
@@ -90,10 +108,13 @@
             this.toolStripMenuItem3.Text = "toolStripMenuItem3";
             // 
             // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(133, 18);
-            this.toolStripMenuItem4.Text = "toolStripMenuItem4";
+            //
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+                this.toolStripMenuItem4.Size = new System.Drawing.Size(133, 18);
+                this.toolStripMenuItem4.Text = "toolStripMenuItem4";
+            }
             // 
             // MainSettingBtn
             // 
@@ -182,7 +203,10 @@
             this.tabControl.Controls.Add(this.tabPage_MainSetting);
             this.tabControl.Controls.Add(this.tabPage_MultiSchedule);
             this.tabControl.Controls.Add(this.tabPage_Mail);
-            this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.tabControl.Controls.Add(this.tabPage_KeywordSearch);
+            }
             this.tabControl.Depth = 0;
             this.tabControl.Location = new System.Drawing.Point(12, 102);
             this.tabControl.MouseState = MaterialSkin.MouseState.HOVER;
@@ -223,13 +247,16 @@
             // 
             // tabPage_KeywordSearch
             // 
-            this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 24);
-            this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
-            this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage_KeywordSearch.Size = new System.Drawing.Size(653, 488);
-            this.tabPage_KeywordSearch.TabIndex = 3;
-            this.tabPage_KeywordSearch.Text = "Keyword";
-            this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                this.tabPage_KeywordSearch.Location = new System.Drawing.Point(4, 24);
+                this.tabPage_KeywordSearch.Name = "tabPage_KeywordSearch";
+                this.tabPage_KeywordSearch.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+                this.tabPage_KeywordSearch.Size = new System.Drawing.Size(653, 488);
+                this.tabPage_KeywordSearch.TabIndex = 3;
+                this.tabPage_KeywordSearch.Text = "Keyword";
+                this.tabPage_KeywordSearch.UseVisualStyleBackColor = true;
+            }
             // 
             // materialTabSelector1
             // 

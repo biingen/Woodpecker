@@ -659,6 +659,14 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "LogSearch", "TextNum", "0");
             }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                textBox_RcDbPath.Visible = true;
+                pictureBox_RcDbPath.Visible = true;
+                button_RcDbPath.Visible = true;
+                groupBox_RcDB.Visible = true;
+            }
         }
 
 

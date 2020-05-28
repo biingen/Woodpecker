@@ -326,6 +326,12 @@ namespace Woodpecker
             #endregion
 
             setStyle();
+
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                checkBox_Similarity.Visible = true;
+                comboBox_Similarity.Visible = true;
+            }
         }
 
         #region LoadSchBtn

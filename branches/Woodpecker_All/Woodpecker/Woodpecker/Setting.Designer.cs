@@ -826,11 +826,12 @@
             this.textBox_RcDbPath.AccessibleName = "";
             this.textBox_RcDbPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_RcDbPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_RcDbPath.Location = new System.Drawing.Point(38, 102);
+            this.textBox_RcDbPath.Location = new System.Drawing.Point(38, 181);
             this.textBox_RcDbPath.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.textBox_RcDbPath.Name = "textBox_RcDbPath";
             this.textBox_RcDbPath.Size = new System.Drawing.Size(566, 24);
             this.textBox_RcDbPath.TabIndex = 35;
+            this.textBox_RcDbPath.Visible = false;
             this.textBox_RcDbPath.TextChanged += new System.EventHandler(this.textBox_RcDbPath_TextChanged);
             // 
             // textBox_LogPath
@@ -957,6 +958,7 @@
             this.groupBox_RcDB.TabIndex = 57;
             this.groupBox_RcDB.TabStop = false;
             this.groupBox_RcDB.Text = "RC DB";
+            this.groupBox_RcDB.Visible = false;
             // 
             // label_TvBrands
             // 
@@ -1028,7 +1030,7 @@
             this.textBox_GeneratorPath.AccessibleName = "";
             this.textBox_GeneratorPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_GeneratorPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_GeneratorPath.Location = new System.Drawing.Point(38, 142);
+            this.textBox_GeneratorPath.Location = new System.Drawing.Point(38, 102);
             this.textBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.textBox_GeneratorPath.Name = "textBox_GeneratorPath";
             this.textBox_GeneratorPath.Size = new System.Drawing.Size(566, 24);
@@ -1039,7 +1041,7 @@
             // 
             this.textBox_DosPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.textBox_DosPath.ForeColor = System.Drawing.Color.Black;
-            this.textBox_DosPath.Location = new System.Drawing.Point(38, 182);
+            this.textBox_DosPath.Location = new System.Drawing.Point(38, 142);
             this.textBox_DosPath.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.textBox_DosPath.Name = "textBox_DosPath";
             this.textBox_DosPath.Size = new System.Drawing.Size(566, 24);
@@ -1101,13 +1103,14 @@
             this.button_RcDbPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_RcDbPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_RcDbPath.ForeColor = System.Drawing.Color.White;
-            this.button_RcDbPath.Location = new System.Drawing.Point(652, 100);
+            this.button_RcDbPath.Location = new System.Drawing.Point(652, 179);
             this.button_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_RcDbPath.Name = "button_RcDbPath";
             this.button_RcDbPath.Size = new System.Drawing.Size(132, 31);
             this.button_RcDbPath.TabIndex = 140;
             this.button_RcDbPath.Text = "RC DB Path";
             this.button_RcDbPath.UseVisualStyleBackColor = false;
+            this.button_RcDbPath.Visible = false;
             this.button_RcDbPath.Click += new System.EventHandler(this.button_RcDbPath_Click);
             // 
             // button_GeneratorPath
@@ -1117,7 +1120,7 @@
             this.button_GeneratorPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_GeneratorPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_GeneratorPath.ForeColor = System.Drawing.Color.White;
-            this.button_GeneratorPath.Location = new System.Drawing.Point(652, 140);
+            this.button_GeneratorPath.Location = new System.Drawing.Point(652, 100);
             this.button_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_GeneratorPath.Name = "button_GeneratorPath";
             this.button_GeneratorPath.Size = new System.Drawing.Size(132, 31);
@@ -1133,7 +1136,7 @@
             this.button_DosPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_DosPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_DosPath.ForeColor = System.Drawing.Color.White;
-            this.button_DosPath.Location = new System.Drawing.Point(651, 180);
+            this.button_DosPath.Location = new System.Drawing.Point(651, 140);
             this.button_DosPath.Margin = new System.Windows.Forms.Padding(2);
             this.button_DosPath.Name = "button_DosPath";
             this.button_DosPath.Size = new System.Drawing.Size(132, 31);
@@ -1158,7 +1161,7 @@
             // 
             this.pictureBox_DosPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_DosPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_DosPath.Location = new System.Drawing.Point(614, 180);
+            this.pictureBox_DosPath.Location = new System.Drawing.Point(614, 140);
             this.pictureBox_DosPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_DosPath.Name = "pictureBox_DosPath";
             this.pictureBox_DosPath.Size = new System.Drawing.Size(29, 29);
@@ -1170,7 +1173,7 @@
             // 
             this.pictureBox_GeneratorPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_GeneratorPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(615, 142);
+            this.pictureBox_GeneratorPath.Location = new System.Drawing.Point(615, 102);
             this.pictureBox_GeneratorPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_GeneratorPath.Name = "pictureBox_GeneratorPath";
             this.pictureBox_GeneratorPath.Size = new System.Drawing.Size(29, 29);
@@ -1182,13 +1185,14 @@
             // 
             this.pictureBox_RcDbPath.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_RcDbPath.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(615, 102);
+            this.pictureBox_RcDbPath.Location = new System.Drawing.Point(615, 181);
             this.pictureBox_RcDbPath.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_RcDbPath.Name = "pictureBox_RcDbPath";
             this.pictureBox_RcDbPath.Size = new System.Drawing.Size(29, 29);
             this.pictureBox_RcDbPath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox_RcDbPath.TabIndex = 92;
             this.pictureBox_RcDbPath.TabStop = false;
+            this.pictureBox_RcDbPath.Visible = false;
             // 
             // pictureBox_LogPath
             // 
