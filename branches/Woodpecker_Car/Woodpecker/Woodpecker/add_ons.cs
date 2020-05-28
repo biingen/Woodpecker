@@ -284,7 +284,7 @@ namespace Woodpecker
         public void USB_Read()
         {
             //調整Building version: All為全功能, Car為車功能
-            ini12.INIWrite(Global.MainSettingPath, "Device", "Software", "All");
+            ini12.INIWrite(Global.MainSettingPath, "Device", "Software", "Car");
             //預設AutoKit沒接上
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
