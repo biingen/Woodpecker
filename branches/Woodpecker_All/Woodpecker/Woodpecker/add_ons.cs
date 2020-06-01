@@ -283,7 +283,9 @@ namespace Woodpecker
         #region -- 讀取USB裝置 --
         public void USB_Read()
         {
-            //預設AutoBox沒接上
+            //調整Building version: All為全功能, Car為車功能
+            ini12.INIWrite(Global.MainSettingPath, "Device", "Software", "All");
+            //預設AutoKit沒接上
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
             ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "0");
@@ -488,7 +490,7 @@ namespace Woodpecker
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
+            string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };

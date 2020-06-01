@@ -103,11 +103,14 @@ namespace Woodpecker
 
         private void LogSettingBtn_Click(object sender, EventArgs e)
         {
-            FormLog FormLog = new FormLog();
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                FormLog FormLog = new FormLog();
 
-            LogSettingBtn.Enabled = false;
-            FormLog.Dock = DockStyle.Fill;
-            Add_TabPage("Log Setting", FormLog);
+                LogSettingBtn.Enabled = false;
+                FormLog.Dock = DockStyle.Fill;
+                Add_TabPage("Log Setting", FormLog);
+            }
         }
 
         private void buttonMonkeyTest_Click(object sender, EventArgs e)
@@ -126,7 +129,6 @@ namespace Woodpecker
             SendMessage(Handle, WM_SYSCOMMAND, SC_MOVE + HTCAPTION, 0);//*********************調用移動無窗體控件函數
         }
         #endregion
-
 
         #region 關閉按鈕
         private void ClosePicBox_Enter(object sender, EventArgs e)
@@ -197,8 +199,11 @@ namespace Woodpecker
             FormMail.Show();
             tabControl.TabPages[2].Controls.Add(FormMail);
 
-            FormLog.Show();
-            tabControl.TabPages[3].Controls.Add(FormLog);
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                FormLog.Show();
+                tabControl.TabPages[3].Controls.Add(FormLog);
+            }
         }
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)

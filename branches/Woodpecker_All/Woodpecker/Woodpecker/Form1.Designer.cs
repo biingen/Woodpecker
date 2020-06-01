@@ -206,7 +206,7 @@ namespace Woodpecker
             this.label_Power.BackColor = System.Drawing.Color.Transparent;
             this.label_Power.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Power.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_Power.Location = new System.Drawing.Point(341, 108);
+            this.label_Power.Location = new System.Drawing.Point(233, 108);
             this.label_Power.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Power.Name = "label_Power";
             this.label_Power.Size = new System.Drawing.Size(56, 20);
@@ -219,7 +219,7 @@ namespace Woodpecker
             this.label_Camera.BackColor = System.Drawing.Color.Transparent;
             this.label_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_Camera.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_Camera.Location = new System.Drawing.Point(239, 108);
+            this.label_Camera.Location = new System.Drawing.Point(131, 108);
             this.label_Camera.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_Camera.Name = "label_Camera";
             this.label_Camera.Size = new System.Drawing.Size(68, 20);
@@ -232,12 +232,13 @@ namespace Woodpecker
             this.label_RedRat.BackColor = System.Drawing.Color.Transparent;
             this.label_RedRat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_RedRat.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_RedRat.Location = new System.Drawing.Point(136, 108);
+            this.label_RedRat.Location = new System.Drawing.Point(559, 108);
             this.label_RedRat.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_RedRat.Name = "label_RedRat";
             this.label_RedRat.Size = new System.Drawing.Size(65, 20);
             this.label_RedRat.TabIndex = 32;
             this.label_RedRat.Text = "RedRat";
+            this.label_RedRat.Visible = false;
             // 
             // labellabel_LoopTimes_Value
             // 
@@ -422,6 +423,7 @@ namespace Woodpecker
             this.button_VirtualRC.TabIndex = 63;
             this.button_VirtualRC.Text = "Virtual RC";
             this.button_VirtualRC.UseVisualStyleBackColor = false;
+            this.button_VirtualRC.Visible = false;
             this.button_VirtualRC.Click += new System.EventHandler(this.button_VirtualRC_Click);
             // 
             // TimeLabel2
@@ -583,7 +585,7 @@ namespace Woodpecker
             this.SegLabel4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel4.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
+            this.SegLabel4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.SegLabel4.ForeColor = System.Drawing.Color.Gainsboro;
             this.SegLabel4.Location = new System.Drawing.Point(14, 225);
             this.SegLabel4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -597,7 +599,7 @@ namespace Woodpecker
             this.SegLabel3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel3.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
+            this.SegLabel3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.SegLabel3.ForeColor = System.Drawing.Color.Gainsboro;
             this.SegLabel3.Location = new System.Drawing.Point(14, 166);
             this.SegLabel3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -611,7 +613,7 @@ namespace Woodpecker
             this.SegLabel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel2.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F);
+            this.SegLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.SegLabel2.ForeColor = System.Drawing.Color.Gainsboro;
             this.SegLabel2.Location = new System.Drawing.Point(14, 108);
             this.SegLabel2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -625,7 +627,7 @@ namespace Woodpecker
             this.SegLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.SegLabel1.Font = new System.Drawing.Font("MS Reference Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SegLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SegLabel1.ForeColor = System.Drawing.Color.Gainsboro;
             this.SegLabel1.Location = new System.Drawing.Point(14, 49);
             this.SegLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -894,7 +896,7 @@ namespace Woodpecker
             this.label_BoxVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_BoxVersion.ForeColor = System.Drawing.Color.SteelBlue;
             this.label_BoxVersion.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_BoxVersion.Location = new System.Drawing.Point(95, 118);
+            this.label_BoxVersion.Location = new System.Drawing.Point(102, 118);
             this.label_BoxVersion.Margin = new System.Windows.Forms.Padding(2);
             this.label_BoxVersion.Name = "label_BoxVersion";
             this.label_BoxVersion.Size = new System.Drawing.Size(49, 20);
@@ -1114,7 +1116,7 @@ namespace Woodpecker
             this.label_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.label_ext_board.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ext_board.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_ext_board.Location = new System.Drawing.Point(431, 108);
+            this.label_ext_board.Location = new System.Drawing.Point(323, 108);
             this.label_ext_board.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ext_board.Name = "label_ext_board";
             this.label_ext_board.Size = new System.Drawing.Size(84, 20);
@@ -1132,7 +1134,7 @@ namespace Woodpecker
             this.label_canbus.BackColor = System.Drawing.Color.Transparent;
             this.label_canbus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_canbus.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_canbus.Location = new System.Drawing.Point(554, 108);
+            this.label_canbus.Location = new System.Drawing.Point(446, 108);
             this.label_canbus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_canbus.Name = "label_canbus";
             this.label_canbus.Size = new System.Drawing.Size(80, 20);
@@ -1152,6 +1154,7 @@ namespace Woodpecker
             this.button_Analysis.TabIndex = 109;
             this.button_Analysis.Text = "Log Analysis";
             this.button_Analysis.UseVisualStyleBackColor = false;
+            this.button_Analysis.Visible = false;
             this.button_Analysis.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
@@ -1179,7 +1182,7 @@ namespace Woodpecker
             // 
             this.pictureBox_canbus.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_canbus.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_canbus.Location = new System.Drawing.Point(534, 110);
+            this.pictureBox_canbus.Location = new System.Drawing.Point(426, 110);
             this.pictureBox_canbus.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_canbus.Name = "pictureBox_canbus";
             this.pictureBox_canbus.Size = new System.Drawing.Size(16, 16);
@@ -1190,7 +1193,7 @@ namespace Woodpecker
             // 
             this.pictureBox_ext_board.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ext_board.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ext_board.Location = new System.Drawing.Point(412, 110);
+            this.pictureBox_ext_board.Location = new System.Drawing.Point(304, 110);
             this.pictureBox_ext_board.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ext_board.Name = "pictureBox_ext_board";
             this.pictureBox_ext_board.Size = new System.Drawing.Size(16, 16);
@@ -1251,7 +1254,7 @@ namespace Woodpecker
             // 
             this.pictureBox_AcPower.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_AcPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_AcPower.Location = new System.Drawing.Point(322, 110);
+            this.pictureBox_AcPower.Location = new System.Drawing.Point(214, 110);
             this.pictureBox_AcPower.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_AcPower.Name = "pictureBox_AcPower";
             this.pictureBox_AcPower.Size = new System.Drawing.Size(16, 16);
@@ -1261,7 +1264,7 @@ namespace Woodpecker
             // pictureBox_Camera
             // 
             this.pictureBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_Camera.Location = new System.Drawing.Point(220, 110);
+            this.pictureBox_Camera.Location = new System.Drawing.Point(112, 110);
             this.pictureBox_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_Camera.Name = "pictureBox_Camera";
             this.pictureBox_Camera.Size = new System.Drawing.Size(16, 16);
@@ -1271,12 +1274,13 @@ namespace Woodpecker
             // pictureBox_RedRat
             // 
             this.pictureBox_RedRat.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_RedRat.Location = new System.Drawing.Point(118, 110);
+            this.pictureBox_RedRat.Location = new System.Drawing.Point(541, 110);
             this.pictureBox_RedRat.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_RedRat.Name = "pictureBox_RedRat";
             this.pictureBox_RedRat.Size = new System.Drawing.Size(16, 16);
             this.pictureBox_RedRat.TabIndex = 31;
             this.pictureBox_RedRat.TabStop = false;
+            this.pictureBox_RedRat.Visible = false;
             // 
             // panelVideo
             // 
@@ -1337,23 +1341,25 @@ namespace Woodpecker
             this.label_ca310.BackColor = System.Drawing.Color.Transparent;
             this.label_ca310.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_ca310.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_ca310.Location = new System.Drawing.Point(670, 108);
+            this.label_ca310.Location = new System.Drawing.Point(667, 108);
             this.label_ca310.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label_ca310.Name = "label_ca310";
             this.label_ca310.Size = new System.Drawing.Size(59, 20);
             this.label_ca310.TabIndex = 114;
             this.label_ca310.Text = "CA310";
+            this.label_ca310.Visible = false;
             // 
             // pictureBox_ca310
             // 
             this.pictureBox_ca310.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox_ca310.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ca310.Location = new System.Drawing.Point(650, 112);
+            this.pictureBox_ca310.Location = new System.Drawing.Point(647, 108);
             this.pictureBox_ca310.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox_ca310.Name = "pictureBox_ca310";
             this.pictureBox_ca310.Size = new System.Drawing.Size(16, 16);
             this.pictureBox_ca310.TabIndex = 113;
             this.pictureBox_ca310.TabStop = false;
+            this.pictureBox_ca310.Visible = false;
             // 
             // timer_Chamber
             // 
@@ -1584,7 +1590,7 @@ namespace Woodpecker
             this.MaximumSize = new System.Drawing.Size(1371, 824);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Woodpecker";
+            this.Text = "Woodpecker For Car";
             this.TopMost = true;
             this.MinimumSizeChanged += new System.EventHandler(this.MiniPicBox_Click);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);

@@ -516,6 +516,16 @@ namespace Woodpecker
             TopMost = false;
 
             setStyle();
+
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                Form1.ActiveForm.Text = "Woodpecker";
+                label_RedRat.Visible = true;
+                pictureBox_RedRat.Visible = true;
+                label_ca310.Visible = true;
+                pictureBox_ca310.Visible = true;
+                button_VirtualRC.Visible = true;
+            }
         }
 
         #region -- USB Detect --
@@ -1242,6 +1252,7 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
+
                 Thread_condition();
 
                 //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
@@ -8709,7 +8720,7 @@ namespace Woodpecker
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect AutoBox or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Please connect AutoKit or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     button_Start.PerformClick();
                                 }
                                 videostring = columns_command;
@@ -10034,7 +10045,7 @@ namespace Woodpecker
                 Console.WriteLine("Select Device Error: " + devicename);
             }
             RCDB.Items.Add("_Execute");
-            RCDB.Items.Add("_Condition_AND");
+            //RCDB.Items.Add("_Condition_AND");
             RCDB.Items.Add("_Condition_OR");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
@@ -10274,7 +10285,7 @@ namespace Woodpecker
 
             startTime = DateTime.Now;
 
-            if (AutoBox_Status)//如果電腦有接上AutoBox//
+            if (AutoBox_Status)//如果電腦有接上AutoKit//
             {
                 button_Schedule1.PerformClick();
 
@@ -10450,7 +10461,7 @@ namespace Woodpecker
                     label_Command.Text = "";
                 }
             }
-            else//如果沒接AutoBox//
+            else//如果沒接AutoKit//
             {
                 if (StartButtonPressed == true)//按下STOP//
                 {
@@ -10805,7 +10816,7 @@ namespace Woodpecker
             }
         }
 
-        //關閉AutoBox
+        //關閉AutoKit
         private void CloseAutobox()
         {
             FormIsClosing = true;
@@ -12725,8 +12736,8 @@ namespace Woodpecker
                 {
                     if (temperatureDouble.Count() > 0)
                     {
-                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                         currentTemperature = temperatureDouble.Dequeue();
+                        label_Command.Text = "Condition: " + currentTemperature + ", SHOT: " + currentTemperature;
                     }
                     else if (timer_matched && timer_shot)
                     {
