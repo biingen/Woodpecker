@@ -2090,13 +2090,15 @@ namespace Woodpecker
             const int data_target1_offset = -3;
             const int crc16_highbit_offset = -2;
             const int crc16_lowbit_offset = -1;
+            const int unit = 100;
 
             byteChamber[byteChamber_length] = ch;
             byteChamber_length++;
 
             if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
                 (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
-                (byteChamber[byteChamber_length + length_data_offset] == 0x04))
+                (byteChamber[byteChamber_length + length_data_offset] == 0x04) &&
+                byteChamber_length == 9)
             {
                 byte[] byteActual = new byte[2];
                 byte[] byteTarget = new byte[2];
@@ -2106,11 +2108,18 @@ namespace Woodpecker
                 byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
                 string stringActual = System.Text.Encoding.Default.GetString(byteActual);
                 string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
-                int intActual = Convert.ToInt32(stringActual, 16);
-                int intTarget = Convert.ToInt32(stringTarget, 16);
-
+                int intActual = Convert.ToInt32(stringActual, 16) / unit;
+                int intTarget = Convert.ToInt32(stringTarget, 16) / unit;
+                string dataValue = "Chamber information: " + "Actual: " + intActual + " Target: " + intTarget;
+                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                {
+                    DateTime dt = DateTime.Now;
+                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                }
+                log_process("A", dataValue);
+                log_process("All", dataValue);
+                byteChamber_length = 0;
             }
-            byteChamber_length = 0;
         }
 
         /*
@@ -10149,13 +10158,16 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_IO_Output");
             RCDB.Items.Add("_IO_Input");
-            RCDB.Items.Add("_audio_debounce");
             RCDB.Items.Add("_Pin");
-            RCDB.Items.Add("_keyword");
-            RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_quantum");
-            RCDB.Items.Add("_astro");
-            RCDB.Items.Add("_dektec");
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                RCDB.Items.Add("_audio_debounce");
+                RCDB.Items.Add("_keyword");
+                RCDB.Items.Add("------------------------");
+                RCDB.Items.Add("_quantum");
+                RCDB.Items.Add("_astro");
+                RCDB.Items.Add("_dektec");
+            }
             RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("_SXP");
