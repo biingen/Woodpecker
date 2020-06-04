@@ -10265,13 +10265,16 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_IO_Output");
             RCDB.Items.Add("_IO_Input");
-            RCDB.Items.Add("_audio_debounce");
             RCDB.Items.Add("_Pin");
-            RCDB.Items.Add("_keyword");
-            RCDB.Items.Add("------------------------");
-            RCDB.Items.Add("_quantum");
-            RCDB.Items.Add("_astro");
-            RCDB.Items.Add("_dektec");
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                RCDB.Items.Add("_audio_debounce");
+                RCDB.Items.Add("_keyword");
+                RCDB.Items.Add("------------------------");
+                RCDB.Items.Add("_quantum");
+                RCDB.Items.Add("_astro");
+                RCDB.Items.Add("_dektec");
+            }
             RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("_SXP");
