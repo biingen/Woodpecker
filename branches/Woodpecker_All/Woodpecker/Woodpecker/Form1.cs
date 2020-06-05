@@ -161,18 +161,23 @@ namespace Woodpecker
         string symbelOperation = "";
         bool temperatureShot, temperaturePause, temperatureAscii;
         string temperaturePort, temperatureLog, temperatureNewline;
+        double previousTemperature = -300;
+        double currentTemperature = 0;
 
         // Search timer parameter
-        int temperatureDuringtime;
+        bool timer_matched = false;
+        bool timer_shot = false;
+        bool timer_pause = false;
+        bool timer_log = false;
+        string timer_log_port = "", timer_log_cmd = "", timer_log_newline = "";
         System.Timers.Timer duringTimer = new System.Timers.Timer();
 
         bool ifStatementFlag = false;
-        bool ChamberIsFound = false;
         bool TemperatureIsFound = false;
         bool TemperatureAndCmd = false;
         bool TemperatureOrCmd = false;
+        bool ChamberIsFound = false;
         bool PowerSupplyIsFound = false;
-        string MaxTemperature = "", MinTemperature = "";
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
 
@@ -853,7 +858,7 @@ namespace Woodpecker
         protected void OpenRedRat3()
         {
             int dev = 0;
-            string intdev = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", ""); ;
+            string intdev = ini12.INIRead(MainSettingPath, "RedRat", "RedRatIndex", "");
 
             if (intdev != "-1")
                 dev = int.Parse(intdev);
@@ -1696,10 +1701,6 @@ namespace Woodpecker
         }
         #endregion
 
-        byte[] dataset;
-        string strValues1 = string.Empty;
-        double currentTemperature = 0;
-
         #region -- 接受SerialPort1資料 --
         /*
                 public class SerialReceivedData
@@ -1815,7 +1816,11 @@ namespace Woodpecker
                         }
                         if (ChamberIsFound == true)
                         {
-                            logA_chamber(input_ch);
+                            log_chamber(input_ch);
+                        }
+                        if (PowerSupplyIsFound == true)
+                        {
+                            log_powersupply(input_ch);
                         }
                     }
                     //else
@@ -2079,7 +2084,7 @@ namespace Woodpecker
         byte[] byteChamber = new byte[byteChamber_max];
         int byteChamber_length = 0;
 
-        private void logA_chamber(byte ch)
+        private void log_chamber(byte ch)
         {
             const int header_data1_offset = -9;
             const int header_data2_offset = -8;
@@ -2119,6 +2124,31 @@ namespace Woodpecker
                 log_process("A", dataValue);
                 log_process("All", dataValue);
                 byteChamber_length = 0;
+            }
+        }
+
+        const int bytePowersupply_max = 22;
+        byte[] bytePowersupply = new byte[bytePowersupply_max];
+        int bytePowersupply_length = 0;
+
+        private void log_powersupply(byte ch)
+        {
+            bytePowersupply[bytePowersupply_length] = ch;
+            bytePowersupply_length++;
+
+            if (ch == 0x0A)
+            {
+                string Powersupplytext = Encoding.ASCII.GetString(bytePowersupply);
+                string[] Powersupplydata = Powersupplytext.Split(',');
+                string dataValue = "Power supply information: " + "Voltage= " + Powersupplydata[0] + " Current= " + Powersupplydata[1] + " Power= " + Powersupplydata[2];
+                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                {
+                    DateTime dt = DateTime.Now;
+                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                }
+                log_process("A", dataValue);
+                log_process("All", dataValue);
+                bytePowersupply_length = 0;
             }
         }
 
@@ -3031,13 +3061,6 @@ namespace Woodpecker
         string logAdd = string.Empty;
         bool ChamberCheck = false;
         bool PowerSupplyCheck = false;
-        double previousTemperature = -300;
-
-        bool timer_matched = false;
-        bool timer_shot = false;
-        bool timer_pause = false;
-        bool timer_log = false;
-        string timer_log_port = "", timer_log_cmd = "", timer_log_newline = "";
         
         private void timer_during_Tick(object sender, EventArgs e)
         {
@@ -6221,8 +6244,8 @@ namespace Woodpecker
                                             PowerSupplyIsFound = true;
                                             expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
 
-                                            string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
-                                            ReplaceNewLine(PortA, powerCommand, columns_switch);
+                                            string powerCommand = "MEASure"+ expectedVoltage + ":ALL?"; //Read Power Supply information
+                                            ReplaceNewLine(PortA, powerCommand, "\\r\\n");
 
                                             //Append Power Supply command to log
                                             DateTime dt = DateTime.Now;
@@ -6436,15 +6459,15 @@ namespace Woodpecker
                                                 PowerSupplyIsFound = true;
                                                 expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
 
-                                                string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
-                                                ReplaceNewLine(PortA, powerCommand, columns_switch);
+                                                string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
+                                                ReplaceNewLine(PortA, powerCommand, "\\r\\n");
 
                                                 //Append Power Supply command to log
                                                 DateTime dt = DateTime.Now;
                                                 PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                 logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
                                             }
-                                            else if (columns_serial.Contains("Temperature"))
+                                        else if (columns_serial.Contains("Temperature"))
                                             {
                                                 try
                                                 {
