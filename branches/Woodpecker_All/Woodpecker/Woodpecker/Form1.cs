@@ -153,6 +153,11 @@ namespace Woodpecker
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
 
+        bool ifStatementFlag = false;
+        bool TemperatureIsFound = false;
+        bool TemperatureAndCmd = false;
+        bool TemperatureOrCmd = false;
+
         //Search temperature parameter
         List<double> temperatureList = new List<double> { };
         Queue<double> temperatureQueue = new Queue<double> { };
@@ -172,14 +177,15 @@ namespace Woodpecker
         string timer_log_port = "", timer_log_cmd = "", timer_log_newline = "";
         System.Timers.Timer duringTimer = new System.Timers.Timer();
 
-        bool ifStatementFlag = false;
-        bool TemperatureIsFound = false;
-        bool TemperatureAndCmd = false;
-        bool TemperatureOrCmd = false;
+        // Chamber parameter
         bool ChamberIsFound = false;
+        float CH_actualTemperature, CH_targetTemperature;
+
+        // Power Supply parameter
         bool PowerSupplyIsFound = false;
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
+        float PS_Voltage, PS_Current, PS_Power;
 
         public Form1()
         {
@@ -2080,12 +2086,13 @@ namespace Woodpecker
         //    }
         //}
 
-        const int byteChamber_max = 64;
+        const int byteChamber_max = 36;
         byte[] byteChamber = new byte[byteChamber_max];
         int byteChamber_length = 0;
 
         private void log_chamber(byte ch)
         {
+            const int packet_len = 9;
             const int header_data1_offset = -9;
             const int header_data2_offset = -8;
             const int length_data_offset = -7;
@@ -2096,6 +2103,17 @@ namespace Woodpecker
             const int crc16_highbit_offset = -2;
             const int crc16_lowbit_offset = -1;
             const int unit = 100;
+
+            // If data_buffer is too long, cut off data not needed
+            if (byteChamber_length >= byteChamber_max)
+            {
+                int destinationIndex = 0;
+                for (int i = (byteTemperature_max - packet_len); i < byteTemperature_max; i++)
+                {
+                    byteChamber[destinationIndex++] = byteChamber[i];
+                }
+                byteChamber_length = destinationIndex;
+            }
 
             byteChamber[byteChamber_length] = ch;
             byteChamber_length++;
@@ -2113,42 +2131,84 @@ namespace Woodpecker
                 byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
                 string stringActual = System.Text.Encoding.Default.GetString(byteActual);
                 string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
-                int intActual = Convert.ToInt32(stringActual, 16) / unit;
-                int intTarget = Convert.ToInt32(stringTarget, 16) / unit;
-                string dataValue = "Chamber information: " + "Actual: " + intActual + " Target: " + intTarget;
+                CH_actualTemperature = StrToFloat(Convert.ToInt32(stringActual, 16) / unit);
+                CH_targetTemperature = StrToFloat(Convert.ToInt32(stringTarget, 16) / unit);
+                string dataValue = "Actual Temperature: " + CH_actualTemperature + ", Target Temperature: " + CH_targetTemperature;
                 if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                 {
                     DateTime dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    dataValue = "[Chamber] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                 }
                 log_process("A", dataValue);
+                log_process("B", dataValue);
+                log_process("C", dataValue);
+                log_process("D", dataValue);
+                log_process("E", dataValue);
                 log_process("All", dataValue);
                 byteChamber_length = 0;
             }
         }
 
-        const int bytePowersupply_max = 22;
+        const int bytePowersupply_max = 66;
         byte[] bytePowersupply = new byte[bytePowersupply_max];
         int bytePowersupply_length = 0;
 
         private void log_powersupply(byte ch)
         {
+            const int packet_len = 22;
+
+            // If data_buffer is too long, cut off data not needed
+            if (bytePowersupply_length >= bytePowersupply_max)
+            {
+                int destinationIndex = 0;
+                for (int i = (bytePowersupply_max - packet_len); i < bytePowersupply_max; i++)
+                {
+                    bytePowersupply[destinationIndex++] = bytePowersupply[i];
+                }
+                bytePowersupply_length = destinationIndex;
+            }
+
             bytePowersupply[bytePowersupply_length] = ch;
             bytePowersupply_length++;
 
             if (ch == 0x0A)
             {
-                string Powersupplytext = Encoding.ASCII.GetString(bytePowersupply);
-                string[] Powersupplydata = Powersupplytext.Split(',');
-                string dataValue = "Power supply information: " + "Voltage= " + Powersupplydata[0] + " Current= " + Powersupplydata[1] + " Power= " + Powersupplydata[2];
+                string dataPowersupply = Encoding.ASCII.GetString(bytePowersupply);
+                string[] arrayPowersupply = dataPowersupply.Split(',');
+                PS_Voltage = StrToFloat(arrayPowersupply[0]);
+                PS_Current = StrToFloat(arrayPowersupply[1]);
+                PS_Power = StrToFloat(arrayPowersupply[2]);
+                string dataValue = "Voltage: " + PS_Voltage + ", Current: " + PS_Current + ", Power: " + PS_Power;
                 if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                 {
                     DateTime dt = DateTime.Now;
-                    dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    dataValue = "[PowerSupply] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                 }
                 log_process("A", dataValue);
+                log_process("B", dataValue);
+                log_process("C", dataValue);
+                log_process("D", dataValue);
+                log_process("E", dataValue);
                 log_process("All", dataValue);
                 bytePowersupply_length = 0;
+            }
+        }
+
+        public float StrToFloat(object FloatString)
+        {
+            float result;
+            if (FloatString != null)
+            {
+                if (float.TryParse(FloatString.ToString(), out result))
+                    return result;
+                else
+                {
+                    return (float)0.00;
+                }
+            }
+            else
+            {
+                return (float)0.00;
             }
         }
 
@@ -2401,6 +2461,14 @@ namespace Woodpecker
                         {
                             log_temperature(input_ch);
                         }
+                        if (ChamberIsFound == true)
+                        {
+                            log_chamber(input_ch);
+                        }
+                        if (PowerSupplyIsFound == true)
+                        {
+                            log_powersupply(input_ch);
+                        }
                     }
                 }
                 //else
@@ -2561,6 +2629,14 @@ namespace Woodpecker
                         if (TemperatureIsFound == true)
                         {
                             log_temperature(input_ch);
+                        }
+                        if (ChamberIsFound == true)
+                        {
+                            log_chamber(input_ch);
+                        }
+                        if (PowerSupplyIsFound == true)
+                        {
+                            log_powersupply(input_ch);
                         }
                     }
                 }
@@ -2724,6 +2800,14 @@ namespace Woodpecker
                         {
                             log_temperature(input_ch);
                         }
+                        if (ChamberIsFound == true)
+                        {
+                            log_chamber(input_ch);
+                        }
+                        if (PowerSupplyIsFound == true)
+                        {
+                            log_powersupply(input_ch);
+                        }
                     }
                 }
                 //else
@@ -2885,6 +2969,14 @@ namespace Woodpecker
                         if (TemperatureIsFound == true)
                         {
                             log_temperature(input_ch);
+                        }
+                        if (ChamberIsFound == true)
+                        {
+                            log_chamber(input_ch);
+                        }
+                        if (PowerSupplyIsFound == true)
+                        {
+                            log_powersupply(input_ch);
                         }
                     }
                 }
