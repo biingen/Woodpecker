@@ -131,14 +131,14 @@ namespace Woodpecker
             if (ini12.INIRead(MailPath, "Mail Info", "From", "") != "")
                 msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
             else
-                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA", System.Text.Encoding.UTF8);
+                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA_Test", System.Text.Encoding.UTF8);
             msg.Subject = Subject;      //郵件標題 
             msg.SubjectEncoding = System.Text.Encoding.UTF8;        //郵件標題編碼  
             msg.Body = Body;        //郵件內容
 
             msg.IsBodyHtml = true;
             msg.BodyEncoding = System.Text.Encoding.UTF8;       //郵件內容編碼 
-            msg.Priority = MailPriority.Normal;     //郵件優先級 
+            msg.Priority = MailPriority.High;     //郵件優先級 
 
             if (Global.Pass_Or_Fail == "PASS")
             {

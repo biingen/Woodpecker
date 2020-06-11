@@ -2030,6 +2030,18 @@ namespace Woodpecker
                                     if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
                                     {
                                         previousTemperature = currentTemperature;
+                                        string dataValue = "Temperature=" + currentTemperature;
+                                        if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                                        {
+                                            TimeSpan timeElapsed = DateTime.Now - startTime;
+                                            dataValue = "[Temperature] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
+                                        }
+                                        log_process("A", dataValue);
+                                        log_process("B", dataValue);
+                                        log_process("C", dataValue);
+                                        log_process("D", dataValue);
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
                                         Temperature_condition();
                                     }
                                 }
@@ -2133,11 +2145,11 @@ namespace Woodpecker
                 string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
                 CH_actualTemperature = StrToFloat(Convert.ToInt32(stringActual, 16) / unit);
                 CH_targetTemperature = StrToFloat(Convert.ToInt32(stringTarget, 16) / unit);
-                string dataValue = "Actual Temperature: " + CH_actualTemperature + ", Target Temperature: " + CH_targetTemperature;
+                string dataValue = "Actual Temperature=" + CH_actualTemperature + ", Target Temperature=" + CH_targetTemperature;
                 if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                 {
-                    DateTime dt = DateTime.Now;
-                    dataValue = "[Chamber] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    TimeSpan timeElapsed = DateTime.Now - startTime;
+                    dataValue = "[Chamber] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
                 }
                 log_process("A", dataValue);
                 log_process("B", dataValue);
@@ -2178,11 +2190,11 @@ namespace Woodpecker
                 PS_Voltage = StrToFloat(arrayPowersupply[0]);
                 PS_Current = StrToFloat(arrayPowersupply[1]);
                 PS_Power = StrToFloat(arrayPowersupply[2]);
-                string dataValue = "Voltage: " + PS_Voltage + ", Current: " + PS_Current + ", Power: " + PS_Power;
+                string dataValue = "Voltage=" + PS_Voltage + ", Current=" + PS_Current + ", Power=" + PS_Power;
                 if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                 {
-                    DateTime dt = DateTime.Now;
-                    dataValue = "[PowerSupply] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    TimeSpan timeElapsed = DateTime.Now - startTime;
+                    dataValue = "[PowerSupply] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
                 }
                 log_process("A", dataValue);
                 log_process("B", dataValue);
@@ -2191,6 +2203,7 @@ namespace Woodpecker
                 log_process("E", dataValue);
                 log_process("All", dataValue);
                 bytePowersupply_length = 0;
+                PowerSupplyIsFound = false;
             }
         }
 
@@ -5422,14 +5435,15 @@ namespace Woodpecker
         #region -- 換行符號置換 --
         private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
         {
-            List<string> originLineList = new List<string> { "\\r", "\\n", "\\r\\n", "\\n\\r" };
-            List<string> newLineList = new List<string> { "\r", "\n", "\r\n", "\n\r" };
+            List<string> originLineList = new List<string> {"\\r\\n", "\\n\\r", "\\r", "\\n"};
+            List<string> newLineList = new List<string> {"\r\n", "\n\r", "\r", "\n"};
             var originAndNewLine = originLineList.Zip(newLineList, (o, n) => new { origin = o, newLine = n });
             foreach (var line in originAndNewLine)
             {
                 if (columns_switch.Contains(line.origin))
                 {
                     port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine)); //發送數據 Rs232
+                    return;
                 }
             }
         }
@@ -6331,18 +6345,51 @@ namespace Woodpecker
                                                 addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
                                             }
                                         }
-                                        else if (columns_serial.Contains("PowerSupply_Voltage"))
+                                        else if (columns_serial.Contains("PowerSupply"))
                                         {
                                             PowerSupplyIsFound = true;
-                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
-
+                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
+                                            string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
                                             string powerCommand = "MEASure"+ expectedVoltage + ":ALL?"; //Read Power Supply information
-                                            ReplaceNewLine(PortA, powerCommand, "\\r\\n");
-
-                                            //Append Power Supply command to log
                                             DateTime dt = DateTime.Now;
-                                            PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                            logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                            switch (powerPort)
+                                            {
+                                                case "A":
+                                                    ReplaceNewLine(PortA, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "B":
+                                                    ReplaceNewLine(PortB, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "C":
+                                                    ReplaceNewLine(PortC, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "D":
+                                                    ReplaceNewLine(PortD, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "E":
+                                                    ReplaceNewLine(PortE, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                            }
                                         }
                                         else if (columns_serial.Contains("Temperature"))
                                         {
@@ -6546,19 +6593,52 @@ namespace Woodpecker
                                                     addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
                                                 }
                                             }
-                                            else if (columns_serial.Contains("PowerSupply_Voltage"))
+                                        else if (columns_serial.Contains("PowerSupply"))
+                                        {
+                                            PowerSupplyIsFound = true;
+                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
+                                            string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
+                                            string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
+                                            DateTime dt = DateTime.Now;
+                                            switch (powerPort)
                                             {
-                                                PowerSupplyIsFound = true;
-                                                expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
-
-                                                string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
-                                                ReplaceNewLine(PortA, powerCommand, "\\r\\n");
-
-                                                //Append Power Supply command to log
-                                                DateTime dt = DateTime.Now;
-                                                PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                                case "A":
+                                                    ReplaceNewLine(PortA, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "B":
+                                                    ReplaceNewLine(PortB, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "C":
+                                                    ReplaceNewLine(PortC, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "D":
+                                                    ReplaceNewLine(PortD, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
+                                                case "E":
+                                                    ReplaceNewLine(PortE, powerCommand, "\\r\\n");
+                                                    //Append Power Supply command to log
+                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
+                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    break;
                                             }
+                                        }
                                         else if (columns_serial.Contains("Temperature"))
                                             {
                                                 try
@@ -8957,7 +9037,7 @@ namespace Woodpecker
                         }
 
                         Nowpoint = DataGridView_Schedule.Rows[Global.Scheduler_Row].Index;
-                        debug_process("Nowpoint record: " + Nowpoint + ",\r\n");
+                        debug_process("Nowpoint record: " + Nowpoint);
                         if (Breakfunction == true)
                         {
                             debug_process("Breakfunction.");
@@ -8977,7 +9057,7 @@ namespace Woodpecker
                         else
                         {
                             RedRatDBViewer_Delay(SysDelay);
-                            debug_process("RedRatDBViewer_Delay: " + SysDelay + ",\r\n");
+                            debug_process("RedRatDBViewer_Delay: " + SysDelay);
                         }
 
                         #region -- 足跡模式 --
@@ -9059,7 +9139,7 @@ namespace Woodpecker
                     }
                     #endregion
                 }
-                debug_process("Loop_Number: " + Global.Loop_Number + ", \r\n");
+                debug_process("Loop_Number: " + Global.Loop_Number);
                 Serialportsave("Debug");
 				DisposeRam();
                 Global.Loop_Number++;
