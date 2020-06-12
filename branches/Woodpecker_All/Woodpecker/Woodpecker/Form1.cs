@@ -2033,8 +2033,8 @@ namespace Woodpecker
                                         string dataValue = "Temperature=" + currentTemperature;
                                         if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                                         {
-                                            TimeSpan timeElapsed = DateTime.Now - startTime;
-                                            dataValue = "[Temperature] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
+                                            DateTime dt = DateTime.Now;
+                                            dataValue = "[Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                                         }
                                         log_process("A", dataValue);
                                         log_process("B", dataValue);
