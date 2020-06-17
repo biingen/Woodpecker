@@ -1748,13 +1748,13 @@ namespace Woodpecker
                         dt = DateTime.Now;
 
                         // Joseph
-                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                                                                                                                       // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                        hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                                                                                                                                       // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n");
                         textBox1.AppendText(hexValues);
                         // End
 
                         // Jeremy
-                        // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                        // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
                         // textBox1.AppendText(hexValues + "\r\n");
                         // End
                     }
@@ -1764,7 +1764,7 @@ namespace Woodpecker
                         string text = Encoding.ASCII.GetString(dataset1);
 
                         dt = DateTime.Now;
-                        text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                        text = text.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
                         textBox1.AppendText(text);
                     }
                     Thread.Sleep(1);
@@ -2034,7 +2034,7 @@ namespace Woodpecker
                                         if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                                         {
                                             DateTime dt = DateTime.Now;
-                                            dataValue = "[Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                                            dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                                         }
                                         log_process("A", dataValue);
                                         log_process("B", dataValue);
@@ -2338,14 +2338,14 @@ namespace Woodpecker
                                 //dt = DateTime.Now;
 
                                 // Joseph
-                                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
-                                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + hexValues + "\r\n");
+                                hexValues = hexValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
+                                // hexValues = String.Concat("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + hexValues + "\r\n");
                                 log_text = string.Concat(log_text, hexValues);
                                 // textBox1.AppendText(hexValues);
                                 // End
 
                                 // Jeremy
-                                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+                                // textBox1.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
                                 // textBox1.AppendText(hexValues + "\r\n");
                                 // End
                             }
@@ -2354,7 +2354,7 @@ namespace Woodpecker
                                 // string text = String.Concat(Encoding.ASCII.GetString(dataset).Where(c => c != 0x00));
                                 string strValues = Encoding.ASCII.GetString(dataset);
                                 dt = DateTime.Now;
-                                strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  "); //OK
+                                strValues = strValues.Replace(Environment.NewLine, "\r\n" + "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  "); //OK
                                 log_text = string.Concat(log_text, strValues);
 
                                 //textBox1.AppendText(text);
@@ -2404,7 +2404,7 @@ namespace Woodpecker
         //                 // End
 
         //                 // Jeremy
-        //                 // textBox2.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox2.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
         //                 // textBox2.AppendText(hexValues + "\r\n");
         //                 // End
         //             }
@@ -2574,7 +2574,7 @@ namespace Woodpecker
         //                 // End
 
         //                 // Jeremy
-        //                 // textBox3.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox3.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
         //                 // textBox3.AppendText(hexValues + "\r\n");
         //                 // End
         //             }
@@ -2744,7 +2744,7 @@ namespace Woodpecker
         //                 // End
 
         //                 // Jeremy
-        //                 // textBox4.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox4.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
         //                 // textBox4.AppendText(hexValues + "\r\n");
         //                 // End
         //             }
@@ -2914,7 +2914,7 @@ namespace Woodpecker
         //                 // End
 
         //                 // Jeremy
-        //                 // textBox5.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  ");
+        //                 // textBox5.AppendText("[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  ");
         //                 // textBox5.AppendText(hexValues + "\r\n");
         //                 // End
         //             }
@@ -3214,7 +3214,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -3434,7 +3434,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -3617,7 +3617,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -3844,7 +3844,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -4025,7 +4025,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -4251,7 +4251,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -4432,7 +4432,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -4658,7 +4658,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -4839,7 +4839,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -5065,7 +5065,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -5246,7 +5246,7 @@ namespace Woodpecker
                                     sw2.Write(compare_string + ",");
                                     sw2.Write(compare_num + ",");
                                     sw2.Write(compare_number[i] + ",");
-                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                                    sw2.WriteLine(DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                                     sw2.Close();
 
                                     ////////////////////////////////////////////////////////////////////////////////////////////////MAIL//////////////////
@@ -6005,7 +6005,7 @@ namespace Woodpecker
                                         // string str = Convert.ToString(data);
                                         serialPort1.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
                                         textBox1.AppendText(text);
                                         break;
                                 }
@@ -6032,7 +6032,7 @@ namespace Woodpecker
                                         // string str = Convert.ToString(data);
                                         serialPort2.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
                                         textBox2.AppendText(text);
                                         break;
                                 }
@@ -6059,7 +6059,7 @@ namespace Woodpecker
                                         // string str = Convert.ToString(data);
                                         serialPort3.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\n";
+                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
                                         textBox3.AppendText(text);
                                         break;
                                 }
@@ -6360,35 +6360,35 @@ namespace Woodpecker
                                                 case "A":
                                                     ReplaceNewLine(PortA, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "B":
                                                     ReplaceNewLine(PortB, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "C":
                                                     ReplaceNewLine(PortC, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "D":
                                                     ReplaceNewLine(PortD, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "E":
                                                     ReplaceNewLine(PortE, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
@@ -6608,35 +6608,35 @@ namespace Woodpecker
                                                 case "A":
                                                     ReplaceNewLine(PortA, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "B":
                                                     ReplaceNewLine(PortB, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "C":
                                                     ReplaceNewLine(PortC, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "D":
                                                     ReplaceNewLine(PortD, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
                                                 case "E":
                                                     ReplaceNewLine(PortE, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + powerCommand + "\r\n";
+                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
                                                     logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
                                                     logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
                                                     break;
@@ -8347,7 +8347,7 @@ namespace Woodpecker
                                     serialPort2.Write(bytes, 0, bytes.Length);
                                     label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                     // DateTime dt = DateTime.Now;
-                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss") + "]  " + columns_serial + "\r\n";
+                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     str = str.Replace(" ", "");
                                     string text = str + "\r\n";
                                     textBox2.AppendText(text);
@@ -10669,7 +10669,7 @@ namespace Woodpecker
                     */
                     Global.Break_Out_MyRunCamd = 0;
 
-                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"));
+                    ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
                     timer1.Start();     //開始倒數
                     button_Start.Text = "STOP";
