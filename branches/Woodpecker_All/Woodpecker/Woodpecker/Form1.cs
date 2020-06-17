@@ -6226,50 +6226,53 @@ namespace Woodpecker
                                     logAll_text = string.Empty; //清除logAll_text
                                 }
 
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                if (switch_content.Length != 0)
                                 {
-                                    ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("A", dataValue);
-                                    logAll_text = string.Concat(logAll_text, dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
-                                {
-                                    ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("B", dataValue);
-                                    logAll_text = string.Concat(logAll_text, dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
-                                {
-                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("C", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
-                                {
-                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("D", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
-                                {
-                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("E", dataValue);
-                                    log_process("All", dataValue);
+                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                    {
+                                        ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("A", dataValue);
+                                        logAll_text = string.Concat(logAll_text, dataValue);
+                                    }
+                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                    {
+                                        ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("B", dataValue);
+                                        logAll_text = string.Concat(logAll_text, dataValue);
+                                    }
+                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                    {
+                                        ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                    {
+                                        ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                    {
+                                        ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
+                                    }
                                 }
                             }
 
