@@ -6071,212 +6071,221 @@ namespace Woodpecker
                         #region -- Ascii --
                         else if (columns_command == "_ascii")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            try
                             {
-                                debug_process("Ascii Log: _PortA");
-                                if (columns_serial == "_save")
+                                for (int k = 0; k < stime; k++)
                                 {
-                                    Serialportsave("A"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logA_text = string.Empty; //清除logA_text
-                                }
-                                else if (columns_serial != "" || columns_switch != "")
-                                {
-                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
-                                }
-                                else if (columns_serial == "" && columns_switch == "")
-                                {
-                                    MessageBox.Show("Ascii command is fail, please check the format.");
-                                }
-                                /*
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("A", dataValue);
-                                log_process("All", dataValue);
-                                */
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                            {
-                                debug_process("Ascii Log: _PortB");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("B"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logB_text = string.Empty; //清除logB_text
-                                }
-                                else if (columns_serial != "" || columns_switch != "")
-                                {
-                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
-                                }
-                                else if (columns_serial == "" && columns_switch == "")
-                                {
-                                    MessageBox.Show("Ascii command is fail, please check the format.");
-                                }
-                                /*
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("B", dataValue);
-                                log_process("All", dataValue);
-                                */
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                            {
-                                debug_process("Ascii Log: _PortC");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("C"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logC_text = string.Empty; //清除logC_text
-                                }
-                                else if (columns_serial != "" || columns_switch != "")
-                                {
-                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
-                                }
-                                else if (columns_serial == "" && columns_switch == "")
-                                {
-                                    MessageBox.Show("Ascii command is fail, please check the format.");
-                                }
-                                /*
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("C", dataValue);
-                                log_process("All", dataValue);
-                                */
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                            {
-                                debug_process("Ascii Log: _PortD");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("D"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logD_text = string.Empty; //清除logD_text
-                                }
-                                else if (columns_serial != "" || columns_switch != "")
-                                {
-                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
-                                }
-                                else if (columns_serial == "" && columns_switch == "")
-                                {
-                                    MessageBox.Show("Ascii command is fail, please check the format.");
-                                }
-                                /*
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("D", dataValue);
-                                log_process("All", dataValue);
-                                */
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                            {
-                                debug_process("Ascii Log: _PortE");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("E"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logE_text = string.Empty; //清除logE_text
-                                }
-                                else if (columns_serial != "" || columns_switch != "")
-                                {
-                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
-                                }
-                                else if (columns_serial == "" && columns_switch == "")
-                                {
-                                    MessageBox.Show("Ascii command is fail, please check the format.");
-                                }
-                                /*
-                                DateTime dt = DateTime.Now;
-                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("E", dataValue);
-                                log_process("All", dataValue);
-                                */
-                            }
-
-                            if (columns_comport == "ALL")
-                            {
-                                debug_process("Ascii Log: _All");
-                                string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                                string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("All"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logAll_text = string.Empty; //清除logAll_text
-                                }
-
-                                if (switch_content.Length != 0)
-                                {
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                     {
-                                        ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                        debug_process("Ascii Log: _PortA");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("A"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logA_text = string.Empty; //清除logA_text
+                                        }
+                                        else if (columns_serial != "" || columns_switch != "")
+                                        {
+                                            ReplaceNewLine(PortA, columns_serial, columns_switch);
+                                        }
+                                        else if (columns_serial == "" && columns_switch == "")
+                                        {
+                                            MessageBox.Show("Ascii command is fail, please check the format.");
+                                        }
+                                        /*
                                         DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
                                         textBox_serial.AppendText(dataValue);
                                         log_process("A", dataValue);
-                                        logAll_text = string.Concat(logAll_text, dataValue);
+                                        log_process("All", dataValue);
+                                        */
                                     }
-                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+
+                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                     {
-                                        ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
+                                        debug_process("Ascii Log: _PortB");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("B"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logB_text = string.Empty; //清除logB_text
+                                        }
+                                        else if (columns_serial != "" || columns_switch != "")
+                                        {
+                                            ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                        }
+                                        else if (columns_serial == "" && columns_switch == "")
+                                        {
+                                            MessageBox.Show("Ascii command is fail, please check the format.");
+                                        }
+                                        /*
                                         DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(dataValue);
                                         log_process("B", dataValue);
-                                        logAll_text = string.Concat(logAll_text, dataValue);
+                                        log_process("All", dataValue);
+                                        */
                                     }
-                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+
+                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                     {
-                                        ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                        debug_process("Ascii Log: _PortC");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("C"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logC_text = string.Empty; //清除logC_text
+                                        }
+                                        else if (columns_serial != "" || columns_switch != "")
+                                        {
+                                            ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                        }
+                                        else if (columns_serial == "" && columns_switch == "")
+                                        {
+                                            MessageBox.Show("Ascii command is fail, please check the format.");
+                                        }
+                                        /*
                                         DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(dataValue);
                                         log_process("C", dataValue);
                                         log_process("All", dataValue);
+                                        */
                                     }
-                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+
+                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                     {
-                                        ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                        debug_process("Ascii Log: _PortD");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("D"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logD_text = string.Empty; //清除logD_text
+                                        }
+                                        else if (columns_serial != "" || columns_switch != "")
+                                        {
+                                            ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                        }
+                                        else if (columns_serial == "" && columns_switch == "")
+                                        {
+                                            MessageBox.Show("Ascii command is fail, please check the format.");
+                                        }
+                                        /*
                                         DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(dataValue);
                                         log_process("D", dataValue);
                                         log_process("All", dataValue);
+                                        */
                                     }
-                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+
+                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                     {
-                                        ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                        debug_process("Ascii Log: _PortE");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("E"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logE_text = string.Empty; //清除logE_text
+                                        }
+                                        else if (columns_serial != "" || columns_switch != "")
+                                        {
+                                            ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                        }
+                                        else if (columns_serial == "" && columns_switch == "")
+                                        {
+                                            MessageBox.Show("Ascii command is fail, please check the format.");
+                                        }
+                                        /*
                                         DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                         textBox_serial.AppendText(dataValue);
                                         log_process("E", dataValue);
                                         log_process("All", dataValue);
+                                        */
                                     }
+
+                                    if (columns_comport == "ALL")
+                                    {
+                                        debug_process("Ascii Log: _All");
+                                        string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                                        string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("All"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logAll_text = string.Empty; //清除logAll_text
+                                        }
+
+                                        if (switch_content.Length != 0)
+                                        {
+                                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                            {
+                                                ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("A", dataValue);
+                                                logAll_text = string.Concat(logAll_text, dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                            {
+                                                ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("B", dataValue);
+                                                logAll_text = string.Concat(logAll_text, dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                            {
+                                                ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("C", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                            {
+                                                ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("D", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                            {
+                                                ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("E", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                        }
+                                    }
+                                    label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                 }
                             }
-
-                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                            catch (Exception Ex)
+                            {
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
+                            }
                         }
                         #endregion
 
@@ -6814,338 +6823,348 @@ namespace Woodpecker
                         #region -- Hex --
                         else if (columns_command == "_HEX")
                         {
-                            string Outputstring = "";
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            try
                             {
-                                debug_process("Hex Log: _PortA");
-                                if (columns_serial == "_save")
+                                for (int k = 0; k < stime; k++)
                                 {
-                                    Serialportsave("A"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logA_text = string.Empty; //清除logA_text
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
-                                {
-                                    string orginal_data = columns_serial;
-                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                    Outputstring = orginal_data + crc16_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "")
-                                {
-                                    string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
-                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                }
-                                DateTime dt = DateTime.Now;
-                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("A", dataValue);
-                                log_process("All", dataValue);
-                            }
+                                    string Outputstring = "";
+                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    {
+                                        debug_process("Hex Log: _PortA");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("A"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logA_text = string.Empty; //清除logA_text
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "CRC16_Modbus")
+                                        {
+                                            string orginal_data = columns_serial;
+                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                            Outputstring = orginal_data + crc16_data;
+                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(Outputstring);
+                                            PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "")
+                                        {
+                                            string hexValues = columns_serial;
+                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(hexValues);
+                                            PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        }
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
+                                    }
 
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    {
+                                        debug_process("Hex Log: _PortB");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("B"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logB_text = string.Empty; //清除logB_text
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "CRC16_Modbus")
+                                        {
+                                            string orginal_data = columns_serial;
+                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                            Outputstring = orginal_data + crc16_data;
+                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(Outputstring);
+                                            PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "")
+                                        {
+                                            string hexValues = columns_serial;
+                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(hexValues);
+                                            PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        }
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+
+                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                    {
+                                        debug_process("Hex Log: _PortC");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("C"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logC_text = string.Empty; //清除logC_text
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "CRC16_Modbus")
+                                        {
+                                            string orginal_data = columns_serial;
+                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                            Outputstring = orginal_data + crc16_data;
+                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(Outputstring);
+                                            PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "")
+                                        {
+                                            string hexValues = columns_serial;
+                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(hexValues);
+                                            PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        }
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+
+                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                    {
+                                        debug_process("Hex Log: _PortD");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("D"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logD_text = string.Empty; //清除logD_text
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "CRC16_Modbus")
+                                        {
+                                            string orginal_data = columns_serial;
+                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                            Outputstring = orginal_data + crc16_data;
+                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(Outputstring);
+                                            PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "")
+                                        {
+                                            string hexValues = columns_serial;
+                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(hexValues);
+                                            PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        }
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+
+                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                    {
+                                        debug_process("Hex Log: _PortE");
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("E"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logE_text = string.Empty; //清除logE_text
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "CRC16_Modbus")
+                                        {
+                                            string orginal_data = columns_serial;
+                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                            Outputstring = orginal_data + crc16_data;
+                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(Outputstring);
+                                            PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        }
+                                        else if (columns_serial != "_save" &&
+                                                 columns_serial != "_clear" &&
+                                                 columns_serial != "" &&
+                                                 columns_function == "")
+                                        {
+                                            string hexValues = columns_serial;
+                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                            Outputbytes = HexConverter.StrToByte(hexValues);
+                                            PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        }
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        textBox_serial.AppendText(dataValue);
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+
+                                    if (columns_comport == "ALL")
+                                    {
+                                        debug_process("Hex Log: _All");
+                                        string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                        if (columns_serial == "_save")
+                                        {
+                                            Serialportsave("All"); //存檔rs232
+                                        }
+                                        else if (columns_serial == "_clear")
+                                        {
+                                            logAll_text = string.Empty; //清除logAll_text
+                                        }
+
+                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
+                                        {
+                                            string orginal_data = serial_content[0];
+                                            if (columns_function == "CRC16_Modbus")
+                                            {
+                                                string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                Outputstring = orginal_data + crc16_data;
+                                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                            }
+                                            else
+                                            {
+                                                Outputstring = orginal_data;
+                                                byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("A", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
+                                        {
+                                            string orginal_data = serial_content[1];
+                                            if (columns_function == "CRC16_Modbus")
+                                            {
+                                                string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                Outputstring = orginal_data + crc16_data;
+                                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                            }
+                                            else
+                                            {
+                                                Outputstring = orginal_data;
+                                                byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("B", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
+                                        {
+                                            string orginal_data = serial_content[2];
+                                            if (columns_function == "CRC16_Modbus")
+                                            {
+                                                string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                Outputstring = orginal_data + crc16_data;
+                                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                            }
+                                            else
+                                            {
+                                                Outputstring = orginal_data;
+                                                byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("C", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
+                                        {
+                                            string orginal_data = serial_content[3];
+                                            if (columns_function == "CRC16_Modbus")
+                                            {
+                                                string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                Outputstring = orginal_data + crc16_data;
+                                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                            }
+                                            else
+                                            {
+                                                Outputstring = orginal_data;
+                                                byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("D", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
+                                        {
+                                            string orginal_data = serial_content[4];
+                                            if (columns_function == "CRC16_Modbus")
+                                            {
+                                                string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                Outputstring = orginal_data + crc16_data;
+                                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                            }
+                                            else
+                                            {
+                                                Outputstring = orginal_data;
+                                                byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("E", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                    }
+                                    label_Command.Text = "(" + columns_command + ") " + Outputstring;
+                                }
+                            }
+                            catch (Exception Ex)
                             {
-                                debug_process("Hex Log: _PortB");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("B"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logB_text = string.Empty; //清除logB_text
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
-                                {
-                                    string orginal_data = columns_serial;
-                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                    Outputstring = orginal_data + crc16_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "")
-                                {
-                                    string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
-                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                }
-                                DateTime dt = DateTime.Now;
-                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("B", dataValue);
-                                log_process("All", dataValue);
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
                             }
-
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                            {
-                                debug_process("Hex Log: _PortC");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("C"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logC_text = string.Empty; //清除logC_text
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
-                                {
-                                    string orginal_data = columns_serial;
-                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                    Outputstring = orginal_data + crc16_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "")
-                                {
-                                    string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
-                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                }
-                                DateTime dt = DateTime.Now;
-                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("C", dataValue);
-                                log_process("All", dataValue);
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                            {
-                                debug_process("Hex Log: _PortD");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("D"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logD_text = string.Empty; //清除logD_text
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
-                                {
-                                    string orginal_data = columns_serial;
-                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                    Outputstring = orginal_data + crc16_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "")
-                                {
-                                    string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
-                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                }
-                                DateTime dt = DateTime.Now;
-                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("D", dataValue);
-                                log_process("All", dataValue);
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                            {
-                                debug_process("Hex Log: _PortE");
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("E"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logE_text = string.Empty; //清除logE_text
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
-                                {
-                                    string orginal_data = columns_serial;
-                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                    Outputstring = orginal_data + crc16_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "")
-                                {
-                                    string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
-                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                }
-                                DateTime dt = DateTime.Now;
-                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                textBox_serial.AppendText(dataValue);
-                                log_process("E", dataValue);
-                                log_process("All", dataValue);
-                            }
-
-                            if (columns_comport == "ALL")
-                            {
-                                debug_process("Hex Log: _All");
-                                string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-
-                                if (columns_serial == "_save")
-                                {
-                                    Serialportsave("All"); //存檔rs232
-                                }
-                                else if (columns_serial == "_clear")
-                                {
-                                    logAll_text = string.Empty; //清除logAll_text
-                                }
-
-                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
-                                {
-                                    string orginal_data = serial_content[0];
-                                    if (columns_function == "CRC16_Modbus")
-                                    {
-                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                        Outputstring = orginal_data + crc16_data;
-                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                        Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    }
-                                    else
-                                    {
-                                        Outputstring = orginal_data;
-                                        byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("A", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
-                                {
-                                    string orginal_data = serial_content[1];
-                                    if (columns_function == "CRC16_Modbus")
-                                    {
-                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                        Outputstring = orginal_data + crc16_data;
-                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                        Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    }
-                                    else
-                                    {
-                                        Outputstring = orginal_data;
-                                        byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("B", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
-                                {
-                                    string orginal_data = serial_content[2];
-                                    if (columns_function == "CRC16_Modbus")
-                                    {
-                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                        Outputstring = orginal_data + crc16_data;
-                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                        Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    }
-                                    else
-                                    {
-                                        Outputstring = orginal_data;
-                                        byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("C", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
-                                {
-                                    string orginal_data = serial_content[3];
-                                    if (columns_function == "CRC16_Modbus")
-                                    {
-                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                        Outputstring = orginal_data + crc16_data;
-                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                        Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    }
-                                    else
-                                    {
-                                        Outputstring = orginal_data;
-                                        byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("D", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
-                                {
-                                    string orginal_data = serial_content[4];
-                                    if (columns_function == "CRC16_Modbus")
-                                    {
-                                        string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                        Outputstring = orginal_data + crc16_data;
-                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                        Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    }
-                                    else
-                                    {
-                                        Outputstring = orginal_data;
-                                        byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
-                                    textBox_serial.AppendText(dataValue);
-                                    log_process("E", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + Outputstring;
                         }
                         #endregion
 
@@ -7933,25 +7952,13 @@ namespace Woodpecker
                                         {
                                             logA_text = string.Empty; //清除textbox1
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortA.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortA, columns_serial, columns_switch);
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortA.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortA.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortA.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == "")
-                                        {
-                                            PortA.Write(columns_serial); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -7969,25 +7976,13 @@ namespace Woodpecker
                                         {
                                             logB_text = string.Empty; //清除logB_text
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortB.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortB, columns_serial, columns_switch);
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortB.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortB.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortB.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == "")
-                                        {
-                                            PortB.Write(columns_serial); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -8005,25 +8000,13 @@ namespace Woodpecker
                                         {
                                             logC_text = string.Empty; //清除logC_text
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortC.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortC, columns_serial, columns_switch);
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortC.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortC.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortC.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == "")
-                                        {
-                                            PortC.Write(columns_serial); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -8041,25 +8024,13 @@ namespace Woodpecker
                                         {
                                             logD_text = string.Empty; //清除logD_text
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortD.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortD, columns_serial, columns_switch);
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortD.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortD.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortD.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == "")
-                                        {
-                                            PortD.Write(columns_serial); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -8077,25 +8048,13 @@ namespace Woodpecker
                                         {
                                             logE_text = string.Empty; //清除logE_text
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortE.Write(columns_serial + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortE, columns_serial, columns_switch);
                                         }
-                                        else if (columns_serial != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortE.Write(columns_serial + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortE.Write(columns_serial + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (columns_serial != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortE.Write(columns_serial + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (columns_serial != "" && columns_switch == "")
-                                        {
-                                            PortE.Write(columns_serial); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -8126,25 +8085,13 @@ namespace Woodpecker
                                         {
                                             logA_text = string.Empty; //清除textbox1
                                         }
-                                        else if (reverse != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortA.Write(reverse + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortA, reverse, columns_switch);
                                         }
-                                        else if (reverse != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortA.Write(reverse + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortA.Write(reverse + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortA.Write(reverse + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (reverse != "" && columns_switch == "")
-                                        {
-                                            PortA.Write(reverse); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
@@ -8162,25 +8109,13 @@ namespace Woodpecker
                                         {
                                             logB_text = string.Empty; //清除logB_text
                                         }
-                                        else if (reverse != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortB.Write(reverse + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortB, reverse, columns_switch);
                                         }
-                                        else if (reverse != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortB.Write(reverse + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortB.Write(reverse + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortB.Write(reverse + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (reverse != "" && columns_switch == "")
-                                        {
-                                            PortB.Write(reverse); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
@@ -8198,25 +8133,13 @@ namespace Woodpecker
                                         {
                                             logC_text = string.Empty; //清除logC_text
                                         }
-                                        else if (reverse != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortC.Write(reverse + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortC, reverse, columns_switch);
                                         }
-                                        else if (reverse != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortC.Write(reverse + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortC.Write(reverse + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortC.Write(reverse + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (reverse != "" && columns_switch == "")
-                                        {
-                                            PortC.Write(reverse); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
@@ -8234,25 +8157,13 @@ namespace Woodpecker
                                         {
                                             logD_text = string.Empty; //清除logD_text
                                         }
-                                        else if (reverse != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortD.Write(reverse + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortD, reverse, columns_switch);
                                         }
-                                        else if (reverse != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortD.Write(reverse + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortD.Write(reverse + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortD.Write(reverse + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (reverse != "" && columns_switch == "")
-                                        {
-                                            PortD.Write(reverse); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
@@ -8270,25 +8181,13 @@ namespace Woodpecker
                                         {
                                             logE_text = string.Empty; //清除logE_text
                                         }
-                                        else if (reverse != "" && columns_switch == @"\r")
+                                        else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            PortE.Write(reverse + "\r"); //發送數據 Rs232 + \r
+                                            ReplaceNewLine(PortE, reverse, columns_switch);
                                         }
-                                        else if (reverse != "" && columns_switch == @"\n")
+                                        else if (columns_serial == "" && columns_switch == "")
                                         {
-                                            PortE.Write(reverse + "\n"); //發送數據 Rs232 + \n
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\n\r")
-                                        {
-                                            PortE.Write(reverse + "\n\r"); //發送數據 Rs232 + \n\r
-                                        }
-                                        else if (reverse != "" && columns_switch == @"\r\n")
-                                        {
-                                            PortE.Write(reverse + "\r\n"); //發送數據 Rs232 + \r\n
-                                        }
-                                        else if (reverse != "" && columns_switch == "")
-                                        {
-                                            PortE.Write(reverse); //發送數據 HEX Rs232
+                                            MessageBox.Show("Command is fail, please check the format.");
                                         }
                                         DateTime dt = DateTime.Now;
                                         string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
@@ -9409,10 +9308,12 @@ namespace Woodpecker
 
         bool PauseFlag = false;
         bool ShotFlag = false;
+
         #region -- IO CMD 指令集 --
         private void IO_CMD()
         {
             string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
+            string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
             if (columns_serial == "_pause")
             {
                 PauseFlag = true;
@@ -9475,6 +9376,7 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
+                String log_newline = columns_switch;
                 int startIndex = 10;
                 int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
@@ -9482,36 +9384,36 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
-                    PortA.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortA, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
-                    PortB.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortB, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
                 {
-                    PortC.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortC, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
                 {
-                    PortD.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortD, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
                 {
-                    PortE.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortE, log_cmd_substring, log_newline);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        PortA.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortA, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        PortB.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortB, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        PortC.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortC, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        PortD.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortD, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        PortE.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortE, log_cmd_substring, log_newline);
                 }
             }
         }
@@ -9521,6 +9423,7 @@ namespace Woodpecker
         private void KeywordCommand()
         {
             string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
+            string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
             if (columns_serial == "_pause")
             {
                 button_Pause.PerformClick();
@@ -9630,6 +9533,7 @@ namespace Woodpecker
             else if (columns_serial.Substring(0, 7) == "_logcmd")
             {
                 String log_cmd = columns_serial;
+                String log_newline = columns_switch;
                 int startIndex = 10;
                 int length = log_cmd.Length - 10;
                 String log_cmd_substring = log_cmd.Substring(startIndex, length);
@@ -9637,36 +9541,36 @@ namespace Woodpecker
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
-                    PortA.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortA, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
-                    PortB.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortB, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
                 {
-                    PortC.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortC, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
                 {
-                    PortD.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortD, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
                 {
-                    PortE.WriteLine(log_cmd_substring);
+                    ReplaceNewLine(PortE, log_cmd_substring, log_newline);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        PortA.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortA, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        PortB.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortB, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        PortC.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortC, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        PortD.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortD, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        PortE.WriteLine(log_cmd_substring);
+                        ReplaceNewLine(PortE, log_cmd_substring, log_newline);
                 }
                 label_Command.Text = "KEYWORD_LOGCMD";
             }
