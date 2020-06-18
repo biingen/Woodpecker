@@ -5598,13 +5598,15 @@ namespace Woodpecker
                         else
                             stime = 1;
 
-                        if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
-                            sRepeat = int.Parse(columns_interval); // 停止時間
+                        if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true && columns_interval.Contains('m') == false)
+                            sRepeat = int.Parse(columns_interval); // 指令停止時間(毫秒)
+                        else if (columns_interval != "" && columns_interval.Contains('m') == true)
+                            sRepeat = int.Parse(columns_interval.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
                             sRepeat = 0;
 
                         if (columns_wait != "" && int.TryParse(columns_wait, out SysDelay) == true && columns_wait.Contains('m') == false)
-                            SysDelay = int.Parse(columns_wait); // 指令停止時間
+                            SysDelay = int.Parse(columns_wait); // 指令停止時間(毫秒)
                         else if (columns_wait != "" && columns_wait.Contains('m') == true)
                             SysDelay = int.Parse(columns_wait.Replace('m', ' ').Trim()) * 60000; // 指令停止時間(分)
                         else
@@ -6280,6 +6282,7 @@ namespace Woodpecker
                                         }
                                     }
                                     label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                    RedRatDBViewer_Delay(sRepeat);
                                 }
                             }
                             catch (Exception Ex)
@@ -7159,6 +7162,7 @@ namespace Woodpecker
                                         }
                                     }
                                     label_Command.Text = "(" + columns_command + ") " + Outputstring;
+                                    RedRatDBViewer_Delay(sRepeat);
                                 }
                             }
                             catch (Exception Ex)
@@ -8196,7 +8200,7 @@ namespace Woodpecker
                                         log_process("All", dataValue);
                                     }
                                     //label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    Thread.Sleep(500);
+                                    RedRatDBViewer_Delay(500);
                                 }
                             }
                             catch (Exception Ex)
