@@ -6241,7 +6241,7 @@ namespace Woodpecker
                                                 string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                                 textBox_serial.AppendText(dataValue);
                                                 log_process("A", dataValue);
-                                                logAll_text = string.Concat(logAll_text, dataValue);
+                                                log_process("All", dataValue);
                                             }
                                             if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                             {
@@ -6250,7 +6250,7 @@ namespace Woodpecker
                                                 string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                                 textBox_serial.AppendText(dataValue);
                                                 log_process("B", dataValue);
-                                                logAll_text = string.Concat(logAll_text, dataValue);
+                                                log_process("All", dataValue);
                                             }
                                             if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                             {
@@ -6373,36 +6373,36 @@ namespace Woodpecker
                                                     ReplaceNewLine(PortA, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("A", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "B":
                                                     ReplaceNewLine(PortB, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("B", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "C":
                                                     ReplaceNewLine(PortC, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("C", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "D":
                                                     ReplaceNewLine(PortD, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("D", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "E":
                                                     ReplaceNewLine(PortE, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("E", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                             }
                                         }
@@ -6621,36 +6621,36 @@ namespace Woodpecker
                                                     ReplaceNewLine(PortA, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logA_text = string.Concat(logA_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("A", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "B":
                                                     ReplaceNewLine(PortB, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logB_text = string.Concat(logB_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("B", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "C":
                                                     ReplaceNewLine(PortC, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logC_text = string.Concat(logC_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("C", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "D":
                                                     ReplaceNewLine(PortD, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logD_text = string.Concat(logD_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("D", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                                 case "E":
                                                     ReplaceNewLine(PortE, powerCommand, "\\r\\n");
                                                     //Append Power Supply command to log
                                                     PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    logE_text = string.Concat(logE_text, PowerSupplyCommandLog);
-                                                    logAll_text = string.Concat(logAll_text, PowerSupplyCommandLog);
+                                                    log_process("E", PowerSupplyCommandLog);
+                                                    log_process("All", PowerSupplyCommandLog);
                                                     break;
                                             }
                                         }
