@@ -11992,6 +11992,16 @@ namespace Woodpecker
             {
                 labelGPIO_Input.Text = "GPIO_input fail after retry";
             }
+
+            string dataValue = "GPIO_input=" + Global.IO_INPUT;
+            DateTime dt = DateTime.Now;
+            dataValue = "[Receive_IO_INPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+            log_process("A", dataValue);
+            log_process("B", dataValue);
+            log_process("C", dataValue);
+            log_process("D", dataValue);
+            log_process("E", dataValue);
+            log_process("All", dataValue);
         }
         #endregion
 
