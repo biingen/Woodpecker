@@ -5612,37 +5612,7 @@ namespace Woodpecker
                         else
                             SysDelay = 0;
 
-                        #region -- Record Schedule --
-                        string delimiter_recordSch = ",";
-                        string Schedule_log = "";
-                        DateTime.Now.ToShortTimeString();
-                        DateTime sch_dt = DateTime.Now;
-
-                        debug_process("Record Schedule");
-                        Schedule_log = columns_command;
-                        try
-                        {
-                            for (int i = 1; i < 10; i++)
-                            {
-                                Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
-                            }
-                        }
-                        catch (Exception Ex)
-                        {
-                            MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect!");
-                        }
-
-                        string sch_log_text = "[Schedule] [" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
-                        log_process("A", sch_log_text);
-                        log_process("B", sch_log_text);
-                        log_process("C", sch_log_text);
-                        log_process("D", sch_log_text);
-                        log_process("E", sch_log_text);
-                        log_process("All", sch_log_text);
-                        log_process("Canbus", sch_log_text);
-                        log_process("KlinePort", sch_log_text);
-                        textBox_serial.AppendText(sch_log_text);
-                        #endregion
+                        Record_Schedule();
 
                         #region -- _cmd --
                         if (columns_command == "_cmd")
@@ -6077,6 +6047,8 @@ namespace Woodpecker
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
+                                    if (k != 0)
+                                        Record_Schedule();
                                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                     {
                                         debug_process("Ascii Log: _PortA");
@@ -6287,7 +6259,7 @@ namespace Woodpecker
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
                             }
                         }
                         #endregion
@@ -6830,6 +6802,8 @@ namespace Woodpecker
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
+                                    if (k != 0)
+                                        Record_Schedule();
                                     string Outputstring = "";
                                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                     {
@@ -7167,7 +7141,7 @@ namespace Woodpecker
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
                             }
                         }
                         #endregion
@@ -7944,6 +7918,8 @@ namespace Woodpecker
                             {
                                 for (int k = 0; k < stime; k++)
                                 {
+                                    if (k != 0)
+                                        Record_Schedule();
                                     debug_process("Extend GPIO control: _FuncKey:" + k + " times");
                                     label_Command.Text = "(Push CMD)" + columns_serial;
                                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
@@ -8205,7 +8181,7 @@ namespace Woodpecker
                             }
                             catch (Exception Ex)
                             {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort setting fail !");
+                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
                             }
                         }
                         #endregion
@@ -8890,27 +8866,36 @@ namespace Woodpecker
                         #region -- 遙控器指令 --
                         else
                         {
-                            debug_process("Remote Control: TV_rc_key");
-                            for (int k = 0; k < stime; k++)
+                            try
                             {
-                                label_Command.Text = columns_command;
-                                if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                                debug_process("Remote Control: TV_rc_key");
+                                for (int k = 0; k < stime; k++)
                                 {
-                                    //執行小紅鼠指令
-                                    Autocommand_RedRat("Form1", columns_command);
+                                    if (k != 0)
+                                        Record_Schedule();
+                                    label_Command.Text = columns_command;
+                                    if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                                    {
+                                        //執行小紅鼠指令
+                                        Autocommand_RedRat("Form1", columns_command);
+                                    }
+                                    else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                    {
+                                        //執行小藍鼠指令
+                                        Autocommand_BlueRat("Form1", columns_command);
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Please connect AutoKit or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        button_Start.PerformClick();
+                                    }
+                                    videostring = columns_command;
+                                    RedRatDBViewer_Delay(sRepeat);
                                 }
-                                else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    //執行小藍鼠指令
-                                    Autocommand_BlueRat("Form1", columns_command);
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect AutoKit or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    button_Start.PerformClick();
-                                }
-                                videostring = columns_command;
-                                RedRatDBViewer_Delay(sRepeat);
+                            }
+                            catch (Exception Ex)
+                            {
+                                MessageBox.Show(Ex.Message.ToString(), "RCDB library fail !");
                             }
                         }
                         #endregion
@@ -11567,6 +11552,41 @@ namespace Woodpecker
                 SchedulePause.Set();
                 timer1.Start();
             }
+        }
+
+        private void Record_Schedule()
+        {
+            #region -- Record Schedule --
+            string delimiter_recordSch = ",";
+            string Schedule_log = "";
+            DateTime.Now.ToShortTimeString();
+            DateTime sch_dt = DateTime.Now;
+
+            debug_process("Record Schedule");
+            Schedule_log = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Trim(); ;
+            try
+            {
+                for (int i = 1; i < 10; i++)
+                {
+                    Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
+                }
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message.ToString(), "The schedule length incorrect!");
+            }
+
+            string sch_log_text = "[Schedule] [" + sch_dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Schedule_log + "\r\n";
+            log_process("A", sch_log_text);
+            log_process("B", sch_log_text);
+            log_process("C", sch_log_text);
+            log_process("D", sch_log_text);
+            log_process("E", sch_log_text);
+            log_process("All", sch_log_text);
+            log_process("Canbus", sch_log_text);
+            log_process("KlinePort", sch_log_text);
+            textBox_serial.AppendText(sch_log_text);
+            #endregion
         }
 
         private void Schedule_Time()        //Estimated schedule time
