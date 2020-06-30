@@ -157,6 +157,9 @@ namespace Woodpecker
         bool TemperatureIsFound = false;
         bool TemperatureAndCmd = false;
         bool TemperatureOrCmd = false;
+        bool GPIOIsFound = false;
+        bool GPIOAndCmd = false;
+        bool GPIOOrCmd = false;
 
         //Search temperature parameter
         List<double> temperatureList = new List<double> { };
@@ -164,8 +167,6 @@ namespace Woodpecker
         byte temperatureChannel;
         float addTemperature, initialTemperature, finalTemperature;
         string symbelOperation = "";
-        bool temperatureShot, temperaturePause, temperatureAscii;
-        string temperaturePort, temperatureLog, temperatureNewline;
         double previousTemperature = -300;
         double currentTemperature = 0;
 
@@ -177,6 +178,10 @@ namespace Woodpecker
         string timer_log_port = "", timer_log_cmd = "", timer_log_newline = "";
         System.Timers.Timer duringTimer = new System.Timers.Timer();
 
+        // Search parameter behavior
+        bool behavior_Shot, behavior_Pause, behavior_Ascii, behavior_Mail, behavior_Stop, behavior_AC_restart, behavior_Accumulate;
+        string behavior_serialPort, behavior_serialLog, behavior_serialNewline;
+
         // Chamber parameter
         bool ChamberIsFound = false;
         float CH_actualTemperature, CH_targetTemperature;
@@ -186,6 +191,10 @@ namespace Woodpecker
         string expectedVoltage = string.Empty;
         string PowerSupplyCommandLog = string.Empty;
         float PS_Voltage, PS_Current, PS_Power;
+
+        // Search GPIO parameter
+        List<string> GPIOList = new List<string> { };
+        int GPIOCount;
 
         public Form1()
         {
@@ -6276,23 +6285,38 @@ namespace Woodpecker
 
                             if (columns_serial == "_pause")
                             {
-                                temperaturePause = true;
+                                behavior_Pause = true;
                                 timer_pause = true;
                             }
                             else if (columns_serial == "_shot")
                             {
-                                temperatureShot = true;
+                                behavior_Shot = true;
                                 timer_shot = true;
                             }
-                            else if (columns_comport != "" && columns_serial != "" && columns_switch != "")
+                            else if (columns_serial == "_mail")
                             {
-                                temperatureAscii = true;
-                                temperaturePort = columns_comport;
-                                temperatureLog = columns_serial;
-                                temperatureNewline = columns_switch;
+                                behavior_Mail = true;
+                            }
+                            else if (columns_serial == "_stop")
+                            {
+                                behavior_Stop = true;
+                            }
+                            else if (columns_serial == "_ac_restart")
+                            {
+                                behavior_AC_restart = true;
+                            }
+                            else if (columns_serial.Substring(0, 7) == "_logcmd")
+                            {
+                                int startIndex = 10;
+                                int length = columns_serial.Length - 10;
+                                String log_cmd_substring = columns_serial.Substring(startIndex, length);
+                                behavior_Ascii = true;
+                                behavior_serialPort = columns_serial.Substring(8, 1);
+                                behavior_serialLog = log_cmd_substring;
+                                behavior_serialNewline = columns_switch;
                                 timer_log = true;
-                                timer_log_port = columns_comport;
-                                timer_log_cmd = columns_serial;
+                                timer_log_port = columns_serial.Substring(8, 1);
+                                timer_log_cmd = log_cmd_substring;
                                 timer_log_newline = columns_switch;
                             }
                         }
@@ -6580,53 +6604,53 @@ namespace Woodpecker
                                                     addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
                                                 }
                                             }
-                                        else if (columns_serial.Contains("PowerSupply"))
-                                        {
-                                            PowerSupplyIsFound = true;
-                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
-                                            string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
-                                            string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
-                                            DateTime dt = DateTime.Now;
-                                            switch (powerPort)
+                                            else if (columns_serial.Contains("PowerSupply"))
                                             {
-                                                case "A":
-                                                    ReplaceNewLine(PortA, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("A", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "B":
-                                                    ReplaceNewLine(PortB, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("B", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "C":
-                                                    ReplaceNewLine(PortC, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("C", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "D":
-                                                    ReplaceNewLine(PortD, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("D", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "E":
-                                                    ReplaceNewLine(PortE, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("E", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
+                                                PowerSupplyIsFound = true;
+                                                expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
+                                                string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
+                                                string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
+                                                DateTime dt = DateTime.Now;
+                                                switch (powerPort)
+                                                {
+                                                    case "A":
+                                                        ReplaceNewLine(PortA, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("A", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "B":
+                                                        ReplaceNewLine(PortB, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("B", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "C":
+                                                        ReplaceNewLine(PortC, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("C", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "D":
+                                                        ReplaceNewLine(PortD, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("D", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "E":
+                                                        ReplaceNewLine(PortE, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("E", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                }
                                             }
-                                        }
-                                        else if (columns_serial.Contains("Temperature"))
+                                            else if (columns_serial.Contains("Temperature"))
                                             {
                                                 try
                                                 {
@@ -6770,6 +6794,30 @@ namespace Woodpecker
                                                     MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                                 }
                                             }
+                                            else if (columns_serial.Substring(0, 3) == "_PA" || columns_serial.Substring(0, 3) == "_PB")
+                                            {
+                                                try
+                                                {
+                                                    GPIOIsFound = true;
+                                                    GPIOOrCmd = true;
+                                                    GPIOList.Clear();
+                                                    GPIOCount = columns_serial.Split(';').Count();
+                                                    string [] GPIOParameter = new string[GPIOCount];
+                                                    GPIOParameter = columns_serial.Split(';');
+
+                                                    if (GPIOCount > 0)
+                                                    {
+                                                        for (int i = 0; i < GPIOCount; i++)
+                                                        {
+                                                            GPIOList.Add(GPIOParameter[i]);
+                                                        }
+                                                    }
+                                                }
+                                                catch (Exception Ex)
+                                                {
+                                                    MessageBox.Show(Ex.Message.ToString(), "GPIO data parameter error!");
+                                                }
+                                            }
                                         }
                                     }
                                     else if (columns_function == "end")
@@ -6787,6 +6835,8 @@ namespace Woodpecker
                                         timer_during.Stop();
 
                                         temperatureList.Clear();
+                                        GPIOList.Clear();
+                                        GPIOCount = 0;
 
                                         StartButtonFlag = false;
                                     }
@@ -9299,6 +9349,102 @@ namespace Woodpecker
         bool ShotFlag = false;
 
         #region -- IO CMD 指令集 --
+        private void IO_Condition()
+        {
+            if (behavior_Pause)
+            {
+                PauseFlag = true;
+                button_Pause.PerformClick();
+                label_Command.Text = "IO CMD_PAUSE";
+            }
+            else if (behavior_Stop)
+            {
+                button_Start.PerformClick();
+                label_Command.Text = "IO CMD_STOP";
+            }
+            else if (behavior_AC_restart)
+            {
+                GP0_GP1_AC_OFF_ON();
+                Thread.Sleep(10);
+                GP0_GP1_AC_OFF_ON();
+                label_Command.Text = "IO CMD_AC_RESTART";
+            }
+            else if (behavior_Shot)
+            {
+                ShotFlag = true;
+                Global.caption_Num++;
+                if (Global.Loop_Number == 1)
+                    Global.caption_Sum = Global.caption_Num;
+                Jes();
+                label_Command.Text = "IO CMD_SHOT";
+            }
+            else if (behavior_Mail)
+            {
+                if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
+                {
+                    Global.Pass_Or_Fail = "NG";
+                    FormMail FormMail = new FormMail();
+                    FormMail.send();
+                    label_Command.Text = "IO CMD_MAIL";
+                }
+                else
+                {
+                    MessageBox.Show("Please enable Mail Function in Settings.");
+                }
+            }
+            else if (behavior_Ascii)
+            {
+                if (behavior_serialLog.Contains('|'))
+                {
+                    string[] logArray = behavior_serialLog.Split('|');
+                    switch (behavior_serialPort)
+                    {
+                        case "A":
+                            for (int i = 0; i < logArray.Length; i++)
+                                ReplaceNewLine(PortA, logArray[i], behavior_serialNewline);
+                            break;
+                        case "B":
+                            for (int i = 0; i < logArray.Length; i++)
+                                ReplaceNewLine(PortB, logArray[i], behavior_serialNewline);
+                            break;
+                        case "C":
+                            for (int i = 0; i < logArray.Length; i++)
+                                ReplaceNewLine(PortC, logArray[i], behavior_serialNewline);
+                            break;
+                        case "D":
+                            for (int i = 0; i < logArray.Length; i++)
+                                ReplaceNewLine(PortD, logArray[i], behavior_serialNewline);
+                            break;
+                        case "E":
+                            for (int i = 0; i < logArray.Length; i++)
+                                ReplaceNewLine(PortE, logArray[i], behavior_serialNewline);
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (behavior_serialPort)
+                    {
+                        case "A":
+                            ReplaceNewLine(PortA, behavior_serialLog, behavior_serialNewline);
+                            break;
+                        case "B":
+                            ReplaceNewLine(PortB, behavior_serialLog, behavior_serialNewline);
+                            break;
+                        case "C":
+                            ReplaceNewLine(PortC, behavior_serialLog, behavior_serialNewline);
+                            break;
+                        case "D":
+                            ReplaceNewLine(PortD, behavior_serialLog, behavior_serialNewline);
+                            break;
+                        case "E":
+                            ReplaceNewLine(PortE, behavior_serialLog, behavior_serialNewline);
+                            break;
+                    }
+                }
+            }
+        }
+
         private void IO_CMD()
         {
             string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
@@ -11554,9 +11700,9 @@ namespace Woodpecker
             }
         }
 
+        #region -- Record Schedule --
         private void Record_Schedule()
         {
-            #region -- Record Schedule --
             string delimiter_recordSch = ",";
             string Schedule_log = "";
             DateTime.Now.ToShortTimeString();
@@ -11586,9 +11732,10 @@ namespace Woodpecker
             log_process("Canbus", sch_log_text);
             log_process("KlinePort", sch_log_text);
             textBox_serial.AppendText(sch_log_text);
-            #endregion
         }
+        #endregion
 
+        #region -- Schedule Time --
         private void Schedule_Time()        //Estimated schedule time
         {
             if (timeCount > 0)
@@ -11618,6 +11765,7 @@ namespace Woodpecker
                 }
             }
         }
+        #endregion
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -12764,7 +12912,7 @@ namespace Woodpecker
                     Exists = temperatureList.Exists(x => x == currentTemperature);
 
                     if (Exists == true &&
-                        temperatureShot == true)
+                        behavior_Shot == true)
                     {
                         Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                         temperatureQueue.Enqueue(currentTemperature);
@@ -12772,60 +12920,60 @@ namespace Woodpecker
                     }
 
                     if (Exists == true &&
-                        temperaturePause == true)
+                        behavior_Pause == true)
                     {
                         button_Pause.PerformClick();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                     }
 
                     if (Exists == true &&
-                        temperatureAscii == true)
+                        behavior_Ascii == true)
                     {
-                        if (temperatureLog.Contains('|'))
+                        if (behavior_serialLog.Contains('|'))
                         {
-                            string[] logArray = temperatureLog.Split('|');
-                            switch (temperaturePort)
+                            string[] logArray = behavior_serialLog.Split('|');
+                            switch (behavior_serialPort)
                             {
                                 case "A":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortA, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortA, logArray[i], behavior_serialNewline);
                                     break;
                                 case "B":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortB, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortB, logArray[i], behavior_serialNewline);
                                     break;
                                 case "C":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortC, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortC, logArray[i], behavior_serialNewline);
                                     break;
                                 case "D":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortD, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortD, logArray[i], behavior_serialNewline);
                                     break;
                                 case "E":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortE, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortE, logArray[i], behavior_serialNewline);
                                     break;
                             }
                         }
                         else
                         {
-                            switch (temperaturePort)
+                            switch (behavior_serialPort)
                             {
                                 case "A":
-                                    ReplaceNewLine(PortA, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortA, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "B":
-                                    ReplaceNewLine(PortB, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortB, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "C":
-                                    ReplaceNewLine(PortC, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortC, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "D":
-                                    ReplaceNewLine(PortD, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortD, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "E":
-                                    ReplaceNewLine(PortE, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortE, behavior_serialLog, behavior_serialNewline);
                                     break;
                             }
                         }
@@ -12863,7 +13011,7 @@ namespace Woodpecker
                     }
 
                     if (Exists == true &&
-                        temperatureShot == true)
+                        behavior_Shot == true)
                     {
                         Console.WriteLine("~~~ targetTemperature ~~~ " + previousTemperature + " ~~~ currentTemperature ~~~ " + currentTemperature);
                         temperatureQueue.Enqueue(currentTemperature);
@@ -12871,61 +13019,60 @@ namespace Woodpecker
                     }
 
                     if (Exists == true &&
-                        temperaturePause == true)
+                        behavior_Pause == true)
                     {
                         button_Pause.PerformClick();
                         Console.WriteLine("Temperature: " + currentTemperature + "~~~~~~~~~Temperature matched. Pause the schedule.~~~~~~~~~");
                     }
 
                     if (Exists == true &&
-                        temperatureAscii == true)
+                        behavior_Ascii == true)
                     {
-
-                        if (temperatureLog.Contains('|'))
+                        if (behavior_serialLog.Contains('|'))
                         {
-                            string[] logArray = temperatureLog.Split('|');
-                            switch (temperaturePort)
+                            string[] logArray = behavior_serialLog.Split('|');
+                            switch (behavior_serialPort)
                             {
                                 case "A":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortA, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortA, logArray[i], behavior_serialNewline);
                                     break;
                                 case "B":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortB, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortB, logArray[i], behavior_serialNewline);
                                     break;
                                 case "C":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortC, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortC, logArray[i], behavior_serialNewline);
                                     break;
                                 case "D":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortD, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortD, logArray[i], behavior_serialNewline);
                                     break;
                                 case "E":
                                     for (int i = 0; i < logArray.Length; i++)
-                                        ReplaceNewLine(PortE, logArray[i], temperatureNewline);
+                                        ReplaceNewLine(PortE, logArray[i], behavior_serialNewline);
                                     break;
                             }
                         }
                         else
                         {
-                            switch (temperaturePort)
+                            switch (behavior_serialPort)
                             {
                                 case "A":
-                                    ReplaceNewLine(PortA, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortA, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "B":
-                                    ReplaceNewLine(PortB, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortB, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "C":
-                                    ReplaceNewLine(PortC, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortC, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "D":
-                                    ReplaceNewLine(PortD, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortD, behavior_serialLog, behavior_serialNewline);
                                     break;
                                 case "E":
-                                    ReplaceNewLine(PortE, temperatureLog, temperatureNewline);
+                                    ReplaceNewLine(PortE, behavior_serialLog, behavior_serialNewline);
                                     break;
                             }
                         }
@@ -13028,6 +13175,237 @@ namespace Woodpecker
                 }
             }
             else if (TemperatureAndCmd)
+            {
+
+            }
+
+            if (GPIOOrCmd)
+            {
+                for (int j = 0; j < GPIOCount; j++)
+                {
+                    IO_INPUT(); //持續讀取IO值//
+                    switch (GPIOList[j].Substring(3, 2))
+                    {
+                        #region -- PA10 --
+                        case "10":
+                            debug_process("IO CMD: PA10");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(10, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA10_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(10, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA10_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                        #endregion
+
+                        #region -- PA11 --
+                        case "11":
+                            debug_process("IO CMD: PA11");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(8, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA11_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(8, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA11_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                        #endregion
+
+                        #region -- PA14 --
+                        case "14":
+                            debug_process("IO CMD: PA14");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(6, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA14_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(6, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA14_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                        #endregion
+
+                        #region -- PA15 --
+                        case "15":
+                            debug_process("IO CMD: PA15");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(4, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA15_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(4, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PA15_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                        #endregion
+
+                        #region -- PB01 --
+                        case "01":
+                            debug_process("IO CMD: PB01");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(2, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PB1_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(2, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PB1_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                        #endregion
+
+                        #region -- PB07 --
+                        case "07":
+                            debug_process("IO CMD: PB07");
+                            if (GPIOList[j].Substring(6, 1) == "0" &&
+                                Global.IO_INPUT.Substring(0, 1) == "0")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PB7_0_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else if (GPIOList[j].Substring(6, 1) == "1" &&
+                                Global.IO_INPUT.Substring(0, 1) == "1")
+                            {
+                                if (behavior_Accumulate)
+                                {
+                                    Global.IO_PB7_1_COUNT++;
+                                    label_Command.Text = "IO CMD_ACCUMULATE";
+                                }
+                                else
+                                {
+                                    IO_Condition();
+                                }
+                            }
+                            else
+                            {
+                                RedRatDBViewer_Delay(0);
+                            }
+                            break;
+                            #endregion
+                    }
+                }
+            }
+            else if (GPIOAndCmd)
             {
 
             }

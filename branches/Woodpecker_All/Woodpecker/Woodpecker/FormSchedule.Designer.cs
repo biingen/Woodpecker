@@ -633,7 +633,6 @@
             this.checkBox_FootprintMode.TabIndex = 117;
             this.checkBox_FootprintMode.Text = "Footprint mode";
             this.checkBox_FootprintMode.UseVisualStyleBackColor = true;
-            this.checkBox_FootprintMode.Visible = false;
             this.checkBox_FootprintMode.CheckedChanged += new System.EventHandler(this.checkBoxFootprintMode_CheckedChanged);
             // 
             // label_ErrorMessage
