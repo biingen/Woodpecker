@@ -6305,6 +6305,10 @@ namespace Woodpecker
                             {
                                 behavior_AC_restart = true;
                             }
+                            else if (columns_serial == "_accumulate")
+                            {
+                                behavior_Accumulate = true;
+                            }
                             else if (columns_serial.Substring(0, 7) == "_logcmd")
                             {
                                 int startIndex = 10;
