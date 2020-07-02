@@ -62,6 +62,16 @@ namespace Woodpecker
                     CmdList.Add(@"\r\n");
                     break;
 
+                case "_Execute + >SerialPort                   >I/O cmd":
+                    CmdList.Add("_pause");
+                    CmdList.Add("_stop");
+                    CmdList.Add("_ac_restart");
+                    CmdList.Add("_shot");
+                    CmdList.Add("_accumulate");
+                    CmdList.Add("_mail");
+                    CmdList.Add("_logcmd");
+                    break;
+
                 case "_HEX + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");

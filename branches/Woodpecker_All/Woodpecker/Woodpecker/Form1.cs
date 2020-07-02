@@ -12461,6 +12461,9 @@ namespace Woodpecker
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+                        
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Execute" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
                     {
                         formScriptHelper.RCKeyForm1 = DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString();
