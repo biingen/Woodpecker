@@ -138,7 +138,7 @@ namespace Woodpecker
             int width, height;
             if (dpiX == 120 && dpiY == 120)
             {
-                this.Width = 520;
+                this.Width = 620;
                 this.Height = 90;
                 width = 100;
                 height = 30;
@@ -164,13 +164,13 @@ namespace Woodpecker
                     FlatStyle = FlatStyle.System
                 };
 
-                if (i <= 4)
+                if (i <= 5)
                 {
                     Buttons[i].Location = new Point(10 + (i * width), 10);
                 }
-                else if (i > 4 && i <= 9)
+                else if (i > 5 && i <= 11)
                 {
-                    Buttons[i].Location = new Point(10 + ((i - 5) * width), 50);
+                    Buttons[i].Location = new Point(10 + ((i - 6) * width), 50);
                 }
 
                 int index = i;
