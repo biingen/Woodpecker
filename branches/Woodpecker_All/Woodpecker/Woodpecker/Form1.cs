@@ -2035,27 +2035,49 @@ namespace Woodpecker
                                         currentTemperature = Math.Round((currentTemperature),2,MidpointRounding.AwayFromZero);
                                     }
 
+                                    // is channel value?
+                                    int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]);
+
+                                    string dataValue = "Temperature CH" + vOut + "=" + currentTemperature;
+                                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                                    {
+                                        DateTime dt = DateTime.Now;
+                                        dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                                    }
+                                    log_process("A", dataValue);
+                                    log_process("B", dataValue);
+                                    log_process("C", dataValue);
+                                    log_process("D", dataValue);
+                                    log_process("E", dataValue);
+                                    log_process("All", dataValue);
+
                                     // check whether 2 temperatures are close enough
                                     if (Math.Abs(previousTemperature-currentTemperature) >= temp_abs_value)
                                     {
                                         previousTemperature = currentTemperature;
-                                        string dataValue = "Temperature=" + currentTemperature;
-                                        if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
-                                        {
-                                            DateTime dt = DateTime.Now;
-                                            dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-                                        }
-                                        log_process("A", dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
                                         Temperature_condition();
                                     }
                                 }
                             }
                         }
+                    }
+                    else
+                    {
+                        // is channel value?
+                        int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]);
+
+                        string dataValue = "Temperature CH" + vOut + "=" + currentTemperature;
+                        if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                        {
+                            DateTime dt = DateTime.Now;
+                            dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                        }
+                        log_process("A", dataValue);
+                        log_process("B", dataValue);
+                        log_process("C", dataValue);
+                        log_process("D", dataValue);
+                        log_process("E", dataValue);
+                        log_process("All", dataValue);
                     }
                 }
                 byteTemperature_length = 0;
