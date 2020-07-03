@@ -131,14 +131,14 @@ namespace Woodpecker
             if (ini12.INIRead(MailPath, "Mail Info", "From", "") != "")
                 msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
             else
-                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA", System.Text.Encoding.UTF8);
+                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA_Test", System.Text.Encoding.UTF8);
             msg.Subject = Subject;      //郵件標題 
             msg.SubjectEncoding = System.Text.Encoding.UTF8;        //郵件標題編碼  
             msg.Body = Body;        //郵件內容
 
             msg.IsBodyHtml = true;
             msg.BodyEncoding = System.Text.Encoding.UTF8;       //郵件內容編碼 
-            msg.Priority = MailPriority.Normal;     //郵件優先級 
+            msg.Priority = MailPriority.High;     //郵件優先級 
 
             if (Global.Pass_Or_Fail == "PASS")
             {
@@ -197,7 +197,7 @@ namespace Woodpecker
             try
             {
                 SmtpClient MySmtp = new SmtpClient("smtp.gmail.com", 587);
-                MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "Auoasc2019");     //設定你的帳號密碼
+                MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");     //設定你的帳號密碼
                 MySmtp.EnableSsl = true;      //Gmial 的 smtp 需打開 SSL
                 MySmtp.Send(msg);
             }
@@ -404,7 +404,7 @@ namespace Woodpecker
             System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
 
             //設定你的帳號密碼
-            MySmtp.Credentials = new System.Net.NetworkCredential("tpdqatest@gmail.com", "auoasc2019");
+            MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");
 
             //Gmial 的 smtp 使用 SSL
             MySmtp.EnableSsl = true;
@@ -412,7 +412,7 @@ namespace Woodpecker
             try
             {
                 //發送Email
-                MySmtp.Send("'TP_DQA_Test'<tpdqatest@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
+                MySmtp.Send("'Woodpecker_Mail_System'<woodpecker.dqa@gmail.com>", "'TP_DQA_Test'<tpdqatest@gmail.com>", "Gmail sent mail function test", "Gmail sent mail function test.");
                 MessageBox.Show("Gmail is working well in your network environment.", "Success");
                 return true;
             }

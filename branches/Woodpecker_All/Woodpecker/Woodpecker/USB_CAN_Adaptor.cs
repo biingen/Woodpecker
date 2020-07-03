@@ -90,7 +90,7 @@ public struct CHGDESIPANDPORT
     }
 }
 
-namespace Can_Reader_Lib
+namespace CAN_USB2C_Lib
 {
     public enum USB_DEVICE_ID
     {

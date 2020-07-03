@@ -25,7 +25,7 @@ namespace Woodpecker
 
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
-        private CAN_Reader MYCanReader = new CAN_Reader();
+        //private CAN_Reader MYCanReader = new CAN_Reader();
 
         private void loadxml()
         {
@@ -277,14 +277,16 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
             {
                 checkBox_CAN_Log.Checked = true;
+                comboBox_CAN_Choice.Enabled = true;
                 comboBox_CAN_DevIndex.Enabled = true;
-                comboBox_CAN_BaudRate_Value.Enabled = true;
+                comboBox_CAN_BaudRate.Enabled = true;
             }
             else
             {
                 checkBox_CAN_Log.Checked = false;
+                comboBox_CAN_Choice.Enabled = false;
                 comboBox_CAN_DevIndex.Enabled = false;
-                comboBox_CAN_BaudRate_Value.Enabled = false;
+                comboBox_CAN_BaudRate.Enabled = false;
             }
 
             #region -- SerialPort --
@@ -382,6 +384,14 @@ namespace Woodpecker
                     checkBox_timestamp.Checked = false;
                 }
 
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    checkBox_autosavelog.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                {
+                    checkBox_autosavelog.Checked = false;
+                }
             }
             else
             {
@@ -475,6 +485,15 @@ namespace Woodpecker
                 else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
                 {
                     checkBox_timestamp.Checked = false;
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                {
+                    checkBox_autosavelog.Checked = true;
+                }
+                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                {
+                    checkBox_autosavelog.Checked = false;
                 }
             }
 
@@ -603,37 +622,50 @@ namespace Woodpecker
             #endregion
 
             #region -- Canbus --
-            if (ini12.INIRead(MainSettingPath, "Device", "CANbusExist", "") == "1")     //Canbus存在//
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")     //Canbus存在//
             {
-                string[] dev_list = ini12.INIRead(MainSettingPath, "Canbus", "DevName", "").Split(',');
-                comboBox_CAN_DevIndex.Items.Clear();
-                foreach (String dev_str in dev_list)
+                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
                 {
-                    comboBox_CAN_DevIndex.Items.Add(dev_str);
+                    string[] dev_list = ini12.INIRead(MainSettingPath, "Canbus", "DevName", "").Split(',');
+                    comboBox_CAN_DevIndex.Items.Clear();
+                    foreach (String dev_str in dev_list)
+                    {
+                        comboBox_CAN_DevIndex.Items.Add(dev_str);
+                    }
+
+                    if (comboBox_CAN_DevIndex.Items.Count > 0)
+                    {
+                        if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
+                            comboBox_CAN_DevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
+                        else
+                            comboBox_CAN_DevIndex.SelectedIndex = 0;
+                        comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
+                    }
                 }
 
-                if (comboBox_CAN_DevIndex.Items.Count > 0)
-                {
-                    if (ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", "") != "")
-                        comboBox_CAN_DevIndex.SelectedIndex = Convert.ToInt16(ini12.INIRead(MainSettingPath, "Canbus", "DevIndex", ""));
-                    else
-                        comboBox_CAN_DevIndex.SelectedIndex = 0;
-                    comboBox_CAN_DevIndex.MaxDropDownItems = comboBox_CAN_DevIndex.Items.Count;
-                }
-
-                comboBox_CAN_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
+                comboBox_CAN_Choice.Text = ini12.INIRead(MainSettingPath, "Canbus", "Device", "");
+                comboBox_CAN_BaudRate.Text = ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "");
             }
             else
             {
                 checkBox_CAN_Log.Checked = false;
+                comboBox_CAN_Choice.Enabled = false;
                 comboBox_CAN_DevIndex.Enabled = false;
-                comboBox_CAN_BaudRate_Value.Enabled = false;
+                comboBox_CAN_BaudRate.Enabled = false;
             }
             #endregion
 
             if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") == "")
             {
                 ini12.INIWrite(MainSettingPath, "LogSearch", "TextNum", "0");
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
+            {
+                textBox_RcDbPath.Visible = true;
+                pictureBox_RcDbPath.Visible = true;
+                button_RcDbPath.Visible = true;
+                groupBox_RcDB.Visible = true;
             }
         }
 
@@ -1363,29 +1395,66 @@ namespace Woodpecker
 
         private void checkBox_CANLog_CheckedChanged(object sender, EventArgs e)
         {
-            //自動跑CANbusLog//
             if (checkBox_CAN_Log.Checked == true)
             {
-                comboBox_CAN_DevIndex.Enabled = true;
-                comboBox_CAN_BaudRate_Value.Enabled = true;
+                if (comboBox_CAN_Choice.Text == "Vector")
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_BaudRate.Enabled = true;
+                }
+                else if (comboBox_CAN_Choice.Text == "UsbCAN")
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_DevIndex.Enabled = true;
+                    comboBox_CAN_BaudRate.Enabled = true;
+                }
+                else
+                {
+                    comboBox_CAN_Choice.Enabled = true;
+                    comboBox_CAN_DevIndex.Enabled = false;
+                    comboBox_CAN_BaudRate.Enabled = false;
+                }
                 ini12.INIWrite(MainSettingPath, "Canbus", "Log", "1");
             }
             else
             {
+                comboBox_CAN_Choice.Enabled = false;
                 comboBox_CAN_DevIndex.Enabled = false;
-                comboBox_CAN_BaudRate_Value.Enabled = false;
+                comboBox_CAN_BaudRate.Enabled = false;
                 ini12.INIWrite(MainSettingPath, "Canbus", "Log", "0");
             }
         }
 
-        private void comboBox_CANDevIndex_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox_CAN_Choice_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_CAN_Choice.Text == "Vector")
+            {
+                comboBox_CAN_DevIndex.Enabled = false;
+                comboBox_CAN_BaudRate.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Canbus", "Device", "Vector");
+            }
+            else if (comboBox_CAN_Choice.Text == "UsbCAN")
+            {
+                comboBox_CAN_DevIndex.Enabled = true;
+                comboBox_CAN_BaudRate.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Canbus", "Device", "UsbCAN");
+            }
+            else
+            {
+                comboBox_CAN_DevIndex.Enabled = true;
+                comboBox_CAN_BaudRate.Enabled = true;
+                ini12.INIWrite(MainSettingPath, "Canbus", "Device", "None");
+            }
+        }
+
+        private void comboBox_CAN_DevIndex_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Canbus", "DevIndex", comboBox_CAN_DevIndex.SelectedIndex.ToString());
         }
 
-        private void comboBox_CAN_BaudRate_Value_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox_CAN_BaudRate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", comboBox_CAN_BaudRate_Value.Text.Trim());
+            ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", comboBox_CAN_BaudRate.Text.Trim());
         }
 
         private void checkBox_hex_CheckedChanged(object sender, EventArgs e)
@@ -1409,6 +1478,18 @@ namespace Woodpecker
             else
             {
                 ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "0");
+            }
+        }
+
+        private void checkBox_autosavelog_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_autosavelog.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "1");
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "0");
             }
         }
     }

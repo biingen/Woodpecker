@@ -62,6 +62,16 @@ namespace Woodpecker
                     CmdList.Add(@"\r\n");
                     break;
 
+                case "_Execute + >SerialPort                   >I/O cmd":
+                    CmdList.Add("_pause");
+                    CmdList.Add("_stop");
+                    CmdList.Add("_ac_restart");
+                    CmdList.Add("_shot");
+                    CmdList.Add("_accumulate");
+                    CmdList.Add("_mail");
+                    CmdList.Add("_logcmd");
+                    break;
+
                 case "_HEX + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
@@ -94,7 +104,7 @@ namespace Woodpecker
                 case "_Pin + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
-                    CmdList.Add("_restart");
+                    CmdList.Add("_ac_restart");
                     CmdList.Add("_shot");
                     CmdList.Add("_accumulate");
                     CmdList.Add("_mail");
@@ -118,7 +128,7 @@ namespace Woodpecker
                 case "_keyword + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
-                    CmdList.Add("_restart");
+                    CmdList.Add("_ac_restart");
                     CmdList.Add("_shot");
                     CmdList.Add("_mail");
                     CmdList.Add("_savelog1");
@@ -138,7 +148,7 @@ namespace Woodpecker
             int width, height;
             if (dpiX == 120 && dpiY == 120)
             {
-                this.Width = 520;
+                this.Width = 620;
                 this.Height = 90;
                 width = 100;
                 height = 30;
@@ -164,13 +174,13 @@ namespace Woodpecker
                     FlatStyle = FlatStyle.System
                 };
 
-                if (i <= 4)
+                if (i <= 5)
                 {
                     Buttons[i].Location = new Point(10 + (i * width), 10);
                 }
-                else if (i > 4 && i <= 9)
+                else if (i > 5 && i <= 11)
                 {
-                    Buttons[i].Location = new Point(10 + ((i - 5) * width), 50);
+                    Buttons[i].Location = new Point(10 + ((i - 6) * width), 50);
                 }
 
                 int index = i;

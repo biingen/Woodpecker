@@ -8,11 +8,11 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using jini;
 using System.Linq;
-using Can_Reader_Lib;
+using CAN_USB2C_Lib;
 
 namespace Woodpecker
 {
-    public class CAN_Reader 
+    public class CAN_USB2C 
     {
 
         //static USB_DEVICE_ID m_devtype = 4;//USBCAN2
@@ -21,8 +21,8 @@ namespace Woodpecker
         //UInt32 m_devind = 0;
         //UInt32 m_canind = 0;
 
-        public static int MAX_CAN_OBJ_ARRAY_LEN = 1000;
-        string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        public static int MAX_CAN_OBJ_ARRAY_LEN = 10000;
+        string MainSettingPath = Global.StartupPath + "\\Config.ini";
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[MAX_CAN_OBJ_ARRAY_LEN];
         UInt32[] m_arrdevtype = new UInt32[20];
@@ -33,8 +33,8 @@ namespace Woodpecker
         //
         // Function for external use
         //
-        public CAN_Reader() { }
-        ~CAN_Reader() { }
+        public CAN_USB2C() { }
+        ~CAN_USB2C() { }
 
         USB_DEVICE_ID default_devtype = USB_DEVICE_ID.DEV_USBCAN2;
         UInt32 default_devint = 0;
@@ -187,7 +187,7 @@ namespace Woodpecker
             return res;
         }
 
-        unsafe public void TransmitData(string ID, string Data)
+        unsafe public void TransmitData(uint ID, byte[] Data)
         {
             if (m_bOpen == 0)
                 return;
@@ -197,18 +197,13 @@ namespace Woodpecker
             //sendobj.Init();
             sendobj.RemoteFlag = default_RemoteFlag;
             sendobj.ExternFlag = default_ExternFlag;
-            sendobj.ID = System.Convert.ToUInt32("0x" + ID, 16);
-            int len = Data.Split(' ').Length;
+            sendobj.ID = ID;
+            int len = Data.Length;
             sendobj.DataLen = System.Convert.ToByte(len);
-            string[] orginal_array = Data.Split(' ');
-            byte[] orginal_bytes = new byte[orginal_array.Count()];
-            int orginal_index = 0;
-            foreach (string hex in orginal_array)
+            for (int orginal_index = 0; orginal_index < len; orginal_index++)
             {
-                // Convert the number expressed in base-16 to an integer.
-                byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
                 // Get the character corresponding to the integral value.
-                sendobj.Data[orginal_index++] = number;
+                sendobj.Data[orginal_index] = Data[orginal_index];
             }
 
             sendobj_list.Add(sendobj);
@@ -219,8 +214,9 @@ namespace Woodpecker
             uint sendout_obj_len = (uint)sendobj_list.Count;
             if (can_adaptor.Transmit(default_canind, ref sendout_obj[0], sendout_obj_len) == 0)
             {
-                MessageBox.Show("发送失败", "错误",
-                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                Console.WriteLine("Failed to send!");
+            //    MessageBox.Show("发送失败", "错误",
+            //            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             //sendobj.Data[6] ^= 0xff;        // for testing multiple sendout_obj
             //sendobj_list.Add(sendobj);      // for testing multiple sendout_obj
