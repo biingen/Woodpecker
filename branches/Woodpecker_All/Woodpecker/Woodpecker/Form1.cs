@@ -1949,8 +1949,6 @@ namespace Woodpecker
                 }
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
-                    byteMessage_A[byteMessage_length_A] = ch;
-                    byteMessage_length_A++;
                     string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
                     if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                     {
@@ -1966,8 +1964,6 @@ namespace Woodpecker
             {
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
                 {
-                    byteMessage_A[byteMessage_length_A] = ch;
-                    byteMessage_length_A++;
                     string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
                     if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
                     {
