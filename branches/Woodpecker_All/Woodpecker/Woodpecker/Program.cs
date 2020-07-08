@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Threading;
+using System.Collections.Generic;
 using Woodpecker;
 
 namespace Woodpecker
@@ -88,5 +89,92 @@ namespace Woodpecker
             SplashForm = new frm_Splash();
             Application.Run(SplashForm);
         }
+
+    }
+
+    public class GlobalData
+    {   //global variables and classes//
+        public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
+        public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
+        public static string StartupPath = Application.StartupPath;
+
+        public static int Scheduler_Row = 0;
+        public static List<string> VidList = new List<string>();     //List is an Object inherited from System.Collections.Generic
+        public static List<string> PidList = new List<string>();
+        public static List<string> AutoBoxComPort_List = new List<string>();
+        public static List<string> RcList = new List<string>();
+        public static int Schedule_Number = 0;
+        public static int Schedule_1_Exist = 0;
+        public static int Schedule_2_Exist = 0;
+        public static int Schedule_3_Exist = 0;
+        public static int Schedule_4_Exist = 0;
+        public static int Schedule_5_Exist = 0;
+        public static long Schedule_1_TestTime = 0;
+        public static long Schedule_2_TestTime = 0;
+        public static long Schedule_3_TestTime = 0;
+        public static long Schedule_4_TestTime = 0;
+        public static long Schedule_5_TestTime = 0;
+        public static long Total_Test_Time = 0;
+        public static int Loop_Number = 0;
+        public static int Total_Loop = 0;
+        public static int Schedule_Loop = 999999;
+        public static int Schedule_Step;
+        public static int caption_Num = 0;
+        public static int caption_Sum = 0;
+        public static int excel_Num = 0;
+        public static int[] caption_NG_Num = new int[Schedule_Loop];
+        public static int[] caption_Total_Num = new int[Schedule_Loop];
+        public static float[] SumValue = new float[Schedule_Loop];
+        public static int[] NGValue = new int[GlobalData.Schedule_Loop];
+        public static float[] NGRateValue = new float[GlobalData.Schedule_Loop];
+        //public static float[] ReferenceResult = new float[Schedule_Loop];
+        public static bool FormSetting = true;
+        public static bool FormSchedule = true;
+        public static bool FormMail = true;
+        public static bool FormLog = true;
+        public static string RCDB = "";
+        public static string IO_INPUT = "";
+        public static int IO_PA10_0_COUNT = 0;
+        public static int IO_PA10_1_COUNT = 0;
+        public static int IO_PA11_0_COUNT = 0;
+        public static int IO_PA11_1_COUNT = 0;
+        public static int IO_PA14_0_COUNT = 0;
+        public static int IO_PA14_1_COUNT = 0;
+        public static int IO_PA15_0_COUNT = 0;
+        public static int IO_PA15_1_COUNT = 0;
+        public static int IO_PB1_0_COUNT = 0;
+        public static int IO_PB1_1_COUNT = 0;
+        public static int IO_PB7_0_COUNT = 0;
+        public static int IO_PB7_1_COUNT = 0;
+        public static string keyword_1 = "false";
+        public static string keyword_2 = "false";
+        public static string keyword_3 = "false";
+        public static string keyword_4 = "false";
+        public static string keyword_5 = "false";
+        public static string keyword_6 = "false";
+        public static string keyword_7 = "false";
+        public static string keyword_8 = "false";
+        public static string keyword_9 = "false";
+        public static string keyword_10 = "false";
+        public static int Rc_Number = 0;
+        public static string Pass_Or_Fail = "";//測試結果//
+        public static int Break_Out_Schedule = 0;//定時器中斷變數//
+        public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
+        public static bool FormRC = false;
+        public static int TEXTBOX_FOCUS = 0;
+        public static string label_Command = "";
+        public static string label_Remark = "";
+        public static string label_LoopNumber = "";
+        public static bool VideoRecording = false;
+        public static string srtstring = "";
+        public static bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
+
+        //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
+
+        /*public static GlobalData()
+        {
+            VidList = new List<string>();
+        }*/
     }
 }
