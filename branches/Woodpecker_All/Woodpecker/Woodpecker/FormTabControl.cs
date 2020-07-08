@@ -143,22 +143,22 @@ namespace Woodpecker
 
         private void ClosePicBox_Click(object sender, EventArgs e)
         {
-            if (Global.FormSetting == true && Global.FormSchedule == true && Global.FormMail == true && Global.FormLog == true)
+            if (GlobalData.FormSetting == true && GlobalData.FormSchedule == true && GlobalData.FormMail == true && GlobalData.FormLog == true)
             {
                 DialogResult = DialogResult.OK;
             }
             else
             {
-                if (Global.FormSetting == false)
+                if (GlobalData.FormSetting == false)
                     MessageBox.Show("Main Setting Error !");
 
-                if (Global.FormSchedule == false)
+                if (GlobalData.FormSchedule == false)
                     MessageBox.Show("Schedule Setting Error !");
 
-                if (Global.FormMail == false)
+                if (GlobalData.FormMail == false)
                     MessageBox.Show("Mail Setting Error !");
 
-                if (Global.FormLog == false)
+                if (GlobalData.FormLog == false)
                     MessageBox.Show("Log Setting Error !");
             }
         }
@@ -208,36 +208,36 @@ namespace Woodpecker
 
         private void FormTabControl_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Global.FormSetting == true &&
-                Global.FormSchedule == true &&
-                Global.FormMail == true &&
-                Global.FormLog == true)
+            if (GlobalData.FormSetting == true &&
+                GlobalData.FormSchedule == true &&
+                GlobalData.FormMail == true &&
+                GlobalData.FormLog == true)
             {
                 DialogResult = DialogResult.OK;
             }
             else
             {
-                if (Global.FormSetting == false)
+                if (GlobalData.FormSetting == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Main Setting", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
 
-                if (Global.FormSchedule == false)
+                if (GlobalData.FormSchedule == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_MultiSchedule;
                 }
 
-                if (Global.FormMail == false)
+                if (GlobalData.FormMail == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
 
 
-                if (Global.FormLog == false)
+                if (GlobalData.FormLog == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Keyword", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_KeywordSearch;

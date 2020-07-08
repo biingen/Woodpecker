@@ -710,7 +710,7 @@ namespace Woodpecker
                             int vidIndex = deviceId.IndexOf("VID_");
                             string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"
                             string vid = startingAtVid.Substring(0, 4); // vid is four characters long
-                            Global.VID.Add(vid);
+                            GlobalData.VidList.Add(vid);
                         }
 
                         if (deviceId.IndexOf("PID_", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -718,7 +718,7 @@ namespace Woodpecker
                             int pidIndex = deviceId.IndexOf("PID_");
                             string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"
                             string pid = startingAtPid.Substring(0, 4); // pid is four characters long
-                            Global.PID.Add(pid);
+                            GlobalData.PidList.Add(pid);
                         }
 
                         Console.WriteLine("-----------------Camera------------------");
@@ -732,7 +732,7 @@ namespace Woodpecker
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
                         //Camera存在
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CameraExist", "1");
                     }
                 }
             }
@@ -740,7 +740,7 @@ namespace Woodpecker
 
         private void checkAutokit()
         {
-            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "0");
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
             var usbList = from u in collection.Cast<ManagementBaseObject>()
@@ -790,9 +790,9 @@ namespace Woodpecker
 
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxVerson", "2");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
                 }

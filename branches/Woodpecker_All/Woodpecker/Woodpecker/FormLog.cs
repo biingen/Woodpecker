@@ -598,13 +598,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword0.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times0.Text) || textBox_Times0.Text == "0")
                 {
                     textBox_Times0.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -626,13 +626,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword1.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times1.Text) || textBox_Times1.Text == "0")
                 {
                     textBox_Times1.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -654,13 +654,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword2.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times2.Text) || textBox_Times2.Text == "0")
                 {
                     textBox_Times2.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -682,13 +682,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword3.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times3.Text) || textBox_Times3.Text == "0")
                 {
                     textBox_Times3.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -710,13 +710,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword4.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times4.Text) || textBox_Times4.Text == "0")
                 {
                     textBox_Times4.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -738,13 +738,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword5.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times5.Text) || textBox_Times5.Text == "0")
                 {
                     textBox_Times5.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -766,13 +766,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword6.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times6.Text) || textBox_Times6.Text == "0")
                 {
                     textBox_Times6.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -794,13 +794,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword7.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times7.Text) || textBox_Times7.Text == "0")
                 {
                     textBox_Times7.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -822,13 +822,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword8.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times8.Text) || textBox_Times8.Text == "0")
                 {
                     textBox_Times8.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -850,13 +850,13 @@ namespace Woodpecker
                 {
                     textBox_Keyword9.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Keyword cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else if (string.IsNullOrEmpty(textBox_Times9.Text) || textBox_Times9.Text == "0")
                 {
                     textBox_Times9.BackColor = System.Drawing.Color.Yellow;
                     label_ErrorMessage.Text = "Times cannot be empty!";
-                    Global.FormLog = false;
+                    GlobalData.FormLog = false;
                 }
                 else
                 {
@@ -896,7 +896,7 @@ namespace Woodpecker
                 )
             {
                 label_ErrorMessage.Text = "Save Successfully !";
-                Global.FormLog = true;
+                GlobalData.FormLog = true;
             }
         }
 
@@ -1487,13 +1487,13 @@ namespace Woodpecker
             {
                 textBox_Keyword0.BackColor = System.Drawing.Color.Yellow;
                 label_ErrorMessage.Text = "Keyword cannot be empty!";
-                Global.FormLog = false;
+                GlobalData.FormLog = false;
             }
             else if (string.IsNullOrEmpty(textBox_Times0.Text) || textBox_Times0.Text == "0")
             {
                 textBox_Times0.BackColor = System.Drawing.Color.Yellow;
                 label_ErrorMessage.Text = "Times cannot be empty!";
-                Global.FormLog = false;
+                GlobalData.FormLog = false;
             }
             else
             {

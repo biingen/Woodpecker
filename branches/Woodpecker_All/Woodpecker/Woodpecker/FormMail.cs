@@ -35,7 +35,7 @@ namespace Woodpecker
             }
 
             string PassOrFail = "";
-            if (Global.Pass_Or_Fail == "PASS")
+            if (GlobalData.Pass_Or_Fail == "PASS")
             {
                 PassOrFail = "<img src=\"PASS.jpg\" />";
             }
@@ -45,29 +45,29 @@ namespace Woodpecker
             }
 
             string schedule2 = "", schedule3 = "", schedule4 = "", schedule5 = "";
-            if (Global.Schedule_2_Exist == 1)
+            if (GlobalData.Schedule_2_Exist == 1)
                 schedule2 = ini12.INIRead(MailPath, "Test Case", "TestCase2", "");
-            else if (Global.Schedule_2_Exist == 0)
+            else if (GlobalData.Schedule_2_Exist == 0)
                 schedule2 = "";
 
-            if (Global.Schedule_3_Exist == 1)
+            if (GlobalData.Schedule_3_Exist == 1)
                 schedule3 = ini12.INIRead(MailPath, "Test Case", "TestCase3", "");
-            else if (Global.Schedule_3_Exist == 0)
+            else if (GlobalData.Schedule_3_Exist == 0)
                 schedule3 = "";
 
-            if (Global.Schedule_4_Exist == 1)
+            if (GlobalData.Schedule_4_Exist == 1)
                 schedule4 = ini12.INIRead(MailPath, "Test Case", "TestCase4", "");
-            else if (Global.Schedule_4_Exist == 0)
+            else if (GlobalData.Schedule_4_Exist == 0)
                 schedule4 = "";
 
-            if (Global.Schedule_5_Exist == 1)
+            if (GlobalData.Schedule_5_Exist == 1)
                 schedule5 = ini12.INIRead(MailPath, "Test Case", "TestCase5", "");
-            else if (Global.Schedule_5_Exist == 0)
+            else if (GlobalData.Schedule_5_Exist == 0)
                 schedule5 = "";
 
             string Subject = "Stress test report by SWQE";
-            Console.WriteLine(Global.Schedule_Loop);
-            Console.WriteLine(Global.Loop_Number);
+            Console.WriteLine(GlobalData.Schedule_Loop);
+            Console.WriteLine(GlobalData.Loop_Number);
             string Body =
                                     PassOrFail + "<br>" + "<br>" +
 
@@ -84,7 +84,7 @@ namespace Woodpecker
                                     "SW Version : " + ini12.INIRead(MailPath, "Mail Info", "Version", "") + "<br>" + "<br>" +
 
                                     "Tester : " + ini12.INIRead(MailPath, "Mail Info", "Tester", "") + "<br>" +
-                                    "Test Loop : " + Global.Loop_Number + "<br>" +
+                                    "Test Loop : " + GlobalData.Loop_Number + "<br>" +
                                     "Total Test Time : " + ini12.INIRead(MailPath, "Total Test Time", "How Long", "") + "<br>" + "<br>" +
 
                                     //"Team Viewer ID : " + ini12.INIRead(MailPath, "Mail Info", "TeamViewerID", "") + "<br>" +
@@ -140,7 +140,7 @@ namespace Woodpecker
             msg.BodyEncoding = System.Text.Encoding.UTF8;       //郵件內容編碼 
             msg.Priority = MailPriority.Normal;     //郵件優先級 
 
-            if (Global.Pass_Or_Fail == "PASS")
+            if (GlobalData.Pass_Or_Fail == "PASS")
             {
                 msg.Attachments.Add(GetAttachment("PASS.jpg", System.Text.Encoding.UTF8));
             }
@@ -152,25 +152,25 @@ namespace Woodpecker
             string Schdule1Path = ini12.INIRead(MainSettingPath, "Schedule1", "Path", "");
             msg.Attachments.Add(GetAttachmentSchdule(Path.GetFileName(Schdule1Path), System.Text.Encoding.UTF8));
 
-            if (Global.Schedule_2_Exist == 1)
+            if (GlobalData.Schedule_2_Exist == 1)
             {
                 string Schdule2Path = ini12.INIRead(MainSettingPath, "Schedule2", "Path", "");
                 msg.Attachments.Add(GetAttachmentSchdule(Path.GetFileName(Schdule2Path), System.Text.Encoding.UTF8));
             }
 
-            if (Global.Schedule_3_Exist == 1)
+            if (GlobalData.Schedule_3_Exist == 1)
             {
                 string Schdule3Path = ini12.INIRead(MainSettingPath, "Schedule3", "Path", "");
                 msg.Attachments.Add(GetAttachmentSchdule(Path.GetFileName(Schdule3Path), System.Text.Encoding.UTF8));
             }
 
-            if (Global.Schedule_4_Exist == 1)
+            if (GlobalData.Schedule_4_Exist == 1)
             {
                 string Schdule4Path = ini12.INIRead(MainSettingPath, "Schedule4", "Path", "");
                 msg.Attachments.Add(GetAttachmentSchdule(Path.GetFileName(Schdule4Path), System.Text.Encoding.UTF8));
             }
 
-            if (Global.Schedule_5_Exist == 1)
+            if (GlobalData.Schedule_5_Exist == 1)
             {
                 string Schdule5Path = ini12.INIRead(MainSettingPath, "Schedule5", "Path", "");
                 msg.Attachments.Add(GetAttachmentSchdule(Path.GetFileName(Schdule5Path), System.Text.Encoding.UTF8));
