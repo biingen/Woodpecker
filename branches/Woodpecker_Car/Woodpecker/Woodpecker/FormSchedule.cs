@@ -493,7 +493,7 @@ namespace Woodpecker
                 textBox_Schedule2Loop.Enabled = false;
 
                 ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", "0");
-                Global.Schedule_2_Exist = 0;
+                GlobalData.Schedule_2_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase2", "");
 
@@ -523,7 +523,7 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Schedule2", "Path", textBox_Schedule2.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule2", "Exist", "1");
-                Global.Schedule_2_Exist = 1;
+                GlobalData.Schedule_2_Exist = 1;
                 ini12.INIWrite(MailPath, "Test Case", "TestCase2", Path.GetFileNameWithoutExtension(textBox_Schedule2.Text.Trim()));
 
                 label_ErrorMessage.Text = "";
@@ -559,7 +559,7 @@ namespace Woodpecker
                 textBox_Schedule3Loop.Enabled = false;
 
                 ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "0");
-                Global.Schedule_3_Exist = 0;
+                GlobalData.Schedule_3_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase3", "");
 
@@ -589,7 +589,7 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Schedule3", "Path", textBox_Schedule3.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule3", "Exist", "1");
-                Global.Schedule_3_Exist = 1;
+                GlobalData.Schedule_3_Exist = 1;
                 ini12.INIWrite(MailPath, "Test Case", "TestCase3", Path.GetFileNameWithoutExtension(textBox_Schedule3.Text.Trim()));
 
                 label_ErrorMessage.Text = "";
@@ -625,7 +625,7 @@ namespace Woodpecker
                 textBox_Schedule4Loop.Enabled = false;
 
                 ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "0");
-                Global.Schedule_4_Exist = 0;
+                GlobalData.Schedule_4_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase4", "");
 
@@ -655,7 +655,7 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Schedule4", "Path", textBox_Schedule4.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule4", "Exist", "1");
-                Global.Schedule_4_Exist = 1;
+                GlobalData.Schedule_4_Exist = 1;
                 ini12.INIWrite(MailPath, "Test Case", "TestCase4", Path.GetFileNameWithoutExtension(textBox_Schedule4.Text.Trim()));
 
                 label_ErrorMessage.Text = "";
@@ -691,7 +691,7 @@ namespace Woodpecker
                 textBox_Schedule5Loop.Enabled = false;
 
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "0");
-                Global.Schedule_5_Exist = 0;
+                GlobalData.Schedule_5_Exist = 0;
 
                 ini12.INIWrite(MailPath, "Test Case", "TestCase5", "");
 
@@ -721,7 +721,7 @@ namespace Woodpecker
             {
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Path", textBox_Schedule5.Text.Trim());
                 ini12.INIWrite(MainSettingPath, "Schedule5", "Exist", "1");
-                Global.Schedule_5_Exist = 1;
+                GlobalData.Schedule_5_Exist = 1;
                 ini12.INIWrite(MailPath, "Test Case", "TestCase5", Path.GetFileNameWithoutExtension(textBox_Schedule5.Text.Trim()));
 
                 label_ErrorMessage.Text = "";

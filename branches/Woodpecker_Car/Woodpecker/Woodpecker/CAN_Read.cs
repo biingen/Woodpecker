@@ -22,7 +22,7 @@ namespace Woodpecker
         //UInt32 m_canind = 0;
 
         public static int MAX_CAN_OBJ_ARRAY_LEN = 10000;
-        string MainSettingPath = Global.StartupPath + "\\Config.ini";
+        string MainSettingPath = GlobalData.StartupPath + "\\Config.ini";
 
         VCI_CAN_OBJ[] m_recobj = new VCI_CAN_OBJ[MAX_CAN_OBJ_ARRAY_LEN];
         UInt32[] m_arrdevtype = new UInt32[20];

@@ -84,11 +84,11 @@ namespace Woodpecker
                 if (RcKey == "up" || RcKey == "down" || RcKey == "left" || RcKey == "right")
                 {
                     string keyname = "";
-                    for (int i = 0; i < Global.Rc_List.Count; i++)
+                    for (int i = 0; i < GlobalData.RcList.Count; i++)
                     {
-                        if (Global.Rc_List[i].ToUpper() == RcKey.ToUpper())
+                        if (GlobalData.RcList[i].ToUpper() == RcKey.ToUpper())
                         {
-                            keyname = Global.Rc_List[i];
+                            keyname = GlobalData.RcList[i];
                         }
                     }
                     lForm1.DataGridView_Schedule.Rows.Add(keyname);
@@ -153,8 +153,8 @@ namespace Woodpecker
                             comboBox.Items.AddRange(RedRatData.RedRatGetRCNameList().ToArray());
                         }
                     }
-                    Global.Rc_List = RedRatData.RedRatGetRCNameList();
-                    Global.Rc_Number = RedRatData.RedRatGetRCNameList().Count;
+                    GlobalData.RcList = RedRatData.RedRatGetRCNameList();
+                    GlobalData.Rc_Number = RedRatData.RedRatGetRCNameList().Count;
                 }
                 else
                 {
@@ -582,12 +582,12 @@ namespace Woodpecker
 
         private void FormRC_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Global.FormRC = false;
+            GlobalData.FormRC = false;
         }
 
         private void FormRC_Shown(object sender, EventArgs e)
         {
-            Global.FormRC = true;
+            GlobalData.FormRC = true;
         }
 
         private void comboBoxRcNumber_SelectedIndexChanged(object sender, EventArgs e)
