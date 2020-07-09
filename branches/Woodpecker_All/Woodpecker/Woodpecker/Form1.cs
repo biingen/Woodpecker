@@ -202,8 +202,8 @@ namespace Woodpecker
             setStyle();
 
             //Datagridview design
-            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
-            DataGridView_Schedule.Rows[Global.Scheduler_Row].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
+            DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
+            DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
             DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
             DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
 
@@ -227,6 +227,7 @@ namespace Woodpecker
         {
             InitializeComponent();
             setStyle();
+
             if (!string.IsNullOrEmpty(value))
             {
                 _args = value;
@@ -531,10 +532,10 @@ namespace Woodpecker
                 button_Schedule5.Visible = false;
             }
 
-            Global.Schedule_2_Exist = int.Parse(SchExist[0]);
-            Global.Schedule_3_Exist = int.Parse(SchExist[1]);
-            Global.Schedule_4_Exist = int.Parse(SchExist[2]);
-            Global.Schedule_5_Exist = int.Parse(SchExist[3]);
+            GlobalData.Schedule_2_Exist = int.Parse(SchExist[0]);
+            GlobalData.Schedule_3_Exist = int.Parse(SchExist[1]);
+            GlobalData.Schedule_4_Exist = int.Parse(SchExist[2]);
+            GlobalData.Schedule_5_Exist = int.Parse(SchExist[3]);
 
             button_Pause.Enabled = false;
             button_Schedule.PerformClick();
@@ -560,9 +561,9 @@ namespace Woodpecker
         //暫時移除有關盒子的插拔偵測，因為有其他無相關裝置運用到相同的VID和PID
         private bool USBTryBoxConnection()
         {
-            if (Global.AutoBoxComport.Count != 0)
+            if (GlobalData.AutoBoxComPort_List.Count != 0)
             {
-                for (int i = 0; i < Global.AutoBoxComport.Count; i++)
+                for (int i = 0; i < GlobalData.AutoBoxComPort_List.Count; i++)
                 {
                     if (USBClass.GetUSBDevice(
                         uint.Parse("067B", System.Globalization.NumberStyles.AllowHexSpecifier),
@@ -570,7 +571,7 @@ namespace Woodpecker
                         ref USBDeviceProperties,
                         true))
                     {
-                        if (Global.AutoBoxComport[i] == "COM15")
+                        if (GlobalData.AutoBoxComPort_List[i] == "COM15")
                         {
                             BoxConnect();
                         }
@@ -599,43 +600,18 @@ namespace Woodpecker
                 return false;
             }
         }
-        /*
+
         private bool USBTryCameraConnection()
         {
-            int DeviceNumber = Global.VID.Count;
-            int VidCount = Global.VID.Count - 1;
-            int PidCount = Global.PID.Count - 1;
-            
-            if (DeviceNumber != 0)
-            {
-                for (int i = 0; i < DeviceNumber; i++)
-                {
-                    if (USBClass.GetUSBDevice(uint.Parse(Global.VID[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(Global.PID[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
-                    {
-                        CameraConnect();
-                        return true;
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                CameraDisconnect();
-                return false;
-            }
-        }
-        */
-        private bool USBTryCameraConnection()
-        {
-            int DeviceNumber = Global.VID.Count;
-            int VidCount = Global.VID.Count - 1;
-            int PidCount = Global.PID.Count - 1;
+            int DeviceNumber = GlobalData.VidList.Count;
+            int VidCount = GlobalData.VidList.Count - 1;
+            int PidCount = GlobalData.PidList.Count - 1;
 
             if (DeviceNumber != 0)
             {
                 for (int i = 0; i < DeviceNumber; i++)
                 {
-                    if (USBClass.GetUSBDevice(uint.Parse(Global.VID[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(Global.PID[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
+                    if (USBClass.GetUSBDevice(uint.Parse(GlobalData.VidList[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(GlobalData.PidList[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
                     {
                         CameraConnect();
                     }
@@ -706,13 +682,13 @@ namespace Woodpecker
                 USBTryCameraConnection();
             }
             */
-            int DeviceNumber = Global.VID.Count;
+            int DeviceNumber = GlobalData.VidList.Count;
 
             if (DeviceNumber != 0)
             {
                 for (int i = 0; i < DeviceNumber; i++)
                 {
-                    if (!USBClass.GetUSBDevice(uint.Parse(Global.VID[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(Global.PID[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
+                    if (!USBClass.GetUSBDevice(uint.Parse(GlobalData.VidList[i], style: System.Globalization.NumberStyles.AllowHexSpecifier), uint.Parse(GlobalData.PidList[i], System.Globalization.NumberStyles.AllowHexSpecifier), ref USBDeviceProperties, false))
                     {
                         MyUSBCameraDeviceConnected = false;
                         USBTryCameraConnection();
@@ -720,8 +696,6 @@ namespace Woodpecker
                 }
             }
         }
-
-
 
         private void BoxConnect()       //TO DO: Inset your connection code here
         {
@@ -1280,16 +1254,15 @@ namespace Woodpecker
             aTimer.Start();
             while ((FormIsClosing == false) && (RedRatDBViewer_Delay_TimeOutIndicator == false))
             {
-
                 Thread_condition();
 
                 //debug_process("RedRatDBViewer_Delay_TimeOutIndicator_false");
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
-                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                if (GlobalData.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
-                    Global.Break_Out_MyRunCamd = 0;
+                    GlobalData.Break_Out_MyRunCamd = 0;
                     debug_process("Break_Out_MyRunCamd_0");
                     break;
                 }
@@ -1337,9 +1310,9 @@ namespace Woodpecker
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
-                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                if (GlobalData.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
-                    Global.Break_Out_MyRunCamd = 0;
+                    GlobalData.Break_Out_MyRunCamd = 0;
                     //Console.WriteLine("Break_Out_MyRunCamd = 0");
                     break;
                 }
@@ -1386,9 +1359,9 @@ namespace Woodpecker
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(1);//釋放CPU//
 
-                if (Global.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
+                if (GlobalData.Break_Out_MyRunCamd == 1)//強制讓schedule直接停止//
                 {
-                    Global.Break_Out_MyRunCamd = 0;
+                    GlobalData.Break_Out_MyRunCamd = 0;
                     //Console.WriteLine("Break_Out_MyRunCamd = 0");
                     break;
                 }
@@ -1750,7 +1723,7 @@ namespace Woodpecker
                 public void AddDataMethod1(String myString)
                 {
                     DateTime dt;
-                    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
                     {
                         // hex to string
                         string hexValues = BitConverter.ToString(dataset1).Replace("-", "");
@@ -1857,7 +1830,7 @@ namespace Woodpecker
 
         private void logA_recorder(byte ch, bool SaveToLog = false)
         {
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
                 // if (SaveToLog == false)
                 {
@@ -1866,10 +1839,8 @@ namespace Woodpecker
                 }
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
-                    byteMessage_A[byteMessage_length_A] = ch;
-                    byteMessage_length_A++;
                     string dataValue = BitConverter.ToString(byteMessage_A).Replace("-", "").Substring(0, byteMessage_length_A * 2);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -1883,10 +1854,8 @@ namespace Woodpecker
             {
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_A >= byteMessage_max_Ascii))
                 {
-                    byteMessage_A[byteMessage_length_A] = ch;
-                    byteMessage_length_A++;
                     string dataValue = Encoding.ASCII.GetString(byteMessage_A).Substring(0, byteMessage_length_A);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -1908,7 +1877,7 @@ namespace Woodpecker
         //    DateTime dt;
         //    byte myByteList;
 
-        //    if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //    if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
         //    {
         //        while (LogQueue_A.Count > 0)
         //        {
@@ -2039,22 +2008,87 @@ namespace Woodpecker
                                     if (Math.Abs(previousTemperature - currentTemperature) >= temp_abs_value)
                                     {
                                         previousTemperature = currentTemperature;
-                                        string dataValue = "Temperature=" + currentTemperature;
-                                        if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
-                                        {
-                                            DateTime dt = DateTime.Now;
-                                            dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-                                        }
-                                        log_process("A", dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
                                         Temperature_condition();
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    string dataValue;
+                    // Channel number is checked and ok here
+                    if ((byteTemperature[byteTemperature_length + temp_unit_02] == '0'))
+                    {
+                        if ((byteTemperature[byteTemperature_length + temp_unit_01] == '1')
+                            || (byteTemperature[byteTemperature_length + temp_unit_01] == '2'))
+                        {
+                            if ((byteTemperature[byteTemperature_length + temp_data1_offset] != 0x18))
+                            {
+                                int DP_convert = '0';
+                                int byteArray_position = 0;
+                                byte[] byteArray = new byte[8];
+                                for (int pos = byteTemperature_length + temp_data8_offset;
+                                            pos <= (byteTemperature_length + temp_data1_offset);
+                                            pos++)
+                                {
+                                    byteArray[byteArray_position] = byteTemperature[pos];
+                                    byteArray_position++;
+                                }
+
+                                string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
+                                double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
+                                if (tempSubstring != "000\u0018\u0018\u0018\u0018\n")
+                                {
+                                    double nowTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
+
+                                    // is value negative?
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
+                                    {
+                                        nowTemperature = -nowTemperature;
+                                    }
+
+                                    // is value Fahrenheit?
+                                    if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
+                                    {
+                                        nowTemperature = (nowTemperature - 32) / 1.8;
+                                        nowTemperature = Math.Round((nowTemperature), 2, MidpointRounding.AwayFromZero);
+                                    }
+
+                                    // is channel value?
+                                    int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]) - 48;
+                                    if (vOut > 10)
+                                        vOut = vOut - 7;
+                                    string channel = vOut.ToString("#00");
+
+                                    dataValue = "CH:" + channel + "=" + nowTemperature.ToString("#00.0");
+                                }
+                                else
+                                {
+                                    dataValue = "CH:--" + "=----";
+                                }
+                            }
+                            else
+                            {
+                                // is channel value?
+                                int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]) - 48;
+                                if (vOut > 10)
+                                    vOut = vOut - 7;
+                                string channel = vOut.ToString("#00");
+
+                                dataValue = "CH:" + channel + "=----";
+                            }
+
+                            if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                            {
+                                DateTime dt = DateTime.Now;
+                                dataValue = "[Receive_Temperature] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                            }
+                            log_process("A", dataValue);
+                            log_process("B", dataValue);
+                            log_process("C", dataValue);
+                            log_process("D", dataValue);
+                            log_process("E", dataValue);
+                            log_process("All", dataValue);
                         }
                     }
                 }
@@ -2155,7 +2189,7 @@ namespace Woodpecker
                 CH_actualTemperature = StrToFloat(Convert.ToInt32(stringActual, 16) / unit);
                 CH_targetTemperature = StrToFloat(Convert.ToInt32(stringTarget, 16) / unit);
                 string dataValue = "Actual Temperature=" + CH_actualTemperature + ", Target Temperature=" + CH_targetTemperature;
-                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                 {
                     TimeSpan timeElapsed = DateTime.Now - startTime;
                     dataValue = "[Chamber] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
@@ -2200,7 +2234,7 @@ namespace Woodpecker
                 PS_Current = StrToFloat(arrayPowersupply[1]);
                 PS_Power = StrToFloat(arrayPowersupply[2]);
                 string dataValue = "Voltage=" + PS_Voltage + ", Current=" + PS_Current + ", Power=" + PS_Power;
-                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                 {
                     TimeSpan timeElapsed = DateTime.Now - startTime;
                     dataValue = "[PowerSupply] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
@@ -2339,7 +2373,7 @@ namespace Woodpecker
                                 data_to_read--;
                             }
                             
-                            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
                             {
                                 // hex to string
                                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
@@ -2398,7 +2432,7 @@ namespace Woodpecker
         //             }
 
         //             DateTime dt;
-        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
         //             {
         //                 // hex to string
         //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
@@ -2505,7 +2539,7 @@ namespace Woodpecker
 
         private void logB_recorder(byte ch, bool SaveToLog = false)
         {
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
                 // if (SaveToLog == false)
                 {
@@ -2515,7 +2549,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_B).Replace("-", "").Substring(0, byteMessage_length_B * 2);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2530,7 +2564,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_B >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_B).Substring(0, byteMessage_length_B);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2568,7 +2602,7 @@ namespace Woodpecker
         //             }
 
         //             DateTime dt;
-        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
         //             {
         //                 // hex to string
         //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
@@ -2674,7 +2708,7 @@ namespace Woodpecker
 
         private void logC_recorder(byte ch, bool SaveToLog = false)
         {
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
                 // if (SaveToLog == false)
                 {
@@ -2684,7 +2718,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_C).Replace("-", "").Substring(0, byteMessage_length_C * 2);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2699,7 +2733,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_C >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_C).Substring(0, byteMessage_length_C);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2738,7 +2772,7 @@ namespace Woodpecker
         //             }
 
         //             DateTime dt;
-        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
         //             {
         //                 // hex to string
         //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
@@ -2844,7 +2878,7 @@ namespace Woodpecker
 
         private void logD_recorder(byte ch, bool SaveToLog = false)
         {
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
                 // if (SaveToLog == false)
                 {
@@ -2854,7 +2888,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_D).Replace("-", "").Substring(0, byteMessage_length_D * 2);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2869,7 +2903,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_D >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_D).Substring(0, byteMessage_length_D);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -2908,7 +2942,7 @@ namespace Woodpecker
         //             }
 
         //             DateTime dt;
-        //             if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+        //             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
         //             {
         //                 // hex to string
         //                 string hexValues = BitConverter.ToString(dataset).Replace("-", "");
@@ -3014,7 +3048,7 @@ namespace Woodpecker
 
         private void logE_recorder(byte ch, bool SaveToLog = false)
         {
-            if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
                 // if (SaveToLog == false)
                 {
@@ -3024,7 +3058,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Hex) /*|| (SaveToLog == true)*/)
                 {
                     string dataValue = BitConverter.ToString(byteMessage_E).Replace("-", "").Substring(0, byteMessage_length_E * 2);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -3039,7 +3073,7 @@ namespace Woodpecker
                 if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length_E >= byteMessage_max_Ascii))
                 {
                     string dataValue = Encoding.ASCII.GetString(byteMessage_E).Substring(0, byteMessage_length_E);
-                    if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
@@ -3334,43 +3368,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -3554,43 +3588,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -3737,43 +3771,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -3963,43 +3997,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -4144,43 +4178,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -4370,43 +4404,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -4551,43 +4585,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -4777,43 +4811,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -4958,43 +4992,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -5184,43 +5218,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -5365,43 +5399,43 @@ namespace Woodpecker
                                         switch (keyword_numer)
                                         {
                                             case 1:
-                                                Global.keyword_1 = "true";
+                                                GlobalData.keyword_1 = "true";
                                                 break;
 
                                             case 2:
-                                                Global.keyword_2 = "true";
+                                                GlobalData.keyword_2 = "true";
                                                 break;
 
                                             case 3:
-                                                Global.keyword_3 = "true";
+                                                GlobalData.keyword_3 = "true";
                                                 break;
 
                                             case 4:
-                                                Global.keyword_4 = "true";
+                                                GlobalData.keyword_4 = "true";
                                                 break;
 
                                             case 5:
-                                                Global.keyword_5 = "true";
+                                                GlobalData.keyword_5 = "true";
                                                 break;
 
                                             case 6:
-                                                Global.keyword_6 = "true";
+                                                GlobalData.keyword_6 = "true";
                                                 break;
 
                                             case 7:
-                                                Global.keyword_7 = "true";
+                                                GlobalData.keyword_7 = "true";
                                                 break;
 
                                             case 8:
-                                                Global.keyword_8 = "true";
+                                                GlobalData.keyword_8 = "true";
                                                 break;
 
                                             case 9:
-                                                Global.keyword_9 = "true";
+                                                GlobalData.keyword_9 = "true";
                                                 break;
 
                                             case 10:
-                                                Global.keyword_10 = "true";
+                                                GlobalData.keyword_10 = "true";
                                                 break;
                                         }
                                     }
@@ -5463,23 +5497,23 @@ namespace Woodpecker
         {
             int sRepeat = 0, stime = 0, SysDelay = 0;
 
-            Global.Loop_Number = 1;
-            Global.Break_Out_Schedule = 0;
-            Global.Pass_Or_Fail = "PASS";
+            GlobalData.Loop_Number = 1;
+            GlobalData.Break_Out_Schedule = 0;
+            GlobalData.Pass_Or_Fail = "PASS";
 
             label_TestTime_Value.Text = "0d 0h 0m 0s 0ms";
             TestTime = 0;
 
-            for (int l = 0; l <= Global.Schedule_Loop; l++)
+            for (int l = 0; l <= GlobalData.Schedule_Loop; l++)
             {
-                Global.NGValue[l] = 0;
-                Global.NGRateValue[l] = 0;
+                GlobalData.NGValue[l] = 0;
+                GlobalData.NGRateValue[l] = 0;
             }
 
             #region -- 匯出比對結果到CSV & EXCEL --
             if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1" && StartButtonPressed == true)
             {
-                string compareFolder = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Number + "_Original_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                string compareFolder = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "") + "\\" + "Schedule" + GlobalData.Schedule_Number + "_Original_" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
                 if (Directory.Exists(compareFolder))
                 {
@@ -5491,7 +5525,7 @@ namespace Woodpecker
                     ini12.INIWrite(MainSettingPath, "Record", "ComparePath", compareFolder);
                 }
                 // 匯出csv記錄檔
-                string csvFile = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + Global.Schedule_Number + ".csv";
+                string csvFile = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + GlobalData.Schedule_Number + ".csv";
                 StreamWriter sw = new StreamWriter(csvFile, false, Encoding.UTF8);
                 sw.WriteLine("Target, Source, Similarity, Sub-NG count, NGRate, Result");
 
@@ -5499,8 +5533,8 @@ namespace Woodpecker
                 /*
                                 #region Excel function
                                 // 匯出excel記錄檔
-                                Global.excel_Num = 1;
-                                string excelFile = ini12.INIRead(sPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + Global.Schedule_Num;
+                                GlobalData.excel_Num = 1;
+                                string excelFile = ini12.INIRead(sPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + GlobalData.Schedule_Num;
 
                                 excelApp = new Excel.Application();
                                 //excelApp.Visible = true;
@@ -5546,37 +5580,37 @@ namespace Woodpecker
             }
             #endregion
 
-            for (int j = 1; j < Global.Schedule_Loop + 1; j++)
+            for (int j = 1; j < GlobalData.Schedule_Loop + 1; j++)
             {
-                Global.caption_Num = 0;
+                GlobalData.caption_Num = 0;
                 UpdateUI(j.ToString(), label_LoopNumber_Value);
-                Global.label_LoopNumber = j.ToString();
+                GlobalData.label_LoopNumber = j.ToString();
                 ini12.INIWrite(MailPath, "Data Info", "CreateTime", string.Format("{0:R}", DateTime.Now));
 
                 lock (this)
                 {
-                    for (Global.Scheduler_Row = 0; Global.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; Global.Scheduler_Row++)
+                    for (GlobalData.Scheduler_Row = 0; GlobalData.Scheduler_Row < DataGridView_Schedule.Rows.Count - 1; GlobalData.Scheduler_Row++)
                     {
                         //Schedule All columns list
-                        string columns_command = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Trim();
-                        string columns_times = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString().Trim();
-                        string columns_interval = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString().Trim();
-                        string columns_comport = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[3].Value.ToString().Trim();
-                        string columns_function = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[4].Value.ToString().Trim();
-                        string columns_subFunction = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[5].Value.ToString().Trim();
-                        string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString().Trim();
-                        string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString().Trim();
-                        string columns_wait = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Trim();
-                        string columns_remark = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[9].Value.ToString().Trim();
+                        string columns_command = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[0].Value.ToString().Trim();
+                        string columns_times = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString().Trim();
+                        string columns_interval = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString().Trim();
+                        string columns_comport = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[3].Value.ToString().Trim();
+                        string columns_function = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[4].Value.ToString().Trim();
+                        string columns_subFunction = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString().Trim();
+                        string columns_serial = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[6].Value.ToString().Trim();
+                        string columns_switch = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[7].Value.ToString().Trim();
+                        string columns_wait = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Trim();
+                        string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
 
-                        Global.Schedule_Step = Global.Scheduler_Row;
+                        GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
                         if (StartButtonPressed == false)
                         {
-                            j = Global.Schedule_Loop;
+                            j = GlobalData.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
-                            Global.label_LoopNumber = j.ToString();
+                            GlobalData.label_LoopNumber = j.ToString();
                             break;
                         }
 
@@ -5586,18 +5620,18 @@ namespace Woodpecker
                             if (columns_wait.Contains('m'))
                             {
                                 //Console.WriteLine("Datagridview highlight.");
-                                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                GridUI(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                                                                                                //Console.WriteLine("Datagridview scollbar.");
-                                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                                Gridscroll(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
                             }
                             else
                             {
                                 if (int.Parse(columns_wait) > 500)  //DataGridView UI update 
                                 {
                                     //Console.WriteLine("Datagridview highlight.");
-                                    GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                                    GridUI(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                                                                                                    //Console.WriteLine("Datagridview scollbar.");
-                                    Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                                    Gridscroll(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
                                 }
                             }
                         }
@@ -5907,9 +5941,9 @@ namespace Woodpecker
                             debug_process("_shot");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                Global.caption_Num++;
-                                if (Global.Loop_Number == 1)
-                                    Global.caption_Sum = Global.caption_Num;
+                                GlobalData.caption_Num++;
+                                if (GlobalData.Loop_Number == 1)
+                                    GlobalData.caption_Sum = GlobalData.caption_Num;
                                 Jes();
                                 label_Command.Text = "Take Picture";
                             }
@@ -5929,10 +5963,10 @@ namespace Woodpecker
                             debug_process("Take Record: _rec_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (Global.VideoRecording == false)
+                                if (GlobalData.VideoRecording == false)
                                 {
                                     Mysvideo(); // 開新檔
-                                    Global.VideoRecording = true;
+                                    GlobalData.VideoRecording = true;
                                     Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                                     oThreadC.Start();
                                 }
@@ -5950,9 +5984,9 @@ namespace Woodpecker
                             debug_process("Take Record: _rec_stop");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (Global.VideoRecording == true)       //判斷是不是正在錄影
+                                if (GlobalData.VideoRecording == true)       //判斷是不是正在錄影
                                 {
-                                    Global.VideoRecording = false;
+                                    GlobalData.VideoRecording = false;
                                     Mysstop();      //先將先前的關掉
                                 }
                                 label_Command.Text = "Stop Recording";
@@ -5982,7 +6016,7 @@ namespace Woodpecker
                                         break;
 
                                     default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
                                         serialPort1.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
@@ -6009,7 +6043,7 @@ namespace Woodpecker
                                         break;
 
                                     default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
                                         serialPort2.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
@@ -6036,7 +6070,7 @@ namespace Woodpecker
                                         break;
 
                                     default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[Global.Scheduler_Row].Cells[5].Value.ToString());
+                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
                                         // string str = Convert.ToString(data);
                                         serialPort3.WriteLine(columns_serial); //發送數據 Rs232
                                         DateTime dt = DateTime.Now;
@@ -8293,7 +8327,7 @@ namespace Woodpecker
                             else
                             {
                                 MessageBox.Show("Check your SerialPort2 setting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                                Global.Break_Out_Schedule = 1;
+                                GlobalData.Break_Out_Schedule = 1;
                             }
                         }*/
                         #endregion
@@ -8309,11 +8343,11 @@ namespace Woodpecker
                                     case "10":
                                         debug_process("IO CMD: PA10");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(10, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(10, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA10_0_COUNT++;
+                                                GlobalData.IO_PA10_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8322,11 +8356,11 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(10, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(10, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA10_1_COUNT++;
+                                                GlobalData.IO_PA10_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8345,22 +8379,22 @@ namespace Woodpecker
                                     case "11":
                                         debug_process("IO CMD: PA11");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(8, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(8, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA11_0_COUNT++;
+                                                GlobalData.IO_PA11_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
                                                 IO_CMD();
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(8, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(8, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA11_1_COUNT++;
+                                                GlobalData.IO_PA11_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8377,22 +8411,22 @@ namespace Woodpecker
                                     case "14":
                                         debug_process("IO CMD: PA14");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(6, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(6, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA14_0_COUNT++;
+                                                GlobalData.IO_PA14_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
                                                 IO_CMD();
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(6, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(6, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA14_1_COUNT++;
+                                                GlobalData.IO_PA14_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8409,22 +8443,22 @@ namespace Woodpecker
                                     case "15":
                                         debug_process("IO CMD: PA15");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(4, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(4, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA15_0_COUNT++;
+                                                GlobalData.IO_PA15_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
                                                 IO_CMD();
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(4, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(4, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PA15_1_COUNT++;
+                                                GlobalData.IO_PA15_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8441,11 +8475,11 @@ namespace Woodpecker
                                     case "01":
                                         debug_process("IO CMD: PB01");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(2, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(2, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PB1_0_COUNT++;
+                                                GlobalData.IO_PB1_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
 
@@ -8453,11 +8487,11 @@ namespace Woodpecker
                                                 IO_CMD();
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(2, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(2, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PB1_1_COUNT++;
+                                                GlobalData.IO_PB1_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8474,22 +8508,22 @@ namespace Woodpecker
                                     case "07":
                                         debug_process("IO CMD: PB07");
                                         if (columns_comport.Substring(6, 1) == "0" &&
-                                            Global.IO_INPUT.Substring(0, 1) == "0")
+                                            GlobalData.IO_INPUT.Substring(0, 1) == "0")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PB7_0_COUNT++;
+                                                GlobalData.IO_PB7_0_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
                                                 IO_CMD();
                                         }
                                         else if (columns_comport.Substring(6, 1) == "1" &&
-                                            Global.IO_INPUT.Substring(0, 1) == "1")
+                                            GlobalData.IO_INPUT.Substring(0, 1) == "1")
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
-                                                Global.IO_PB7_1_COUNT++;
+                                                GlobalData.IO_PB7_1_COUNT++;
                                                 label_Command.Text = "IO CMD_ACCUMULATE";
                                             }
                                             else
@@ -8676,7 +8710,7 @@ namespace Woodpecker
                             {
                                 case "1":
                                     debug_process("Keyword Search: 1");
-                                    if (Global.keyword_1 == "true")
+                                    if (GlobalData.keyword_1 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8684,12 +8718,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_1 = "false";
+                                    GlobalData.keyword_1 = "false";
                                     break;
 
                                 case "2":
                                     debug_process("Keyword Search: 2");
-                                    if (Global.keyword_2 == "true")
+                                    if (GlobalData.keyword_2 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8697,12 +8731,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_2 = "false";
+                                    GlobalData.keyword_2 = "false";
                                     break;
 
                                 case "3":
                                     debug_process("Keyword Search: 3");
-                                    if (Global.keyword_3 == "true")
+                                    if (GlobalData.keyword_3 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8710,12 +8744,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_3 = "false";
+                                    GlobalData.keyword_3 = "false";
                                     break;
 
                                 case "4":
                                     debug_process("Keyword Search: 4");
-                                    if (Global.keyword_4 == "true")
+                                    if (GlobalData.keyword_4 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8723,12 +8757,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_4 = "false";
+                                    GlobalData.keyword_4 = "false";
                                     break;
 
                                 case "5":
                                     debug_process("Keyword Search: 5");
-                                    if (Global.keyword_5 == "true")
+                                    if (GlobalData.keyword_5 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8736,12 +8770,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_5 = "false";
+                                    GlobalData.keyword_5 = "false";
                                     break;
 
                                 case "6":
                                     debug_process("Keyword Search: 6");
-                                    if (Global.keyword_6 == "true")
+                                    if (GlobalData.keyword_6 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8749,12 +8783,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_6 = "false";
+                                    GlobalData.keyword_6 = "false";
                                     break;
 
                                 case "7":
                                     debug_process("Keyword Search: 7");
-                                    if (Global.keyword_7 == "true")
+                                    if (GlobalData.keyword_7 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8762,12 +8796,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_7 = "false";
+                                    GlobalData.keyword_7 = "false";
                                     break;
 
                                 case "8":
                                     debug_process("Keyword Search: 8");
-                                    if (Global.keyword_8 == "true")
+                                    if (GlobalData.keyword_8 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8775,12 +8809,12 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_8 = "false";
+                                    GlobalData.keyword_8 = "false";
                                     break;
 
                                 case "9":
                                     debug_process("Keyword Search: 9");
-                                    if (Global.keyword_9 == "true")
+                                    if (GlobalData.keyword_9 == "true")
                                     {
                                         KeywordCommand();
                                     }
@@ -8788,14 +8822,14 @@ namespace Woodpecker
                                     {
                                         SysDelay = 0;
                                     }
-                                    Global.keyword_9 = "false";
+                                    GlobalData.keyword_9 = "false";
                                     break;
 
                                 default:
                                     debug_process("Keyword Search: 10");
                                     if (columns_times == "10")
                                     {
-                                        if (Global.keyword_10 == "true")
+                                        if (GlobalData.keyword_10 == "true")
                                         {
                                             KeywordCommand();
                                         }
@@ -8803,7 +8837,7 @@ namespace Woodpecker
                                         {
                                             SysDelay = 0;
                                         }
-                                        Global.keyword_10 = "false";
+                                        GlobalData.keyword_10 = "false";
                                     }
                                     debug_process("keyword not found_schedule");
                                     break;
@@ -8972,17 +9006,18 @@ namespace Woodpecker
                         ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
 
 
-                        if (Global.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
+                        if (GlobalData.Break_Out_Schedule == 1)//定時器時間到跳出迴圈//
                         {
                             debug_process("Break schedule.");
-                            j = Global.Schedule_Loop;
+                            j = GlobalData.Schedule_Loop;
                             UpdateUI(j.ToString(), label_LoopNumber_Value);
-                            Global.label_LoopNumber = j.ToString();
+                            GlobalData.label_LoopNumber = j.ToString();
                             break;
                         }
 
-                        Nowpoint = DataGridView_Schedule.Rows[Global.Scheduler_Row].Index;
-                        debug_process("Nowpoint record: " + Nowpoint);
+                        Nowpoint = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Index;
+                        debug_process("Nowpoint record: " + Nowpoint + ",\r\n");
+
                         if (Breakfunction == true)
                         {
                             debug_process("Breakfunction.");
@@ -9023,24 +9058,24 @@ namespace Woodpecker
                                     Environment.NewLine);
 
                                 File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
-                                Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + Global.IO_INPUT +
-                                "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
-                                "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +
-                                "," + Global.IO_PA14_0_COUNT + "," + Global.IO_PA14_1_COUNT +
-                                "," + Global.IO_PA15_0_COUNT + "," + Global.IO_PA15_1_COUNT +
-                                "," + Global.IO_PB1_0_COUNT + "," + Global.IO_PB1_1_COUNT +
-                                "," + Global.IO_PB7_0_COUNT + "," + Global.IO_PB7_1_COUNT + Environment.NewLine);
+                                GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.IO_INPUT +
+                                "," + GlobalData.IO_PA10_0_COUNT + "," + GlobalData.IO_PA10_1_COUNT +
+                                "," + GlobalData.IO_PA11_0_COUNT + "," + GlobalData.IO_PA11_1_COUNT +
+                                "," + GlobalData.IO_PA14_0_COUNT + "," + GlobalData.IO_PA14_1_COUNT +
+                                "," + GlobalData.IO_PA15_0_COUNT + "," + GlobalData.IO_PA15_1_COUNT +
+                                "," + GlobalData.IO_PB1_0_COUNT + "," + GlobalData.IO_PB1_1_COUNT +
+                                "," + GlobalData.IO_PB7_0_COUNT + "," + GlobalData.IO_PB7_1_COUNT + Environment.NewLine);
                             }
                             else
                             {
                                 File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
-                                Global.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + Global.IO_INPUT +
-                                "," + Global.IO_PA10_0_COUNT + "," + Global.IO_PA10_1_COUNT +
-                                "," + Global.IO_PA11_0_COUNT + "," + Global.IO_PA11_1_COUNT +
-                                "," + Global.IO_PA14_0_COUNT + "," + Global.IO_PA14_1_COUNT +
-                                "," + Global.IO_PA15_0_COUNT + "," + Global.IO_PA15_1_COUNT +
-                                "," + Global.IO_PB1_0_COUNT + "," + Global.IO_PB1_1_COUNT +
-                                "," + Global.IO_PB7_0_COUNT + "," + Global.IO_PB7_1_COUNT + Environment.NewLine);
+                                GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.IO_INPUT +
+                                "," + GlobalData.IO_PA10_0_COUNT + "," + GlobalData.IO_PA10_1_COUNT +
+                                "," + GlobalData.IO_PA11_0_COUNT + "," + GlobalData.IO_PA11_1_COUNT +
+                                "," + GlobalData.IO_PA14_0_COUNT + "," + GlobalData.IO_PA14_1_COUNT +
+                                "," + GlobalData.IO_PA15_0_COUNT + "," + GlobalData.IO_PA15_1_COUNT +
+                                "," + GlobalData.IO_PB1_0_COUNT + "," + GlobalData.IO_PB1_1_COUNT +
+                                "," + GlobalData.IO_PB7_0_COUNT + "," + GlobalData.IO_PB7_1_COUNT + Environment.NewLine);
                             }
                             debug_process("Footprint Mode Stop");
                         }
@@ -9084,10 +9119,11 @@ namespace Woodpecker
                     }
                     #endregion
                 }
-                debug_process("Loop_Number: " + Global.Loop_Number);
+
+                debug_process("Loop_Number: " + GlobalData.Loop_Number + ", \r\n");
                 Serialportsave("Debug");
 				DisposeRam();
-                Global.Loop_Number++;
+                GlobalData.Loop_Number++;
             }
 
             #region -- Each video record when completed the schedule --
@@ -9097,17 +9133,17 @@ namespace Woodpecker
                 {
                     if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                     {
-                        if (Global.VideoRecording == false)
+                        if (GlobalData.VideoRecording == false)
                         {
                             label_Command.Text = "Record Video...";
                             Thread.Sleep(1500);
                             Mysvideo(); // 開新檔
-                            Global.VideoRecording = true;
+                            GlobalData.VideoRecording = true;
                             Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                             oThreadC.Start();
                             Thread.Sleep(60000); // 錄影60秒
 
-                            Global.VideoRecording = false;
+                            GlobalData.VideoRecording = false;
                             Mysstop();
                             oThreadC.Abort();
                             Thread.Sleep(1500);
@@ -9126,7 +9162,7 @@ namespace Woodpecker
             /*
             if (ini12.INIRead(sPath, "Record", "CompareChoose", "") == "1" && excelstat == true)
             {
-                string excelFile = ini12.INIRead(sPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + Global.Schedule_Num;
+                string excelFile = ini12.INIRead(sPath, "Record", "ComparePath", "") + "\\SimilarityReport_" + GlobalData.Schedule_Num;
 
                 try
                 {
@@ -9167,11 +9203,11 @@ namespace Woodpecker
             #region -- schedule 切換 --
             if (StartButtonPressed != false)
             {
-                if (Global.Schedule_2_Exist == 1 && Global.Schedule_Number == 1)
+                if (GlobalData.Schedule_2_Exist == 1 && GlobalData.Schedule_Number == 1)
                 {
                     if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" && StartButtonPressed == true)       //定時器時間未到進入等待<<<<<<<<<<<<<<
                     {
-                        if (Global.Break_Out_Schedule == 0)
+                        if (GlobalData.Break_Out_Schedule == 0)
                         {
                             while (ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "") != TimeLabel2.Text)
                             {
@@ -9186,12 +9222,12 @@ namespace Woodpecker
                     MyRunCamd();
                 }
                 else if (
-                    Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 1 ||
-                    Global.Schedule_3_Exist == 1 && Global.Schedule_Number == 2)
+                    GlobalData.Schedule_3_Exist == 1 && GlobalData.Schedule_Number == 1 ||
+                    GlobalData.Schedule_3_Exist == 1 && GlobalData.Schedule_Number == 2)
                 {
                     if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" && StartButtonPressed == true)
                     {
-                        if (Global.Break_Out_Schedule == 0)
+                        if (GlobalData.Break_Out_Schedule == 0)
                         {
                             while (ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "") != TimeLabel2.Text)
                             {
@@ -9206,13 +9242,13 @@ namespace Woodpecker
                     MyRunCamd();
                 }
                 else if (
-                    Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 1 ||
-                    Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 2 ||
-                    Global.Schedule_4_Exist == 1 && Global.Schedule_Number == 3)
+                    GlobalData.Schedule_4_Exist == 1 && GlobalData.Schedule_Number == 1 ||
+                    GlobalData.Schedule_4_Exist == 1 && GlobalData.Schedule_Number == 2 ||
+                    GlobalData.Schedule_4_Exist == 1 && GlobalData.Schedule_Number == 3)
                 {
                     if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" && StartButtonPressed == true)
                     {
-                        if (Global.Break_Out_Schedule == 0)
+                        if (GlobalData.Break_Out_Schedule == 0)
                         {
                             while (ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "") != TimeLabel2.Text)
                             {
@@ -9227,14 +9263,14 @@ namespace Woodpecker
                     MyRunCamd();
                 }
                 else if (
-                    Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 1 ||
-                    Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 2 ||
-                    Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 3 ||
-                    Global.Schedule_5_Exist == 1 && Global.Schedule_Number == 4)
+                    GlobalData.Schedule_5_Exist == 1 && GlobalData.Schedule_Number == 1 ||
+                    GlobalData.Schedule_5_Exist == 1 && GlobalData.Schedule_Number == 2 ||
+                    GlobalData.Schedule_5_Exist == 1 && GlobalData.Schedule_Number == 3 ||
+                    GlobalData.Schedule_5_Exist == 1 && GlobalData.Schedule_Number == 4)
                 {
                     if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1" && StartButtonPressed == true)
                     {
-                        if (Global.Break_Out_Schedule == 0)
+                        if (GlobalData.Break_Out_Schedule == 0)
                         {
                             while (ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") != TimeLabel2.Text)
                             {
@@ -9254,7 +9290,7 @@ namespace Woodpecker
             //全部schedule跑完或是按下stop鍵以後會跑以下這段/////////////////////////////////////////
             if (StartButtonPressed == false)//按下STOP讓schedule結束//
             {
-                Global.Break_Out_MyRunCamd = 1;
+                GlobalData.Break_Out_MyRunCamd = 1;
                 ini12.INIWrite(MailPath, "Data Info", "CloseTime", string.Format("{0:R}", DateTime.Now));
                 UpdateUI("START", button_Start);
                 button_Start.Enabled = true;
@@ -9271,9 +9307,9 @@ namespace Woodpecker
                 }
 
                 /*
-                if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_Original") == true)
+                if (Directory.Exists(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + GlobalData.Schedule_Num + "_Original") == true)
                 {
-                    DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_Original");
+                    DirectoryInfo DIFO = new DirectoryInfo(ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + GlobalData.Schedule_Num + "_Original");
                     DIFO.Delete(true);
                 }
                 */
@@ -9293,11 +9329,11 @@ namespace Woodpecker
                     OnOffCamera();
                 }
 
-                Global.Total_Test_Time = Global.Schedule_1_TestTime + Global.Schedule_2_TestTime + Global.Schedule_3_TestTime + Global.Schedule_4_TestTime + Global.Schedule_5_TestTime;
-                ConvertToRealTime(Global.Total_Test_Time);
+                GlobalData.Total_Test_Time = GlobalData.Schedule_1_TestTime + GlobalData.Schedule_2_TestTime + GlobalData.Schedule_3_TestTime + GlobalData.Schedule_4_TestTime + GlobalData.Schedule_5_TestTime;
+                ConvertToRealTime(GlobalData.Total_Test_Time);
                 if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    Global.Loop_Number = Global.Loop_Number - 1;
+                    GlobalData.Loop_Number = GlobalData.Loop_Number - 1;
                     FormMail FormMail = new FormMail();
                     FormMail.send();
                 }
@@ -9305,7 +9341,7 @@ namespace Woodpecker
 
             label_Command.Text = "Completed!";
             label_Remark.Text = "";
-            ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "OnTimeStart", "0");
+            ini12.INIWrite(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
             timer1.Stop();
             timer_during.Stop();
@@ -9342,10 +9378,11 @@ namespace Woodpecker
                 Can_Usb2C.Disconnect();
             }
 
-            timeCount = Global.Schedule_1_TestTime;
+            timeCount = GlobalData.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
-            Global.Scheduler_Row = 0;
+            GlobalData.Scheduler_Row = 0;
             setStyle();
+            Overbuffersave();
         }
         #endregion
 
@@ -9376,9 +9413,9 @@ namespace Woodpecker
             else if (behavior_Shot)
             {
                 ShotFlag = true;
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
+                GlobalData.caption_Num++;
+                if (GlobalData.Loop_Number == 1)
+                    GlobalData.caption_Sum = GlobalData.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
             }
@@ -9386,7 +9423,7 @@ namespace Woodpecker
             {
                 if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    Global.Pass_Or_Fail = "NG";
+                    GlobalData.Pass_Or_Fail = "NG";
                     FormMail FormMail = new FormMail();
                     FormMail.send();
                     label_Command.Text = "IO CMD_MAIL";
@@ -9451,8 +9488,8 @@ namespace Woodpecker
 
         private void IO_CMD()
         {
-            string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-            string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
+            string columns_serial = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[6].Value.ToString();
+            string columns_switch = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[7].Value.ToString();
             if (columns_serial == "_pause")
             {
                 PauseFlag = true;
@@ -9474,9 +9511,9 @@ namespace Woodpecker
             else if (columns_serial == "_shot")
             {
                 ShotFlag = true;
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
+                GlobalData.caption_Num++;
+                if (GlobalData.Loop_Number == 1)
+                    GlobalData.caption_Sum = GlobalData.caption_Num;
                 Jes();
                 label_Command.Text = "IO CMD_SHOT";
             }
@@ -9484,7 +9521,7 @@ namespace Woodpecker
             {
                 if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    Global.Pass_Or_Fail = "NG";
+                    GlobalData.Pass_Or_Fail = "NG";
                     FormMail FormMail = new FormMail();
                     FormMail.send();
                     label_Command.Text = "IO CMD_MAIL";
@@ -9561,8 +9598,9 @@ namespace Woodpecker
         #region -- KEYWORD 指令集 --
         private void KeywordCommand()
         {
-            string columns_serial = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[6].Value.ToString();
-            string columns_switch = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[7].Value.ToString();
+            string columns_serial = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[6].Value.ToString();
+            string columns_switch = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[7].Value.ToString();
+
             if (columns_serial == "_pause")
             {
                 button_Pause.PerformClick();
@@ -9582,9 +9620,9 @@ namespace Woodpecker
             }
             else if (columns_serial == "_shot")
             {
-                Global.caption_Num++;
-                if (Global.Loop_Number == 1)
-                    Global.caption_Sum = Global.caption_Num;
+                GlobalData.caption_Num++;
+                if (GlobalData.Loop_Number == 1)
+                    GlobalData.caption_Sum = GlobalData.caption_Num;
                 Jes();
                 label_Command.Text = "KEYWORD_SHOT";
             }
@@ -9592,7 +9630,7 @@ namespace Woodpecker
             {
                 if (ini12.INIRead(MailPath, "Send Mail", "value", "") == "1")
                 {
-                    Global.Pass_Or_Fail = "NG";
+                    GlobalData.Pass_Or_Fail = "NG";
                     FormMail FormMail = new FormMail();
                     FormMail.send();
                     label_Command.Text = "KEYWORD_MAIL";
@@ -9725,42 +9763,42 @@ namespace Woodpecker
             int i, j = 1;
             int TotalDelay = 0;
 
-            switch (Global.Schedule_Num)
+            switch (GlobalData.Schedule_Num)
             {
                 case 1:
-                    TotalDelay = (Convert.ToInt32(Global.Schedule_Num1_Time) / Global.Schedule_Loop);
+                    TotalDelay = (Convert.ToInt32(GlobalData.Schedule_Num1_Time) / GlobalData.Schedule_Loop);
                     break;
                 case 2:
-                    TotalDelay = (Convert.ToInt32(Global.Schedule_Num2_Time) / Global.Schedule_Loop);
+                    TotalDelay = (Convert.ToInt32(GlobalData.Schedule_Num2_Time) / GlobalData.Schedule_Loop);
                     break;
                 case 3:
-                    TotalDelay = (Convert.ToInt32(Global.Schedule_Num3_Time) / Global.Schedule_Loop);
+                    TotalDelay = (Convert.ToInt32(GlobalData.Schedule_Num3_Time) / GlobalData.Schedule_Loop);
                     break;
                 case 4:
-                    TotalDelay = (Convert.ToInt32(Global.Schedule_Num4_Time) / Global.Schedule_Loop);
+                    TotalDelay = (Convert.ToInt32(GlobalData.Schedule_Num4_Time) / GlobalData.Schedule_Loop);
                     break;
                 case 5:
-                    TotalDelay = (Convert.ToInt32(Global.Schedule_Num5_Time) / Global.Schedule_Loop);
+                    TotalDelay = (Convert.ToInt32(GlobalData.Schedule_Num5_Time) / GlobalData.Schedule_Loop);
                     break;
             }       //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-            //float[,] ReferenceResult = new float[Global.Schedule_Loop, Global.caption_Sum + 1];
-            //float[] MeanValue = new float[Global.Schedule_Loop];
-            //int[] TotalValue = new int[Global.Schedule_Loop];
+            //float[,] ReferenceResult = new float[GlobalData.Schedule_Loop, GlobalData.caption_Sum + 1];
+            //float[] MeanValue = new float[GlobalData.Schedule_Loop];
+            //int[] TotalValue = new int[GlobalData.Schedule_Loop];
             */
-            //string ngPath = ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_NG\\";
+            //string ngPath = ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + GlobalData.Schedule_Num + "_NG\\";
             string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "") + "\\";
-            string csvFile = comparePath + "SimilarityReport_" + Global.Schedule_Number + ".csv";
+            string csvFile = comparePath + "SimilarityReport_" + GlobalData.Schedule_Number + ".csv";
 
-            //Console.WriteLine("Loop Number: " + Global.loop_Num);
+            //Console.WriteLine("Loop Number: " + GlobalData.loop_Num);
 
             // 讀取ini中的路徑
-            //fNameNG = ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + Global.Schedule_Num + "_NG\\";
+            //fNameNG = ini12.INIRead(sPath, "Record", "VideoPath", "") + "\\" + "Schedule" + GlobalData.Schedule_Num + "_NG\\";
 
-            string pathCompare1 = comparePath + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
-            string pathCompare2 = comparePath + "cf-" + (Global.Loop_Number - 1) + "_" + Global.caption_Num + ".png";
-            if (Global.caption_Num == 0)
+            string pathCompare1 = comparePath + "cf-" + GlobalData.Loop_Number + "_" + GlobalData.caption_Num + ".png";
+            string pathCompare2 = comparePath + "cf-" + (GlobalData.Loop_Number - 1) + "_" + GlobalData.caption_Num + ".png";
+            if (GlobalData.caption_Num == 0)
             {
                 Console.WriteLine("Path Compare1: " + pathCompare1);
                 Console.WriteLine("Path Compare2: " + pathCompare2);
@@ -9821,14 +9859,14 @@ namespace Woodpecker
                 StreamWriter sw = new StreamWriter(csvFile, true);
 
                 // 比對值設定
-                Global.excel_Num++;
+                GlobalData.excel_Num++;
                 if (difference > differenceNum)
                 {
-                    Global.NGValue[Global.caption_Num]++;
-                    Global.NGRateValue[Global.caption_Num] = (float)Global.NGValue[Global.caption_Num] / (Global.Loop_Number - 1);
+                    GlobalData.NGValue[GlobalData.caption_Num]++;
+                    GlobalData.NGRateValue[GlobalData.caption_Num] = (float)GlobalData.NGValue[GlobalData.caption_Num] / (GlobalData.Loop_Number - 1);
 
                     /*
-                                        string[] FileList = System.IO.Directory.GetFiles(fNameAll, "cf-" + Global.loop_Num + "_" + Global.caption_Num + ".png");
+                                        string[] FileList = System.IO.Directory.GetFiles(fNameAll, "cf-" + GlobalData.loop_Num + "_" + GlobalData.caption_Num + ".png");
                                         foreach (string File in FileList)
                                         {
                                             System.IO.FileInfo fi = new System.IO.FileInfo(File);
@@ -9836,7 +9874,7 @@ namespace Woodpecker
                                         }
                     */
 
-                    Global.NGRateValue[Global.caption_Num] = (float)Global.NGValue[Global.caption_Num] / (Global.Loop_Number - 1);
+                    GlobalData.NGRateValue[GlobalData.caption_Num] = (float)GlobalData.NGValue[GlobalData.caption_Num] / (GlobalData.Loop_Number - 1);
 
                     /*
                     #region Excel function
@@ -9852,25 +9890,25 @@ namespace Woodpecker
                         wSheet.Activate();
 
                         // 設定第n列資料
-                        excelApp.Cells[Global.excel_Num, 1] = " " + (Global.loop_Num - 1) + "-" + Global.caption_Num;
-                        wSheet.Hyperlinks.Add(excelApp.Cells[Global.excel_Num, 1], "cf-" + (Global.loop_Num - 1) + "_" + Global.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
-                        excelApp.Cells[Global.excel_Num, 2] = " " + (Global.loop_Num) + "-" + Global.caption_Num;
-                        wSheet.Hyperlinks.Add(excelApp.Cells[Global.excel_Num, 2], "cf-" + (Global.loop_Num) + "_" + Global.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
-                        excelApp.Cells[Global.excel_Num, 3] = differencePercent;
-                        excelApp.Cells[Global.excel_Num, 4] = Global.NGValue[Global.caption_Num];
-                        excelApp.Cells[Global.excel_Num, 5] = Global.NGRateValue[Global.caption_Num];
-                        excelApp.Cells[Global.excel_Num, 6] = "NG";
+                        excelApp.Cells[GlobalData.excel_Num, 1] = " " + (GlobalData.loop_Num - 1) + "-" + GlobalData.caption_Num;
+                        wSheet.Hyperlinks.Add(excelApp.Cells[GlobalData.excel_Num, 1], "cf-" + (GlobalData.loop_Num - 1) + "_" + GlobalData.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
+                        excelApp.Cells[GlobalData.excel_Num, 2] = " " + (GlobalData.loop_Num) + "-" + GlobalData.caption_Num;
+                        wSheet.Hyperlinks.Add(excelApp.Cells[GlobalData.excel_Num, 2], "cf-" + (GlobalData.loop_Num) + "_" + GlobalData.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
+                        excelApp.Cells[GlobalData.excel_Num, 3] = differencePercent;
+                        excelApp.Cells[GlobalData.excel_Num, 4] = GlobalData.NGValue[GlobalData.caption_Num];
+                        excelApp.Cells[GlobalData.excel_Num, 5] = GlobalData.NGRateValue[GlobalData.caption_Num];
+                        excelApp.Cells[GlobalData.excel_Num, 6] = "NG";
 
                         // 設定第n列顏色
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 1], wSheet.Cells[Global.excel_Num, 2]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 1], wSheet.Cells[GlobalData.excel_Num, 2]];
                         wRange.Select();
                         wRange.Font.Color = ColorTranslator.ToOle(Color.Blue);
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 3], wSheet.Cells[Global.excel_Num, 6]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 3], wSheet.Cells[GlobalData.excel_Num, 6]];
                         wRange.Select();
                         wRange.Font.Color = ColorTranslator.ToOle(Color.Red);
 
                         // 自動調整欄寬
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 1], wSheet.Cells[Global.excel_Num, 6]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 1], wSheet.Cells[GlobalData.excel_Num, 6]];
                         wRange.EntireRow.AutoFit();
                         wRange.EntireColumn.AutoFit();
 
@@ -9882,16 +9920,16 @@ namespace Woodpecker
                     #endregion
                     */
 
-                    sw.Write("=hyperlink(\"cf-" + (Global.Loop_Number - 1) + "_" + Global.caption_Num + ".png\"，\"" + (Global.Loop_Number - 1) + "-" + Global.caption_Num + "\")" + ",");
-                    sw.Write("=hyperlink(\"cf-" + (Global.Loop_Number) + "_" + Global.caption_Num + ".png\"，\"" + (Global.Loop_Number) + "-" + Global.caption_Num + "\")" + ",");
+                    sw.Write("=hyperlink(\"cf-" + (GlobalData.Loop_Number - 1) + "_" + GlobalData.caption_Num + ".png\"，\"" + (GlobalData.Loop_Number - 1) + "-" + GlobalData.caption_Num + "\")" + ",");
+                    sw.Write("=hyperlink(\"cf-" + (GlobalData.Loop_Number) + "_" + GlobalData.caption_Num + ".png\"，\"" + (GlobalData.Loop_Number) + "-" + GlobalData.caption_Num + "\")" + ",");
                     sw.Write(differencePercent + ",");
-                    sw.Write(Global.NGValue[Global.caption_Num] + ",");
-                    sw.Write(Global.NGRateValue[Global.caption_Num] + ",");
+                    sw.Write(GlobalData.NGValue[GlobalData.caption_Num] + ",");
+                    sw.Write(GlobalData.NGRateValue[GlobalData.caption_Num] + ",");
                     sw.WriteLine("NG");
                 }
                 else
                 {
-                    Global.NGRateValue[Global.caption_Num] = (float)Global.NGValue[Global.caption_Num] / (Global.Loop_Number - 1);
+                    GlobalData.NGRateValue[GlobalData.caption_Num] = (float)GlobalData.NGValue[GlobalData.caption_Num] / (GlobalData.Loop_Number - 1);
 
                     /*
                     #region Excel function
@@ -9907,25 +9945,25 @@ namespace Woodpecker
                         wSheet.Activate();
 
                         // 設定第n列資料
-                        excelApp.Cells[Global.excel_Num, 1] = " " + (Global.loop_Num - 1) + "-" + Global.caption_Num;
-                        wSheet.Hyperlinks.Add(excelApp.Cells[Global.excel_Num, 1], "cf-" + (Global.loop_Num - 1) + "_" + Global.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
-                        excelApp.Cells[Global.excel_Num, 2] = " " + (Global.loop_Num) + "-" + Global.caption_Num;
-                        wSheet.Hyperlinks.Add(excelApp.Cells[Global.excel_Num, 2], "cf-" + (Global.loop_Num) + "_" + Global.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
-                        excelApp.Cells[Global.excel_Num, 3] = differencePercent;
-                        excelApp.Cells[Global.excel_Num, 4] = Global.NGValue[Global.caption_Num];
-                        excelApp.Cells[Global.excel_Num, 5] = Global.NGRateValue[Global.caption_Num];
-                        excelApp.Cells[Global.excel_Num, 6] = "Pass";
+                        excelApp.Cells[GlobalData.excel_Num, 1] = " " + (GlobalData.loop_Num - 1) + "-" + GlobalData.caption_Num;
+                        wSheet.Hyperlinks.Add(excelApp.Cells[GlobalData.excel_Num, 1], "cf-" + (GlobalData.loop_Num - 1) + "_" + GlobalData.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
+                        excelApp.Cells[GlobalData.excel_Num, 2] = " " + (GlobalData.loop_Num) + "-" + GlobalData.caption_Num;
+                        wSheet.Hyperlinks.Add(excelApp.Cells[GlobalData.excel_Num, 2], "cf-" + (GlobalData.loop_Num) + "_" + GlobalData.caption_Num + ".png", Type.Missing, Type.Missing, Type.Missing);
+                        excelApp.Cells[GlobalData.excel_Num, 3] = differencePercent;
+                        excelApp.Cells[GlobalData.excel_Num, 4] = GlobalData.NGValue[GlobalData.caption_Num];
+                        excelApp.Cells[GlobalData.excel_Num, 5] = GlobalData.NGRateValue[GlobalData.caption_Num];
+                        excelApp.Cells[GlobalData.excel_Num, 6] = "Pass";
 
                         // 設定第n列顏色
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 1], wSheet.Cells[Global.excel_Num, 2]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 1], wSheet.Cells[GlobalData.excel_Num, 2]];
                         wRange.Select();
                         wRange.Font.Color = ColorTranslator.ToOle(Color.Blue);
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 3], wSheet.Cells[Global.excel_Num, 6]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 3], wSheet.Cells[GlobalData.excel_Num, 6]];
                         wRange.Select();
                         wRange.Font.Color = ColorTranslator.ToOle(Color.Green);
 
                         // 自動調整欄寬
-                        wRange = wSheet.Range[wSheet.Cells[Global.excel_Num, 1], wSheet.Cells[Global.excel_Num, 6]];
+                        wRange = wSheet.Range[wSheet.Cells[GlobalData.excel_Num, 1], wSheet.Cells[GlobalData.excel_Num, 6]];
                         wRange.EntireRow.AutoFit();
                         wRange.EntireColumn.AutoFit();
 
@@ -9937,11 +9975,11 @@ namespace Woodpecker
                     #endregion
                     */
 
-                    sw.Write("=hyperlink(\"cf-" + (Global.Loop_Number - 1) + "_" + Global.caption_Num + ".png\"，\"" + (Global.Loop_Number - 1) + "-" + Global.caption_Num + "\")" + ",");
-                    sw.Write("=hyperlink(\"cf-" + (Global.Loop_Number) + "_" + Global.caption_Num + ".png\"，\"" + (Global.Loop_Number) + "-" + Global.caption_Num + "\")" + ",");
+                    sw.Write("=hyperlink(\"cf-" + (GlobalData.Loop_Number - 1) + "_" + GlobalData.caption_Num + ".png\"，\"" + (GlobalData.Loop_Number - 1) + "-" + GlobalData.caption_Num + "\")" + ",");
+                    sw.Write("=hyperlink(\"cf-" + (GlobalData.Loop_Number) + "_" + GlobalData.caption_Num + ".png\"，\"" + (GlobalData.Loop_Number) + "-" + GlobalData.caption_Num + "\")" + ",");
                     sw.Write(differencePercent + ",");
-                    sw.Write(Global.NGValue[Global.caption_Num] + ",");
-                    sw.Write(Global.NGRateValue[Global.caption_Num] + ",");
+                    sw.Write(GlobalData.NGValue[GlobalData.caption_Num] + ",");
+                    sw.Write(GlobalData.NGRateValue[GlobalData.caption_Num] + ",");
                     sw.WriteLine("Pass");
                 }
                 sw.Close();
@@ -9950,18 +9988,18 @@ namespace Woodpecker
                 Bitmap picCompare1 = (Bitmap)Image.FromFile(pathCompare1);
                 Bitmap picCompare2 = (Bitmap)Image.FromFile(pathCompare2);
                 float CompareValue = Similarity(picCompare1, picCompare2);
-                ReferenceResult[(Global.loop_Num - 1), Global.caption_Num] = CompareValue;
-                Console.WriteLine("Reference(" + (Global.loop_Num - 1) + "," + Global.caption_Num + ") = " + ReferenceResult[(Global.loop_Num - 1), Global.caption_Num]);
+                ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num] = CompareValue;
+                Console.WriteLine("Reference(" + (GlobalData.loop_Num - 1) + "," + GlobalData.caption_Num + ") = " + ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num]);
 
-                Global.SumValue[Global.caption_Num] = Global.SumValue[Global.caption_Num] + ReferenceResult[(Global.loop_Num - 1), Global.caption_Num];
-                Console.WriteLine("SumValue" + Global.caption_Num + " = " + Global.SumValue[Global.caption_Num]);
+                GlobalData.SumValue[GlobalData.caption_Num] = GlobalData.SumValue[GlobalData.caption_Num] + ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num];
+                Console.WriteLine("SumValue" + GlobalData.caption_Num + " = " + GlobalData.SumValue[GlobalData.caption_Num]);
 
-                MeanValue[Global.caption_Num] = Global.SumValue[Global.caption_Num] / (Global.loop_Num - 1);
-                Console.WriteLine("MeanValue" + Global.caption_Num + " = " + MeanValue[Global.caption_Num]);
+                MeanValue[GlobalData.caption_Num] = GlobalData.SumValue[GlobalData.caption_Num] / (GlobalData.loop_Num - 1);
+                Console.WriteLine("MeanValue" + GlobalData.caption_Num + " = " + MeanValue[GlobalData.caption_Num]);
 
-                for (i = Global.loop_Num - 11; i < Global.loop_Num - 1; i++)
+                for (i = GlobalData.loop_Num - 11; i < GlobalData.loop_Num - 1; i++)
                 {
-                    for (j = 1; j < Global.caption_Sum + 1; j++)
+                    for (j = 1; j < GlobalData.caption_Sum + 1; j++)
                     {
                         string pathCompare1 = fNameAll + "cf-" + i + "_" + j + ".png";
                         string pathCompare2 = fNameAll + "cf-" + (i - 1) + "_" + j + ".png";
@@ -9983,50 +10021,50 @@ namespace Woodpecker
                     //Thread.Sleep(TotalDelay);
                 }
 
-                for (j = 1; j < Global.caption_Sum + 1; j++)
+                for (j = 1; j < GlobalData.caption_Sum + 1; j++)
                 {
-                    for (i = 1; i < Global.loop_Num - 1; i++)
+                    for (i = 1; i < GlobalData.loop_Num - 1; i++)
                     {
                         SumValue[j] = SumValue[j] + ReferenceResult[i, j];
                         TotalValue[j]++;
                         //Console.WriteLine("SumValue" + j + " = " + SumValue[j]);
                     }
                     //Thread.Sleep(TotalDelay);
-                    MeanValue[j] = SumValue[j] / (Global.loop_Num - 2);
+                    MeanValue[j] = SumValue[j] / (GlobalData.loop_Num - 2);
                     //Console.WriteLine("MeanValue" + j + " = " + MeanValue[j]);
                 }
 
                 StreamWriter sw = new StreamWriter(csvFile, true);
-                if (Global.loop_Num == 2 && Global.caption_Num == 1)
+                if (GlobalData.loop_Num == 2 && GlobalData.caption_Num == 1)
                     sw.WriteLine("Point(X), Point(Y), MeanValue, Reference, NGValue, TotalValue, NGRate, Test Result");
 
-                if (ReferenceResult[(Global.loop_Num - 1), Global.caption_Num] > (MeanValue[Global.caption_Num] + 0.5) || ReferenceResult[(Global.loop_Num - 1), Global.caption_Num] < (MeanValue[Global.caption_Num] - 0.5))
+                if (ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num] > (MeanValue[GlobalData.caption_Num] + 0.5) || ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num] < (MeanValue[GlobalData.caption_Num] - 0.5))
                 {
-                    Global.NGValue[Global.caption_Num]++;
-                    Global.NGRateValue[Global.caption_Num] = (float)Global.NGValue[Global.caption_Num] / Global.loop_Num;
-                    string[] FileList = System.IO.Directory.GetFiles(fNameAll, "cf-" + Global.loop_Num + "_" + Global.caption_Num + ".png");
+                    GlobalData.NGValue[GlobalData.caption_Num]++;
+                    GlobalData.NGRateValue[GlobalData.caption_Num] = (float)GlobalData.NGValue[GlobalData.caption_Num] / GlobalData.loop_Num;
+                    string[] FileList = System.IO.Directory.GetFiles(fNameAll, "cf-" + GlobalData.loop_Num + "_" + GlobalData.caption_Num + ".png");
                     foreach (string File in FileList)
                     {
                         System.IO.FileInfo fi = new System.IO.FileInfo(File);
                         fi.CopyTo(fNameNG + fi.Name);
                     }
-                    sw.Write((Global.loop_Num - 1) + ", " + Global.caption_Num + ", ");
-                    sw.Write(MeanValue[Global.caption_Num] + ", ");
-                    sw.Write(ReferenceResult[(Global.loop_Num - 1), Global.caption_Num] + ", ");
-                    sw.Write(Global.NGValue[Global.caption_Num] + ", ");
-                    sw.Write(Global.loop_Num + ", ");
-                    sw.Write(Global.NGRateValue[Global.caption_Num] + ", ");
+                    sw.Write((GlobalData.loop_Num - 1) + ", " + GlobalData.caption_Num + ", ");
+                    sw.Write(MeanValue[GlobalData.caption_Num] + ", ");
+                    sw.Write(ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num] + ", ");
+                    sw.Write(GlobalData.NGValue[GlobalData.caption_Num] + ", ");
+                    sw.Write(GlobalData.loop_Num + ", ");
+                    sw.Write(GlobalData.NGRateValue[GlobalData.caption_Num] + ", ");
                     sw.WriteLine("NG");
                 }
                 else
                 {
-                    Global.NGRateValue[Global.caption_Num] = (float)Global.NGValue[Global.caption_Num] / Global.loop_Num;
-                    sw.Write((Global.loop_Num - 1) + ", " + Global.caption_Num + ", ");
-                    sw.Write(MeanValue[Global.caption_Num] + ", ");
-                    sw.Write(ReferenceResult[(Global.loop_Num - 1), Global.caption_Num] + ", ");
-                    sw.Write(Global.NGValue[Global.caption_Num] + ", ");
-                    sw.Write(Global.loop_Num + ", ");
-                    sw.Write(Global.NGRateValue[Global.caption_Num] + ", ");
+                    GlobalData.NGRateValue[GlobalData.caption_Num] = (float)GlobalData.NGValue[GlobalData.caption_Num] / GlobalData.loop_Num;
+                    sw.Write((GlobalData.loop_Num - 1) + ", " + GlobalData.caption_Num + ", ");
+                    sw.Write(MeanValue[GlobalData.caption_Num] + ", ");
+                    sw.Write(ReferenceResult[(GlobalData.loop_Num - 1), GlobalData.caption_Num] + ", ");
+                    sw.Write(GlobalData.NGValue[GlobalData.caption_Num] + ", ");
+                    sw.Write(GlobalData.loop_Num + ", ");
+                    sw.Write(GlobalData.NGRateValue[GlobalData.caption_Num] + ", ");
                     sw.WriteLine("Pass");
                 }
                 sw.Close();
@@ -10062,7 +10100,7 @@ namespace Woodpecker
             debug_process("CaptureDone");
             capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-            //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+            //string ngFolder = "Schedule" + GlobalData.Schedule_Num + "_NG";
 
             //圖片印字
             Bitmap newBitmap = CloneBitmap(e);
@@ -10074,9 +10112,9 @@ namespace Woodpecker
                 // Create Compare folder
                 string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
                 //string ngPath = fName + "\\" + ngFolder;
-                string compareFile = comparePath + "\\" + "cf-" + Global.Loop_Number + "_" + Global.caption_Num + ".png";
-                if (Global.caption_Num == 0)
-                    Global.caption_Num++;
+                string compareFile = comparePath + "\\" + "cf-" + GlobalData.Loop_Number + "_" + GlobalData.caption_Num + ".png";
+                if (GlobalData.caption_Num == 0)
+                    GlobalData.caption_Num++;
                 /*
                 if (Directory.Exists(ngPath))
                 {
@@ -10097,7 +10135,7 @@ namespace Woodpecker
                 this.pictureBox4.Image = newBitmap;
                 */
                 pictureBox4.Image.Save(compareFile);
-                if (Global.Loop_Number < 2)
+                if (GlobalData.Loop_Number < 2)
                 {
 
                 }
@@ -10115,20 +10153,20 @@ namespace Woodpecker
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+            if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
             {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[9].Value.ToString(),
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 120));
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                 Font,
                                 FontColor,
                                 new PointF(5, YPoint - 80));
             }
             else
             {
-                bitMap_g.DrawString(DataGridView_Schedule.Rows[Global.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                 Font,
                 FontColor,
                 new PointF(5, YPoint - 80));
@@ -10143,7 +10181,7 @@ namespace Woodpecker
             FontColor.Dispose();
             bitMap_g.Dispose();
 
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + Global.caption_Num + ").png";
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").png";
             pictureBox4.Image.Save(t);
             debug_process("Save the CaptureDone Picture");
             button_Start.Enabled = true;
@@ -10159,7 +10197,7 @@ namespace Woodpecker
             string starttime = "0:0:0";
             TimeSpan time_start = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
-            while (Global.VideoRecording)
+            while (GlobalData.VideoRecording)
             {
                 System.Threading.Thread.Sleep(1000);
                 TimeSpan time_end = TimeSpan.Parse(DateTime.Now.ToString("HH:mm:ss")); //計時結束 取得目前時間
@@ -10363,8 +10401,8 @@ namespace Woodpecker
             if (RedRatData.RedRatSelectDevice(devicename))
             {
                 RCDB.Items.AddRange(RedRatData.RedRatGetRCNameList().ToArray());
-                Global.Rc_List = RedRatData.RedRatGetRCNameList();
-                Global.Rc_Number = RedRatData.RedRatGetRCNameList().Count;
+                GlobalData.RcList = RedRatData.RedRatGetRCNameList();
+                GlobalData.Rc_Number = RedRatData.RedRatGetRCNameList().Count;
             }
             else
             {
@@ -10450,14 +10488,14 @@ namespace Woodpecker
                 height = 25;
             }
 
-            Buttons = new Button[Global.Rc_Number];
+            Buttons = new Button[GlobalData.Rc_Number];
 
             for (int i = 0; i < Buttons.Length; i++)
             {
                 Buttons[i] = new Button
                 {
                     Size = new Size(width, height),
-                    Text = Global.Rc_List[i],
+                    Text = GlobalData.RcList[i],
                     AutoSize = false,
                     AutoSizeMode = AutoSizeMode.GrowAndShrink
                 };
@@ -10573,18 +10611,18 @@ namespace Woodpecker
             val[0] = 0;
             bool AutoBox_Status;
 
-            Global.IO_PA10_0_COUNT = 0;
-            Global.IO_PA10_1_COUNT = 0;
-            Global.IO_PA11_0_COUNT = 0;
-            Global.IO_PA11_1_COUNT = 0;
-            Global.IO_PA14_0_COUNT = 0;
-            Global.IO_PA14_1_COUNT = 0;
-            Global.IO_PA15_0_COUNT = 0;
-            Global.IO_PA15_1_COUNT = 0;
-            Global.IO_PB1_0_COUNT = 0;
-            Global.IO_PB1_1_COUNT = 0;
-            Global.IO_PB7_0_COUNT = 0;
-            Global.IO_PB7_1_COUNT = 0;
+            GlobalData.IO_PA10_0_COUNT = 0;
+            GlobalData.IO_PA10_1_COUNT = 0;
+            GlobalData.IO_PA11_0_COUNT = 0;
+            GlobalData.IO_PA11_1_COUNT = 0;
+            GlobalData.IO_PA14_0_COUNT = 0;
+            GlobalData.IO_PA14_1_COUNT = 0;
+            GlobalData.IO_PA15_0_COUNT = 0;
+            GlobalData.IO_PA15_1_COUNT = 0;
+            GlobalData.IO_PB1_0_COUNT = 0;
+            GlobalData.IO_PB1_1_COUNT = 0;
+            GlobalData.IO_PB7_0_COUNT = 0;
+            GlobalData.IO_PB7_1_COUNT = 0;
 
             delayTime = 0;
             repeatTime = 0;
@@ -10623,7 +10661,7 @@ namespace Woodpecker
 
                 if (StartButtonPressed == true)//按下STOP//
                 {
-                    Global.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
+                    GlobalData.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
                     timer1.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
@@ -10710,7 +10748,7 @@ namespace Woodpecker
                         }                
                     }
                     */
-                    Global.Break_Out_MyRunCamd = 0;
+                    GlobalData.Break_Out_MyRunCamd = 0;
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
@@ -10794,7 +10832,7 @@ namespace Woodpecker
             {
                 if (StartButtonPressed == true)//按下STOP//
                 {
-                    Global.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
+                    GlobalData.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
                     timer1.Stop();  //停止倒數
                     CloseDtplay();
@@ -10867,7 +10905,7 @@ namespace Woodpecker
                 }
                 else//按下START//
                 {
-                    Global.Break_Out_MyRunCamd = 0;
+                    GlobalData.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
                     timer1.Start();     //開始倒數
                     StartButtonPressed = true;
@@ -10949,12 +10987,12 @@ namespace Woodpecker
         private void SettingBtn_Click(object sender, EventArgs e)
         {
             FormTabControl FormTabControl = new FormTabControl();
-            Global.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
+            GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
-                if (ini12.INIRead(MainSettingPath, "RedRat", "Brands", "") != Global.RCDB)
+                if (ini12.INIRead(MainSettingPath, "RedRat", "Brands", "") != GlobalData.RCDB)
                 {
                     DataGridViewComboBoxColumn RCDB = (DataGridViewComboBoxColumn)DataGridView_Schedule.Columns[0];
                     RCDB.Items.Clear();
@@ -11107,19 +11145,19 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Schedule2", "OnTimeStart", "") == "1" &&
                 ini12.INIRead(MainSettingPath, "Schedule2", "Timer", "") == TimeLabel2.Text &&
                 timeCount != 0)
-                Global.Break_Out_Schedule = 1;
+                GlobalData.Break_Out_Schedule = 1;
             if (ini12.INIRead(MainSettingPath, "Schedule3", "OnTimeStart", "") == "1" &&
                 ini12.INIRead(MainSettingPath, "Schedule3", "Timer", "") == TimeLabel2.Text &&
                 timeCount != 0)
-                Global.Break_Out_Schedule = 1;
+                GlobalData.Break_Out_Schedule = 1;
             if (ini12.INIRead(MainSettingPath, "Schedule4", "OnTimeStart", "") == "1" &&
                 ini12.INIRead(MainSettingPath, "Schedule4", "Timer", "") == TimeLabel2.Text &&
                 timeCount != 0)
-                Global.Break_Out_Schedule = 1;
+                GlobalData.Break_Out_Schedule = 1;
             if (ini12.INIRead(MainSettingPath, "Schedule5", "OnTimeStart", "") == "1" &&
                 ini12.INIRead(MainSettingPath, "Schedule5", "Timer", "") == TimeLabel2.Text &&
                 timeCount != 0)
-                Global.Break_Out_Schedule = 1;
+                GlobalData.Break_Out_Schedule = 1;
             #endregion
         }
 
@@ -11183,7 +11221,7 @@ namespace Woodpecker
             OpenSerialPort("A");
             Controls.Add(textBox_serial);
             textBox_serial.BringToFront();
-            Global.TEXTBOX_FOCUS = 1;
+            GlobalData.TEXTBOX_FOCUS = 1;
         }
 
         private void Button_TabScheduler_Click(object sender, EventArgs e) => DataGridView_Schedule.BringToFront();
@@ -11210,7 +11248,7 @@ namespace Woodpecker
                         ab_create = ini12.INIRead(MailPath, "Data Info", "CreateTime", ""),                     //測試開始時間
                         ab_close = ini12.INIRead(MailPath, "Data Info", "CloseTime", ""),                       //測試結束時間
                         ab_time = ini12.INIRead(MailPath, "Total Test Time", "value", ""),                      //測試執行花費時間
-                        ab_loop = Global.Schedule_Loop.ToString(),                                              //執行loop次數
+                        ab_loop = GlobalData.Schedule_Loop.ToString(),                                              //執行loop次數
                         ab_loop_time = ini12.INIRead(MailPath, "Total Test Time", "value", ""),                 //1個loop需要次數
                         ab_loop_step = (DataGridView_Schedule.Rows.Count - 1).ToString(),                       //1個loop的step數
                         ab_root = ini12.INIRead(MailPath, "Data Info", "Reboot", ""),                           //測試重啟次數
@@ -11245,7 +11283,7 @@ namespace Woodpecker
 
             System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
             sfd.Filter = "CSV files (*.csv)|*.csv";
-            sfd.FileName = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
+            sfd.FileName = ini12.INIRead(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "Path", "");
             if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 using (System.IO.StreamWriter sw = new System.IO.StreamWriter(sfd.FileName, false))
@@ -11277,9 +11315,9 @@ namespace Woodpecker
                     sw.Close();
                 }
 
-                if (sfd.FileName != ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", ""))
+                if (sfd.FileName != ini12.INIRead(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "Path", ""))
                 {
-                    ini12.INIWrite(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", sfd.FileName);
+                    ini12.INIWrite(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "Path", sfd.FileName);
                 }
             }
             ReadSch();
@@ -11302,11 +11340,11 @@ namespace Woodpecker
         private void SchBtn1_Click(object sender, EventArgs e)          ////////////Schedule1
         {
             portos_online = new SafeDataGridView();
-            Global.Schedule_Number = 1;
+            GlobalData.Schedule_Number = 1;
             string loop = ini12.INIRead(MainSettingPath, "Schedule1", "Loop", "");
             if (loop != "")
-                Global.Schedule_Loop = int.Parse(loop);
-            labellabel_LoopTimes_Value.Text = Global.Schedule_Loop.ToString();
+                GlobalData.Schedule_Loop = int.Parse(loop);
+            labellabel_LoopTimes_Value.Text = GlobalData.Schedule_Loop.ToString();
             button_Schedule1.Enabled = false;
             button_Schedule2.Enabled = true;
             button_Schedule3.Enabled = true;
@@ -11320,12 +11358,12 @@ namespace Woodpecker
         private void SchBtn2_Click(object sender, EventArgs e)          ////////////Schedule2
         {
             portos_online = new SafeDataGridView();
-            Global.Schedule_Number = 2;
+            GlobalData.Schedule_Number = 2;
             string loop = "";
             loop = ini12.INIRead(MainSettingPath, "Schedule2", "Loop", "");
             if (loop != "")
-                Global.Schedule_Loop = int.Parse(loop);
-            labellabel_LoopTimes_Value.Text = Global.Schedule_Loop.ToString();
+                GlobalData.Schedule_Loop = int.Parse(loop);
+            labellabel_LoopTimes_Value.Text = GlobalData.Schedule_Loop.ToString();
             button_Schedule1.Enabled = true;
             button_Schedule2.Enabled = false;
             button_Schedule3.Enabled = true;
@@ -11337,11 +11375,11 @@ namespace Woodpecker
         private void SchBtn3_Click(object sender, EventArgs e)          ////////////Schedule3
         {
             portos_online = new SafeDataGridView();
-            Global.Schedule_Number = 3;
+            GlobalData.Schedule_Number = 3;
             string loop = ini12.INIRead(MainSettingPath, "Schedule3", "Loop", "");
             if (loop != "")
-                Global.Schedule_Loop = int.Parse(loop);
-            labellabel_LoopTimes_Value.Text = Global.Schedule_Loop.ToString();
+                GlobalData.Schedule_Loop = int.Parse(loop);
+            labellabel_LoopTimes_Value.Text = GlobalData.Schedule_Loop.ToString();
             button_Schedule1.Enabled = true;
             button_Schedule2.Enabled = true;
             button_Schedule3.Enabled = false;
@@ -11352,11 +11390,11 @@ namespace Woodpecker
         private void SchBtn4_Click(object sender, EventArgs e)          ////////////Schedule4
         {
             portos_online = new SafeDataGridView();
-            Global.Schedule_Number = 4;
+            GlobalData.Schedule_Number = 4;
             string loop = ini12.INIRead(MainSettingPath, "Schedule4", "Loop", "");
             if (loop != "")
-                Global.Schedule_Loop = int.Parse(loop);
-            labellabel_LoopTimes_Value.Text = Global.Schedule_Loop.ToString();
+                GlobalData.Schedule_Loop = int.Parse(loop);
+            labellabel_LoopTimes_Value.Text = GlobalData.Schedule_Loop.ToString();
             button_Schedule1.Enabled = true;
             button_Schedule2.Enabled = true;
             button_Schedule3.Enabled = true;
@@ -11367,11 +11405,11 @@ namespace Woodpecker
         private void SchBtn5_Click(object sender, EventArgs e)          ////////////Schedule5
         {
             portos_online = new SafeDataGridView();
-            Global.Schedule_Number = 5;
+            GlobalData.Schedule_Number = 5;
             string loop = ini12.INIRead(MainSettingPath, "Schedule5", "Loop", "");
             if (loop != "")
-                Global.Schedule_Loop = int.Parse(loop);
-            labellabel_LoopTimes_Value.Text = Global.Schedule_Loop.ToString();
+                GlobalData.Schedule_Loop = int.Parse(loop);
+            labellabel_LoopTimes_Value.Text = GlobalData.Schedule_Loop.ToString();
             button_Schedule1.Enabled = true;
             button_Schedule2.Enabled = true;
             button_Schedule3.Enabled = true;
@@ -11417,10 +11455,10 @@ namespace Woodpecker
 
         private void ReadSch()
         {
-            // Console.WriteLine(Global.Schedule_Num);
+            // Console.WriteLine(GlobalData.Schedule_Num);
             // 戴入Schedule CSV 檔
-            string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Path", "");
-            string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + Global.Schedule_Number, "Exist", "");
+            string SchedulePath = ini12.INIRead(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "Path", "");
+            string ScheduleExist = ini12.INIRead(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "Exist", "");
 
             //string TextLine = "";
             //string[] SplitLine;
@@ -11494,34 +11532,34 @@ namespace Woodpecker
 
                     if (ini12.INIRead(MainSettingPath, "Record", "EachVideo", "") == "1")
                     {
-                        ConvertToRealTime(((TotalDelay * Global.Schedule_Loop) + 63000));
+                        ConvertToRealTime(((TotalDelay * GlobalData.Schedule_Loop) + 63000));
                     }
                     else
                     {
-                        ConvertToRealTime((TotalDelay * Global.Schedule_Loop));
+                        ConvertToRealTime((TotalDelay * GlobalData.Schedule_Loop));
                     }
 
-                    switch (Global.Schedule_Number)
+                    switch (GlobalData.Schedule_Number)
                     {
                         case 1:
-                            Global.Schedule_1_TestTime = (TotalDelay * Global.Schedule_Loop);
-                            timeCount = Global.Schedule_1_TestTime;
+                            GlobalData.Schedule_1_TestTime = (TotalDelay * GlobalData.Schedule_Loop);
+                            timeCount = GlobalData.Schedule_1_TestTime;
                             break;
                         case 2:
-                            Global.Schedule_2_TestTime = (TotalDelay * Global.Schedule_Loop);
-                            timeCount = Global.Schedule_2_TestTime;
+                            GlobalData.Schedule_2_TestTime = (TotalDelay * GlobalData.Schedule_Loop);
+                            timeCount = GlobalData.Schedule_2_TestTime;
                             break;
                         case 3:
-                            Global.Schedule_3_TestTime = (TotalDelay * Global.Schedule_Loop);
-                            timeCount = Global.Schedule_3_TestTime;
+                            GlobalData.Schedule_3_TestTime = (TotalDelay * GlobalData.Schedule_Loop);
+                            timeCount = GlobalData.Schedule_3_TestTime;
                             break;
                         case 4:
-                            Global.Schedule_4_TestTime = (TotalDelay * Global.Schedule_Loop);
-                            timeCount = Global.Schedule_4_TestTime;
+                            GlobalData.Schedule_4_TestTime = (TotalDelay * GlobalData.Schedule_Loop);
+                            timeCount = GlobalData.Schedule_4_TestTime;
                             break;
                         case 5:
-                            Global.Schedule_5_TestTime = (TotalDelay * Global.Schedule_Loop);
-                            timeCount = Global.Schedule_5_TestTime;
+                            GlobalData.Schedule_5_TestTime = (TotalDelay * GlobalData.Schedule_Loop);
+                            timeCount = GlobalData.Schedule_5_TestTime;
                             break;
                     }
                 }
@@ -11578,12 +11616,12 @@ namespace Woodpecker
                 ini12.INIWrite(MailPath, "Total Test Time", "value", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
 
                 // 寫入每個Schedule test time
-                if (Global.Schedule_Number == 1)
+                if (GlobalData.Schedule_Number == 1)
                     ini12.INIWrite(MailPath, "Total Test Time", "value1", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
 
                 if (StartButtonPressed == true)
                 {
-                    switch (Global.Schedule_Number)
+                    switch (GlobalData.Schedule_Number)
                     {
                         case 2:
                             ini12.INIWrite(MailPath, "Total Test Time", "value2", finishTime.Days.ToString("0") + "d " + finishTime.Hours.ToString("0") + "h " + finishTime.Minutes.ToString("0") + "m " + finishTime.Seconds.ToString("0") + "s " + finishTime.Milliseconds.ToString("0") + "ms");
@@ -11690,9 +11728,9 @@ namespace Woodpecker
                 SchedulePause.Reset();
 
                 debug_process("Datagridview highlight.");
-                GridUI(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
+                GridUI(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
                 debug_process("Datagridview scollbar.");
-                Gridscroll(Global.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
+                Gridscroll(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
             }
             else
             {
@@ -11713,12 +11751,12 @@ namespace Woodpecker
             DateTime sch_dt = DateTime.Now;
 
             debug_process("Record Schedule");
-            Schedule_log = DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[0].Value.ToString().Trim(); ;
+            Schedule_log = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[0].Value.ToString().Trim(); ;
             try
             {
                 for (int i = 1; i < 10; i++)
                 {
-                    Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[i].Value.ToString();
+                    Schedule_log = Schedule_log + delimiter_recordSch + DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[i].Value.ToString();
                 }
             }
             catch (Exception Ex)
@@ -11744,18 +11782,18 @@ namespace Woodpecker
         {
             if (timeCount > 0)
             {
-                if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()))
+                if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString() != "")
+                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
                     {
-                        repeatTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[2].Value.ToString()));
+                        repeatTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
                     }
-                    if (DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
-                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
+                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
                     else
-                        delayTime = (long.Parse(DataGridView_Schedule.Rows[Global.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
+                        delayTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString()) + repeatTime);
 
-                    if (Global.Schedule_Step == 0 && Global.Loop_Number == 1)
+                    if (GlobalData.Schedule_Step == 0 && GlobalData.Loop_Number == 1)
                     {
                         timeCountUpdated = timeCount - delayTime;
                         ConvertToRealTime(timeCountUpdated);
@@ -11890,9 +11928,9 @@ namespace Woodpecker
                 string modified4 = modified3.Insert(7, ",");
                 string modified5 = modified4.Insert(9, ",");
 
-                Global.IO_INPUT = modified5;
-                Console.WriteLine(Global.IO_INPUT);
-                Console.WriteLine(Global.IO_INPUT.Substring(0, 1));
+                GlobalData.IO_INPUT = modified5;
+                Console.WriteLine(GlobalData.IO_INPUT);
+                Console.WriteLine(GlobalData.IO_INPUT.Substring(0, 1));
             }
             while ((bRet == false) && (--retry_cnt > 0));
 
@@ -12152,7 +12190,7 @@ namespace Woodpecker
                 string modified4 = modified3.Insert(7, ",");
                 string modified5 = modified4.Insert(9, ",");
 
-                Global.IO_INPUT = modified5;
+                GlobalData.IO_INPUT = modified5;
             }
             while ((bRet == false) && (--retry_cnt > 0));
 
@@ -12165,7 +12203,7 @@ namespace Woodpecker
                 labelGPIO_Input.Text = "GPIO_input fail after retry";
             }
 
-            string dataValue = "GPIO_input=" + Global.IO_INPUT;
+            string dataValue = "GPIO_input=" + GlobalData.IO_INPUT;
             DateTime dt = DateTime.Now;
             dataValue = "[Receive_IO_INPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
             log_process("A", dataValue);
@@ -12195,7 +12233,7 @@ namespace Woodpecker
             */
             FormRC formRC = new FormRC();
             formRC.Owner = this;
-            if (Global.FormRC == false)
+            if (GlobalData.FormRC == false)
             {
                 formRC.Show();
             }
@@ -12699,7 +12737,7 @@ namespace Woodpecker
 
         private void timer_ca310_Tick(object sender, EventArgs e)
         {
-            if (ini12.INIRead(Global.MainSettingPath, "Device", "CA310Exist", "") == "1")
+            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1")
             {
                 try
                 {
@@ -12757,39 +12795,39 @@ namespace Woodpecker
             uint canBusStatus;
             canBusStatus = Can_Usb2C.Connect();
 
-            if (Global.TEXTBOX_FOCUS == 1)
+            if (GlobalData.TEXTBOX_FOCUS == 1)
             {
                 if (textBox_serial.SelectionLength == 0) //Determine if any text is selected in the TextBox control.
                 {
                     CopyLog(textBox_serial);
                 }
             }
-            else if (Global.TEXTBOX_FOCUS == 2)
+            else if (GlobalData.TEXTBOX_FOCUS == 2)
             {
                 if (textBox2.SelectionLength == 0)
                 {
                     CopyLog(textBox2);
                 }
             }
-            else if (Global.TEXTBOX_FOCUS == 3)
+            else if (GlobalData.TEXTBOX_FOCUS == 3)
             {
                 if (textBox_canbus.SelectionLength == 0)
                 {
                     CopyLog(textBox3);
                 }
             }
-            else if (Global.TEXTBOX_FOCUS == 4)
+            else if (GlobalData.TEXTBOX_FOCUS == 4)
             {
                 CopyLog(textBox_kline);
             }
 
             //copy schedule log (might be removed in near future)
-            else if (Global.TEXTBOX_FOCUS == 5)
+            else if (GlobalData.TEXTBOX_FOCUS == 5)
             {
                 CopyLog(textBox_canbus);
             }
 
-            else if (Global.TEXTBOX_FOCUS == 6)
+            else if (GlobalData.TEXTBOX_FOCUS == 6)
             {
                 CopyLog(textBox_TestLog);
                 string fName = "";
@@ -13112,9 +13150,9 @@ namespace Woodpecker
                             timer_matched = true;
                     }
 
-                    Global.caption_Num++;
-                    if (Global.Loop_Number == 1)
-                        Global.caption_Sum = Global.caption_Num;
+                    GlobalData.caption_Num++;
+                    if (GlobalData.Loop_Number == 1)
+                        GlobalData.caption_Sum = GlobalData.caption_Num;
                     Jes();
                 }
 
@@ -13197,11 +13235,11 @@ namespace Woodpecker
                         case "10":
                             debug_process("IO CMD: PA10");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(10, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(10, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA10_0_COUNT++;
+                                    GlobalData.IO_PA10_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13211,11 +13249,11 @@ namespace Woodpecker
 
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(10, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(10, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA10_1_COUNT++;
+                                    GlobalData.IO_PA10_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13234,11 +13272,11 @@ namespace Woodpecker
                         case "11":
                             debug_process("IO CMD: PA11");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(8, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(8, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA11_0_COUNT++;
+                                    GlobalData.IO_PA11_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13247,11 +13285,11 @@ namespace Woodpecker
                                 }
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(8, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(8, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA11_1_COUNT++;
+                                    GlobalData.IO_PA11_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13270,11 +13308,11 @@ namespace Woodpecker
                         case "14":
                             debug_process("IO CMD: PA14");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(6, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(6, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA14_0_COUNT++;
+                                    GlobalData.IO_PA14_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13283,11 +13321,11 @@ namespace Woodpecker
                                 }
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(6, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(6, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA14_1_COUNT++;
+                                    GlobalData.IO_PA14_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13306,11 +13344,11 @@ namespace Woodpecker
                         case "15":
                             debug_process("IO CMD: PA15");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(4, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(4, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA15_0_COUNT++;
+                                    GlobalData.IO_PA15_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13319,11 +13357,11 @@ namespace Woodpecker
                                 }
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(4, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(4, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PA15_1_COUNT++;
+                                    GlobalData.IO_PA15_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13342,11 +13380,11 @@ namespace Woodpecker
                         case "01":
                             debug_process("IO CMD: PB01");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(2, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(2, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PB1_0_COUNT++;
+                                    GlobalData.IO_PB1_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13355,11 +13393,11 @@ namespace Woodpecker
                                 }
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(2, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(2, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PB1_1_COUNT++;
+                                    GlobalData.IO_PB1_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13378,11 +13416,11 @@ namespace Woodpecker
                         case "07":
                             debug_process("IO CMD: PB07");
                             if (GPIOList[j].Substring(6, 1) == "0" &&
-                                Global.IO_INPUT.Substring(0, 1) == "0")
+                                GlobalData.IO_INPUT.Substring(0, 1) == "0")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PB7_0_COUNT++;
+                                    GlobalData.IO_PB7_0_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13391,11 +13429,11 @@ namespace Woodpecker
                                 }
                             }
                             else if (GPIOList[j].Substring(6, 1) == "1" &&
-                                Global.IO_INPUT.Substring(0, 1) == "1")
+                                GlobalData.IO_INPUT.Substring(0, 1) == "1")
                             {
                                 if (behavior_Accumulate)
                                 {
-                                    Global.IO_PB7_1_COUNT++;
+                                    GlobalData.IO_PB7_1_COUNT++;
                                     label_Command.Text = "IO CMD_ACCUMULATE";
                                 }
                                 else
@@ -13417,9 +13455,14 @@ namespace Woodpecker
 
             }
 
+            Overbuffersave();
+        }
+
+        private void Overbuffersave()
+        {
             if (logA_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("A");
                 }
@@ -13431,7 +13474,7 @@ namespace Woodpecker
 
             if (logB_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("B");
                 }
@@ -13443,7 +13486,7 @@ namespace Woodpecker
 
             if (logC_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("C");
                 }
@@ -13455,7 +13498,7 @@ namespace Woodpecker
 
             if (logD_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("D");
                 }
@@ -13467,7 +13510,7 @@ namespace Woodpecker
 
             if (logE_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("E");
                 }
@@ -13479,7 +13522,7 @@ namespace Woodpecker
 
             if (logAll_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("All");
                 }
@@ -13491,7 +13534,7 @@ namespace Woodpecker
 
             if (canbus_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("Canbus");
                 }
@@ -13503,7 +13546,7 @@ namespace Woodpecker
 
             if (kline_text.Length > log_max_length)
             {
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
                     Serialportsave("KlinePort");
                 }
@@ -13535,87 +13578,7 @@ namespace Woodpecker
         }
     }
 
-
-    public class Global//全域變數//
-    {
-        public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
-        public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
-        public static string StartupPath = Application.StartupPath;
-
-        public static int Scheduler_Row = 0;
-        public static List<string> VID = new List<string> { };
-        public static List<string> PID = new List<string> { };
-        public static List<string> AutoBoxComport = new List<string> { };
-        public static int Schedule_Number = 0;
-        public static int Schedule_1_Exist = 0;
-        public static int Schedule_2_Exist = 0;
-        public static int Schedule_3_Exist = 0;
-        public static int Schedule_4_Exist = 0;
-        public static int Schedule_5_Exist = 0;
-        public static long Schedule_1_TestTime = 0;
-        public static long Schedule_2_TestTime = 0;
-        public static long Schedule_3_TestTime = 0;
-        public static long Schedule_4_TestTime = 0;
-        public static long Schedule_5_TestTime = 0;
-        public static long Total_Test_Time = 0;
-        public static int Loop_Number = 0;
-        public static int Total_Loop = 0;
-        public static int Schedule_Loop = 999999;
-        public static int Schedule_Step;
-        public static int caption_Num = 0;
-        public static int caption_Sum = 0;
-        public static int excel_Num = 0;
-        public static int[] caption_NG_Num = new int[Schedule_Loop];
-        public static int[] caption_Total_Num = new int[Schedule_Loop];
-        public static float[] SumValue = new float[Schedule_Loop];
-        public static int[] NGValue = new int[Global.Schedule_Loop];
-        public static float[] NGRateValue = new float[Global.Schedule_Loop];
-        //public static float[] ReferenceResult = new float[Schedule_Loop];
-        public static bool FormSetting = true;
-        public static bool FormSchedule = true;
-        public static bool FormMail = true;
-        public static bool FormLog = true;
-        public static string RCDB = "";
-        public static string IO_INPUT = "";
-        public static int IO_PA10_0_COUNT = 0;
-        public static int IO_PA10_1_COUNT = 0;
-        public static int IO_PA11_0_COUNT = 0;
-        public static int IO_PA11_1_COUNT = 0;
-        public static int IO_PA14_0_COUNT = 0;
-        public static int IO_PA14_1_COUNT = 0;
-        public static int IO_PA15_0_COUNT = 0;
-        public static int IO_PA15_1_COUNT = 0;
-        public static int IO_PB1_0_COUNT = 0;
-        public static int IO_PB1_1_COUNT = 0;
-        public static int IO_PB7_0_COUNT = 0;
-        public static int IO_PB7_1_COUNT = 0;
-        public static string keyword_1 = "false";
-        public static string keyword_2 = "false";
-        public static string keyword_3 = "false";
-        public static string keyword_4 = "false";
-        public static string keyword_5 = "false";
-        public static string keyword_6 = "false";
-        public static string keyword_7 = "false";
-        public static string keyword_8 = "false";
-        public static string keyword_9 = "false";
-        public static string keyword_10 = "false";
-        public static List<string> Rc_List = new List<string> { };
-        public static int Rc_Number = 0;
-        public static string Pass_Or_Fail = "";//測試結果//
-        public static int Break_Out_Schedule = 0;//定時器中斷變數//
-        public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
-        public static bool FormRC = false;
-        public static int TEXTBOX_FOCUS = 0;
-        public static string label_Command = "";
-        public static string label_Remark = "";
-        public static string label_LoopNumber = "";
-        public static bool VideoRecording = false;
-        public static string srtstring = "";
-        public static bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
-
-        //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
-    }
+    //public class GlobalData{} has been moved to Program.cs//
 
     /// <summary>
     /// 日期类型转换工具

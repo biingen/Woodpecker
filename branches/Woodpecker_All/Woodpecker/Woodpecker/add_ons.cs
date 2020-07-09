@@ -284,17 +284,18 @@ namespace Woodpecker
         public void USB_Read()
         {
             //調整Building version: All為全功能, Car為車功能
-            ini12.INIWrite(Global.MainSettingPath, "Device", "Software", "All");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "Software", "All");
             //預設AutoKit沒接上
-            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", "");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "0");
-            ini12.INIWrite(Global.MainSettingPath, "Device", "KlineExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", "");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "KlineExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
+
             var usbList = from u in collection.Cast<ManagementBaseObject>()
                           select new
                           {
@@ -332,7 +333,7 @@ namespace Woodpecker
                             int vidIndex = deviceId.IndexOf("VID_");
                             string startingAtVid = deviceId.Substring(vidIndex + 4); // + 4 to remove "VID_"
                             string vid = startingAtVid.Substring(0, 4); // vid is four characters long
-                            Global.VID.Add(vid);
+                            GlobalData.VidList.Add(vid);
                         }
 
                         if (deviceId.IndexOf("PID_", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -340,7 +341,7 @@ namespace Woodpecker
                             int pidIndex = deviceId.IndexOf("PID_");
                             string startingAtPid = deviceId.Substring(pidIndex + 4); // + 4 to remove "PID_"
                             string pid = startingAtPid.Substring(0, 4); // pid is four characters long
-                            Global.PID.Add(pid);
+                            GlobalData.PidList.Add(pid);
                         }
 
                         Console.WriteLine("-----------------Camera------------------");
@@ -354,7 +355,7 @@ namespace Woodpecker
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
                         //Camera存在
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CameraExist", "1");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CameraExist", "1");
                     }
                     #endregion
 
@@ -381,9 +382,9 @@ namespace Woodpecker
                         
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "1");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxVerson", "1");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
                     #endregion
@@ -411,9 +412,9 @@ namespace Woodpecker
 
                         if (AutoBoxPortSubstring.Substring(0, 3) == "COM")
                         {
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxExist", "1");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxVerson", "2");
-                            ini12.INIWrite(Global.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "1");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxVerson", "2");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", AutoBoxPortFinal);
                         }
                     }
                     #endregion
@@ -431,7 +432,7 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CA310Exist", "1");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
                     }
                     #endregion
 
@@ -448,7 +449,7 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "UsbCANExist", "1");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "1");
                     }
                     #endregion
 
@@ -465,7 +466,7 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(Global.MainSettingPath, "Device", "CAN1630AExist", "1");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "1");
                     }
                     #endregion
                 }
@@ -499,8 +500,7 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] Displayhex = { "Checked" };
-            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
+            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp", "Outofmemorysave" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -511,17 +511,17 @@ namespace Woodpecker
                                    "Times0", "Times1", "Times2", "Times3", "Times4", "Times5", "Times6", "Times7", "Times8", "Times9",
                                    "Display0", "Display1", "Display2", "Display3", "Display4", "Display5", "Display6", "Display7", "Display8", "Display9" };
 
-            if (File.Exists(Global.MainSettingPath) == false)
+            if (File.Exists(GlobalData.MainSettingPath) == false)
             {
                 for (int i = 0; i < Device.Length; i++)
                 {
                     if (i == (Device.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Device", Device[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", Device[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Device", Device[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", Device[i], "");
                     }
                 }
 
@@ -529,11 +529,11 @@ namespace Woodpecker
                 {
                     if (i == (RedRat.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "RedRat", RedRat[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "RedRat", RedRat[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "RedRat", RedRat[i], "");
                     }
                 }
 
@@ -541,11 +541,11 @@ namespace Woodpecker
                 {
                     if (i == (Camera.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Camera", Camera[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Camera", Camera[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Camera", Camera[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Camera", Camera[i], "");
                     }
                 }
 
@@ -553,11 +553,11 @@ namespace Woodpecker
                 {
                     if (i == (PortA.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port A", PortA[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port A", PortA[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port A", PortA[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port A", PortA[i], "");
                     }
                 }
 
@@ -565,11 +565,11 @@ namespace Woodpecker
                 {
                     if (i == (PortB.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port B", PortB[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port B", PortB[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port B", PortB[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port B", PortB[i], "");
                     }
                 }
 
@@ -577,11 +577,11 @@ namespace Woodpecker
                 {
                     if (i == (PortC.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port C", PortC[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port C", PortC[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port C", PortC[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port C", PortC[i], "");
                     }
                 }
 
@@ -589,11 +589,11 @@ namespace Woodpecker
                 {
                     if (i == (PortD.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port D", PortD[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port D", PortD[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port D", PortD[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port D", PortD[i], "");
                     }
                 }
 
@@ -601,23 +601,11 @@ namespace Woodpecker
                 {
                     if (i == (PortE.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port E", PortE[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Port E", PortE[i], "");
-                    }
-                }
-
-                for (int i = 0; i < Displayhex.Length; i++)
-                {
-                    if (i == (Displayhex.Length - 1))
-                    {
-                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "" + Environment.NewLine + Environment.NewLine);
-                    }
-                    else
-                    {
-                        ini12.INIWrite(Global.MainSettingPath, "Displayhex", Displayhex[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Port E", PortE[i], "");
                     }
                 }
 
@@ -625,11 +613,11 @@ namespace Woodpecker
                 {
                     if (i == (Record.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Record", Record[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Record", Record[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Record", Record[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Record", Record[i], "");
                     }
                 }
 
@@ -637,11 +625,11 @@ namespace Woodpecker
                 {
                     if (i == (Schedule1.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule1", Schedule1[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule1", Schedule1[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule1", Schedule1[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule1", Schedule1[i], "");
                     }
                 }
 
@@ -649,11 +637,11 @@ namespace Woodpecker
                 {
                     if (i == (Schedule2.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule2", Schedule2[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule2", Schedule2[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule2", Schedule2[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule2", Schedule2[i], "");
                     }
                 }
 
@@ -661,11 +649,11 @@ namespace Woodpecker
                 {
                     if (i == (Schedule3.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule3", Schedule3[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule3", Schedule3[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule3", Schedule3[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule3", Schedule3[i], "");
                     }
                 }
 
@@ -673,11 +661,11 @@ namespace Woodpecker
                 {
                     if (i == (Schedule4.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule4", Schedule4[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule4", Schedule4[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule4", Schedule4[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule4", Schedule4[i], "");
                     }
                 }
 
@@ -685,11 +673,11 @@ namespace Woodpecker
                 {
                     if (i == (Schedule5.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule5", Schedule5[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule5", Schedule5[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "Schedule5", Schedule5[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Schedule5", Schedule5[i], "");
                     }
                 }
 
@@ -697,11 +685,11 @@ namespace Woodpecker
                 {
                     if (i == (LogSearch.Length - 1))
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "LogSearch", LogSearch[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MainSettingPath, "LogSearch", LogSearch[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MainSettingPath, "LogSearch", LogSearch[i], "");
+                        ini12.INIWrite(GlobalData.MainSettingPath, "LogSearch", LogSearch[i], "");
                     }
                     }
                 }
@@ -717,17 +705,17 @@ namespace Woodpecker
             string[] TestCase = { "TestCase1", "TestCase2", "TestCase3", "TestCase4", "TestCase5" };
             string[] MailInfo = { "From", "To", "ProjectName", "ModelName", "Version", "Tester", "TeamViewerID", "TeamViewerPassWord" };
 
-            if (File.Exists(Global.MailSettingPath) == false)
+            if (File.Exists(GlobalData.MailSettingPath) == false)
             {
                 for (int i = 0; i < SendMail.Length; i++)
                 {
                     if (i == (SendMail.Length - 1))
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Send Mail", SendMail[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Send Mail", SendMail[i], "");
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Send Mail", SendMail[i], "");
                     }
                 }
 
@@ -735,11 +723,11 @@ namespace Woodpecker
                 {
                     if (i == (DataInfo.Length - 1))
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Data Info", DataInfo[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Data Info", DataInfo[i], "");
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Data Info", DataInfo[i], "");
                     }
                 }
 
@@ -747,11 +735,11 @@ namespace Woodpecker
                 {
                     if (i == (TotalTestTime.Length - 1))
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Total Test Time", TotalTestTime[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Total Test Time", TotalTestTime[i], "");
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Total Test Time", TotalTestTime[i], "");
                     }
                 }
 
@@ -759,11 +747,11 @@ namespace Woodpecker
                 {
                     if (i == (TestCase.Length - 1))
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Test Case", TestCase[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Test Case", TestCase[i], "");
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Test Case", TestCase[i], "");
                     }
                 }
 
@@ -771,11 +759,11 @@ namespace Woodpecker
                 {
                     if (i == (MailInfo.Length - 1))
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "" + Environment.NewLine + Environment.NewLine);
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Mail Info", MailInfo[i], "" + Environment.NewLine + Environment.NewLine);
                     }
                     else
                     {
-                        ini12.INIWrite(Global.MailSettingPath, "Mail Info", MailInfo[i], "");
+                        ini12.INIWrite(GlobalData.MailSettingPath, "Mail Info", MailInfo[i], "");
                     }
                 }
             }
@@ -791,11 +779,11 @@ namespace Woodpecker
             {
                 if (i == (Setting.Length - 1))
                 {
-                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "" + Environment.NewLine + Environment.NewLine);
+                    ini12.INIWrite(GlobalData.RcSettingPath, "Setting", Setting[i], "" + Environment.NewLine + Environment.NewLine);
                 }
                 else
                 {
-                    ini12.INIWrite(Global.RcSettingPath, "Setting", Setting[i], "");
+                    ini12.INIWrite(GlobalData.RcSettingPath, "Setting", Setting[i], "");
                 }
             }
         }
