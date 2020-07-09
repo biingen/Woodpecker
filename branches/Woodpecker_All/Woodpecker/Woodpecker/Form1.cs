@@ -2037,28 +2037,35 @@ namespace Woodpecker
 
                                 string tempSubstring = System.Text.Encoding.Default.GetString(byteArray);
                                 double digit = Math.Pow(10, Convert.ToInt64(byteTemperature[byteTemperature_length + temp_dp_offset] - DP_convert));
-                                double nowTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
-
-                                // is value negative?
-                                if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
+                                if (tempSubstring != "000\u0018\u0018\u0018\u0018\n")
                                 {
-                                    nowTemperature = -nowTemperature;
-                                }
+                                    double nowTemperature = Convert.ToDouble(Convert.ToInt32(tempSubstring) / digit);
 
-                                // is value Fahrenheit?
-                                if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
+                                    // is value negative?
+                                    if (byteTemperature[byteTemperature_length + temp_polarity_offset] == '1')
+                                    {
+                                        nowTemperature = -nowTemperature;
+                                    }
+
+                                    // is value Fahrenheit?
+                                    if (byteTemperature[byteTemperature_length + temp_unit_01] == '2')
+                                    {
+                                        nowTemperature = (nowTemperature - 32) / 1.8;
+                                        nowTemperature = Math.Round((nowTemperature), 2, MidpointRounding.AwayFromZero);
+                                    }
+
+                                    // is channel value?
+                                    int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]) - 48;
+                                    if (vOut > 10)
+                                        vOut = vOut - 7;
+                                    string channel = vOut.ToString("#00");
+
+                                    dataValue = "CH:" + channel + "=" + nowTemperature.ToString("#00.0");
+                                }
+                                else
                                 {
-                                    nowTemperature = (nowTemperature - 32) / 1.8;
-                                    nowTemperature = Math.Round((nowTemperature), 2, MidpointRounding.AwayFromZero);
+                                    dataValue = "CH:--" + "=----";
                                 }
-
-                                // is channel value?
-                                int vOut = Convert.ToInt32(byteTemperature[byteTemperature_length + temp_ch_offset]) - 48;
-                                if (vOut > 10)
-                                    vOut = vOut - 7;
-                                string channel = vOut.ToString("#00");
-
-                                dataValue = "CH:" + channel + "=" + nowTemperature.ToString("#00.0");
                             }
                             else
                             {
