@@ -111,6 +111,9 @@
     <Reference Include="AForge.Video.DirectShow">
       <HintPath>..\..\AForge.Video.DirectShow.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Video.FFMPEG">
+      <HintPath>..\..\AForge.Video.FFMPEG.dll</HintPath>
+    </Reference>
     <Reference Include="BlueRatLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>

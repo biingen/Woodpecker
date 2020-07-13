@@ -938,10 +938,10 @@
             this.comboBox_CameraAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraAudio.FormattingEnabled = true;
-            this.comboBox_CameraAudio.Location = new System.Drawing.Point(65, 68);
+            this.comboBox_CameraAudio.Location = new System.Drawing.Point(102, 68);
             this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
-            this.comboBox_CameraAudio.Size = new System.Drawing.Size(198, 26);
+            this.comboBox_CameraAudio.Size = new System.Drawing.Size(161, 26);
             this.comboBox_CameraAudio.TabIndex = 50;
             this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
             // 

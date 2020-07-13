@@ -38,6 +38,7 @@ using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
 using AForge.Video;
 using AForge.Video.DirectShow;
+using AForge.Video.FFMPEG;
 //using DirectX.Capture;
 //using NationalInstruments.DAQmx;
 
@@ -153,30 +154,23 @@ namespace Woodpecker
         private CA200SRVRLib.Probe objProbe;
         private Boolean isMsr;
 
-        //Webcam
+        //AForge Webcam
         public FilterInfoCollection USB_Webcams = null;//FilterInfoCollection類別實體化
         public VideoCaptureDevice Cam = null;//攝像頭的初始化
         private int Cam_Indexof = 0;
         private int Res_Indexof = 0;
-        private Bitmap video;
-        //private AVIWriter AVIwriter = new AVIWriter();
-        //private VideoFileWriter FileWriter = new VideoFileWriter();
-        private Thread workerThread = null;
-        private bool stopProcess = false;
-
-        //AForge
-        private FilterInfoCollection videoDevices;
-        private VideoCaptureDevice videoDevice;
-        private VideoCapabilities[] snapshotCapabilities;
-
         private Stopwatch stopWatch = null;
         private static bool needSnapshot = false;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer;
+        private Bitmap video;
+        //private AVIWriter AVIwriter = new AVIWriter();
+        private VideoFileWriter FileWriter = new VideoFileWriter();
+        private Thread workerThread = null;
+        private bool stopProcess = false;      
 
         // DirectX
         //private Capture capture = null;
         //private Filters filters = null;
-
 
         bool ifStatementFlag = false;
         bool TemperatureIsFound = false;
@@ -10295,7 +10289,7 @@ namespace Woodpecker
 
             int h = Cam.VideoResolution.FrameSize.Height;
             int w = Cam.VideoResolution.FrameSize.Width;
-            //FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
+            FileWriter.Open(t, w, h, 25, VideoCodec.Default, 5000000);
             stopProcess = false;
             workerThread = new Thread(new ThreadStart(recordLiveCam));
             workerThread.Start();
@@ -10308,10 +10302,10 @@ namespace Woodpecker
             {
                 while (GlobalData.VideoRecording)
                 {
-                    //FileWriter.WriteVideoFrame(video);
+                    FileWriter.WriteVideoFrame(video);
                     Thread.Sleep(28);
                 }
-                //FileWriter.Close();
+                FileWriter.Close();
             }
             else
             {
@@ -10320,17 +10314,10 @@ namespace Woodpecker
         }
         #endregion
 
+        #region -- AForge Camera Record --
         private void OnOffCamera()//啟動攝影機//
         {
-            if (_captureInProgress == true)
-            {
                 Camstart();
-            }
-
-            if (_captureInProgress == false && Cam != null)
-            {
-                Cam.Stop();
-            }
         }
 
         private void Camstart()
@@ -10347,15 +10334,14 @@ namespace Woodpecker
                 else
                     Res_Indexof = 0;
                 Cam.VideoResolution = Cam.VideoCapabilities[Res_Indexof];
-                Cam.NewFrame += new NewFrameEventHandler(Cam_NewFrame);//Press Tab  to   create
+                OpenVideoSource(Cam);
             }
-            finally
+            catch (Exception err)
             {
-                Cam.Start();
+                MessageBox.Show(err.ToString());
             }
         }
 
-        #region -- Camera Record --
         //Delegate Untuk Capture, insert database, update ke grid 
         public delegate void CaptureSnapshotManifast(Bitmap image);
         public void UpdateCaptureSnapshotManifast(Bitmap image)
@@ -10363,48 +10349,150 @@ namespace Woodpecker
             try
             {
                 needSnapshot = false;
-                panelVideo.Image = image;
-                panelVideo.Update();
-
+                debug_process("CaptureDone");
                 string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-                string namaImage = "sampleImage";
-                string nameCapture = namaImage + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".bmp";
+                //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
-                if (Directory.Exists(fName))
+                //圖片印字
+                Bitmap newBitmap = CloneBitmap(image);
+                newBitmap = CloneBitmap(image);
+                pictureBox4.Image = newBitmap;
+
+                if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
                 {
-                    panelVideo.Image.Save(fName + "\\" + nameCapture, ImageFormat.Bmp);
+                    // Create Compare folder
+                    string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
+                    //string ngPath = fName + "\\" + ngFolder;
+                    string compareFile = comparePath + "\\" + "cf-" + GlobalData.Loop_Number + "_" + GlobalData.caption_Num + ".png";
+                    if (GlobalData.caption_Num == 0)
+                        GlobalData.caption_Num++;
+                    /*
+                    if (Directory.Exists(ngPath))
+                    {
+
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(ngPath);
+                    }
+                    */
+                    // 圖片比較
+
+                    /*
+                    newBitmap = CloneBitmap(e);
+                    newBitmap = RGB2Gray(newBitmap);
+                    newBitmap = ConvertTo1Bpp2(newBitmap);
+                    newBitmap = SobelEdgeDetect(newBitmap);                
+                    this.pictureBox4.Image = newBitmap;
+                    */
+                    pictureBox4.Image.Save(compareFile);
+                    if (GlobalData.Loop_Number < 2)
+                    {
+
+                    }
+                    else
+                    {
+                        Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
+                        MyCompareThread.Start();
+                    }
+                }
+
+                Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
+                Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+                Brush FontColor = new SolidBrush(Color.Red);
+                string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+                int YPoint = int.Parse(Resolution[1]);
+
+                //照片印上現在步驟//
+                if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+                {
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
+                                    Font,
+                                    FontColor,
+                                    new PointF(5, YPoint - 120));
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                    Font,
+                                    FontColor,
+                                    new PointF(5, YPoint - 80));
                 }
                 else
                 {
-                    Directory.CreateDirectory(fName);
-                    panelVideo.Image.Save(fName + "\\" + nameCapture, ImageFormat.Bmp);
+                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                    Font,
+                    FontColor,
+                    new PointF(5, YPoint - 80));
                 }
+                //照片印上現在時間//
+                bitMap_g.DrawString(TimeLabel.Text,
+                                    Font,
+                                    FontColor,
+                                    new PointF(5, YPoint - 40));
 
+                Font.Dispose();
+                FontColor.Dispose();
+                bitMap_g.Dispose();
+
+                string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").png";
+                pictureBox4.Image.Save(t, ImageFormat.Png);
+                debug_process("Save the CaptureDone Picture");
+                button_Start.Enabled = true;
+                setStyle();
+                debug_process("Stop the CaptureDone function");
             }
 
             catch { }
 
         }
 
-        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        public void OpenVideoSource(IVideoSource source)
         {
             try
             {
-                DateTime now = DateTime.Now;
-                Graphics g = Graphics.FromImage(image);
+                // set busy cursor
+                this.Cursor = Cursors.WaitCursor;
 
-                // paint current time
-                SolidBrush brush = new SolidBrush(Color.Red);
-                g.DrawString(now.ToString(), this.Font, brush, new PointF(5, 5));
-                brush.Dispose();
-                if (needSnapshot)
-                {
-                    this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), image);
-                }
-                g.Dispose();
+                // stop current video source
+                CloseCurrentVideoSource();
+
+                // start new video source
+                videoSourcePlayer.VideoSource = source;
+                videoSourcePlayer.Start();
+
+                // reset stop watch
+                stopWatch = null;
+
+
+                this.Cursor = Cursors.Default;
             }
-            catch
-            { }
+            catch { }
+        }
+
+        public void CloseCurrentVideoSource()
+        {
+            try
+            {
+
+                if (videoSourcePlayer.VideoSource != null)
+                {
+                    videoSourcePlayer.SignalToStop();
+
+                    // wait ~ 3 seconds
+                    for (int i = 0; i < 30; i++)
+                    {
+                        if (!videoSourcePlayer.IsRunning)
+                            break;
+                        System.Threading.Thread.Sleep(100);
+                    }
+
+                    if (videoSourcePlayer.IsRunning)
+                    {
+                        videoSourcePlayer.Stop();
+                    }
+
+                    videoSourcePlayer.VideoSource = null;
+                }
+            }
+            catch { }
         }
         #endregion
 
@@ -11251,7 +11339,7 @@ namespace Woodpecker
                 _captureInProgress = true;
                 OnOffCamera();
             }
-            panelVideo.BringToFront();
+            videoSourcePlayer.BringToFront();
             comboBox_CameraDevice.Enabled = true;
             comboBox_CameraDevice.BringToFront();
         }
@@ -13474,6 +13562,16 @@ namespace Woodpecker
             }
 
             Overbuffersave();
+
+            try
+            {
+                if (needSnapshot)
+                {
+                    Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), videoSourcePlayer.GetCurrentVideoFrame());
+                }
+            }
+            catch
+            { }
         }
 
         private void Overbuffersave()
