@@ -1306,8 +1306,9 @@ namespace Woodpecker
             this.videoSourcePlayer.Name = "videoSourcePlayer";
             this.videoSourcePlayer.Size = new System.Drawing.Size(1188, 500);
             this.videoSourcePlayer.TabIndex = 5;
-            this.videoSourcePlayer.Text = "videoSourcePlayer1";
+            this.videoSourcePlayer.Text = "videoSourcePlayer";
             this.videoSourcePlayer.VideoSource = null;
+            // this.videoSourcePlayer.NewFrame += new AForge.Controls.VideoSourcePlayer.NewFrameHandler(this.videoSourcePlayer_NewFrame);
             // 
             // pictureBox5
             // 

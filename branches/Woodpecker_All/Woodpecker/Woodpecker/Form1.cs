@@ -9102,6 +9102,7 @@ namespace Woodpecker
                         }
                         #endregion
                         debug_process("End.");
+                        DisposeRam();
                     }
 
                     #region -- Import database --
@@ -10317,7 +10318,7 @@ namespace Woodpecker
         #region -- AForge Camera Record --
         private void OnOffCamera()//啟動攝影機//
         {
-                Camstart();
+            Camstart();
         }
 
         private void Camstart()
@@ -10432,8 +10433,8 @@ namespace Woodpecker
                 FontColor.Dispose();
                 bitMap_g.Dispose();
 
-                string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").png";
-                pictureBox4.Image.Save(t, ImageFormat.Png);
+                string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").Jpeg";
+                pictureBox4.Image.Save(t, ImageFormat.Jpeg);
                 debug_process("Save the CaptureDone Picture");
                 button_Start.Enabled = true;
                 setStyle();
@@ -10493,6 +10494,27 @@ namespace Woodpecker
                 }
             }
             catch { }
+        }
+
+        private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
+        {
+            try
+            {
+                DateTime now = DateTime.Now;
+                Graphics g = Graphics.FromImage(image);
+
+                // paint current time
+                SolidBrush brush = new SolidBrush(Color.Red);
+                g.DrawString(now.ToString(), this.Font, brush, new PointF(5, 5));
+                brush.Dispose();
+                if (needSnapshot)
+                {
+                    this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), image);
+                }
+                g.Dispose();
+            }
+            catch
+            { }
         }
         #endregion
 
@@ -11157,9 +11179,30 @@ namespace Woodpecker
                         button_Camera.Enabled = true;
                         string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
                         comboBox_CameraDevice.Items.Clear();
-                        foreach (string cd in cameraDevice)
+
+                        USB_Webcams = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                        if (USB_Webcams.Count > 0)  // The quantity of WebCam must be more than 0.
                         {
-                            comboBox_CameraDevice.Items.Add(cd);
+                            ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", USB_Webcams.Count.ToString());
+                            foreach (FilterInfo device in USB_Webcams)
+                            {
+                                comboBox_CameraDevice.Items.Add(device.Name);
+                                if (device.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                                {
+                                    comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                                }
+                            }
+
+                            if (comboBox_CameraDevice.Text == "" && USB_Webcams.Count > 0)
+                            {
+                                comboBox_CameraDevice.SelectedIndex = USB_Webcams.Count - 1;
+                                ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                                ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                            }
+                        }
+                        else
+                        {
+                            comboBox_CameraDevice.Items.Add("No video input device is connected.");
                         }
                         comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
@@ -13563,15 +13606,10 @@ namespace Woodpecker
 
             Overbuffersave();
 
-            try
+            if (needSnapshot)
             {
-                if (needSnapshot)
-                {
-                    Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), videoSourcePlayer.GetCurrentVideoFrame());
-                }
+                this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), videoSourcePlayer.GetCurrentVideoFrame());
             }
-            catch
-            { }
         }
 
         private void Overbuffersave()
