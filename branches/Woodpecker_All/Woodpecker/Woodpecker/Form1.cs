@@ -10100,10 +10100,6 @@ namespace Woodpecker
         #region -- 拍照 --
         void Cam_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            //throw new NotImplementedException();
-            video = (Bitmap)eventArgs.Frame.Clone();
-            panelVideo.Image = (Bitmap)eventArgs.Frame.Clone();
-
             try
             {
                 DateTime now = DateTime.Now;
@@ -10354,86 +10350,10 @@ namespace Woodpecker
                 string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
                 //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
 
-                //圖片印字
-                Bitmap newBitmap = CloneBitmap(image);
-                newBitmap = CloneBitmap(image);
-                pictureBox4.Image = newBitmap;
+                pictureBox4.Image = image;
+                pictureBox4.Update();
 
-                if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
-                {
-                    // Create Compare folder
-                    string comparePath = ini12.INIRead(MainSettingPath, "Record", "ComparePath", "");
-                    //string ngPath = fName + "\\" + ngFolder;
-                    string compareFile = comparePath + "\\" + "cf-" + GlobalData.Loop_Number + "_" + GlobalData.caption_Num + ".png";
-                    if (GlobalData.caption_Num == 0)
-                        GlobalData.caption_Num++;
-                    /*
-                    if (Directory.Exists(ngPath))
-                    {
-
-                    }
-                    else
-                    {
-                        Directory.CreateDirectory(ngPath);
-                    }
-                    */
-                    // 圖片比較
-
-                    /*
-                    newBitmap = CloneBitmap(e);
-                    newBitmap = RGB2Gray(newBitmap);
-                    newBitmap = ConvertTo1Bpp2(newBitmap);
-                    newBitmap = SobelEdgeDetect(newBitmap);                
-                    this.pictureBox4.Image = newBitmap;
-                    */
-                    pictureBox4.Image.Save(compareFile);
-                    if (GlobalData.Loop_Number < 2)
-                    {
-
-                    }
-                    else
-                    {
-                        Thread MyCompareThread = new Thread(new ThreadStart(MyCompareCamd));
-                        MyCompareThread.Start();
-                    }
-                }
-
-                Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-                Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-                Brush FontColor = new SolidBrush(Color.Red);
-                string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
-                int YPoint = int.Parse(Resolution[1]);
-
-                //照片印上現在步驟//
-                if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
-                {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 120));
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 80));
-                }
-                else
-                {
-                    bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                    Font,
-                    FontColor,
-                    new PointF(5, YPoint - 80));
-                }
-                //照片印上現在時間//
-                bitMap_g.DrawString(TimeLabel.Text,
-                                    Font,
-                                    FontColor,
-                                    new PointF(5, YPoint - 40));
-
-                Font.Dispose();
-                FontColor.Dispose();
-                bitMap_g.Dispose();
-
-                string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").Jpeg";
+                string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").jpeg";
                 pictureBox4.Image.Save(t, ImageFormat.Jpeg);
                 debug_process("Save the CaptureDone Picture");
                 button_Start.Enabled = true;
@@ -10500,12 +10420,38 @@ namespace Woodpecker
         {
             try
             {
-                DateTime now = DateTime.Now;
+                string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+                int YPoint = int.Parse(Resolution[1]);
                 Graphics g = Graphics.FromImage(image);
 
                 // paint current time
+                Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
                 SolidBrush brush = new SolidBrush(Color.Red);
-                g.DrawString(now.ToString(), this.Font, brush, new PointF(5, 5));
+                //照片印上現在步驟//
+                if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+                {
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 120));
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 80));
+                }
+                else
+                {
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                    Font,
+                    brush,
+                    new PointF(5, YPoint - 80));
+                }
+                //照片印上現在時間//
+                g.DrawString(TimeLabel.Text,
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 40));
+                Font.Dispose();
                 brush.Dispose();
                 if (needSnapshot)
                 {
@@ -13605,11 +13551,6 @@ namespace Woodpecker
             }
 
             Overbuffersave();
-
-            if (needSnapshot)
-            {
-                this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), videoSourcePlayer.GetCurrentVideoFrame());
-            }
         }
 
         private void Overbuffersave()
