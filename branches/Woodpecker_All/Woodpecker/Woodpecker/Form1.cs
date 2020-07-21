@@ -5657,963 +5657,863 @@ namespace Woodpecker
 
                         Record_Schedule();
 
-                        #region -- _cmd --
-                        if (columns_command == "_cmd")
+                        switch (columns_command)
                         {
-                            #region -- AC SWITCH OLD --
-                            if (columns_switch == "_on")
-                            {
-                                Console.WriteLine("AC SWITCH OLD: _on");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                            #region -- _cmd --
+                            case "_cmd":
+                                switch (columns_switch)
                                 {
-                                    if (PL2303_GP0_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                        if (bSuccess)
+                                    #region -- AC SWITCH OLD --
+                                    case "_on":
+                                        Console.WriteLine("AC SWITCH OLD: _on");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                                         {
+                                            if (PL2303_GP0_Enable(hCOM, 1) == true)
                                             {
-                                                PowerState = true;
-                                                pictureBox_AcPower.Image = Properties.Resources.ON;
-                                                label_Command.Text = "AC ON";
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = true;
+                                                        pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                        label_Command.Text = "AC ON";
+                                                    }
+                                                }
+                                            }
+                                            if (PL2303_GP1_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = true;
+                                                        pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                        label_Command.Text = "AC ON";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                    if (PL2303_GP1_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
-                                        if (bSuccess)
+                                        else
                                         {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_off":
+                                        Console.WriteLine("AC SWITCH OLD: _off");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP0_Enable(hCOM, 1) == true)
                                             {
-                                                PowerState = true;
-                                                pictureBox_AcPower.Image = Properties.Resources.ON;
-                                                label_Command.Text = "AC ON";
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = false;
+                                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                        label_Command.Text = "AC OFF";
+                                                    }
+                                                }
+                                            }
+                                            if (PL2303_GP1_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = false;
+                                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                        label_Command.Text = "AC OFF";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-                            if (columns_switch == "_off")
-                            {
-                                Console.WriteLine("AC SWITCH OLD: _off");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP0_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                        if (bSuccess)
+                                        else
                                         {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+                                    #endregion
+
+                                    #region -- AC SWITCH --
+                                    case "_AC1_ON":
+                                        Console.WriteLine("AC SWITCH: _AC1_ON");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP0_Enable(hCOM, 1) == true)
                                             {
-                                                PowerState = false;
-                                                pictureBox_AcPower.Image = Properties.Resources.OFF;
-                                                label_Command.Text = "AC OFF";
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = true;
+                                                        pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                        label_Command.Text = "AC1 => POWER ON";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
-                                    if (PL2303_GP1_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
-                                        if (bSuccess)
+                                        else
                                         {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_AC1_OFF":
+                                        Console.WriteLine("AC SWITCH: _AC1_OFF");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP0_Enable(hCOM, 1) == true)
                                             {
-                                                PowerState = false;
-                                                pictureBox_AcPower.Image = Properties.Resources.OFF;
-                                                label_Command.Text = "AC OFF";
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = false;
+                                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                        label_Command.Text = "AC1 => POWER OFF";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_AC2_ON":
+                                        Console.WriteLine("AC SWITCH: _AC2_ON");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP1_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = true;
+                                                        pictureBox_AcPower.Image = Properties.Resources.ON;
+                                                        label_Command.Text = "AC2 => POWER ON";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_AC2_OFF":
+                                        Console.WriteLine("AC SWITCH: _AC2_OFF");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP1_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
+                                                if (bSuccess)
+                                                {
+                                                    {
+                                                        PowerState = false;
+                                                        pictureBox_AcPower.Image = Properties.Resources.OFF;
+                                                        label_Command.Text = "AC2 => POWER OFF";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+                                    #endregion
+
+                                    #region -- USB SWITCH --
+                                    case "_USB1_DUT":
+                                        Console.WriteLine("USB SWITCH: _USB1_DUT");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP2_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
+                                                if (bSuccess == true)
+                                                {
+                                                    {
+                                                        USBState = false;
+                                                        label_Command.Text = "USB1 => DUT";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_USB1_PC":
+                                        Console.WriteLine("USB SWITCH: _USB1_PC");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP2_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
+                                                if (bSuccess == true)
+                                                {
+                                                    {
+                                                        USBState = true;
+                                                        label_Command.Text = "USB1 => PC";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_USB2_DUT":
+                                        Console.WriteLine("USB SWITCH: _USB2_DUT");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP3_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("1");
+                                                bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
+                                                if (bSuccess == true)
+                                                {
+                                                    {
+                                                        USBState = false;
+                                                        label_Command.Text = "USB2 => DUT";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+
+                                    case "_USB2_PC":
+                                        Console.WriteLine("USB SWITCH: _USB2_PC");
+                                        if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            if (PL2303_GP3_Enable(hCOM, 1) == true)
+                                            {
+                                                uint val = (uint)int.Parse("0");
+                                                bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
+                                                if (bSuccess == true)
+                                                {
+                                                    {
+                                                        USBState = true;
+                                                        label_Command.Text = "USB2 => PC";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                        }
+                                        break;
+                                        #endregion
                                 }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
+                                break;
                             #endregion
 
-                            #region -- AC SWITCH --
-                            if (columns_switch == "_AC1_ON")
-                            {
-                                Console.WriteLine("AC SWITCH: _AC1_ON");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                            #region -- 拍照 --
+                            case "_shot":
+                                debug_process("_shot");
+                                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
-                                    if (PL2303_GP0_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                        if (bSuccess)
-                                        {
-                                            {
-                                                PowerState = true;
-                                                pictureBox_AcPower.Image = Properties.Resources.ON;
-                                                label_Command.Text = "AC1 => POWER ON";
-                                            }
-                                        }
-                                    }
+                                    GlobalData.caption_Num++;
+                                    if (GlobalData.Loop_Number == 1)
+                                        GlobalData.caption_Sum = GlobalData.caption_Num;
+                                    Jes();
+                                    label_Command.Text = "Take Picture";
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    button_Start.PerformClick();
+                                    MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
+                                    setStyle();
                                 }
-                            }
-                            if (columns_switch == "_AC1_OFF")
-                            {
-                                Console.WriteLine("AC SWITCH: _AC1_OFF");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP0_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP0_SetValue(hCOM, val);
-                                        if (bSuccess)
-                                        {
-                                            {
-                                                PowerState = false;
-                                                pictureBox_AcPower.Image = Properties.Resources.OFF;
-                                                label_Command.Text = "AC1 => POWER OFF";
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-
-                            if (columns_switch == "_AC2_ON")
-                            {
-                                Console.WriteLine("AC SWITCH: _AC2_ON");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP1_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
-                                        if (bSuccess)
-                                        {
-                                            {
-                                                PowerState = true;
-                                                pictureBox_AcPower.Image = Properties.Resources.ON;
-                                                label_Command.Text = "AC2 => POWER ON";
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
-                            if (columns_switch == "_AC2_OFF")
-                            {
-                                Console.WriteLine("AC SWITCH: _AC2_OFF");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP1_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP1_SetValue(hCOM, val);
-                                        if (bSuccess)
-                                        {
-                                            {
-                                                PowerState = false;
-                                                pictureBox_AcPower.Image = Properties.Resources.OFF;
-                                                label_Command.Text = "AC2 => POWER OFF";
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Autobox Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
+                                debug_process("Take Picture: _shot_stop");
+                                break;
                             #endregion
 
-                            #region -- USB SWITCH --
-                            if (columns_switch == "_USB1_DUT")
-                            {
-                                Console.WriteLine("USB SWITCH: _USB1_DUT");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                            #region -- 錄影 --
+                            case "_rec_start":
+                                debug_process("Take Record: _rec_start");
+                                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
-                                    if (PL2303_GP2_Enable(hCOM, 1) == true)
+                                    if (GlobalData.VideoRecording == false)
                                     {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
-                                        if (bSuccess == true)
-                                        {
-                                            {
-                                                USBState = false;
-                                                label_Command.Text = "USB1 => DUT";
-                                            }
-                                        }
+                                        Mysvideo(); // 開新檔
+                                        GlobalData.VideoRecording = true;
+                                        Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
+                                        oThreadC.Start();
                                     }
+                                    label_Command.Text = "Start Recording";
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    button_Start.PerformClick();
                                 }
-                            }
-                            else if (columns_switch == "_USB1_PC")
-                            {
-                                Console.WriteLine("USB SWITCH: _USB1_PC");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP2_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP2_SetValue(hCOM, val);
-                                        if (bSuccess == true)
-                                        {
-                                            {
-                                                USBState = true;
-                                                label_Command.Text = "USB1 => PC";
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
+                                break;
 
-                            if (columns_switch == "_USB2_DUT")
-                            {
-                                Console.WriteLine("USB SWITCH: _USB2_DUT");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                            case "_rec_stop":
+                                debug_process("Take Record: _rec_stop");
+                                if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                                 {
-                                    if (PL2303_GP3_Enable(hCOM, 1) == true)
+                                    if (GlobalData.VideoRecording == true)       //判斷是不是正在錄影
                                     {
-                                        uint val = (uint)int.Parse("1");
-                                        bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
-                                        if (bSuccess == true)
-                                        {
-                                            {
-                                                USBState = false;
-                                                label_Command.Text = "USB2 => DUT";
-                                            }
-                                        }
+                                        GlobalData.VideoRecording = false;
+                                        Mysstop();      //先將先前的關掉
                                     }
+                                    label_Command.Text = "Stop Recording";
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    button_Start.PerformClick();
                                 }
-                            }
-                            else if (columns_switch == "_USB2_PC")
-                            {
-                                Console.WriteLine("USB SWITCH: _USB2_PC");
-                                if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                {
-                                    if (PL2303_GP3_Enable(hCOM, 1) == true)
-                                    {
-                                        uint val = (uint)int.Parse("0");
-                                        bool bSuccess = PL2303_GP3_SetValue(hCOM, val);
-                                        if (bSuccess == true)
-                                        {
-                                            {
-                                                USBState = true;
-                                                label_Command.Text = "USB2 => PC";
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Please connect an AutoKit!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                            }
+                                break;
                             #endregion
-                        }
-                        #endregion
 
-                        #region -- 拍照 --
-                        else if (columns_command == "_shot")
-                        {
-                            debug_process("_shot");
-                            if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
-                            {
-                                GlobalData.caption_Num++;
-                                if (GlobalData.Loop_Number == 1)
-                                    GlobalData.caption_Sum = GlobalData.caption_Num;
-                                Jes();
-                                label_Command.Text = "Take Picture";
-                            }
-                            else
-                            {
-                                button_Start.PerformClick();
-                                MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
-                                setStyle();
-                            }
-                            debug_process("Take Picture: _shot_stop");
-                        }
-                        #endregion
-
-                        #region -- 錄影 --
-                        else if (columns_command == "_rec_start")
-                        {
-                            debug_process("Take Record: _rec_start");
-                            if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
-                            {
-                                if (GlobalData.VideoRecording == false)
+                            #region -- Ascii --
+                            case "_ascii":
+                                try
                                 {
-                                    Mysvideo(); // 開新檔
-                                    GlobalData.VideoRecording = true;
-                                    Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
-                                    oThreadC.Start();
-                                }
-                                label_Command.Text = "Start Recording";
-                            }
-                            else
-                            {
-                                MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                button_Start.PerformClick();
-                            }
-                        }
-
-                        else if (columns_command == "_rec_stop")
-                        {
-                            debug_process("Take Record: _rec_stop");
-                            if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
-                            {
-                                if (GlobalData.VideoRecording == true)       //判斷是不是正在錄影
-                                {
-                                    GlobalData.VideoRecording = false;
-                                    Mysstop();      //先將先前的關掉
-                                }
-                                label_Command.Text = "Stop Recording";
-                            }
-                            else
-                            {
-                                MessageBox.Show("Camera is not connected", "Camera Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                button_Start.PerformClick();
-                            }
-                        }
-                        #endregion
-
-                        #region -- COM PORT --
-                        /*
-                        else if (columns_command == "_log1")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                            {
-                                switch (columns_serial)
-                                {
-                                    case "_clear":
-                                        textBox1 = string.empty; //清除textbox1
-                                        break;
-
-                                    case "_save":
-                                        Rs232save(); //存檔rs232
-                                        break;
-
-                                    default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
-                                        // string str = Convert.ToString(data);
-                                        serialPort1.WriteLine(columns_serial); //發送數據 Rs232
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
-                                        textBox1.AppendText(text);
-                                        break;
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-                        }
-
-                        else if (columns_command == "_log2")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                            {
-                                switch (columns_serial)
-                                {
-                                    case "_clear":
-                                        textBox2.Clear(); //清除textbox2
-                                        break;
-
-                                    case "_save":
-                                        ExtRs232save(); //存檔rs232
-                                        break;
-
-                                    default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
-                                        // string str = Convert.ToString(data);
-                                        serialPort2.WriteLine(columns_serial); //發送數據 Rs232
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
-                                        textBox2.AppendText(text);
-                                        break;
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-                        }
-
-                        else if (columns_command == "_log3")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                            {
-                                switch (columns_serial)
-                                {
-                                    case "_clear":
-                                        textBox3.Clear(); //清除textbox3
-                                        break;
-
-                                    case "_save":
-                                        TriRs232save(); //存檔rs232
-                                        break;
-
-                                    default:
-                                        //byte[] data = Encoding.Unicode.GetBytes(DataGridView1.Rows[GlobalData.Scheduler_Row].Cells[5].Value.ToString());
-                                        // string str = Convert.ToString(data);
-                                        serialPort3.WriteLine(columns_serial); //發送數據 Rs232
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n";
-                                        textBox3.AppendText(text);
-                                        break;
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-                        }*/
-                        #endregion
-
-                        #region -- Ascii --
-                        else if (columns_command == "_ascii")
-                        {
-                            try
-                            {
-                                for (int k = 0; k < stime; k++)
-                                {
-                                    if (k != 0)
-                                        Record_Schedule();
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    for (int k = 0; k < stime; k++)
                                     {
-                                        debug_process("Ascii Log: _PortA");
-                                        if (columns_serial == "_save")
+                                        if (k != 0)
+                                            Record_Schedule();
+                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                         {
-                                            Serialportsave("A"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logA_text = string.Empty; //清除logA_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortA, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Ascii command is fail, please check the format.");
-                                        }
-                                        /*
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("A", dataValue);
-                                        log_process("All", dataValue);
-                                        */
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                                    {
-                                        debug_process("Ascii Log: _PortB");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("B"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logB_text = string.Empty; //清除logB_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortB, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Ascii command is fail, please check the format.");
-                                        }
-                                        /*
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("All", dataValue);
-                                        */
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                                    {
-                                        debug_process("Ascii Log: _PortC");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("C"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logC_text = string.Empty; //清除logC_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortC, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Ascii command is fail, please check the format.");
-                                        }
-                                        /*
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("All", dataValue);
-                                        */
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                                    {
-                                        debug_process("Ascii Log: _PortD");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("D"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logD_text = string.Empty; //清除logD_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortD, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Ascii command is fail, please check the format.");
-                                        }
-                                        /*
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("All", dataValue);
-                                        */
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                                    {
-                                        debug_process("Ascii Log: _PortE");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("E"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logE_text = string.Empty; //清除logE_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortE, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Ascii command is fail, please check the format.");
-                                        }
-                                        /*
-                                        DateTime dt = DateTime.Now;
-                                        string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
-                                        */
-                                    }
-
-                                    if (columns_comport == "ALL")
-                                    {
-                                        debug_process("Ascii Log: _All");
-                                        string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-                                        string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("All"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logAll_text = string.Empty; //清除logAll_text
-                                        }
-
-                                        if (switch_content.Length != 0)
-                                        {
-                                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                            debug_process("Ascii Log: _PortA");
+                                            if (columns_serial == "_save")
                                             {
-                                                ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
-                                                DateTime dt = DateTime.Now;
-                                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                                textBox_serial.AppendText(dataValue);
-                                                log_process("A", dataValue);
-                                                log_process("All", dataValue);
+                                                Serialportsave("A"); //存檔rs232
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                            else if (columns_serial == "_clear")
                                             {
-                                                ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
-                                                DateTime dt = DateTime.Now;
-                                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                                textBox_serial.AppendText(dataValue);
-                                                log_process("B", dataValue);
-                                                log_process("All", dataValue);
+                                                logA_text = string.Empty; //清除logA_text
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                            else if (columns_serial != "" || columns_switch != "")
                                             {
-                                                ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
-                                                DateTime dt = DateTime.Now;
-                                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                                textBox_serial.AppendText(dataValue);
-                                                log_process("C", dataValue);
-                                                log_process("All", dataValue);
+                                                ReplaceNewLine(PortA, columns_serial, columns_switch);
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                            else if (columns_serial == "" && columns_switch == "")
                                             {
-                                                ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
-                                                DateTime dt = DateTime.Now;
-                                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                                textBox_serial.AppendText(dataValue);
-                                                log_process("D", dataValue);
-                                                log_process("All", dataValue);
+                                                MessageBox.Show("Ascii command is fail, please check the format.");
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
-                                            {
-                                                ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
-                                                DateTime dt = DateTime.Now;
-                                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                                textBox_serial.AppendText(dataValue);
-                                                log_process("E", dataValue);
-                                                log_process("All", dataValue);
-                                            }
-                                        }
-                                    }
-                                    label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    RedRatDBViewer_Delay(sRepeat);
-                                }
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- Execute --
-                        else if (columns_command == "_Execute")
-                        {
-                            //If voltage matched the expected value
-                            if (PowerSupplyCheck)
-                            {
-                                IO_CMD();
-                            }
-                            PowerSupplyCheck = false;
-
-                            if (columns_serial == "_pause")
-                            {
-                                behavior_Pause = true;
-                                timer_pause = true;
-                            }
-                            else if (columns_serial == "_shot")
-                            {
-                                behavior_Shot = true;
-                                timer_shot = true;
-                            }
-                            else if (columns_serial == "_mail")
-                            {
-                                behavior_Mail = true;
-                            }
-                            else if (columns_serial == "_stop")
-                            {
-                                behavior_Stop = true;
-                            }
-                            else if (columns_serial == "_ac_restart")
-                            {
-                                behavior_AC_restart = true;
-                            }
-                            else if (columns_serial == "_accumulate")
-                            {
-                                behavior_Accumulate = true;
-                            }
-                            else if (columns_serial.Substring(0, 7) == "_logcmd")
-                            {
-                                int startIndex = 10;
-                                int length = columns_serial.Length - 10;
-                                String log_cmd_substring = columns_serial.Substring(startIndex, length);
-                                behavior_Ascii = true;
-                                behavior_serialPort = columns_serial.Substring(8, 1);
-                                behavior_serialLog = log_cmd_substring;
-                                behavior_serialNewline = columns_switch;
-                                timer_log = true;
-                                timer_log_port = columns_serial.Substring(8, 1);
-                                timer_log_cmd = log_cmd_substring;
-                                timer_log_newline = columns_switch;
-                            }
-                        }
-
-                        #endregion
-
-                        #region -- Condition_AND --
-                        else if (columns_command == "_Condition_AND")
-                        {
-                            //if (columns_command.Substring(13) == "1")
-                            //{
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
-                                ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
-                                ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
-                                ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
-                                ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                            {
-                                if (columns_function == "start")
-                                {
-                                    ifStatementFlag = true;
-                                    expectedVoltage = "";
-                                    if (columns_serial != "")
-                                    {
-                                        columns_serial.Replace(" ", "");
-                                        if (columns_serial.Contains("chamber_temp"))
-                                        {
-                                            timer_Chamber.Enabled = true;
-                                            ChamberIsFound = true;
-                                            initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
-                                            finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
-                                            if (columns_serial.Contains("/-"))
-                                            {
-                                                addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
-                                            }
-                                            else
-                                            {
-                                                addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
-                                            }
-                                        }
-                                        else if (columns_serial.Contains("PowerSupply"))
-                                        {
-                                            PowerSupplyIsFound = true;
-                                            expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
-                                            string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
-                                            string powerCommand = "MEASure"+ expectedVoltage + ":ALL?"; //Read Power Supply information
+                                            /*
                                             DateTime dt = DateTime.Now;
-                                            switch (powerPort)
+                                            string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("A", dataValue);
+                                            log_process("All", dataValue);
+                                            */
+                                        }
+
+                                        if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                        {
+                                            debug_process("Ascii Log: _PortB");
+                                            if (columns_serial == "_save")
                                             {
-                                                case "A":
-                                                    ReplaceNewLine(PortA, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("A", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "B":
-                                                    ReplaceNewLine(PortB, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("B", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "C":
-                                                    ReplaceNewLine(PortC, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("C", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "D":
-                                                    ReplaceNewLine(PortD, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("D", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
-                                                case "E":
-                                                    ReplaceNewLine(PortE, powerCommand, "\\r\\n");
-                                                    //Append Power Supply command to log
-                                                    PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
-                                                    log_process("E", PowerSupplyCommandLog);
-                                                    log_process("All", PowerSupplyCommandLog);
-                                                    break;
+                                                Serialportsave("B"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logB_text = string.Empty; //清除logB_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Ascii command is fail, please check the format.");
+                                            }
+                                            /*
+                                            DateTime dt = DateTime.Now;
+                                            string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("B", dataValue);
+                                            log_process("All", dataValue);
+                                            */
+                                        }
+
+                                        if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                        {
+                                            debug_process("Ascii Log: _PortC");
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("C"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logC_text = string.Empty; //清除logC_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Ascii command is fail, please check the format.");
+                                            }
+                                            /*
+                                            DateTime dt = DateTime.Now;
+                                            string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("C", dataValue);
+                                            log_process("All", dataValue);
+                                            */
+                                        }
+
+                                        if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                        {
+                                            debug_process("Ascii Log: _PortD");
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("D"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logD_text = string.Empty; //清除logD_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Ascii command is fail, please check the format.");
+                                            }
+                                            /*
+                                            DateTime dt = DateTime.Now;
+                                            string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("D", dataValue);
+                                            log_process("All", dataValue);
+                                            */
+                                        }
+
+                                        if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                        {
+                                            debug_process("Ascii Log: _PortE");
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("E"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logE_text = string.Empty; //清除logE_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Ascii command is fail, please check the format.");
+                                            }
+                                            /*
+                                            DateTime dt = DateTime.Now;
+                                            string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("E", dataValue);
+                                            log_process("All", dataValue);
+                                            */
+                                        }
+
+                                        if (columns_comport == "ALL")
+                                        {
+                                            debug_process("Ascii Log: _All");
+                                            string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                                            string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("All"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logAll_text = string.Empty; //清除logAll_text
+                                            }
+
+                                            if (switch_content.Length != 0)
+                                            {
+                                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                                {
+                                                    ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                                    DateTime dt = DateTime.Now;
+                                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                    textBox_serial.AppendText(dataValue);
+                                                    log_process("A", dataValue);
+                                                    log_process("All", dataValue);
+                                                }
+                                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                                {
+                                                    ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
+                                                    DateTime dt = DateTime.Now;
+                                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                    textBox_serial.AppendText(dataValue);
+                                                    log_process("B", dataValue);
+                                                    log_process("All", dataValue);
+                                                }
+                                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                                {
+                                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                                    DateTime dt = DateTime.Now;
+                                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                    textBox_serial.AppendText(dataValue);
+                                                    log_process("C", dataValue);
+                                                    log_process("All", dataValue);
+                                                }
+                                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                                {
+                                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                                    DateTime dt = DateTime.Now;
+                                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                    textBox_serial.AppendText(dataValue);
+                                                    log_process("D", dataValue);
+                                                    log_process("All", dataValue);
+                                                }
+                                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                                {
+                                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                                    DateTime dt = DateTime.Now;
+                                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                                    textBox_serial.AppendText(dataValue);
+                                                    log_process("E", dataValue);
+                                                    log_process("All", dataValue);
+                                                }
                                             }
                                         }
-                                        else if (columns_serial.Contains("Temperature"))
+                                        label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                        RedRatDBViewer_Delay(sRepeat);
+                                    }
+                                }
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
+                                }
+                                break;
+                            #endregion
+
+                            #region -- Execute --
+                            case "_Execute":
+                                //If voltage matched the expected value
+                                if (PowerSupplyCheck)
+                                {
+                                    IO_CMD();
+                                }
+                                PowerSupplyCheck = false;
+
+                                switch (columns_serial)
+                                {
+                                    case "_pause":
+                                        behavior_Pause = true;
+                                        timer_pause = true;
+                                        break;
+                                    case "_shot":
+                                        behavior_Shot = true;
+                                        timer_shot = true;
+                                        break;
+                                    case "_mail":
+                                        behavior_Mail = true;
+                                        break;
+                                    case "_stop":
+                                        behavior_Stop = true;
+                                        break;
+                                    case "_ac_restart":
+                                        behavior_AC_restart = true;
+                                        break;
+                                    case "_accumulate":
+                                        behavior_Accumulate = true;
+                                        break;
+                                }
+
+                                if (columns_serial.Substring(0, 7) == "_logcmd")
+                                {
+                                    int startIndex = 10;
+                                    int length = columns_serial.Length - 10;
+                                    String log_cmd_substring = columns_serial.Substring(startIndex, length);
+                                    behavior_Ascii = true;
+                                    behavior_serialPort = columns_serial.Substring(8, 1);
+                                    behavior_serialLog = log_cmd_substring;
+                                    behavior_serialNewline = columns_switch;
+                                    timer_log = true;
+                                    timer_log_port = columns_serial.Substring(8, 1);
+                                    timer_log_cmd = log_cmd_substring;
+                                    timer_log_newline = columns_switch;
+                                }
+                                break;
+                            #endregion
+
+                            #region -- Condition_AND --
+                            case "_Condition_AND":
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" ||
+                                    ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
+                                {
+                                    if (columns_function == "start")
+                                    {
+                                        ifStatementFlag = true;
+                                        expectedVoltage = "";
+                                        if (columns_serial != "")
                                         {
-                                            try
+                                            columns_serial.Replace(" ", "");
+                                            if (columns_serial.Contains("chamber_temp"))
                                             {
-                                                //	lt：less than 小於
-                                                //	le：less than or equal to 小於等於
-                                                //	eq：equal to 等於
-                                                //	ne：not equal to 不等於
-                                                //	ge：greater than or equal to 大於等於
-                                                //	gt：greater than 大於
+                                                timer_Chamber.Enabled = true;
+                                                ChamberIsFound = true;
+                                                initialTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("=") + 1, columns_serial.IndexOf("~") - columns_serial.IndexOf("=") - 1));
+                                                finalTemperature = Int16.Parse(columns_serial.Substring(columns_serial.IndexOf("~") + 1, columns_serial.IndexOf("/") - columns_serial.IndexOf("~") - 1));
+                                                if (columns_serial.Contains("/-"))
+                                                {
+                                                    addTemperature = float.Parse("-" + columns_serial.Substring(columns_serial.IndexOf("-") + 1));
+                                                }
+                                                else
+                                                {
+                                                    addTemperature = float.Parse(columns_serial.Substring(columns_serial.IndexOf("+") + 1));
+                                                }
+                                            }
+                                            else if (columns_serial.Contains("PowerSupply"))
+                                            {
+                                                PowerSupplyIsFound = true;
+                                                expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 2);
+                                                string powerPort = columns_serial.Substring(columns_serial.IndexOf("=") + 1, 1);
+                                                string powerCommand = "MEASure" + expectedVoltage + ":ALL?"; //Read Power Supply information
+                                                DateTime dt = DateTime.Now;
+                                                switch (powerPort)
+                                                {
+                                                    case "A":
+                                                        ReplaceNewLine(PortA, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("A", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "B":
+                                                        ReplaceNewLine(PortB, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("B", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "C":
+                                                        ReplaceNewLine(PortC, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("C", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "D":
+                                                        ReplaceNewLine(PortD, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("D", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                    case "E":
+                                                        ReplaceNewLine(PortE, powerCommand, "\\r\\n");
+                                                        //Append Power Supply command to log
+                                                        PowerSupplyCommandLog = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + powerCommand + "\r\n";
+                                                        log_process("E", PowerSupplyCommandLog);
+                                                        log_process("All", PowerSupplyCommandLog);
+                                                        break;
+                                                }
+                                            }
+                                            else if (columns_serial.Contains("Temperature"))
+                                            {
+                                                try
+                                                {
+                                                    //	lt：less than 小於
+                                                    //	le：less than or equal to 小於等於
+                                                    //	eq：equal to 等於
+                                                    //	ne：not equal to 不等於
+                                                    //	ge：greater than or equal to 大於等於
+                                                    //	gt：greater than 大於
 
-                                                TemperatureIsFound = true;
-                                                TemperatureAndCmd = true;
-                                                temperatureList.Clear();
-                                                int symbel_equal_3d = columns_serial.IndexOf("=");
-                                                int symbel_equal_7e = columns_serial.IndexOf("~");
-                                                int symbel_equal_2f = columns_serial.IndexOf("/");
-                                                int symbel_equal_28 = columns_serial.IndexOf("(");
-                                                int symbel_equal_29 = columns_serial.IndexOf(")");
-                                                int symbel_equal_6d29 = columns_serial.IndexOf("m)");
-                                                int symbel_equal_3c = columns_serial.IndexOf("<");
-                                                int symbel_equal_3e = columns_serial.IndexOf(">");
-                                                int symbel_equal_3d3d = columns_serial.IndexOf("==");
-                                                int symbel_equal_3c3e = columns_serial.IndexOf("<>");
-                                                int symbel_equal_3c3d = columns_serial.IndexOf("<=");
-                                                int symbel_equal_3e3d = columns_serial.IndexOf(">=");
-                                                int duringTimeInt = 0;
-                                                int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
-                                                string initialTemperatureStr = "", finalTemperatureStr = "", addTemperatureStr = "", temperatureChannelStr = "";
+                                                    TemperatureIsFound = true;
+                                                    TemperatureAndCmd = true;
+                                                    temperatureList.Clear();
+                                                    int symbel_equal_3d = columns_serial.IndexOf("=");
+                                                    int symbel_equal_7e = columns_serial.IndexOf("~");
+                                                    int symbel_equal_2f = columns_serial.IndexOf("/");
+                                                    int symbel_equal_28 = columns_serial.IndexOf("(");
+                                                    int symbel_equal_29 = columns_serial.IndexOf(")");
+                                                    int symbel_equal_6d29 = columns_serial.IndexOf("m)");
+                                                    int symbel_equal_3c = columns_serial.IndexOf("<");
+                                                    int symbel_equal_3e = columns_serial.IndexOf(">");
+                                                    int symbel_equal_3d3d = columns_serial.IndexOf("==");
+                                                    int symbel_equal_3c3e = columns_serial.IndexOf("<>");
+                                                    int symbel_equal_3c3d = columns_serial.IndexOf("<=");
+                                                    int symbel_equal_3e3d = columns_serial.IndexOf(">=");
+                                                    int duringTimeInt = 0;
+                                                    int parameter_equal_Temperature = columns_serial.IndexOf("Temperature");
+                                                    string initialTemperatureStr = "", finalTemperatureStr = "", addTemperatureStr = "", temperatureChannelStr = "";
 
-                                                if (columns_serial.Contains("~") && columns_serial.Contains("/"))
-                                                {
-                                                    initialTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                    finalTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
-                                                    addTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
-                                                    temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
-                                                    symbelOperation = "";
-                                                }
-                                                else if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
-                                                {
-                                                    initialTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
-                                                    finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
-                                                    temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c3e - parameter_equal_Temperature - 11);
-                                                    symbelOperation = "<>";
-                                                }
-                                                else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
-                                                {
-                                                    finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
-                                                    initialTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
-                                                    temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d3d - parameter_equal_Temperature - 11);
-                                                    symbelOperation = "==";
-                                                }
-                                                else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
-                                                {
-                                                    if (columns_serial.Contains("<="))
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
                                                     {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 2, symbel_equal_28 - symbel_equal_3c3d - 2));
-                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c3d - parameter_equal_Temperature - 11);
-                                                        symbelOperation = "<=";
+                                                        initialTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        finalTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_2f - symbel_equal_7e - 1));
+                                                        addTemperatureStr = string.Format("{0:0.00}", columns_serial.Substring(symbel_equal_2f + 1, symbel_equal_28 - symbel_equal_2f - 1));
+                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d - parameter_equal_Temperature - 11);
+                                                        symbelOperation = "";
                                                     }
-                                                    else if (columns_serial.Contains(">="))
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("<>") && columns_serial.Contains("/") == false)
                                                     {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 2, symbel_equal_28 - symbel_equal_3e3d - 2));
-                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3e3d - parameter_equal_Temperature - 11);
-                                                        symbelOperation = ">=";
-                                                    }
-                                                    else if (columns_serial.Contains("=="))
-                                                    {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 2, symbel_equal_28 - symbel_equal_3d3d - 2));
-                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d3d - parameter_equal_Temperature - 11);
-                                                        symbelOperation = "==";
-                                                    }
-                                                    else if (columns_serial.Contains("<>"))
-                                                    {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 2, symbel_equal_28 - symbel_equal_3c3e - 2));
+                                                        initialTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 1, symbel_equal_7e - symbel_equal_3c3e - 1));
+                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
                                                         temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c3e - parameter_equal_Temperature - 11);
                                                         symbelOperation = "<>";
                                                     }
-                                                    else if (columns_serial.Contains("<"))
+                                                    else if (columns_serial.Contains("~") && columns_serial.Contains("=") && columns_serial.Contains("/") == false)
                                                     {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
-                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c - parameter_equal_Temperature - 11);
-                                                        symbelOperation = "<";
+                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d + 1, symbel_equal_7e - symbel_equal_3d - 1));
+                                                        initialTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_7e + 1, symbel_equal_28 - symbel_equal_7e - 1));
+                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d3d - parameter_equal_Temperature - 11);
+                                                        symbelOperation = "==";
                                                     }
-                                                    else if (columns_serial.Contains(">"))
+                                                    else if (columns_serial.Contains("~") == false && columns_serial.Contains("/") == false)
                                                     {
-                                                        initialTemperatureStr = "";
-                                                        finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
-                                                        temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3e - parameter_equal_Temperature - 11);
-                                                        symbelOperation = ">";
+                                                        if (columns_serial.Contains("<="))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3d + 2, symbel_equal_28 - symbel_equal_3c3d - 2));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c3d - parameter_equal_Temperature - 11);
+                                                            symbelOperation = "<=";
+                                                        }
+                                                        else if (columns_serial.Contains(">="))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e3d + 2, symbel_equal_28 - symbel_equal_3e3d - 2));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3e3d - parameter_equal_Temperature - 11);
+                                                            symbelOperation = ">=";
+                                                        }
+                                                        else if (columns_serial.Contains("=="))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3d3d + 2, symbel_equal_28 - symbel_equal_3d3d - 2));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3d3d - parameter_equal_Temperature - 11);
+                                                            symbelOperation = "==";
+                                                        }
+                                                        else if (columns_serial.Contains("<>"))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c3e + 2, symbel_equal_28 - symbel_equal_3c3e - 2));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c3e - parameter_equal_Temperature - 11);
+                                                            symbelOperation = "<>";
+                                                        }
+                                                        else if (columns_serial.Contains("<"))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3c + 1, symbel_equal_28 - symbel_equal_3c - 1));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3c - parameter_equal_Temperature - 11);
+                                                            symbelOperation = "<";
+                                                        }
+                                                        else if (columns_serial.Contains(">"))
+                                                        {
+                                                            initialTemperatureStr = "";
+                                                            finalTemperatureStr = string.Format("{0:0.0}", columns_serial.Substring(symbel_equal_3e + 1, symbel_equal_28 - symbel_equal_3e - 1));
+                                                            temperatureChannelStr = columns_serial.Substring(parameter_equal_Temperature + 11, symbel_equal_3e - parameter_equal_Temperature - 11);
+                                                            symbelOperation = ">";
+                                                        }
+                                                    }
+
+                                                    if (columns_serial.Contains("m)"))
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
+                                                    else
+                                                        duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
+
+                                                    if (columns_serial.Contains("~"))
+                                                        initialTemperature = float.Parse(initialTemperatureStr);
+                                                    finalTemperature = float.Parse(finalTemperatureStr);
+                                                    temperatureChannel = Convert.ToByte(int.Parse(temperatureChannelStr) + 48);
+                                                    if (columns_serial.Contains("~") && columns_serial.Contains("/"))
+                                                        addTemperature = float.Parse(addTemperatureStr);
+                                                    else
+                                                        addTemperature = 0;
+                                                    float addTemperatureInt = addTemperature;
+
+                                                    if (duringTimeInt > 0)
+                                                    {
+                                                        // Create a timer and set a two second interval.
+                                                        timer_during.Interval = duringTimeInt;
+
+                                                        // Start the timer
+                                                        timer_during.Start();
+                                                    }
+
+                                                    if (addTemperatureInt < 0)
+                                                    {
+                                                        for (float i = initialTemperature; i >= finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(conditionList);
+                                                        }
+                                                    }
+                                                    else if (addTemperatureInt > 0)
+                                                    {
+                                                        for (float i = initialTemperature; i <= finalTemperature; i += addTemperatureInt)
+                                                        {
+                                                            double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
+                                                            temperatureList.Add(conditionList);
+                                                        }
                                                     }
                                                 }
-
-                                                if (columns_serial.Contains("m)"))
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_6d29 - symbel_equal_28 - 1)) * 60000;
-                                                else
-                                                    duringTimeInt = Int16.Parse(columns_serial.Substring(symbel_equal_28 + 1, symbel_equal_29 - symbel_equal_28 - 1));
-
-                                                if (columns_serial.Contains("~"))
-                                                    initialTemperature = float.Parse(initialTemperatureStr);
-                                                finalTemperature = float.Parse(finalTemperatureStr);
-                                                temperatureChannel = Convert.ToByte(int.Parse(temperatureChannelStr) + 48);
-                                                if (columns_serial.Contains("~") && columns_serial.Contains("/"))
-                                                    addTemperature = float.Parse(addTemperatureStr);
-                                                else
-                                                    addTemperature = 0;
-                                                float addTemperatureInt = addTemperature;
-
-                                                if (duringTimeInt > 0)
+                                                catch (Exception Ex)
                                                 {
-                                                    // Create a timer and set a two second interval.
-                                                    timer_during.Interval = duringTimeInt;
-
-                                                    // Start the timer
-                                                    timer_during.Start();
+                                                    MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                                 }
-
-                                                if (addTemperatureInt < 0)
-                                                {
-                                                    for (float i = initialTemperature; i >= finalTemperature; i += addTemperatureInt)
-                                                    {
-                                                        double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                        temperatureList.Add(conditionList);
-                                                    }
-                                                }
-                                                else if (addTemperatureInt > 0)
-                                                {
-                                                    for (float i = initialTemperature; i <= finalTemperature; i += addTemperatureInt)
-                                                    {
-                                                        double conditionList = Convert.ToDouble(string.Format("{0:0.0}", i));
-                                                        temperatureList.Add(conditionList);
-                                                    }
-                                                }
-                                            }
-                                            catch (Exception Ex)
-                                            {
-                                                MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                             }
                                         }
                                     }
+                                    else if (columns_function == "end")
+                                    {
+                                        ifStatementFlag = false;
+
+                                        PowerSupplyCheck = false;
+                                        PowerSupplyIsFound = false;
+
+                                        ChamberCheck = false;
+                                        ChamberIsFound = false;
+                                        timer_Chamber.Enabled = false;
+
+                                        chamberTimer_IsTick = false;
+                                        timer_during.Stop();
+
+                                        temperatureList.Clear();
+
+                                        StartButtonFlag = false;
+                                    }
                                 }
-                                else if (columns_function == "end")
-                                {
-                                    ifStatementFlag = false;
+                                break;
+                            #endregion
 
-                                    PowerSupplyCheck = false;
-                                    PowerSupplyIsFound = false;
-
-                                    ChamberCheck = false;
-                                    ChamberIsFound = false;
-                                    timer_Chamber.Enabled = false;
-
-                                    chamberTimer_IsTick = false;
-                                    timer_during.Stop();
-
-                                    temperatureList.Clear();
-
-                                    StartButtonFlag = false;
-                                }
-                            }
-                            //}
-                        }
-                        #endregion
-
-                        #region -- Condition_OR --
-                        else if (columns_command == "_Condition_OR")
-                        {
-                            //if (columns_command.Substring(13) == "1")
-                            //{
+                            #region -- Condition_OR --
+                            case "_Condition_OR":
                                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ||
                                     ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" ||
                                     ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" ||
@@ -6827,7 +6727,7 @@ namespace Woodpecker
                                                         }
                                                     }
                                                 }
-                                                catch(Exception Ex)
+                                                catch (Exception Ex)
                                                 {
                                                     MessageBox.Show(Ex.Message.ToString(), "Temperature data parameter error!");
                                                 }
@@ -6840,7 +6740,7 @@ namespace Woodpecker
                                                     GPIOOrCmd = true;
                                                     GPIOList.Clear();
                                                     GPIOCount = columns_serial.Split(';').Count();
-                                                    string [] GPIOParameter = new string[GPIOCount];
+                                                    string[] GPIOParameter = new string[GPIOCount];
                                                     GPIOParameter = columns_serial.Split(';');
 
                                                     if (GPIOCount > 0)
@@ -6879,249 +6779,49 @@ namespace Woodpecker
                                         StartButtonFlag = false;
                                     }
                                 }
-                            //}
-                        }
-                        #endregion
+                                break;
+                            #endregion
 
-                        #region -- Hex --
-                        else if (columns_command == "_HEX")
-                        {
-                            try
-                            {
-                                for (int k = 0; k < stime; k++)
+                            #region -- Hex --
+                            case "_HEX":
+                                try
                                 {
-                                    if (k != 0)
-                                        Record_Schedule();
-                                    string Outputstring = "";
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    for (int k = 0; k < stime; k++)
                                     {
-                                        debug_process("Hex Log: _PortA");
-                                        if (columns_serial == "_save")
+                                        if (k != 0)
+                                            Record_Schedule();
+                                        string Outputstring = "";
+                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                                         {
-                                            Serialportsave("A"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logA_text = string.Empty; //清除logA_text
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "CRC16_Modbus")
-                                        {
-                                            string orginal_data = columns_serial;
-                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                            Outputstring = orginal_data + crc16_data;
-                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(Outputstring);
-                                            PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "")
-                                        {
-                                            string hexValues = columns_serial;
-                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(hexValues);
-                                            PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("A", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                                    {
-                                        debug_process("Hex Log: _PortB");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("B"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logB_text = string.Empty; //清除logB_text
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "CRC16_Modbus")
-                                        {
-                                            string orginal_data = columns_serial;
-                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                            Outputstring = orginal_data + crc16_data;
-                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(Outputstring);
-                                            PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "")
-                                        {
-                                            string hexValues = columns_serial;
-                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(hexValues);
-                                            PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                                    {
-                                        debug_process("Hex Log: _PortC");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("C"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logC_text = string.Empty; //清除logC_text
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "CRC16_Modbus")
-                                        {
-                                            string orginal_data = columns_serial;
-                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                            Outputstring = orginal_data + crc16_data;
-                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(Outputstring);
-                                            PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "")
-                                        {
-                                            string hexValues = columns_serial;
-                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(hexValues);
-                                            PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                                    {
-                                        debug_process("Hex Log: _PortD");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("D"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logD_text = string.Empty; //清除logD_text
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "CRC16_Modbus")
-                                        {
-                                            string orginal_data = columns_serial;
-                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                            Outputstring = orginal_data + crc16_data;
-                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(Outputstring);
-                                            PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "")
-                                        {
-                                            string hexValues = columns_serial;
-                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(hexValues);
-                                            PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-
-                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                                    {
-                                        debug_process("Hex Log: _PortE");
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("E"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logE_text = string.Empty; //清除logE_text
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "CRC16_Modbus")
-                                        {
-                                            string orginal_data = columns_serial;
-                                            string crc16_data = Crc16.PID_CRC16(orginal_data);
-                                            Outputstring = orginal_data + crc16_data;
-                                            byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(Outputstring);
-                                            PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                        }
-                                        else if (columns_serial != "_save" &&
-                                                 columns_serial != "_clear" &&
-                                                 columns_serial != "" &&
-                                                 columns_function == "")
-                                        {
-                                            string hexValues = columns_serial;
-                                            byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                            Outputbytes = HexConverter.StrToByte(hexValues);
-                                            PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-
-                                    if (columns_comport == "ALL")
-                                    {
-                                        debug_process("Hex Log: _All");
-                                        string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("All"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logAll_text = string.Empty; //清除logAll_text
-                                        }
-
-                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
-                                        {
-                                            string orginal_data = serial_content[0];
-                                            if (columns_function == "CRC16_Modbus")
+                                            debug_process("Hex Log: _PortA");
+                                            if (columns_serial == "_save")
                                             {
+                                                Serialportsave("A"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logA_text = string.Empty; //清除logA_text
+                                            }
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "CRC16_Modbus")
+                                            {
+                                                string orginal_data = columns_serial;
                                                 string crc16_data = Crc16.PID_CRC16(orginal_data);
                                                 Outputstring = orginal_data + crc16_data;
                                                 byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                                 Outputbytes = HexConverter.StrToByte(Outputstring);
                                                 PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                             }
-                                            else
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "")
                                             {
-                                                Outputstring = orginal_data;
-                                                byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                string hexValues = columns_serial;
+                                                byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(hexValues);
                                                 PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                             }
                                             DateTime dt = DateTime.Now;
@@ -7130,21 +6830,38 @@ namespace Woodpecker
                                             log_process("A", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
+
+                                        if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
                                         {
-                                            string orginal_data = serial_content[1];
-                                            if (columns_function == "CRC16_Modbus")
+                                            debug_process("Hex Log: _PortB");
+                                            if (columns_serial == "_save")
                                             {
+                                                Serialportsave("B"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logB_text = string.Empty; //清除logB_text
+                                            }
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "CRC16_Modbus")
+                                            {
+                                                string orginal_data = columns_serial;
                                                 string crc16_data = Crc16.PID_CRC16(orginal_data);
                                                 Outputstring = orginal_data + crc16_data;
                                                 byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                                 Outputbytes = HexConverter.StrToByte(Outputstring);
                                                 PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                             }
-                                            else
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "")
                                             {
-                                                Outputstring = orginal_data;
-                                                byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                string hexValues = columns_serial;
+                                                byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(hexValues);
                                                 PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                             }
                                             DateTime dt = DateTime.Now;
@@ -7153,21 +6870,38 @@ namespace Woodpecker
                                             log_process("B", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
+
+                                        if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
                                         {
-                                            string orginal_data = serial_content[2];
-                                            if (columns_function == "CRC16_Modbus")
+                                            debug_process("Hex Log: _PortC");
+                                            if (columns_serial == "_save")
                                             {
+                                                Serialportsave("C"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logC_text = string.Empty; //清除logC_text
+                                            }
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "CRC16_Modbus")
+                                            {
+                                                string orginal_data = columns_serial;
                                                 string crc16_data = Crc16.PID_CRC16(orginal_data);
                                                 Outputstring = orginal_data + crc16_data;
                                                 byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                                 Outputbytes = HexConverter.StrToByte(Outputstring);
                                                 PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                             }
-                                            else
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "")
                                             {
-                                                Outputstring = orginal_data;
-                                                byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                string hexValues = columns_serial;
+                                                byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(hexValues);
                                                 PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                             }
                                             DateTime dt = DateTime.Now;
@@ -7176,21 +6910,38 @@ namespace Woodpecker
                                             log_process("C", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
+
+                                        if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
                                         {
-                                            string orginal_data = serial_content[3];
-                                            if (columns_function == "CRC16_Modbus")
+                                            debug_process("Hex Log: _PortD");
+                                            if (columns_serial == "_save")
                                             {
+                                                Serialportsave("D"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logD_text = string.Empty; //清除logD_text
+                                            }
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "CRC16_Modbus")
+                                            {
+                                                string orginal_data = columns_serial;
                                                 string crc16_data = Crc16.PID_CRC16(orginal_data);
                                                 Outputstring = orginal_data + crc16_data;
                                                 byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                                 Outputbytes = HexConverter.StrToByte(Outputstring);
                                                 PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                             }
-                                            else
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "")
                                             {
-                                                Outputstring = orginal_data;
-                                                byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                string hexValues = columns_serial;
+                                                byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(hexValues);
                                                 PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                             }
                                             DateTime dt = DateTime.Now;
@@ -7199,21 +6950,38 @@ namespace Woodpecker
                                             log_process("D", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
+
+                                        if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
                                         {
-                                            string orginal_data = serial_content[4];
-                                            if (columns_function == "CRC16_Modbus")
+                                            debug_process("Hex Log: _PortE");
+                                            if (columns_serial == "_save")
                                             {
+                                                Serialportsave("E"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logE_text = string.Empty; //清除logE_text
+                                            }
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "CRC16_Modbus")
+                                            {
+                                                string orginal_data = columns_serial;
                                                 string crc16_data = Crc16.PID_CRC16(orginal_data);
                                                 Outputstring = orginal_data + crc16_data;
                                                 byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                                 Outputbytes = HexConverter.StrToByte(Outputstring);
                                                 PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                             }
-                                            else
+                                            else if (columns_serial != "_save" &&
+                                                     columns_serial != "_clear" &&
+                                                     columns_serial != "" &&
+                                                     columns_function == "")
                                             {
-                                                Outputstring = orginal_data;
-                                                byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                string hexValues = columns_serial;
+                                                byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
+                                                Outputbytes = HexConverter.StrToByte(hexValues);
                                                 PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
                                             }
                                             DateTime dt = DateTime.Now;
@@ -7222,1614 +6990,1420 @@ namespace Woodpecker
                                             log_process("E", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                    }
-                                    label_Command.Text = "(" + columns_command + ") " + Outputstring;
-                                    RedRatDBViewer_Delay(sRepeat);
-                                }
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
-                            }
-                        }
-                        #endregion
 
-                        #region -- K-Line --
-                        else if (columns_command == "_K_ABS")
-                        {
-                            debug_process("K-line control: _K_ABS");
-                            try
-                            {
-                                // K-lite ABS指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
-                                {
-                                    var allDTC = XDocument.Load(xmlfile).Root.Element("ABS_ErrorCode").Elements("DTC");
-                                    foreach (var ErrorCode in allDTC)
-                                    {
-                                        if (ErrorCode.Attribute("Name").Value == "_ABS")
+                                        if (columns_comport == "ALL")
                                         {
-                                            if (columns_serial == ErrorCode.Element("DTC_D").Value)
+                                            debug_process("Hex Log: _All");
+                                            string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                            if (columns_serial == "_save")
                                             {
-                                                UInt16 int_abs_code = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value, 16);
-                                                byte abs_code_high = Convert.ToByte(int_abs_code >> 8);
-                                                byte abs_code_low = Convert.ToByte(int_abs_code & 0xff);
-                                                byte abs_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
-                                                ABS_error_list.Add(new DTC_Data(abs_code_high, abs_code_low, abs_code_status));
+                                                Serialportsave("All"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logAll_text = string.Empty; //清除logAll_text
+                                            }
+
+                                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
+                                            {
+                                                string orginal_data = serial_content[0];
+                                                if (columns_function == "CRC16_Modbus")
+                                                {
+                                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                    Outputstring = orginal_data + crc16_data;
+                                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                                }
+                                                else
+                                                {
+                                                    Outputstring = orginal_data;
+                                                    byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                                }
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("A", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
+                                            {
+                                                string orginal_data = serial_content[1];
+                                                if (columns_function == "CRC16_Modbus")
+                                                {
+                                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                    Outputstring = orginal_data + crc16_data;
+                                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                                }
+                                                else
+                                                {
+                                                    Outputstring = orginal_data;
+                                                    byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                                }
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("B", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
+                                            {
+                                                string orginal_data = serial_content[2];
+                                                if (columns_function == "CRC16_Modbus")
+                                                {
+                                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                    Outputstring = orginal_data + crc16_data;
+                                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                                }
+                                                else
+                                                {
+                                                    Outputstring = orginal_data;
+                                                    byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                                }
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("C", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
+                                            {
+                                                string orginal_data = serial_content[3];
+                                                if (columns_function == "CRC16_Modbus")
+                                                {
+                                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                    Outputstring = orginal_data + crc16_data;
+                                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                                }
+                                                else
+                                                {
+                                                    Outputstring = orginal_data;
+                                                    byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                                }
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("D", dataValue);
+                                                log_process("All", dataValue);
+                                            }
+                                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
+                                            {
+                                                string orginal_data = serial_content[4];
+                                                if (columns_function == "CRC16_Modbus")
+                                                {
+                                                    string crc16_data = Crc16.PID_CRC16(orginal_data);
+                                                    Outputstring = orginal_data + crc16_data;
+                                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                                }
+                                                else
+                                                {
+                                                    Outputstring = orginal_data;
+                                                    byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
+                                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                                }
+                                                DateTime dt = DateTime.Now;
+                                                string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                                textBox_serial.AppendText(dataValue);
+                                                log_process("E", dataValue);
+                                                log_process("All", dataValue);
                                             }
                                         }
-                                        else
-                                        {
-                                            MessageBox.Show("Content includes other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
+                                        label_Command.Text = "(" + columns_command + ") " + Outputstring;
+                                        RedRatDBViewer_Delay(sRepeat);
                                     }
                                 }
-                                else
+                                catch (Exception Ex)
                                 {
-                                    MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
                                 }
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error!");
-                            }
-                        }
-                        else if (columns_command == "_K_OBD")
-                        {
-                            debug_process("K-line control: _K_OBD");
-                            try
-                            {
-                                // K-lite OBD指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
+                                break;
+                            #endregion
+
+                            #region -- K-Line --
+                            case "_K_ABS":
+                                debug_process("K-line control: _K_ABS");
+                                try
                                 {
-                                    var allDTC = XDocument.Load(xmlfile).Root.Element("OBD_ErrorCode").Elements("DTC");
-                                    foreach (var ErrorCode in allDTC)
+                                    // K-lite ABS指令檔案匯入
+                                    string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                    if (System.IO.File.Exists(xmlfile) == true)
                                     {
-                                        if (ErrorCode.Attribute("Name").Value == "_OBD")
+                                        var allDTC = XDocument.Load(xmlfile).Root.Element("ABS_ErrorCode").Elements("DTC");
+                                        foreach (var ErrorCode in allDTC)
                                         {
-                                            if (columns_serial == ErrorCode.Element("DTC_D").Value)
+                                            if (ErrorCode.Attribute("Name").Value == "_ABS")
                                             {
-                                                UInt16 obd_code_int16 = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value, 16);
-                                                byte obd_code_high = Convert.ToByte(obd_code_int16 >> 8);
-                                                byte obd_code_low = Convert.ToByte(obd_code_int16 & 0xff);
-                                                byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
-                                                OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
-                                            }
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Content includes other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Kline_OBD library error !");
-                            }
-                        }
-                        else if (columns_command == "_K_SEND")
-                        {
-                            kline_send = 1;
-                        }
-                        else if (columns_command == "_K_CLEAR")
-                        {
-                            kline_send = 0;
-                            ABS_error_list.Clear();
-                            OBD_error_list.Clear();
-                        }
-                        #endregion
-
-                        #region -- I2C Read --
-                        else if (columns_command == "_TX_I2C_Read")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
-                            {
-                                debug_process("I2C Read Log: _TX_I2C_Read_PortA");
-                                if (columns_times != "" && columns_function != "")
-                                {
-                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("A", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                            {
-                                debug_process("I2C Read Log: _TX_I2C_Read_PortB");
-                                if (columns_times != "" && columns_function != "")
-                                {
-                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("B", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                            {
-                                debug_process("I2C Read Log: _TX_I2C_Read_PortC");
-                                if (columns_times != "" && columns_function != "")
-                                {
-                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("C", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                            {
-                                debug_process("I2C Read Log: _TX_I2C_Read_PortD");
-                                if (columns_times != "" && columns_function != "")
-                                {
-                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("D", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                            {
-                                debug_process("I2C Read Log: _TX_I2C_Read_PortE");
-                                if (columns_times != "" && columns_function != "")
-                                {
-                                    string orginal_data = columns_times + " " + columns_function + " " + "20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("E", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region -- I2C Write --
-                        else if (columns_command == "_TX_I2C_Write")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
-                            {
-                                debug_process("I2C Write Log: _TX_I2C_Write_PortA");
-                                if (columns_function != "" && columns_subFunction != "")
-                                {
-                                    int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("A", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                            {
-                                debug_process("I2C Write Log: _TX_I2C_Write_PortB");
-                                if (columns_function != "" && columns_subFunction != "")
-                                {
-                                    int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("B", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                            {
-                                debug_process("I2C Write Log: _TX_I2C_Write_PortC");
-                                if (columns_function != "" && columns_subFunction != "")
-                                {
-                                    int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("C", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                            {
-                                debug_process("I2C Write Log: _TX_I2C_Write_PortD");
-                                if (columns_function != "" && columns_subFunction != "")
-                                {
-                                    int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("D", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                            {
-                                debug_process("I2C Write Log: _TX_I2C_Write_PortE");
-                                if (columns_function != "" && columns_subFunction != "")
-                                {
-                                    int Data_length = columns_subFunction.Split(' ').Count();
-                                    string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
-                                    string crc32_data = Crc32.I2C_CRC32(orginal_data);
-                                    string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
-                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    DateTime dt = DateTime.Now;
-                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("E", dataValue);
-                                    log_process("All", dataValue);
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region -- Canbus Send --
-                        else if (columns_command == "_Canbus_Send")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
-                            {
-                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
-                                {
-                                    debug_process("Canbus Send (Event): _Canbus_Send");
-                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
-                                    Outputdata = HexConverter.StrToByte(columns_serial);
-                                    Can_Usb2C.TransmitData(Convert.ToUInt32(columns_times), Outputdata);
-
-                                    string Outputstring = "ID: 0x";
-                                    Outputstring += columns_times + " Data: " + columns_serial;
-                                    DateTime dt = DateTime.Now;
-                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("Canbus", canbus_log_text);
-                                    log_process("All", canbus_log_text);
-                                }
-                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
-                                {
-                                    set_timer_rate = true;
-                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
-                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
-                                    Outputdata = HexConverter.StrToByte(columns_serial);
-                                    if (can_rate.Count > 0)
-                                    {
-                                        foreach (var OneItem in can_rate)
-                                        {
-                                            if (can_rate.ContainsKey(can_id))
-                                            {
-                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
-                                                can_data[can_id] = Outputdata;
-                                                break;
+                                                if (columns_serial == ErrorCode.Element("DTC_D").Value)
+                                                {
+                                                    UInt16 int_abs_code = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value, 16);
+                                                    byte abs_code_high = Convert.ToByte(int_abs_code >> 8);
+                                                    byte abs_code_low = Convert.ToByte(int_abs_code & 0xff);
+                                                    byte abs_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
+                                                    ABS_error_list.Add(new DTC_Data(abs_code_high, abs_code_low, abs_code_status));
+                                                }
                                             }
                                             else
                                             {
-                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
-                                                can_data.Add(can_id, Outputdata);
-                                                UsbCAN_Count = 0;
-                                                UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                                MessageBox.Show("Content includes other error code", "ABS code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
-                                        can_data.Add(can_id, Outputdata);
-                                        UsbCAN_Count = 0;
-                                        UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                        MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
-                                }
-                            }
-                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
-                            {
-                                if (columns_times != "" && columns_interval == "" && columns_serial != "")
-                                {
-                                    debug_process("Canbus Send: Vector_Canbus_once");
-                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
-                                    Outputdata = HexConverter.StrToByte(columns_serial);
-                                    Can_1630A.LoopCANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
-
-                                    string Outputstring = "ID: 0x";
-                                    Outputstring += columns_times + " Data: " + columns_serial;
-                                    DateTime dt = DateTime.Now;
-                                    string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
-                                    log_process("Canbus", canbus_log_text);
-                                    log_process("All", canbus_log_text);
-                                }
-                                else if (columns_times != "" && columns_interval != "" && columns_serial != "")
-                                {
-                                    debug_process("Canbus Send: Vector_Canbus_loop");
-                                    set_timer_rate = true;
-                                    can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
-                                    byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
-                                    Outputdata = HexConverter.StrToByte(columns_serial);
-                                    if (can_rate.Count > 0)
-                                    {
-                                        foreach (var OneItem in can_rate)
-                                        {
-                                            if (can_rate.ContainsKey(can_id))
-                                            {
-                                                can_rate[can_id] = Convert.ToUInt32(columns_interval);
-                                                can_data[can_id] = Outputdata;
-                                                break;
-                                            }
-                                            else
-                                            {
-                                                can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
-                                                can_data.Add(can_id, Outputdata);
-                                                //VectorCAN_Count = 0;
-                                                //VectorCAN_Delay(Convert.ToInt16(columns_interval));
-                                                Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
-                                                CanSetTimeRate.Start();
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
-                                        can_data.Add(can_id, Outputdata);
-                                        //VectorCAN_Count = 0;
-                                        //VectorCAN_Delay(Convert.ToInt16(columns_interval));
-                                        Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
-                                        CanSetTimeRate.Start();
-                                    }
-                                }
-                            }
-
-                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                        }
-                        #endregion
-
-                        #region -- Canbus Queue --
-                        else if (columns_command == "_Canbus_Queue")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
-                            {
-                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
-                                {
-                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_data");
-                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(columns_serial);
-                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
-                                }
-                                else if (columns_function == "send")
-                                {
-                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_send");
-                                    can_send = 1;
-                                }
-                                else if (columns_function == "clear")
-                                {
-                                    debug_process("Canbus Write: UsbCAN_Canbus_Queue_clean");
-                                    can_send = 0;
-                                    can_data_list.Clear();
-                                }
-                            }
-                            else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
-                            {
-                                if (columns_times != "" && columns_interval != "" && columns_serial != "")
-                                {
-                                    debug_process("Canbus Write: Vector_Canbus_Queue_data");
-                                    byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(columns_serial);
-                                    can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
-                                }
-                                else if (columns_function == "send")
-                                {
-                                    debug_process("Canbus Write: Vector_Canbus_Queue_send");
-                                    can_send = 1;
-                                }
-                                else if (columns_function == "clear")
-                                {
-                                    debug_process("Canbus Write: Vector_Canbus_Queue_clean");
-                                    can_send = 0;
-                                    can_data_list.Clear();
-                                }
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                        }
-                        #endregion
-
-                        #region -- Astro Timing --
-                        else if (columns_command == "_astro")
-                        {
-                            debug_process("Astro control: _astro");
-                            try
-                            {
-                                // Astro指令
-                                byte[] startbit = new byte[7] { 0x05, 0x24, 0x20, 0x02, 0xfd, 0x24, 0x20 };
-                                PortA.Write(startbit, 0, 7);
-
-                                // Astro指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
-                                {
-                                    var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
-                                    foreach (var generator in allTiming)
-                                    {
-                                        if (generator.Attribute("Name").Value == "_astro")
-                                        {
-                                            if (columns_function == generator.Element("Timing").Value)
-                                            {
-                                                string[] timestrs = generator.Element("Signal").Value.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
-                                                byte[] timebit1 = Encoding.ASCII.GetBytes(timestrs[0]);
-                                                byte[] timebit2 = Encoding.ASCII.GetBytes(timestrs[1]);
-                                                byte[] timebit3 = Encoding.ASCII.GetBytes(timestrs[2]);
-                                                byte[] timebit4 = Encoding.ASCII.GetBytes(timestrs[3]);
-                                                byte[] timebit = new byte[4] { timebit1[1], timebit2[1], timebit3[1], timebit4[1] };
-                                                PortA.Write(timebit, 0, 4);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Content include other signal", "Astro Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-
-                                byte[] endbit = new byte[3] { 0x2c, 0x31, 0x03 };
-                                PortA.Write(endbit, 0, 3);
-                                label_Command.Text = "(" + columns_command + ") " + columns_switch;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- Quantum Timing --
-                        else if (columns_command == "_quantum")
-                        {
-                            debug_process("Quantum control: _quantum");
-                            try
-                            {
-                                // Quantum指令檔案匯入
-                                string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
-                                if (System.IO.File.Exists(xmlfile) == true)
-                                {
-                                    var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
-                                    foreach (var generator in allTiming)
-                                    {
-                                        if (generator.Attribute("Name").Value == "_quantum")
-                                        {
-                                            if (columns_function == generator.Element("Timing").Value)
-                                            {
-                                                PortA.WriteLine(generator.Element("Signal").Value + "\r");
-                                                PortA.WriteLine("ALLU" + "\r");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            MessageBox.Show("Content include other signal", "Quantum Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
-
-                                switch (columns_subFunction)
-                                {
-                                    case "RGB":
-                                        // RGB mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 10" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "YCbCr":
-                                        // YCbCr mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 14" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "xvYCC":
-                                        // xvYCC mode
-                                        PortA.WriteLine("AVST 0" + "\r");
-                                        PortA.WriteLine("DVST 17" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "4:4:4":
-                                        // 4:4:4
-                                        PortA.WriteLine("DVSM 4" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "4:2:2":
-                                        // 4:2:2
-                                        PortA.WriteLine("DVSM 2" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "8bits":
-                                        // 8bits
-                                        PortA.WriteLine("NBPC 8" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "10bits":
-                                        // 10bits
-                                        PortA.WriteLine("NBPC 10" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    case "12bits":
-                                        // 12bits
-                                        PortA.WriteLine("NBPC 12" + "\r");
-                                        PortA.WriteLine("FMTU" + "\r");
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                label_Command.Text = "(" + columns_command + ") " + columns_switch + columns_remark;
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- Dektec --
-                        else if (columns_command == "_dektec")
-                        {
-                            if (columns_switch == "_start")
-                            {
-                                debug_process("Dektec control: _start");
-                                string StreamName = columns_serial;
-                                string TvSystem = columns_function;
-                                string Freq = columns_subFunction;
-                                string arguments = Application.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
-                                                   "-mt " + TvSystem + " " +
-                                                   "-mf " + Freq + " " +
-                                                   "-r 0 " +
-                                                   "-l 0";
-
-                                Console.WriteLine(arguments);
-                                System.Diagnostics.Process Dektec = new System.Diagnostics.Process();
-                                Dektec.StartInfo.FileName = Application.StartupPath + @"\\DektecPlayer\\DtPlay.exe";
-                                Dektec.StartInfo.UseShellExecute = false;
-                                Dektec.StartInfo.RedirectStandardInput = true;
-                                Dektec.StartInfo.RedirectStandardOutput = true;
-                                Dektec.StartInfo.RedirectStandardError = true;
-                                Dektec.StartInfo.CreateNoWindow = true;
-
-                                Dektec.StartInfo.Arguments = arguments;
-                                Dektec.Start();
-                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                            }
-
-                            if (columns_switch == "_stop")
-                            {
-                                debug_process("Dektec control: _stop");
-                                CloseDtplay();
-                            }
-                        }
-                        #endregion
-
-                        #region -- 命令提示 --
-                        else if (columns_command == "_DOS")
-                        {
-                            debug_process("DOS command: _DOS");
-                            if (columns_serial != "")
-                            {
-                                string Command = columns_serial;
-
-                                System.Diagnostics.Process p = new Process();
-                                p.StartInfo.FileName = "cmd.exe";
-                                p.StartInfo.WorkingDirectory = ini12.INIRead(MainSettingPath, "Device", "DOS", "");
-                                p.StartInfo.UseShellExecute = false;
-                                p.StartInfo.RedirectStandardInput = true;
-                                p.StartInfo.RedirectStandardOutput = true;
-                                p.StartInfo.RedirectStandardError = true;
-                                p.StartInfo.CreateNoWindow = true; //不跳出cmd視窗
-                                string strOutput = null;
-
-                                try
-                                {
-                                    p.Start();
-                                    p.StandardInput.WriteLine(Command);
-                                    label_Command.Text = "DOS CMD_" + columns_serial;
-                                    //p.StandardInput.WriteLine("exit");
-                                    //strOutput = p.StandardOutput.ReadToEnd();//匯出整個執行過程
-                                    //p.WaitForExit();
-                                    //p.Close();
-                                }
-                                catch (Exception e)
-                                {
-                                    strOutput = e.Message;
-                                }
-                            }
-                        }
-                        #endregion
-
-                        #region -- GPIO_INPUT_OUTPUT --
-                        else if (columns_command == "_IO_Input")
-                        {
-                            debug_process("GPIO control: _IO_Input");
-                            IO_INPUT();
-                        }
-
-                        else if (columns_command == "_IO_Output")
-                        {
-                            debug_process("GPIO control: _IO_Output");
-                            //string GPIO = "01010101";
-                            string GPIO = columns_times;
-                            byte GPIO_B = Convert.ToByte(GPIO, 2);
-                            MyBlueRat.Set_GPIO_Output(GPIO_B);
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }
-                        #endregion
-
-                        #region -- Extend_GPIO_OUTPUT --
-                        else if (columns_command == "_WaterTemp")
-                        {
-                            debug_process("Extend GPIO control: _WaterTemp");
-                            string GPIO = columns_times; // GPIO = "010101010";
-                            if (GPIO.Length == 9)
-                            {
-                                for (int i = 0; i < 9; i++)
-                                {
-                                    MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8 - i, 1)));
-                                    Thread.Sleep(50);
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Please check the value equal nine.");
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }
-
-                        else if (columns_command == "_FuelDisplay")
-                        {
-                            debug_process("Extend GPIO control: _FuelDisplay");
-                            string GPIO = columns_times;
-                            if (GPIO.Length == 9)
-                            {
-                                for (int i = 0; i < 9; i++)
-                                {
-                                    MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i + 16), Convert.ToByte(GPIO.Substring(8 - i, 1)));
-                                    Thread.Sleep(50);
-                                }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Please check the value equal nine.");
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }
-
-                        else if (columns_command == "_Temperature")
-                        {
-                            debug_process("Extend GPIO control: _Temperature");
-                            //string GPIO = "01010101";
-                            string GPIO = columns_serial;
-                            int GPIO_B = int.Parse(GPIO);
-                            if (GPIO_B >= -20 && GPIO_B <= 50)
-                            {
-                                if (GPIO_B >= -20 && GPIO_B < -17)
-                                    MyBlueRat.Set_MCP42xxx(224);
-                                else if (GPIO_B >= -17 && GPIO_B < -12)
-                                    MyBlueRat.Set_MCP42xxx(172);
-                                else if (GPIO_B >= -12 && GPIO_B < -7)
-                                    MyBlueRat.Set_MCP42xxx(130);
-                                else if (GPIO_B >= -7 && GPIO_B < -2)
-                                    MyBlueRat.Set_MCP42xxx(101);
-                                else if (GPIO_B >= -2 && GPIO_B < 3)
-                                    MyBlueRat.Set_MCP42xxx(78);
-                                else if (GPIO_B >= 3 && GPIO_B < 8)
-                                    MyBlueRat.Set_MCP42xxx(61);
-                                else if (GPIO_B >= 8 && GPIO_B < 13)
-                                    MyBlueRat.Set_MCP42xxx(47);
-                                else if (GPIO_B >= 13 && GPIO_B < 18)
-                                    MyBlueRat.Set_MCP42xxx(36);
-                                else if (GPIO_B >= 18 && GPIO_B < 23)
-                                    MyBlueRat.Set_MCP42xxx(29);
-                                else if (GPIO_B >= 23 && GPIO_B < 28)
-                                    MyBlueRat.Set_MCP42xxx(23);
-                                else if (GPIO_B >= 28 && GPIO_B < 33)
-                                    MyBlueRat.Set_MCP42xxx(19);
-                                else if (GPIO_B >= 33 && GPIO_B < 38)
-                                    MyBlueRat.Set_MCP42xxx(15);
-                                else if (GPIO_B >= 38 && GPIO_B < 43)
-                                    MyBlueRat.Set_MCP42xxx(12);
-                                else if (GPIO_B >= 43 && GPIO_B < 48)
-                                    MyBlueRat.Set_MCP42xxx(10);
-                                else if (GPIO_B >= 48 && GPIO_B <= 50)
-                                    MyBlueRat.Set_MCP42xxx(8);
-                                Thread.Sleep(50);
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }
-                        #endregion
-
-                        #region -- Push_Release_Function--
-                        else if (columns_command == "_FuncKey")
-                        {
-                            try
-                            {
-                                for (int k = 0; k < stime; k++)
-                                {
-                                    if (k != 0)
-                                        Record_Schedule();
-                                    debug_process("Extend GPIO control: _FuncKey:" + k + " times");
-                                    label_Command.Text = "(Push CMD)" + columns_serial;
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
-                                    {
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("A"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logA_text = string.Empty; //清除textbox1
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortA, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("A", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                                    {
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("B"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logB_text = string.Empty; //清除logB_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortB, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                                    {
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("C"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logC_text = string.Empty; //清除logC_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortC, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                                    {
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("D"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logD_text = string.Empty; //清除logD_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortD, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                                    {
-                                        if (columns_serial == "_save")
-                                        {
-                                            Serialportsave("E"); //存檔rs232
-                                        }
-                                        else if (columns_serial == "_clear")
-                                        {
-                                            logE_text = string.Empty; //清除logE_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortE, columns_serial, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    //label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    debug_process("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
-
-                                    RedRatDBViewer_Delay(sRepeat);
-                                    int length = columns_serial.Length;
-                                    string status = columns_serial.Substring(length - 1, 1);
-                                    string reverse = "";
-                                    if (status == "0")
-                                        reverse = columns_serial.Substring(0, length - 1) + "1";
-                                    else if (status == "1")
-                                        reverse = columns_serial.Substring(0, length - 1) + "0";
-                                    label_Command.Text = "(Release CMD)" + reverse;
-
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
-                                    {
-                                        if (reverse == "_save")
-                                        {
-                                            Serialportsave("A"); //存檔rs232
-                                        }
-                                        else if (reverse == "_clear")
-                                        {
-                                            logA_text = string.Empty; //清除textbox1
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortA, reverse, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("A", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
-                                    {
-                                        if (reverse == "_save")
-                                        {
-                                            Serialportsave("B"); //存檔rs232
-                                        }
-                                        else if (reverse == "_clear")
-                                        {
-                                            logB_text = string.Empty; //清除logB_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortB, reverse, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("B", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
-                                    {
-                                        if (reverse == "_save")
-                                        {
-                                            Serialportsave("C"); //存檔rs232
-                                        }
-                                        else if (reverse == "_clear")
-                                        {
-                                            logC_text = string.Empty; //清除logC_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortC, reverse, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("C", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
-                                    {
-                                        if (reverse == "_save")
-                                        {
-                                            Serialportsave("D"); //存檔rs232
-                                        }
-                                        else if (reverse == "_clear")
-                                        {
-                                            logD_text = string.Empty; //清除logD_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortD, reverse, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("D", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
-                                    {
-                                        if (reverse == "_save")
-                                        {
-                                            Serialportsave("E"); //存檔rs232
-                                        }
-                                        else if (reverse == "_clear")
-                                        {
-                                            logE_text = string.Empty; //清除logE_text
-                                        }
-                                        else if (columns_serial != "" || columns_switch != "")
-                                        {
-                                            ReplaceNewLine(PortE, reverse, columns_switch);
-                                        }
-                                        else if (columns_serial == "" && columns_switch == "")
-                                        {
-                                            MessageBox.Show("Command is fail, please check the format.");
-                                        }
-                                        DateTime dt = DateTime.Now;
-                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
-                                        textBox_serial.AppendText(dataValue);
-                                        log_process("E", dataValue);
-                                        log_process("All", dataValue);
-                                    }
-                                    //label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    RedRatDBViewer_Delay(500);
-                                }
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
-                            }
-                        }
-                        #endregion
-
-                        #region -- MonkeyTest --
-                        else if (columns_command == "_MonkeyTest")
-                        {
-                            debug_process("Android control: _MonkeyTest");
-                            Add_ons MonkeyTest = new Add_ons();
-                            MonkeyTest.MonkeyTest();
-                            MonkeyTest.CreateExcelFile();
-                        }
-                        #endregion
-
-                        #region -- Factory Command 控制 --
-                        /*
-                        else if (columns_command == "_SXP")
-                        {
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                columns_serial == "_save")
-                            {
-                                string fName = "";
-
-                                fName = ini12.INIRead(MainSettingPath, "Record", "LogPath", "");
-                                string t = fName + "\\_Log2_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
-
-                                StreamWriter MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                                MYFILE.WriteLine(textBox2.Text);
-                                MYFILE.Close();
-
-                                Txtbox2("", textBox2);
-                            }
-
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" &&
-                                columns_serial != "_save")
-                            {
-                                try
-                                {
-                                    string str = columns_serial;
-                                    byte[] bytes = str.Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                    label_Command.Text = "(SXP CMD)" + columns_serial;
-                                    serialPort2.Write(bytes, 0, bytes.Length);
                                     label_Command.Text = "(" + columns_command + ") " + columns_serial;
-                                    // DateTime dt = DateTime.Now;
-                                    // string text = "[" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
-                                    str = str.Replace(" ", "");
-                                    string text = str + "\r\n";
-                                    textBox2.AppendText(text);
                                 }
-                                catch (Exception ex)
+                                catch (Exception Ex)
                                 {
-                                    Console.WriteLine(ex);
+                                    MessageBox.Show(Ex.Message.ToString(), "Kline_ABS library error!");
                                 }
-                            }
-                            else
-                            {
-                                MessageBox.Show("Check your SerialPort2 setting.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);
-                                GlobalData.Break_Out_Schedule = 1;
-                            }
-                        }*/
-                        #endregion
+                                break;
 
-                        #region -- IO CMD --
-                        else if (columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PA" ||
-                                 columns_command == "_Pin" && columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PB")
-                        {
-                            {
-                                switch (columns_comport.Substring(3, 2))
+                            case "_K_OBD":
+                                debug_process("K-line control: _K_OBD");
+                                try
                                 {
-                                    #region -- PA10 --
-                                    case "10":
-                                        debug_process("IO CMD: PA10");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(10, 1) == "0")
+                                    // K-lite OBD指令檔案匯入
+                                    string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                    if (System.IO.File.Exists(xmlfile) == true)
+                                    {
+                                        var allDTC = XDocument.Load(xmlfile).Root.Element("OBD_ErrorCode").Elements("DTC");
+                                        foreach (var ErrorCode in allDTC)
                                         {
-                                            if (columns_serial == "_accumulate")
+                                            if (ErrorCode.Attribute("Name").Value == "_OBD")
                                             {
-                                                GlobalData.IO_PA10_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
+                                                if (columns_serial == ErrorCode.Element("DTC_D").Value)
+                                                {
+                                                    UInt16 obd_code_int16 = Convert.ToUInt16(ErrorCode.Element("DTC_C").Value, 16);
+                                                    byte obd_code_high = Convert.ToByte(obd_code_int16 >> 8);
+                                                    byte obd_code_low = Convert.ToByte(obd_code_int16 & 0xff);
+                                                    byte obd_code_status = Convert.ToByte(ErrorCode.Element("DTC_S").Value, 16);
+                                                    OBD_error_list.Add(new DTC_Data(obd_code_high, obd_code_low, obd_code_status));
+                                                }
                                             }
                                             else
                                             {
-                                                IO_CMD();
+                                                MessageBox.Show("Content includes other error code", "OBD code Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                             }
                                         }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(10, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA10_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                            {
-                                                IO_CMD();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                    #endregion
-
-                                    #region -- PA11 --
-                                    case "11":
-                                        debug_process("IO CMD: PA11");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(8, 1) == "0")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA11_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(8, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA11_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                    #endregion
-
-                                    #region -- PA14 --
-                                    case "14":
-                                        debug_process("IO CMD: PA14");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(6, 1) == "0")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA14_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(6, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA14_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                    #endregion
-
-                                    #region -- PA15 --
-                                    case "15":
-                                        debug_process("IO CMD: PA15");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(4, 1) == "0")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA15_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(4, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PA15_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                    #endregion
-
-                                    #region -- PB01 --
-                                    case "01":
-                                        debug_process("IO CMD: PB01");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(2, 1) == "0")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PB1_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(2, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PB1_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                    #endregion
-
-                                    #region -- PB07 --
-                                    case "07":
-                                        debug_process("IO CMD: PB07");
-                                        if (columns_comport.Substring(6, 1) == "0" &&
-                                            GlobalData.IO_INPUT.Substring(0, 1) == "0")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PB7_0_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else if (columns_comport.Substring(6, 1) == "1" &&
-                                            GlobalData.IO_INPUT.Substring(0, 1) == "1")
-                                        {
-                                            if (columns_serial == "_accumulate")
-                                            {
-                                                GlobalData.IO_PB7_1_COUNT++;
-                                                label_Command.Text = "IO CMD_ACCUMULATE";
-                                            }
-                                            else
-                                                IO_CMD();
-                                        }
-                                        else
-                                        {
-                                            SysDelay = 0;
-                                        }
-                                        break;
-                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("DTC code file does not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                    label_Command.Text = "(" + columns_command + ") " + columns_serial;
                                 }
-                            }
-                        }
-                        #endregion
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "Kline_OBD library error !");
+                                }
+                                break;
 
-                        #region -- NI IO Input --
-                        /*
-                        else if (columns_command.Length >= 13 && columns_command.Substring(0, 11) == "_EXT_Input_")
-                        {
-                            switch (columns_command.Substring(11, 2))
-                            {
-                                case "P0":
-                                    try
+                            case "_K_SEND":
+                                kline_send = 1;
+                                break;
+
+                            case "_K_CLEAR":
+                                kline_send = 0;
+                                ABS_error_list.Clear();
+                                OBD_error_list.Clear();
+                                break;
+                            #endregion
+
+                            #region -- I2C Read --
+                            case "_TX_I2C_Read":
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                {
+                                    debug_process("I2C Read Log: _TX_I2C_Read_PortA");
+                                    if (columns_times != "" && columns_function != "")
                                     {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                        string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                {
+                                    debug_process("I2C Read Log: _TX_I2C_Read_PortB");
+                                    if (columns_times != "" && columns_function != "")
+                                    {
+                                        string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                {
+                                    debug_process("I2C Read Log: _TX_I2C_Read_PortC");
+                                    if (columns_times != "" && columns_function != "")
+                                    {
+                                        string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                {
+                                    debug_process("I2C Read Log: _TX_I2C_Read_PortD");
+                                    if (columns_times != "" && columns_function != "")
+                                    {
+                                        string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                {
+                                    debug_process("I2C Read Log: _TX_I2C_Read_PortE");
+                                    if (columns_times != "" && columns_function != "")
+                                    {
+                                        string orginal_data = columns_times + " " + columns_function + " " + "20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region -- I2C Write --
+                            case "_TX_I2C_Write":
+                                if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                {
+                                    debug_process("I2C Write Log: _TX_I2C_Write_PortA");
+                                    if (columns_function != "" && columns_subFunction != "")
+                                    {
+                                        int Data_length = columns_subFunction.Split(' ').Count();
+                                        string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("A", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                {
+                                    debug_process("I2C Write Log: _TX_I2C_Write_PortB");
+                                    if (columns_function != "" && columns_subFunction != "")
+                                    {
+                                        int Data_length = columns_subFunction.Split(' ').Count();
+                                        string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("B", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                {
+                                    debug_process("I2C Write Log: _TX_I2C_Write_PortC");
+                                    if (columns_function != "" && columns_subFunction != "")
+                                    {
+                                        int Data_length = columns_subFunction.Split(' ').Count();
+                                        string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("C", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                {
+                                    debug_process("I2C Write Log: _TX_I2C_Write_PortD");
+                                    if (columns_function != "" && columns_subFunction != "")
+                                    {
+                                        int Data_length = columns_subFunction.Split(' ').Count();
+                                        string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("D", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+
+                                if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                {
+                                    debug_process("I2C Write Log: _TX_I2C_Write_PortE");
+                                    if (columns_function != "" && columns_subFunction != "")
+                                    {
+                                        int Data_length = columns_subFunction.Split(' ').Count();
+                                        string orginal_data = (Data_length + 1).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20";
+                                        string crc32_data = Crc32.I2C_CRC32(orginal_data);
+                                        string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
+                                        DateTime dt = DateTime.Now;
+                                        string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("E", dataValue);
+                                        log_process("All", dataValue);
+                                    }
+                                }
+                                break;
+                            #endregion
+
+                            #region -- Canbus Send --
+                            case "_Canbus_Send":
+                                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                                {
+                                    if (columns_times != "" && columns_interval == "" && columns_serial != "")
+                                    {
+                                        debug_process("Canbus Send (Event): _Canbus_Send");
+                                        byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                        Outputdata = HexConverter.StrToByte(columns_serial);
+                                        Can_Usb2C.TransmitData(Convert.ToUInt32(columns_times), Outputdata);
+
+                                        string Outputstring = "ID: 0x";
+                                        Outputstring += columns_times + " Data: " + columns_serial;
+                                        DateTime dt = DateTime.Now;
+                                        string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("Canbus", canbus_log_text);
+                                        log_process("All", canbus_log_text);
+                                    }
+                                    else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                    {
+                                        set_timer_rate = true;
+                                        can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                        byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                        Outputdata = HexConverter.StrToByte(columns_serial);
+                                        if (can_rate.Count > 0)
+                                        {
+                                            foreach (var OneItem in can_rate)
+                                            {
+                                                if (can_rate.ContainsKey(can_id))
+                                                {
+                                                    can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                    can_data[can_id] = Outputdata;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                    can_data.Add(can_id, Outputdata);
+                                                    UsbCAN_Count = 0;
+                                                    UsbCAN_Delay(Convert.ToInt16(columns_interval));
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                            can_data.Add(can_id, Outputdata);
+                                            UsbCAN_Count = 0;
+                                            UsbCAN_Delay(Convert.ToInt16(columns_interval));
                                         }
                                     }
-                                    catch (Exception ex)
+                                }
+                                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                                {
+                                    if (columns_times != "" && columns_interval == "" && columns_serial != "")
                                     {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P1":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                        debug_process("Canbus Send: Vector_Canbus_once");
+                                        byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                        Outputdata = HexConverter.StrToByte(columns_serial);
+                                        Can_1630A.LoopCANTransmit(Convert.ToUInt32(columns_times), Convert.ToUInt32(columns_interval), Outputdata);
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                        string Outputstring = "ID: 0x";
+                                        Outputstring += columns_times + " Data: " + columns_serial;
+                                        DateTime dt = DateTime.Now;
+                                        string canbus_log_text = "[Send_Canbus] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                        log_process("Canbus", canbus_log_text);
+                                        log_process("All", canbus_log_text);
+                                    }
+                                    else if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                    {
+                                        debug_process("Canbus Send: Vector_Canbus_loop");
+                                        set_timer_rate = true;
+                                        can_id = System.Convert.ToUInt16("0x" + columns_times, 16);
+                                        byte[] Outputdata = new byte[columns_serial.Split(' ').Count()];
+                                        Outputdata = HexConverter.StrToByte(columns_serial);
+                                        if (can_rate.Count > 0)
+                                        {
+                                            foreach (var OneItem in can_rate)
+                                            {
+                                                if (can_rate.ContainsKey(can_id))
+                                                {
+                                                    can_rate[can_id] = Convert.ToUInt32(columns_interval);
+                                                    can_data[can_id] = Outputdata;
+                                                    break;
+                                                }
+                                                else
+                                                {
+                                                    can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                                    can_data.Add(can_id, Outputdata);
+                                                    //VectorCAN_Count = 0;
+                                                    //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                                    Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                                    CanSetTimeRate.Start();
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            can_rate.Add(can_id, Convert.ToUInt32(columns_interval));
+                                            can_data.Add(can_id, Outputdata);
+                                            //VectorCAN_Count = 0;
+                                            //VectorCAN_Delay(Convert.ToInt16(columns_interval));
+                                            Thread CanSetTimeRate = new Thread(new ThreadStart(vectorcanloop));
+                                            CanSetTimeRate.Start();
                                         }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P2":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                }
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                break;
+                            #endregion
+
+                            #region -- Canbus Queue --
+                            case "_Canbus_Queue":
+                                if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "UsbCAN")
+                                {
+                                    if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                    {
+                                        debug_process("Canbus Write: UsbCAN_Canbus_Queue_data");
+                                        byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(columns_serial);
+                                        can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                    }
+                                    else if (columns_function == "send")
+                                    {
+                                        debug_process("Canbus Write: UsbCAN_Canbus_Queue_send");
+                                        can_send = 1;
+                                    }
+                                    else if (columns_function == "clear")
+                                    {
+                                        debug_process("Canbus Write: UsbCAN_Canbus_Queue_clean");
+                                        can_send = 0;
+                                        can_data_list.Clear();
+                                    }
+                                }
+                                else if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1" && ini12.INIRead(MainSettingPath, "Canbus", "Device", "") == "Vector")
+                                {
+                                    if (columns_times != "" && columns_interval != "" && columns_serial != "")
+                                    {
+                                        debug_process("Canbus Write: Vector_Canbus_Queue_data");
+                                        byte[] Outputbytes = new byte[columns_serial.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(columns_serial);
+                                        can_data_list.Add(new USB_CAN2C.CAN_Data(System.Convert.ToUInt16("0x" + columns_times, 16), System.Convert.ToUInt32(columns_interval), Outputbytes, Convert.ToByte(columns_serial.Split(' ').Count())));
+                                    }
+                                    else if (columns_function == "send")
+                                    {
+                                        debug_process("Canbus Write: Vector_Canbus_Queue_send");
+                                        can_send = 1;
+                                    }
+                                    else if (columns_function == "clear")
+                                    {
+                                        debug_process("Canbus Write: Vector_Canbus_Queue_clean");
+                                        can_send = 0;
+                                        can_data_list.Clear();
+                                    }
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                break;
+                            #endregion
+
+                            #region -- Astro Timing --
+                            case "_astro":
+                                debug_process("Astro control: _astro");
+                                try
+                                {
+                                    // Astro指令
+                                    byte[] startbit = new byte[7] { 0x05, 0x24, 0x20, 0x02, 0xfd, 0x24, 0x20 };
+                                    PortA.Write(startbit, 0, 7);
+
+                                    // Astro指令檔案匯入
+                                    string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                    if (System.IO.File.Exists(xmlfile) == true)
+                                    {
+                                        var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
+                                        foreach (var generator in allTiming)
+                                        {
+                                            if (generator.Attribute("Name").Value == "_astro")
+                                            {
+                                                if (columns_function == generator.Element("Timing").Value)
+                                                {
+                                                    string[] timestrs = generator.Element("Signal").Value.Split(new string[] { "." }, StringSplitOptions.RemoveEmptyEntries);
+                                                    byte[] timebit1 = Encoding.ASCII.GetBytes(timestrs[0]);
+                                                    byte[] timebit2 = Encoding.ASCII.GetBytes(timestrs[1]);
+                                                    byte[] timebit3 = Encoding.ASCII.GetBytes(timestrs[2]);
+                                                    byte[] timebit4 = Encoding.ASCII.GetBytes(timestrs[3]);
+                                                    byte[] timebit = new byte[4] { timebit1[1], timebit2[1], timebit3[1], timebit4[1] };
+                                                    PortA.Write(timebit, 0, 4);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Content include other signal", "Astro Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
                                         }
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
-                                        MessageBox.Show(ex.Message);
+                                        MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
-                                    break;
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }
-                        #endregion
 
-                        #region -- NI IO Output --
-                        else if (columns_command.Length >= 14 && columns_command.Substring(0, 12) == "_EXT_Output_")
-                        {
-                            switch (columns_command.Substring(12, 2))
-                            {
-                                case "P0":
-                                    try
+                                    byte[] endbit = new byte[3] { 0x2c, 0x31, 0x03 };
+                                    PortA.Write(endbit, 0, 3);
+                                    label_Command.Text = "(" + columns_command + ") " + columns_switch;
+                                }
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "Transmit the Astro command fail !");
+                                }
+                                break;
+                            #endregion
+
+                            #region -- Quantum Timing --
+                            case "_quantum":
+                                debug_process("Quantum control: _quantum");
+                                try
+                                {
+                                    // Quantum指令檔案匯入
+                                    string xmlfile = ini12.INIRead(MainSettingPath, "Record", "Generator", "");
+                                    if (System.IO.File.Exists(xmlfile) == true)
                                     {
-                                        using (Task digitalWriteTask = new Task())
+                                        var allTiming = XDocument.Load(xmlfile).Root.Element("Generator").Elements("Device");
+                                        foreach (var generator in allTiming)
                                         {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[0].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
-
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                                            if (generator.Attribute("Name").Value == "_quantum")
+                                            {
+                                                if (columns_function == generator.Element("Timing").Value)
+                                                {
+                                                    PortA.WriteLine(generator.Element("Signal").Value + "\r");
+                                                    PortA.WriteLine("ALLU" + "\r");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("Content include other signal", "Quantum Signal Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            }
                                         }
                                     }
-                                    catch (Exception ex)
+                                    else
                                     {
-                                        MessageBox.Show(ex.Message);
+                                        MessageBox.Show("Signal Generator not exist", "File Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                     }
-                                    break;
-                                case "P1":
+
+                                    switch (columns_subFunction)
+                                    {
+                                        case "RGB":
+                                            // RGB mode
+                                            PortA.WriteLine("AVST 0" + "\r");
+                                            PortA.WriteLine("DVST 10" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "YCbCr":
+                                            // YCbCr mode
+                                            PortA.WriteLine("AVST 0" + "\r");
+                                            PortA.WriteLine("DVST 14" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "xvYCC":
+                                            // xvYCC mode
+                                            PortA.WriteLine("AVST 0" + "\r");
+                                            PortA.WriteLine("DVST 17" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "4:4:4":
+                                            // 4:4:4
+                                            PortA.WriteLine("DVSM 4" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "4:2:2":
+                                            // 4:2:2
+                                            PortA.WriteLine("DVSM 2" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "8bits":
+                                            // 8bits
+                                            PortA.WriteLine("NBPC 8" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "10bits":
+                                            // 10bits
+                                            PortA.WriteLine("NBPC 10" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        case "12bits":
+                                            // 12bits
+                                            PortA.WriteLine("NBPC 12" + "\r");
+                                            PortA.WriteLine("FMTU" + "\r");
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                    label_Command.Text = "(" + columns_command + ") " + columns_switch + columns_remark;
+                                }
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "Transmit the Quantum command fail !");
+                                }
+                                break;
+                            #endregion
+
+                            #region -- Dektec --
+                            case "_dektec":
+                                if (columns_switch == "_start")
+                                {
+                                    debug_process("Dektec control: _start");
+                                    string StreamName = columns_serial;
+                                    string TvSystem = columns_function;
+                                    string Freq = columns_subFunction;
+                                    string arguments = Application.StartupPath + @"\\DektecPlayer\\" + StreamName + " " +
+                                                       "-mt " + TvSystem + " " +
+                                                       "-mf " + Freq + " " +
+                                                       "-r 0 " +
+                                                       "-l 0";
+
+                                    Console.WriteLine(arguments);
+                                    System.Diagnostics.Process Dektec = new System.Diagnostics.Process();
+                                    Dektec.StartInfo.FileName = Application.StartupPath + @"\\DektecPlayer\\DtPlay.exe";
+                                    Dektec.StartInfo.UseShellExecute = false;
+                                    Dektec.StartInfo.RedirectStandardInput = true;
+                                    Dektec.StartInfo.RedirectStandardOutput = true;
+                                    Dektec.StartInfo.RedirectStandardError = true;
+                                    Dektec.StartInfo.CreateNoWindow = true;
+
+                                    Dektec.StartInfo.Arguments = arguments;
+                                    Dektec.Start();
+                                    label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                }
+
+                                if (columns_switch == "_stop")
+                                {
+                                    debug_process("Dektec control: _stop");
+                                    CloseDtplay();
+                                }
+                                break;
+                            #endregion
+
+                            #region -- 命令提示 --
+                            case "_DOS":
+                                debug_process("DOS command: _DOS");
+                                if (columns_serial != "")
+                                {
+                                    string Command = columns_serial;
+
+                                    System.Diagnostics.Process p = new Process();
+                                    p.StartInfo.FileName = "cmd.exe";
+                                    p.StartInfo.WorkingDirectory = ini12.INIRead(MainSettingPath, "Device", "DOS", "");
+                                    p.StartInfo.UseShellExecute = false;
+                                    p.StartInfo.RedirectStandardInput = true;
+                                    p.StartInfo.RedirectStandardOutput = true;
+                                    p.StartInfo.RedirectStandardError = true;
+                                    p.StartInfo.CreateNoWindow = true; //不跳出cmd視窗
+                                    string strOutput = null;
+
                                     try
                                     {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[1].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                        p.Start();
+                                        p.StandardInput.WriteLine(Command);
+                                        label_Command.Text = "DOS CMD_" + columns_serial;
+                                        //p.StandardInput.WriteLine("exit");
+                                        //strOutput = p.StandardOutput.ReadToEnd();//匯出整個執行過程
+                                        //p.WaitForExit();
+                                        //p.Close();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        strOutput = e.Message;
+                                    }
+                                }
+                                break;
+                            #endregion
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
+                            #region -- GPIO_INPUT_OUTPUT --
+                            case "_IO_Input":
+                                debug_process("GPIO control: _IO_Input");
+                                IO_INPUT();
+                                break;
+
+                            case "_IO_Output":
+                                debug_process("GPIO control: _IO_Output");
+                                //string GPIO = "01010101";
+                                string GPIO = columns_times;
+                                byte GPIO_B = Convert.ToByte(GPIO, 2);
+                                MyBlueRat.Set_GPIO_Output(GPIO_B);
+                                label_Command.Text = "(" + columns_command + ") " + columns_times;
+                                break;
+                            #endregion
+
+                            #region -- Extend_GPIO_OUTPUT --
+                            case "_WaterTemp":
+                                debug_process("Extend GPIO control: _WaterTemp");
+                                GPIO = columns_times; // GPIO = "010101010";
+                                if (GPIO.Length == 9)
+                                {
+                                    for (int i = 0; i < 9; i++)
+                                    {
+                                        MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i), Convert.ToByte(GPIO.Substring(8 - i, 1)));
+                                        Thread.Sleep(50);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Please check the value equal nine.");
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_times;
+                                break;
+
+                            case "_FuelDisplay":
+                                debug_process("Extend GPIO control: _FuelDisplay");
+                                GPIO = columns_times;
+                                if (GPIO.Length == 9)
+                                {
+                                    for (int i = 0; i < 9; i++)
+                                    {
+                                        MyBlueRat.Set_IO_Extend_Set_Pin(Convert.ToByte(i + 16), Convert.ToByte(GPIO.Substring(8 - i, 1)));
+                                        Thread.Sleep(50);
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Please check the value equal nine.");
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_times;
+                                break;
+
+                            case "_Temperature":
+                                debug_process("Extend GPIO control: _Temperature");
+                                //string GPIO = "01010101";
+                                GPIO = columns_serial;
+                                int GPIO_I = int.Parse(GPIO);
+                                if (GPIO_I >= -20 && GPIO_I <= 50)
+                                {
+                                    if (GPIO_I >= -20 && GPIO_I < -17)
+                                        MyBlueRat.Set_MCP42xxx(224);
+                                    else if (GPIO_I >= -17 && GPIO_I < -12)
+                                        MyBlueRat.Set_MCP42xxx(172);
+                                    else if (GPIO_I >= -12 && GPIO_I < -7)
+                                        MyBlueRat.Set_MCP42xxx(130);
+                                    else if (GPIO_I >= -7 && GPIO_I < -2)
+                                        MyBlueRat.Set_MCP42xxx(101);
+                                    else if (GPIO_I >= -2 && GPIO_I < 3)
+                                        MyBlueRat.Set_MCP42xxx(78);
+                                    else if (GPIO_I >= 3 && GPIO_I < 8)
+                                        MyBlueRat.Set_MCP42xxx(61);
+                                    else if (GPIO_I >= 8 && GPIO_I < 13)
+                                        MyBlueRat.Set_MCP42xxx(47);
+                                    else if (GPIO_I >= 13 && GPIO_I < 18)
+                                        MyBlueRat.Set_MCP42xxx(36);
+                                    else if (GPIO_I >= 18 && GPIO_I < 23)
+                                        MyBlueRat.Set_MCP42xxx(29);
+                                    else if (GPIO_I >= 23 && GPIO_I < 28)
+                                        MyBlueRat.Set_MCP42xxx(23);
+                                    else if (GPIO_I >= 28 && GPIO_I < 33)
+                                        MyBlueRat.Set_MCP42xxx(19);
+                                    else if (GPIO_I >= 33 && GPIO_I < 38)
+                                        MyBlueRat.Set_MCP42xxx(15);
+                                    else if (GPIO_I >= 38 && GPIO_I < 43)
+                                        MyBlueRat.Set_MCP42xxx(12);
+                                    else if (GPIO_I >= 43 && GPIO_I < 48)
+                                        MyBlueRat.Set_MCP42xxx(10);
+                                    else if (GPIO_I >= 48 && GPIO_I <= 50)
+                                        MyBlueRat.Set_MCP42xxx(8);
+                                    Thread.Sleep(50);
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + columns_times;
+                                break;
+                            #endregion
+
+                            #region -- Push_Release_Function --
+                            case "_FuncKey":
+                                try
+                                {
+                                    for (int k = 0; k < stime; k++)
+                                    {
+                                        if (k != 0)
+                                            Record_Schedule();
+                                        debug_process("Extend GPIO control: _FuncKey:" + k + " times");
+                                        label_Command.Text = "(Push CMD)" + columns_serial;
+                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                        {
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("A"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logA_text = string.Empty; //清除textbox1
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortA, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("A", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                        {
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("B"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logB_text = string.Empty; //清除logB_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("B", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                        {
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("C"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logC_text = string.Empty; //清除logC_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("C", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                        {
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("D"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logD_text = string.Empty; //清除logD_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("D", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                        {
+                                            if (columns_serial == "_save")
+                                            {
+                                                Serialportsave("E"); //存檔rs232
+                                            }
+                                            else if (columns_serial == "_clear")
+                                            {
+                                                logE_text = string.Empty; //清除logE_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("E", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        //label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                        debug_process("Extend GPIO control: _FuncKey Delay:" + sRepeat + " ms");
+
+                                        RedRatDBViewer_Delay(sRepeat);
+                                        int length = columns_serial.Length;
+                                        string status = columns_serial.Substring(length - 1, 1);
+                                        string reverse = "";
+                                        if (status == "0")
+                                            reverse = columns_serial.Substring(0, length - 1) + "1";
+                                        else if (status == "1")
+                                            reverse = columns_serial.Substring(0, length - 1) + "0";
+                                        label_Command.Text = "(Release CMD)" + reverse;
+
+                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                        {
+                                            if (reverse == "_save")
+                                            {
+                                                Serialportsave("A"); //存檔rs232
+                                            }
+                                            else if (reverse == "_clear")
+                                            {
+                                                logA_text = string.Empty; //清除textbox1
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortA, reverse, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("A", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                        {
+                                            if (reverse == "_save")
+                                            {
+                                                Serialportsave("B"); //存檔rs232
+                                            }
+                                            else if (reverse == "_clear")
+                                            {
+                                                logB_text = string.Empty; //清除logB_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortB, reverse, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("B", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                        {
+                                            if (reverse == "_save")
+                                            {
+                                                Serialportsave("C"); //存檔rs232
+                                            }
+                                            else if (reverse == "_clear")
+                                            {
+                                                logC_text = string.Empty; //清除logC_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortC, reverse, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("C", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                        {
+                                            if (reverse == "_save")
+                                            {
+                                                Serialportsave("D"); //存檔rs232
+                                            }
+                                            else if (reverse == "_clear")
+                                            {
+                                                logD_text = string.Empty; //清除logD_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortD, reverse, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("D", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                        {
+                                            if (reverse == "_save")
+                                            {
+                                                Serialportsave("E"); //存檔rs232
+                                            }
+                                            else if (reverse == "_clear")
+                                            {
+                                                logE_text = string.Empty; //清除logE_text
+                                            }
+                                            else if (columns_serial != "" || columns_switch != "")
+                                            {
+                                                ReplaceNewLine(PortE, reverse, columns_switch);
+                                            }
+                                            else if (columns_serial == "" && columns_switch == "")
+                                            {
+                                                MessageBox.Show("Command is fail, please check the format.");
+                                            }
+                                            DateTime dt = DateTime.Now;
+                                            string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + reverse + "\r\n";
+                                            textBox_serial.AppendText(dataValue);
+                                            log_process("E", dataValue);
+                                            log_process("All", dataValue);
+                                        }
+                                        //label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                                        RedRatDBViewer_Delay(500);
+                                    }
+                                }
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "SerialPort content fail !");
+                                }
+                                break;
+                            #endregion
+
+                            #region -- MonkeyTest --
+                            case "_MonkeyTest":
+                                debug_process("Android control: _MonkeyTest");
+                                Add_ons MonkeyTest = new Add_ons();
+                                MonkeyTest.MonkeyTest();
+                                MonkeyTest.CreateExcelFile();
+                                break;
+                            #endregion
+
+                            #region -- IO CMD --
+                            case "_Pin":
+                                if (columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PA" ||
+                                    columns_comport.Length >= 7 && columns_comport.Substring(0, 3) == "_PB")
+                                {
+                                    {
+                                        switch (columns_comport.Substring(3, 2))
+                                        {
+                                            #region -- PA10 --
+                                            case "10":
+                                                debug_process("IO CMD: PA10");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(10, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA10_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                    {
+                                                        IO_CMD();
+                                                    }
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(10, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA10_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                    {
+                                                        IO_CMD();
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                            #endregion
+
+                                            #region -- PA11 --
+                                            case "11":
+                                                debug_process("IO CMD: PA11");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(8, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA11_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(8, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA11_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                            #endregion
+
+                                            #region -- PA14 --
+                                            case "14":
+                                                debug_process("IO CMD: PA14");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(6, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA14_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(6, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA14_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                            #endregion
+
+                                            #region -- PA15 --
+                                            case "15":
+                                                debug_process("IO CMD: PA15");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(4, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA15_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(4, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PA15_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                            #endregion
+
+                                            #region -- PB01 --
+                                            case "01":
+                                                debug_process("IO CMD: PB01");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(2, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PB1_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(2, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PB1_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                            #endregion
+
+                                            #region -- PB07 --
+                                            case "07":
+                                                debug_process("IO CMD: PB07");
+                                                if (columns_comport.Substring(6, 1) == "0" &&
+                                                    GlobalData.IO_INPUT.Substring(0, 1) == "0")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PB7_0_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else if (columns_comport.Substring(6, 1) == "1" &&
+                                                    GlobalData.IO_INPUT.Substring(0, 1) == "1")
+                                                {
+                                                    if (columns_serial == "_accumulate")
+                                                    {
+                                                        GlobalData.IO_PB7_1_COUNT++;
+                                                        label_Command.Text = "IO CMD_ACCUMULATE";
+                                                    }
+                                                    else
+                                                        IO_CMD();
+                                                }
+                                                else
+                                                {
+                                                    SysDelay = 0;
+                                                }
+                                                break;
+                                                #endregion
                                         }
                                     }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                                case "P2":
-                                    try
-                                    {
-                                        using (Task digitalWriteTask = new Task())
-                                        {
-                                            //  Create an Digital Output channel and name it.
-                                            digitalWriteTask.DOChannels.CreateChannel(DaqSystem.Local.GetPhysicalChannels(PhysicalChannelTypes.DOPort, PhysicalChannelAccess.External)[2].ToString(), "port0",
-                                                ChannelLineGrouping.OneChannelForAllLines);
+                                }
+                                break;
+                            #endregion
 
-                                            //  Write digital port data. WriteDigitalSingChanSingSampPort writes a single sample
-                                            //  of digital data on demand, so no timeout is necessary.
-                                            DigitalSingleChannelWriter writer = new DigitalSingleChannelWriter(digitalWriteTask.Stream);
-                                            writer.WriteSingleSamplePort(true, (UInt32)Convert.ToUInt32(columns_times));
-                                        }
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        MessageBox.Show(ex.Message);
-                                    }
-                                    break;
-                            }
-                            label_Command.Text = "(" + columns_command + ") " + columns_times;
-                        }*/
-                        #endregion
+                            #region -- Audio Debounce --
+                            case "_audio_debounce":
+                                debug_process("Audio Detect: _audio_debounce");
+                                bool Debounce_Time_PB1, Debounce_Time_PB7;
+                                if (columns_interval != "")
+                                {
+                                    MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
+                                    MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
+                                    Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
+                                    Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
+                                }
+                                else
+                                {
+                                    MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
+                                    MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
+                                    Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
+                                    Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
+                                }
+                                break;
+                            #endregion
 
-                        #region -- Audio Debounce --
-                        else if (columns_command == "_audio_debounce")
-                        {
-                            debug_process("Audio Detect: _audio_debounce");
-                            bool Debounce_Time_PB1, Debounce_Time_PB7;
-                            if (columns_interval != "")
-                            {
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
-                                Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1(Convert.ToUInt16(columns_interval));
-                                Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7(Convert.ToUInt16(columns_interval));
-                            }
-                            else
-                            {
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
-                                MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
-                                Debounce_Time_PB1 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB1();
-                                Debounce_Time_PB7 = MyBlueRat.Set_Input_GPIO_Low_Debounce_Time_PB7();
-                            }
-                        }
-                        #endregion
-
-                        #region -- Keyword Search --
-                        else if (columns_command == "_keyword")
-                        {
-                            switch (columns_times)
-                            {
-                                case "1":
-                                    debug_process("Keyword Search: 1");
-                                    if (GlobalData.keyword_1 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_1 = "false";
-                                    break;
-
-                                case "2":
-                                    debug_process("Keyword Search: 2");
-                                    if (GlobalData.keyword_2 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_2 = "false";
-                                    break;
-
-                                case "3":
-                                    debug_process("Keyword Search: 3");
-                                    if (GlobalData.keyword_3 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_3 = "false";
-                                    break;
-
-                                case "4":
-                                    debug_process("Keyword Search: 4");
-                                    if (GlobalData.keyword_4 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_4 = "false";
-                                    break;
-
-                                case "5":
-                                    debug_process("Keyword Search: 5");
-                                    if (GlobalData.keyword_5 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_5 = "false";
-                                    break;
-
-                                case "6":
-                                    debug_process("Keyword Search: 6");
-                                    if (GlobalData.keyword_6 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_6 = "false";
-                                    break;
-
-                                case "7":
-                                    debug_process("Keyword Search: 7");
-                                    if (GlobalData.keyword_7 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_7 = "false";
-                                    break;
-
-                                case "8":
-                                    debug_process("Keyword Search: 8");
-                                    if (GlobalData.keyword_8 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_8 = "false";
-                                    break;
-
-                                case "9":
-                                    debug_process("Keyword Search: 9");
-                                    if (GlobalData.keyword_9 == "true")
-                                    {
-                                        KeywordCommand();
-                                    }
-                                    else
-                                    {
-                                        SysDelay = 0;
-                                    }
-                                    GlobalData.keyword_9 = "false";
-                                    break;
-
-                                default:
-                                    debug_process("Keyword Search: 10");
-                                    if (columns_times == "10")
-                                    {
-                                        if (GlobalData.keyword_10 == "true")
+                            #region -- Keyword Search --
+                            case "_keyword":
+                                switch (columns_times)
+                                {
+                                    case "1":
+                                        debug_process("Keyword Search: 1");
+                                        if (GlobalData.keyword_1 == "true")
                                         {
                                             KeywordCommand();
                                         }
@@ -8837,156 +8411,170 @@ namespace Woodpecker
                                         {
                                             SysDelay = 0;
                                         }
-                                        GlobalData.keyword_10 = "false";
-                                    }
-                                    debug_process("keyword not found_schedule");
-                                    break;
+                                        GlobalData.keyword_1 = "false";
+                                        break;
 
-                            }
-                        }
-                        #endregion
+                                    case "2":
+                                        debug_process("Keyword Search: 2");
+                                        if (GlobalData.keyword_2 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_2 = "false";
+                                        break;
 
-                        #region -- PWM1 --
-                        else if (columns_command == "_pwm1")
-                        {
-                            debug_process("PWM Control: _pwm1");
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortA.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortA.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortA.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortA.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
+                                    case "3":
+                                        debug_process("Keyword Search: 3");
+                                        if (GlobalData.keyword_3 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_3 = "false";
+                                        break;
 
-                        #region -- PWM2 --
-                        else if (columns_command == "_pwm2")
-                        {
-                            debug_process("PWM Control: _pwm2");
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortB.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortB.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
+                                    case "4":
+                                        debug_process("Keyword Search: 4");
+                                        if (GlobalData.keyword_4 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_4 = "false";
+                                        break;
 
-                        #region -- PWM3 --
-                        else if (columns_command == "_pwm3")
-                        {
-                            debug_process("PWM Control: _pwm3");
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                            {
-                                string pwm_output;
-                                int result = 0;
-                                if (columns_serial == "off")
-                                {
-                                    pwm_output = "set pwm_output 0";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (columns_serial == "on")
-                                {
-                                    pwm_output = "set pwm_output 1";
-                                    PortB.WriteLine(pwm_output);
-                                }
-                                else if (int.TryParse(columns_serial, out result) == true)
-                                {
-                                    if (int.Parse(columns_serial) >= 0 && int.Parse(columns_serial) <= 100)
-                                    {
-                                        pwm_output = "set pwm_percent " + columns_serial;
-                                        PortB.WriteLine(pwm_output);
-                                    }
-                                }
-                                else
-                                {
-                                    pwm_output = columns_serial;
-                                    PortB.WriteLine(pwm_output);
-                                }
-                            }
-                        }
-                        #endregion
+                                    case "5":
+                                        debug_process("Keyword Search: 5");
+                                        if (GlobalData.keyword_5 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_5 = "false";
+                                        break;
 
-                        #region -- 遙控器指令 --
-                        else
-                        {
-                            try
-                            {
-                                debug_process("Remote Control: TV_rc_key");
-                                for (int k = 0; k < stime; k++)
-                                {
-                                    if (k != 0)
-                                        Record_Schedule();
-                                    label_Command.Text = columns_command;
-                                    if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
-                                    {
-                                        //執行小紅鼠指令
-                                        Autocommand_RedRat("Form1", columns_command);
-                                    }
-                                    else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
-                                    {
-                                        //執行小藍鼠指令
-                                        Autocommand_BlueRat("Form1", columns_command);
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("Please connect AutoKit or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                        button_Start.PerformClick();
-                                    }
-                                    videostring = columns_command;
-                                    RedRatDBViewer_Delay(sRepeat);
+                                    case "6":
+                                        debug_process("Keyword Search: 6");
+                                        if (GlobalData.keyword_6 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_6 = "false";
+                                        break;
+
+                                    case "7":
+                                        debug_process("Keyword Search: 7");
+                                        if (GlobalData.keyword_7 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_7 = "false";
+                                        break;
+
+                                    case "8":
+                                        debug_process("Keyword Search: 8");
+                                        if (GlobalData.keyword_8 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_8 = "false";
+                                        break;
+
+                                    case "9":
+                                        debug_process("Keyword Search: 9");
+                                        if (GlobalData.keyword_9 == "true")
+                                        {
+                                            KeywordCommand();
+                                        }
+                                        else
+                                        {
+                                            SysDelay = 0;
+                                        }
+                                        GlobalData.keyword_9 = "false";
+                                        break;
+
+                                    default:
+                                        debug_process("Keyword Search: 10");
+                                        if (columns_times == "10")
+                                        {
+                                            if (GlobalData.keyword_10 == "true")
+                                            {
+                                                KeywordCommand();
+                                            }
+                                            else
+                                            {
+                                                SysDelay = 0;
+                                            }
+                                            GlobalData.keyword_10 = "false";
+                                        }
+                                        debug_process("keyword not found_schedule");
+                                        break;
+
                                 }
-                            }
-                            catch (Exception Ex)
-                            {
-                                MessageBox.Show(Ex.Message.ToString(), "RCDB library fail !");
-                            }
+                                break;
+                            #endregion
+
+                            #region -- 遙控器指令 --
+                            default:
+                                try
+                                {
+                                    debug_process("Remote Control: TV_rc_key");
+                                    for (int k = 0; k < stime; k++)
+                                    {
+                                        if (k != 0)
+                                            Record_Schedule();
+                                        label_Command.Text = columns_command;
+                                        if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
+                                        {
+                                            //執行小紅鼠指令
+                                            Autocommand_RedRat("Form1", columns_command);
+                                        }
+                                        else if (ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
+                                        {
+                                            //執行小藍鼠指令
+                                            Autocommand_BlueRat("Form1", columns_command);
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Please connect AutoKit or RedRat!", "Redrat Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                            button_Start.PerformClick();
+                                        }
+                                        videostring = columns_command;
+                                        RedRatDBViewer_Delay(sRepeat);
+                                    }
+                                }
+                                catch (Exception Ex)
+                                {
+                                    MessageBox.Show(Ex.Message.ToString(), "RCDB library fail !");
+                                }
+                                break;
+                                #endregion
                         }
-                        #endregion
 
                         #region -- Remark --
                         if (columns_remark != "")
