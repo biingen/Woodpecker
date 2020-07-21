@@ -8618,7 +8618,7 @@ namespace Woodpecker
 
                         if (Pause == true)//如果按下暫停鈕//
                         {
-                            timer1.Stop();
+                            timer_countdown.Stop();
                             SchedulePause.WaitOne();
                             debug_process("SchedulePause_WaitOne");
                         }
@@ -8931,7 +8931,7 @@ namespace Woodpecker
             label_Remark.Text = "";
             ini12.INIWrite(MainSettingPath, "Schedule" + GlobalData.Schedule_Number, "OnTimeStart", "0");
             button_Schedule1.PerformClick();
-            timer1.Stop();
+            timer_countdown.Stop();
             timer_during.Stop();
             CloseDtplay();
 
@@ -9670,7 +9670,7 @@ namespace Woodpecker
         {
             debug_process("Start Myshot");
             button_Start.Enabled = false;
-            setStyle();
+            //setStyle();
             capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
             capture.GrapImg();
             debug_process("Stop Myshot");
@@ -10251,7 +10251,7 @@ namespace Woodpecker
                 {
                     GlobalData.Break_Out_MyRunCamd = 1;//跳出倒數迴圈//
                     MainThread.Abort();//停止執行緒//
-                    timer1.Stop();//停止倒數//
+                    timer_countdown.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
                     can_send = 0;
@@ -10340,7 +10340,7 @@ namespace Woodpecker
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
-                    timer1.Start();     //開始倒數
+                    timer_countdown.Start();     //開始倒數
                     button_Start.Text = "STOP";
 
                     StartButtonPressed = true;
@@ -10422,7 +10422,7 @@ namespace Woodpecker
                 {
                     GlobalData.Break_Out_MyRunCamd = 1;    //跳出倒數迴圈
                     MainThread.Abort(); //停止執行緒
-                    timer1.Stop();  //停止倒數
+                    timer_countdown.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
 
@@ -10495,7 +10495,7 @@ namespace Woodpecker
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
                     MainThread.Start();// 啟動執行緒
-                    timer1.Start();     //開始倒數
+                    timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
                     StartButtonFlag = true;
                     button_Setting.Enabled = false;
@@ -10695,7 +10695,7 @@ namespace Woodpecker
         }
 
         //系統時間
-        private void timer_Tick(object sender, EventArgs e)
+        private void timer_system_Tick(object sender, EventArgs e)
         {
             DateTime dt = DateTime.Now;
             TimeLabel.Text = string.Format("{0:R}", dt);            //拍照打印時間
@@ -10748,7 +10748,6 @@ namespace Woodpecker
                 GlobalData.Break_Out_Schedule = 1;
             #endregion
         }
-
         //關閉Excel
         private void CloseExcel()
         {
@@ -11326,7 +11325,7 @@ namespace Woodpecker
                 button_Start.Enabled = true;
                 setStyle();
                 SchedulePause.Set();
-                timer1.Start();
+                timer_countdown.Start();
             }
         }
 
@@ -11397,9 +11396,10 @@ namespace Woodpecker
         }
         #endregion
 
-        private void timer1_Tick(object sender, EventArgs e)
+        //倒數計時
+        private void timer_countdown_Tick(object sender, EventArgs e)
         {
-            timer1.Interval = 500;
+            timer_countdown.Interval = 500;
             TimeSpan timeElapsed = DateTime.Now - startTime;
 
             /*
