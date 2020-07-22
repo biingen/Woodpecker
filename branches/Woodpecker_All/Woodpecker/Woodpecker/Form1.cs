@@ -9722,7 +9722,7 @@ namespace Woodpecker
                 newBitmap = SobelEdgeDetect(newBitmap);                
                 this.pictureBox4.Image = newBitmap;
                 */
-                pictureBox4.Image.Save(compareFile);
+                pictureBox4.Image.Save(compareFile, ImageFormat.Png);
                 if (GlobalData.Loop_Number < 2)
                 {
 
@@ -9769,8 +9769,8 @@ namespace Woodpecker
             FontColor.Dispose();
             bitMap_g.Dispose();
 
-            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").png";
-            pictureBox4.Image.Save(t);
+            string t = fName + "\\" + "pic-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "(" + label_LoopNumber_Value.Text + "-" + GlobalData.caption_Num + ").jpeg";
+            pictureBox4.Image.Save(t, ImageFormat.Jpeg);
             debug_process("Save the CaptureDone Picture");
             button_Start.Enabled = true;
             //setStyle();
