@@ -31,8 +31,6 @@ using DTC_OBD;
 using MySerialLibrary;
 using KWP_2000;
 using USB_CAN2C;
-using MaterialSkin.Controls;
-using MaterialSkin;
 using System.ComponentModel;
 using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
@@ -40,11 +38,13 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using AForge.Video.FFMPEG;
 //using DirectX.Capture;
+//using MaterialSkin.Controls;
+//using MaterialSkin;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
 {
-    public partial class Form1 : MaterialForm
+    public partial class Form1 : Form
     {
         private string _args;
         //private BackgroundWorker BackgroundWorker = new BackgroundWorker();
@@ -218,7 +218,7 @@ namespace Woodpecker
         public Form1()
         {
             InitializeComponent();
-            setStyle();
+            //setStyle();
 
             //Datagridview design
             DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
@@ -245,7 +245,7 @@ namespace Woodpecker
         public Form1(string value)
         {
             InitializeComponent();
-            setStyle();
+            //setStyle();
 
             if (!string.IsNullOrEmpty(value))
             {
@@ -263,7 +263,7 @@ namespace Woodpecker
             MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
-
+        /*
         private void setStyle()
         {
             try
@@ -303,7 +303,7 @@ namespace Woodpecker
                 //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
             }
         }
-
+        */
         private void initComboboxSaveLog()
         {
             List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Kline", "Canbus" };
@@ -567,7 +567,7 @@ namespace Woodpecker
             TopMost = true;
             TopMost = false;
 
-            setStyle();
+            //setStyle();
 
             if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
             {
@@ -5974,7 +5974,7 @@ namespace Woodpecker
                             {
                                 button_Start.PerformClick();
                                 MessageBox.Show("Camera is not connected!\r\nPlease go to Settings to reload the device list.", "Connection Error");
-                                setStyle();
+                                //setStyle();
                             }
                             debug_process("Take Picture: _shot_stop");
                         }
@@ -9319,7 +9319,7 @@ namespace Woodpecker
                 button_Setting.Enabled = true;
                 button_Pause.Enabled = false;
                 button_SaveSchedule.Enabled = true;
-                setStyle();
+                //setStyle();
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                 {
@@ -9403,7 +9403,7 @@ namespace Woodpecker
             timeCount = GlobalData.Schedule_1_TestTime;
             ConvertToRealTime(timeCount);
             GlobalData.Scheduler_Row = 0;
-            setStyle();
+            //setStyle();
             Overbuffersave();
         }
         #endregion
@@ -10122,7 +10122,7 @@ namespace Woodpecker
         void Cam_Myshot(object sender, NewFrameEventArgs eventArgs)
         {
             button_Start.Enabled = false;
-            setStyle();
+            //setStyle();
             //throw new NotImplementedException();
             CaptureDone((Bitmap)eventArgs.Frame.Clone());
         }
@@ -10224,7 +10224,7 @@ namespace Woodpecker
             pictureBox4.Image.Save(t, ImageFormat.Png);
             debug_process("Save the CaptureDone Picture");
             button_Start.Enabled = true;
-            setStyle();
+            //setStyle();
             debug_process("Stop the CaptureDone function");
         }
         #endregion
@@ -10349,6 +10349,40 @@ namespace Woodpecker
                 debug_process("CaptureDone");
                 string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
                 //string ngFolder = "Schedule" + Global.Schedule_Num + "_NG";
+                string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
+
+                int YPoint = int.Parse(Resolution[1]);
+                Graphics g = Graphics.FromImage(image);
+
+                // paint current time
+                Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+                SolidBrush brush = new SolidBrush(Color.Red);
+                //照片印上現在步驟//
+                if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+                {
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 120));
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 80));
+                }
+                else
+                {
+                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
+                    Font,
+                    brush,
+                    new PointF(5, YPoint - 80));
+                }
+                //照片印上現在時間//
+                g.DrawString(TimeLabel.Text,
+                                    Font,
+                                    brush,
+                                    new PointF(5, YPoint - 40));
+                Font.Dispose();
+                brush.Dispose();
 
                 pictureBox4.Image = image;
                 pictureBox4.Update();
@@ -10357,7 +10391,8 @@ namespace Woodpecker
                 pictureBox4.Image.Save(t, ImageFormat.Jpeg);
                 debug_process("Save the CaptureDone Picture");
                 button_Start.Enabled = true;
-                setStyle();
+                g.Dispose();
+                //setStyle();
                 debug_process("Stop the CaptureDone function");
             }
 
@@ -10420,44 +10455,10 @@ namespace Woodpecker
         {
             try
             {
-                string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "").Split(',');
-                int YPoint = int.Parse(Resolution[1]);
-                Graphics g = Graphics.FromImage(image);
-
-                // paint current time
-                Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
-                SolidBrush brush = new SolidBrush(Color.Red);
-                //照片印上現在步驟//
-                if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
-                {
-                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
-                                    Font,
-                                    brush,
-                                    new PointF(5, YPoint - 120));
-                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                                    Font,
-                                    brush,
-                                    new PointF(5, YPoint - 80));
-                }
-                else
-                {
-                    g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
-                    Font,
-                    brush,
-                    new PointF(5, YPoint - 80));
-                }
-                //照片印上現在時間//
-                g.DrawString(TimeLabel.Text,
-                                    Font,
-                                    brush,
-                                    new PointF(5, YPoint - 40));
-                Font.Dispose();
-                brush.Dispose();
                 if (needSnapshot)
                 {
                     this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), image);
                 }
-                g.Dispose();
             }
             catch
             { }
@@ -10802,7 +10803,7 @@ namespace Woodpecker
                     button_Setting.Enabled = false;
                     button_SaveSchedule.Enabled = false;
                     button_Pause.Enabled = true;
-                    setStyle();
+                    //setStyle();
                     label_Command.Text = "Please wait...";
                 }
                 else//按下START//
@@ -10835,7 +10836,7 @@ namespace Woodpecker
                     button_Setting.Enabled = false;
                     button_Pause.Enabled = true;
                     button_SaveSchedule.Enabled = false;
-                    setStyle();
+                    //setStyle();
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -10974,7 +10975,7 @@ namespace Woodpecker
                     button_Setting.Enabled = false;
                     button_Pause.Enabled = true;
                     button_SaveSchedule.Enabled = false;
-                    setStyle();
+                    //setStyle();
 
                     label_Command.Text = "Please wait...";
                 }
@@ -10989,7 +10990,7 @@ namespace Woodpecker
                     button_Pause.Enabled = true;
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
                     button_Start.Text = "STOP";
-                    setStyle();
+                    //setStyle();
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     {
@@ -11199,7 +11200,7 @@ namespace Woodpecker
             button_Schedule1.Enabled = true;
             button_Schedule1.PerformClick();
 
-            setStyle();
+            //setStyle();
         }
 
         //系統時間
@@ -11677,7 +11678,7 @@ namespace Woodpecker
                 button_Schedule1.PerformClick();
             }
 
-            setStyle();
+            //setStyle();
         }
         #endregion
 
@@ -11820,7 +11821,7 @@ namespace Woodpecker
             {
                 button_Pause.Text = "RESUME";
                 button_Start.Enabled = false;
-                setStyle();
+                //setStyle();
                 SchedulePause.Reset();
 
                 debug_process("Datagridview highlight.");
@@ -11832,7 +11833,7 @@ namespace Woodpecker
             {
                 button_Pause.Text = "PAUSE";
                 button_Start.Enabled = true;
-                setStyle();
+                //setStyle();
                 SchedulePause.Set();
                 timer1.Start();
             }
@@ -13549,6 +13550,16 @@ namespace Woodpecker
             {
 
             }
+
+            try
+            {
+                if (needSnapshot)
+                {
+                    this.Invoke(new CaptureSnapshotManifast(UpdateCaptureSnapshotManifast), videoSourcePlayer.GetCurrentVideoFrame());
+                }
+            }
+            catch
+            { }
 
             Overbuffersave();
         }
