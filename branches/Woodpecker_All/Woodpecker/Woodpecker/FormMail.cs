@@ -197,8 +197,8 @@ namespace Woodpecker
             try
             {
                 SmtpClient MySmtp = new SmtpClient("smtp.gmail.com", 587);
-                MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");     //設定你的帳號密碼
-                MySmtp.EnableSsl = true;      //Gmial 的 smtp 需打開 SSL
+                MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1234");     //設定你的帳號密碼
+                MySmtp.EnableSsl = true;      //Gmail 的 smtp 需打開 SSL
                 MySmtp.Send(msg);
             }
             catch (Exception)
@@ -404,7 +404,7 @@ namespace Woodpecker
             System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
 
             //設定你的帳號密碼
-            MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");
+            MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1234");
 
             //Gmial 的 smtp 使用 SSL
             MySmtp.EnableSsl = true;
