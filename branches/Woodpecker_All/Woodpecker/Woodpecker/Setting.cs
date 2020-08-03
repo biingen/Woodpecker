@@ -366,31 +366,31 @@ namespace Woodpecker
                     comboBox_SerialPort5_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
                 {
                     checkBox_hex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "")
                 {
                     checkBox_hex.Checked = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                 {
                     checkBox_timestamp.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "")
                 {
                     checkBox_timestamp.Checked = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
-                    checkBox_autosavelog.Checked = true;
+                    checkBox_outofmemorysave.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "")
                 {
-                    checkBox_autosavelog.Checked = false;
+                    checkBox_outofmemorysave.Checked = false;
                 }
             }
             else
@@ -469,31 +469,31 @@ namespace Woodpecker
                     comboBox_SerialPort5_PortName_Value.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
                 {
                     checkBox_hex.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Displayhex", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "")
                 {
                     checkBox_hex.Checked = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                 {
                     checkBox_timestamp.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Timestamp", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "")
                 {
                     checkBox_timestamp.Checked = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
                 {
-                    checkBox_autosavelog.Checked = true;
+                    checkBox_outofmemorysave.Checked = true;
                 }
-                else if (ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Autosavelog", "Checked", "") == "")
+                else if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "")
                 {
-                    checkBox_autosavelog.Checked = false;
+                    checkBox_outofmemorysave.Checked = false;
                 }
             }
 
@@ -1461,11 +1461,11 @@ namespace Woodpecker
         {
             if (checkBox_hex.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Record", "Displayhex", "1");
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Displayhex", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Record", "Displayhex", "0");
             }
         }
 
@@ -1473,23 +1473,23 @@ namespace Woodpecker
         {
             if (checkBox_timestamp.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Record", "Timestamp", "1");
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Timestamp", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Record", "Timestamp", "0");
             }
         }
 
-        private void checkBox_autosavelog_CheckedChanged(object sender, EventArgs e)
+        private void checkBox_outofmemorysave_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox_autosavelog.Checked == true)
+            if (checkBox_outofmemorysave.Checked == true)
             {
-                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Record", "Outofmemorysave", "1");
             }
             else
             {
-                ini12.INIWrite(MainSettingPath, "Autosavelog", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Record", "Outofmemorysave", "0");
             }
         }
     }

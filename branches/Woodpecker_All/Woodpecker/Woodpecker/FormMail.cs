@@ -131,14 +131,14 @@ namespace Woodpecker
             if (ini12.INIRead(MailPath, "Mail Info", "From", "") != "")
                 msg.From = new MailAddress(ini12.INIRead(MailPath, "Mail Info", "From", ""), ini12.INIRead(MailPath, "Mail Info", "From", ""), System.Text.Encoding.UTF8);
             else
-                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA", System.Text.Encoding.UTF8);
+                msg.From = new MailAddress("tpdqatest@gmail.com", "TP_DQA_Test", System.Text.Encoding.UTF8);
             msg.Subject = Subject;      //郵件標題 
             msg.SubjectEncoding = System.Text.Encoding.UTF8;        //郵件標題編碼  
             msg.Body = Body;        //郵件內容
 
             msg.IsBodyHtml = true;
             msg.BodyEncoding = System.Text.Encoding.UTF8;       //郵件內容編碼 
-            msg.Priority = MailPriority.Normal;     //郵件優先級 
+            msg.Priority = MailPriority.High;     //郵件優先級 
 
             if (GlobalData.Pass_Or_Fail == "PASS")
             {
@@ -197,8 +197,8 @@ namespace Woodpecker
             try
             {
                 SmtpClient MySmtp = new SmtpClient("smtp.gmail.com", 587);
-                MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");     //設定你的帳號密碼
-                MySmtp.EnableSsl = true;      //Gmial 的 smtp 需打開 SSL
+                MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1234");     //設定你的帳號密碼
+                MySmtp.EnableSsl = true;      //Gmail 的 smtp 需打開 SSL
                 MySmtp.Send(msg);
             }
             catch (Exception)
@@ -404,7 +404,7 @@ namespace Woodpecker
             System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
 
             //設定你的帳號密碼
-            MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1231");
+            MySmtp.Credentials = new System.Net.NetworkCredential("woodpecker.dqa@gmail.com", "Auo+1234");
 
             //Gmial 的 smtp 使用 SSL
             MySmtp.EnableSsl = true;
