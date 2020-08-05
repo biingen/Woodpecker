@@ -32,7 +32,7 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
-            this.checkBox_autosavelog = new System.Windows.Forms.CheckBox();
+            this.checkBox_outofmemorysave = new System.Windows.Forms.CheckBox();
             this.comboBox_CAN_Choice = new System.Windows.Forms.ComboBox();
             this.label_CAN_choice = new System.Windows.Forms.Label();
             this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
@@ -125,7 +125,7 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
-            this.GroupBox_Rs232.Controls.Add(this.checkBox_autosavelog);
+            this.GroupBox_Rs232.Controls.Add(this.checkBox_outofmemorysave);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_Choice);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_choice);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
@@ -179,18 +179,18 @@
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
             // 
-            // checkBox_autosavelog
+            // checkBox_outofmemorysave
             // 
-            this.checkBox_autosavelog.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_autosavelog.ForeColor = System.Drawing.Color.White;
-            this.checkBox_autosavelog.Location = new System.Drawing.Point(241, 267);
-            this.checkBox_autosavelog.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.checkBox_autosavelog.Name = "checkBox_autosavelog";
-            this.checkBox_autosavelog.Size = new System.Drawing.Size(127, 22);
-            this.checkBox_autosavelog.TabIndex = 157;
-            this.checkBox_autosavelog.Text = "AutoSaveLog";
-            this.checkBox_autosavelog.UseVisualStyleBackColor = true;
-            this.checkBox_autosavelog.CheckedChanged += new System.EventHandler(this.checkBox_autosavelog_CheckedChanged);
+            this.checkBox_outofmemorysave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.checkBox_outofmemorysave.ForeColor = System.Drawing.Color.White;
+            this.checkBox_outofmemorysave.Location = new System.Drawing.Point(241, 268);
+            this.checkBox_outofmemorysave.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+            this.checkBox_outofmemorysave.Name = "checkBox_outofmemorysave";
+            this.checkBox_outofmemorysave.Size = new System.Drawing.Size(180, 22);
+            this.checkBox_outofmemorysave.TabIndex = 157;
+            this.checkBox_outofmemorysave.Text = "Out-of-memory saving";
+            this.checkBox_outofmemorysave.UseVisualStyleBackColor = true;
+            this.checkBox_outofmemorysave.CheckedChanged += new System.EventHandler(this.checkBox_outofmemorysave_CheckedChanged);
             // 
             // comboBox_CAN_Choice
             // 
@@ -291,7 +291,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort5_BaudRate_Value.Location = new System.Drawing.Point(370, 62);
             this.comboBox_SerialPort5_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort5_BaudRate_Value.Name = "comboBox_SerialPort5_BaudRate_Value";
@@ -477,7 +478,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort4_BaudRate_Value.Location = new System.Drawing.Point(144, 276);
             this.comboBox_SerialPort4_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort4_BaudRate_Value.Name = "comboBox_SerialPort4_BaudRate_Value";
@@ -618,7 +620,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort3_BaudRate_Value.Location = new System.Drawing.Point(144, 206);
             this.comboBox_SerialPort3_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort3_BaudRate_Value.Name = "comboBox_SerialPort3_BaudRate_Value";
@@ -697,7 +700,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort1_BaudRate_Value.Location = new System.Drawing.Point(144, 66);
             this.comboBox_SerialPort1_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort1_BaudRate_Value.Name = "comboBox_SerialPort1_BaudRate_Value";
@@ -777,7 +781,8 @@
             "115200",
             "230400",
             "460800",
-            "921600"});
+            "921600",
+            "1500000"});
             this.comboBox_SerialPort2_BaudRate_Value.Location = new System.Drawing.Point(144, 136);
             this.comboBox_SerialPort2_BaudRate_Value.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.comboBox_SerialPort2_BaudRate_Value.Name = "comboBox_SerialPort2_BaudRate_Value";
@@ -857,10 +862,10 @@
             this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
             this.groupBox_Camera.Location = new System.Drawing.Point(38, 222);
-            this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox_Camera.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_Camera.Name = "groupBox_Camera";
-            this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox_Camera.Size = new System.Drawing.Size(275, 157);
+            this.groupBox_Camera.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox_Camera.Size = new System.Drawing.Size(275, 158);
             this.groupBox_Camera.TabIndex = 56;
             this.groupBox_Camera.TabStop = false;
             this.groupBox_Camera.Text = "CAMERA";
@@ -908,7 +913,7 @@
             this.comboBox_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraDevice.FormattingEnabled = true;
             this.comboBox_CameraDevice.Location = new System.Drawing.Point(65, 28);
-            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CameraDevice.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_CameraDevice.Name = "comboBox_CameraDevice";
             this.comboBox_CameraDevice.Size = new System.Drawing.Size(198, 26);
             this.comboBox_CameraDevice.TabIndex = 43;
@@ -934,7 +939,7 @@
             this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_CameraAudio.FormattingEnabled = true;
             this.comboBox_CameraAudio.Location = new System.Drawing.Point(65, 68);
-            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
             this.comboBox_CameraAudio.Size = new System.Drawing.Size(198, 26);
             this.comboBox_CameraAudio.TabIndex = 50;
@@ -1355,6 +1360,6 @@
         internal System.Windows.Forms.ComboBox comboBox_CAN_Choice;
         internal System.Windows.Forms.Label label_CAN_choice;
         private System.Windows.Forms.CheckBox checkBox_timestamp;
-        private System.Windows.Forms.CheckBox checkBox_autosavelog;
+        private System.Windows.Forms.CheckBox checkBox_outofmemorysave;
     }
 }

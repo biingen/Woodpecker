@@ -500,8 +500,7 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] Displayhex = { "Checked" };
-            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode" };
+            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp", "Outofmemorysave" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -607,18 +606,6 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(GlobalData.MainSettingPath, "Port E", PortE[i], "");
-                    }
-                }
-
-                for (int i = 0; i < Displayhex.Length; i++)
-                {
-                    if (i == (Displayhex.Length - 1))
-                    {
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Displayhex", Displayhex[i], "" + Environment.NewLine + Environment.NewLine);
-                    }
-                    else
-                    {
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Displayhex", Displayhex[i], "");
                     }
                 }
 
