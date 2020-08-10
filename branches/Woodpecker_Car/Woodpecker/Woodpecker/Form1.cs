@@ -519,7 +519,7 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
             {
-                Form1.ActiveForm.Text = "Woodpecker";
+                this.Text = "Woodpecker";
                 label_RedRat.Visible = true;
                 pictureBox_RedRat.Visible = true;
                 label_ca310.Visible = true;
