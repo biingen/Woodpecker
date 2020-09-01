@@ -81,6 +81,10 @@ namespace Woodpecker
                     CmdList.Add("Canbus");
                     break;
 
+                case "_HEX + Function":
+                    CmdList.Add("CRC16_Modbus");
+                    break;
+
                 case "_HEX + >SerialPort                   >I/O cmd":
                     CmdList.Add("_save");
                     CmdList.Add("_clear");

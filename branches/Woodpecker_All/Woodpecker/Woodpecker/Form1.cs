@@ -10897,20 +10897,6 @@ namespace Woodpecker
             Environment.Exit(Environment.ExitCode);
         }
 
-        private void LabelVersion_MouseClick(object sender, MouseEventArgs e)
-        {
-            FormSurp SurpriseForm = new FormSurp();
-
-            if (SurpriseForm.ShowDialog() == DialogResult.OK)
-            {
-                if (ini12.INIRead(MainSettingPath, "Record", "ImportDB", "") == "1")
-                    button_Analysis.Visible = true;
-                else
-                    button_Analysis.Visible = false;
-            }
-            SurpriseForm.Dispose();
-        }
-
         private void Com1Btn_Click(object sender, EventArgs e)
         {
             OpenSerialPort("A");
@@ -12124,6 +12110,8 @@ namespace Woodpecker
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
