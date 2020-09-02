@@ -548,7 +548,7 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
             {
-                Form1.ActiveForm.Text = "Woodpecker";
+                this.Text = "Woodpecker";
                 label_RedRat.Visible = true;
                 pictureBox_RedRat.Visible = true;
                 label_ca310.Visible = true;
@@ -2173,34 +2173,36 @@ namespace Woodpecker
             byteChamber[byteChamber_length] = ch;
             byteChamber_length++;
 
-            if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
-                (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
-                (byteChamber[byteChamber_length + length_data_offset] == 0x04) &&
-                byteChamber_length == 9)
+            if (byteChamber_length == 9)
             {
-                byte[] byteActual = new byte[2];
-                byte[] byteTarget = new byte[2];
-                byteActual[0] = byteChamber[byteChamber_length + data_actual2_offset];
-                byteActual[1] = byteChamber[byteChamber_length + data_actual1_offset];
-                byteTarget[0] = byteChamber[byteChamber_length + data_target2_offset];
-                byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
-                string stringActual = System.Text.Encoding.Default.GetString(byteActual);
-                string stringTarget = System.Text.Encoding.Default.GetString(byteTarget);
-                CH_actualTemperature = StrToFloat(Convert.ToInt32(stringActual, 16) / unit);
-                CH_targetTemperature = StrToFloat(Convert.ToInt32(stringTarget, 16) / unit);
-                string dataValue = "Actual Temperature=" + CH_actualTemperature + ", Target Temperature=" + CH_targetTemperature;
-                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                if ((byteChamber[byteChamber_length + header_data1_offset] == 0x01) &&
+                (byteChamber[byteChamber_length + header_data2_offset] == 0x03) &&
+                (byteChamber[byteChamber_length + length_data_offset] == 0x04))
                 {
-                    TimeSpan timeElapsed = DateTime.Now - startTime;
-                    dataValue = "[Chamber] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
+                    byte[] byteActual = new byte[2];
+                    byte[] byteTarget = new byte[2];
+                    byteActual[0] = byteChamber[byteChamber_length + data_actual2_offset];
+                    byteActual[1] = byteChamber[byteChamber_length + data_actual1_offset];
+                    byteTarget[0] = byteChamber[byteChamber_length + data_target2_offset];
+                    byteTarget[1] = byteChamber[byteChamber_length + data_target1_offset];
+                    string stringActual = BitConverter.ToString(byteActual).Replace("-", "");
+                    string stringTarget = BitConverter.ToString(byteTarget).Replace("-", "");
+                    float CH_actualTemperature = StrToFloat(Convert.ToInt32(stringActual, 16));
+                    float CH_targetTemperature = StrToFloat(Convert.ToInt32(stringTarget, 16));
+                    string dataValue = "Actual= " + (CH_actualTemperature / unit).ToString("#0.00") + " °C, Target= " + (CH_targetTemperature / unit).ToString("#0.00") + " °C";
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                    {
+                        TimeSpan timeElapsed = DateTime.Now - startTime;
+                        dataValue = "[Chamber] [Time=" + (timeElapsed.Days * 86400 + timeElapsed.Hours * 3600 + timeElapsed.Minutes * 60 + timeElapsed.Seconds).ToString() + "s] " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("A", dataValue);
+                    log_process("B", dataValue);
+                    log_process("C", dataValue);
+                    log_process("D", dataValue);
+                    log_process("E", dataValue);
+                    log_process("All", dataValue);
+                    byteChamber_length = 0;
                 }
-                log_process("A", dataValue);
-                log_process("B", dataValue);
-                log_process("C", dataValue);
-                log_process("D", dataValue);
-                log_process("E", dataValue);
-                log_process("All", dataValue);
-                byteChamber_length = 0;
             }
         }
 
@@ -12489,6 +12491,8 @@ namespace Woodpecker
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_HEX" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "AC/USB Switch" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_ascii" &&
