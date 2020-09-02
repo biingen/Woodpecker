@@ -159,9 +159,9 @@ namespace Woodpecker
             }
             else
             {
-                this.Width = 470;
+                this.Width = 560;
                 this.Height = 75;
-                width = 75;
+                width = 90;
                 height = 25;
             }
 
