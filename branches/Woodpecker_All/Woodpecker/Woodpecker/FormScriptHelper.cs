@@ -72,6 +72,19 @@ namespace Woodpecker
                     CmdList.Add("_logcmd");
                     break;
 
+                case "_Condition_OR + Function":
+                    CmdList.Add("start");
+                    CmdList.Add("end");
+                    break;
+
+                case "_Condition_OR + >SerialPort                   >I/O cmd":
+                    CmdList.Add("Chamber");
+                    CmdList.Add("PowerSupply");
+                    CmdList.Add("Temperature");
+                    CmdList.Add("_PA");
+                    CmdList.Add("_PB");
+                    break;
+
                 case "_HEX + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");

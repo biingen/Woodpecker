@@ -6381,7 +6381,7 @@ namespace Woodpecker
                                     if (columns_serial != "")
                                     {
                                         columns_serial.Replace(" ", "");
-                                        if (columns_serial.Contains("chamber_temp"))
+                                        if (columns_serial.Contains("Chamber"))
                                         {
                                             timer_Chamber.Enabled = true;
                                             ChamberIsFound = true;
@@ -6629,7 +6629,7 @@ namespace Woodpecker
                                         if (columns_serial != "")
                                         {
                                             columns_serial.Replace(" ", "");
-                                            if (columns_serial.Contains("chamber_temp"))
+                                            if (columns_serial.Contains("Chamber"))
                                             {
                                                 timer_Chamber.Enabled = true;
                                                 ChamberIsFound = true;
@@ -12504,7 +12504,12 @@ namespace Woodpecker
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Pin" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
-                        
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Condition_OR" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Condition_OR" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Execute" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd")
                     {
