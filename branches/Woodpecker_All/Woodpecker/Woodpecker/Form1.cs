@@ -144,7 +144,7 @@ namespace Woodpecker
         //Serial Port parameter
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+        private string logA_text, logB_text, logC_text, logD_text, logE_text, arduino_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
         private int log_max_length = 10000000, debug_max_length = 10000000;
 
         //Ca310
@@ -195,6 +195,8 @@ namespace Woodpecker
         // Search GPIO parameter
         List<string> GPIOList = new List<string> { };
         int GPIOCount;
+        string Read_Arduino_Data;
+        bool flag_receive;
 
         public Form1()
         {
@@ -1212,6 +1214,9 @@ namespace Woodpecker
                     case "E":
                         logE_text = string.Concat(logE_text, log);
                         break;
+                    case "Arduino":
+                        arduino_text = string.Concat(arduino_text, log);
+                        break;
                     case "CA310":
                         ca310_text = string.Concat(ca310_text, log);
                         break;
@@ -1415,10 +1420,11 @@ namespace Woodpecker
                             }
                             PortA.PortName = ini12.INIRead(MainSettingPath, "Port A", "PortName", "");
                             PortA.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "BaudRate", ""));
+                            PortA.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Port A", "DataBit", ""));
                             PortA.ReadTimeout = 2000;
                             // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
-//                            PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
+//                          PortA.DataReceived += new SerialDataReceivedEventHandler(SerialPort1_DataReceived);       // DataReceived呼叫函式
                             PortA.Open();
                             object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(PortA);
                         }
@@ -1445,6 +1451,7 @@ namespace Woodpecker
                             }
                             PortB.PortName = ini12.INIRead(MainSettingPath, "Port B", "PortName", "");
                             PortB.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port B", "BaudRate", ""));
+                            PortB.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Port B", "DataBit", ""));
                             PortB.ReadTimeout = 2000;
                             // serialPort2.Encoding = System.Text.Encoding.GetEncoding(1252);
 
@@ -1475,6 +1482,7 @@ namespace Woodpecker
                             }
                             PortC.PortName = ini12.INIRead(MainSettingPath, "Port C", "PortName", "");
                             PortC.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port C", "BaudRate", ""));
+                            PortC.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Port C", "DataBit", ""));
                             PortC.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
@@ -1505,6 +1513,7 @@ namespace Woodpecker
                             }
                             PortD.PortName = ini12.INIRead(MainSettingPath, "Port D", "PortName", "");
                             PortD.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port D", "BaudRate", ""));
+                            PortD.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Port D", "DataBit", ""));
                             PortD.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
@@ -1535,6 +1544,7 @@ namespace Woodpecker
                             }
                             PortE.PortName = ini12.INIRead(MainSettingPath, "Port E", "PortName", "");
                             PortE.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Port E", "BaudRate", ""));
+                            PortE.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Port E", "DataBit", ""));
                             PortE.ReadTimeout = 2000;
                             // serialPort3.Encoding = System.Text.Encoding.GetEncoding(1252);
 
@@ -1546,6 +1556,34 @@ namespace Woodpecker
                     catch (Exception Ex)
                     {
                         MessageBox.Show(Ex.Message.ToString(), "PortE Error");
+                    }
+                    break;
+                case "Arduino":
+                    try
+                    {
+                        string stopbit = ini12.INIRead(MainSettingPath, "Arduino", "StopBits", "");
+                        switch (stopbit)
+                        {
+                            case "One":
+                                serialPort_Arduino.StopBits = System.IO.Ports.StopBits.One;
+                                break;
+                            case "Two":
+                                serialPort_Arduino.StopBits = System.IO.Ports.StopBits.Two;
+                                break;
+                        }
+                        serialPort_Arduino.PortName = ini12.INIRead(MainSettingPath, "Arduino", "PortName", "");
+                        serialPort_Arduino.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Arduino", "BaudRate", ""));
+                        serialPort_Arduino.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Arduino", "DataBit", ""));
+                        serialPort_Arduino.ReadTimeout = 2000;
+                        serialPort_Arduino.Encoding = System.Text.Encoding.GetEncoding(1252);
+
+                        serialPort_Arduino.DataReceived += new SerialDataReceivedEventHandler(serialport_arduino_datareceived);       // DataReceived呼叫函式
+                        serialPort_Arduino.Open();
+                        object stream = typeof(SerialPort).GetField("internalSerialStream", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(serialPort_Arduino);
+                    }
+                    catch (Exception Ex)
+                    {
+                        MessageBox.Show(Ex.Message.ToString(), "ArduinoPort Error");
                     }
                     break;
                 case "kline":
@@ -1600,6 +1638,10 @@ namespace Woodpecker
                 case "E":
                     PortE.Dispose();
                     PortE.Close();
+                    break;
+                case "Arduino":
+                    serialPort_Arduino.Dispose();
+                    serialPort_Arduino.Close();
                     break;
                 case "kline":
                     MySerialPort.Dispose();
@@ -2925,7 +2967,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 接受SerialPort5資料 --
-        // private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void serialPort_Arduino_DataReceived(object sender, SerialDataReceivedEventArgs e)
         // {
         //     try
         //     {
@@ -3089,6 +3131,39 @@ namespace Woodpecker
                     byteMessage_E[byteMessage_length_E] = ch;
                     byteMessage_length_E++;
                 }
+            }
+        }
+
+        #endregion
+
+        #region -- 接受ArduinoPort資料 --
+        private void serialport_arduino_datareceived(object sender, SerialDataReceivedEventArgs e)
+        {
+             try
+             {
+                if (serialPort_Arduino.IsOpen)     //此处可能没有必要判断是否打开串口，但为了严谨性，我还是加上了
+                {
+                    byte[] byteRead = new byte[serialPort_Arduino.BytesToRead];    //BytesToRead:sp1接收的字符个数
+                    string dataValue = serialPort_Arduino.ReadLine(); //注意：回车换行必须这样写，单独使用"\r"和"\n"都不会有效果
+                    Read_Arduino_Data = dataValue;
+                    serialPort_Arduino.DiscardInBuffer();                      //清空SerialPort控件的Buffer 
+                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                    {
+                        DateTime dt = DateTime.Now;
+                        dataValue = "[Receive_Port_Arduino] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                    }
+                    log_process("Arduino", dataValue);
+                    log_process("All", dataValue);
+                    flag_receive = false;
+                }
+                else
+                {
+                    Console.WriteLine("请打开某个串口", "错误提示");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message, "出错提示");
             }
         }
 
@@ -7916,6 +7991,22 @@ namespace Woodpecker
                             MyBlueRat.Set_GPIO_Output(GPIO_B);
                             label_Command.Text = "(" + columns_command + ") " + columns_times;
                         }
+
+                        else if (columns_command == "_Arduino_Input")
+                        {
+                            debug_process("GPIO control: _Arduino_Input");
+                            Arduino_IO_INPUT();
+                        }
+
+                        else if (columns_command == "_Arduino_Output")
+                        {
+                            debug_process("GPIO control: _Arduino_Output");
+                            //string GPIO = "01010101";
+                            string GPIO = columns_times;
+                            byte GPIO_B = Convert.ToByte(GPIO, 2);
+                            Arduino_Set_GPIO_Output(GPIO_B);
+                            label_Command.Text = "(" + columns_command + ") " + columns_times;
+                        }
                         #endregion
 
                         #region -- Extend_GPIO_OUTPUT --
@@ -9370,6 +9461,10 @@ namespace Woodpecker
             {
                 CloseSerialPort("E");
             }
+            if (serialPort_Arduino.IsOpen == true)
+            {
+                CloseSerialPort("Arduino");
+            }
             if (MySerialPort.IsPortOpened() == true)
             {
                 CloseSerialPort("kline");
@@ -10439,6 +10534,8 @@ namespace Woodpecker
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_IO_Output");
             RCDB.Items.Add("_IO_Input");
+            RCDB.Items.Add("_Arduino_Output");
+            RCDB.Items.Add("_Arduino_Input");
             RCDB.Items.Add("_Pin");
             if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
             {
@@ -10821,6 +10918,11 @@ namespace Woodpecker
                         }
                     }
 
+                    if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("Arduino");
+                    }
+
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
@@ -10973,6 +11075,11 @@ namespace Woodpecker
                             LogThread5.IsBackground = true;
                             LogThread5.Start();
                         }
+                    }
+
+                    if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "1")
+                    {
+                        OpenSerialPort("Arduino");
                     }
 
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
@@ -12215,6 +12322,119 @@ namespace Woodpecker
             log_process("E", dataValue);
             log_process("All", dataValue);
         }
+
+        private void Arduino_IO_INPUT()
+        {
+            UInt32 GPIO_input_value, retry_cnt;
+            bool aGpio = false;
+            retry_cnt = 3;
+            do
+            {
+                String modified0 = "";
+                aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value);
+                if (Convert.ToString(GPIO_input_value, 2).Length == 7)
+                {
+                    modified0 = "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 6)
+                {
+                    modified0 = "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 5)
+                {
+                    modified0 = "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 4)
+                {
+                    modified0 = "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 3)
+                {
+                    modified0 = "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 2)
+                {
+                    modified0 = "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else if (Convert.ToString(GPIO_input_value, 2).Length == 1)
+                {
+                    modified0 = "0" + "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                }
+                else
+                {
+                    modified0 = Convert.ToString(GPIO_input_value, 2);
+                }
+
+                string modified1 = modified0.Insert(1, ",");
+                string modified2 = modified1.Insert(3, ",");
+                string modified3 = modified2.Insert(5, ",");
+                string modified4 = modified3.Insert(7, ",");
+                string modified5 = modified4.Insert(9, ",");
+                string modified6 = modified5.Insert(11, ",");
+                string modified7 = modified6.Insert(13, ",");
+
+                GlobalData.Arduino_IO_INPUT = modified7;
+            }
+            while ((aGpio == false) && (--retry_cnt > 0));
+
+            string dataValue = "Arduino_GPIO_INPUT=" + GlobalData.Arduino_IO_INPUT;
+            DateTime dt = DateTime.Now;
+            dataValue = "[Receive_Arduino_IO_INPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+            log_process("A", dataValue);
+            log_process("B", dataValue);
+            log_process("C", dataValue);
+            log_process("D", dataValue);
+            log_process("E", dataValue);
+            log_process("Arduino", dataValue);
+            log_process("All", dataValue);
+        }
+
+        public bool Arduino_Get_GPIO_Input(out UInt32 GPIO_Read_Data)
+        {
+            bool bRet = false;
+
+            GPIO_Read_Data = 0xFFFFFFFF;
+
+            if (serialPort_Arduino.IsOpen)
+            {
+                try
+                {
+                    serialPort_Arduino.WriteLine("ioi");
+                    flag_receive = true;
+                    while (flag_receive) { }  
+                    string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
+                    //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
+                    GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
+                    bRet = true;
+                }
+                catch (System.FormatException)
+                {
+
+                }
+            }
+
+            return bRet;
+        }
+
+        public bool Arduino_Set_GPIO_Output(byte output_value)
+        {
+            bool bRet = false;
+
+            if (serialPort_Arduino.IsOpen)
+            {
+                try
+                {
+                    serialPort_Arduino.WriteLine("io x " + output_value);
+                    bRet = true;
+                }
+                catch (System.FormatException)
+                {
+
+                }
+            }
+            return bRet;
+        }
+
         #endregion
 
         private void button_VirtualRC_Click(object sender, EventArgs e)

@@ -319,10 +319,23 @@ namespace Woodpecker
         private void FormTabControl_FormClosed(object sender, FormClosedEventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Port A", "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Port A", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Port A", "StopBits", "One");
             ini12.INIWrite(MainSettingPath, "Port B", "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Port B", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Port B", "StopBits", "One");
             ini12.INIWrite(MainSettingPath, "Port C", "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Port C", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Port C", "StopBits", "One");
             ini12.INIWrite(MainSettingPath, "Port D", "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Port D", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Port D", "StopBits", "One");
             ini12.INIWrite(MainSettingPath, "Port E", "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Port E", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Port E", "StopBits", "One");
+            ini12.INIWrite(MainSettingPath, "Arduino", "PortName", FormSetting.comboBox_ArduinoPort_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, "Arduino", "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, "Arduino", "StopBits", "One");
             ini12.INIWrite(MainSettingPath, "Kline", "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
         }
     }

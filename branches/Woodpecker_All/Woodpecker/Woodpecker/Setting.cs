@@ -299,6 +299,7 @@ namespace Woodpecker
                 comboBox_SerialPort3_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort4_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort5_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
+                comboBox_ArduinoPort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_KlinePort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
@@ -497,6 +498,17 @@ namespace Woodpecker
                 }
             }
 
+            if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "1")
+            {
+                checkBox_Arduino.Checked = true;
+                comboBox_ArduinoPort_PortName_Value.Enabled = true;
+            }
+            else if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "0" || ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "")
+            {
+                checkBox_Arduino.Checked = false;
+                comboBox_ArduinoPort_PortName_Value.Enabled = false;
+            }
+
             if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
             {
                 checkBox_Kline.Checked = true;
@@ -518,6 +530,7 @@ namespace Woodpecker
             comboBox_SerialPort4_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port D", "PortName", "");
             comboBox_SerialPort5_BaudRate_Value.Text = ini12.INIRead(MainSettingPath, "Port E", "BaudRate", "");
             comboBox_SerialPort5_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Port E", "PortName", "");
+            comboBox_ArduinoPort_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Arduino", "PortName", "");
             comboBox_KlinePort_PortName_Value.Text = ini12.INIRead(MainSettingPath, "Kline", "PortName", "");
             #endregion
 
@@ -952,6 +965,12 @@ namespace Woodpecker
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_SerialPort1_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
+                }
                 else
                 {
                     pictureBox_SerialPort1.Image = null;
@@ -989,6 +1008,12 @@ namespace Woodpecker
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort2_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_SerialPort2_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort2.Image = Properties.Resources.ERROR;
@@ -1040,6 +1065,12 @@ namespace Woodpecker
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
                 }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_SerialPort3_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_SerialPort3.Image = Properties.Resources.ERROR;
+                }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort3_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
@@ -1083,6 +1114,12 @@ namespace Woodpecker
                 }
                 else if (checkBox_SerialPort5.Checked == true &&
                         (comboBox_SerialPort4_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_SerialPort4_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
                 {
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
@@ -1134,6 +1171,12 @@ namespace Woodpecker
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_SerialPort4.Image = Properties.Resources.ERROR;
                 }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_SerialPort5_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_SerialPort5.Image = Properties.Resources.ERROR;
+                }
                 else if (checkBox_Kline.Checked == true &&
                         (comboBox_SerialPort5_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
@@ -1148,6 +1191,59 @@ namespace Woodpecker
             else if (checkBox_SerialPort5.Checked == false)
             {
                 pictureBox_SerialPort5.Image = null;
+            }
+
+            if (checkBox_Arduino.Checked == true)
+            {
+                if (comboBox_ArduinoPort_PortName_Value.Text == ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") && comboBox_ArduinoPort_PortName_Value.Text != "")
+                {
+                    label_ErrorMessage.Text = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "") + " is using!";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort1.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_SerialPort1_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort2.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_SerialPort2_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort3.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_SerialPort3_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort4.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_SerialPort4_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_SerialPort5.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else if (checkBox_Kline.Checked == true &&
+                        (comboBox_ArduinoPort_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_ArduinoPort.Image = Properties.Resources.ERROR;
+                }
+                else
+                {
+                    pictureBox_ArduinoPort.Image = null;
+                }
+            }
+            else if (checkBox_Arduino.Checked == false)
+            {
+                pictureBox_ArduinoPort.Image = null;
             }
 
             if (checkBox_Kline.Checked == true)
@@ -1187,6 +1283,12 @@ namespace Woodpecker
                     label_ErrorMessage.Text = "Duplicate SerialPort ";
                     pictureBox_klinePort.Image = Properties.Resources.ERROR;
                 }
+                else if (checkBox_Arduino.Checked == true &&
+                        (comboBox_KlinePort_PortName_Value.Text == comboBox_ArduinoPort_PortName_Value.Text))
+                {
+                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    pictureBox_klinePort.Image = Properties.Resources.ERROR;
+                }
                 else
                 {
                     pictureBox_klinePort.Image = null;
@@ -1202,6 +1304,7 @@ namespace Woodpecker
                 pictureBox_SerialPort3.Image == null &&
                 pictureBox_SerialPort4.Image == null &&
                 pictureBox_SerialPort5.Image == null &&
+                pictureBox_ArduinoPort.Image == null &&
                 pictureBox_klinePort.Image == null)
             {
                 label_ErrorMessage.Text = ""; // SerialPort save behavior on FormTabControl.cs file.
@@ -1386,9 +1489,34 @@ namespace Woodpecker
                 comboBox_KlinePort_PortName_Value.Enabled = false;
                 PortCheck();
             }
+
         }
 
         private void comboBox_Kline_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PortCheck();
+        }
+        
+        private void checkBox_GPIO_CheckedChanged(object sender, EventArgs e)
+        {
+            //自動跑ArduinoLog//
+            if (checkBox_Arduino.Checked == true)
+            {
+                ini12.INIWrite(MainSettingPath, "Arduino", "Checked", "1");
+                ini12.INIWrite(MainSettingPath, "Arduino", "BaudRate", "9600");
+                comboBox_ArduinoPort_PortName_Value.Enabled = true;
+                PortCheck();
+            }
+            else
+            {
+                ini12.INIWrite(MainSettingPath, "Arduino", "Checked", "0");
+                ini12.INIWrite(MainSettingPath, "Arduino", "BaudRate", "9600");
+                comboBox_ArduinoPort_PortName_Value.Enabled = false;
+                PortCheck();
+            }
+        }
+
+        private void comboBox_GPIOPort_PortName_Value_SelectedIndexChanged(object sender, EventArgs e)
         {
             PortCheck();
         }
