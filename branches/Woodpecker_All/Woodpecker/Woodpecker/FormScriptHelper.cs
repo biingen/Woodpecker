@@ -193,12 +193,12 @@ namespace Woodpecker
             float dpiX = graphics.DpiX;
             float dpiY = graphics.DpiY;
             int width, height;
-            if (dpiX == 120 && dpiY == 120)
+            if (dpiX == 120 && dpiY == 120)     //125% zoom
             {
-                this.Width = 620;
-                this.Height = 90;
-                width = 100;
-                height = 30;
+                this.Width = 620;   //調整Form寬度大小
+                this.Height = 135;  //調整Form高度大小
+                width = 100;        //調整Button寬度大小
+                height = 30;        //調整Button高度大小
             }
             else
             {
