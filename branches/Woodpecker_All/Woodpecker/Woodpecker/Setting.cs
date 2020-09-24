@@ -403,6 +403,7 @@ namespace Woodpecker
                 comboBox_SerialPort3_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort4_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_SerialPort5_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
+                comboBox_ArduinoPort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
                 comboBox_KlinePort_PortName_Value.DataSource = System.IO.Ports.SerialPort.GetPortNames();
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
