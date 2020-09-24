@@ -204,10 +204,10 @@
             this.comboBox_ArduinoPort_PortName_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_ArduinoPort_PortName_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_ArduinoPort_PortName_Value.FormattingEnabled = true;
-            this.comboBox_ArduinoPort_PortName_Value.Location = new System.Drawing.Point(273, 106);
+            this.comboBox_ArduinoPort_PortName_Value.Location = new System.Drawing.Point(264, 106);
             this.comboBox_ArduinoPort_PortName_Value.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.comboBox_ArduinoPort_PortName_Value.Name = "comboBox_ArduinoPort_PortName_Value";
-            this.comboBox_ArduinoPort_PortName_Value.Size = new System.Drawing.Size(65, 23);
+            this.comboBox_ArduinoPort_PortName_Value.Size = new System.Drawing.Size(73, 23);
             this.comboBox_ArduinoPort_PortName_Value.TabIndex = 159;
             this.comboBox_ArduinoPort_PortName_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_GPIOPort_PortName_Value_SelectedIndexChanged);
             // 
@@ -219,9 +219,9 @@
             this.checkBox_Arduino.Location = new System.Drawing.Point(193, 108);
             this.checkBox_Arduino.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Arduino.Name = "checkBox_Arduino";
-            this.checkBox_Arduino.Size = new System.Drawing.Size(80, 19);
+            this.checkBox_Arduino.Size = new System.Drawing.Size(68, 19);
             this.checkBox_Arduino.TabIndex = 158;
-            this.checkBox_Arduino.Text = "GPIOPort:";
+            this.checkBox_Arduino.Text = "Arduino";
             this.checkBox_Arduino.UseVisualStyleBackColor = true;
             this.checkBox_Arduino.CheckedChanged += new System.EventHandler(this.checkBox_GPIO_CheckedChanged);
             // 
@@ -362,10 +362,10 @@
             this.comboBox_KlinePort_PortName_Value.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox_KlinePort_PortName_Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.comboBox_KlinePort_PortName_Value.FormattingEnabled = true;
-            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(273, 77);
+            this.comboBox_KlinePort_PortName_Value.Location = new System.Drawing.Point(264, 77);
             this.comboBox_KlinePort_PortName_Value.Margin = new System.Windows.Forms.Padding(2, 2, 40, 2);
             this.comboBox_KlinePort_PortName_Value.Name = "comboBox_KlinePort_PortName_Value";
-            this.comboBox_KlinePort_PortName_Value.Size = new System.Drawing.Size(65, 23);
+            this.comboBox_KlinePort_PortName_Value.Size = new System.Drawing.Size(73, 23);
             this.comboBox_KlinePort_PortName_Value.TabIndex = 135;
             this.comboBox_KlinePort_PortName_Value.SelectedIndexChanged += new System.EventHandler(this.comboBox_Kline_SelectedIndexChanged);
             // 
@@ -377,9 +377,9 @@
             this.checkBox_Kline.Location = new System.Drawing.Point(193, 79);
             this.checkBox_Kline.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Kline.Name = "checkBox_Kline";
-            this.checkBox_Kline.Size = new System.Drawing.Size(79, 19);
+            this.checkBox_Kline.Size = new System.Drawing.Size(54, 19);
             this.checkBox_Kline.TabIndex = 134;
-            this.checkBox_Kline.Text = "KlinePort:";
+            this.checkBox_Kline.Text = "Kline";
             this.checkBox_Kline.UseVisualStyleBackColor = true;
             this.checkBox_Kline.CheckedChanged += new System.EventHandler(this.checkBox_Kline_CheckedChanged);
             // 
