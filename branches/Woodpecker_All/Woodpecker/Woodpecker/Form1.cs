@@ -10600,7 +10600,7 @@ namespace Woodpecker
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
-            if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() == "_shot")
+            if (DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString() != "")           //含有remark value
             {
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
