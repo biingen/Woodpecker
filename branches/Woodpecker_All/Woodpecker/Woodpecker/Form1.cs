@@ -195,8 +195,8 @@ namespace Woodpecker
         // Search GPIO parameter
         List<string> GPIOList = new List<string> { };
         int GPIOCount;
-        string Read_Arduino_Data;
-        bool flag_receive;
+        string Read_Arduino_Data = "";
+        bool serial_receive = false;
 
         public Form1()
         {
@@ -3157,7 +3157,6 @@ namespace Woodpecker
                     }
                     log_process("Arduino", dataValue);
                     log_process("All", dataValue);
-                    flag_receive = false;
                 }
                 else
                 {
@@ -5691,7 +5690,7 @@ namespace Woodpecker
                         string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
-                        Arduino_IO_INPUT();  //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
+                        Arduino_IO_INPUT(600000);  //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
 
                         GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
                         if (StartButtonPressed == false)
@@ -8006,7 +8005,7 @@ namespace Woodpecker
                         else if (columns_command == "_Arduino_Input")
                         {
                             debug_process("GPIO control: _Arduino_Input");
-                            Arduino_IO_INPUT();
+                            Arduino_IO_INPUT(SysDelay);
                         }
 
                         else if (columns_command == "_Arduino_Output")
@@ -8015,7 +8014,7 @@ namespace Woodpecker
                             //string GPIO = "01010101";
                             string GPIO = columns_times;
                             byte GPIO_B = Convert.ToByte(GPIO, 2);
-                            Arduino_Set_GPIO_Output(GPIO_B);
+                            Arduino_Set_GPIO_Output(GPIO_B, SysDelay);
                             label_Command.Text = "(" + columns_command + ") " + columns_times;
                         }
                         #endregion
@@ -12694,7 +12693,7 @@ namespace Woodpecker
             log_process("All", dataValue);
         }
 
-        private void Arduino_IO_INPUT()
+        private void Arduino_IO_INPUT(int delay_time)
         {
             UInt32 GPIO_input_value, retry_cnt;
             bool aGpio = false;
@@ -12702,7 +12701,7 @@ namespace Woodpecker
             do
             {
                 String modified0 = "";
-                aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value);
+                aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value, delay_time);
                 if (Convert.ToString(GPIO_input_value, 2).Length == 7)
                 {
                     modified0 = "0" + Convert.ToString(GPIO_input_value, 2);
@@ -12754,16 +12753,11 @@ namespace Woodpecker
                 DateTime dt = DateTime.Now;
                 dataValue = "[Receive_Port_Arduino_IO_INPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
             }
-            log_process("A", dataValue);
-            log_process("B", dataValue);
-            log_process("C", dataValue);
-            log_process("D", dataValue);
-            log_process("E", dataValue);
             log_process("Arduino", dataValue);
             log_process("All", dataValue);
         }
 
-        public bool Arduino_Get_GPIO_Input(out UInt32 GPIO_Read_Data)
+        public bool Arduino_Get_GPIO_Input(out UInt32 GPIO_Read_Data, int delay_time)
         {
             bool aGpio = false;
 
@@ -12773,9 +12767,8 @@ namespace Woodpecker
             {
                 try
                 {
-                    serialPort_Arduino.WriteLine("ioi");
-                    flag_receive = true;
-                    while (flag_receive) { }  
+                    string dataValue = "io i";
+                    Ardoino_Counter_Delay(dataValue, delay_time);
                     string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
                     //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
                     GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
@@ -12790,36 +12783,81 @@ namespace Woodpecker
             return aGpio;
         }
 
-        public bool Arduino_Set_GPIO_Output(byte output_value)
+        public bool Arduino_Set_GPIO_Output(byte output_value, int delay_time)
         {
-            bool bRet = false;
+            bool aGpio = false;
 
             if (serialPort_Arduino.IsOpen)
             {
                 try
                 {
                     string dataValue = "io x " + output_value;
-                    serialPort_Arduino.WriteLine(dataValue);
+                    Ardoino_Counter_Delay(dataValue, delay_time);
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
                         dataValue = "[Send_Port_Arduino_IO_OUTPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    log_process("A", dataValue);
-                    log_process("B", dataValue);
-                    log_process("C", dataValue);
-                    log_process("D", dataValue);
-                    log_process("E", dataValue);
                     log_process("Arduino", dataValue);
                     log_process("All", dataValue);
-                    bRet = true;
+                    aGpio = true;
                 }
                 catch (System.FormatException)
                 {
 
                 }
             }
-            return bRet;
+            return aGpio;
+        }
+
+        // 這個Counter專用的delay的內部資料與function
+        static bool Counter_Delay_TimeOutIndicator = false;
+        static UInt64 Counter_Count = 0;
+        private void Counter_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            Counter_Count++;
+            Counter_Delay_TimeOutIndicator = true;
+        }
+
+        private void Ardoino_Counter_Delay(string dataValue, int delay_ms)
+        {
+            if (delay_ms <= 0) return;
+            serial_receive = true;
+            System.Timers.Timer Counter_Timer = new System.Timers.Timer(delay_ms);
+            Counter_Timer.Interval = delay_ms;
+            Counter_Timer.Elapsed += new ElapsedEventHandler(Counter_Delay_UsbOnTimedEvent);
+            Counter_Timer.Enabled = true;
+            Counter_Timer.Start();
+            Counter_Timer.AutoReset = true;
+            serialPort_Arduino.WriteLine(dataValue);
+
+            while (Counter_Delay_TimeOutIndicator == false && serial_receive == true)
+            {
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(1);//釋放CPU//
+                if (Read_Arduino_Data.Contains("io i") || Read_Arduino_Data.Contains("io x"))
+                {
+                    Counter_Timer.Stop();
+                    Counter_Timer.Dispose();
+                    serial_receive = false;
+                }
+            }
+
+            while (Counter_Delay_TimeOutIndicator == true && serial_receive == true)
+            {
+                Counter_Timer.Stop();
+                Counter_Timer.Dispose();
+                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                {
+                    DateTime dt = DateTime.Now;
+                    dataValue = "[Arduino_IO_INPUT_OUTPUT_ERROR] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "[System already stoped.] \r\n"; //OK
+                }
+                log_process("Arduino", dataValue);
+                log_process("All", dataValue);
+                serial_receive = false;
+                button_Start.PerformClick();
+                MessageBox.Show("Arduino_IO_INPUT_ERROR.", "Error");
+            }
         }
 
         #endregion
@@ -13854,7 +13892,7 @@ namespace Woodpecker
                 for (int j = 0; j < GPIOCount; j++)
                 {
                     IO_INPUT(); //持續讀取IO值//
-                    Arduino_IO_INPUT(); //持續讀取Arduino_IO值//
+                    Arduino_IO_INPUT(600000); //持續讀取Arduino_IO值//
                     switch (GPIOList[j].Substring(3, 2))
                     {
                         #region -- PA10 --
