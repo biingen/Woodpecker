@@ -169,7 +169,133 @@ namespace Woodpecker
         }
     }
 
-    
+    public class Crc8
+    {
+        static byte[] table = new byte[256];
+        // x8 + x4 +x3 +x2 + 1
+        const byte poly = 0x1D;
+
+        public static string SAEJ1850_CRC8(string orginal_data)
+        {
+            string[] hexValuesSplit = orginal_data.Split(' ');
+            byte[] bytes = new byte[hexValuesSplit.Count()];
+            int hex_number = 0;
+            try
+            {
+                foreach (string hex in hexValuesSplit)          //改為Byte陣列
+                {
+                    // Convert the number expressed in base-16 to an integer.
+                    byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                    // Get the character corresponding to the integral value.
+                    bytes[hex_number++] = number;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check HEX command format.", "Format error");
+            }
+
+            ushort crc = SAEJ1850ZERO(bytes);       //計算CRC
+            string crcHex = ((int)crc).ToString("X2").PadLeft(2, '0');
+            return crcHex;
+        }
+
+        public static byte SAEJ1850ZERO(params byte[] bytes)
+        {
+            byte crc = 0;
+            if (bytes != null && bytes.Length > 0)
+            {
+                foreach (byte b in bytes)
+                {
+                    crc = table[crc ^ b];
+                }
+            }
+            return crc;
+        }
+
+        public static string AEON_CRC8(string orginal_data)
+        {
+            string[] hexValuesSplit = orginal_data.Split(' ');
+            byte[] bytes = new byte[hexValuesSplit.Count()];
+            int hex_number = 0;
+            try
+            {
+                foreach (string hex in hexValuesSplit)          //改為Byte陣列
+                {
+                    // Convert the number expressed in base-16 to an integer.
+                    byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                    // Get the character corresponding to the integral value.
+                    bytes[hex_number++] = number;
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check HEX command format.", "Format error");
+            }
+
+            ushort crc = AEON(bytes);       //計算CRC
+            string crcHex = ((int)crc).ToString("X2").PadLeft(2, '0');
+            return crcHex;
+        }
+
+        public static byte AEON(params byte[] bytes)
+        {
+
+            uint crc_temp = 0;
+            if (bytes != null && bytes.Length > 0)
+            {
+                foreach (byte d in bytes)
+                {
+                    crc_temp += d;
+                }
+                uint temp_H = 0x00;
+                uint temp_L = 0x00;
+
+                temp_H = crc_temp >> 8;
+                temp_L = crc_temp & 0xFF;
+                //crc_temp = (byte)~(temp_L - temp_H);
+                crc_temp = (byte)~(crc_temp - 1);
+            }
+            return Convert.ToByte(crc_temp);
+        }
+
+        static Crc8()
+        {
+            for (int i = 0; i < 256; ++i)
+            {
+                int temp = i;
+                for (int j = 0; j < 8; ++j)
+                {
+                    if ((temp & 0x80) != 0)
+                    {
+                        temp = (temp << 1) ^ poly;
+                    }
+                    else
+                    {
+                        temp <<= 1;
+                    }
+                }
+                table[i] = (byte)temp;
+            }
+        }
+
+        /**
+         * 範例程式 http://sanity-free.org/146/crc8_implementation_in_csharp.html
+         * 線上計算 http://www.sunshine2k.de/coding/javascript/crc/crc_js.html 
+        Example:
+        
+        byte crc = Crc8.SAEJ1850(0xF2,0x01,0x83);
+        byte check = Crc8.SAEJ1850(0x12, 0x01, 0x83, crc);
+        // here check should equal 0 to show that the checksum is accurate
+        if (check != 0)
+        {
+            Console.WriteLine("Error in the checksum");
+        }
+        
+         * */
+    }
+
+
     public static class HexConverter
     {
         public static byte[] HexToByte(this string hexString)

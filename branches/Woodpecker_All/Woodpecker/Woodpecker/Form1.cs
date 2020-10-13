@@ -7771,6 +7771,72 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- CAN TX Send --
+                        else if (columns_command == "_CAN_TX_Send")
+                        {
+                            string Outputstring = "";
+                            string crc8_data = "";
+                            if (columns_comport != "" && columns_function == "CRC8_AEON" || columns_function == "CRC8_SAE-J1850" && columns_subFunction != "" && columns_serial != "")
+                            {
+                                string dlc_data = columns_serial;
+                                var myList = new List<string>(columns_subFunction.Split(' '));
+                                int dlc_count = Convert.ToInt32(myList[myList.Count - 1]);
+                                if (columns_function == "CRC8_AEON")
+                                    crc8_data = Crc8.AEON_CRC8(dlc_data);
+                                else if (columns_function == "CRC8_SAE-J1850")
+                                    crc8_data = Crc8.SAEJ1850_CRC8(dlc_data);
+                                switch (dlc_count)
+                                {
+                                    case 2:
+                                        dlc_data = dlc_data + " "　+ crc8_data + " 00 00 00 00 00 00";
+                                        break;
+                                    case 3:
+                                        dlc_data = dlc_data + " " + crc8_data + " 00 00 00 00 00";
+                                        break;
+                                    case 4:
+                                        dlc_data = dlc_data + " " + crc8_data + " 00 00 00 00";
+                                        break;
+                                    case 5:
+                                        dlc_data = dlc_data + " " + crc8_data + " 00 00 00";
+                                        break;
+                                    case 6:
+                                        dlc_data = dlc_data + " " + crc8_data + " 00 00";
+                                        break;
+                                    case 7:
+                                        dlc_data = dlc_data + " " + crc8_data + " 00";
+                                        break;
+                                    case 8:
+                                        dlc_data = dlc_data + " " + crc8_data;
+                                        break;
+                                }
+                                Outputstring = columns_subFunction + " " + dlc_data;
+                                byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                Outputbytes = HexConverter.StrToByte(Outputstring);
+                                if (PortA.IsOpen == true || PortB.IsOpen == true || PortC.IsOpen == true || PortD.IsOpen == true || PortE.IsOpen == true)
+                                {
+                                    switch (columns_comport)
+                                    {
+                                        case "A":
+                                            PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc8
+                                            break;
+                                        case "B":
+                                            PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc8
+                                            break;
+                                        case "C":
+                                            PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc8
+                                            break;
+                                        case "D":
+                                            PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc8
+                                            break;
+                                        case "E":
+                                            PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc8
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        #endregion
+
                         #region -- Astro Timing --
                         else if (columns_command == "_astro")
                         {
@@ -10874,6 +10940,7 @@ namespace Woodpecker
             RCDB.Items.Add("_TX_I2C_Write");
             RCDB.Items.Add("_Canbus_Send");
             RCDB.Items.Add("_Canbus_Queue");
+            RCDB.Items.Add("_CAN_TX_Send");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_shot");
             RCDB.Items.Add("_rec_start");
@@ -13154,6 +13221,11 @@ namespace Woodpecker
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Arduino_Pin" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
+
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_CAN_TX_Send" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
+                        DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_CAN_TX_Send" &&
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||
 
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Condition_OR" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||

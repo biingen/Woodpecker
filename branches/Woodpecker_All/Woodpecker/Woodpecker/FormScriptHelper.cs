@@ -91,7 +91,6 @@ namespace Woodpecker
                     CmdList.Add("C");
                     CmdList.Add("D");
                     CmdList.Add("E");
-                    CmdList.Add("Canbus");
                     break;
 
                 case "_HEX + Function":
@@ -157,6 +156,19 @@ namespace Woodpecker
                     CmdList.Add("_mail");
                     CmdList.Add("_rc_");
                     CmdList.Add("_logcmd");
+                    break;
+
+                case "_CAN_TX_Send + >COM  >Pin":
+                    CmdList.Add("A");
+                    CmdList.Add("B");
+                    CmdList.Add("C");
+                    CmdList.Add("D");
+                    CmdList.Add("E");
+                    break;
+
+                case "_CAN_TX_Send + Function":
+                    CmdList.Add("CRC8_AEON");
+                    CmdList.Add("CRC8_SAE-J1850");
                     break;
 
                 case "_keyword + >Times >Keyword#":
