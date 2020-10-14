@@ -76,6 +76,8 @@ namespace Woodpecker
         private long TestTime = 0;
         private string videostring = "";
         private string srtstring = "";
+        private bool TakePicture = false;
+        private int TakePictureError = 0;
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
@@ -6025,7 +6027,7 @@ namespace Woodpecker
                         #region -- 拍照 --
                         else if (columns_command == "_shot")
                         {
-                            debug_process("_shot");
+                            debug_process("Take Picture: _shot_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
                                 GlobalData.caption_Num++;
@@ -9483,7 +9485,7 @@ namespace Woodpecker
                         }
 
                         Nowpoint = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Index;
-                        debug_process("Nowpoint record: " + Nowpoint + ",\r\n");
+                        debug_process("Nowpoint record: " + Nowpoint);
 
                         if (Breakfunction == true)
                         {
@@ -9628,7 +9630,7 @@ namespace Woodpecker
                     #endregion
                 }
 
-                debug_process("Loop_Number: " + GlobalData.Loop_Number + ", \r\n");
+                debug_process("Loop_Number: " + GlobalData.Loop_Number);
                 Serialportsave("Debug");
 				DisposeRam();
                 GlobalData.Loop_Number++;
@@ -10592,31 +10594,39 @@ namespace Woodpecker
 
         private void Myshot()
         {
-            debug_process("Start Myshot");
+            debug_process("Myshot: Start");
             button_Start.Enabled = false;
-            //setStyle();
-            capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
-            capture.GrapImg();
-            debug_process("Stop Myshot");
+            if (TakePicture == true && TakePictureError <= 3)
+                TakePictureError++;
+            else if (TakePicture == true && TakePictureError > 3)
+                MessageBox.Show("Please check the Camera!", "Camera take picture Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {
+                TakePicture = true;
+                //setStyle();
+                capture.FrameEvent2 += new Capture.HeFrame(CaptureDone);
+                capture.GrapImg();
+                debug_process("Myshot: Myshot");
+            }
         }
 
         // 複製原始圖片
         protected Bitmap CloneBitmap(Bitmap source)
         {
-            debug_process("CloneBitmap");
+            debug_process("Myshot: CloneBitmap");
             return new Bitmap(source);
         }
 
         private void CaptureDone(System.Drawing.Bitmap e)
         {
-            debug_process("CaptureDone");
+            debug_process("Myshot: CaptureDone");
             capture.FrameEvent2 -= new Capture.HeFrame(CaptureDone);
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
             //string ngFolder = "Schedule" + GlobalData.Schedule_Num + "_NG";
 
             //圖片印字
             Bitmap newBitmap = CloneBitmap(e);
-            newBitmap = CloneBitmap(e);
+            //newBitmap = CloneBitmap(e);
             pictureBox4.Image = newBitmap;
 
             if (ini12.INIRead(MainSettingPath, "Record", "CompareChoose", "") == "1")
@@ -10697,6 +10707,8 @@ namespace Woodpecker
             pictureBox4.Image.Save(t, ImageFormat.Jpeg);
             debug_process("Save the CaptureDone Picture");
             button_Start.Enabled = true;
+            TakePicture = false;
+            TakePictureError = 0;
             //setStyle();
             debug_process("Stop the CaptureDone function");
         }
