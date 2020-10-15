@@ -28,7 +28,6 @@ namespace Woodpecker
         public const int HTCAPTION = 0x0002;
         //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
         private void setStyle()
         {
             // Form design
@@ -223,7 +222,6 @@ namespace Woodpecker
                     tabControl.SelectedTab = tabPage_MainSetting;
                 }
 
-
                 if (GlobalData.FormSchedule == false)
                 {
                     MessageBox.Show("Settings are not saved.", "Schedule", MessageBoxButtons.OK, MessageBoxIcon.Question);
@@ -235,7 +233,6 @@ namespace Woodpecker
                     MessageBox.Show("Settings are not saved.", "Mail", MessageBoxButtons.OK, MessageBoxIcon.Question);
                     tabControl.SelectedTab = tabPage_Mail;
                 }
-
 
                 if (GlobalData.FormLog == false)
                 {
@@ -315,15 +312,52 @@ namespace Woodpecker
             }
         }
 
-        string MainSettingPath = Application.StartupPath + "\\Config.ini";
+        string MainSettingPath = GlobalData.MainSettingPath;    //Application.StartupPath + "\\Config.ini";
         private void FormTabControl_FormClosed(object sender, FormClosedEventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Port A", "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
-            ini12.INIWrite(MainSettingPath, "Port B", "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
-            ini12.INIWrite(MainSettingPath, "Port C", "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
-            ini12.INIWrite(MainSettingPath, "Port D", "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
-            ini12.INIWrite(MainSettingPath, "Port E", "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
-            ini12.INIWrite(MainSettingPath, "Kline", "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
+            string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
+            string[] labelArray = new string[6] { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
+            string[] configArray = new string[6] { "PortA", "PortB", "PortC", "PortD", "PortE", "Kline" };
+            List <bool> chkValList = new List<bool> { FormSetting.checkBox_SerialPort1.Checked, FormSetting.checkBox_SerialPort2.Checked, FormSetting.checkBox_SerialPort3.Checked,
+                FormSetting.checkBox_SerialPort4.Checked, FormSetting.checkBox_SerialPort5.Checked, FormSetting.checkBox_Kline.Checked };
+            List<string> portNameList = new List<string> { FormSetting.comboBox_SerialPort1_PortName_Value.Text, FormSetting.comboBox_SerialPort2_PortName_Value.Text,
+                FormSetting.comboBox_SerialPort3_PortName_Value.Text, FormSetting.comboBox_SerialPort4_PortName_Value.Text,
+                FormSetting.comboBox_SerialPort5_PortName_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text };
+            List<string> portBrList = new List<string> { FormSetting.comboBox_SerialPort1_BaudRate_Value.Text, FormSetting.comboBox_SerialPort2_BaudRate_Value.Text,
+                FormSetting.comboBox_SerialPort3_BaudRate_Value.Text, FormSetting.comboBox_SerialPort4_BaudRate_Value.Text,
+                FormSetting.comboBox_SerialPort5_BaudRate_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text };
+
+            //Write Port Config Parameters once exiting TabControl (Setting) Form
+            if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
+            {
+                int i = 0;
+                foreach (var portConfig in GlobalData._portConfigList)
+                {
+                    portConfig.portLabel = labelArray[i];
+                    portConfig.checkedValue = chkValList.ElementAt<bool>(i);
+                    portConfig.portConfig = configArray[i];
+                    portConfig.portName = portNameList.ElementAt<string>(i);
+                    portConfig.portBR = portBrList.ElementAt<string>(i);
+                    if (!portConfig.checkedValue)
+                        ini12.INIWrite(MainSettingPath, portConfig.portLabel, "Checked", "0");
+                    else if (portConfig.checkedValue)
+                        ini12.INIWrite(MainSettingPath, portConfig.portLabel, "Checked", "1");
+                    i++;
+                }
+            }
+            else
+            {
+                //This is used to check if count of portConfigList is the same as local array size
+                Console.WriteLine("[portConfigList] Out of index!!!");
+                Application.Exit();
+            }
+
+            ini12.INIWrite(MainSettingPath, portLabel_A, "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_B, "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_C, "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_D, "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_E, "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_K, "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
         }
     }
 }
