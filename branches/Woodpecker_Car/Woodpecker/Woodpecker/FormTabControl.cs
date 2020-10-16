@@ -315,17 +315,19 @@ namespace Woodpecker
         string MainSettingPath = GlobalData.MainSettingPath;    //Application.StartupPath + "\\Config.ini";
         private void FormTabControl_FormClosed(object sender, FormClosedEventArgs e)
         {
-            string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
-            string[] labelArray = new string[6] { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
-            string[] configArray = new string[6] { "PortA", "PortB", "PortC", "PortD", "PortE", "Kline" };
+            string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
+            string[] labelArray = new string[7] { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino };
+            string[] configArray = new string[7] { "PortA", "PortB", "PortC", "PortD", "PortE", "Kline", "Arduino" };
             List <bool> chkValList = new List<bool> { FormSetting.checkBox_SerialPort1.Checked, FormSetting.checkBox_SerialPort2.Checked, FormSetting.checkBox_SerialPort3.Checked,
-                FormSetting.checkBox_SerialPort4.Checked, FormSetting.checkBox_SerialPort5.Checked, FormSetting.checkBox_Kline.Checked };
+                FormSetting.checkBox_SerialPort4.Checked, FormSetting.checkBox_SerialPort5.Checked, FormSetting.checkBox_Kline.Checked, FormSetting.checkBox_Arduino.Checked };
             List<string> portNameList = new List<string> { FormSetting.comboBox_SerialPort1_PortName_Value.Text, FormSetting.comboBox_SerialPort2_PortName_Value.Text,
                 FormSetting.comboBox_SerialPort3_PortName_Value.Text, FormSetting.comboBox_SerialPort4_PortName_Value.Text,
-                FormSetting.comboBox_SerialPort5_PortName_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text };
+                FormSetting.comboBox_SerialPort5_PortName_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text,
+				FormSetting.comboBox_ArduinoPort_PortName_Value.Text };
             List<string> portBrList = new List<string> { FormSetting.comboBox_SerialPort1_BaudRate_Value.Text, FormSetting.comboBox_SerialPort2_BaudRate_Value.Text,
                 FormSetting.comboBox_SerialPort3_BaudRate_Value.Text, FormSetting.comboBox_SerialPort4_BaudRate_Value.Text,
-                FormSetting.comboBox_SerialPort5_BaudRate_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text };
+                FormSetting.comboBox_SerialPort5_BaudRate_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text,
+				FormSetting.comboBox_ArduinoPort_PortName_Value.Text };
 
             //Write Port Config Parameters once exiting TabControl (Setting) Form
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
@@ -358,6 +360,7 @@ namespace Woodpecker
             ini12.INIWrite(MainSettingPath, portLabel_D, "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, portLabel_E, "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
             ini12.INIWrite(MainSettingPath, portLabel_K, "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
+			ini12.INIWrite(MainSettingPath, portLabel_Arduino, "PortName", FormSetting.comboBox_ArduinoPort_PortName_Value.Text);
         }
     }
 }

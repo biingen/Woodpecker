@@ -72,13 +72,21 @@ namespace Woodpecker
                     CmdList.Add("_logcmd");
                     break;
 
+                case "_Condition_OR + Function":
+                    CmdList.Add("start");
+                    CmdList.Add("end");
+                    break;
+
+                case "_Condition_OR + >SerialPort                   >I/O cmd":
+                    CmdList.Add("Temperature");
+                    break;
+
                 case "_HEX + >COM  >Pin":
                     CmdList.Add("A");
                     CmdList.Add("B");
                     CmdList.Add("C");
                     CmdList.Add("D");
                     CmdList.Add("E");
-                    CmdList.Add("Canbus");
                     break;
 
                 case "_HEX + Function":
@@ -106,6 +114,36 @@ namespace Woodpecker
                     break;
 
                 case "_Pin + >SerialPort                   >I/O cmd":
+                    CmdList.Add("_pause");
+                    CmdList.Add("_stop");
+                    CmdList.Add("_ac_restart");
+                    CmdList.Add("_shot");
+                    CmdList.Add("_accumulate");
+                    CmdList.Add("_mail");
+                    CmdList.Add("_rc_");
+                    CmdList.Add("_logcmd");
+                    break;
+
+                case "_Arduino_Pin + >COM  >Pin":
+                    CmdList.Add("_P02_0");
+                    CmdList.Add("_P02_1");
+                    CmdList.Add("_P03_0");
+                    CmdList.Add("_P03_1");
+                    CmdList.Add("_P04_0");
+                    CmdList.Add("_P04_1");
+                    CmdList.Add("_P05_0");
+                    CmdList.Add("_P05_1");
+                    CmdList.Add("_P06_0");
+                    CmdList.Add("_P06_1");
+                    CmdList.Add("_P07_0");
+                    CmdList.Add("_P07_1");
+                    CmdList.Add("_P08_0");
+                    CmdList.Add("_P08_1");
+                    CmdList.Add("_P09_0");
+                    CmdList.Add("_P09_1");
+                    break;
+
+                case "_Arduino_Pin + >SerialPort                   >I/O cmd":
                     CmdList.Add("_pause");
                     CmdList.Add("_stop");
                     CmdList.Add("_ac_restart");
@@ -150,19 +188,19 @@ namespace Woodpecker
             float dpiX = graphics.DpiX;
             float dpiY = graphics.DpiY;
             int width, height;
-            if (dpiX == 120 && dpiY == 120)
+            if (dpiX == 120 && dpiY == 120)     //125% zoom
             {
-                this.Width = 620;
-                this.Height = 90;
-                width = 100;
-                height = 30;
+                this.Width = 620;   //調整Form寬度大小
+                this.Height = 135;  //調整Form高度大小
+                width = 100;        //調整Button寬度大小
+                height = 30;        //調整Button高度大小
             }
             else
             {
-                this.Width = 560;
-                this.Height = 75;
-                width = 90;
-                height = 25;
+                this.Width = 560;   //調整Form寬度大小
+                this.Height = 120;  //調整Form高度大小
+                width = 90;         //調整Button寬度大小
+                height = 25;        //調整Button高度大小
             }
 
             Buttons = new Button[CmdList.Count];
@@ -185,6 +223,10 @@ namespace Woodpecker
                 else if (i > 5 && i <= 11)
                 {
                     Buttons[i].Location = new Point(10 + ((i - 6) * width), 50);
+                }
+                else if (i > 11 && i <= 18)
+                {
+                    Buttons[i].Location = new Point(10 + ((i - 12) * width), 90);
                 }
 
                 int index = i;

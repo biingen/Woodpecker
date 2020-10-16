@@ -135,6 +135,7 @@ namespace Woodpecker
         public static bool FormLog = true;
         public static string RCDB = "";
         public static string IO_INPUT = "";
+        public static string Arduino_IO_INPUT = "";
         public static int IO_PA10_0_COUNT = 0;
         public static int IO_PA10_1_COUNT = 0;
         public static int IO_PA11_0_COUNT = 0;
@@ -147,6 +148,22 @@ namespace Woodpecker
         public static int IO_PB1_1_COUNT = 0;
         public static int IO_PB7_0_COUNT = 0;
         public static int IO_PB7_1_COUNT = 0;
+        public static int IO_Arduino2_0_COUNT = 0;
+        public static int IO_Arduino2_1_COUNT = 0;
+        public static int IO_Arduino3_0_COUNT = 0;
+        public static int IO_Arduino3_1_COUNT = 0;
+        public static int IO_Arduino4_0_COUNT = 0;
+        public static int IO_Arduino4_1_COUNT = 0;
+        public static int IO_Arduino5_0_COUNT = 0;
+        public static int IO_Arduino5_1_COUNT = 0;
+        public static int IO_Arduino6_0_COUNT = 0;
+        public static int IO_Arduino6_1_COUNT = 0;
+        public static int IO_Arduino7_0_COUNT = 0;
+        public static int IO_Arduino7_1_COUNT = 0;
+        public static int IO_Arduino8_0_COUNT = 0;
+        public static int IO_Arduino8_1_COUNT = 0;
+        public static int IO_Arduino9_0_COUNT = 0;
+        public static int IO_Arduino9_1_COUNT = 0;
         public static string keyword_1 = "false";
         public static string keyword_2 = "false";
         public static string keyword_3 = "false";
@@ -176,7 +193,8 @@ namespace Woodpecker
         public static PortConfigGroup portConfigGroup_D = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_E = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_Kline = new PortConfigGroup();
-        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline };
+		public static PortConfigGroup portConfigGroup_Arduino = new PortConfigGroup();
+        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline, portConfigGroup_Arduino };
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 
