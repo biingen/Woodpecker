@@ -11721,6 +11721,7 @@ namespace Woodpecker
                 GlobalData.Break_Out_Schedule = 1;
             #endregion
         }
+
         //關閉Excel
         private void CloseExcel()
         {
