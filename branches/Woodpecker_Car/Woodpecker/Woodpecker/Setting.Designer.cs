@@ -1280,8 +1280,8 @@
             this.PerformLayout();
 
         }
-
         #endregion
+
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog2;
         private System.Windows.Forms.OpenFileDialog openFileDialog2;
@@ -1322,7 +1322,7 @@
         private System.Windows.Forms.PictureBox pictureBox_SerialPort3;
         private System.Windows.Forms.CheckBox checkBox_hex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
-        private System.Windows.Forms.CheckBox checkBox_Kline;
+        internal System.Windows.Forms.CheckBox checkBox_Kline;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
         private System.Windows.Forms.Label label_resolution;
