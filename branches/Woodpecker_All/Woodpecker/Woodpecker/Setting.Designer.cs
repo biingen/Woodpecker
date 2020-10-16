@@ -21,7 +21,6 @@
         }
 
         #region Windows Form Designer generated code
-
         /// <summary>
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
@@ -311,7 +310,7 @@
             this.checkBox_SerialPort5.Name = "checkBox_SerialPort5";
             this.checkBox_SerialPort5.Size = new System.Drawing.Size(17, 18);
             this.checkBox_SerialPort5.TabIndex = 148;
-            this.checkBox_SerialPort5.Text = "SerialPort 5";
+            this.checkBox_SerialPort5.Text = "PortE";
             this.checkBox_SerialPort5.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort5.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort5_CheckedChanged);
             // 
@@ -379,7 +378,7 @@
             this.checkBox_Kline.Name = "checkBox_Kline";
             this.checkBox_Kline.Size = new System.Drawing.Size(54, 19);
             this.checkBox_Kline.TabIndex = 134;
-            this.checkBox_Kline.Text = "Kline";
+            this.checkBox_Kline.Text = "KlinePort:";
             this.checkBox_Kline.UseVisualStyleBackColor = true;
             this.checkBox_Kline.CheckedChanged += new System.EventHandler(this.checkBox_Kline_CheckedChanged);
             // 
@@ -494,7 +493,7 @@
             this.checkBox_SerialPort4.Name = "checkBox_SerialPort4";
             this.checkBox_SerialPort4.Size = new System.Drawing.Size(17, 18);
             this.checkBox_SerialPort4.TabIndex = 141;
-            this.checkBox_SerialPort4.Text = "SerialPort 4";
+            this.checkBox_SerialPort4.Text = "PortD";
             this.checkBox_SerialPort4.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort4.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort4_CheckedChanged);
             // 
@@ -621,7 +620,7 @@
             this.checkBox_SerialPort3.Name = "checkBox_SerialPort3";
             this.checkBox_SerialPort3.Size = new System.Drawing.Size(17, 18);
             this.checkBox_SerialPort3.TabIndex = 63;
-            this.checkBox_SerialPort3.Text = "SerialPort 3";
+            this.checkBox_SerialPort3.Text = "PortC";
             this.checkBox_SerialPort3.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort3.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort3_CheckedChanged);
             // 
@@ -699,7 +698,7 @@
             this.checkBox_SerialPort2.Name = "checkBox_SerialPort2";
             this.checkBox_SerialPort2.Size = new System.Drawing.Size(17, 18);
             this.checkBox_SerialPort2.TabIndex = 58;
-            this.checkBox_SerialPort2.Text = "SerialPort 2";
+            this.checkBox_SerialPort2.Text = "PortB";
             this.checkBox_SerialPort2.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort2.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort2_CheckedChanged);
             // 
@@ -712,7 +711,7 @@
             this.checkBox_SerialPort1.Name = "checkBox_SerialPort1";
             this.checkBox_SerialPort1.Size = new System.Drawing.Size(17, 18);
             this.checkBox_SerialPort1.TabIndex = 57;
-            this.checkBox_SerialPort1.Text = "SerialPort 1";
+            this.checkBox_SerialPort1.Text = "PortA";
             this.checkBox_SerialPort1.UseVisualStyleBackColor = true;
             this.checkBox_SerialPort1.CheckedChanged += new System.EventHandler(this.checkBox_SerialPort1_CheckedChanged);
             // 
@@ -1308,7 +1307,6 @@
             this.PerformLayout();
 
         }
-
         #endregion
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog2;
@@ -1350,7 +1348,7 @@
         private System.Windows.Forms.PictureBox pictureBox_SerialPort3;
         private System.Windows.Forms.CheckBox checkBox_hex;
         internal System.Windows.Forms.ComboBox comboBox_KlinePort_PortName_Value;
-        private System.Windows.Forms.CheckBox checkBox_Kline;
+        internal System.Windows.Forms.CheckBox checkBox_Kline;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
         private System.Windows.Forms.Label label_resolution;
@@ -1390,6 +1388,6 @@
         private System.Windows.Forms.CheckBox checkBox_outofmemorysave;
         private System.Windows.Forms.PictureBox pictureBox_ArduinoPort;
         internal System.Windows.Forms.ComboBox comboBox_ArduinoPort_PortName_Value;
-        private System.Windows.Forms.CheckBox checkBox_Arduino;
+        internal System.Windows.Forms.CheckBox checkBox_Arduino;
     }
 }

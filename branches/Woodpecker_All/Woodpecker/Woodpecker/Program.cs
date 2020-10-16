@@ -92,7 +92,7 @@ namespace Woodpecker
 
     }
 
-    public class GlobalData
+    public static class GlobalData
     {   //global variables and classes//
         public static string MainSettingPath = Application.StartupPath + "\\Config.ini";
         public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
@@ -186,6 +186,15 @@ namespace Woodpecker
         public static bool VideoRecording = false;
         public static string srtstring = "";
         public static bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
+        //public static PortConfigGroup portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline;
+        public static PortConfigGroup portConfigGroup_A = new PortConfigGroup();
+        public static PortConfigGroup portConfigGroup_B = new PortConfigGroup();
+        public static PortConfigGroup portConfigGroup_C = new PortConfigGroup();
+        public static PortConfigGroup portConfigGroup_D = new PortConfigGroup();
+        public static PortConfigGroup portConfigGroup_E = new PortConfigGroup();
+        public static PortConfigGroup portConfigGroup_Kline = new PortConfigGroup();
+		public static PortConfigGroup portConfigGroup_Arduino = new PortConfigGroup();
+        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline, portConfigGroup_Arduino };
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 
@@ -193,5 +202,14 @@ namespace Woodpecker
         {
             VidList = new List<string>();
         }*/
+    }
+
+    public class PortConfigGroup
+    {
+        public bool checkedValue;
+        public string portLabel;
+        public string portConfig;
+        public string portName;
+        public string portBR;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using BlueRatLibrary;
 using DirectX.Capture;
 using jini;
-using Microsoft.Win32.SafeHandles;
+using Microsoft.Win32.SafeHandles;      //support SafeFileHandle
 using RedRat.IR;
 using RedRat.RedRat3;
 using RedRat.RedRat3.USB;
@@ -16,7 +16,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Management;
-using System.Reflection;
+using System.Reflection;                            //support BindingFlags
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -48,40 +48,27 @@ namespace Woodpecker
         //private Form_DGV_Autobox Form_DGV_Autobox = new Form_DGV_Autobox();
         //private TextBoxBuffer textBoxBuffer = new TextBoxBuffer(4096);
 
-        private string MainSettingPath = Application.StartupPath + "\\Config.ini";
-        private string MailPath = Application.StartupPath + "\\Mail.ini";
-        private string RcPath = Application.StartupPath + "\\RC.ini";
-
-        private IRedRat3 redRat3 = null;
-        private Add_ons Add_ons = new Add_ons();
-        private RedRatDBParser RedRatData = new RedRatDBParser();
-        private BlueRat MyBlueRat = new BlueRat();
-        private static bool BlueRat_UART_Exception_status = false;
-
-        private static void BlueRat_UARTException(Object sender, EventArgs e)
-        {
-            BlueRat_UART_Exception_status = true;
-        }
-
-        private bool FormIsClosing = false;
-        private Capture capture = null;
-        private Filters filters = null;
-        private bool _captureInProgress;
-        private bool StartButtonPressed = false;//true = 按下START//false = 按下STOP//
-        //private bool excelstat = false;
-        private bool TimerPanel = false;
-        //private bool VirtualRcPanel = false;
-        private bool AcUsbPanel = false;
-        private long timeCount = 0;
-        private long TestTime = 0;
-        private string videostring = "";
-        private string srtstring = "";
-        private bool TakePicture = false;
-        private int TakePictureError = 0;
+        private string MainSettingPath = GlobalData.MainSettingPath;    //Application.StartupPath + "\\Config.ini";
+        private string MailPath = GlobalData.MailSettingPath;                  //Application.StartupPath + "\\Mail.ini";
+        private string RcPath = GlobalData.RcSettingPath;                         //Application.StartupPath + "\\RC.ini";
+		
+		/*
+        private DrvRS232 serialPortA = new DrvRS232();
+        private DrvRS232 serialPortB = new DrvRS232();
+        private DrvRS232 serialPortC = new DrvRS232();
+        private DrvRS232 serialPortD = new DrvRS232();
+        private DrvRS232 serialPortE = new DrvRS232();
+        private static DrvRS232 serialPortK = new DrvRS232();*/
+        private MySerial MySerialPort = new MySerial();      //from Kline_Serial.cs
+		/*
+        private LogDumpping logDumpping = new LogDumpping();
+        //static LogDumpping logDumpping_B, logDumpping_C, logDumpping_D, logDumpping_E;
+        Setting FSetting = new Setting();
+		*/
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
-        private Queue<byte> LogQueue_A = new Queue<byte>();
+        //public static Queue<byte> LogQueue_A = new Queue<byte>();
         private Queue<byte> SearchLogQueue_A = new Queue<byte>();
         private Queue<byte> TemperatureQueue_A = new Queue<byte>();
         private Queue<byte> SearchLogQueue_B = new Queue<byte>();
@@ -99,6 +86,34 @@ namespace Woodpecker
         private char Keyword_SerialPort_E_temp_char;
         private byte Keyword_SerialPort_E_temp_byte;
 
+        private IRedRat3 redRat3 = null;
+        private Add_ons Add_ons = new Add_ons();
+        private RedRatDBParser RedRatData = new RedRatDBParser();
+        private BlueRat MyBlueRat = new BlueRat();
+        private static bool BlueRat_UART_Exception_status = false;
+
+        private static void BlueRat_UARTException(Object sender, EventArgs e)
+        {
+            BlueRat_UART_Exception_status = true;
+        }
+
+        private bool FormIsClosing = false;
+        private Capture capture = null;
+        private Filters filters = null;
+        private bool _captureInProgress;
+        private bool StartButtonPressed = false;    //true = 按下START//false = 按下STOP//
+        //private bool excelstat = false;
+        private bool TimerPanel = false;
+        //private bool VirtualRcPanel = false;
+        private bool AcUsbPanel = false;
+        private long timeCount = 0;
+        private long TestTime = 0;
+        private string videostring = "";
+        private string srtstring = "";
+        private bool TakePicture = false;
+        private int TakePictureError = 0;
+
+
         //Schedule暫停用的參數
         private bool Pause = false;
         private ManualResetEvent SchedulePause = new ManualResetEvent(true);
@@ -109,8 +124,7 @@ namespace Woodpecker
         private int Nowpoint;
         private bool Breakfunction = false;
         //private const int CS_DROPSHADOW = 0x20000;      //宣告陰影參數
-
-        private MySerial MySerialPort = new MySerial();
+		
         private List<BlockMessage> MyBlockMessageList = new List<BlockMessage>();
         private ProcessBlockMessage MyProcessBlockMessage = new ProcessBlockMessage();
 
@@ -143,10 +157,14 @@ namespace Woodpecker
         public List<DTC_Data> ABS_error_list = new List<DTC_Data>();
         public List<DTC_Data> OBD_error_list = new List<DTC_Data>();
 
-        //Serial Port parameter
+        //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private string logA_text, logB_text, logC_text, logD_text, logE_text, arduino_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+		private string logA_text, logB_text, logC_text, logD_text, logE_text, arduino_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+        public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
+        public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE", serialPortConfig_Arduino = "Arduino";
+        public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
+        public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E, serialPortBR_Arduino;
         private int log_max_length = 10000000, debug_max_length = 10000000;
 
         //Ca310
@@ -197,6 +215,8 @@ namespace Woodpecker
         // Search GPIO parameter
         List<string> GPIOList = new List<string> { };
         int GPIOCount;
+
+		// Arduino parameter
         string Read_Arduino_Data = "";
         bool serial_receive = false;
 
@@ -211,7 +231,7 @@ namespace Woodpecker
             DataGridView_Schedule.Columns[0].DefaultCellStyle.BackColor = Color.FromArgb(56, 56, 56);
             DataGridView_Schedule.Columns[0].DefaultCellStyle.ForeColor = Color.FromArgb(255, 255, 255);
 
-            initComboboxSaveLog();
+            InitComboboxSaveLog();
 
             //USB Connection//
             USBPort = new USBClass();
@@ -248,51 +268,10 @@ namespace Woodpecker
             MyUSBRedratDeviceConnected = false;
             MyUSBCameraDeviceConnected = false;
         }
-        /*
-        private void setStyle()
+
+        private void InitComboboxSaveLog()
         {
-            try
-            {
-                // Form design
-                this.MinimumSize = new Size(1097, 659);
-                this.BackColor = Color.FromArgb(18, 18, 18);
-
-                //Init material skin
-                var skinManager = MaterialSkinManager.Instance;
-                skinManager.AddFormToManage(this);
-                skinManager.Theme = MaterialSkinManager.Themes.DARK;
-                skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
-
-                // Button design
-                List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
-                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
-                                                            button_Schedule4, button_Schedule5, button_savelog};
-                foreach (Button buttonsAll in buttonsList)
-                {
-                    if (buttonsAll.Enabled == true)
-                    {
-                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
-                        buttonsAll.FlatAppearance.BorderSize = 1;
-                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
-                    }
-                    else
-                    {
-                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
-                        buttonsAll.FlatAppearance.BorderSize = 1;
-                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
-                    }
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
-            }
-        }
-        */
-        private void initComboboxSaveLog()
-        {
-            List<string> portList = new List<string> { "Port A", "Port B", "Port C", "Port D", "Port E", "Arduino", "Kline", "Canbus" };
-
+            List<string> portList = new List<string> { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino, "Canbus" };
             foreach (string port in portList)
             {
                 if (ini12.INIRead(MainSettingPath, port, "Checked", "") == "1")
@@ -324,6 +303,43 @@ namespace Woodpecker
                 button_savelog.Enabled = true;
                 comboBox_savelog.Enabled = true;
                 comboBox_savelog.SelectedIndex = 0;
+            }
+        }
+
+        private void InitPortConfigParam()
+        {
+            //Initialize Port Config Parameters
+            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino };
+            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K, portLabel_Arduino };
+            
+            bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
+            if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
+            {
+                int i = 0;
+                foreach (var portConfig in GlobalData._portConfigList)
+                {
+                    portConfig.portLabel = labelArray[i];
+                    portConfig.portConfig = configArray[i];
+                    if (ini12.INIRead(MainSettingPath, portConfig.portLabel, "Checked", "") == "" || ini12.INIRead(MainSettingPath, portConfig.portLabel, "Checked", "") == "0")
+                    {
+                        portConfig.checkedValue = false;
+                        portConfig.portName = "";
+                        portConfig.portBR = "";
+                    }
+                    else if (ini12.INIRead(MainSettingPath, portConfig.portLabel, "Checked", "") == "1")
+                    {
+                        portConfig.checkedValue = true;
+                        portConfig.portName = ini12.INIRead(MainSettingPath, portConfig.portLabel, "PortName", "");
+                        portConfig.portBR = ini12.INIRead(MainSettingPath, portConfig.portLabel, "BaudRate", "");
+                    }
+                    i++;
+                }
+            }
+            else
+            {
+                //This is used to check if count of portConfigList is the same as local array size
+                Console.WriteLine("[portConfigList] Out of index!!!");
+                Application.Exit();
             }
         }
 
@@ -463,19 +479,7 @@ namespace Woodpecker
                 button_Analysis.Visible = true;
             else
                 button_Analysis.Visible = false;
-
-            /* Hidden serial port.
-            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-            {
-                button_SerialPort1.Visible = true;
-                // this.myDelegate1 = new AddDataDelegate(AddDataMethod1);
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Port A", "Checked", "0");
-                button_SerialPort1.Visible = false;
-            }
-            */
+            
             LoadRCDB();
 
             List<string> SchExist = new List<string> { };
@@ -559,6 +563,8 @@ namespace Woodpecker
                 pictureBox_ca310.Visible = true;
                 button_VirtualRC.Visible = true;
             }
+
+            InitPortConfigParam();
         }
 
         #region -- USB Detect --
@@ -2972,7 +2978,7 @@ namespace Woodpecker
         #endregion
 
         #region -- 接受SerialPort5資料 --
-        // private void serialPort_Arduino_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        // private void SerialPort5_DataReceived(object sender, SerialDataReceivedEventArgs e)
         // {
         //     try
         //     {
@@ -6181,7 +6187,7 @@ namespace Woodpecker
                                 {
                                     if (k != 0)
                                         Record_Schedule();
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                                     {
                                         debug_process("Ascii Log: _PortA");
                                         if (columns_serial == "_save")
@@ -6209,7 +6215,7 @@ namespace Woodpecker
                                         */
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                                     {
                                         debug_process("Ascii Log: _PortB");
                                         if (columns_serial == "_save")
@@ -6237,7 +6243,7 @@ namespace Woodpecker
                                         */
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                    if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                                     {
                                         debug_process("Ascii Log: _PortC");
                                         if (columns_serial == "_save")
@@ -6265,7 +6271,7 @@ namespace Woodpecker
                                         */
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                    if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                                     {
                                         debug_process("Ascii Log: _PortD");
                                         if (columns_serial == "_save")
@@ -6293,7 +6299,7 @@ namespace Woodpecker
                                         */
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                    if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                                     {
                                         debug_process("Ascii Log: _PortE");
                                         if (columns_serial == "_save")
@@ -6338,7 +6344,7 @@ namespace Woodpecker
 
                                         if (switch_content.Length != 0)
                                         {
-                                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                            if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                             {
                                                 ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
                                                 DateTime dt = DateTime.Now;
@@ -6347,7 +6353,7 @@ namespace Woodpecker
                                                 log_process("A", dataValue);
                                                 log_process("All", dataValue);
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                            if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
                                             {
                                                 ReplaceNewLine(PortB, serial_content[1], switch_content[1]);
                                                 DateTime dt = DateTime.Now;
@@ -6356,7 +6362,7 @@ namespace Woodpecker
                                                 log_process("B", dataValue);
                                                 log_process("All", dataValue);
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                            if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                             {
                                                 ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
                                                 DateTime dt = DateTime.Now;
@@ -6365,7 +6371,7 @@ namespace Woodpecker
                                                 log_process("C", dataValue);
                                                 log_process("All", dataValue);
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                            if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                             {
                                                 ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
                                                 DateTime dt = DateTime.Now;
@@ -6374,7 +6380,7 @@ namespace Woodpecker
                                                 log_process("D", dataValue);
                                                 log_process("All", dataValue);
                                             }
-                                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                            if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                             {
                                                 ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
                                                 DateTime dt = DateTime.Now;
@@ -6982,7 +6988,7 @@ namespace Woodpecker
                                     if (k != 0)
                                         Record_Schedule();
                                     string Outputstring = "";
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                                     {
                                         debug_process("Hex Log: _PortA");
                                         if (columns_serial == "_save")
@@ -7022,7 +7028,7 @@ namespace Woodpecker
                                         log_process("All", dataValue);
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                                     {
                                         debug_process("Hex Log: _PortB");
                                         if (columns_serial == "_save")
@@ -7062,7 +7068,7 @@ namespace Woodpecker
                                         log_process("All", dataValue);
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                    if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                                     {
                                         debug_process("Hex Log: _PortC");
                                         if (columns_serial == "_save")
@@ -7102,7 +7108,7 @@ namespace Woodpecker
                                         log_process("All", dataValue);
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                    if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                                     {
                                         debug_process("Hex Log: _PortD");
                                         if (columns_serial == "_save")
@@ -7142,7 +7148,7 @@ namespace Woodpecker
                                         log_process("All", dataValue);
                                     }
 
-                                    if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                    if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                                     {
                                         debug_process("Hex Log: _PortE");
                                         if (columns_serial == "_save")
@@ -7196,7 +7202,7 @@ namespace Woodpecker
                                             logAll_text = string.Empty; //清除logAll_text
                                         }
 
-                                        if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[0] != "")
+                                        if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "ALL" && serial_content[0] != "")
                                         {
                                             string orginal_data = serial_content[0];
                                             if (columns_function == "CRC16_Modbus")
@@ -7219,7 +7225,7 @@ namespace Woodpecker
                                             log_process("A", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[1] != "")
+                                        if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "ALL" && serial_content[1] != "")
                                         {
                                             string orginal_data = serial_content[1];
                                             if (columns_function == "CRC16_Modbus")
@@ -7242,7 +7248,7 @@ namespace Woodpecker
                                             log_process("B", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[2] != "")
+                                        if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "ALL" && serial_content[2] != "")
                                         {
                                             string orginal_data = serial_content[2];
                                             if (columns_function == "CRC16_Modbus")
@@ -7265,7 +7271,7 @@ namespace Woodpecker
                                             log_process("C", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[3] != "")
+                                        if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "ALL" && serial_content[3] != "")
                                         {
                                             string orginal_data = serial_content[3];
                                             if (columns_function == "CRC16_Modbus")
@@ -7288,7 +7294,7 @@ namespace Woodpecker
                                             log_process("D", dataValue);
                                             log_process("All", dataValue);
                                         }
-                                        if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "ALL" && serial_content[4] != "")
+                                        if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "ALL" && serial_content[4] != "")
                                         {
                                             string orginal_data = serial_content[4];
                                             if (columns_function == "CRC16_Modbus")
@@ -7419,7 +7425,7 @@ namespace Woodpecker
                         #region -- I2C Read --
                         else if (columns_command == "_TX_I2C_Read")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                             {
                                 debug_process("I2C Read Log: _TX_I2C_Read_PortA");
                                 if (columns_times != "" && columns_function != "")
@@ -7437,7 +7443,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                             {
                                 debug_process("I2C Read Log: _TX_I2C_Read_PortB");
                                 if (columns_times != "" && columns_function != "")
@@ -7455,7 +7461,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                             {
                                 debug_process("I2C Read Log: _TX_I2C_Read_PortC");
                                 if (columns_times != "" && columns_function != "")
@@ -7473,7 +7479,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                             {
                                 debug_process("I2C Read Log: _TX_I2C_Read_PortD");
                                 if (columns_times != "" && columns_function != "")
@@ -7491,7 +7497,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                             {
                                 debug_process("I2C Read Log: _TX_I2C_Read_PortE");
                                 if (columns_times != "" && columns_function != "")
@@ -7514,7 +7520,7 @@ namespace Woodpecker
                         #region -- I2C Write --
                         else if (columns_command == "_TX_I2C_Write")
                         {
-                            if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                            if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                             {
                                 debug_process("I2C Write Log: _TX_I2C_Write_PortA");
                                 if (columns_function != "" && columns_subFunction != "")
@@ -7533,7 +7539,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                            if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                             {
                                 debug_process("I2C Write Log: _TX_I2C_Write_PortB");
                                 if (columns_function != "" && columns_subFunction != "")
@@ -7552,7 +7558,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                            if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                             {
                                 debug_process("I2C Write Log: _TX_I2C_Write_PortC");
                                 if (columns_function != "" && columns_subFunction != "")
@@ -7571,7 +7577,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                            if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                             {
                                 debug_process("I2C Write Log: _TX_I2C_Write_PortD");
                                 if (columns_function != "" && columns_subFunction != "")
@@ -7590,7 +7596,7 @@ namespace Woodpecker
                                 }
                             }
 
-                            if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                            if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                             {
                                 debug_process("I2C Write Log: _TX_I2C_Write_PortE");
                                 if (columns_function != "" && columns_subFunction != "")
@@ -8181,7 +8187,7 @@ namespace Woodpecker
                                         Record_Schedule();
                                     debug_process("Extend GPIO control: _FuncKey:" + k + " times");
                                     label_Command.Text = "(Push CMD)" + columns_serial;
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                                     {
                                         if (columns_serial == "_save")
                                         {
@@ -8205,7 +8211,7 @@ namespace Woodpecker
                                         log_process("A", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    else if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                                     {
                                         if (columns_serial == "_save")
                                         {
@@ -8229,7 +8235,7 @@ namespace Woodpecker
                                         log_process("B", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                    else if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                                     {
                                         if (columns_serial == "_save")
                                         {
@@ -8253,7 +8259,7 @@ namespace Woodpecker
                                         log_process("C", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                    else if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                                     {
                                         if (columns_serial == "_save")
                                         {
@@ -8277,7 +8283,7 @@ namespace Woodpecker
                                         log_process("D", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                    else if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                                     {
                                         if (columns_serial == "_save")
                                         {
@@ -8314,7 +8320,7 @@ namespace Woodpecker
                                         reverse = columns_serial.Substring(0, length - 1) + "0";
                                     label_Command.Text = "(Release CMD)" + reverse;
 
-                                    if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+                                    if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
                                     {
                                         if (reverse == "_save")
                                         {
@@ -8338,7 +8344,7 @@ namespace Woodpecker
                                         log_process("A", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && columns_comport == "B")
+                                    else if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
                                     {
                                         if (reverse == "_save")
                                         {
@@ -8362,7 +8368,7 @@ namespace Woodpecker
                                         log_process("B", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && columns_comport == "C")
+                                    else if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
                                     {
                                         if (reverse == "_save")
                                         {
@@ -8386,7 +8392,7 @@ namespace Woodpecker
                                         log_process("C", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && columns_comport == "D")
+                                    else if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
                                     {
                                         if (reverse == "_save")
                                         {
@@ -8410,7 +8416,7 @@ namespace Woodpecker
                                         log_process("D", dataValue);
                                         log_process("All", dataValue);
                                     }
-                                    else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && columns_comport == "E")
+                                    else if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
                                     {
                                         if (reverse == "_save")
                                         {
@@ -11646,7 +11652,7 @@ namespace Woodpecker
                 }
 
                 comboBox_savelog.Items.Clear();
-                initComboboxSaveLog();
+                InitComboboxSaveLog();
 
                 button_Schedule2.Visible = SchExist[0] == "0" ? false : true;
                 button_Schedule3.Visible = SchExist[1] == "0" ? false : true;
@@ -14440,4 +14446,45 @@ namespace Woodpecker
             }
         }
     }
+    /*
+        private void setStyle()
+        {
+            try
+            {
+                // Form design
+                this.MinimumSize = new Size(1097, 659);
+                this.BackColor = Color.FromArgb(18, 18, 18);
+
+                //Init material skin
+                var skinManager = MaterialSkinManager.Instance;
+                skinManager.AddFormToManage(this);
+                skinManager.Theme = MaterialSkinManager.Themes.DARK;
+                skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
+
+                // Button design
+                List<Button> buttonsList = new List<Button> { button_Start, button_Setting, button_Pause, button_Schedule, button_Camera, button_SerialPort, button_AcUsb, button_Analysis,
+                                                            button_VirtualRC, button_InsertRow, button_SaveSchedule, button_Schedule1, button_Schedule2, button_Schedule3,
+                                                            button_Schedule4, button_Schedule5, button_savelog};
+                foreach (Button buttonsAll in buttonsList)
+                {
+                    if (buttonsAll.Enabled == true)
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(45, 103, 179);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(45, 103, 179);
+                    }
+                    else
+                    {
+                        buttonsAll.FlatAppearance.BorderColor = Color.FromArgb(220, 220, 220);
+                        buttonsAll.FlatAppearance.BorderSize = 1;
+                        buttonsAll.BackColor = System.Drawing.Color.FromArgb(220, 220, 220);
+                    }
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                //MessageBox.Show(Ex.Message.ToString(), "setStyle Error");
+            }
+        }
+		*/
 }
