@@ -146,6 +146,7 @@ namespace Woodpecker
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.serialPort_Arduino = new System.IO.Ports.SerialPort(this.components);
             this.panel1.SuspendLayout();
             this.panel_VirtualRC.SuspendLayout();
             this.panel_AcUsb.SuspendLayout();
@@ -1742,6 +1743,7 @@ namespace Woodpecker
         private System.Windows.Forms.PictureBox pictureBox_ca310;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.Windows.Forms.Timer timer_duringShot;
+        private System.IO.Ports.SerialPort serialPort_Arduino;
     }
 }
 

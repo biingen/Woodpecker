@@ -244,7 +244,7 @@ namespace Woodpecker
 
         private void InitComboboxSaveLog()
         {
-            List<string> portList = new List<string> { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, "Canbus" };
+            List<string> portList = new List<string> { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino, "Canbus" };
             foreach (string port in portList)
             {
                 if (ini12.INIRead(MainSettingPath, port, "Checked", "") == "1")
@@ -282,8 +282,8 @@ namespace Woodpecker
         private void InitPortConfigParam()
         {
             //Initialize Port Config Parameters
-            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
-            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K };
+            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino };
+            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K, portLabel_Arduino };
             
             bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
@@ -12797,7 +12797,7 @@ namespace Woodpecker
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Arduino_Pin" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">COM  >Pin" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Arduino_Pin" &&
-                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort     
+                        DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == ">SerialPort                   >I/O cmd" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Condition_OR" &&
                         DataGridView_Schedule.Columns[e.ColumnIndex].HeaderText == "Function" ||
                         DataGridView_Schedule.Rows[e.RowIndex].Cells[0].Value.ToString() == "_Condition_OR" &&
