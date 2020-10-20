@@ -12854,7 +12854,7 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io i";
-                    Ardoino_Counter_Delay(dataValue, delay_time);
+                    Arduino_Counter_Delay(dataValue, delay_time);
                     string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
                     //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
                     GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
@@ -12878,7 +12878,7 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io x " + output_value;
-                    Ardoino_Counter_Delay(dataValue, delay_time);
+                    Arduino_Counter_Delay(dataValue, delay_time);
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
@@ -12905,7 +12905,7 @@ namespace Woodpecker
             Counter_Delay_TimeOutIndicator = true;
         }
 
-        private void Ardoino_Counter_Delay(string dataValue, int delay_ms)
+        private void Arduino_Counter_Delay(string dataValue, int delay_ms)
         {
             if (delay_ms <= 0) return;
             serial_receive = true;
