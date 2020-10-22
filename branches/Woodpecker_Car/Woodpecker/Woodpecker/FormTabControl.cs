@@ -355,12 +355,24 @@ namespace Woodpecker
             }
 
             ini12.INIWrite(MainSettingPath, portLabel_A, "PortName", FormSetting.comboBox_SerialPort1_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_A, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_A, "StopBits", "One");
             ini12.INIWrite(MainSettingPath, portLabel_B, "PortName", FormSetting.comboBox_SerialPort2_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_B, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_B, "StopBits", "One");
             ini12.INIWrite(MainSettingPath, portLabel_C, "PortName", FormSetting.comboBox_SerialPort3_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_C, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_C, "StopBits", "One");
             ini12.INIWrite(MainSettingPath, portLabel_D, "PortName", FormSetting.comboBox_SerialPort4_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_D, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_D, "StopBits", "One");
             ini12.INIWrite(MainSettingPath, portLabel_E, "PortName", FormSetting.comboBox_SerialPort5_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_E, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_E, "StopBits", "One");
             ini12.INIWrite(MainSettingPath, portLabel_K, "PortName", FormSetting.comboBox_KlinePort_PortName_Value.Text);
-			ini12.INIWrite(MainSettingPath, portLabel_Arduino, "PortName", FormSetting.comboBox_ArduinoPort_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_Arduino, "PortName", FormSetting.comboBox_ArduinoPort_PortName_Value.Text);
+            ini12.INIWrite(MainSettingPath, portLabel_Arduino, "DataBit", "8");
+            ini12.INIWrite(MainSettingPath, portLabel_Arduino, "StopBits", "One");
         }
     }
 }
