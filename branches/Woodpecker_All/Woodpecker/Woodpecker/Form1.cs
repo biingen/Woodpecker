@@ -10675,7 +10675,7 @@ namespace Woodpecker
             }
 
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
+            Font Font = new Font("Tahoma", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
             string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
             int YPoint = int.Parse(Resolution[1]);
@@ -10686,24 +10686,24 @@ namespace Woodpecker
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
-                                new PointF(5, YPoint - 120));
+                                new PointF(5, 70));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                 Font,
                                 FontColor,
-                                new PointF(5, YPoint - 80));
+                                new PointF(5, 40));
             }
             else
             {
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                 Font,
                 FontColor,
-                new PointF(5, YPoint - 80));
+                new PointF(5, 40));
             }
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text,
                                 Font,
                                 FontColor,
-                                new PointF(5, YPoint - 40));
+                                new PointF(5, 10));
 
             Font.Dispose();
             FontColor.Dispose();
