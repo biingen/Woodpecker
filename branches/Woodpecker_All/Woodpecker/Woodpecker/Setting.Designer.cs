@@ -80,12 +80,10 @@
             this.textBox_RcDbPath = new System.Windows.Forms.TextBox();
             this.textBox_LogPath = new System.Windows.Forms.TextBox();
             this.groupBox_Camera = new System.Windows.Forms.GroupBox();
-            this.label_resolution = new System.Windows.Forms.Label();
             this.label_CameraResolution = new System.Windows.Forms.Label();
             this.label_CameraDevice = new System.Windows.Forms.Label();
             this.comboBox_CameraDevice = new System.Windows.Forms.ComboBox();
-            this.label_CameraAudio = new System.Windows.Forms.Label();
-            this.comboBox_CameraAudio = new System.Windows.Forms.ComboBox();
+            this.comboBox_CameraResolution = new System.Windows.Forms.ComboBox();
             this.groupBox_RcDB = new System.Windows.Forms.GroupBox();
             this.label_TvBrands = new System.Windows.Forms.Label();
             this.comboBox_TvBrands = new System.Windows.Forms.ComboBox();
@@ -898,12 +896,10 @@
             // groupBox_Camera
             // 
             this.groupBox_Camera.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox_Camera.Controls.Add(this.label_resolution);
             this.groupBox_Camera.Controls.Add(this.label_CameraResolution);
             this.groupBox_Camera.Controls.Add(this.label_CameraDevice);
             this.groupBox_Camera.Controls.Add(this.comboBox_CameraDevice);
-            this.groupBox_Camera.Controls.Add(this.label_CameraAudio);
-            this.groupBox_Camera.Controls.Add(this.comboBox_CameraAudio);
+            this.groupBox_Camera.Controls.Add(this.comboBox_CameraResolution);
             this.groupBox_Camera.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox_Camera.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(218)))), ((int)(((byte)(198)))));
             this.groupBox_Camera.Location = new System.Drawing.Point(38, 222);
@@ -915,24 +911,12 @@
             this.groupBox_Camera.TabStop = false;
             this.groupBox_Camera.Text = "CAMERA";
             // 
-            // label_resolution
-            // 
-            this.label_resolution.AutoSize = true;
-            this.label_resolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_resolution.ForeColor = System.Drawing.Color.White;
-            this.label_resolution.Location = new System.Drawing.Point(166, 119);
-            this.label_resolution.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label_resolution.Name = "label_resolution";
-            this.label_resolution.Size = new System.Drawing.Size(44, 18);
-            this.label_resolution.TabIndex = 52;
-            this.label_resolution.Text = "None";
-            // 
             // label_CameraResolution
             // 
             this.label_CameraResolution.AutoSize = true;
             this.label_CameraResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraResolution.ForeColor = System.Drawing.Color.White;
-            this.label_CameraResolution.Location = new System.Drawing.Point(6, 119);
+            this.label_CameraResolution.Location = new System.Drawing.Point(8, 72);
             this.label_CameraResolution.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_CameraResolution.Name = "label_CameraResolution";
             this.label_CameraResolution.Size = new System.Drawing.Size(79, 18);
@@ -944,7 +928,7 @@
             this.label_CameraDevice.AutoSize = true;
             this.label_CameraDevice.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             this.label_CameraDevice.ForeColor = System.Drawing.Color.White;
-            this.label_CameraDevice.Location = new System.Drawing.Point(8, 39);
+            this.label_CameraDevice.Location = new System.Drawing.Point(8, 32);
             this.label_CameraDevice.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_CameraDevice.Name = "label_CameraDevice";
             this.label_CameraDevice.Size = new System.Drawing.Size(53, 18);
@@ -965,31 +949,19 @@
             this.comboBox_CameraDevice.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
             this.comboBox_CameraDevice.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraDevice_SelectedIndexChanged);
             // 
-            // label_CameraAudio
+            // comboBox_CameraResolution
             // 
-            this.label_CameraAudio.AutoSize = true;
-            this.label_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.label_CameraAudio.ForeColor = System.Drawing.Color.White;
-            this.label_CameraAudio.Location = new System.Drawing.Point(6, 80);
-            this.label_CameraAudio.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label_CameraAudio.Name = "label_CameraAudio";
-            this.label_CameraAudio.Size = new System.Drawing.Size(36, 18);
-            this.label_CameraAudio.TabIndex = 49;
-            this.label_CameraAudio.Text = "Mic.";
-            // 
-            // comboBox_CameraAudio
-            // 
-            this.comboBox_CameraAudio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_CameraAudio.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.comboBox_CameraAudio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.comboBox_CameraAudio.FormattingEnabled = true;
-            this.comboBox_CameraAudio.Location = new System.Drawing.Point(65, 68);
-            this.comboBox_CameraAudio.Margin = new System.Windows.Forms.Padding(2);
-            this.comboBox_CameraAudio.Name = "comboBox_CameraAudio";
-            this.comboBox_CameraAudio.Size = new System.Drawing.Size(198, 26);
-            this.comboBox_CameraAudio.TabIndex = 50;
-            this.comboBox_CameraAudio.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
-            this.comboBox_CameraAudio.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
+            this.comboBox_CameraResolution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_CameraResolution.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox_CameraResolution.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            this.comboBox_CameraResolution.FormattingEnabled = true;
+            this.comboBox_CameraResolution.Location = new System.Drawing.Point(93, 68);
+            this.comboBox_CameraResolution.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox_CameraResolution.Name = "comboBox_CameraResolution";
+            this.comboBox_CameraResolution.Size = new System.Drawing.Size(170, 26);
+            this.comboBox_CameraResolution.TabIndex = 50;
+            this.comboBox_CameraResolution.DropDown += new System.EventHandler(this.AdjustWidthComboBox_DropDown);
+            this.comboBox_CameraResolution.SelectedIndexChanged += new System.EventHandler(this.comboBox_CameraAudio_SelectedIndexChanged);
             // 
             // groupBox_RcDB
             // 
@@ -1343,8 +1315,7 @@
         private System.Windows.Forms.GroupBox groupBox_Camera;
         private System.Windows.Forms.Label label_CameraDevice;
         private System.Windows.Forms.ComboBox comboBox_CameraDevice;
-        private System.Windows.Forms.Label label_CameraAudio;
-        private System.Windows.Forms.ComboBox comboBox_CameraAudio;
+        private System.Windows.Forms.ComboBox comboBox_CameraResolution;
         private System.Windows.Forms.GroupBox groupBox_RcDB;
         private System.Windows.Forms.Label label_TvBrands;
         private System.Windows.Forms.ComboBox comboBox_TvBrands;
@@ -1371,7 +1342,6 @@
         internal System.Windows.Forms.CheckBox checkBox_Kline;
         private System.Windows.Forms.PictureBox pictureBox_klinePort;
         private System.Windows.Forms.Label label_CameraResolution;
-        private System.Windows.Forms.Label label_resolution;
         private System.Windows.Forms.Button button_Save;
         private System.Windows.Forms.Button button_ImagePath;
         private System.Windows.Forms.Button button_LogPath;

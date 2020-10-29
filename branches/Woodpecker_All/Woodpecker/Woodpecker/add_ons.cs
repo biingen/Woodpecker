@@ -493,7 +493,7 @@ namespace Woodpecker
         {
             string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
-            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
+            string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "ResolutionIndex", "ResolutionName" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };
             string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
