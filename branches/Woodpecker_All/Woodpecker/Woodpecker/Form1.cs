@@ -408,7 +408,7 @@ namespace Woodpecker
 
                     comboBox_CameraDevice.Enabled = true;
                     ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-
+                    ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.VideoInputDevices.Count.ToString());
                     for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                     {
                         f = filters.VideoInputDevices[c];
@@ -424,6 +424,8 @@ namespace Woodpecker
                         comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
                         ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
                         ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+                        ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+                        ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraDevice.Text);
                     }
                     comboBox_CameraDevice.Enabled = false;
                 }
@@ -10675,9 +10677,9 @@ namespace Woodpecker
             }
 
             Graphics bitMap_g = Graphics.FromImage(pictureBox4.Image);//底圖
-            Font Font = new Font("Tahoma", 16, FontStyle.Bold);
+            Font Font = new Font("Microsoft JhengHei Light", 16, FontStyle.Bold);
             Brush FontColor = new SolidBrush(Color.Red);
-            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "").Split('*');
+            string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "ResolutionName", "").Split('x');
             int YPoint = int.Parse(Resolution[1]);
 
             //照片印上現在步驟//
@@ -10686,24 +10688,24 @@ namespace Woodpecker
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[9].Value.ToString(),
                                 Font,
                                 FontColor,
-                                new PointF(5, 70));
+                                new PointF(5, YPoint - 120));
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                                 Font,
                                 FontColor,
-                                new PointF(5, 40));
+                                new PointF(5, YPoint - 80));
             }
             else
             {
                 bitMap_g.DrawString(DataGridView_Schedule.Rows[GlobalData.Schedule_Step].Cells[0].Value.ToString() + "  ( " + label_Command.Text + " )",
                 Font,
                 FontColor,
-                new PointF(5, 40));
+                new PointF(5, YPoint - 80));
             }
             //照片印上現在時間//
             bitMap_g.DrawString(TimeLabel.Text,
                                 Font,
                                 FontColor,
-                                new PointF(5, 10));
+                                new PointF(5, YPoint - 40));
 
             Font.Dispose();
             FontColor.Dispose();
@@ -10850,48 +10852,12 @@ namespace Woodpecker
                     capture = new Capture(filters.VideoInputDevices[scam], filters.AudioInputDevices[saud]);
                     try
                     {
-                        capture.FrameSize = new Size(2304, 1296);
-                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "2304*1296");
+                        string[] Resolution = ini12.INIRead(MainSettingPath, "Camera", "ResolutionName", "").Split('x');
+                        capture.FrameSize = new Size(int.Parse(Resolution[0]), int.Parse(Resolution[1]));
                     }
                     catch (Exception ex)
                     {
-                        Console.Write(ex.Message.ToString(), "Webcam does not support 2304*1296!\n\r");
-                        try
-                        {
-                            capture.FrameSize = new Size(1920, 1080);
-                            ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1920*1080");
-                        }
-                        catch (Exception ex1)
-                        {
-                            Console.Write(ex1.Message.ToString(), "Webcam does not support 1920*1080!\n\r");
-                            try
-                            {
-                                capture.FrameSize = new Size(1280, 720);
-                                ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "1280*720");
-                            }
-                            catch (Exception ex2)
-                            {
-                                Console.Write(ex2.Message.ToString(), "Webcam does not support 1280*720!\n\r");
-                                try
-                                {
-                                    capture.FrameSize = new Size(640, 480);
-                                    ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "640*480");
-                                }
-                                catch (Exception ex3)
-                                {
-                                    Console.Write(ex3.Message.ToString(), "Webcam does not support 640*480!\n\r");
-                                    try
-                                    {
-                                        capture.FrameSize = new Size(320, 240);
-                                        ini12.INIWrite(MainSettingPath, "Camera", "Resolution", "320*240");
-                                    }
-                                    catch (Exception ex4)
-                                    {
-                                        Console.Write(ex4.Message.ToString(), "Webcam does not support 320*240!\n\r");
-                                    }
-                                }
-                            }
-                        }
+                        Console.Write(ex.Message.ToString(), "Webcam does not support!\n\r");
                     }
                     capture.CaptureComplete += new EventHandler(OnCaptureComplete);
                 }
@@ -11549,7 +11515,8 @@ namespace Woodpecker
         {
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
-
+            _captureInProgress = false;
+            OnOffCamera();
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
@@ -11604,16 +11571,20 @@ namespace Woodpecker
                     try
                     {
                         pictureBox_Camera.Image = Properties.Resources.ON;
-                        _captureInProgress = false;
-                        OnOffCamera();
                         button_VirtualRC.Enabled = true;
                         comboBox_CameraDevice.Enabled = false;
                         button_Camera.Enabled = true;
-                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "CameraDevice", "").Split(',');
+                        Filter f;
+                        string[] cameraDevice = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "").Split(',');
                         comboBox_CameraDevice.Items.Clear();
-                        foreach (string cd in cameraDevice)
+                        for (int c = 0; c < filters.VideoInputDevices.Count; c++)
                         {
-                            comboBox_CameraDevice.Items.Add(cd);
+                            f = filters.VideoInputDevices[c];
+                            comboBox_CameraDevice.Items.Add(f.Name);
+                            if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
+                            {
+                                comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
+                            }
                         }
                         comboBox_CameraDevice.SelectedIndex = Int32.Parse(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
                     }
@@ -13143,6 +13114,7 @@ namespace Woodpecker
         private void comboBox_CameraDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             if (_captureInProgress == true)
             {
                 capture.Stop();

@@ -1,4 +1,5 @@
-﻿using DirectX.Capture;
+﻿using Camera_NET;
+using DirectShowLib;
 using jini;
 using MaterialSkin;
 using RedRat.RedRat3;
@@ -23,10 +24,14 @@ namespace Woodpecker
             setStyle();
         }
 
+        //创建摄像头操作对象
+        private CameraChoice cameraChoice = new CameraChoice();
+        private CameraControl cameraControl = new CameraControl();
+
         string MainSettingPath = Application.StartupPath + "\\Config.ini";
         string MailPath = Application.StartupPath + "\\Mail.ini";
         //private CAN_Reader MYCanReader = new CAN_Reader();
-
+        
         private void loadxml()
         {
             // Redrat Database
@@ -160,8 +165,8 @@ namespace Woodpecker
             //Camera Device, Audio//
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraDevice.Text);
 
             //RedRat Brands, Select RC//
             ini12.INIWrite(MainSettingPath, "RedRat", "Brands", comboBox_TvBrands.Text.Trim());
@@ -574,53 +579,15 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")//Camera存在//
             {
                 comboBox_CameraDevice.Enabled = true;
-                comboBox_CameraAudio.Enabled = true;
+                comboBox_CameraResolution.Enabled = true;
                 try
                 {
-                    Filters filters = new Filters();
-                    Filter f;
-
-                    ini12.INIWrite(MainSettingPath, "Camera", "VideoNumber", filters.VideoInputDevices.Count.ToString());
-                    ini12.INIWrite(MainSettingPath, "Camera", "AudioNumber", filters.AudioInputDevices.Count.ToString());
-
-                    List<string> cameraDeviceList = new List<string> { };
-                    for (int c = 0; c < filters.VideoInputDevices.Count; c++)
-                    {
-                        f = filters.VideoInputDevices[c];
-                        comboBox_CameraDevice.Items.Add(f.Name);
-                        cameraDeviceList.Add(f.Name);
-                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "VideoName", ""))
-                        {
-                            comboBox_CameraDevice.Text = ini12.INIRead(MainSettingPath, "Camera", "VideoName", "");
-                        }
-                    }
-                    string cameraDevice = String.Join(",", cameraDeviceList.ToArray());
-                    ini12.INIWrite(MainSettingPath, "Camera", "CameraDevice", cameraDevice);
-
-                    if (comboBox_CameraDevice.Text == "" && filters.VideoInputDevices.Count > 0)
-                    {
-                        comboBox_CameraDevice.SelectedIndex = filters.VideoInputDevices.Count - 1;
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
-                        ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
-                    }
-
-                    for (int j = 0; j < filters.AudioInputDevices.Count; j++)
-                    {
-                        f = filters.AudioInputDevices[j];
-                        comboBox_CameraAudio.Items.Add(f.Name);
-                        if (f.Name == ini12.INIRead(MainSettingPath, "Camera", "AudioName", ""))
-                        {
-                            comboBox_CameraAudio.Text = ini12.INIRead(MainSettingPath, "Camera", "AudioName", "");
-                        }
-                    }
-
-                    if (comboBox_CameraAudio.Text == "" && filters.AudioInputDevices.Count > 0)
-                    {
-                        comboBox_CameraAudio.SelectedIndex = filters.AudioInputDevices.Count - 1;
-                        ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-                        ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
-                    }
-                    label_resolution.Text = ini12.INIRead(MainSettingPath, "Camera", "Resolution", "");
+                    //填充摄像头下拉框和设置默认摄像头
+                    FillCameraList();
+                    if (comboBox_CameraDevice.Items.Count > 0 && Convert.ToInt32(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", "")) >= 0)
+                        comboBox_CameraDevice.SelectedIndex = Convert.ToInt32(ini12.INIRead(MainSettingPath, "Camera", "VideoIndex", ""));
+                    else
+                        comboBox_CameraDevice.SelectedIndex = 0;
                 }
                 catch (Exception)
                 {
@@ -631,7 +598,7 @@ namespace Woodpecker
             else
             {
                 comboBox_CameraDevice.Enabled = false;
-                comboBox_CameraAudio.Enabled = false;
+                comboBox_CameraResolution.Enabled = false;
             }
             #endregion
 
@@ -1198,14 +1165,114 @@ namespace Woodpecker
 
         private void comboBox_CameraDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBox_CameraDevice.SelectedIndex < 0)
+            {
+                cameraControl.CloseCamera();
+            }
+            else
+            {
+                // Set camera
+                cameraControl.SetCamera(cameraChoice.Devices[comboBox_CameraDevice.SelectedIndex].Mon, null);
+                //SetCamera(_CameraChoice.Devices[ comboBoxCameraList.SelectedIndex ].Mon, null);
+            }
             ini12.INIWrite(MainSettingPath, "Camera", "VideoIndex", comboBox_CameraDevice.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraDevice.SelectedIndex.ToString());
             ini12.INIWrite(MainSettingPath, "Camera", "VideoName", comboBox_CameraDevice.Text);
+            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraDevice.Text);
+            FillResolutionList();//显示可用的分辨率
         }
 
         private void comboBox_CameraAudio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioIndex", comboBox_CameraAudio.SelectedIndex.ToString());
-            ini12.INIWrite(MainSettingPath, "Camera", "AudioName", comboBox_CameraAudio.Text);
+            if (!cameraControl.CameraCreated)
+                return;
+            int comboBoxResolutionIndex = comboBox_CameraResolution.SelectedIndex;
+            if (comboBoxResolutionIndex < 0) return;
+            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
+            if (resolutions == null) return;
+            if (comboBoxResolutionIndex >= resolutions.Count) return;
+            if (0 == resolutions[comboBoxResolutionIndex].CompareTo(cameraControl.Resolution))
+            {
+                // this resolution is already selected
+                return;
+            }
+            // Recreate camera
+            //SetCamera(_Camera.Moniker, resolutions[comboBoxResolutionIndex]);
+            cameraControl.SetCamera(cameraControl.Moniker, resolutions[comboBoxResolutionIndex]);
+            cameraControl.CloseCamera();
+            ini12.INIWrite(MainSettingPath, "Camera", "ResolutionIndex", comboBox_CameraResolution.SelectedIndex.ToString());
+            ini12.INIWrite(MainSettingPath, "Camera", "ResolutionName", comboBox_CameraResolution.Text);
+        }
+
+        //找到当前计算机上可用的摄像头
+        private void FillCameraList()
+        {
+            comboBox_CameraDevice.Items.Clear();//首先清空下拉列表
+            cameraChoice.UpdateDeviceList();//更新设备列表
+            //循环把设备列表添加到下拉框
+            foreach (var device in cameraChoice.Devices)
+            {
+                comboBox_CameraDevice.Items.Add(device.Name);
+            }
+        }
+        //填充可用分辨率的下拉框
+        private void FillResolutionList()
+        {
+            comboBox_CameraResolution.Items.Clear();//清空下拉框
+            if (!this.cameraControl.CameraCreated) return; //如果没有摄像头则退出
+            //获取可用分辨率列表
+            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
+            if (resolutions == null) return;
+            int selectedIndex = -1;
+            for (int i = 0; i < resolutions.Count; i++)
+            {
+                comboBox_CameraResolution.Items.Add(resolutions[i].ToString());
+                //如果当前的可用分辨率和摄像头分辨率一样，则默认选择最佳分辨率
+                if (resolutions[i].CompareTo(cameraControl.Resolution) == 0)
+                {
+                    selectedIndex = i;
+                }
+            }
+            //设置当前默认的分辨率
+            if (selectedIndex >= 0)
+            {
+                comboBox_CameraResolution.SelectedIndex = selectedIndex;
+            }
+        }
+
+        private void cboCameraTypeList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox_CameraDevice.SelectedIndex < 0)
+            {
+                cameraControl.CloseCamera();
+            }
+            else
+            {
+                // Set camera
+                cameraControl.SetCamera(cameraChoice.Devices[comboBox_CameraDevice.SelectedIndex].Mon, null);
+                //SetCamera(_CameraChoice.Devices[ comboBoxCameraList.SelectedIndex ].Mon, null);
+            }
+            FillResolutionList();//显示可用的分辨率
+        }
+
+        //分辨率变化，同时摄像头要重新设置
+        private void cboResolutionList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!cameraControl.CameraCreated)
+                return;
+            int comboBoxResolutionIndex = comboBox_CameraResolution.SelectedIndex;
+            if (comboBoxResolutionIndex < 0) return;
+            ResolutionList resolutions = Camera.GetResolutionList(cameraControl.Moniker);
+            if (resolutions == null) return;
+            if (comboBoxResolutionIndex >= resolutions.Count) return;
+            if (0 == resolutions[comboBoxResolutionIndex].CompareTo(cameraControl.Resolution))
+            {
+                // this resolution is already selected
+                return;
+            }
+            // Recreate camera
+            //SetCamera(_Camera.Moniker, resolutions[comboBoxResolutionIndex]);
+            cameraControl.SetCamera(cameraControl.Moniker, resolutions[comboBoxResolutionIndex]);
         }
 
         private void comboBox_TvBrands_SelectedIndexChanged(object sender, EventArgs e)
