@@ -390,7 +390,7 @@ namespace Woodpecker
                     #endregion
 
                     #region 偵測AutoBox2
-                    if (deviceId.IndexOf("&0&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                    if (deviceId.IndexOf("&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
                         deviceId.IndexOf("USB\\VID_067B&PID_2303\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         Console.WriteLine("-----------------AutoBox2------------------");
