@@ -160,7 +160,7 @@ namespace Woodpecker
         //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-		private string logA_text, logB_text, logC_text, logD_text, logE_text, arduino_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+		private string logA_text="", logB_text="", logC_text="", logD_text="", logE_text="", arduino_text="", ca310_text="", canbus_text="", kline_text="", logAll_text="", debug_text="";
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE", serialPortConfig_Arduino = "Arduino";
         public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
