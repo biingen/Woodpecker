@@ -131,7 +131,17 @@ namespace Woodpecker
         //拖動無窗體的控件>>>>>>>>>>>>>>>>>>>>
         [DllImport("user32.dll")]
         new public static extern bool ReleaseCapture();
+        /*
+        [DllImport("CA200Srvr_CA410.dll")]
+        public static extern int DllRegisterServer_CA410();//註冊時用  
+        [DllImport("CA200Srvr_CA410.dll")]
+        public static extern int DllUnregisterServer_CA410();//取消註冊時用
 
+        [DllImport("CA200Srvr_CA310.dll")]
+        public static extern int DllRegisterServer_CA310();//註冊時用  
+        [DllImport("CA200Srvr_CA310.dll")]
+        public static extern int DllUnregisterServer_CA310();//取消註冊時用
+        */
         [DllImport("user32.dll")]
         new public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         public const int WM_SYSCOMMAND = 0x0112;
@@ -167,11 +177,14 @@ namespace Woodpecker
         public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E, serialPortBR_Arduino;
         private int log_max_length = 10000000, debug_max_length = 10000000;
 
-        //Ca310
+        //Ca310&Ca210
         private CA200SRVRLib.Ca200 objCa200;
         private CA200SRVRLib.Ca objCa;
         private CA200SRVRLib.Probe objProbe;
+        private CA200SRVRLib.Memory objMemory;
+        private CA200SRVRLib.IProbeInfo objProbeInfo;
         private Boolean isMsr;
+        private Boolean record_ca310;
 
         //Search temperature parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
@@ -979,6 +992,7 @@ namespace Woodpecker
             }
         }
 
+        #region Connect CA310/210
         protected void ConnectCA310()
         {
             uint status;
@@ -986,7 +1000,7 @@ namespace Woodpecker
             status = ExeConnectCA310();
             if (status == 1)
             {
-                status = ExeCalZero();
+                // status = ExeCalZero();               //Check the zero function status.
                 if (status == 1)
                 {
                     isMsr = true;
@@ -1021,6 +1035,60 @@ namespace Woodpecker
             }
         }
 
+        private uint ExeDisConnectCA310()
+        {
+            try
+            {
+                objCa.RemoteMode = 0;
+                objCa200 = null;
+                objCa = null;
+                objProbe = null;
+                objMemory = null;
+                objProbeInfo = null;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private void MeasureCA310()
+        {
+            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    try
+                    {
+                        objCa.Measure();
+                        string str = " Lv:" + objProbe.Lv.ToString("##0.00") +
+                                     " Sx:" + objProbe.sx.ToString("0.0000") +
+                                     " Sy:" + objProbe.sy.ToString("0.0000") +
+                                     " T:" + objProbe.T.ToString("####") +
+                                     " Duv:" + objProbe.duv.ToString("0.000000"); /*+
+                                 " R:" + objProbe.R.ToString("##0.00") +
+                                 " G:" + objProbe.G.ToString("##0.00") +
+                                 " B:" + objProbe.B.ToString("##0.00");*/
+                        DateTime.Now.ToShortTimeString();
+                        DateTime dt = DateTime.Now;
+                        string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                        log_process("CA310", ca310_log_text);
+                        log_process("All", ca310_log_text);
+                    }
+                    catch (Exception)
+                    {
+                        isMsr = false;
+                        timer_ca310.Enabled = false;
+                        pictureBox_ca310.Image = Properties.Resources.OFF;
+                        MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    Thread.Sleep(250);
+                }
+            }
+        }
+
         private uint ExeCalZero()
         {
             try
@@ -1034,6 +1102,7 @@ namespace Woodpecker
                 return 0;
             }
         }
+        #endregion
 
         public void Autocommand_RedRat(string Caller, string SigData)
         {
@@ -6812,6 +6881,18 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
+                                         columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
                                          columns_function == "")
                                 {
                                     string hexValues = columns_serial;
@@ -6849,6 +6930,18 @@ namespace Woodpecker
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -6893,6 +6986,18 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
+                                         columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
                                          columns_function == "")
                                 {
                                     string hexValues = columns_serial;
@@ -6929,6 +7034,18 @@ namespace Woodpecker
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
+                                         columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -6973,6 +7090,18 @@ namespace Woodpecker
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
+                                         columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" &&
+                                         columns_serial != "_clear" &&
+                                         columns_serial != "" &&
                                          columns_function == "")
                                 {
                                     string hexValues = columns_serial;
@@ -7012,6 +7141,14 @@ namespace Woodpecker
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -7034,6 +7171,14 @@ namespace Woodpecker
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                     }
                                     else
                                     {
@@ -7058,6 +7203,14 @@ namespace Woodpecker
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortC.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -7080,6 +7233,14 @@ namespace Woodpecker
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                     }
                                     else
                                     {
@@ -7104,6 +7265,14 @@ namespace Woodpecker
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        PortE.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -7118,6 +7287,17 @@ namespace Woodpecker
                                 }
                             }
                             label_Command.Text = "(" + columns_command + ") " + Outputstring;
+                        }
+                        #endregion
+
+                        #region -- CA310 --
+                        else if (columns_command == "_OPM")
+                        {
+                            debug_process("CA310 control: Measure start");
+                            record_ca310 = true;
+                            Thread.Sleep(1000);
+                            record_ca310 = false;
+                            debug_process("CA310 control: Measure stop");
                         }
                         #endregion
 
@@ -10603,6 +10783,7 @@ namespace Woodpecker
                 RCDB.Items.Add("_quantum");
                 RCDB.Items.Add("_astro");
                 RCDB.Items.Add("_dektec");
+                RCDB.Items.Add("_OPM");
             }
             RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("------------------------");
@@ -11173,6 +11354,13 @@ namespace Woodpecker
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
+            {
+                timer_ca310.Enabled = false;
+                ExeDisConnectCA310();
+                pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
@@ -11251,7 +11439,7 @@ namespace Woodpecker
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == false)
                 {
                     ConnectCA310();
                     pictureBox_ca310.Image = Properties.Resources.ON;
@@ -13043,22 +13231,27 @@ namespace Woodpecker
 
         private void timer_ca310_Tick(object sender, EventArgs e)
         {
-            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1")
+            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
             {
                 try
                 {
                     objCa.Measure();
-                    string str =    "Lv:" + objProbe.Lv.ToString("##0.00") + 
-                                    " Sx:" + objProbe.sx.ToString("0.0000") + 
-                                    " Sy:" + objProbe.sy.ToString("0.0000") + 
-                                    " R:" + objProbe.R.ToString("##0.00") + 
-                                    " G:" + objProbe.G.ToString("##0.00") + 
-                                    " B:" + objProbe.B.ToString("##0.00");
+                    string str = " Lv:" + objProbe.Lv.ToString("##0.00") +
+                                 " Sx:" + objProbe.sx.ToString("0.0000") +
+                                 " Sy:" + objProbe.sy.ToString("0.0000") +
+                                 " T:" + objProbe.T.ToString("####") +
+                                 " Duv:" + objProbe.duv.ToString("0.000000"); /*+
+                                 " R:" + objProbe.R.ToString("##0.00") +
+                                 " G:" + objProbe.G.ToString("##0.00") +
+                                 " B:" + objProbe.B.ToString("##0.00");*/
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
-                    string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    log_process("CA310", ca310_log_text);
-                    log_process("All", ca310_log_text);
+                    if (record_ca310 == true)
+                    {
+                        string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                        log_process("CA310", ca310_log_text);
+                        log_process("All", ca310_log_text);
+                    }
                 }
                 catch (Exception)
                 {

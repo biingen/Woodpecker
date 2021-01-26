@@ -289,6 +289,7 @@ namespace Woodpecker
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", "");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "KlineExist", "0");
@@ -436,6 +437,23 @@ namespace Woodpecker
                     }
                     #endregion
 
+                    #region 偵測CA410
+                    if (deviceId.IndexOf("USB\\VID_132B&PID_210D\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------CA410------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
+                    }
+                    #endregion
+
                     #region 偵測USB_Can2C
                     if (deviceId.IndexOf("USB\\VID_04D8&PID_0053\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -491,7 +509,7 @@ namespace Woodpecker
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
+            string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist", "CA410Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };

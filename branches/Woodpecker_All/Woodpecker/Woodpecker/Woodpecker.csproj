@@ -97,6 +97,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="CaControl">
+      <HintPath>..\..\CaControl.dll</HintPath>
+    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
@@ -106,14 +109,6 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Interop.CA200SRVRLib">
-      <HintPath>..\..\Interop.CA200SRVRLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Interop.CDO">
-      <HintPath>obj\Debug\Interop.CDO.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="jini, Version=1.0.2120.17161, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -360,6 +355,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="CA200SRVRLib">
+      <Guid>{81480671-9287-43D4-8A21-F0CB0157077F}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="CDO">
       <Guid>{CD000000-8B95-11D1-82DB-00C04FB1625D}</Guid>
       <VersionMajor>1</VersionMajor>

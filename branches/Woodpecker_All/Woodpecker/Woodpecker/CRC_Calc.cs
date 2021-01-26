@@ -249,4 +249,62 @@ namespace Woodpecker
             return sum_int;
         }
     }
+
+    public static class Algorithm
+    {
+        public static byte XOR(byte bHEX1, byte bHEX2)
+        {
+            byte bHEX_OUT = new byte();
+            bHEX_OUT = (byte)(bHEX1 ^ bHEX2);
+            return bHEX_OUT;
+        }
+
+        public static byte[] OR(byte[] bHEX1, byte[] bHEX2)
+        {
+            byte[] bHEX_OUT = new byte[bHEX1.Length];
+            for (int i = 0; i < bHEX1.Length; i++)
+            {
+                bHEX_OUT[i] = (byte)(bHEX1[i] | bHEX2[i]);
+            }
+            return bHEX_OUT;
+        }
+
+        public static byte[] AND(byte[] bHEX1, byte[] bHEX2)
+        {
+            byte[] bHEX_OUT = new byte[bHEX1.Length];
+            for (int i = 0; i < bHEX1.Length; i++)
+            {
+                bHEX_OUT[i] = (byte)(bHEX1[i] & bHEX2[i]);
+            }
+            return bHEX_OUT;
+        }
+
+        public static string Medical_XOR8(string orginal_data)
+        {
+            string[] hexValuesSplit = orginal_data.Split(' ');
+            byte[] bytes = new byte[hexValuesSplit.Count()];
+            byte XOR_value = new byte();
+            int hex_number = 0;
+            try
+            {
+                foreach (string hex in hexValuesSplit)          //改為Byte陣列
+                {
+                    // Convert the number expressed in base-16 to an integer.
+                    byte number = Convert.ToByte(Convert.ToInt32(hex, 16));
+                    // Get the character corresponding to the integral value.
+                    bytes[hex_number++] = number;
+                    if (hex_number > 0)
+                        XOR_value = XOR(bytes[hex_number - 1], XOR_value);
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check HEX command format.", "Format error");
+            }
+
+            string XOR_Hex = ((int)XOR_value).ToString("X2").PadLeft(2, '0');
+            string XOR_calu = " " + XOR_Hex;   //原始資料加入XOR
+            return XOR_calu;
+        }
+    }
 }
