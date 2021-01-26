@@ -992,118 +992,6 @@ namespace Woodpecker
             }
         }
 
-        #region Connect CA310/210
-        protected void ConnectCA310()
-        {
-            uint status;
-
-            status = ExeConnectCA310();
-            if (status == 1)
-            {
-                // status = ExeCalZero();               //Check the zero function status.
-                if (status == 1)
-                {
-                    isMsr = true;
-                    timer_ca310.Enabled = true;
-                    pictureBox_ca310.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_ca310.Image = Properties.Resources.OFF;
-                }
-            }
-            else
-            {
-                pictureBox_ca310.Image = Properties.Resources.OFF;
-            }
-        }
-
-        private uint ExeConnectCA310()
-        {
-            try
-            {
-                objCa200 = new CA200SRVRLib.Ca200();
-                objCa200.AutoConnect();
-                objCa = objCa200.SingleCa;
-                objProbe = objCa.SingleProbe;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private uint ExeDisConnectCA310()
-        {
-            try
-            {
-                objCa.RemoteMode = 0;
-                objCa200 = null;
-                objCa = null;
-                objProbe = null;
-                objMemory = null;
-                objProbeInfo = null;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private void MeasureCA310()
-        {
-            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
-            {
-                for (int i = 0; i < 6; i++)
-                {
-                    try
-                    {
-                        objCa.Measure();
-                        string str = " Lv:" + objProbe.Lv.ToString("##0.00") +
-                                     " Sx:" + objProbe.sx.ToString("0.0000") +
-                                     " Sy:" + objProbe.sy.ToString("0.0000") +
-                                     " T:" + objProbe.T.ToString("####") +
-                                     " Duv:" + objProbe.duv.ToString("0.000000"); /*+
-                                 " R:" + objProbe.R.ToString("##0.00") +
-                                 " G:" + objProbe.G.ToString("##0.00") +
-                                 " B:" + objProbe.B.ToString("##0.00");*/
-                        DateTime.Now.ToShortTimeString();
-                        DateTime dt = DateTime.Now;
-                        string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                        log_process("CA310", ca310_log_text);
-                        log_process("All", ca310_log_text);
-                    }
-                    catch (Exception)
-                    {
-                        isMsr = false;
-                        timer_ca310.Enabled = false;
-                        pictureBox_ca310.Image = Properties.Resources.OFF;
-                        MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    Thread.Sleep(250);
-                }
-            }
-        }
-
-        private uint ExeCalZero()
-        {
-            try
-            {
-                objCa.CalZero();
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-        #endregion
-
         public void Autocommand_RedRat(string Caller, string SigData)
         {
             string redcon = "";
@@ -7294,9 +7182,11 @@ namespace Woodpecker
                         else if (columns_command == "_OPM")
                         {
                             debug_process("CA310 control: Measure start");
-                            record_ca310 = true;
-                            Thread.Sleep(1000);
-                            record_ca310 = false;
+                            if (columns_times != "" && int.TryParse(columns_times, out sRepeat) == true)
+                                sRepeat = int.Parse(columns_times); // 次數
+                            else
+                                sRepeat = 1;
+                            MeasureCA310(sRepeat);
                             debug_process("CA310 control: Measure stop");
                         }
                         #endregion
@@ -11356,7 +11246,7 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
             {
-                timer_ca310.Enabled = false;
+                //timer_ca310.Enabled = false;
                 ExeDisConnectCA310();
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
@@ -13229,6 +13119,69 @@ namespace Woodpecker
             }
         }
 
+        #region Connect CA310/210
+        protected void ConnectCA310()
+        {
+            uint status;
+
+            status = ExeConnectCA310();
+            if (status == 1)
+            {
+                // status = ExeCalZero();               //Check the zero function status.
+                if (status == 1)
+                {
+                    isMsr = true;
+                    //timer_ca310.Enabled = true;
+                    pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
+                }
+            }
+            else
+            {
+                pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+        }
+
+        private uint ExeConnectCA310()
+        {
+            try
+            {
+                objCa200 = new CA200SRVRLib.Ca200();
+                objCa200.AutoConnect();
+                objCa = objCa200.SingleCa;
+                objProbe = objCa.SingleProbe;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private uint ExeDisConnectCA310()
+        {
+            try
+            {
+                objCa.RemoteMode = 0;
+                objCa200 = null;
+                objCa = null;
+                objProbe = null;
+                objMemory = null;
+                objProbeInfo = null;
+                isMsr = false;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
         private void timer_ca310_Tick(object sender, EventArgs e)
         {
             if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
@@ -13236,22 +13189,19 @@ namespace Woodpecker
                 try
                 {
                     objCa.Measure();
-                    string str = " Lv:" + objProbe.Lv.ToString("##0.00") +
-                                 " Sx:" + objProbe.sx.ToString("0.0000") +
-                                 " Sy:" + objProbe.sy.ToString("0.0000") +
+                    string str = " Lv:" + objProbe.Lv.ToString("##0.0000") +
+                                 " Sx:" + objProbe.sx.ToString("0.000000") +
+                                 " Sy:" + objProbe.sy.ToString("0.000000") +
                                  " T:" + objProbe.T.ToString("####") +
                                  " Duv:" + objProbe.duv.ToString("0.000000"); /*+
-                                 " R:" + objProbe.R.ToString("##0.00") +
-                                 " G:" + objProbe.G.ToString("##0.00") +
-                                 " B:" + objProbe.B.ToString("##0.00");*/
+                                     " R:" + objProbe.R.ToString("##0.00") +
+                                     " G:" + objProbe.G.ToString("##0.00") +
+                                     " B:" + objProbe.B.ToString("##0.00");*/
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
-                    if (record_ca310 == true)
-                    {
-                        string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                        log_process("CA310", ca310_log_text);
-                        log_process("All", ca310_log_text);
-                    }
+                    string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                    log_process("CA310", ca310_log_text);
+                    log_process("All", ca310_log_text);
                 }
                 catch (Exception)
                 {
@@ -13260,6 +13210,20 @@ namespace Woodpecker
                     pictureBox_ca310.Image = Properties.Resources.OFF;
                     MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+            }
+        }
+
+        private uint ExeCalZero()
+        {
+            try
+            {
+                objCa.CalZero();
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
             }
         }
 
@@ -13280,6 +13244,42 @@ namespace Woodpecker
                 }
             }
         }
+
+        private void MeasureCA310(int measure_times)
+        {
+            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
+            {
+                for (int i = 0; i < measure_times; i++)
+                {
+                    try
+                    {
+                        objCa.Measure();
+                        string str = " Lv:" + objProbe.Lv.ToString("##0.0000") +
+                                     " Sx:" + objProbe.sx.ToString("0.000000") +
+                                     " Sy:" + objProbe.sy.ToString("0.000000") +
+                                     " T:" + objProbe.T.ToString("####") +
+                                     " Duv:" + objProbe.duv.ToString("0.000000"); /*+
+                                 " R:" + objProbe.R.ToString("##0.00") +
+                                 " G:" + objProbe.G.ToString("##0.00") +
+                                 " B:" + objProbe.B.ToString("##0.00");*/
+                        DateTime.Now.ToShortTimeString();
+                        DateTime dt = DateTime.Now;
+                        string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
+                        log_process("CA310", ca310_log_text);
+                        log_process("All", ca310_log_text);
+                        Thread.Sleep(1000);
+                    }
+                    catch (Exception)
+                    {
+                        isMsr = false;
+                        //timer_ca310.Enabled = false;
+                        pictureBox_ca310.Image = Properties.Resources.OFF;
+                        MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        #endregion
 
         string chamberCommandLog = string.Empty;
         bool chamberTimer_IsTick = false;
