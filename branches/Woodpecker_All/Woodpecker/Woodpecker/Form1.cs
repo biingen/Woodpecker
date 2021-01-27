@@ -171,7 +171,7 @@ namespace Woodpecker
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
         private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", arduino_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "", 
-            ca410_csv = "Sx, Sy, Lv, T, duv, R, G, B, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE", serialPortConfig_Arduino = "Arduino";
         public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
@@ -273,8 +273,8 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
             {
+                comboBox_savelog.Items.Add("CA210");
                 comboBox_savelog.Items.Add("CA310");
-                comboBox_savelog.Items.Add("CA410");
             }
 
             if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
@@ -1171,8 +1171,8 @@ namespace Woodpecker
                     case "All":
                         logAll_text = string.Concat(logAll_text, log);
                         break;
-                    case "CA410":
-                        ca410_csv = string.Concat(ca410_csv, log);
+                    case "CA210":
+                        ca210_csv = string.Concat(ca210_csv, log);
                         break;
                 }
             }
@@ -3148,6 +3148,13 @@ namespace Woodpecker
                     MYFILE.Close();
                     ca310_text = String.Empty;
                     break;
+                case "CA210":
+                    t = fName + "\\_CA210_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
+                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
+                    MYFILE.Write(ca210_csv);
+                    MYFILE.Close();
+                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+                    break;
                 case "CA310":
                     t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
@@ -3182,13 +3189,6 @@ namespace Woodpecker
                     MYFILE.Write(debug_text);
                     MYFILE.Close();
                     debug_text = String.Empty;
-                    break;
-                case "CA410":
-                    t = fName + "\\_CA410_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(ca410_csv);
-                    MYFILE.Close();
-                    ca410_csv = "Sx, Sy, Lv, T, duv, R, G, B, Date, Time, Scenario, Now Measure, Sum Measure, \r\n";
                     break;
             }
         }
@@ -7195,19 +7195,73 @@ namespace Woodpecker
                         #region -- CA310 --
                         else if (columns_command == "_OPM")
                         {
-                            debug_process("CA310 control: Measure start");
-                            if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                stime = int.Parse(columns_times); // 次數
-                            else
-                                stime = 1;
+                            if (columns_function == "Measure")
+                            {
+                                debug_process("CA210 control: Measure start");
+                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                    stime = int.Parse(columns_times); // 量測次數
+                                else
+                                    stime = 1;
 
-                            if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
-                                sRepeat = int.Parse(columns_interval); // 停止時間
+                                if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
+                                    sRepeat = int.Parse(columns_interval); // 量測時間
+                                else
+                                    sRepeat = 0;
+
+                                MeasureCA310(stime, sRepeat, columns_remark);
+                                debug_process("CA210 control: Measure stop");
+                            }
+                            else if (columns_function == "DisplayMode")
+                            {
+                                debug_process("CA210 control: DisplayMode start");
+                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                    stime = int.Parse(columns_times); // 模式切換
+                                else
+                                    stime = 0;
+
+                                switch (stime)
+                                {
+                                    case 0:
+                                        objCa.DisplayMode = 0;          // 0. Lvxy.
+                                        break;
+                                    case 1:
+                                        objCa.DisplayMode = 1;          // 1. Tdudv.
+                                        break;
+                                    case 2:
+                                        objCa.DisplayMode = 2;          // 2. no display.
+                                        break;
+                                    case 3:
+                                        objCa.DisplayMode = 3;          // 3. G standard.
+                                        break;
+                                    case 4:
+                                        objCa.DisplayMode = 4;          // 4. R standard.
+                                        break;
+                                    case 5:
+                                        objCa.DisplayMode = 5;          // 5. u'v'.
+                                        break;
+                                    case 6:
+                                        objCa.DisplayMode = 6;          // 6. FMA flicker.
+                                        break;
+                                    case 7:
+                                        objCa.DisplayMode = 7;          // 7. XYZ.
+                                        break;
+                                    case 8:
+                                        objCa.DisplayMode = 8;          // 8. JEITA flicker. 
+                                        break;
+                                }
+                                debug_process("CA210 control: DisplayMode end");
+                            }
                             else
-                                sRepeat = 0;
-                            
-                            MeasureCA310(stime, sRepeat, columns_remark);
-                            debug_process("CA310 control: Measure stop");
+                            {
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("CA210"); //存檔ca210
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n"; //清除ca210
+                                }
+                            }
                         }
                         #endregion
 
@@ -13032,9 +13086,9 @@ namespace Woodpecker
                     Serialportsave("All");
                     MessageBox.Show("All Port is saved.", "Reminder");
                     break;
-                case "CA410":
-                    Serialportsave("CA410");
-                    MessageBox.Show("CA410 is saved.", "Reminder");
+                case "CA210":
+                    Serialportsave("CA210");
+                    MessageBox.Show("CA210 is saved.", "Reminder");
                     break;
                 default:
                     break;
@@ -13177,7 +13231,6 @@ namespace Woodpecker
                 objCa200.AutoConnect();
                 objCa = objCa200.SingleCa;
                 objProbe = objCa.SingleProbe;
-                objCa.DisplayMode = 0; //page 60.
                 return 1;
             }
             catch (Exception)
@@ -13270,7 +13323,7 @@ namespace Woodpecker
             }
         }
 
-        private void MeasureCA310(int measure_times, int measure_interval = 1000, string measure_remark = "")
+        private void MeasureCA310(int measure_times = 1, int measure_interval = 1000, string measure_remark = "")
         {
             if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
             {
@@ -13282,11 +13335,11 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         string str = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000")  + "," + 
                                      objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
-                                     objProbe.duv.ToString("0.000000") + "," + objProbe.R.ToString("##0.00") + "," + 
-                                     objProbe.G.ToString("##0.00") + "," + objProbe.B.ToString("##0.00") + "," +
-                                     dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
+                                     objProbe.duv.ToString("0.000000") + "," + objProbe.X.ToString("##0.00") + "," + 
+                                     objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," + 
+                                     dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," + 
                                      measure_remark + "," + i + "," + measure_times + "," + "\r\n";
-                        log_process("CA410", str);
+                        log_process("CA210", str);
                         log_process("All", str);
                         Thread.Sleep(measure_interval);
                     }
@@ -13295,7 +13348,7 @@ namespace Woodpecker
                         isMsr = false;
                         //timer_ca310.Enabled = false;
                         pictureBox_ca310.Image = Properties.Resources.OFF;
-                        MessageBox.Show("CA310 already disconnected, please restart the Woodpecker.", "CA310 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("CA210 already disconnected, please restart the Woodpecker.", "CA210 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
