@@ -273,7 +273,6 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
             {
-                comboBox_savelog.Items.Add("CA210");
                 comboBox_savelog.Items.Add("CA310");
             }
 
@@ -3147,13 +3146,6 @@ namespace Woodpecker
                     MYFILE.Write(arduino_text);
                     MYFILE.Close();
                     ca310_text = String.Empty;
-                    break;
-                case "CA210":
-                    t = fName + "\\_CA210_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
-                    MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(ca210_csv);
-                    MYFILE.Close();
-                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
                     break;
                 case "CA310":
                     t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
@@ -7255,7 +7247,7 @@ namespace Woodpecker
                             {
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("CA210"); //存檔ca210
+                                    saveCA210csv(columns_remark); //存檔ca210
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -11068,6 +11060,20 @@ namespace Woodpecker
                     }
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
+                    if (isMsr == true)
+                    {
+                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                        if (Directory.Exists(csvFolder))
+                        {
+
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(csvFolder);
+                            GlobalData.MeasurePath = csvFolder;
+                        }
+                    }
 
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
@@ -11230,6 +11236,20 @@ namespace Woodpecker
                 else//按下START//
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
+                    if (isMsr == true)
+                    {
+                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                        if (Directory.Exists(csvFolder))
+                        {
+
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(csvFolder);
+                            GlobalData.MeasurePath = csvFolder;
+                        }
+                    }
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
@@ -11532,6 +11552,10 @@ namespace Woodpecker
             {
                 DisconnectAutoBox2();
             }
+
+            if (isMsr == true)
+                ExeDisConnectCA310();
+            Serialportsave("Debug");
 
             Application.ExitThread();
             Application.Exit();
@@ -12182,7 +12206,6 @@ namespace Woodpecker
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseAutobox();
-            Serialportsave("Debug");
         }
 
         private void button_Input_Click(object sender, EventArgs e)
@@ -13086,10 +13109,6 @@ namespace Woodpecker
                     Serialportsave("All");
                     MessageBox.Show("All Port is saved.", "Reminder");
                     break;
-                case "CA210":
-                    Serialportsave("CA210");
-                    MessageBox.Show("CA210 is saved.", "Reminder");
-                    break;
                 default:
                     break;
             }
@@ -13352,6 +13371,20 @@ namespace Woodpecker
                     }
                 }
             }
+        }
+
+        private void saveCA210csv(string filename)
+        {
+            string folder = GlobalData.MeasurePath;
+            string file = filename;
+            if (file == "")
+                file = GlobalData.MeasurePath + "\\Minolta_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            else
+                file = GlobalData.MeasurePath + "\\" + file + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
+            MYFILE.Write(ca210_csv);
+            MYFILE.Close();
+            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         }
         #endregion
 

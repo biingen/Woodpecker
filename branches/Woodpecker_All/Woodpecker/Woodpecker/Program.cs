@@ -98,6 +98,7 @@ namespace Woodpecker
         public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
         public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
         public static string StartupPath = Application.StartupPath;
+        public static string MeasurePath = Application.StartupPath;
 
         public static int Scheduler_Row = 0;
         public static List<string> VidList = new List<string>();     //List is an Object inherited from System.Collections.Generic
