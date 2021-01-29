@@ -60,11 +60,12 @@ namespace Woodpecker
         private DrvRS232 serialPortE = new DrvRS232();
         private static DrvRS232 serialPortK = new DrvRS232();*/
         private MySerial MySerialPort = new MySerial();      //from Kline_Serial.cs
-		/*
+        /*
         private LogDumpping logDumpping = new LogDumpping();
         //static LogDumpping logDumpping_B, logDumpping_C, logDumpping_D, logDumpping_E;
         Setting FSetting = new Setting();
-		*/
+        */
+        private Konica_Minolta CA210 = new Konica_Minolta();
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
@@ -177,15 +178,6 @@ namespace Woodpecker
         public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
         public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E, serialPortBR_Arduino;
         private int log_max_length = 10000000, debug_max_length = 10000000;
-
-        //Ca310&Ca210
-        private CA200SRVRLib.Ca200 objCa200;
-        private CA200SRVRLib.Ca objCa;
-        private CA200SRVRLib.Probe objProbe;
-        private CA200SRVRLib.Memory objMemory;
-        private CA200SRVRLib.IProbeInfo objProbeInfo;
-        private Boolean isMsr;
-        private Boolean record_ca310;
 
         //Search temperature parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
@@ -429,8 +421,13 @@ namespace Woodpecker
 
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
             {
-                ConnectCA310();
-                pictureBox_ca310.Image = Properties.Resources.ON;
+                if (CA210.Status() == 0)
+                {
+                    CA210.Connect();
+                    pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
             }
             else
             {
@@ -3183,6 +3180,37 @@ namespace Woodpecker
                     debug_text = String.Empty;
                     break;
             }
+        }
+        #endregion
+
+        #region -- Save CA310/210 report --
+        private void createCA210folder()
+        {
+            string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            if (Directory.Exists(csvFolder))
+            {
+
+            }
+            else
+            {
+                Directory.CreateDirectory(csvFolder);
+                GlobalData.MeasurePath = csvFolder;
+            }
+        }
+
+        private void saveCA210csv(string filename)
+        {
+            string folder = GlobalData.MeasurePath;
+            string file = filename;
+            if (file == "")
+                file = GlobalData.MeasurePath + "\\Minolta_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            else
+                file = GlobalData.MeasurePath + "\\" + file + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
+            MYFILE.Write(ca210_csv);
+            MYFILE.Close();
+            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         }
         #endregion
 
@@ -7184,66 +7212,53 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- CA310 --
+                        #region -- Minolta --
                         else if (columns_command == "_OPM")
                         {
-                            if (columns_function == "Measure")
+                            if (CA210.Status() == 1)
                             {
-                                debug_process("CA210 control: Measure start");
-                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                    stime = int.Parse(columns_times); // 量測次數
-                                else
-                                    stime = 1;
-
-                                if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
-                                    sRepeat = int.Parse(columns_interval); // 量測時間
-                                else
-                                    sRepeat = 0;
-
-                                MeasureCA310(stime, sRepeat, columns_remark);
-                                debug_process("CA210 control: Measure stop");
-                            }
-                            else if (columns_function == "DisplayMode")
-                            {
-                                debug_process("CA210 control: DisplayMode start");
-                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                    stime = int.Parse(columns_times); // 模式切換
-                                else
-                                    stime = 0;
-
-                                switch (stime)
+                                if (columns_function == "Measure")
                                 {
-                                    case 0:
-                                        objCa.DisplayMode = 0;          // 0. Lvxy.
-                                        break;
-                                    case 1:
-                                        objCa.DisplayMode = 1;          // 1. Tdudv.
-                                        break;
-                                    case 2:
-                                        objCa.DisplayMode = 2;          // 2. no display.
-                                        break;
-                                    case 3:
-                                        objCa.DisplayMode = 3;          // 3. G standard.
-                                        break;
-                                    case 4:
-                                        objCa.DisplayMode = 4;          // 4. R standard.
-                                        break;
-                                    case 5:
-                                        objCa.DisplayMode = 5;          // 5. u'v'.
-                                        break;
-                                    case 6:
-                                        objCa.DisplayMode = 6;          // 6. FMA flicker.
-                                        break;
-                                    case 7:
-                                        objCa.DisplayMode = 7;          // 7. XYZ.
-                                        break;
-                                    case 8:
-                                        objCa.DisplayMode = 8;          // 8. JEITA flicker. 
-                                        break;
+                                    debug_process("CA210 control: Measure start");
+                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                        stime = int.Parse(columns_times); // 量測次數
+                                    else
+                                        stime = 1;
+
+                                    if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
+                                        sRepeat = int.Parse(columns_interval); // 量測時間
+                                    else
+                                        sRepeat = 0;
+
+                                    string dataValue = CA210.Measure(stime, sRepeat, columns_remark);
+                                    log_process("CA210", dataValue);
+                                    log_process("All", dataValue);
+                                    debug_process("CA210 control: Measure stop");
                                 }
-                                debug_process("CA210 control: DisplayMode end");
+                                else if (columns_function == "DisplayMode")
+                                {
+                                    debug_process("CA210 control: DisplayMode start");
+                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                        stime = int.Parse(columns_times); // 模式切換
+                                    else
+                                        stime = 0;
+
+                                    CA210.DisplayMode(stime);
+                                    debug_process("CA210 control: DisplayMode end");
+                                }
+                                else if (columns_function == "CalZero")
+                                {
+                                    debug_process("CA210 control: Zero-calibrates the device start");
+                                    CA210.CalZero();
+                                    debug_process("CA210 control: Zero-calibrates the device end");
+                                }
                             }
-                            else
+                            else if (CA210.Status() == 0)
+                            {
+                                MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
+                            }
+
+                            if (columns_serial != "")
                             {
                                 if (columns_serial == "_save")
                                 {
@@ -11060,21 +11075,8 @@ namespace Woodpecker
                     }
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (isMsr == true)
-                    {
-                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                        if (Directory.Exists(csvFolder))
-                        {
-
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(csvFolder);
-                            GlobalData.MeasurePath = csvFolder;
-                        }
-                    }
-
+                    if (CA210.Status() == 1)
+                        createCA210folder();
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
                     timer_countdown.Start();     //開始倒數
@@ -11236,20 +11238,8 @@ namespace Woodpecker
                 else//按下START//
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (isMsr == true)
-                    {
-                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                        if (Directory.Exists(csvFolder))
-                        {
-
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(csvFolder);
-                            GlobalData.MeasurePath = csvFolder;
-                        }
-                    }
+                    if (CA210.Status() == 1)
+                        createCA210folder();
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
@@ -11338,10 +11328,9 @@ namespace Woodpecker
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
+            if (CA210.Status() != 2)
             {
-                //timer_ca310.Enabled = false;
-                ExeDisConnectCA310();
+                CA210.DisConnect();
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
@@ -11423,10 +11412,19 @@ namespace Woodpecker
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == false)
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
                 {
-                    ConnectCA310();
-                    pictureBox_ca310.Image = Properties.Resources.ON;
+                    if (CA210.Status() != 1)
+                    {
+                        CA210.Connect();
+                        if (CA210.Status() != 1)
+                        {
+                            MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
+                            pictureBox_ca310.Image = Properties.Resources.OFF;
+                        }
+                        else
+                            pictureBox_ca310.Image = Properties.Resources.ON;
+                    }
                 }
                 else
                 {
@@ -11553,8 +11551,8 @@ namespace Woodpecker
                 DisconnectAutoBox2();
             }
 
-            if (isMsr == true)
-                ExeDisConnectCA310();
+            if (CA210.Status() == 1)
+                CA210.DisConnect();
             Serialportsave("Debug");
 
             Application.ExitThread();
@@ -13216,69 +13214,7 @@ namespace Woodpecker
             }
         }
 
-        #region Connect CA310/210
-        protected void ConnectCA310()
-        {
-            uint status;
-
-            status = ExeConnectCA310();
-            if (status == 1)
-            {
-                // status = ExeCalZero();               //Check the zero function status.
-                if (status == 1)
-                {
-                    isMsr = true;
-                    //timer_ca310.Enabled = true;
-                    pictureBox_ca310.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_ca310.Image = Properties.Resources.OFF;
-                }
-            }
-            else
-            {
-                pictureBox_ca310.Image = Properties.Resources.OFF;
-            }
-        }
-
-        private uint ExeConnectCA310()
-        {
-            try
-            {
-                objCa200 = new CA200SRVRLib.Ca200();
-                objCa200.AutoConnect();
-                objCa = objCa200.SingleCa;
-                objProbe = objCa.SingleProbe;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private uint ExeDisConnectCA310()
-        {
-            try
-            {
-                objCa.RemoteMode = 0;
-                objCa200 = null;
-                objCa = null;
-                objProbe = null;
-                objMemory = null;
-                objProbeInfo = null;
-                isMsr = false;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
+/*
         private void timer_ca310_Tick(object sender, EventArgs e)
         {
             if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
@@ -13293,7 +13229,7 @@ namespace Woodpecker
                                  " Duv:" + objProbe.duv.ToString("0.000000"); /*+
                                      " R:" + objProbe.R.ToString("##0.00") +
                                      " G:" + objProbe.G.ToString("##0.00") +
-                                     " B:" + objProbe.B.ToString("##0.00");*/
+                                     " B:" + objProbe.B.ToString("##0.00");
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
@@ -13309,84 +13245,7 @@ namespace Woodpecker
                 }
             }
         }
-
-        private uint ExeCalZero()
-        {
-            try
-            {
-                objCa.CalZero();
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private void CalZero()
-        {
-            bool calzero_success = false;
-
-            while (calzero_success == false)
-            {
-                try
-                {
-                    objCa.CalZero();
-                    calzero_success = true;
-                }
-                catch (Exception)
-                {
-                    objCa.RemoteMode = 0;
-                }
-            }
-        }
-
-        private void MeasureCA310(int measure_times = 1, int measure_interval = 1000, string measure_remark = "")
-        {
-            if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1" && isMsr == true)
-            {
-                for (int i = 1; i <= measure_times; i++)
-                {
-                    try
-                    {
-                        objCa.Measure();
-                        DateTime dt = DateTime.Now;
-                        string str = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000")  + "," + 
-                                     objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
-                                     objProbe.duv.ToString("0.000000") + "," + objProbe.X.ToString("##0.00") + "," + 
-                                     objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," + 
-                                     dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," + 
-                                     measure_remark + "," + i + "," + measure_times + "," + "\r\n";
-                        log_process("CA210", str);
-                        log_process("All", str);
-                        Thread.Sleep(measure_interval);
-                    }
-                    catch (Exception)
-                    {
-                        isMsr = false;
-                        //timer_ca310.Enabled = false;
-                        pictureBox_ca310.Image = Properties.Resources.OFF;
-                        MessageBox.Show("CA210 already disconnected, please restart the Woodpecker.", "CA210 Open Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        private void saveCA210csv(string filename)
-        {
-            string folder = GlobalData.MeasurePath;
-            string file = filename;
-            if (file == "")
-                file = GlobalData.MeasurePath + "\\Minolta_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
-            else
-                file = GlobalData.MeasurePath + "\\" + file + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
-            StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
-            MYFILE.Write(ca210_csv);
-            MYFILE.Close();
-            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
-        }
-        #endregion
+*/
 
         string chamberCommandLog = string.Empty;
         bool chamberTimer_IsTick = false;

@@ -1329,7 +1329,6 @@ namespace Woodpecker
             // timer_ca310
             // 
             this.timer_ca310.Interval = 250;
-            this.timer_ca310.Tick += new System.EventHandler(this.timer_ca310_Tick);
             // 
             // label_ca310
             // 

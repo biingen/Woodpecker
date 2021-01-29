@@ -250,6 +250,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="Kline_Serial.cs" />
+    <Compile Include="Konica_Minolta.cs" />
     <Compile Include="KWP_2000.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
