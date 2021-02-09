@@ -193,8 +193,7 @@ namespace Woodpecker
         public static PortConfigGroup portConfigGroup_D = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_E = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_Kline = new PortConfigGroup();
-		public static PortConfigGroup portConfigGroup_Arduino = new PortConfigGroup();
-        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline, portConfigGroup_Arduino };
+        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline };
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 

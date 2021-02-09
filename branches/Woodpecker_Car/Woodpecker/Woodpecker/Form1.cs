@@ -282,8 +282,8 @@ namespace Woodpecker
         private void InitPortConfigParam()
         {
             //Initialize Port Config Parameters
-            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K, portLabel_Arduino };
-            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K, portLabel_Arduino };
+            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
+            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K };
             
             bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
@@ -358,8 +358,20 @@ namespace Woodpecker
             {
                 pictureBox_BlueRat.Image = Properties.Resources.OFF;
                 pictureBox_AcPower.Image = Properties.Resources.OFF;
-                pictureBox_ext_board.Image = Properties.Resources.OFF;
                 button_AcUsb.Enabled = false;
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
+            {
+                if (ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "") != "")
+                {
+                    ConnectArduino();
+                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                }
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -907,6 +919,11 @@ namespace Woodpecker
             }
         }
 
+        private void ConnectArduino()
+        {
+            OpenSerialPort("Arduino");
+        }
+
         private void DisconnectAutoBox1()
         {
             serialPortWood.Close();
@@ -928,6 +945,14 @@ namespace Woodpecker
                 {
                     Console.WriteLine(DateTime.Now.ToString("h:mm:ss tt") + " - Cannot disconnect from RS232.\n");
                 }
+            }
+        }
+
+        private void DisconnectArduino()
+        {
+            if (serialPort_Arduino.IsOpen == true)
+            {
+                CloseSerialPort("Arduino");
             }
         }
 
@@ -1660,19 +1685,10 @@ namespace Woodpecker
                 case "Arduino":
                     try
                     {
-                        string stopbit = ini12.INIRead(MainSettingPath, "Arduino", "StopBits", "");
-                        switch (stopbit)
-                        {
-                            case "One":
-                                serialPort_Arduino.StopBits = System.IO.Ports.StopBits.One;
-                                break;
-                            case "Two":
-                                serialPort_Arduino.StopBits = System.IO.Ports.StopBits.Two;
-                                break;
-                        }
-                        serialPort_Arduino.PortName = ini12.INIRead(MainSettingPath, "Arduino", "PortName", "");
-                        serialPort_Arduino.BaudRate = int.Parse(ini12.INIRead(MainSettingPath, "Arduino", "BaudRate", ""));
-                        serialPort_Arduino.DataBits = int.Parse(ini12.INIRead(MainSettingPath, "Arduino", "DataBit", ""));
+                        serialPort_Arduino.StopBits = System.IO.Ports.StopBits.One;
+                        serialPort_Arduino.PortName = ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "");
+                        serialPort_Arduino.BaudRate = 9600;
+                        serialPort_Arduino.DataBits = 8;
                         serialPort_Arduino.ReadTimeout = 2000;
                         serialPort_Arduino.Encoding = System.Text.Encoding.GetEncoding(1252);
 
@@ -3116,6 +3132,7 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_Arduino] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
+                    serial_receive = false;
                     log_process("Arduino", dataValue);
                     log_process("All", dataValue);
                 }
@@ -5652,8 +5669,8 @@ namespace Woodpecker
                         string columns_wait = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Trim();
                         string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
-                        IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
-                        Arduino_IO_INPUT(600000);  //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
+                        IO_INPUT();                 //先讀取IO值，避免schedule第一行放IO CMD會出錯//
+                        Arduino_IO_INPUT();  //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
 
                         GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
                         if (StartButtonPressed == false)
@@ -9606,10 +9623,6 @@ namespace Woodpecker
             {
                 CloseSerialPort("E");
             }
-            if (serialPort_Arduino.IsOpen == true)
-            {
-                CloseSerialPort("Arduino");
-            }
             if (MySerialPort.IsPortOpened() == true)
             {
                 CloseSerialPort("kline");
@@ -10993,11 +11006,6 @@ namespace Woodpecker
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "1")
-                    {
-                        OpenSerialPort("Arduino");
-                    }
-
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
@@ -11152,11 +11160,6 @@ namespace Woodpecker
                         }
                     }
 
-                    if (ini12.INIRead(MainSettingPath, "Arduino", "Checked", "") == "1")
-                    {
-                        OpenSerialPort("Arduino");
-                    }
-
                     if (ini12.INIRead(MainSettingPath, "Kline", "Checked", "") == "1")
                     {
                         OpenSerialPort("kline");
@@ -11172,6 +11175,14 @@ namespace Woodpecker
         {
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
+            if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
+            {
+                if (ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "") != "")
+                {
+                    DisconnectArduino();
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                }
+            }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -11206,10 +11217,22 @@ namespace Woodpecker
                 {
                     pictureBox_BlueRat.Image = Properties.Resources.OFF;
                     pictureBox_AcPower.Image = Properties.Resources.OFF;
-                    pictureBox_ext_board.Image = Properties.Resources.OFF;
                     button_AcUsb.Enabled = false;
                     PowerState = false;
                     MyBlueRat.Disconnect(); //Prevent from System.ObjectDisposedException
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
+                {
+                    if (ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "") != "")
+                    {
+                        ConnectArduino();
+                        pictureBox_ext_board.Image = Properties.Resources.ON;
+                    }
+                    else
+                    {
+                        pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    }
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -11379,6 +11402,11 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
             {
                 DisconnectAutoBox2();
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
+            {
+                DisconnectArduino();
             }
 
             Application.ExitThread();
@@ -12353,7 +12381,7 @@ namespace Woodpecker
             log_process("All", dataValue);
         }
 
-        private void Arduino_IO_INPUT(int delay_time)
+        private void Arduino_IO_INPUT(int delay_time = 1000)
         {
             UInt32 GPIO_input_value, retry_cnt;
             bool aGpio = false;
@@ -12428,7 +12456,12 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io i";
-                    Arduino_Counter_Delay(dataValue, delay_time);
+                    serialPort_Arduino.WriteLine(dataValue);
+                    serial_receive = true;
+                    Arduino_Counter_Delay(500);
+                    while (serial_receive || Counter_Delay_TimeOutIndicator == false) { }
+                    if (serial_receive && Counter_Delay_TimeOutIndicator)
+                        MessageBox.Show("Arduino_IO_INPUT_ERROR.", "Error");
                     string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
                     //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
                     GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
@@ -12452,7 +12485,12 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io x " + output_value;
-                    Arduino_Counter_Delay(dataValue, delay_time);
+                    serialPort_Arduino.WriteLine(dataValue);
+                    serial_receive = true;
+                    Arduino_Counter_Delay(500);
+                    while (serial_receive || Counter_Delay_TimeOutIndicator==false) { }
+                    if (serial_receive && Counter_Delay_TimeOutIndicator)
+                        MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
@@ -12479,45 +12517,15 @@ namespace Woodpecker
             Counter_Delay_TimeOutIndicator = true;
         }
 
-        private void Arduino_Counter_Delay(string dataValue, int delay_ms)
+        private void Arduino_Counter_Delay(int delay_ms)
         {
             if (delay_ms <= 0) return;
-            serial_receive = true;
             System.Timers.Timer Counter_Timer = new System.Timers.Timer(delay_ms);
             Counter_Timer.Interval = delay_ms;
             Counter_Timer.Elapsed += new ElapsedEventHandler(Counter_Delay_UsbOnTimedEvent);
             Counter_Timer.Enabled = true;
             Counter_Timer.Start();
             Counter_Timer.AutoReset = true;
-            serialPort_Arduino.WriteLine(dataValue);
-
-            while (Counter_Delay_TimeOutIndicator == false && serial_receive == true)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(1);//釋放CPU//
-                if (Read_Arduino_Data.Contains("io i") || Read_Arduino_Data.Contains("io x"))
-                {
-                    Counter_Timer.Stop();
-                    Counter_Timer.Dispose();
-                    serial_receive = false;
-                }
-            }
-
-            while (Counter_Delay_TimeOutIndicator == true && serial_receive == true)
-            {
-                Counter_Timer.Stop();
-                Counter_Timer.Dispose();
-                if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
-                {
-                    DateTime dt = DateTime.Now;
-                    dataValue = "[Arduino_IO_INPUT_OUTPUT_ERROR] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "[System already stoped.] \r\n"; //OK
-                }
-                log_process("Arduino", dataValue);
-                log_process("All", dataValue);
-                serial_receive = false;
-                button_Start.PerformClick();
-                MessageBox.Show("Arduino_IO_INPUT_ERROR.", "Error");
-            }
         }
 
         #endregion
