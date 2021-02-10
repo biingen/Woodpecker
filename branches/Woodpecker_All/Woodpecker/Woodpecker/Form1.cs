@@ -257,6 +257,9 @@ namespace Woodpecker
                 }
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
+                comboBox_savelog.Items.Add("Arduino");
+
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
                 comboBox_savelog.Items.Add("CA310");
 
@@ -5688,7 +5691,7 @@ namespace Woodpecker
                             {
                                 //Console.WriteLine("Datagridview highlight.");
                                 GridUI(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                                                                                               //Console.WriteLine("Datagridview scollbar.");
+                                //Console.WriteLine("Datagridview scollbar.");
                                 Gridscroll(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
                             }
                             else
@@ -5697,7 +5700,7 @@ namespace Woodpecker
                                 {
                                     //Console.WriteLine("Datagridview highlight.");
                                     GridUI(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview highlight//
-                                                                                                   //Console.WriteLine("Datagridview scollbar.");
+                                    //Console.WriteLine("Datagridview scollbar.");
                                     Gridscroll(GlobalData.Scheduler_Row.ToString(), DataGridView_Schedule);//控制Datagridview scollbar//
                                 }
                             }
@@ -11714,10 +11717,10 @@ namespace Woodpecker
                         PreProcess(z);
                         if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString() != "")
                         {
-                            if (DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
-                            {
+                            if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
-                            }
+                            else if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
+                                RepeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
 
                             if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
                                 TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
@@ -11947,10 +11950,10 @@ namespace Woodpecker
             {
                 if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
-                    {
+                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
-                    }
+                    else if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
+                        repeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
                     if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
                         delayTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
                     else
@@ -12448,7 +12451,7 @@ namespace Woodpecker
         public bool Arduino_Get_GPIO_Input(out UInt32 GPIO_Read_Data, int delay_time)
         {
             bool aGpio = false;
-
+            uint retry_cnt = 3;
             GPIO_Read_Data = 0xFFFFFFFF;
 
             if (serialPort_Arduino.IsOpen)
@@ -12456,12 +12459,21 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io i";
-                    serialPort_Arduino.WriteLine(dataValue);
-                    serial_receive = true;
-                    Arduino_Counter_Delay(500);
-                    while (serial_receive || Counter_Delay_TimeOutIndicator == false) { }
-                    if (serial_receive && Counter_Delay_TimeOutIndicator)
-                        MessageBox.Show("Arduino_IO_INPUT_ERROR.", "Error");
+                    do
+                    {
+                        serialPort_Arduino.WriteLine(dataValue);
+                        serial_receive = true;
+                        Arduino_Counter_Delay(3000);
+                        while (serial_receive || Counter_Delay_TimeOutIndicator == false || retry_cnt == 0)
+                        {
+                            Thread.Sleep(1000);
+                            retry_cnt--;
+                            serialPort_Arduino.WriteLine(dataValue);
+                        }
+                        if (serial_receive && retry_cnt == 0)
+                            MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
+                    }
+                    while (serial_receive || Counter_Delay_TimeOutIndicator == false);
                     string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
                     //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
                     GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
@@ -12479,18 +12491,28 @@ namespace Woodpecker
         public bool Arduino_Set_GPIO_Output(byte output_value, int delay_time)
         {
             bool aGpio = false;
+            uint retry_cnt = 3;
 
             if (serialPort_Arduino.IsOpen)
             {
                 try
                 {
                     string dataValue = "io x " + output_value;
-                    serialPort_Arduino.WriteLine(dataValue);
-                    serial_receive = true;
-                    Arduino_Counter_Delay(500);
-                    while (serial_receive || Counter_Delay_TimeOutIndicator==false) { }
-                    if (serial_receive && Counter_Delay_TimeOutIndicator)
-                        MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
+                    do
+                    {
+                        serialPort_Arduino.WriteLine(dataValue);
+                        serial_receive = true;
+                        Arduino_Counter_Delay(3000);
+                        while (serial_receive || Counter_Delay_TimeOutIndicator == false || retry_cnt == 0)
+                        {
+                            Thread.Sleep(1000);
+                            retry_cnt--;
+                            serialPort_Arduino.WriteLine(dataValue);
+                        }
+                        if (serial_receive && retry_cnt == 0)
+                            MessageBox.Show("Arduino_IO_OUTPUT_ERROR, Please replug the Arduino board.", "Error");
+                    }
+                    while (serial_receive || Counter_Delay_TimeOutIndicator == false);
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
