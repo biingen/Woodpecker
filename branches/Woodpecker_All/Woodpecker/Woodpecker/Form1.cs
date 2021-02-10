@@ -12451,7 +12451,7 @@ namespace Woodpecker
         public bool Arduino_Get_GPIO_Input(out UInt32 GPIO_Read_Data, int delay_time)
         {
             bool aGpio = false;
-            uint retry_cnt = 3;
+            uint retry_cnt = 5;
             GPIO_Read_Data = 0xFFFFFFFF;
 
             if (serialPort_Arduino.IsOpen)
@@ -12459,25 +12459,26 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io i";
+                    serial_receive = true;
                     do
                     {
                         serialPort_Arduino.WriteLine(dataValue);
-                        serial_receive = true;
-                        Arduino_Counter_Delay(3000);
-                        while (serial_receive || Counter_Delay_TimeOutIndicator == false || retry_cnt == 0)
-                        {
-                            Thread.Sleep(1000);
-                            retry_cnt--;
-                            serialPort_Arduino.WriteLine(dataValue);
-                        }
+                        retry_cnt--;
+                        Thread.Sleep(300);
                         if (serial_receive && retry_cnt == 0)
+                        {
                             MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
+                            aGpio = false;
+                        }
+                        else if (serial_receive == false)
+                        {
+                            string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi", "");
+                            //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
+                            GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
+                            aGpio = true;
+                        }
                     }
-                    while (serial_receive || Counter_Delay_TimeOutIndicator == false);
-                    string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi","");
-                    //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
-                    GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
-                    aGpio = true;
+                    while (serial_receive || retry_cnt == 0);
                 }
                 catch (System.FormatException)
                 {
@@ -12491,36 +12492,37 @@ namespace Woodpecker
         public bool Arduino_Set_GPIO_Output(byte output_value, int delay_time)
         {
             bool aGpio = false;
-            uint retry_cnt = 3;
+            uint retry_cnt = 5;
 
             if (serialPort_Arduino.IsOpen)
             {
                 try
                 {
                     string dataValue = "io x " + output_value;
+                    serial_receive = true;
                     do
                     {
                         serialPort_Arduino.WriteLine(dataValue);
-                        serial_receive = true;
-                        Arduino_Counter_Delay(3000);
-                        while (serial_receive || Counter_Delay_TimeOutIndicator == false || retry_cnt == 0)
-                        {
-                            Thread.Sleep(1000);
-                            retry_cnt--;
-                            serialPort_Arduino.WriteLine(dataValue);
-                        }
+                        retry_cnt--;
+                        Thread.Sleep(300);
                         if (serial_receive && retry_cnt == 0)
+                        {
                             MessageBox.Show("Arduino_IO_OUTPUT_ERROR, Please replug the Arduino board.", "Error");
+                            aGpio = false;
+                        }
+                        else if (serial_receive == false)
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                            {
+                                DateTime dt = DateTime.Now;
+                                dataValue = "[Send_Port_Arduino_IO_OUTPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                            }
+                            log_process("Arduino", dataValue);
+                            log_process("All", dataValue);
+                            aGpio = true;
+                        }
                     }
-                    while (serial_receive || Counter_Delay_TimeOutIndicator == false);
-                    if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
-                    {
-                        DateTime dt = DateTime.Now;
-                        dataValue = "[Send_Port_Arduino_IO_OUTPUT] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
-                    }
-                    log_process("Arduino", dataValue);
-                    log_process("All", dataValue);
-                    aGpio = true;
+                    while (serial_receive || retry_cnt == 0);
                 }
                 catch (System.FormatException)
                 {
@@ -12529,27 +12531,6 @@ namespace Woodpecker
             }
             return aGpio;
         }
-
-        // 這個Counter專用的delay的內部資料與function
-        static bool Counter_Delay_TimeOutIndicator = false;
-        static UInt64 Counter_Count = 0;
-        private void Counter_Delay_UsbOnTimedEvent(object source, ElapsedEventArgs e)
-        {
-            Counter_Count++;
-            Counter_Delay_TimeOutIndicator = true;
-        }
-
-        private void Arduino_Counter_Delay(int delay_ms)
-        {
-            if (delay_ms <= 0) return;
-            System.Timers.Timer Counter_Timer = new System.Timers.Timer(delay_ms);
-            Counter_Timer.Interval = delay_ms;
-            Counter_Timer.Elapsed += new ElapsedEventHandler(Counter_Delay_UsbOnTimedEvent);
-            Counter_Timer.Enabled = true;
-            Counter_Timer.Start();
-            Counter_Timer.AutoReset = true;
-        }
-
         #endregion
 
         private void button_VirtualRC_Click(object sender, EventArgs e)
