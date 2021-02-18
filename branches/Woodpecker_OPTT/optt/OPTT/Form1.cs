@@ -1962,6 +1962,22 @@ namespace OPTT
         }
         #endregion
 
+        #region -- Save CA310/210 report --
+        private void createCA210folder()
+        {
+            string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            if (Directory.Exists(csvFolder))
+            {
+
+            }
+            else
+            {
+                Directory.CreateDirectory(csvFolder);
+                GlobalData.MeasurePath = csvFolder;
+            }
+        }
+
         private void saveCA210csv(string filename)
         {
             string folder = GlobalData.MeasurePath;
@@ -1975,6 +1991,7 @@ namespace OPTT
             MYFILE.Close();
             ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         }
+        #endregion
 
         string logReceived = string.Empty;
         string logAdd = string.Empty;
@@ -8322,19 +8339,7 @@ namespace OPTT
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
                     if (CA210.Status() == 1)
-                    {
-                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                        if (Directory.Exists(csvFolder))
-                        {
-
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(csvFolder);
-                            GlobalData.MeasurePath = csvFolder;
-                        }
-                    }
+                        createCA210folder();
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
                     timer_countdown.Start();     //開始倒數
@@ -8512,19 +8517,7 @@ namespace OPTT
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
                     if (CA210.Status() == 1)
-                    {
-                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
-
-                        if (Directory.Exists(csvFolder))
-                        {
-
-                        }
-                        else
-                        {
-                            Directory.CreateDirectory(csvFolder);
-                            GlobalData.MeasurePath = csvFolder;
-                        }
-                    }
+                        createCA210folder();
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
