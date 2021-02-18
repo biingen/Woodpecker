@@ -1598,23 +1598,23 @@ namespace OPTT
                                                     {
                                                         case "A":
                                                             for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortA, logArray[i], item.temperatureNewline);
+                                                                ReplaceNewLine(GlobalData.m_SerialPort_A, logArray[i], item.temperatureNewline);
                                                             break;
                                                         case "B":
                                                             for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortB, logArray[i], item.temperatureNewline);
+                                                                ReplaceNewLine(GlobalData.m_SerialPort_B, logArray[i], item.temperatureNewline);
                                                             break;
                                                         case "C":
                                                             for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortC, logArray[i], item.temperatureNewline);
+                                                                ReplaceNewLine(GlobalData.m_SerialPort_C, logArray[i], item.temperatureNewline);
                                                             break;
                                                         case "D":
                                                             for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortD, logArray[i], item.temperatureNewline);
+                                                                ReplaceNewLine(GlobalData.m_SerialPort_D, logArray[i], item.temperatureNewline);
                                                             break;
                                                         case "E":
                                                             for (int i = 0; i < logArray.Length; i++)
-                                                                ReplaceNewLine(PortE, logArray[i], item.temperatureNewline);
+                                                                ReplaceNewLine(GlobalData.m_SerialPort_E, logArray[i], item.temperatureNewline);
                                                             break;
                                                     }
                                                 }
@@ -1623,19 +1623,19 @@ namespace OPTT
                                                     switch (item.temperaturePort)
                                                     {
                                                         case "A":
-                                                            ReplaceNewLine(PortA, item.temperatureLog, item.temperatureNewline);
+                                                            ReplaceNewLine(GlobalData.m_SerialPort_A, item.temperatureLog, item.temperatureNewline);
                                                             break;
                                                         case "B":
-                                                            ReplaceNewLine(PortB, item.temperatureLog, item.temperatureNewline);
+                                                            ReplaceNewLine(GlobalData.m_SerialPort_B, item.temperatureLog, item.temperatureNewline);
                                                             break;
                                                         case "C":
-                                                            ReplaceNewLine(PortC, item.temperatureLog, item.temperatureNewline);
+                                                            ReplaceNewLine(GlobalData.m_SerialPort_C, item.temperatureLog, item.temperatureNewline);
                                                             break;
                                                         case "D":
-                                                            ReplaceNewLine(PortD, item.temperatureLog, item.temperatureNewline);
+                                                            ReplaceNewLine(GlobalData.m_SerialPort_D, item.temperatureLog, item.temperatureNewline);
                                                             break;
                                                         case "E":
-                                                            ReplaceNewLine(PortE, item.temperatureLog, item.temperatureNewline);
+                                                            ReplaceNewLine(GlobalData.m_SerialPort_E, item.temperatureLog, item.temperatureNewline);
                                                             break;
                                                     }
                                                 }
@@ -4249,7 +4249,8 @@ namespace OPTT
         #endregion
 
         #region -- 迴車換行符號置換 --
-        private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
+        //private void ReplaceNewLine(SerialPort port, string columns_serial, string columns_switch)
+        private void ReplaceNewLine(Mod_RS232 port, string columns_serial, string columns_switch)
         {
             List<string> originLineList = new List<string> {"\\r\\n", "\\n\\r", "\\r", "\\n"};
             List<string> newLineList = new List<string> {"\r\n", "\n\r", "\r", "\n"};
@@ -4258,7 +4259,9 @@ namespace OPTT
             {
                 if (columns_switch.Contains(line.origin))
                 {
-                    port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine));
+                    //port.Write(columns_serial + columns_switch.Replace(line.origin, line.newLine));
+                    string stringToWrite = columns_serial + columns_switch.Replace(line.origin, line.newLine);
+                    port.WriteDataOut(stringToWrite, stringToWrite.Length);
                     return;
                 }
             }
@@ -4772,7 +4775,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_A, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4800,7 +4803,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_B, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4828,7 +4831,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_C, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4856,7 +4859,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_D, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4884,7 +4887,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial != "" || columns_switch != "")
                                 {
-                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_E, columns_serial, columns_switch);
                                 }
                                 else if (columns_serial == "" && columns_switch == "")
                                 {
@@ -4916,7 +4919,7 @@ namespace OPTT
 
                                 if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
                                 {
-                                    //ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                    //ReplaceNewLine(GlobalData.m_SerialPort_A, serial_content[0], switch_content[0]);
                                     logDumpping.ReplaceNewLine(serialPortA, serial_content[0], switch_content[0]);
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
@@ -4937,7 +4940,7 @@ namespace OPTT
                                 }
                                 if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
                                 {
-                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_C, serial_content[2], switch_content[2]);
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     
@@ -4946,7 +4949,7 @@ namespace OPTT
                                 }
                                 if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
                                 {
-                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_D, serial_content[3], switch_content[3]);
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     
@@ -4955,7 +4958,7 @@ namespace OPTT
                                 }
                                 if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
                                 {
-                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                    ReplaceNewLine(GlobalData.m_SerialPort_E, serial_content[4], switch_content[4]);
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
                                     
@@ -5044,7 +5047,7 @@ namespace OPTT
                                             expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
 
                                             string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
-                                            ReplaceNewLine(PortA, powerCommand, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_A, powerCommand, columns_switch);
 
                                             //Append Power Supply command to log
                                             DateTime dt = DateTime.Now;
@@ -5194,7 +5197,7 @@ namespace OPTT
                                                 expectedVoltage = columns_serial.Substring(columns_serial.IndexOf("=") + 1);
 
                                                 string powerCommand = "MEASure1:ALL?"; //Read Power Supply information
-                                                ReplaceNewLine(PortA, powerCommand, columns_switch);
+                                                ReplaceNewLine(GlobalData.m_SerialPort_A, powerCommand, columns_switch);
 
                                                 //Append Power Supply command to log
                                                 DateTime dt = DateTime.Now;
@@ -6418,7 +6421,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortA, columns_serial, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_A, columns_serial, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6441,7 +6444,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_B, columns_serial, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6464,7 +6467,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_C, columns_serial, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6487,7 +6490,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_D, columns_serial, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6510,7 +6513,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_E, columns_serial, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6547,7 +6550,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortA, reverse, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_A, reverse, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6570,7 +6573,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortB, reverse, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_B, reverse, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6593,7 +6596,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortC, reverse, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_C, reverse, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6616,7 +6619,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortD, reverse, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_D, reverse, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -6639,7 +6642,7 @@ namespace OPTT
                                         }
                                         else if (columns_serial != "" || columns_switch != "")
                                         {
-                                            ReplaceNewLine(PortE, reverse, columns_switch);
+                                            ReplaceNewLine(GlobalData.m_SerialPort_E, reverse, columns_switch);
                                         }
                                         else if (columns_serial == "" && columns_switch == "")
                                         {
@@ -7449,36 +7452,36 @@ namespace OPTT
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
-                    ReplaceNewLine(PortA, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_A, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
-                    ReplaceNewLine(PortB, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_B, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
                 {
-                    ReplaceNewLine(PortC, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_C, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
                 {
-                    ReplaceNewLine(PortD, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_D, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
                 {
-                    ReplaceNewLine(PortE, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_E, log_cmd_substring, log_newline);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        ReplaceNewLine(PortA, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_A, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        ReplaceNewLine(PortB, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_B, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        ReplaceNewLine(PortC, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_C, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        ReplaceNewLine(PortD, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_D, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        ReplaceNewLine(PortE, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_E, log_cmd_substring, log_newline);
                 }
             }
         }
@@ -7607,36 +7610,36 @@ namespace OPTT
 
                 if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && log_cmd_serialport == "A")
                 {
-                    ReplaceNewLine(PortA, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_A, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1" && log_cmd_serialport == "B")
                 {
-                    ReplaceNewLine(PortB, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_B, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1" && log_cmd_serialport == "C")
                 {
-                    ReplaceNewLine(PortC, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_C, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1" && log_cmd_serialport == "D")
                 {
-                    ReplaceNewLine(PortD, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_D, log_cmd_substring, log_newline);
                 }
                 else if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1" && log_cmd_serialport == "E")
                 {
-                    ReplaceNewLine(PortE, log_cmd_substring, log_newline);
+                    ReplaceNewLine(GlobalData.m_SerialPort_E, log_cmd_substring, log_newline);
                 }
                 else if (log_cmd_serialport == "O")
                 {
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
-                        ReplaceNewLine(PortA, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_A, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port B", "Checked", "") == "1")
-                        ReplaceNewLine(PortB, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_B, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port C", "Checked", "") == "1")
-                        ReplaceNewLine(PortC, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_C, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port D", "Checked", "") == "1")
-                        ReplaceNewLine(PortD, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_D, log_cmd_substring, log_newline);
                     if (ini12.INIRead(MainSettingPath, "Port E", "Checked", "") == "1")
-                        ReplaceNewLine(PortE, log_cmd_substring, log_newline);
+                        ReplaceNewLine(GlobalData.m_SerialPort_E, log_cmd_substring, log_newline);
                 }
                 label_Command.Text = "KEYWORD_LOGCMD";
             }
