@@ -5236,6 +5236,16 @@ namespace OPTT
                                     serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "")
                                 {
                                     string hexValues = columns_serial;
@@ -5280,6 +5290,16 @@ namespace OPTT
                                     //PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
@@ -5320,6 +5340,16 @@ namespace OPTT
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -5363,6 +5393,16 @@ namespace OPTT
                                     //PortD.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
                                          columns_serial != "" &&
@@ -5402,6 +5442,16 @@ namespace OPTT
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); ; //發送數據 Rs232 + Crc16
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "XOR8")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -5445,6 +5495,14 @@ namespace OPTT
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -5466,6 +5524,14 @@ namespace OPTT
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                     }
                                     else
                                     {
@@ -5489,6 +5555,14 @@ namespace OPTT
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -5511,6 +5585,14 @@ namespace OPTT
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
                                     else
                                     {
                                         Outputstring = orginal_data;
@@ -5532,6 +5614,14 @@ namespace OPTT
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
                                         serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    }
+                                    else if (columns_function == "XOR8")
+                                    {
+                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        Outputstring = orginal_data + xor8_data;
+                                        byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                        Outputbytes = HexConverter.StrToByte(Outputstring);
+                                        serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                     }
                                     else
                                     {
