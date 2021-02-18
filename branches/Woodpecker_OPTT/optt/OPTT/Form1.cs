@@ -331,12 +331,13 @@ namespace OPTT
 
                 if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
                 {
-                    ConnectAutoBox2();
+                    //ConnectAutoBox2();    //預設開啟會發生第一行送不出Ascii問題，暫時先關閉Bluerat init
                 }
 
                 pictureBox_BlueRat.Image = Properties.Resources.ON;
-                GP0_GP1_AC_ON();
-                GP2_GP3_USB_PC();
+
+                //GP0_GP1_AC_ON();          //預設開啟會發生第一行送不出Ascii問題，暫時先關閉Bluerat init
+                //GP2_GP3_USB_PC();         //預設開啟會發生第一行送不出Ascii問題，暫時先關閉Bluerat init
             }
             else
             {
@@ -862,13 +863,13 @@ namespace OPTT
         private void ConnectAutoBox2()
         {
             uint temp_version;
-            string curItem = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");
+            string curItem = ini12.INIRead(MainSettingPath, "Device", "AutoboxPort", "");           
             if (MyBlueRat.Connect(curItem) == true)
             {
                 temp_version = MyBlueRat.FW_VER;
                 float v = temp_version;
                 label_BoxVersion.Text = "_" + (v / 100).ToString("0.00");
-
+                
                 // 在第一次/或長時間未使用之後,要開始使用BlueRat跑Schedule之前,建議執行這一行,確保BlueRat的起始狀態一致 -- 正常情況下不執行並不影響BlueRat運行,但為了找問題方便,還是請務必執行
                 MyBlueRat.Force_Init_BlueRat();
                 MyBlueRat.Reset_SX1509();
@@ -880,15 +881,15 @@ namespace OPTT
                 {
                     pictureBox_ext_board.Image = Properties.Resources.ON;
                     // Error, need to check SX1509 connection
-                }
+                }                
                 else
                 {
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
                 }
-
+                
                 hCOM = MyBlueRat.ReturnSafeFileHandle();
                 BlueRat_UART_Exception_status = false;
-                //UpdateRCFunctionButtonAfterConnection();
+                //UpdateRCFunctionButtonAfterConnection();               
             }
             else
             {
@@ -8716,12 +8717,13 @@ namespace OPTT
 
                     if (ini12.INIRead(MainSettingPath, "Device", "AutoboxVerson", "") == "2")
                     {
-                        ConnectAutoBox2();
+                        //ConnectAutoBox2();        //預設開啟會發生送不出Ascii問題，暫時先關閉Bluerat init
                     }
 
                     pictureBox_BlueRat.Image = Properties.Resources.ON;
-                    GP0_GP1_AC_ON();
-                    GP2_GP3_USB_PC();
+
+                    //GP0_GP1_AC_ON();              //預設開啟會發生第一行送不出Ascii問題，暫時先關閉Bluerat init
+                    //GP2_GP3_USB_PC();             //預設開啟會發生第一行送不出Ascii問題，暫時先關閉Bluerat init
                 }
                 else
                 {
@@ -8913,7 +8915,6 @@ namespace OPTT
 
             if (CA210.Status() == 1)
                 CA210.DisConnect();
-            Serialportsave("Debug");
 
             Application.ExitThread();
             Application.Exit();

@@ -142,42 +142,45 @@ namespace OPTT
 
         public void DisplayMode(int mode_number)
         {
-            try
+            if (isMsr == 1)
             {
-                switch (mode_number)
+                try
                 {
-                    case 0:
-                        objCa.DisplayMode = 0;          // 0. Lvxy.
-                        break;
-                    case 1:
-                        objCa.DisplayMode = 1;          // 1. Tdudv.
-                        break;
-                    case 2:
-                        objCa.DisplayMode = 2;          // 2. no display.
-                        break;
-                    case 3:
-                        objCa.DisplayMode = 3;          // 3. G standard.
-                        break;
-                    case 4:
-                        objCa.DisplayMode = 4;          // 4. R standard.
-                        break;
-                    case 5:
-                        objCa.DisplayMode = 5;          // 5. u'v'.
-                        break;
-                    case 6:
-                        objCa.DisplayMode = 6;          // 6. FMA flicker.
-                        break;
-                    case 7:
-                        objCa.DisplayMode = 7;          // 7. XYZ.
-                        break;
-                    case 8:
-                        objCa.DisplayMode = 8;          // 8. JEITA flicker. 
-                        break;
+                    switch (mode_number)
+                    {
+                        case 0:
+                            objCa.DisplayMode = 0;          // 0. Lvxy.
+                            break;
+                        case 1:
+                            objCa.DisplayMode = 1;          // 1. Tdudv.
+                            break;
+                        case 2:
+                            objCa.DisplayMode = 2;          // 2. no display.
+                            break;
+                        case 3:
+                            objCa.DisplayMode = 3;          // 3. G standard.
+                            break;
+                        case 4:
+                            objCa.DisplayMode = 4;          // 4. R standard.
+                            break;
+                        case 5:
+                            objCa.DisplayMode = 5;          // 5. u'v'.
+                            break;
+                        case 6:
+                            objCa.DisplayMode = 6;          // 6. FMA flicker.
+                            break;
+                        case 7:
+                            objCa.DisplayMode = 7;          // 7. XYZ.
+                            break;
+                        case 8:
+                            objCa.DisplayMode = 8;          // 8. JEITA flicker. 
+                            break;
+                    }
                 }
-            }
-            catch (Exception)
-            {
-                isMsr = 0;
+                catch (Exception)
+                {
+                    isMsr = 0;
+                }
             }
         }
         #endregion
