@@ -4755,6 +4755,219 @@ namespace OPTT
                         }
                         #endregion
 
+                        #region -- Ascii --
+                        else if (columns_command == "_ascii")
+                        {
+                            //if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
+							if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
+                            {
+                                debug_process("Ascii Log: _PortA");
+                                if (columns_serial == "_save")
+                                {
+                                    //Serialportsave("A"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logA_text = string.Empty; //清除logA_text
+                                }
+                                else if (columns_serial != "" || columns_switch != "")
+                                {
+                                    ReplaceNewLine(PortA, columns_serial, columns_switch);
+                                }
+                                else if (columns_serial == "" && columns_switch == "")
+                                {
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
+                                }
+                                /*
+                                DateTime dt = DateTime.Now;
+                                string text = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\n\r";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("A", dataValue);
+                                log_process("All", dataValue);
+                                */
+                            }
+
+                            if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "B")
+                            {
+                                debug_process("Ascii Log: _PortB");
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("B"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logB_text = string.Empty; //清除logB_text
+                                }
+                                else if (columns_serial != "" || columns_switch != "")
+                                {
+                                    ReplaceNewLine(PortB, columns_serial, columns_switch);
+                                }
+                                else if (columns_serial == "" && columns_switch == "")
+                                {
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
+                                }
+                                /*
+                                DateTime dt = DateTime.Now;
+                                string text = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("B", dataValue);
+                                log_process("All", dataValue);
+                                */
+                            }
+
+                            if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "C")
+                            {
+                                debug_process("Ascii Log: _PortC");
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("C"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logC_text = string.Empty; //清除logC_text
+                                }
+                                else if (columns_serial != "" || columns_switch != "")
+                                {
+                                    ReplaceNewLine(PortC, columns_serial, columns_switch);
+                                }
+                                else if (columns_serial == "" && columns_switch == "")
+                                {
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
+                                }
+                                /*
+                                DateTime dt = DateTime.Now;
+                                string text = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("C", dataValue);
+                                log_process("All", dataValue);
+                                */
+                            }
+
+                            if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "D")
+                            {
+                                debug_process("Ascii Log: _PortD");
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("D"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logD_text = string.Empty; //清除logD_text
+                                }
+                                else if (columns_serial != "" || columns_switch != "")
+                                {
+                                    ReplaceNewLine(PortD, columns_serial, columns_switch);
+                                }
+                                else if (columns_serial == "" && columns_switch == "")
+                                {
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
+                                }
+                                /*
+                                DateTime dt = DateTime.Now;
+                                string text = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("D", dataValue);
+                                log_process("All", dataValue);
+                                */
+                            }
+
+                            if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "E")
+                            {
+                                debug_process("Ascii Log: _PortE");
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("E"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logE_text = string.Empty; //清除logE_text
+                                }
+                                else if (columns_serial != "" || columns_switch != "")
+                                {
+                                    ReplaceNewLine(PortE, columns_serial, columns_switch);
+                                }
+                                else if (columns_serial == "" && columns_switch == "")
+                                {
+                                    MessageBox.Show("Ascii command is fail, please check the format.");
+                                }
+                                /*
+                                DateTime dt = DateTime.Now;
+                                string text = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                textBox_serial.AppendText(dataValue);
+                                log_process("E", dataValue);
+                                log_process("All", dataValue);
+                                */
+                            }
+
+                            if (columns_comport == "ALL")
+                            {
+                                debug_process("Ascii Log: _All");
+                                string[] serial_content = columns_serial.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                                string[] switch_content = columns_switch.Split(new string[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+
+                                if (columns_serial == "_save")
+                                {
+                                    Serialportsave("All"); //存檔rs232
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    logAll_text = string.Empty; //清除logAll_text
+                                }
+
+                                if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "ALL" && serial_content[0] != "" && switch_content[0] != "")
+                                {
+                                    //ReplaceNewLine(PortA, serial_content[0], switch_content[0]);
+                                    logDumpping.ReplaceNewLine(serialPortA, serial_content[0], switch_content[0]);
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    //textBox_serial.AppendText(dataValue);
+                                    logDumpping.LogCat(ref logA_text, dataValue);
+                                    logDumpping.LogCat(ref logAll_text, dataValue);
+                                    //log_process("A", dataValue);
+                                    //log_process("All", dataValue);
+                                }
+                                if (GlobalData.portConfigGroup_B.checkedValue == true && columns_comport == "ALL" && serial_content[1] != "" && switch_content[1] != "")
+                                {
+                                    logDumpping.ReplaceNewLine(serialPortB, serial_content[1], switch_content[1]);
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    
+                                    logDumpping.LogCat(ref logB_text, dataValue);
+                                    logDumpping.LogCat(ref logAll_text, dataValue);
+                                }
+                                if (GlobalData.portConfigGroup_C.checkedValue == true && columns_comport == "ALL" && serial_content[2] != "" && switch_content[2] != "")
+                                {
+                                    ReplaceNewLine(PortC, serial_content[2], switch_content[2]);
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    
+                                    logDumpping.LogCat(logC_text, dataValue);
+                                    logDumpping.LogCat(logAll_text, dataValue);
+                                }
+                                if (GlobalData.portConfigGroup_D.checkedValue == true && columns_comport == "ALL" && serial_content[3] != "" && switch_content[3] != "")
+                                {
+                                    ReplaceNewLine(PortD, serial_content[3], switch_content[3]);
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    
+                                    logDumpping.LogCat(logD_text, dataValue);
+                                    logDumpping.LogCat(logAll_text, dataValue);
+                                }
+                                if (GlobalData.portConfigGroup_E.checkedValue == true && columns_comport == "ALL" && serial_content[4] != "" && switch_content[4] != "")
+                                {
+                                    ReplaceNewLine(PortE, serial_content[4], switch_content[4]);
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + columns_serial + "\r\n";
+                                    
+                                    logDumpping.LogCat(logE_text, dataValue);
+                                    logDumpping.LogCat(logAll_text, dataValue);
+                                }
+                            }
+
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                        }
+                        #endregion
+						
                         #region -- Execute --
                         else if (columns_command == "_Execute")
                         {
