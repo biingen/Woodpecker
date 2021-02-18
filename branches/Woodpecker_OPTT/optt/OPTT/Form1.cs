@@ -5832,7 +5832,7 @@ namespace OPTT
                         #region -- Minolta --
                         else if (columns_command == "_OPM")
                         {
-                            if (CA210.Connect() == 1)
+                            if (CA210.Status() == 1)
                             {
                                 if (columns_function == "Measure")
                                 {
@@ -5863,8 +5863,14 @@ namespace OPTT
                                     CA210.DisplayMode(stime);
                                     debug_process("CA210 control: DisplayMode end");
                                 }
+                                else if (columns_function == "CalZero")
+                                {
+                                    debug_process("CA210 control: Zero-calibrates the device start");
+                                    CA210.CalZero();
+                                    debug_process("CA210 control: Zero-calibrates the device end");
+                                }
                             }
-                            else if (CA210.Connect() == 0)
+                            else if (CA210.Status() == 0)
                             {
                                 MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
                             }
@@ -8034,6 +8040,7 @@ namespace OPTT
                 RCDB.Items.Add("_quantum");
                 RCDB.Items.Add("_astro");
                 RCDB.Items.Add("_dektec");
+                RCDB.Items.Add("_OPM");
             }
             RCDB.Items.Add("------------------------");
             //RCDB.Items.Add("------------------------");
@@ -8227,18 +8234,19 @@ namespace OPTT
             }
 
             Thread MainThread = new Thread(new ThreadStart(MyRunCamd));
+
             Thread LogThread1 = new Thread(new ThreadStart(MyLog1Camd));
             Thread LogThread2 = new Thread(new ThreadStart(MyLog2Camd));
             Thread LogThread3 = new Thread(new ThreadStart(MyLog3Camd));
             Thread LogThread4 = new Thread(new ThreadStart(MyLog4Camd));
             Thread LogThread5 = new Thread(new ThreadStart(MyLog5Camd));
-            /*
+
             Thread LogAThread = new Thread(new ThreadStart(logA_analysis));
             Thread LogBThread = new Thread(new ThreadStart(logB_analysis));
             Thread LogCThread = new Thread(new ThreadStart(logC_analysis));
             Thread LogDThread = new Thread(new ThreadStart(logD_analysis));
             Thread LogEThread = new Thread(new ThreadStart(logE_analysis));
-            */
+            
             startTime = DateTime.Now;
 
             if (AutoBox_Status)     //如果電腦有接上AutoKit//
@@ -8260,10 +8268,10 @@ namespace OPTT
                     can_rate.Clear();
                     can_data.Clear();
                     Serialportsave("Debug");
-                    
+
                     if (GlobalData.portConfigGroup_A.checkedValue)
                     {
-                        //LogAThread.Abort();
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -8273,7 +8281,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
-                        //LogBThread.Abort();
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -8283,7 +8291,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
-                        //LogCThread.Abort();
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -8293,7 +8301,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
-                        //LogDThread.Abort();
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -8303,7 +8311,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
-                        //LogEThread.Abort();
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -8362,7 +8370,8 @@ namespace OPTT
                         GlobalData.m_SerialPort_A.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         //OpenSerialPort("A");      //previous implementation with no DrvRS232 support
 
-                        logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        LogAThread.Start();
                         textBox_serial.Clear();
                         //LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
@@ -8376,8 +8385,8 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
                         GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
-                        //logDumpping.InitlogConfig(portLabel_B, serialPortName, ref logB_text);
-                        //LogBThread.Start();
+                        //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_B, GlobalData.portConfigGroup_B.portConfig, ref logB_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -8388,7 +8397,8 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
                         GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
-                        //LogCThread.Start();
+                        //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_C, GlobalData.portConfigGroup_C.portConfig, ref logC_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -8399,7 +8409,8 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
                         GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
-                        //LogDThread.Start();
+                        //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_D, GlobalData.portConfigGroup_D.portConfig, ref logD_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -8410,7 +8421,8 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
                         GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
-                        //LogEThread.Start();
+                        //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, ref logE_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;
@@ -8423,7 +8435,7 @@ namespace OPTT
                         //serialPortK.OpenSerialPort("Port kline");
                         MySerialPort.OpenPort("kline");
                         textBox_serial.Text = "";   //清空kline//
-                        
+
                         if (MySerialPort.IsPortOpened())
                         {
                             //BlueRat_UART_Exception_status = false;
@@ -8456,7 +8468,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_A.checkedValue)
                     {
-                        //LogAThread.Abort();
+                        LogAThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -8466,7 +8478,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
-                        //LogBThread.Abort();
+                        LogBThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -8476,7 +8488,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
-                        //LogCThread.Abort();
+                        LogCThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -8486,7 +8498,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
-                        //LogDThread.Abort();
+                        LogDThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -8496,7 +8508,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
-                        //LogEThread.Abort();
+                        LogEThread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -8534,8 +8546,8 @@ namespace OPTT
                         GlobalData.m_SerialPort_A.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         //serialPortA.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         textBox_serial.Clear();
-                        //LogAThread.Start();
-                        
+                        LogAThread.Start();
+
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
                             LogThread1.IsBackground = true;
@@ -8546,7 +8558,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
                         GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
-                        //LogBThread.Start();
+                        LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -8557,7 +8569,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
                         GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
-                        //LogCThread.Start();
+                        LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -8568,7 +8580,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
                         GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
-                        //LogDThread.Start();
+                        LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -8579,7 +8591,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
                         GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
-                        //LogEThread.Start();
+                        LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;

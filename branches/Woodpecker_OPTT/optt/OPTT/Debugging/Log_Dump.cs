@@ -41,7 +41,7 @@ namespace OPTT
 {
     public class LogDumpping
     {
-        string MainSettingPath = GlobalData.MailSettingPath;
+        string MainSettingPath = GlobalData.MainSettingPath;
         //static string strPortA = "Port A", strPortB = "Port B", strPortC = "Port C", strPortD = "Port D", strPortE = "Port E", strPort = "Port C", strPortAll = "All", logText = "";
 
         const int byteMessage_max_Hex = 16;
