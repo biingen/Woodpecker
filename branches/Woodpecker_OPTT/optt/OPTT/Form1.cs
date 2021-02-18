@@ -9219,10 +9219,10 @@ namespace OPTT
                         PreProcess(z);
                         if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString() != "")
                         {
-                            if (DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
-                            {
+                            if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
-                            }
+                            else if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
+                                RepeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
 
                             if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
                                 TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
@@ -9436,10 +9436,11 @@ namespace OPTT
             {
                 if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
-                    {
+                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
-                    }
+                    else if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
+                        repeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
+
                     if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
                         delayTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
                     else
