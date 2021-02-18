@@ -2017,12 +2017,13 @@ namespace OPTT
 
             if (Directory.Exists(csvFolder))
             {
-
+                
             }
             else
             {
                 Directory.CreateDirectory(csvFolder);
                 GlobalData.MeasurePath = csvFolder;
+                ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
             }
         }
 
