@@ -189,9 +189,7 @@ namespace ModuleLayer
             {
                 if (_serialPort.IsOpen == false)
                 {
-                    //ini12.INIRead(GlobalData.MainSettingPath, "Port A", "PortName", "");
                     _serialPort.PortName = port_Name;
-                    //int.Parse(ini12.INIRead(GlobalData.MainSettingPath, "Port A", "BaudRate", ""));
                     _serialPort.BaudRate = int.Parse(port_BR);
                     _serialPort.DataBits = 8;
                     _serialPort.StopBits = StopBits.One;
@@ -214,9 +212,14 @@ namespace ModuleLayer
 
                     _serialPort.Open();
 
-                    Console.WriteLine("[DrvRS232] " + port_Name + " is successfully opened.");
+                    Console.WriteLine("[DrvRS232] " + _serialPort.PortName + " is successfully opened.");
 
                     _internalSerialStream = _serialPort.BaseStream;
+                }
+                else
+                {
+                    Console.WriteLine("[Mod_RS232] " + _serialPort.PortName + " is not yet opened.");
+                    return -3;
                 }
             }
             catch (System.IO.IOException)

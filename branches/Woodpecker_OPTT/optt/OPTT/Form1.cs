@@ -156,8 +156,8 @@ namespace OPTT
         //public bool checked_A, checked_B, checked_C, checked_D, checked_E, checked_K;
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE";
-        public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E;
-        public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E;
+        //public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E;
+        //public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E;
         private int log_max_length = 10000000, debug_max_length = 10000000;
 
         //Ca310
@@ -273,7 +273,7 @@ namespace OPTT
             //Initialize Port Config Parameters
             string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
             string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K };
-
+            
             //bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
             {
@@ -1440,23 +1440,23 @@ namespace OPTT
 
         private void logA_analysis()
         {
-            logDumpping.LogDataReceiving(serialPortA);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);
         }
         private void logB_analysis()
         {
-            logDumpping.LogDataReceiving(serialPortB);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_B, GlobalData.portConfigGroup_B.portConfig, ref logB_text);
         }
         private void logC_analysis()
         {
-            logDumpping.LogDataReceiving(serialPortC);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_C, GlobalData.portConfigGroup_C.portConfig, ref logC_text);
         }
         private void logD_analysis()
         {
-            logDumpping.LogDataReceiving(serialPortD);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_D, GlobalData.portConfigGroup_D.portConfig, ref logD_text);
         }
         private void logE_analysis()
         {
-            logDumpping.LogDataReceiving(serialPortE);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, ref logE_text);
         }
 
         const int byteMessage_max_Hex = 16;
@@ -4441,7 +4441,7 @@ namespace OPTT
                         string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();//先讀取IO值，避免schedule第一行放IO CMD會出錯//
-
+                        
                         GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
                         if (StartButtonPressed == false)
                         {
@@ -5255,8 +5255,8 @@ namespace OPTT
                                     Outputstring = original_data + crc16_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    //PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    //serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "XOR8")
@@ -5266,7 +5266,8 @@ namespace OPTT
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    //serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "")
@@ -5274,8 +5275,8 @@ namespace OPTT
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(hexValues);
-                                    //PortA.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    //serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
 
                                 DateTime dt = DateTime.Now;
@@ -5300,18 +5301,16 @@ namespace OPTT
                                 {
                                     logB_text = string.Empty; //清除logB_text
                                 }
-                                else if (columns_serial != "_save" &&
-                                         columns_serial != "_clear" &&
-                                         columns_serial != "" &&
-                                         columns_function == "CRC16_Modbus")
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "CRC16_Modbus")
                                 {
                                     string orginal_data = columns_serial;
                                     string crc16_data = Crc16.PID_CRC16(orginal_data);
                                     Outputstring = orginal_data + crc16_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    //PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232 + Crc16
-                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    //serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "XOR8")
@@ -5321,7 +5320,7 @@ namespace OPTT
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -5331,8 +5330,7 @@ namespace OPTT
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(hexValues);
-                                    //PortB.Write(Outputbytes, 0, Outputbytes.Length); //發送數據 Rs232
-                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length);
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
                                 DateTime dt = DateTime.Now;
                                 string dataValue = "[" + serialPortConfig_B + "(" + GlobalData.portConfigGroup_B.portName + ")] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7141,17 +7139,17 @@ namespace OPTT
                 CloseSerialPort("A");
             }
             */
-            if (serialPortA.IsOpen())
+            if (GlobalData.m_SerialPort_A.IsOpen())
                 //serialPortA.ClosePort().Handle
-                serialPortA.ClosePort();
-            if (serialPortB.IsOpen())
-                serialPortB.ClosePort();
-            if (serialPortC.IsOpen())
-                serialPortC.ClosePort();
-            if (serialPortD.IsOpen())
-                serialPortD.ClosePort();
-            if (serialPortE.IsOpen())
-                serialPortE.ClosePort();
+                GlobalData.m_SerialPort_A.ClosePort();
+            if (GlobalData.m_SerialPort_B.IsOpen())
+                GlobalData.m_SerialPort_B.ClosePort();
+            if (GlobalData.m_SerialPort_C.IsOpen())
+                GlobalData.m_SerialPort_C.ClosePort();
+            if (GlobalData.m_SerialPort_D.IsOpen())
+                GlobalData.m_SerialPort_D.ClosePort();
+            if (GlobalData.m_SerialPort_E.IsOpen())
+                GlobalData.m_SerialPort_E.ClosePort();
             if (MySerialPort.IsPortOpened() == true)
             {
                 //CloseSerialPort("kline");
@@ -8136,11 +8134,11 @@ namespace OPTT
                         //serialPortConfig_A = Form_Setting.checkBox_SerialPort1.Text;                                          //PortA
                         //serialPortName_A = Form_Setting.comboBox_SerialPort1_PortName_Value.Text;         //e.g. COM10
                         //serialPortBR_A = Form_Setting.comboBox_SerialPort1_BaudRate_Value.Text;               //e.g. 9600
-                        serialPortA.OpenSerialPort(serialPortName_A, serialPortBR_A);
-                        //string serialPortName = ini12.INIRead(GlobalData.MainSettingPath, "Port A", "PortName", "");
+                        //serialPortA.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
+                        GlobalData.m_SerialPort_A.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         //OpenSerialPort("A");      //previous implementation with no DrvRS232 support
 
-                        //logDumpping.InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
                         textBox_serial.Clear();
                         //LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
@@ -8153,7 +8151,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
-                        serialPortB.OpenSerialPort(serialPortName_B, serialPortBR_B);
+                        GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
                         //logDumpping.InitlogConfig(portLabel_B, serialPortName, ref logB_text);
                         //LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
@@ -8165,7 +8163,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
-                        serialPortC.OpenSerialPort(serialPortName_C, serialPortBR_C);
+                        GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
                         //LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
@@ -8176,7 +8174,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
-                        serialPortD.OpenSerialPort(serialPortName_D, serialPortBR_D);
+                        GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
                         //LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
@@ -8187,7 +8185,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
-                        serialPortE.OpenSerialPort(serialPortName_E, serialPortBR_E);
+                        GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
                         //LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
@@ -8307,7 +8305,8 @@ namespace OPTT
                     //if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
                     if (GlobalData.portConfigGroup_A.checkedValue)
                     {
-                        serialPortA.OpenSerialPort(serialPortName_A, serialPortBR_A);
+                        GlobalData.m_SerialPort_A.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
+                        //serialPortA.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         textBox_serial.Clear();
                         //LogAThread.Start();
                         
@@ -8320,7 +8319,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
-                        serialPortB.OpenSerialPort(serialPortName_B, serialPortBR_B);
+                        GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
                         //LogBThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
@@ -8331,7 +8330,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
-                        serialPortC.OpenSerialPort(serialPortName_C, serialPortBR_C);
+                        GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
                         //LogCThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
@@ -8342,7 +8341,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
-                        serialPortD.OpenSerialPort(serialPortName_D, serialPortBR_D);
+                        GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
                         //LogDThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
@@ -8353,7 +8352,7 @@ namespace OPTT
 
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
-                        serialPortE.OpenSerialPort(serialPortName_E, serialPortBR_E);
+                        GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
                         //LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
@@ -9028,22 +9027,6 @@ namespace OPTT
         #endregion
 
         #region -- UI相關 --
-        /*
-        #region 陰影
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                if (!DesignMode)
-                {
-                    cp.ClassStyle |= CS_DROPSHADOW;
-                }
-                return cp;
-            }
-        }
-        #endregion
-        */
         #region -- 關閉、縮小按鈕 --
         private void ClosePicBox_Enter(object sender, EventArgs e)
         {

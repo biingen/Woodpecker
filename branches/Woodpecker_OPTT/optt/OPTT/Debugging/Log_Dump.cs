@@ -57,7 +57,7 @@ namespace OPTT
         Queue<double> temperatureDouble = new Queue<double> { };
         
 
-        public void LogDataReceiving(Mod_RS232 serialPort)
+        public void LogDataReceiving(Mod_RS232 serialPort, string portConfig, ref string logText)
         {
             while (serialPort.IsOpen())
             {
@@ -72,7 +72,7 @@ namespace OPTT
                     for (int index = 0; index < data_to_read; index++)
                     {
                         byte input_ch = dataset[index];
-                        //LogRecording(strPortA, input_ch, true);
+                        LogRecording(portConfig, ref logText, input_ch, true);
                         /*
                         if (TemperatureIsFound == true)
                         {
@@ -93,8 +93,9 @@ namespace OPTT
         //int byteMessage_length_A = 0;
         byte[] byteMessage = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
         int byteMessage_length = 0;
-        
-        private void LogRecording(string strPort, string strPortAll, byte ch, bool SaveToLog = false)
+
+        //private void LogRecording(string strPort, string strPortAll, byte ch, bool SaveToLog = false)
+        private void LogRecording(string portConfig, ref string logText, byte ch, bool SaveToLog = false)
         {
             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
@@ -109,11 +110,11 @@ namespace OPTT
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
-                        strData = "[Receive_]" + strPort +  " [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strData + "\r\n"; //OK
+                        strData = "[Receive_]" + portConfig +  " [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strData + "\r\n"; //OK
                     }
 
-                    LogCat(strPort, strData);
-                    LogCat(strPortAll, strData);
+                    LogCat(ref logText, strData);
+                    LogCat(ref GlobalData.logAllText, strData);
                     byteMessage_length = 0;
                 }
             }
@@ -125,11 +126,11 @@ namespace OPTT
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
                         DateTime dt = DateTime.Now;
-                        strData = "[Receive_]" + strPort + " [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strData + "\r\n"; //OK
+                        strData = "[Receive_]" + portConfig + " [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + strData + "\r\n"; //OK
                     }
 
-                    LogCat(strPort, strData);
-                    LogCat(strPortAll, strData);
+                    LogCat(ref logText, strData);
+                    LogCat(ref GlobalData.logAllText, strData);
                     byteMessage_length = 0;
                 }
                 else
