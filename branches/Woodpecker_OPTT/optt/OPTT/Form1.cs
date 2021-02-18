@@ -58,6 +58,7 @@ namespace OPTT
         private MySerial MySerialPort = new MySerial();      //from Kline_Serial.cs
 
         private LogDumpping logDumpping = new LogDumpping();
+        private RK2797 rk2797 = new RK2797();
         //Setting FSetting = new Setting();
         private Konica_Minolta CA210 = new Konica_Minolta();
 
@@ -1383,23 +1384,23 @@ namespace OPTT
 
         private void logA_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_A, ref logA_text);
+            rk2797.Package_analysis(GlobalData.m_SerialPort_A, ref logA_text);
         }
         private void logB_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_B, ref logB_text);
+            rk2797.Package_analysis(GlobalData.m_SerialPort_B, ref logB_text);
         }
         private void logC_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_C, ref logC_text);
+            rk2797.Package_analysis(GlobalData.m_SerialPort_C, ref logC_text);
         }
         private void logD_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_D, ref logD_text);
+            rk2797.Package_analysis(GlobalData.m_SerialPort_D, ref logD_text);
         }
         private void logE_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_E, ref logE_text);
+            rk2797.Package_analysis(GlobalData.m_SerialPort_E, ref logE_text);
         }
 
         const int byteMessage_max_Hex = 16;
