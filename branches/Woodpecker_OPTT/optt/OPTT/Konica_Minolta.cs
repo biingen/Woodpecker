@@ -89,10 +89,42 @@ namespace OPTT
                     {
                         objCa.Measure();
                         DateTime dt = DateTime.Now;
+                        string displaymode = "";
+                        switch (objCa.DisplayMode)
+                        {
+                            case 0:
+                                displaymode = "Lvxy";
+                                break;
+                            case 1:
+                                displaymode = "Tdudv";
+                                break;
+                            case 2:
+                                displaymode = "no display";
+                                break;
+                            case 3:
+                                displaymode = "G standard";
+                                break;
+                            case 4:
+                                displaymode = "R standard";
+                                break;
+                            case 5:
+                                displaymode = "u'v'";
+                                break;
+                            case 6:
+                                displaymode = "FMA flicker";
+                                break;
+                            case 7:
+                                displaymode = "XYZ";
+                                break;
+                            case 8:
+                                displaymode = "JEITA flicker";
+                                break;
+                        }
+
                         string log = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000") + "," +
                                      objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
-                                     objProbe.duv.ToString("0.000000") + "," + objProbe.X.ToString("##0.00") + "," +
-                                     objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
+                                     objProbe.duv.ToString("0.000000") + "," + displaymode + "," +
+                                     objProbe.X.ToString("##0.00") + "," + objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
                                      dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
                                      measure_remark + "," + i + "," + measure_times + "," + 
                                      GlobalData.Measure_Backlight + "," + GlobalData.Measure_Thermal + "," + "\r\n";

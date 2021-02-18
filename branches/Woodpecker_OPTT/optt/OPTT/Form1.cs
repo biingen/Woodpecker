@@ -155,7 +155,7 @@ namespace OPTT
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
 		private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
-                       ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+                       ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
         //public bool checked_A, checked_B, checked_C, checked_D, checked_E, checked_K;
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE";
@@ -2011,7 +2011,7 @@ namespace OPTT
             StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
             MYFILE.Write(ca210_csv);
             MYFILE.Close();
-            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor,\r\n";
+            ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
         }
         #endregion
 
@@ -5905,7 +5905,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n"; //清除ca210
+                                    ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
                                 }
                             }
                         }
