@@ -1383,23 +1383,23 @@ namespace OPTT
 
         private void logA_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_A);
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_A, ref logA_text);
         }
         private void logB_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_B);
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_B, ref logB_text);
         }
         private void logC_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_C);
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_C, ref logC_text);
         }
         private void logD_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_D);
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_D, ref logD_text);
         }
         private void logE_RK2797()
         {
-            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_E);
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_E, ref logE_text);
         }
 
         const int byteMessage_max_Hex = 16;

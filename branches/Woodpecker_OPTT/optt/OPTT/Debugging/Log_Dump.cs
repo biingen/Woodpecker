@@ -142,7 +142,7 @@ namespace OPTT
         }
         
         //  RK2797_cmd_list
-        public void RK2797_package_analysis(Mod_RS232 serialPort)
+        public void RK2797_package_analysis(Mod_RS232 serialPort, ref string logText)
         {
             List<byte> serialPortDataList = new List<byte>();
 
@@ -186,8 +186,8 @@ namespace OPTT
 
                 if(serialPortListbyte.Count() > 0)
                 {
-                    List<byte> BACKLIGHT_SENSOR_INDEX = new List<byte> { 0x07, 0x01, 0xE0, 0x07 }; //GET_BACKLIGHT_SENSOR_INDEX,
-                    List<byte> THERMAL_SENSOR_INDEX = new List<byte> { 0x09, 0x01, 0xE0, 0x08 }; //GET_THERMAL_SENSOR_INDEX,
+                    List<byte> BACKLIGHT_SENSOR_INDEX = new List<byte> { 0x07, 0x01, 0xE0, 0x07 }; //Parse_BACKLIGHT_SENSOR_INDEX,
+                    List<byte> THERMAL_SENSOR_INDEX = new List<byte> { 0x09, 0x01, 0xE0, 0x08 }; //Parse_THERMAL_SENSOR_INDEX,
 
                     List<byte> log_analysis = new List<byte>();
                     log_analysis = serialPortListbyte.Dequeue();
@@ -201,6 +201,10 @@ namespace OPTT
                     {
                         GlobalData.Measure_Thermal = raw_data(log_analysis);
                     }
+                    DateTime dt = DateTime.Now;
+                    string log_record = "[Receive_RK2797] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + raw_data(log_analysis) + "\r\n";
+                    LogCat(ref logText, log_record);
+                    LogCat(ref GlobalData.logAllText, log_record);
                 }
             }
         }
