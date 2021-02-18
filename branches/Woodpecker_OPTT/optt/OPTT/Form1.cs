@@ -5596,39 +5596,47 @@ namespace OPTT
                         }
                         #endregion
 
-                        #region -- CA310 --
+                        #region -- Minolta --
                         else if (columns_command == "_OPM")
                         {
-                            if (columns_function == "Measure")
+                            if (CA210.Connect() == 1)
                             {
-                                debug_process("CA210 control: Measure start");
-                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                    stime = int.Parse(columns_times); // 量測次數
-                                else
-                                    stime = 1;
+                                if (columns_function == "Measure")
+                                {
+                                    debug_process("CA210 control: Measure start");
+                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                        stime = int.Parse(columns_times); // 量測次數
+                                    else
+                                        stime = 1;
 
-                                if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
-                                    sRepeat = int.Parse(columns_interval); // 量測時間
-                                else
-                                    sRepeat = 0;
+                                    if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
+                                        sRepeat = int.Parse(columns_interval); // 量測時間
+                                    else
+                                        sRepeat = 0;
 
-                                string dataValue = CA210.Measure(stime, sRepeat, columns_remark);
-                                logDumpping.LogCat(ref ca210_csv, dataValue);
-                                logDumpping.LogCat(ref logAll_text, dataValue);
-                                debug_process("CA210 control: Measure stop");
+                                    string dataValue = CA210.Measure(stime, sRepeat, columns_remark);
+                                    logDumpping.LogCat(ref ca210_csv, dataValue);
+                                    logDumpping.LogCat(ref logAll_text, dataValue);
+                                    debug_process("CA210 control: Measure stop");
+                                }
+                                else if (columns_function == "DisplayMode")
+                                {
+                                    debug_process("CA210 control: DisplayMode start");
+                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                        stime = int.Parse(columns_times); // 模式切換
+                                    else
+                                        stime = 0;
+
+                                    CA210.DisplayMode(stime);
+                                    debug_process("CA210 control: DisplayMode end");
+                                }
                             }
-                            else if (columns_function == "DisplayMode")
+                            else if (CA210.Connect() == 0)
                             {
-                                debug_process("CA210 control: DisplayMode start");
-                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                    stime = int.Parse(columns_times); // 模式切換
-                                else
-                                    stime = 0;
-
-                                CA210.DisplayMode(stime);
-                                debug_process("CA210 control: DisplayMode end");
+                                MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
                             }
-                            else
+
+                            if (columns_serial != "")
                             {
                                 if (columns_serial == "_save")
                                 {
@@ -8387,7 +8395,7 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && CA210.Status() == 1)
+            if (CA210.Status() != 2)
             {
                 CA210.DisConnect();
                 pictureBox_ca310.Image = Properties.Resources.OFF;
@@ -8473,12 +8481,16 @@ namespace OPTT
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
                 {
-                    if (CA210.Status() == 0)
-                        pictureBox_ca310.Image = Properties.Resources.OFF;
-                    else if (CA210.Status() == 2)
+                    if (CA210.Status() != 1)
                     {
                         CA210.Connect();
-                        pictureBox_ca310.Image = Properties.Resources.ON;
+                        if (CA210.Status() != 1)
+                        {
+                            MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
+                            pictureBox_ca310.Image = Properties.Resources.OFF;
+                        }
+                        else
+                            pictureBox_ca310.Image = Properties.Resources.ON;
                     }
                 }
                 else
