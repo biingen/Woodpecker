@@ -1,52 +1,131 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.IO.Ports;
 using Microsoft.Win32.SafeHandles;           //support SafeFileHandle
 using System.Runtime.InteropServices;      //support DIIImport
 using System.Reflection;                                //support BindingFlags
-using jini;
 using OPTT;
 
 namespace ModuleLayer
 {
-    public class OperationalStates
+    //public enum eStates { Operating, Measuring };
+
+    public class StateEventArgs : EventArgs
     {
-        //private int iPortNmuber = 0;
-        private SerialPort _serialPort = new SerialPort();
-        private Stream _internalSerialStream;
-
-        
-        //Read data Into buffer
-        public int ReadTerm(Byte[] ResultDataBuf, ref int Count, char TermByte)
+        public int state_id { get; set; }
+        public StateEventArgs(int sid)
         {
-            int DataLen = _serialPort.BytesToRead;
-            Count = 0;
+            state_id = sid;
+        }
+    }
 
-            if (DataLen >= 1)
-            {
-                for (int i = 0; i <= (DataLen - 1); i++)
-                {
-                    
-                    ResultDataBuf[i] = (Byte)_serialPort.ReadByte();
-                    Count++;
+    public class State
+    {
+        public string strState { get; set; }
+        public State(string sState)
+        {
+            strState = sState;
+        }
+        protected virtual void ChangeState(object sender, StateEventArgs eventArgs) { }
 
-                    if (ResultDataBuf[i] == TermByte)
-                    {
-                        Array.Resize(ref ResultDataBuf, (i+1));
-                        return 1;
-                    }
-                }
+        public override string ToString()
+        {
+            return strState;
+        }
 
-                return -1;
-            }
-            return -1;
+    }
+
+    public delegate void StateAction(object sender, StateEventArgs eventArgs);
+    //public event StateAction sa;
+    public class Transition
+    {
+        public State OperatingState { get; set; }
+        public State MeasuringState { get; set; }
+
+        public StateEventArgs eventArgs;
+
+        public Transition(State prev, StateEventArgs eventArgs, State last, StateAction sa)
+        {
+            //if (prev == State.ToString())
 
         }
-           
+        /*
+        public override int GetHashCode()
+        {
+            return base.GetHashCode(prev, eventArgs);
+        }
 
+        public static int GetHashCode(State state, StateEventArgs eventArgs)
+        {
+
+        }*/
+    }
+
+    public class Transitions : Dictionary<int, Transition>
+    {
+        public void Add(Transition transition)
+        {
+            // The Add method throws an exception if the new key is already in the dictionary.
+            try
+            {
+                base.Add(transition.GetHashCode(), transition);
+            }
+            catch (ArgumentException)
+            {
+                throw new ArgumentException("A transition with the key (Initials state " +
+                        //transition.initialState + ", Event " +
+                        transition.eventArgs + ") already exists.");
+            }
+        }
+        /*
+        public Transition this[State state, StateEventArgs sevent]
+        {
+            get
+            {
+                try
+                {
+                    //return this[Transition.GetHashCode(state, sevent)];
+                }
+                catch (KeyNotFoundException)
+                {
+                    throw new KeyNotFoundException("The given transition was not found.");
+                }
+            }
+            set
+            {
+                //this[Transition.GetHashCode(state, sevent)] = value;
+            }
+        }
+        
+        public bool Remove(State state, StateEventArgs sevent)
+        {
+            return base.Remove(Transition.GetHashCode(state, sevent));
+        }*/
+    }
+
+    public interface IStateManager : IDisposable
+    {
+        void ChangeState(object sender, StateEventArgs eventArgs);
+        bool CheckState(object sender, StateEventArgs eventArgs);
+    }
+
+    public abstract class StatesManager : IStateManager
+    {
+        public virtual void ChangeState(object sender, StateEventArgs eventArgs)
+        {
+
+        }
+        
+        public virtual bool CheckState(object sender, StateEventArgs eventArgs)
+        {
+            bool chk = false;
+            return chk;
+        }
+
+        public virtual void Dispose()
+        {
+            //virtual Dispose
+        }
     }
 }

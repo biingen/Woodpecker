@@ -1152,7 +1152,7 @@ namespace OPTT
             this.button_Analysis.Text = "Log Analysis";
             this.button_Analysis.UseVisualStyleBackColor = false;
             this.button_Analysis.Visible = false;
-            this.button_Analysis.Click += new System.EventHandler(this.Button_Copy_Click);
+            //this.button_Analysis.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
             // 
