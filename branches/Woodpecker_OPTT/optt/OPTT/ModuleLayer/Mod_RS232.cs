@@ -20,6 +20,8 @@ namespace ModuleLayer
         private SerialPort _serialPort = new SerialPort();
         private Stream _internalSerialStream;
         public Queue<byte> ReceiveQueue = new Queue<byte>();
+        public List<byte> ReceiveList = new List<byte>();
+        public Queue<List<byte>> ReceiveQueueList = new Queue<List<byte>>();
         /*
         private SerialPortConfig portConfig;
 

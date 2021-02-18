@@ -55,7 +55,6 @@ namespace OPTT
         double previousTemperature = -300;
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<double> temperatureDouble = new Queue<double> { };
-        Queue<List<byte>> serialPortListbyte = new Queue<List<byte>>();
 
         public void LogDataReceiving(Mod_RS232 serialPort, string portConfig, ref string logText)
         {
@@ -396,7 +395,6 @@ namespace OPTT
 
     public class RK2797
     {
-        private LogDumpping logDumpping = new LogDumpping();
         // copy to mei
         enum command_index
         {
@@ -510,7 +508,7 @@ namespace OPTT
             new byte[] { 0x05, 0x01, 0xE0, 0x14, 0xff },              		///GET_SUB_INPUT_INDEX,
             new byte[] { 0x06, 0x01, 0xE0, 0x15, 0xff, 0xff },              ///SET_PIP_MODE_INDEX,
             new byte[] { 0x05, 0x01, 0xE0, 0x16, 0xff },              		///GET_PIP_MODE_INDEX,
-			
+
             // Write Data Command
             new byte[] { 0x05, 0x02, 0xE0, 0x00, 0xff },              		///GET_SCALER_TYPE_INDEX,
             //new byte[] { 0xff, 0x02, 0xE0, 0x01, 0xff, 0xff, 0xff },      ///SET_MODEL_NAME_INDEX,
@@ -525,7 +523,7 @@ namespace OPTT
             new byte[] { 0x05, 0x02, 0xE0, 0x0A, 0xff },              		///GET_SERIAL_NUMBER_INDEX,
             new byte[] { 0x05, 0x02, 0xE0, 0x0B, 0xff },              		///GET_FW_VERSION_INDEX,
             new byte[] { 0x05, 0x02, 0xE0, 0x0C, 0xff },              		///GET_FAC_EEPROM_DATA_INDEX,
-			
+
             // BenQ Command
             //new byte[] { 0xff, 0x00, 0xE0, 0x00, 0xff, 0xff, 0xff },      ///SET_BENQ_MODEL_NAME_INDEX,
             //new byte[] { 0xff, 0x00, 0xE0, 0x01, 0xff, 0xff, 0xff },      ///SET_BENQ_SERIAL_NAME_INDEX,
@@ -608,70 +606,80 @@ namespace OPTT
        };
 
         //  RK2797_cmd_list
-        public void Package_analysis(Mod_RS232 serialPort, ref string logText)
+        public void Package_add_queue(Mod_RS232 serialPort)
         {
-            List<byte> serialPortDataList = new List<byte>();
+            List<byte> BackupDataList = new List<byte>();
 
-            while (serialPort.IsOpen() == true)
+            while (serialPort.ReceiveQueue.Count > 0)                   // Queue有資料就收取
             {
-                while (serialPort.ReceiveQueue.Count > 0)                 //　Queue有資料就收取
-                {
-                    //  Queue一個byte一個byte取出來被丟入List
-                    byte serial_byte = (byte)serialPort.ReceiveQueue.Dequeue();
-                    serialPortDataList.Add(serial_byte);                 //  Queue一個byte一個byte取出來被丟入List
-                }
+                //  Queue一個byte一個byte取出來被丟入List
+                byte serial_byte = (byte)serialPort.ReceiveQueue.Dequeue();
+                serialPort.ReceiveList.Add(serial_byte);                    // Queue一個byte一個byte取出來被丟入List
+                //  BackupDataList.Add(serial_byte);                          // Queue debug list content
+            }
+        }
 
-                if (serialPortDataList.Count >= 3)
+        public void Package_queue_to_list(Mod_RS232 serialPort)
+        {
+            if (serialPort.ReceiveList.Count >= 3)
+            {
+                if (serialPort.ReceiveList.ElementAt(2) != 0xE0)
                 {
-                    if (serialPortDataList.ElementAt(2) != 0xE0)
+                    serialPort.ReceiveList.RemoveAt(0);
+                }
+                else
+                {
+                    byte packet_len = serialPort.ReceiveList.ElementAt(0);
+                    if (packet_len >= 4)
                     {
-                        serialPortDataList.RemoveAt(0);
+                        if (serialPort.ReceiveList.Count >= packet_len)
+                        {
+                            byte calculate_checksum;
+                            calculate_checksum = Algorithm.XOR_List(serialPort.ReceiveList, packet_len);
+
+                            if (calculate_checksum == 0)
+                            {
+                                List<byte> CurrentDataList = new List<byte>();
+                                CurrentDataList = serialPort.ReceiveList.GetRange(0, packet_len);
+                                serialPort.ReceiveQueueList.Enqueue(CurrentDataList);                  // Enqueue list byte data
+                                serialPort.ReceiveList.RemoveRange(0, packet_len);
+                            }
+                            else
+                            {
+                                serialPort.ReceiveList.RemoveAt(0);
+                            }
+                        }
                     }
                     else
                     {
-                        byte packet_len = serialPortDataList.ElementAt(0);
-                        if (packet_len >= 4)
-                        {
-                            if (serialPortDataList.Count >= packet_len)
-                            {
-                                byte calculate_checksum;
-                                calculate_checksum = Algorithm.XOR_List(serialPortDataList, packet_len);
-
-                                if (calculate_checksum == 0)
-                                {
-                                    List<byte> CurrentDataList = new List<byte>();
-                                    CurrentDataList = serialPortDataList.GetRange(0, packet_len);
-                                    int BACKLIGHT_SENSOR_INDEX = (int)command_index.GET_BACKLIGHT_SENSOR_INDEX;
-                                    int THERMAL_SENSOR_INDEX = (int)command_index.GET_THERMAL_SENSOR_INDEX;
-
-                                    // update parsing here
-                                    if (Parse_packet(CurrentDataList, Parsing_Packet[BACKLIGHT_SENSOR_INDEX].ToList()) == true)
-                                    {
-                                        GlobalData.Measure_Backlight = raw_data(CurrentDataList);
-                                    }
-                                    else if (Parse_packet(CurrentDataList, Parsing_Packet[THERMAL_SENSOR_INDEX].ToList()) == true)
-                                    {
-                                        GlobalData.Measure_Thermal = raw_data(CurrentDataList);
-                                    }
-                                    DateTime dt = DateTime.Now;
-                                    string log_record = "[Receive_RK2797] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + raw_data(CurrentDataList) + "\r\n";
-                                    logDumpping.LogCat(ref logText, log_record);
-                                    logDumpping.LogCat(ref GlobalData.logAllText, log_record);
-                                    serialPortDataList.RemoveRange(0, packet_len);
-                                }
-                                else
-                                {
-                                    serialPortDataList.RemoveAt(0);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            serialPortDataList.RemoveAt(0);
-                        }
+                        serialPort.ReceiveList.RemoveAt(0);
                     }
                 }
             }
+        }
+
+
+        public bool Package_queue_to_catch(Mod_RS232 serialPort)
+        {
+            bool status = false;
+            List<byte> CurrentDataList = new List<byte>();
+            int BACKLIGHT_SENSOR_INDEX = (int)command_index.GET_BACKLIGHT_SENSOR_INDEX;
+            int THERMAL_SENSOR_INDEX = (int)command_index.GET_THERMAL_SENSOR_INDEX;
+
+            if (serialPort.ReceiveQueueList.Count > 0)
+            {
+                CurrentDataList = serialPort.ReceiveQueueList.Dequeue();
+                // update parsing here
+                if (Parse_packet(CurrentDataList, Parsing_Packet[BACKLIGHT_SENSOR_INDEX].ToList()) == true)
+                {
+                    GlobalData.Measure_Backlight = raw_data(CurrentDataList);
+                }
+                else if (Parse_packet(CurrentDataList, Parsing_Packet[THERMAL_SENSOR_INDEX].ToList()) == true)
+                {
+                    GlobalData.Measure_Thermal = raw_data(CurrentDataList);
+                }
+            }
+            return status;
         }
 
         private bool Parse_packet(List<byte> input_packet, List<byte> original_packet)

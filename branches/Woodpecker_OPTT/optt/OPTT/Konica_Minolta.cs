@@ -89,41 +89,41 @@ namespace OPTT
                     {
                         objCa.Measure();
                         DateTime dt = DateTime.Now;
-                        string displaymode = "";
+                        string DisplayMode = "";
                         switch (objCa.DisplayMode)
                         {
                             case 0:
-                                displaymode = "Lvxy";
+                                DisplayMode = "Lvxy";
                                 break;
                             case 1:
-                                displaymode = "Tdudv";
+                                DisplayMode = "Tdudv";
                                 break;
                             case 2:
-                                displaymode = "no display";
+                                DisplayMode = "no display";
                                 break;
                             case 3:
-                                displaymode = "G standard";
+                                DisplayMode = "G standard";
                                 break;
                             case 4:
-                                displaymode = "R standard";
+                                DisplayMode = "R standard";
                                 break;
                             case 5:
-                                displaymode = "u'v'";
+                                DisplayMode = "u'v'";
                                 break;
                             case 6:
-                                displaymode = "FMA flicker";
+                                DisplayMode = "FMA flicker";
                                 break;
                             case 7:
-                                displaymode = "XYZ";
+                                DisplayMode = "XYZ";
                                 break;
                             case 8:
-                                displaymode = "JEITA flicker";
+                                DisplayMode = "JEITA flicker";
                                 break;
                         }
 
                         string log = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000") + "," +
                                      objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
-                                     objProbe.duv.ToString("0.000000") + "," + displaymode + "," +
+                                     objProbe.duv.ToString("0.000000") + "," + DisplayMode + "," +
                                      objProbe.X.ToString("##0.00") + "," + objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
                                      dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
                                      measure_remark + "," + i + "," + measure_times + "," + 

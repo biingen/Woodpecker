@@ -1384,23 +1384,48 @@ namespace OPTT
 
         private void logA_RK2797()
         {
-            rk2797.Package_analysis(GlobalData.m_SerialPort_A, ref logA_text);
+            while (GlobalData.m_SerialPort_A.IsOpen() == true)
+            {
+                rk2797.Package_add_queue(GlobalData.m_SerialPort_A);
+                rk2797.Package_queue_to_list(GlobalData.m_SerialPort_A);
+                rk2797.Package_queue_to_catch(GlobalData.m_SerialPort_A);
+            }
         }
         private void logB_RK2797()
         {
-            rk2797.Package_analysis(GlobalData.m_SerialPort_B, ref logB_text);
+            while (GlobalData.m_SerialPort_B.IsOpen() == true)
+            {
+                rk2797.Package_add_queue(GlobalData.m_SerialPort_B);
+                rk2797.Package_queue_to_list(GlobalData.m_SerialPort_B);
+                rk2797.Package_queue_to_catch(GlobalData.m_SerialPort_B);
+            }
         }
         private void logC_RK2797()
         {
-            rk2797.Package_analysis(GlobalData.m_SerialPort_C, ref logC_text);
+            while (GlobalData.m_SerialPort_C.IsOpen() == true)
+            {
+                rk2797.Package_add_queue(GlobalData.m_SerialPort_C);
+                rk2797.Package_queue_to_list(GlobalData.m_SerialPort_C);
+                rk2797.Package_queue_to_catch(GlobalData.m_SerialPort_C);
+            }
         }
         private void logD_RK2797()
         {
-            rk2797.Package_analysis(GlobalData.m_SerialPort_D, ref logD_text);
+            while (GlobalData.m_SerialPort_D.IsOpen() == true)
+            {
+                rk2797.Package_add_queue(GlobalData.m_SerialPort_D);
+                rk2797.Package_queue_to_list(GlobalData.m_SerialPort_D);
+                rk2797.Package_queue_to_catch(GlobalData.m_SerialPort_D);
+            }
         }
         private void logE_RK2797()
         {
-            rk2797.Package_analysis(GlobalData.m_SerialPort_E, ref logE_text);
+            while (GlobalData.m_SerialPort_E.IsOpen() == true)
+            {
+                rk2797.Package_add_queue(GlobalData.m_SerialPort_E);
+                rk2797.Package_queue_to_list(GlobalData.m_SerialPort_E);
+                rk2797.Package_queue_to_catch(GlobalData.m_SerialPort_E);
+            }
         }
 
         const int byteMessage_max_Hex = 16;
