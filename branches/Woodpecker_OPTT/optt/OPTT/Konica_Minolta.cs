@@ -94,7 +94,8 @@ namespace OPTT
                                      objProbe.duv.ToString("0.000000") + "," + objProbe.X.ToString("##0.00") + "," +
                                      objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
                                      dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
-                                     measure_remark + "," + i + "," + measure_times + "," + "\r\n";
+                                     measure_remark + "," + i + "," + measure_times + "," + 
+                                     GlobalData.Measure_Backlight + "," + GlobalData.Measure_Thermal + "," + "\r\n";
                         log_content = string.Concat(log_content, log);
                     }
                     catch (Exception)

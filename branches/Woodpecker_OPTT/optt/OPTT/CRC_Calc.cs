@@ -279,6 +279,26 @@ namespace OPTT
             return bHEX_OUT;
         }
 
+        public static byte XOR_Byte(byte[] bHEX1, int length)
+        {
+            byte bHEX_OUT = bHEX1[0];
+            for (int i = 1; i < length; i++)
+            {
+                bHEX_OUT = (byte)(bHEX_OUT ^ bHEX1[i]);
+            }
+            return bHEX_OUT;
+        }
+
+        public static byte XOR_List(List<byte> bHEX1, int length)
+        {
+            byte bHEX_OUT = bHEX1[0];
+            for (int i = 1; i < length; i++)
+            {
+                bHEX_OUT = (byte)(bHEX_OUT ^ bHEX1[i]);
+            }
+            return bHEX_OUT;
+        }
+
         public static string Medical_XOR8(string orginal_data)
         {
             string[] hexValuesSplit = orginal_data.Split(' ');

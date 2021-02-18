@@ -154,7 +154,7 @@ namespace OPTT
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
 		private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
-                       ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+                       ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
         //public bool checked_A, checked_B, checked_C, checked_D, checked_E, checked_K;
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE";
@@ -1381,6 +1381,27 @@ namespace OPTT
             logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, ref logE_text);
         }
 
+        private void logA_RK2797()
+        {
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_A);
+        }
+        private void logB_RK2797()
+        {
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_B);
+        }
+        private void logC_RK2797()
+        {
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_C);
+        }
+        private void logD_RK2797()
+        {
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_D);
+        }
+        private void logE_RK2797()
+        {
+            logDumpping.RK2797_package_analysis(GlobalData.m_SerialPort_E);
+        }
+
         const int byteMessage_max_Hex = 16;
         const int byteMessage_max_Ascii = 256;
         byte[] byteMessage_A = new byte[Math.Max(byteMessage_max_Ascii, byteMessage_max_Hex)];
@@ -1989,7 +2010,7 @@ namespace OPTT
             StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
             MYFILE.Write(ca210_csv);
             MYFILE.Close();
-            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor,\r\n";
         }
         #endregion
 
@@ -5883,7 +5904,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n"; //清除ca210
+                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n"; //清除ca210
                                 }
                             }
                         }
@@ -8246,7 +8267,13 @@ namespace OPTT
             Thread LogCThread = new Thread(new ThreadStart(logC_analysis));
             Thread LogDThread = new Thread(new ThreadStart(logD_analysis));
             Thread LogEThread = new Thread(new ThreadStart(logE_analysis));
-            
+
+            Thread RK2797A_Thread = new Thread(new ThreadStart(logA_RK2797));
+            Thread RK2797B_Thread = new Thread(new ThreadStart(logB_RK2797));
+            Thread RK2797C_Thread = new Thread(new ThreadStart(logC_RK2797));
+            Thread RK2797D_Thread = new Thread(new ThreadStart(logD_RK2797));
+            Thread RK2797E_Thread = new Thread(new ThreadStart(logE_RK2797));
+
             startTime = DateTime.Now;
 
             if (AutoBox_Status)     //如果電腦有接上AutoKit//
@@ -8272,6 +8299,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_A.checkedValue)
                     {
                         LogAThread.Abort();
+                        RK2797A_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -8282,6 +8310,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
                         LogBThread.Abort();
+                        RK2797B_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -8292,6 +8321,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
                         LogCThread.Abort();
+                        RK2797C_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -8302,6 +8332,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
                         LogDThread.Abort();
+                        RK2797D_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -8312,6 +8343,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
                         LogEThread.Abort();
+                        RK2797E_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -8372,6 +8404,7 @@ namespace OPTT
 
                         //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
                         LogAThread.Start();
+                        RK2797A_Thread.Start();
                         textBox_serial.Clear();
                         //LogAThread.Start();
                         //textBox1.Text = string.Empty;//清空serialport1//
@@ -8387,6 +8420,7 @@ namespace OPTT
                         GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
                         //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_B, GlobalData.portConfigGroup_B.portConfig, ref logB_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
                         LogBThread.Start();
+                        RK2797B_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -8399,6 +8433,7 @@ namespace OPTT
                         GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
                         //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_C, GlobalData.portConfigGroup_C.portConfig, ref logC_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
                         LogCThread.Start();
+                        RK2797C_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -8411,6 +8446,7 @@ namespace OPTT
                         GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
                         //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_D, GlobalData.portConfigGroup_D.portConfig, ref logD_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
                         LogDThread.Start();
+                        RK2797D_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -8422,6 +8458,7 @@ namespace OPTT
                     {
                         GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
                         //logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, ref logE_text);// InitlogConfig(port_Label_A, serialPortName, ref logA_text);
+                        RK2797E_Thread.Start();
                         LogEThread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
@@ -8469,6 +8506,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_A.checkedValue)
                     {
                         LogAThread.Abort();
+                        RK2797A_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread1.Abort();
@@ -8479,6 +8517,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_B.checkedValue)
                     {
                         LogBThread.Abort();
+                        RK2797B_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread2.Abort();
@@ -8489,6 +8528,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_C.checkedValue)
                     {
                         LogCThread.Abort();
+                        RK2797C_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread3.Abort();
@@ -8499,6 +8539,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_D.checkedValue)
                     {
                         LogDThread.Abort();
+                        RK2797D_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread4.Abort();
@@ -8509,6 +8550,7 @@ namespace OPTT
                     if (GlobalData.portConfigGroup_E.checkedValue)
                     {
                         LogEThread.Abort();
+                        RK2797E_Thread.Abort();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0")
                         {
                             LogThread5.Abort();
@@ -8547,7 +8589,7 @@ namespace OPTT
                         //serialPortA.OpenSerialPort(GlobalData.portConfigGroup_A.portName, GlobalData.portConfigGroup_A.portBR);
                         textBox_serial.Clear();
                         LogAThread.Start();
-
+                        RK2797A_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport1", "") == "1")
                         {
                             LogThread1.IsBackground = true;
@@ -8559,6 +8601,7 @@ namespace OPTT
                     {
                         GlobalData.m_SerialPort_B.OpenSerialPort(GlobalData.portConfigGroup_B.portName, GlobalData.portConfigGroup_B.portBR);
                         LogBThread.Start();
+                        RK2797B_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport2", "") == "1")
                         {
                             LogThread2.IsBackground = true;
@@ -8570,6 +8613,7 @@ namespace OPTT
                     {
                         GlobalData.m_SerialPort_C.OpenSerialPort(GlobalData.portConfigGroup_C.portName, GlobalData.portConfigGroup_C.portBR);
                         LogCThread.Start();
+                        RK2797C_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport3", "") == "1")
                         {
                             LogThread3.IsBackground = true;
@@ -8581,6 +8625,7 @@ namespace OPTT
                     {
                         GlobalData.m_SerialPort_D.OpenSerialPort(GlobalData.portConfigGroup_D.portName, GlobalData.portConfigGroup_D.portBR);
                         LogDThread.Start();
+                        RK2797D_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport4", "") == "1")
                         {
                             LogThread4.IsBackground = true;
@@ -8592,6 +8637,7 @@ namespace OPTT
                     {
                         GlobalData.m_SerialPort_E.OpenSerialPort(GlobalData.portConfigGroup_E.portName, GlobalData.portConfigGroup_E.portBR);
                         LogEThread.Start();
+                        RK2797E_Thread.Start();
                         if (ini12.INIRead(MainSettingPath, "LogSearch", "TextNum", "") != "0" && ini12.INIRead(MainSettingPath, "LogSearch", "Comport5", "") == "1")
                         {
                             LogThread5.IsBackground = true;

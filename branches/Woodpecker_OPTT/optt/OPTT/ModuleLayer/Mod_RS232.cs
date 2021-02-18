@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;      //support DIIImport
 using System.Reflection;                                //support BindingFlags
 using jini;
 using OPTT;
+using System.Collections;
 
 namespace ModuleLayer
 {
@@ -18,7 +19,7 @@ namespace ModuleLayer
         //private int iPortNmuber = 0;
         private SerialPort _serialPort = new SerialPort();
         private Stream _internalSerialStream;
-
+        public Queue ReceiveQueue = new Queue();
         /*
         private SerialPortConfig portConfig;
 
@@ -91,6 +92,8 @@ namespace ModuleLayer
             try
             {
                 _serialPort.Read(InBuf, 0, Length);
+                for (int i = 0; i < Length; i++)
+                    ReceiveQueue.Enqueue(InBuf[i]);
             }
             catch (System.TimeoutException)
             {//Time out
@@ -180,6 +183,48 @@ namespace ModuleLayer
                 return -1;
             
             return -1;
+        }
+
+        public int GetDataFromQueue(int Len, ref byte[] retBuf)
+        {
+            int i, j;
+            if ((ReceiveQueue.Count <= 0) || (retBuf.Length < Len))
+            {
+                return -1;
+            }
+            else
+            {
+                try
+                {
+                    if (Len > ReceiveQueue.Count)
+                    {
+                        j = ReceiveQueue.Count;
+                    }
+                    else
+                    {
+                        j = Len;
+                    }
+                    Console.Write("\nInBuf:");
+
+                    for (i = 0; i <= (j - 1); i++)
+                    {
+                        retBuf[i] = (byte)ReceiveQueue.Dequeue();
+                        Console.Write("{0,2:X},", retBuf[i]);
+                    }
+                    Console.Write("\n");
+                }
+                catch (Exception)
+                {
+                    return 1;
+                }
+
+            }
+            return 1;
+        }
+
+        public int ReceivedBufferLength()
+        {
+            return (ReceiveQueue.Count);
         }
 
         //public int OpenSerialPort(int PortNumber, int BaudRate, int ParityBit, int DataLength, int StopBit, int Handshake)
