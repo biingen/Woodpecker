@@ -164,6 +164,8 @@ namespace OPTT
         private CA200SRVRLib.Ca200 objCa200;
         private CA200SRVRLib.Ca objCa;
         private CA200SRVRLib.Probe objProbe;
+        private CA200SRVRLib.Memory objMemory;
+        private CA200SRVRLib.IProbeInfo objProbeInfo;
         private Boolean isMsr;
 
         //Search temperature parameter
@@ -271,7 +273,7 @@ namespace OPTT
             //Initialize Port Config Parameters
             string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
             string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K };
-            
+
             //bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
             {
@@ -973,7 +975,7 @@ namespace OPTT
             status = ExeConnectCA310();
             if (status == 1)
             {
-                status = ExeCalZero();
+                //status = ExeCalZero();
                 if (status == 1)
                 {
                     isMsr = true;
@@ -999,6 +1001,27 @@ namespace OPTT
                 objCa200.AutoConnect();
                 objCa = objCa200.SingleCa;
                 objProbe = objCa.SingleProbe;
+                objMemory = objCa.Memory;
+                objProbeInfo = (CA200SRVRLib.IProbeInfo)objProbe;
+                return 1;
+            }
+            catch (Exception)
+            {
+                isMsr = false;
+                return 0;
+            }
+        }
+
+        private uint ExeDisConnectCA310()
+        {
+            try
+            {
+                objCa.RemoteMode = 0;
+                objCa200 = null;
+                objCa = null;
+                objProbe = null;
+                objMemory = null;
+                objProbeInfo = null;
                 return 1;
             }
             catch (Exception)
@@ -8356,6 +8379,13 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && timer_ca310.Enabled == true)
+            {
+                timer_ca310.Enabled = false;
+                ExeDisConnectCA310();
+                pictureBox_ca310.Image = Properties.Resources.OFF;
+            }
+
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
             {
@@ -8434,7 +8464,7 @@ namespace OPTT
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && timer_ca310.Enabled == false)
                 {
                     ConnectCA310();
                     pictureBox_ca310.Image = Properties.Resources.ON;
@@ -9878,6 +9908,7 @@ namespace OPTT
                     MessageBox.Show("Port E is saved.", "Reminder");
                     break;
                 case "CA310":
+                    logDumpping.LogDumpToFile("CA310", "USB", ref ca310_text);
                     //Serialportsave("CA310");
                     MessageBox.Show("CA310 is saved.", "Reminder");
                     break;
@@ -10008,16 +10039,15 @@ namespace OPTT
                 {
                     objCa.Measure();
                     string str =    "Lv:" + objProbe.Lv.ToString("##0.00") + 
-                                    " Sx:" + objProbe.sx.ToString("0.0000") + 
-                                    " Sy:" + objProbe.sy.ToString("0.0000") + 
-                                    " R:" + objProbe.R.ToString("##0.00") + 
-                                    " G:" + objProbe.G.ToString("##0.00") + 
-                                    " B:" + objProbe.B.ToString("##0.00");
+                                    " Sx:" + objProbe.sx.ToString("0.000000") + 
+                                    " Sy:" + objProbe.sy.ToString("0.000000") +
+                                    " T:" + objProbe.T.ToString("####") +
+                                    " duv:" + objProbe.duv.ToString("0.000000");
                     DateTime.Now.ToShortTimeString();
                     DateTime dt = DateTime.Now;
                     string ca310_log_text = "[Receive_CA310] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + str + "\r\n";
-                    logDumpping.LogCat(ca310_text, ca310_log_text);
-                    logDumpping.LogCat(logAll_text, ca310_log_text);
+                    logDumpping.LogCat(ref ca310_text, ca310_log_text);
+                    logDumpping.LogCat(ref logAll_text, ca310_log_text);
                 }
                 catch (Exception)
                 {
