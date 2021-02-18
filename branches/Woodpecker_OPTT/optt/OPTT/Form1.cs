@@ -59,6 +59,7 @@ namespace OPTT
 
         private LogDumpping logDumpping = new LogDumpping();
         //Setting FSetting = new Setting();
+        private Konica_Minolta CA210 = new Konica_Minolta();
 
         //宣告於keyword使用
         //public Queue<SerialReceivedData> data_queue;
@@ -152,21 +153,14 @@ namespace OPTT
         //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-		private string logA_text, logB_text, logC_text, logD_text, logE_text, ca310_text, canbus_text, kline_text, logAll_text, debug_text;
+		private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
+                       ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         //public bool checked_A, checked_B, checked_C, checked_D, checked_E, checked_K;
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE";
         //public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E;
         //public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E;
         private int log_max_length = 10000000, debug_max_length = 10000000;
-
-        //Ca310
-        private CA200SRVRLib.Ca200 objCa200;
-        private CA200SRVRLib.Ca objCa;
-        private CA200SRVRLib.Probe objProbe;
-        private CA200SRVRLib.Memory objMemory;
-        private CA200SRVRLib.IProbeInfo objProbeInfo;
-        private Boolean isMsr;
 
         //Search temperature parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
@@ -402,8 +396,13 @@ namespace OPTT
 
             if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
             {
-                ConnectCA310();
-                pictureBox_ca310.Image = Properties.Resources.ON;
+                if (CA210.Status() == 0)
+                {
+                    CA210.Connect();
+                    pictureBox_ca310.Image = Properties.Resources.ON;
+                }
+                else
+                    pictureBox_ca310.Image = Properties.Resources.OFF;
             }
             else
             {
@@ -965,83 +964,6 @@ namespace OPTT
             else
             {
                 pictureBox_canbus.Image = Properties.Resources.OFF;
-            }
-        }
-
-        protected void ConnectCA310()
-        {
-            uint status;
-
-            status = ExeConnectCA310();
-            if (status == 1)
-            {
-                //status = ExeCalZero();
-                if (status == 1)
-                {
-                    isMsr = true;
-                    timer_ca310.Enabled = true;
-                    pictureBox_ca310.Image = Properties.Resources.ON;
-                }
-                else
-                {
-                    pictureBox_ca310.Image = Properties.Resources.OFF;
-                }
-            }
-            else
-            {
-                pictureBox_ca310.Image = Properties.Resources.OFF;
-            }
-        }
-
-        private uint ExeConnectCA310()
-        {
-            try
-            {
-                objCa200 = new CA200SRVRLib.Ca200();
-                objCa200.AutoConnect();
-                objCa = objCa200.SingleCa;
-                objProbe = objCa.SingleProbe;
-                objMemory = objCa.Memory;
-                objProbeInfo = (CA200SRVRLib.IProbeInfo)objProbe;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private uint ExeDisConnectCA310()
-        {
-            try
-            {
-                objCa.RemoteMode = 0;
-                objCa200 = null;
-                objCa = null;
-                objProbe = null;
-                objMemory = null;
-                objProbeInfo = null;
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
-            }
-        }
-
-        private uint ExeCalZero()
-        {
-            try
-            {
-                objCa.CalZero();
-                return 1;
-            }
-            catch (Exception)
-            {
-                isMsr = false;
-                return 0;
             }
         }
 
@@ -2039,6 +1961,20 @@ namespace OPTT
             }
         }
         #endregion
+
+        private void saveCA210csv(string filename)
+        {
+            string folder = GlobalData.MeasurePath;
+            string file = filename;
+            if (file == "")
+                file = GlobalData.MeasurePath + "\\Minolta_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            else
+                file = GlobalData.MeasurePath + "\\" + file + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
+            StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
+            MYFILE.Write(ca210_csv);
+            MYFILE.Close();
+            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+        }
 
         string logReceived = string.Empty;
         string logAdd = string.Empty;
@@ -5660,6 +5596,52 @@ namespace OPTT
                         }
                         #endregion
 
+                        #region -- CA310 --
+                        else if (columns_command == "_OPM")
+                        {
+                            if (columns_function == "Measure")
+                            {
+                                debug_process("CA210 control: Measure start");
+                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                    stime = int.Parse(columns_times); // 量測次數
+                                else
+                                    stime = 1;
+
+                                if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
+                                    sRepeat = int.Parse(columns_interval); // 量測時間
+                                else
+                                    sRepeat = 0;
+
+                                string dataValue = CA210.Measure(stime, sRepeat, columns_remark);
+                                logDumpping.LogCat(ref ca210_csv, dataValue);
+                                logDumpping.LogCat(ref logAll_text, dataValue);
+                                debug_process("CA210 control: Measure stop");
+                            }
+                            else if (columns_function == "DisplayMode")
+                            {
+                                debug_process("CA210 control: DisplayMode start");
+                                if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                    stime = int.Parse(columns_times); // 模式切換
+                                else
+                                    stime = 0;
+
+                                CA210.DisplayMode(stime);
+                                debug_process("CA210 control: DisplayMode end");
+                            }
+                            else
+                            {
+                                if (columns_serial == "_save")
+                                {
+                                    saveCA210csv(columns_remark); //存檔ca210
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n"; //清除ca210
+                                }
+                            }
+                        }
+                        #endregion
+
                         #region -- K-Line --
                         else if (columns_command == "_K_ABS")
                         {
@@ -8115,7 +8097,20 @@ namespace OPTT
                     }
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
+                    if (CA210.Status() == 1)
+                    {
+                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
+                        if (Directory.Exists(csvFolder))
+                        {
+
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(csvFolder);
+                            GlobalData.MeasurePath = csvFolder;
+                        }
+                    }
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
                     timer_countdown.Start();     //開始倒數
@@ -8292,6 +8287,20 @@ namespace OPTT
                 else     //按下START//
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
+                    if (CA210.Status() == 1)
+                    {
+                        string csvFolder = ini12.INIRead(MainSettingPath, "Record", "LogPath", "") + "\\" + "Measure_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                        if (Directory.Exists(csvFolder))
+                        {
+
+                        }
+                        else
+                        {
+                            Directory.CreateDirectory(csvFolder);
+                            GlobalData.MeasurePath = csvFolder;
+                        }
+                    }
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
@@ -8378,10 +8387,9 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && timer_ca310.Enabled == true)
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && CA210.Status() == 1)
             {
-                timer_ca310.Enabled = false;
-                ExeDisConnectCA310();
+                CA210.DisConnect();
                 pictureBox_ca310.Image = Properties.Resources.OFF;
             }
 
@@ -8463,10 +8471,15 @@ namespace OPTT
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" && timer_ca310.Enabled == false)
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
                 {
-                    ConnectCA310();
-                    pictureBox_ca310.Image = Properties.Resources.ON;
+                    if (CA210.Status() == 0)
+                        pictureBox_ca310.Image = Properties.Resources.OFF;
+                    else if (CA210.Status() == 2)
+                    {
+                        CA210.Connect();
+                        pictureBox_ca310.Image = Properties.Resources.ON;
+                    }
                 }
                 else
                 {
@@ -8592,6 +8605,10 @@ namespace OPTT
             {
                 DisconnectAutoBox2();
             }
+
+            if (CA210.Status() == 1)
+                CA210.DisConnect();
+            Serialportsave("Debug");
 
             Application.ExitThread();
             Application.Exit();
@@ -9224,7 +9241,6 @@ namespace OPTT
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseAutobox();
-            Serialportsave("Debug");
         }
 
         private void button_Input_Click(object sender, EventArgs e)
@@ -10013,7 +10029,7 @@ namespace OPTT
                 }
             }
         }
-
+/*
         private void timer_ca310_Tick(object sender, EventArgs e)
         {
             if (ini12.INIRead(GlobalData.MainSettingPath, "Device", "CA310Exist", "") == "1")
@@ -10041,25 +10057,7 @@ namespace OPTT
                 }
             }
         }
-
-        private void CalZero()
-        {
-            bool calzero_success = false;
-
-            while (calzero_success == false)
-            {
-                try
-                {
-                    objCa.CalZero();
-                    calzero_success = true;
-                }
-                catch (Exception)
-                {
-                    objCa.RemoteMode = 0;
-                }
-            }
-        }
-
+*/
         string chamberCommandLog = string.Empty;
         bool chamberTimer_IsTick = false;
 

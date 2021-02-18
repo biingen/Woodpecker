@@ -424,7 +424,6 @@ namespace OPTT
             this.button_VirtualRC.Text = "Virtual RC";
             this.button_VirtualRC.UseVisualStyleBackColor = false;
             this.button_VirtualRC.Visible = false;
-            //this.button_VirtualRC.Click += new System.EventHandler(this.button_VirtualRC_Click);
             // 
             // TimeLabel2
             // 
@@ -1152,7 +1151,6 @@ namespace OPTT
             this.button_Analysis.Text = "Log Analysis";
             this.button_Analysis.UseVisualStyleBackColor = false;
             this.button_Analysis.Visible = false;
-            //this.button_Analysis.Click += new System.EventHandler(this.Button_Copy_Click);
             // 
             // timer_kline
             // 
@@ -1328,7 +1326,6 @@ namespace OPTT
             // timer_ca310
             // 
             this.timer_ca310.Interval = 250;
-            this.timer_ca310.Tick += new System.EventHandler(this.timer_ca310_Tick);
             // 
             // label_ca310
             // 
