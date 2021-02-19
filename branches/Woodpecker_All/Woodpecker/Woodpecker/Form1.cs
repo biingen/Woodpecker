@@ -171,8 +171,8 @@ namespace Woodpecker
         //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", arduino_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "", 
-            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+        private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", arduino_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
+                       ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE", serialPortConfig_Arduino = "Arduino";
         public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
@@ -3142,7 +3142,7 @@ namespace Woodpecker
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
                     MYFILE.Write(arduino_text);
                     MYFILE.Close();
-                    ca310_text = String.Empty;
+                    arduino_text = String.Empty;
                     break;
                 case "CA310":
                     t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".csv";
@@ -3196,6 +3196,7 @@ namespace Woodpecker
             {
                 Directory.CreateDirectory(csvFolder);
                 GlobalData.MeasurePath = csvFolder;
+                ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
             }
         }
 
@@ -3210,7 +3211,7 @@ namespace Woodpecker
             StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
             MYFILE.Write(ca210_csv);
             MYFILE.Close();
-            ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
+            ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
         }
         #endregion
 
@@ -7266,7 +7267,7 @@ namespace Woodpecker
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    ca210_csv = "Sx, Sy, Lv, T, duv, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n"; //清除ca210
+                                    ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, \r\n";
                                 }
                             }
                         }
@@ -11860,10 +11861,10 @@ namespace Woodpecker
                         PreProcess(z);
                         if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString() != "")
                         {
-                            if (DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
-                            {
+                            if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
                                 RepeatTime = (long.Parse(DataGridView_Schedule.Rows[z].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
-                            }
+                            else if (DataGridView_Schedule.Rows[z].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[z].Cells[2].Value.ToString() != "")
+                                RepeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[z].Cells[2].Value.ToString()));
 
                             if (DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Contains('m') == true)
                                 TotalDelay += (Convert.ToInt64(DataGridView_Schedule.Rows[z].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + RepeatTime);
@@ -12093,10 +12094,11 @@ namespace Woodpecker
             {
                 if (!String.IsNullOrEmpty(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString()))
                 {
-                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
-                    {
+                    if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() != "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
                         repeatTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString())) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
-                    }
+                    else if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[1].Value.ToString() == "" && DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString() != "")
+                        repeatTime = (long.Parse("1")) * (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[2].Value.ToString()));
+
                     if (DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Contains("m") == true)
                         delayTime = (long.Parse(DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[8].Value.ToString().Replace('m', ' ').Trim()) * 60000 + repeatTime);
                     else
