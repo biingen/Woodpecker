@@ -78,7 +78,66 @@ namespace OPTT
             }
         }
 
-        public string Measure(int measure_times = 1, int measure_interval = 1000, string measure_remark = "")
+        public string Measure_Once(string measure_remark = "")
+        {
+            string log_content = "";
+            int i = 1, measure_times = 1;
+            if (isMsr == 1)
+            {
+                try
+                {
+                    objCa.Measure();
+                    DateTime dt = DateTime.Now;
+                    string DisplayMode = "";
+                    switch (objCa.DisplayMode)
+                    {
+                        case 0:
+                            DisplayMode = "Lvxy";
+                            break;
+                        case 1:
+                            DisplayMode = "Tdudv";
+                            break;
+                        case 2:
+                            DisplayMode = "no display";
+                            break;
+                        case 3:
+                            DisplayMode = "G standard";
+                            break;
+                        case 4:
+                            DisplayMode = "R standard";
+                            break;
+                        case 5:
+                            DisplayMode = "u'v'";
+                            break;
+                        case 6:
+                            DisplayMode = "FMA flicker";
+                            break;
+                        case 7:
+                            DisplayMode = "XYZ";
+                            break;
+                        case 8:
+                            DisplayMode = "JEITA flicker";
+                            break;
+                    }
+
+                    string log = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000") + "," +
+                                 objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
+                                 objProbe.duv.ToString("0.000000") + "," + DisplayMode + "," +
+                                 objProbe.X.ToString("##0.00") + "," + objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
+                                 dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
+                                 measure_remark + "," + i + "," + measure_times + "," +
+                                 GlobalData.Measure_Backlight + "," + GlobalData.Measure_Thermal + "," + "\r\n";
+                    log_content = string.Concat(log_content, log);
+                }
+                catch (Exception)
+                {
+                    log_content = "";
+                }
+            }
+            return log_content;
+        }
+
+        public string Measure_Multi(int measure_times = 1, int measure_interval = 0, string measure_remark = "")
         {
             string log_content = "";
             if (isMsr == 1)

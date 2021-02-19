@@ -5885,18 +5885,18 @@ namespace OPTT
                             {
                                 if (columns_function == "Measure")
                                 {
+                                    int mtimes = 0, mRepeat = 0;
+                                    string dataValue = "";
                                     debug_process("CA210 control: Measure start");
-                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                        stime = int.Parse(columns_times); // 量測次數
+                                    if (columns_times != "" && int.TryParse(columns_times, out mtimes) == true && columns_interval != "" && int.TryParse(columns_interval, out mRepeat) == true)
+                                    {
+                                        mtimes = int.Parse(columns_times); // 量測次數
+                                        mRepeat = int.Parse(columns_interval); // 量測時間
+                                        dataValue = CA210.Measure_Multi(mtimes, mRepeat, columns_remark);
+                                    }
                                     else
-                                        stime = 1;
+                                        dataValue = CA210.Measure_Once(columns_remark);
 
-                                    if (columns_interval != "" && int.TryParse(columns_interval, out sRepeat) == true)
-                                        sRepeat = int.Parse(columns_interval); // 量測時間
-                                    else
-                                        sRepeat = 0;
-
-                                    string dataValue = CA210.Measure(stime, sRepeat, columns_remark);
                                     logDumpping.LogCat(ref ca210_csv, dataValue);
                                     logDumpping.LogCat(ref logAll_text, dataValue);
                                     debug_process("CA210 control: Measure stop");
