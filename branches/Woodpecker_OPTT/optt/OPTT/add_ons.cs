@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -109,6 +110,15 @@ namespace OPTT
                 Console.WriteLine(item.Value);
             }
         }
+
+        [DllImport(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""")]
+        public static extern int DllRegisterServer_CA310();//註冊時用
+        [DllImport(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""")]
+        public static extern int DllUnregisterServer_CA310();//取消註冊時用
+        [DllImport(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""")]
+        public static extern int DllRegisterServer_CA410();//註冊時用
+        [DllImport(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""")]
+        public static extern int DllUnregisterServer_CA410();//取消註冊時用
 
         #region -- 產生Monkey Test Excel報告 --
         public void CreateExcelFile()
@@ -289,6 +299,7 @@ namespace OPTT
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", "");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "KlineExist", "0");
@@ -433,6 +444,27 @@ namespace OPTT
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
                         ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
+                        //DllRegisterServer_CA310();
+                        runCmd(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""");
+                    }
+                    #endregion
+
+                    #region 偵測CA410
+                    if (deviceId.IndexOf("USB\\VID_132B&PID_210D\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------CA410------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
+                        //DllRegisterServer_CA410();
+                        runCmd(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""");
                     }
                     #endregion
 
@@ -473,6 +505,21 @@ namespace OPTT
             }
         }
         #endregion
+
+        private void runCmd(string cmd)
+        {
+            using (Process myProcess = new Process())
+            {
+                //cmd = cmd.Trim().TrimEnd() + "&exit";//說明：不管命令是否成功均執行exit命令，否則當調用ReadToEnd()方法時，會處於假死狀態
+                myProcess.StartInfo.FileName = "Regsvr32.exe";
+                myProcess.StartInfo.Arguments = cmd;//路徑中不能有空格
+                myProcess.StartInfo.UseShellExecute = false;
+                myProcess.Start();
+                myProcess.WaitForExit();//等待程序執行完退出進程
+                myProcess.Close();
+            }
+
+        }
 
         public void SaveSXPReport()
         {

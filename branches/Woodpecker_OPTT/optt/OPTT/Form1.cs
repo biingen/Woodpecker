@@ -154,8 +154,8 @@ namespace OPTT
         //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-		private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
-                       ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+		private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", minolta_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
+                       minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
         //public bool checked_A, checked_B, checked_C, checked_D, checked_E, checked_K;
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE";
@@ -241,8 +241,8 @@ namespace OPTT
                 }
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
-                comboBox_savelog.Items.Add("CA310");
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
+                comboBox_savelog.Items.Add("Minolta");
 
             if (ini12.INIRead(MainSettingPath, "Canbus", "Log", "") == "1")
                 comboBox_savelog.Items.Add("Canbus");
@@ -396,19 +396,19 @@ namespace OPTT
                 pictureBox_Camera.Image = Properties.Resources.OFF;
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
             {
-                if (CA210.Status() == 0)
+                if (CA210.Status() == false)
                 {
                     CA210.Connect();
-                    pictureBox_ca310.Image = Properties.Resources.ON;
+                    pictureBox_Minolta.Image = Properties.Resources.ON;
                 }
                 else
-                    pictureBox_ca310.Image = Properties.Resources.OFF;
+                    pictureBox_Minolta.Image = Properties.Resources.OFF;
             }
             else
             {
-                pictureBox_ca310.Image = Properties.Resources.OFF;
+                pictureBox_Minolta.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
@@ -522,8 +522,8 @@ namespace OPTT
                 this.Text = "OPTT";
                 label_RedRat.Visible = true;
                 pictureBox_RedRat.Visible = true;
-                label_ca310.Visible = true;
-                pictureBox_ca310.Visible = true;
+                label_Minolta.Visible = true;
+                pictureBox_Minolta.Visible = true;
                 button_VirtualRC.Visible = true;
             }
 
@@ -1971,12 +1971,12 @@ namespace OPTT
                     MYFILE.Close();
                     logE_text = String.Empty;
                     break;
-                case "CA310":
-                    t = fName + "\\_CA310_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
+                case "Minolta":
+                    t = fName + "\\_Minolta_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
                     MYFILE = new StreamWriter(t, false, Encoding.ASCII);
-                    MYFILE.Write(ca310_text);
+                    MYFILE.Write(minolta_text);
                     MYFILE.Close();
-                    ca310_text = String.Empty;
+                    minolta_text = String.Empty;
                     break;
                 case "Canbus":
                     t = fName + "\\_Canbus_" + DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + label_LoopNumber_Value.Text + ".txt";
@@ -2017,13 +2017,13 @@ namespace OPTT
 
             if (Directory.Exists(csvFolder))
             {
-                
+
             }
             else
             {
                 Directory.CreateDirectory(csvFolder);
                 GlobalData.MeasurePath = csvFolder;
-                ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+                minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
             }
         }
 
@@ -2036,9 +2036,9 @@ namespace OPTT
             else
                 file = GlobalData.MeasurePath + "\\" + file + "_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".csv";
             StreamWriter MYFILE = new StreamWriter(file, false, Encoding.ASCII);
-            MYFILE.Write(ca210_csv);
+            MYFILE.Write(minolta_csv_report);
             MYFILE.Close();
-            ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+            minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
         }
         #endregion
 
@@ -5881,7 +5881,7 @@ namespace OPTT
                         #region -- Minolta --
                         else if (columns_command == "_OPM")
                         {
-                            if (CA210.Status() == 1)
+                            if (CA210.Status() == true)
                             {
                                 if (columns_function == "Measure")
                                 {
@@ -5897,7 +5897,8 @@ namespace OPTT
                                     else
                                         dataValue = CA210.Measure_Once(columns_remark);
 
-                                    logDumpping.LogCat(ref ca210_csv, dataValue);
+                                    logDumpping.LogCat(ref minolta_csv_report, dataValue);
+                                    logDumpping.LogCat(ref minolta_text, dataValue);
                                     logDumpping.LogCat(ref logAll_text, dataValue);
                                     debug_process("CA210 control: Measure stop");
                                 }
@@ -5919,7 +5920,7 @@ namespace OPTT
                                     debug_process("CA210 control: Zero-calibrates the device end");
                                 }
                             }
-                            else if (CA210.Status() == 0)
+                            else if (CA210.Status() == false)
                             {
                                 MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
                             }
@@ -5932,7 +5933,7 @@ namespace OPTT
                                 }
                                 else if (columns_serial == "_clear")
                                 {
-                                    ca210_csv = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+                                    minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
                                 }
                             }
                         }
@@ -8406,7 +8407,7 @@ namespace OPTT
                     }
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (CA210.Status() == 1)
+                    if (CA210.Status() == true)
                         createCA210folder();
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
@@ -8598,7 +8599,7 @@ namespace OPTT
                 else     //按下START//
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (CA210.Status() == 1)
+                    if (CA210.Status() == true)
                         createCA210folder();
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
@@ -8690,10 +8691,10 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (CA210.Status() != 2)
+            if (CA210.Status() != false)
             {
                 CA210.DisConnect();
-                pictureBox_ca310.Image = Properties.Resources.OFF;
+                pictureBox_Minolta.Image = Properties.Resources.OFF;
             }
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -8775,23 +8776,23 @@ namespace OPTT
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1")
+                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
                 {
-                    if (CA210.Status() != 1)
+                    if (CA210.Status() != true)
                     {
                         CA210.Connect();
-                        if (CA210.Status() != 1)
+                        if (CA210.Status() != true)
                         {
                             MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
-                            pictureBox_ca310.Image = Properties.Resources.OFF;
+                            pictureBox_Minolta.Image = Properties.Resources.OFF;
                         }
                         else
-                            pictureBox_ca310.Image = Properties.Resources.ON;
+                            pictureBox_Minolta.Image = Properties.Resources.ON;
                     }
                 }
                 else
                 {
-                    pictureBox_ca310.Image = Properties.Resources.OFF;
+                    pictureBox_Minolta.Image = Properties.Resources.OFF;
                 }
 
                 /* Hidden serial port.
@@ -8914,7 +8915,7 @@ namespace OPTT
                 DisconnectAutoBox2();
             }
 
-            if (CA210.Status() == 1)
+            if (CA210.Status() == true)
                 CA210.DisConnect();
 
             Application.ExitThread();
@@ -10214,10 +10215,10 @@ namespace OPTT
                     logDumpping.LogDumpToFile(serialPortConfig_E, GlobalData.portConfigGroup_E.portName, ref logE_text);
                     MessageBox.Show("Port E is saved.", "Reminder");
                     break;
-                case "CA310":
-                    logDumpping.LogDumpToFile("CA310", "USB", ref ca310_text);
+                case "Minolta":
+                    logDumpping.LogDumpToFile("Minolta", "USB", ref minolta_text);
                     //Serialportsave("CA310");
-                    MessageBox.Show("CA310 is saved.", "Reminder");
+                    MessageBox.Show("Minolta is saved.", "Reminder");
                     break;
                 case "Canbus":
                     //Serialportsave("Canbus");

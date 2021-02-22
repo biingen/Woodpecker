@@ -18,10 +18,15 @@ namespace OPTT
         private CA200SRVRLib.IProbeInfo objProbeInfo;
         private uint isMsr;
 
-        public uint Status()
+        public bool Status()
         {
-            uint status = 0;
-            status = isMsr;
+            bool status = false;
+
+            if (isMsr > 1)
+                status = true;
+            else
+                status = false;
+
             return status;
         }
 
@@ -33,14 +38,13 @@ namespace OPTT
                 objCa200.AutoConnect();
                 objCa = objCa200.SingleCa;
                 objProbe = objCa.SingleProbe;
-                isMsr = 1;
-                return 1;
+                isMsr = 2;
             }
             catch (Exception)
             {
                 isMsr = 0;
-                return 0;
             }
+			return isMsr;
         }
 
         public uint DisConnect()
@@ -53,14 +57,13 @@ namespace OPTT
                 objProbe = null;
                 objMemory = null;
                 objProbeInfo = null;
-                isMsr = 2;
-                return 2;
+                isMsr = 1;
             }
             catch (Exception)
             {
                 isMsr = 0;
-                return 0;
             }
+            return isMsr;
         }
 
         public uint CalZero()
@@ -69,20 +72,19 @@ namespace OPTT
             {
                 objCa.CalZero();
                 isMsr = 3;
-                return 3;
             }
             catch (Exception)
             {
                 isMsr = 0;
-                return 0;
             }
+			return isMsr;
         }
 
         public string Measure_Once(string measure_remark = "")
         {
             string log_content = "";
             int i = 1, measure_times = 1;
-            if (isMsr == 1)
+            if (Status() == true)
             {
                 try
                 {
@@ -132,6 +134,7 @@ namespace OPTT
                 catch (Exception)
                 {
                     log_content = "";
+					isMsr = 0;
                 }
             }
             return log_content;
@@ -140,7 +143,7 @@ namespace OPTT
         public string Measure_Multi(int measure_times = 1, int measure_interval = 0, string measure_remark = "")
         {
             string log_content = "";
-            if (isMsr == 1)
+            if (Status() == true)
             {
                 for (int i = 1; i <= measure_times; i++)
                 {
@@ -192,6 +195,7 @@ namespace OPTT
                     catch (Exception)
                     {
                         log_content = "";
+                        isMsr = 0;
                     }
                     Thread.Sleep(measure_interval);
                 }
@@ -201,7 +205,7 @@ namespace OPTT
 
         public void DisplayMode(int mode_number)
         {
-            if (isMsr == 1)
+            if (Status() == true)
             {
                 try
                 {
