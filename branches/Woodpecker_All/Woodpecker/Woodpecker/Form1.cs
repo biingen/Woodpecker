@@ -191,7 +191,7 @@ namespace Woodpecker
         string PowerSupplyCommandLog = string.Empty;
    		// Arduino parameter
         string Read_Arduino_Data = "";
-        bool serial_receive = false; 
+        bool serial_receive = true; 
 
         public Form1()
         {
@@ -3135,7 +3135,7 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_Arduino] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
-                    serial_receive = false;
+                    serial_receive = true;
                     log_process("Arduino", dataValue);
                     log_process("All", dataValue);
                 }
@@ -12459,18 +12459,18 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io i";
-                    serial_receive = true;
+                    serial_receive = false;
                     do
                     {
                         serialPort_Arduino.WriteLine(dataValue);
                         retry_cnt--;
                         Thread.Sleep(300);
-                        if (serial_receive && retry_cnt == 0)
+                        if (serial_receive == false && retry_cnt == 0)
                         {
                             MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
                             aGpio = false;
                         }
-                        else if (serial_receive == false)
+                        else if (serial_receive)
                         {
                             string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi", "");
                             //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
@@ -12478,7 +12478,7 @@ namespace Woodpecker
                             aGpio = true;
                         }
                     }
-                    while (serial_receive || retry_cnt == 0);
+                    while (serial_receive == false && retry_cnt > 0);
                 }
                 catch (System.FormatException)
                 {
@@ -12499,18 +12499,18 @@ namespace Woodpecker
                 try
                 {
                     string dataValue = "io x " + output_value;
-                    serial_receive = true;
+                    serial_receive = false;
                     do
                     {
                         serialPort_Arduino.WriteLine(dataValue);
                         retry_cnt--;
                         Thread.Sleep(300);
-                        if (serial_receive && retry_cnt == 0)
+                        if (serial_receive == false && retry_cnt == 0)
                         {
                             MessageBox.Show("Arduino_IO_OUTPUT_ERROR, Please replug the Arduino board.", "Error");
                             aGpio = false;
                         }
-                        else if (serial_receive == false)
+                        else if (serial_receive)
                         {
                             if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                             {
@@ -12522,7 +12522,7 @@ namespace Woodpecker
                             aGpio = true;
                         }
                     }
-                    while (serial_receive || retry_cnt == 0);
+                    while (serial_receive == false && retry_cnt > 0);
                 }
                 catch (System.FormatException)
                 {
