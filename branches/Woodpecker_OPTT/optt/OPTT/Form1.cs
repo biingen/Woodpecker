@@ -304,6 +304,7 @@ namespace OPTT
         {
             this.TopMost = true;
             this.WindowState = FormWindowState.Normal;
+            this.button_Setting.Enabled = false;
 
             //根據dpi調整視窗尺寸
             Graphics graphics = CreateGraphics();
@@ -528,6 +529,7 @@ namespace OPTT
             }
 
             InitPortConfigParam();
+            this.button_Setting.Enabled = true;
         }
 
         #region -- USB Detect --
@@ -5922,7 +5924,7 @@ namespace OPTT
                             }
                             else if (CA210.Status() == false)
                             {
-                                MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
+                                MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
                             }
 
                             if (columns_serial != "")
@@ -8691,7 +8693,7 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (CA210.Status() != false)
+            if (CA210.Status() == true)
             {
                 CA210.DisConnect();
                 pictureBox_Minolta.Image = Properties.Resources.OFF;
@@ -8778,12 +8780,12 @@ namespace OPTT
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
                 {
-                    if (CA210.Status() != true)
+                    if (CA210.Status() == false)
                     {
                         CA210.Connect();
-                        if (CA210.Status() != true)
+                        if (CA210.Status() == false)
                         {
-                            MessageBox.Show("Minolta is not connected!\r\nPlease restart the Woodpecker to reload the device.", "Connection Error");
+                            MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
                             pictureBox_Minolta.Image = Properties.Resources.OFF;
                         }
                         else
