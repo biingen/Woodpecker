@@ -12,9 +12,98 @@ using System.Windows.Forms;
 
 namespace OPTT
 {
+    /// <summary>
+    /// 動態載入DLL
+    /// </summary>
+    public class DynamicLoadDll
+    {
+        /// <summary>
+        /// 根據非託管庫的控制代碼，函式名稱和指定委託型別，返回委託
+        /// </summary>
+        /// <param name="dllModule"></param>
+        /// <param name="functionName"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private static Delegate GetFunctionAddress(int dllModule, string functionName, Type t)
+        {
+            int address = Kernel32Helper.GetProcAddress(dllModule, functionName); //得到地址
+            if (address == 0)
+                return null;
+            else
+                return Marshal.GetDelegateForFunctionPointer(new IntPtr(address), t);//將非託管函式指標轉換為委託。
+        }
+        /// <summary>
+        /// 根據dll的路徑，dll中的方法名，動態呼叫非託管dll的方法
+        /// </summary>
+        /// <param name="dllPath">dll的路徑</param>
+        /// <param name="functionName">要呼叫的dll的方法名稱</param>
+        /// <param name="delegateType">要將對應非託管dll中的方法名對映為C#的簽名一致的委託型別</param>
+        /// <param name="msg">執行過程中的錯誤資訊</param>
+        /// <param name="par">執行方法的引數</param>
+        /// <returns></returns>
+        public static object DynamicInvoke(string dllPath, string functionName, Type delegateType, out string msg, params object[] par)
+        {
+            msg = "";
+            int address = 0;
+            try
+            {
+                address = Kernel32Helper.LoadLibrary(dllPath);
+                if (address == 0)
+                {
+                    msg = "載入dll失敗，dll路徑：" + dllPath;
+                    return null;
+                }
+                Delegate d1 = GetFunctionAddress(address, functionName, delegateType);
+                if (d1 == null)
+                {
+                    msg = "獲取函式名稱失敗，函式名稱：" + functionName;
+                    return null;
+                }
+                object result = d1.DynamicInvoke(par);
+                Kernel32Helper.FreeLibrary(address);
+                return result;
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return null;
+            }
+        }
+    }
+
+    public class Kernel32Helper
+    {
+        /// <summary>
+        /// API LoadLibrary
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int LoadLibrary(string funcName);
+
+        /// <summary>
+        /// API GetProcAddress
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int GetProcAddress(int handle, string funcName);
+
+        /// <summary>
+        /// API FreeLibrary
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int FreeLibrary(int handle);
+    }
+
     class Add_ons
     {
         string MonkeyTestPath = Application.StartupPath + "\\Monkey_Test.ini";
+
+        public delegate int DllRegisterHandler();
+        public delegate int DllUnregisterHandler();
+
+        static string[] GetFiles(string pattern)
+        {
+            string dir = AppDomain.CurrentDomain.BaseDirectory;
+            return System.IO.Directory.GetFiles(dir, pattern, System.IO.SearchOption.TopDirectoryOnly);
+        }
 
         #region MonketTest指令
         public void MonkeyTest()
@@ -110,15 +199,6 @@ namespace OPTT
                 Console.WriteLine(item.Value);
             }
         }
-
-        [DllImport(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""")]
-        public static extern int DllRegisterServer_CA310();//註冊時用
-        [DllImport(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""")]
-        public static extern int DllUnregisterServer_CA310();//取消註冊時用
-        [DllImport(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""")]
-        public static extern int DllRegisterServer_CA410();//註冊時用
-        [DllImport(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""")]
-        public static extern int DllUnregisterServer_CA410();//取消註冊時用
 
         #region -- 產生Monkey Test Excel報告 --
         public void CreateExcelFile()
@@ -443,9 +523,28 @@ namespace OPTT
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
-                        //DllRegisterServer_CA310();
-                        runCmd(@"""C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK\CA200Srvr.dll""");
+                        string msg = "";
+                        string dllFunction = "DllRegisterServer";
+                        string[] dllPathList = System.IO.Directory.GetFiles(@"C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK", "CA200Srvr.dll", System.IO.SearchOption.TopDirectoryOnly);
+                        if (dllPathList != null && dllPathList.Length > 0)
+                        {
+                            foreach (var dllPath in dllPathList)
+                            {
+
+                                object o = DynamicLoadDll.DynamicInvoke(dllPath, dllFunction, typeof(DllRegisterHandler), out msg);
+                                if (o != null && (int)o >= 0)
+                                {
+                                    Console.WriteLine(dllPath + "註冊成功！");
+                                    ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(dllPath + "註冊失敗" + msg);
+                                }
+                            }
+                        }
+
+                        Console.Read();
                     }
                     #endregion
 
@@ -462,9 +561,29 @@ namespace OPTT
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
-                        //DllRegisterServer_CA410();
-                        runCmd(@"""C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib\CA200Srvr.dll""");
+                        string msg = "";
+                        string dllFunction = "DllRegisterServer";
+                        string[] dllPathList = System.IO.Directory.GetFiles(@"C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib", "CA200Srvr.dll", System.IO.SearchOption.TopDirectoryOnly);
+                        if (dllPathList != null && dllPathList.Length > 0)
+                        {
+                            foreach (var dllPath in dllPathList)
+                            {
+
+                                object o = DynamicLoadDll.DynamicInvoke(dllPath, dllFunction, typeof(DllRegisterHandler), out msg);
+                                if (o != null && (int)o >= 0)
+                                {
+                                    Console.WriteLine(dllPath + "註冊成功！");
+                                    ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(dllPath + "註冊失敗" + msg);
+                                }
+                            }
+                        }
+
+                        Console.Read();
+
                     }
                     #endregion
 
@@ -505,21 +624,6 @@ namespace OPTT
             }
         }
         #endregion
-
-        private void runCmd(string cmd)
-        {
-            using (Process myProcess = new Process())
-            {
-                //cmd = cmd.Trim().TrimEnd() + "&exit";//說明：不管命令是否成功均執行exit命令，否則當調用ReadToEnd()方法時，會處於假死狀態
-                myProcess.StartInfo.FileName = "Regsvr32.exe";
-                myProcess.StartInfo.Arguments = cmd;//路徑中不能有空格
-                myProcess.StartInfo.UseShellExecute = false;
-                myProcess.Start();
-                myProcess.WaitForExit();//等待程序執行完退出進程
-                myProcess.Close();
-            }
-
-        }
 
         public void SaveSXPReport()
         {
