@@ -16,7 +16,7 @@ namespace OPTT
         private CA200SRVRLib.Probe objProbe;
         private CA200SRVRLib.Memory objMemory;
         private CA200SRVRLib.IProbeInfo objProbeInfo;
-        private uint isMsr;
+        private uint isMsr = 0;
 
         public bool Status()
         {
