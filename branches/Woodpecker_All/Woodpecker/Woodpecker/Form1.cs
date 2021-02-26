@@ -12393,50 +12393,66 @@ namespace Woodpecker
             {
                 String modified0 = "";
                 aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value, delay_time);
-                if (Convert.ToString(GPIO_input_value, 2).Length == 7)
+                if (aGpio)
                 {
-                    modified0 = "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 6)
-                {
-                    modified0 = "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 5)
-                {
-                    modified0 = "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 4)
-                {
-                    modified0 = "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 3)
-                {
-                    modified0 = "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 2)
-                {
-                    modified0 = "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                }
-                else if (Convert.ToString(GPIO_input_value, 2).Length == 1)
-                {
-                    modified0 = "0" + "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    if (Convert.ToString(GPIO_input_value, 2).Length == 7)
+                    {
+                        modified0 = "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 6)
+                    {
+                        modified0 = "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 5)
+                    {
+                        modified0 = "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 4)
+                    {
+                        modified0 = "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 3)
+                    {
+                        modified0 = "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 2)
+                    {
+                        modified0 = "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else if (Convert.ToString(GPIO_input_value, 2).Length == 1)
+                    {
+                        modified0 = "0" + "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
+                    }
+                    else
+                    {
+                        modified0 = Convert.ToString(GPIO_input_value, 2);
+                    }
+
+                    string modified1 = modified0.Insert(1, ",");
+                    string modified2 = modified1.Insert(3, ",");
+                    string modified3 = modified2.Insert(5, ",");
+                    string modified4 = modified3.Insert(7, ",");
+                    string modified5 = modified4.Insert(9, ",");
+                    string modified6 = modified5.Insert(11, ",");
+                    string modified7 = modified6.Insert(13, ",");
+
+                    GlobalData.Arduino_IO_INPUT = modified7;
                 }
                 else
                 {
-                    modified0 = Convert.ToString(GPIO_input_value, 2);
+                    GlobalData.Arduino_IO_INPUT = "";
                 }
-
-                string modified1 = modified0.Insert(1, ",");
-                string modified2 = modified1.Insert(3, ",");
-                string modified3 = modified2.Insert(5, ",");
-                string modified4 = modified3.Insert(7, ",");
-                string modified5 = modified4.Insert(9, ",");
-                string modified6 = modified5.Insert(11, ",");
-                string modified7 = modified6.Insert(13, ",");
-
-                GlobalData.Arduino_IO_INPUT = modified7;
             }
             while ((aGpio == false) && (--retry_cnt > 0));
+
+            if (aGpio)
+            {
+                labelGPIO_Input.Text = "Auduino_GPIO_input: " + GPIO_input_value.ToString();
+            }
+            else
+            {
+                labelGPIO_Input.Text = "Auduino_GPIO_input fail after retry";
+            }
 
             string dataValue = "Arduino_GPIO_INPUT=" + GlobalData.Arduino_IO_INPUT;
             if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
@@ -12467,7 +12483,7 @@ namespace Woodpecker
                         Thread.Sleep(300);
                         if (serial_receive == false && retry_cnt == 0)
                         {
-                            MessageBox.Show("Arduino_IO_INPUT_ERROR, Please replug the Arduino board.", "Error");
+                            MessageBox.Show("Arduino response input timeout and please replug the Arduino board.", "Connection Error");
                             aGpio = false;
                         }
                         else if (serial_receive)
@@ -12485,6 +12501,8 @@ namespace Woodpecker
 
                 }
             }
+            else
+                MessageBox.Show("Auduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
 
             return aGpio;
         }
@@ -12507,7 +12525,7 @@ namespace Woodpecker
                         Thread.Sleep(300);
                         if (serial_receive == false && retry_cnt == 0)
                         {
-                            MessageBox.Show("Arduino_IO_OUTPUT_ERROR, Please replug the Arduino board.", "Error");
+                            MessageBox.Show("Arduino response output timeout and please replug the Arduino board.", "Connection Error");
                             aGpio = false;
                         }
                         else if (serial_receive)
@@ -12529,6 +12547,9 @@ namespace Woodpecker
 
                 }
             }
+            else
+                MessageBox.Show("Auduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+
             return aGpio;
         }
         #endregion
