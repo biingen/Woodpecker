@@ -12440,18 +12440,18 @@ namespace Woodpecker
                 }
                 else
                 {
-                    GlobalData.Arduino_IO_INPUT = "";
+                    GlobalData.Arduino_IO_INPUT = "2,2,2,2,2,2,2,2";
                 }
             }
             while ((aGpio == false) && (--retry_cnt > 0));
 
             if (aGpio)
             {
-                labelGPIO_Input.Text = "Auduino_GPIO_input: " + GPIO_input_value.ToString();
+                labelGPIO_Input.Text = "Arduino_GPIO_input: " + GPIO_input_value.ToString();
             }
             else
             {
-                labelGPIO_Input.Text = "Auduino_GPIO_input fail after retry";
+                labelGPIO_Input.Text = "Arduino_GPIO_input fail after retry";
             }
 
             string dataValue = "Arduino_GPIO_INPUT=" + GlobalData.Arduino_IO_INPUT;
@@ -12502,7 +12502,10 @@ namespace Woodpecker
                 }
             }
             else
-                MessageBox.Show("Auduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+            {
+                MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+                button_Pause.PerformClick();
+            }
 
             return aGpio;
         }
@@ -12548,8 +12551,11 @@ namespace Woodpecker
                 }
             }
             else
-                MessageBox.Show("Auduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
-
+            {
+                MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+                button_Pause.PerformClick();
+            }
+            
             return aGpio;
         }
         #endregion

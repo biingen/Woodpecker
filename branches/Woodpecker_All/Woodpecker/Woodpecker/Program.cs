@@ -134,8 +134,8 @@ namespace Woodpecker
         public static bool FormMail = true;
         public static bool FormLog = true;
         public static string RCDB = "";
-        public static string IO_INPUT = "";
-        public static string Arduino_IO_INPUT = "";
+        public static string IO_INPUT = "2,2,2,2,2,2";
+        public static string Arduino_IO_INPUT = "2,2,2,2,2,2,2,2";
         public static int IO_PA10_0_COUNT = 0;
         public static int IO_PA10_1_COUNT = 0;
         public static int IO_PA11_0_COUNT = 0;
