@@ -12503,8 +12503,11 @@ namespace Woodpecker
             }
             else
             {
-                MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
-                button_Pause.PerformClick();
+                if (StartButtonPressed == true)
+                {
+                    MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+                    button_Start.PerformClick();
+                }
             }
 
             return aGpio;
@@ -12552,8 +12555,11 @@ namespace Woodpecker
             }
             else
             {
-                MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
-                button_Pause.PerformClick();
+                if (StartButtonPressed == true)
+                {
+                    MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+                    button_Start.PerformClick();
+                }
             }
             
             return aGpio;
