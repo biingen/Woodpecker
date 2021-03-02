@@ -125,7 +125,7 @@ namespace OPTT
                     string log = objProbe.sx.ToString("0.000000") + "," + objProbe.sy.ToString("0.000000") + "," +
                                  objProbe.Lv.ToString("##0.0000") + "," + objProbe.T.ToString("####") + "," +
                                  objProbe.duv.ToString("0.000000") + "," + DisplayMode + "," +
-                                 objProbe.X.ToString("##0.00") + "," + objProbe.Y.ToString("##0.00") + "," + objProbe.Z.ToString("##0.00") + "," +
+                                 objProbe.X.ToString("##0.0000") + "," + objProbe.Y.ToString("##0.0000") + "," + objProbe.Z.ToString("##0.0000") + "," +
                                  dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
                                  measure_remark + "," + i + "," + measure_times + "," +
                                  GlobalData.Measure_Backlight + "," + GlobalData.Measure_Thermal + "," + "\r\n";

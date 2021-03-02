@@ -8693,11 +8693,11 @@ namespace OPTT
             FormTabControl FormTabControl = new FormTabControl();
             GlobalData.RCDB = ini12.INIRead(MainSettingPath, "RedRat", "Brands", "");
 
-            if (CA210.Status() == true)
-            {
-                CA210.DisConnect();
-                pictureBox_Minolta.Image = Properties.Resources.OFF;
-            }
+            //if (CA210.Status() == true)
+            //{
+            //    CA210.DisConnect();
+            //    pictureBox_Minolta.Image = Properties.Resources.OFF;
+            //}
 
             //關閉SETTING以後會讀這段>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
             if (FormTabControl.ShowDialog() == DialogResult.OK)
@@ -8778,24 +8778,22 @@ namespace OPTT
                     button_Camera.Enabled = false;
                 }
 
-                if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
-                {
-                    if (CA210.Status() == false)
-                    {
-                        CA210.Connect();
-                        if (CA210.Status() == false)
-                        {
-                            MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
-                            pictureBox_Minolta.Image = Properties.Resources.OFF;
-                        }
-                        else
-                            pictureBox_Minolta.Image = Properties.Resources.ON;
-                    }
-                }
-                else
-                {
-                    pictureBox_Minolta.Image = Properties.Resources.OFF;
-                }
+                //if (ini12.INIRead(MainSettingPath, "Device", "CA310Exist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CA410Exist", "") == "1")
+                //{
+                //    if (CA210.Status() == false)
+                //    {
+                //        CA210.Connect();
+                //        if (CA210.Status() == false)
+                //        {
+                //            MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
+                //            pictureBox_Minolta.Image = Properties.Resources.OFF;
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    pictureBox_Minolta.Image = Properties.Resources.OFF;
+                //}
 
                 /* Hidden serial port.
                 button_SerialPort1.Visible = ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" ? true : false;
