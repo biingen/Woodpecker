@@ -7436,10 +7436,13 @@ namespace OPTT
                 //CloseSerialPort("kline");
                 MySerialPort.ClosePort();
             }
-            if (Can_Usb2C.Connect() == 1)
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
             {
-                Can_Usb2C.StopCAN();
-                Can_Usb2C.Disconnect();
+                if (Can_Usb2C.Connect() == 1)
+                {
+                    Can_Usb2C.StopCAN();
+                    Can_Usb2C.Disconnect();
+                }
             }
 
             timeCount = GlobalData.Schedule_1_TestTime;
@@ -8321,10 +8324,13 @@ namespace OPTT
                     timer_countdown.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
-                    can_send = 0;
-                    set_timer_rate = false;
-                    can_rate.Clear();
-                    can_data.Clear();
+                    if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                    {
+                        can_send = 0;
+                        set_timer_rate = false;
+                        can_rate.Clear();
+                        can_data.Clear();
+                    }
                     Serialportsave("Debug");
 
                     if (GlobalData.portConfigGroup_A.checkedValue)
@@ -8528,10 +8534,13 @@ namespace OPTT
                     CloseDtplay();
                     duringTimer.Enabled = false;
 
-                    can_send = 0;
-                    set_timer_rate = false;
-                    can_rate.Clear();
-                    can_data.Clear();
+                    if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                    {
+                        can_send = 0;
+                        set_timer_rate = false;
+                        can_rate.Clear();
+                        can_data.Clear();
+                    }
                     Serialportsave("Debug");
 
                     if (GlobalData.portConfigGroup_A.checkedValue)

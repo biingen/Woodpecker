@@ -9630,10 +9630,13 @@ namespace Woodpecker
             {
                 CloseSerialPort("kline");
             }
-            if (Can_Usb2C.Connect() == 1)
+            if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1")
             {
-                Can_Usb2C.StopCAN();
-                Can_Usb2C.Disconnect();
+                if (Can_Usb2C.Connect() == 1)
+                {
+                    Can_Usb2C.StopCAN();
+                    Can_Usb2C.Disconnect();
+                }
             }
 
             timeCount = GlobalData.Schedule_1_TestTime;
