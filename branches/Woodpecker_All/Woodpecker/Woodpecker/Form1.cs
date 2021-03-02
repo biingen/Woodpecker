@@ -10856,10 +10856,13 @@ namespace Woodpecker
                     timer_countdown.Stop();//停止倒數//
                     CloseDtplay();//關閉DtPlay//
                     duringTimer.Enabled = false;
-                    can_send = 0;
-                    set_timer_rate = false;
-                    can_rate.Clear();
-                    can_data.Clear();
+                    if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                    {
+                        can_send = 0;
+                        set_timer_rate = false;
+                        can_rate.Clear();
+                        can_data.Clear();
+                    }
                     Serialportsave("Debug");
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
@@ -11027,11 +11030,13 @@ namespace Woodpecker
                     timer_countdown.Stop();  //停止倒數
                     CloseDtplay();
                     duringTimer.Enabled = false;
-
-                    can_send = 0;
-                    set_timer_rate = false;
-                    can_rate.Clear();
-                    can_data.Clear();
+                    if (ini12.INIRead(MainSettingPath, "Device", "UsbCANExist", "") == "1" || ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
+                    {
+                        can_send = 0;
+                        set_timer_rate = false;
+                        can_rate.Clear();
+                        can_data.Clear();
+                    }
                     Serialportsave("Debug");
 
                     if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1")
