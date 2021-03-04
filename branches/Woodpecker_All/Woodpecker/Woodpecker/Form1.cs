@@ -8461,7 +8461,7 @@ namespace Woodpecker
                         }
                         #endregion
 
-                        #region -- IO CMD --
+                        #region -- Arduino IO CMD --
                         else if (columns_command == "_Arduino_Pin" && columns_comport.Length >= 6 && columns_comport.Substring(0, 3) == "_P0")
                         {
                             {
@@ -8486,7 +8486,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0xFF) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x80) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8524,7 +8524,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x7F) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x40) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8562,7 +8562,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x3F) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x20) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8600,7 +8600,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x1F) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x10) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8638,7 +8638,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x0F) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x08) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8676,7 +8676,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x07) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x04) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8714,7 +8714,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x03) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x02) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8752,7 +8752,7 @@ namespace Woodpecker
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
-                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x01) == 0x01)
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x01) != 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
