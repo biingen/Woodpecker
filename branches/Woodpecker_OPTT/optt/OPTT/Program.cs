@@ -189,8 +189,8 @@ namespace OPTT
         public static Mod_RS232 m_SerialPort_E = new Mod_RS232();
 
         public static string logAllText;
-        public static string Measure_Backlight;
-        public static string Measure_Thermal;
+        public static string Measure_Backlight = "None";
+        public static string Measure_Thermal = "None";
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 
         /*public static GlobalData()

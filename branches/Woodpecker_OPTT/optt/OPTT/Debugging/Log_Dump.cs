@@ -697,6 +697,30 @@ namespace OPTT
             return ret_value;
         }
 
+        public string GetDUTSensor(string measure_remark = "")
+        {
+            string log_content = "";
+            int i = 1, measure_times = 1;
+            try
+            {
+                DateTime dt = DateTime.Now;
+                string DisplayMode = "None";
+                string log = "None" + "," + "None" + "," +
+                             "None" + "," + "None" + "," +
+                             "None" + "," + DisplayMode + "," +
+                             "None" + "," + "None" + "," + "None" + "," +
+                             dt.ToString("yyyy/MM/dd") + "," + dt.ToString("HH:mm:ss") + "," +
+                             measure_remark + "," + i + "," + measure_times + "," +
+                             GlobalData.Measure_Backlight + "," + GlobalData.Measure_Thermal + "," + "\r\n";
+                log_content = string.Concat(log_content, log);
+            }
+            catch (Exception)
+            {
+                log_content = "";
+            }
+            return log_content;
+        }
+
         private string raw_data(List<byte> data)
         {
             string HexString = "";

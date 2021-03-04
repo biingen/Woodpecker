@@ -5883,59 +5883,72 @@ namespace OPTT
                         #region -- Minolta --
                         else if (columns_command == "_OPM")
                         {
-                            if (CA210.Status() == true)
+                            if (columns_comport == "None")
                             {
-                                if (columns_function == "Measure")
+                                if (columns_function == "GetDUTSensor")
                                 {
-                                    int mtimes = 0, mRepeat = 0;
+                                    debug_process("DUT sensor control: DUT sensor start");
                                     string dataValue = "";
-                                    debug_process("CA210 control: Measure start");
-                                    if (columns_times != "" && int.TryParse(columns_times, out mtimes) == true && columns_interval != "" && int.TryParse(columns_interval, out mRepeat) == true)
-                                    {
-                                        mtimes = int.Parse(columns_times); // 量測次數
-                                        mRepeat = int.Parse(columns_interval); // 量測時間
-                                        dataValue = CA210.Measure_Multi(mtimes, mRepeat, columns_remark);
-                                    }
-                                    else
-                                        dataValue = CA210.Measure_Once(columns_remark);
+                                    dataValue = rk2797.GetDUTSensor(columns_remark);
 
                                     logDumpping.LogCat(ref minolta_csv_report, dataValue);
                                     logDumpping.LogCat(ref minolta_text, dataValue);
                                     logDumpping.LogCat(ref logAll_text, dataValue);
-                                    debug_process("CA210 control: Measure stop");
+                                    debug_process("DUT sensor control: DUT sensor end");
                                 }
-                                else if (columns_function == "DisplayMode")
-                                {
-                                    debug_process("CA210 control: DisplayMode start");
-                                    if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
-                                        stime = int.Parse(columns_times); // 模式切換
-                                    else
-                                        stime = 0;
-
-                                    CA210.DisplayMode(stime);
-                                    debug_process("CA210 control: DisplayMode end");
-                                }
-                                else if (columns_function == "CalZero")
-                                {
-                                    debug_process("CA210 control: Zero-calibrates the device start");
-                                    CA210.CalZero();
-                                    debug_process("CA210 control: Zero-calibrates the device end");
-                                }
-                            }
-                            else if (CA210.Status() == false)
-                            {
-                                MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
-                            }
-
-                            if (columns_serial != "")
-                            {
-                                if (columns_serial == "_save")
+                                else if (columns_serial == "_save")
                                 {
                                     saveCA210csv(columns_remark); //存檔ca210
                                 }
                                 else if (columns_serial == "_clear")
                                 {
                                     minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+                                }
+                            }
+                            else
+                            {
+                                if (CA210.Status() == true)
+                                {
+                                    if (columns_function == "Measure")
+                                    {
+                                        int mtimes = 0, mRepeat = 0;
+                                        string dataValue = "";
+                                        debug_process("CA210 control: Measure start");
+                                        if (columns_times != "" && int.TryParse(columns_times, out mtimes) == true && columns_interval != "" && int.TryParse(columns_interval, out mRepeat) == true)
+                                        {
+                                            mtimes = int.Parse(columns_times); // 量測次數
+                                            mRepeat = int.Parse(columns_interval); // 量測時間
+                                            dataValue = CA210.Measure_Multi(mtimes, mRepeat, columns_remark);
+                                        }
+                                        else
+                                            dataValue = CA210.Measure_Once(columns_remark);
+
+                                        logDumpping.LogCat(ref minolta_csv_report, dataValue);
+                                        logDumpping.LogCat(ref minolta_text, dataValue);
+                                        logDumpping.LogCat(ref logAll_text, dataValue);
+                                        debug_process("CA210 control: Measure stop");
+                                    }
+                                    else if (columns_function == "DisplayMode")
+                                    {
+                                        debug_process("CA210 control: DisplayMode start");
+                                        if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
+                                            stime = int.Parse(columns_times); // 模式切換
+                                        else
+                                            stime = 0;
+
+                                        CA210.DisplayMode(stime);
+                                        debug_process("CA210 control: DisplayMode end");
+                                    }
+                                    else if (columns_function == "CalZero")
+                                    {
+                                        debug_process("CA210 control: Zero-calibrates the device start");
+                                        CA210.CalZero();
+                                        debug_process("CA210 control: Zero-calibrates the device end");
+                                    }
+                                }
+                                else if (CA210.Status() == false)
+                                {
+                                    MessageBox.Show("Minolta is not connected!\r\nPlease restart the OPTT to reload the device.", "Connection Error");
                                 }
                             }
                         }
@@ -8415,8 +8428,7 @@ namespace OPTT
                     }
                     */
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (CA210.Status() == true)
-                        createCA210folder();
+                    createCA210folder();
                     ini12.INIWrite(MainSettingPath, "LogSearch", "StartTime", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"));
                     MainThread.Start();       // 啟動執行緒
                     timer_countdown.Start();     //開始倒數
@@ -8610,8 +8622,7 @@ namespace OPTT
                 else     //按下START//
                 {
                     GlobalData.Break_Out_MyRunCamd = 0;
-                    if (CA210.Status() == true)
-                        createCA210folder();
+                    createCA210folder();
                     MainThread.Start();// 啟動執行緒
                     timer_countdown.Start();     //開始倒數
                     StartButtonPressed = true;
