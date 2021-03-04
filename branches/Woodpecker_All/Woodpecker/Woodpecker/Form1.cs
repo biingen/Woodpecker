@@ -8471,7 +8471,8 @@ namespace Woodpecker
                                     case "2":
                                         debug_process("Arduino IO CMD: P02");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(14, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0xFF) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8484,7 +8485,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(14, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0xFF) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8507,7 +8509,8 @@ namespace Woodpecker
                                     case "3":
                                         debug_process("Arduino IO CMD: P03");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(12, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x7F) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8520,7 +8523,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(12, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x7F) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8543,7 +8547,8 @@ namespace Woodpecker
                                     case "4":
                                         debug_process("Arduino IO CMD: P04");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(10, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x3F) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8556,7 +8561,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(10, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x3F) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8579,7 +8585,8 @@ namespace Woodpecker
                                     case "5":
                                         debug_process("Arduino IO CMD: P05");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(8, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x1F) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8592,7 +8599,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(8, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x1F) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8615,7 +8623,8 @@ namespace Woodpecker
                                     case "6":
                                         debug_process("Arduino IO CMD: P06");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(6, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x0F) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8628,7 +8637,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(6, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x0F) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8651,7 +8661,8 @@ namespace Woodpecker
                                     case "7":
                                         debug_process("Arduino IO CMD: P07");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(4, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x07) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8664,7 +8675,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(4, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x07) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8687,7 +8699,8 @@ namespace Woodpecker
                                     case "8":
                                         debug_process("Arduino IO CMD: P08");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(2, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x03) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8700,7 +8713,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(2, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x03) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8723,7 +8737,8 @@ namespace Woodpecker
                                     case "9":
                                         debug_process("Arduino IO CMD: P09");
                                         if (columns_comport.Substring(5, 1) == "0" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(0, 1) == "0")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x01) == 0x00)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -8736,7 +8751,8 @@ namespace Woodpecker
                                             }
                                         }
                                         else if (columns_comport.Substring(5, 1) == "1" &&
-                                            GlobalData.Arduino_IO_INPUT.Substring(0, 1) == "1")
+                                            GlobalData.Arduino_IO_INPUT_value < 0x100 &&
+                                            Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x01) == 0x01)
                                         {
                                             if (columns_serial == "_accumulate")
                                             {
@@ -9271,7 +9287,7 @@ namespace Woodpecker
                                     "PA14_0,PA14_1," +
                                     "PA15_0,PA15_1," +
                                     "PB1_0,PB1_1," +
-                                    "PB7_0,PB7_1" +
+                                    "PB7_0,PB7_1," +
                                     Environment.NewLine);
 
                                 File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
@@ -9313,27 +9329,27 @@ namespace Woodpecker
 
                                 File.AppendAllText(Application.StartupPath + @"\Arduino_StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.Arduino_IO_INPUT +
-                                "," + GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT +
-                                "," + GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT +
-                                "," + GlobalData.IO_Arduino7_0_COUNT + "," + GlobalData.IO_Arduino7_1_COUNT +
-                                "," + GlobalData.IO_Arduino6_0_COUNT + "," + GlobalData.IO_Arduino6_1_COUNT +
-                                "," + GlobalData.IO_Arduino5_0_COUNT + "," + GlobalData.IO_Arduino5_1_COUNT +
-                                "," + GlobalData.IO_Arduino4_0_COUNT + "," + GlobalData.IO_Arduino4_1_COUNT +
-                                "," + GlobalData.IO_Arduino3_0_COUNT + "," + GlobalData.IO_Arduino3_1_COUNT +
-                                "," + GlobalData.IO_Arduino2_0_COUNT + "," + GlobalData.IO_Arduino2_1_COUNT + Environment.NewLine);
+                                GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT + "," +
+                                GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT + "," +
+                                GlobalData.IO_Arduino7_0_COUNT + "," + GlobalData.IO_Arduino7_1_COUNT + "," +
+                                GlobalData.IO_Arduino6_0_COUNT + "," + GlobalData.IO_Arduino6_1_COUNT + "," +
+                                GlobalData.IO_Arduino5_0_COUNT + "," + GlobalData.IO_Arduino5_1_COUNT + "," +
+                                GlobalData.IO_Arduino4_0_COUNT + "," + GlobalData.IO_Arduino4_1_COUNT + "," +
+                                GlobalData.IO_Arduino3_0_COUNT + "," + GlobalData.IO_Arduino3_1_COUNT + "," +
+                                GlobalData.IO_Arduino2_0_COUNT + "," + GlobalData.IO_Arduino2_1_COUNT + "," + Environment.NewLine);
                             }
                             else
                             {
                                 File.AppendAllText(Application.StartupPath + @"\Arduino_StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.Arduino_IO_INPUT +
-                                "," + GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT +
-                                "," + GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT +
-                                "," + GlobalData.IO_Arduino7_0_COUNT + "," + GlobalData.IO_Arduino7_1_COUNT +
-                                "," + GlobalData.IO_Arduino6_0_COUNT + "," + GlobalData.IO_Arduino6_1_COUNT +
-                                "," + GlobalData.IO_Arduino5_0_COUNT + "," + GlobalData.IO_Arduino5_1_COUNT +
-                                "," + GlobalData.IO_Arduino4_0_COUNT + "," + GlobalData.IO_Arduino4_1_COUNT +
-                                "," + GlobalData.IO_Arduino3_0_COUNT + "," + GlobalData.IO_Arduino3_1_COUNT +
-                                "," + GlobalData.IO_Arduino2_0_COUNT + "," + GlobalData.IO_Arduino2_1_COUNT + Environment.NewLine);
+                                GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT + "," +
+                                GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT + "," +
+                                GlobalData.IO_Arduino7_0_COUNT + "," + GlobalData.IO_Arduino7_1_COUNT + "," +
+                                GlobalData.IO_Arduino6_0_COUNT + "," + GlobalData.IO_Arduino6_1_COUNT + "," +
+                                GlobalData.IO_Arduino5_0_COUNT + "," + GlobalData.IO_Arduino5_1_COUNT + "," +
+                                GlobalData.IO_Arduino4_0_COUNT + "," + GlobalData.IO_Arduino4_1_COUNT + "," +
+                                GlobalData.IO_Arduino3_0_COUNT + "," + GlobalData.IO_Arduino3_1_COUNT + "," +
+                                GlobalData.IO_Arduino2_0_COUNT + "," + GlobalData.IO_Arduino2_1_COUNT + "," + Environment.NewLine);
                             }
                             debug_process("Arduino IO Input Footprint Mode Stop");
                         }
@@ -12394,64 +12410,32 @@ namespace Woodpecker
 
         private void Arduino_IO_INPUT(int delay_time = 1000)
         {
-            UInt32 GPIO_input_value, retry_cnt;
+            UInt32 GPIO_input_value;
             bool aGpio = false;
-            retry_cnt = 3;
-            do
+            String binary_value = "";
+            String binary_dot_value = "";
+            aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value, delay_time);
+            if (aGpio)
             {
-                String modified0 = "";
-                aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value, delay_time);
-                if (aGpio)
+                if (GPIO_input_value < 0x100)
                 {
-                    if (Convert.ToString(GPIO_input_value, 2).Length == 7)
-                    {
-                        modified0 = "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 6)
-                    {
-                        modified0 = "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 5)
-                    {
-                        modified0 = "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 4)
-                    {
-                        modified0 = "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 3)
-                    {
-                        modified0 = "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 2)
-                    {
-                        modified0 = "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else if (Convert.ToString(GPIO_input_value, 2).Length == 1)
-                    {
-                        modified0 = "0" + "0" + "0" + "0" + "0" + "0" + "0" + Convert.ToString(GPIO_input_value, 2);
-                    }
-                    else
-                    {
-                        modified0 = Convert.ToString(GPIO_input_value, 2);
-                    }
-
-                    string modified1 = modified0.Insert(1, ",");
-                    string modified2 = modified1.Insert(3, ",");
-                    string modified3 = modified2.Insert(5, ",");
-                    string modified4 = modified3.Insert(7, ",");
-                    string modified5 = modified4.Insert(9, ",");
-                    string modified6 = modified5.Insert(11, ",");
-                    string modified7 = modified6.Insert(13, ",");
-
-                    GlobalData.Arduino_IO_INPUT = modified7;
+                    binary_value = Convert.ToString(GPIO_input_value, 2).PadLeft(8, '0');
+                    for (int i = 0; i < binary_value.Length; i++)
+                        binary_dot_value = binary_dot_value + binary_value.Substring(i, 1) + ",";
                 }
                 else
                 {
-                    GlobalData.Arduino_IO_INPUT = "2,2,2,2,2,2,2,2";
+                    binary_value = "100000000";
+                    binary_dot_value = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
                 }
+                GlobalData.Arduino_IO_INPUT = binary_dot_value;
+                GlobalData.Arduino_IO_INPUT_value = GPIO_input_value;
             }
-            while ((aGpio == false) && (--retry_cnt > 0));
+            else
+            {
+                GlobalData.Arduino_IO_INPUT = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
+                GlobalData.Arduino_IO_INPUT_value = 0x100;
+            }
 
             if (aGpio)
             {
@@ -12462,7 +12446,7 @@ namespace Woodpecker
                 labelGPIO_Input.Text = "Arduino_GPIO_input fail after retry";
             }
 
-            string dataValue = "Arduino_GPIO_INPUT=" + GlobalData.Arduino_IO_INPUT;
+            string dataValue = "Arduino_GPIO_INPUT=" + GlobalData.Arduino_IO_INPUT_value;
             if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
             {
                 DateTime dt = DateTime.Now;
