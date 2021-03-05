@@ -5945,6 +5945,15 @@ namespace OPTT
                                         CA210.CalZero();
                                         debug_process("CA210 control: Zero-calibrates the device end");
                                     }
+
+                                    if (columns_serial == "_save")
+                                    {
+                                        saveCA210csv(columns_remark); //存檔ca210
+                                    }
+                                    else if (columns_serial == "_clear")
+                                    {
+                                        minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";
+                                    }
                                 }
                                 else if (CA210.Status() == false)
                                 {
