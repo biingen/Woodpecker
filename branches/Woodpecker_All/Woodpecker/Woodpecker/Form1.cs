@@ -7837,6 +7837,16 @@ namespace Woodpecker
                             Arduino_Set_GPIO_Output(GPIO_B, SysDelay);
                             label_Command.Text = "(" + columns_command + ") " + columns_times;
                         }
+
+                        else if (columns_command == "_Arduino_Command")
+                        {
+                            debug_process("GPIO control: _Arduino_Command");
+                            if (columns_serial != "")
+                                Arduino_Set_Value(columns_serial, SysDelay);
+                            else
+                                MessageBox.Show("Please check the Arduino command.", "Arduino command Error!");
+                            label_Command.Text = "(" + columns_command + ") " + columns_serial;
+                        }
                         #endregion
 
                         #region -- Extend_GPIO_OUTPUT --
@@ -10630,6 +10640,7 @@ namespace Woodpecker
             RCDB.Items.Add("_Arduino_Output");
             RCDB.Items.Add("_Arduino_Input");
             RCDB.Items.Add("_Arduino_Pin");
+            RCDB.Items.Add("_Arduino_Command");
             if (ini12.INIRead(MainSettingPath, "Device", "Software", "") == "All")
             {
                 RCDB.Items.Add("_audio_debounce");
@@ -12427,6 +12438,7 @@ namespace Woodpecker
                 {
                     binary_value = "100000000";
                     binary_dot_value = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
+                    MessageBox.Show("Please check the Arduino-PIN status.", "Arduino-PIN Error!");
                 }
                 GlobalData.Arduino_IO_INPUT = binary_dot_value;
                 GlobalData.Arduino_IO_INPUT_value = GPIO_input_value;
@@ -12435,6 +12447,7 @@ namespace Woodpecker
             {
                 GlobalData.Arduino_IO_INPUT = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
                 GlobalData.Arduino_IO_INPUT_value = 0x100;
+                MessageBox.Show("Please check the Arduino-PIN status.", "Arduino-PIN Error!");
             }
 
             if (aGpio)
@@ -12554,6 +12567,58 @@ namespace Woodpecker
                 }
             }
             
+            return aGpio;
+        }
+
+        public bool Arduino_Set_Value(string input_value, int delay_time)
+        {
+            bool aGpio = false;
+            uint retry_cnt = 5;
+
+            if (serialPort_Arduino.IsOpen)
+            {
+                try
+                {
+                    string dataValue = input_value;
+                    serial_receive = false;
+                    do
+                    {
+                        serialPort_Arduino.WriteLine(dataValue);
+                        retry_cnt--;
+                        Thread.Sleep(300);
+                        if (serial_receive == false && retry_cnt == 0)
+                        {
+                            MessageBox.Show("Arduino response output timeout and please replug the Arduino board.", "Connection Error");
+                            aGpio = false;
+                        }
+                        else if (serial_receive)
+                        {
+                            if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
+                            {
+                                DateTime dt = DateTime.Now;
+                                dataValue = "[Send_Port_Arduino_Command] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
+                            }
+                            log_process("Arduino", dataValue);
+                            log_process("All", dataValue);
+                            aGpio = true;
+                        }
+                    }
+                    while (serial_receive == false && retry_cnt > 0);
+                }
+                catch (System.FormatException)
+                {
+
+                }
+            }
+            else
+            {
+                if (StartButtonPressed == true)
+                {
+                    MessageBox.Show("Arduino didn't connected!\r\nPlease replug the Arduino board and restart the Woodpecker.", "Connection Error");
+                    button_Start.PerformClick();
+                }
+            }
+
             return aGpio;
         }
         #endregion
