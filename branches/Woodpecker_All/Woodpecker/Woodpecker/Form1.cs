@@ -8484,6 +8484,27 @@ namespace Woodpecker
                                             GlobalData.Arduino_IO_INPUT_value < 0x100 &&
                                             Convert.ToByte(GlobalData.Arduino_IO_INPUT_value & 0x01) == 0x00)
                                         {
+                                            // if ( GlobalData.Arduino_IO_INPUT_value >= 0x100 )
+                                            // { // to do 
+                                            // }
+                                            // else
+                                            // {
+                                            //   if ((GlobalData.Arduino_IO_INPUT_value & 0x01U)==0x00U))
+                                            //   {
+                                            //      if (columns_comport.Substring(5, 1) == "0")
+                                            //      {
+                                            //            // GPIO 0
+                                            //      }
+                                            //   }
+                                            //   else // reading 1 != 00
+                                            //   {
+                                            //      if (columns_comport.Substring(5, 1) == "1")
+                                            //      {
+                                            //            // GPIO 1
+                                            //      }
+                                            //   }
+                                            // } 
+
                                             if (columns_serial == "_accumulate")
                                             {
                                                 GlobalData.IO_Arduino2_0_COUNT++;
