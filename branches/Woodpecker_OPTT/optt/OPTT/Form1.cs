@@ -5913,6 +5913,8 @@ namespace OPTT
                                     {
                                         int mtimes = 0, mRepeat = 0;
                                         string dataValue = "";
+                                        Stopwatch sw = new Stopwatch();
+                                        sw.Start();
                                         debug_process("CA210 control: Measure start");
                                         if (columns_times != "" && int.TryParse(columns_times, out mtimes) == true && columns_interval != "" && int.TryParse(columns_interval, out mRepeat) == true)
                                         {
@@ -5926,10 +5928,14 @@ namespace OPTT
                                         logDumpping.LogCat(ref minolta_csv_report, dataValue);
                                         logDumpping.LogCat(ref minolta_text, dataValue);
                                         logDumpping.LogCat(ref logAll_text, dataValue);
+                                        sw.Stop();
+                                        debug_process($"Minolta Measure: { sw.ElapsedMilliseconds}ms");
                                         debug_process("CA210 control: Measure stop");
                                     }
                                     else if (columns_function == "DisplayMode")
                                     {
+                                        Stopwatch sw = new Stopwatch();
+                                        sw.Start();
                                         debug_process("CA210 control: DisplayMode start");
                                         if (columns_times != "" && int.TryParse(columns_times, out stime) == true)
                                             stime = int.Parse(columns_times); // 模式切換
@@ -5937,12 +5943,18 @@ namespace OPTT
                                             stime = 0;
 
                                         CA210.DisplayMode(stime);
+                                        sw.Stop();
+                                        debug_process($"Minolta DisplayMode: { sw.ElapsedMilliseconds}ms");
                                         debug_process("CA210 control: DisplayMode end");
                                     }
                                     else if (columns_function == "CalZero")
                                     {
+                                        Stopwatch sw = new Stopwatch();
+                                        sw.Start();
                                         debug_process("CA210 control: Zero-calibrates the device start");
                                         CA210.CalZero();
+                                        sw.Stop();
+                                        debug_process($"Minolta CalZero: { sw.ElapsedMilliseconds}ms");
                                         debug_process("CA210 control: Zero-calibrates the device end");
                                     }
 
