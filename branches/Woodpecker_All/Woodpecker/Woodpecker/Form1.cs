@@ -3128,7 +3128,8 @@ namespace Woodpecker
                 {
                     byte[] byteRead = new byte[serialPort_Arduino.BytesToRead];    //BytesToRead:sp1接收的字符个数
                     string dataValue = serialPort_Arduino.ReadLine(); //注意：回车换行必须这样写，单独使用"\r"和"\n"都不会有效果
-                    Read_Arduino_Data = dataValue;
+                    if (dataValue.Contains("io i"))
+                        Read_Arduino_Data = dataValue;
                     serialPort_Arduino.DiscardInBuffer();                      //清空SerialPort控件的Buffer 
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
                     {
@@ -12444,22 +12445,25 @@ namespace Woodpecker
         {
             UInt32 GPIO_input_value;
             bool aGpio = false;
-            String binary_value = "";
+            String low_binary_value = "";
+            String high_binary_value = "";
             String binary_dot_value = "";
             aGpio = Arduino_Get_GPIO_Input(out GPIO_input_value, delay_time);
             if (aGpio)
             {
                 if (GPIO_input_value < 0x100)
                 {
-                    binary_value = Convert.ToString(GPIO_input_value, 2).PadLeft(8, '0');
-                    for (int i = 0; i < binary_value.Length; i++)
-                        binary_dot_value = binary_dot_value + binary_value.Substring(i, 1) + ",";
+                    low_binary_value = Convert.ToString(GPIO_input_value, 2).PadLeft(8, '0');
+                    for (int i = 0; i < low_binary_value.Length; i++)
+                        binary_dot_value = binary_dot_value + low_binary_value.Substring(i, 1) + ",";
                 }
                 else
                 {
-                    binary_value = "100000000";
+                    high_binary_value = Convert.ToString(GPIO_input_value & 0xFF00, 2).PadLeft(16, '0');
+                    for (int i = 0; i <= high_binary_value.Length - 8; i++)
+                        if (high_binary_value.Substring(i, 1) == "1")
+                            MessageBox.Show("Please check the Arduino-PIN " + (8-i) + " :status. Maybe voltage have issue.", "Arduino-PIN Error!");
                     binary_dot_value = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
-                    MessageBox.Show("Please check the Arduino-PIN status.", "Arduino-PIN Error!");
                 }
                 GlobalData.Arduino_IO_INPUT = binary_dot_value;
                 GlobalData.Arduino_IO_INPUT_value = GPIO_input_value;
@@ -12467,8 +12471,7 @@ namespace Woodpecker
             else
             {
                 GlobalData.Arduino_IO_INPUT = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
-                GlobalData.Arduino_IO_INPUT_value = 0x100;
-                MessageBox.Show("Please check the Arduino-PIN status.", "Arduino-PIN Error!");
+                GlobalData.Arduino_IO_INPUT_value = 0x10000;
             }
 
             if (aGpio)
@@ -12494,7 +12497,7 @@ namespace Woodpecker
         {
             bool aGpio = false;
             uint retry_cnt = 5;
-            GPIO_Read_Data = 0xFFFFFFFF;
+            GPIO_Read_Data = 0x10000;
 
             if (serialPort_Arduino.IsOpen)
             {
@@ -12512,11 +12515,11 @@ namespace Woodpecker
                             MessageBox.Show("Arduino response input timeout and please replug the Arduino board.", "Connection Error");
                             aGpio = false;
                         }
-                        else if (serial_receive)
+                        else if (serial_receive && Read_Arduino_Data != "")
                         {
                             string l_strResult = Read_Arduino_Data.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "").Replace("ioi", "");
                             //GPIO_Read_Data = Convert.ToUInt32(l_strResult);
-                            GPIO_Read_Data = Convert.ToUInt32(l_strResult, 16);
+                            GPIO_Read_Data = Convert.ToUInt16(l_strResult, 16);
                             aGpio = true;
                         }
                     }
