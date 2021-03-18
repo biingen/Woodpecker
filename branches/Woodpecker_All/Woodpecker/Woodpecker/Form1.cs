@@ -12461,8 +12461,14 @@ namespace Woodpecker
                 {
                     high_binary_value = Convert.ToString(GPIO_input_value & 0xFF00, 2).PadLeft(16, '0');
                     for (int i = 0; i <= high_binary_value.Length - 8; i++)
+                    {
                         if (high_binary_value.Substring(i, 1) == "1")
-                            MessageBox.Show("Please check the Arduino-PIN " + (8-i) + " :status. Maybe voltage have issue.", "Arduino-PIN Error!");
+                        {
+                            string DebugValue = "adc";
+                            serialPort_Arduino.WriteLine(DebugValue);
+                            MessageBox.Show("Please check the Arduino-P0" + (9 - i) + " :status. Maybe voltage have issue.", "Arduino-PIN Error!");
+                        }
+                    }
                     binary_dot_value = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
                 }
                 GlobalData.Arduino_IO_INPUT = binary_dot_value;
