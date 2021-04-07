@@ -134,8 +134,10 @@ namespace Woodpecker
         public static bool FormMail = true;
         public static bool FormLog = true;
         public static string RCDB = "";
-        public static string IO_INPUT = "";
-        public static string Arduino_IO_INPUT = "";
+        public static string IO_INPUT = "2,2,2,2,2,2";
+        public static string Arduino_IO_INPUT = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
+        public static uint IO_INPUT_value = 0x40;
+        public static uint Arduino_IO_INPUT_value = 0x10000;
         public static int IO_PA10_0_COUNT = 0;
         public static int IO_PA10_1_COUNT = 0;
         public static int IO_PA11_0_COUNT = 0;
@@ -193,8 +195,7 @@ namespace Woodpecker
         public static PortConfigGroup portConfigGroup_D = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_E = new PortConfigGroup();
         public static PortConfigGroup portConfigGroup_Kline = new PortConfigGroup();
-		public static PortConfigGroup portConfigGroup_Arduino = new PortConfigGroup();
-        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline, portConfigGroup_Arduino };
+        public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline };
 
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 

@@ -288,6 +288,8 @@ namespace Woodpecker
             //預設AutoKit沒接上
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "AutoboxPort", "");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "ArduinoExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "ArduinoPort", "");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "0");
@@ -419,6 +421,34 @@ namespace Woodpecker
                     }
                     #endregion
 
+                    #region 偵測Arduino
+                    if (deviceId.IndexOf("FTDIBUS\\VID_0403+PID_6001", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------Arduino------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        int FirstIndex = deviceTp.IndexOf("(");
+                        string ArduinoPortSubstring = deviceTp.Substring(FirstIndex + 1);
+                        string ArduinoPort = ArduinoPortSubstring.Substring(0);
+
+                        int ArduinoPortLengh = ArduinoPort.Length;
+                        string ArduinoPortFinal = ArduinoPort.Remove(ArduinoPortLengh - 1);
+
+                        if (ArduinoPortSubstring.Substring(0, 3) == "COM")
+                        {
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "ArduinoExist", "1");
+                            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "ArduinoPort", ArduinoPortFinal);
+                        }
+                    }
+                    #endregion
+
                     #region 偵測CA310
                     if (deviceId.IndexOf("USB\\VID_0686&PID_1002\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
@@ -491,7 +521,7 @@ namespace Woodpecker
         #region -- 創建Config.ini --
         public void CreateConfig()
         {
-            string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
+            string[] Device = { "Software", "AutoboxExist", "AutoboxVerson", "AutoboxPort", "ArduinoExist", "ArduinoPort", "CameraExist", "RedRatExist", "DOS", "RunAfterStartUp", "CA310Exist" };
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };
@@ -500,7 +530,6 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] Arduino = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp", "Outofmemorysave" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
@@ -607,18 +636,6 @@ namespace Woodpecker
                     else
                     {
                         ini12.INIWrite(GlobalData.MainSettingPath, "Port E", PortE[i], "");
-                    }
-                }
-
-                for (int i = 0; i < Arduino.Length; i++)
-                {
-                    if (i == (Arduino.Length - 1))
-                    {
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Arduino", Arduino[i], "" + Environment.NewLine + Environment.NewLine);
-                    }
-                    else
-                    {
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Arduino", Arduino[i], "");
                     }
                 }
 
