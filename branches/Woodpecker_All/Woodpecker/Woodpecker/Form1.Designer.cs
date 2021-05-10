@@ -131,8 +131,8 @@ namespace Woodpecker
             this.PortE = new System.IO.Ports.SerialPort(this.components);
             this.comboBox_savelog = new System.Windows.Forms.ComboBox();
             this.timer_ca310 = new System.Windows.Forms.Timer(this.components);
-            this.label_ca310 = new System.Windows.Forms.Label();
-            this.pictureBox_ca310 = new System.Windows.Forms.PictureBox();
+            this.label_Minolta = new System.Windows.Forms.Label();
+            this.pictureBox_Minolta = new System.Windows.Forms.PictureBox();
             this.timer_Chamber = new System.Windows.Forms.Timer(this.components);
             this.timer_duringShot = new System.Windows.Forms.Timer(this.components);
             this.DataGridView_Schedule = new Woodpecker.SafeDataGridView();
@@ -167,7 +167,7 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ca310)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Minolta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1330,31 +1330,31 @@ namespace Woodpecker
             // 
             this.timer_ca310.Interval = 250;
             // 
-            // label_ca310
+            // label_Minolta
             // 
-            this.label_ca310.AutoSize = true;
-            this.label_ca310.BackColor = System.Drawing.Color.Transparent;
-            this.label_ca310.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_ca310.ForeColor = System.Drawing.Color.Gainsboro;
-            this.label_ca310.Location = new System.Drawing.Point(524, 29);
-            this.label_ca310.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_ca310.Name = "label_ca310";
-            this.label_ca310.Size = new System.Drawing.Size(50, 17);
-            this.label_ca310.TabIndex = 114;
-            this.label_ca310.Text = "CA310";
-            this.label_ca310.Visible = false;
+            this.label_Minolta.AutoSize = true;
+            this.label_Minolta.BackColor = System.Drawing.Color.Transparent;
+            this.label_Minolta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_Minolta.ForeColor = System.Drawing.Color.Gainsboro;
+            this.label_Minolta.Location = new System.Drawing.Point(524, 29);
+            this.label_Minolta.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_Minolta.Name = "label_Minolta";
+            this.label_Minolta.Size = new System.Drawing.Size(50, 17);
+            this.label_Minolta.TabIndex = 114;
+            this.label_Minolta.Text = "CA310";
+            this.label_Minolta.Visible = false;
             // 
-            // pictureBox_ca310
+            // pictureBox_Minolta
             // 
-            this.pictureBox_ca310.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox_ca310.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox_ca310.Location = new System.Drawing.Point(508, 29);
-            this.pictureBox_ca310.Margin = new System.Windows.Forms.Padding(2);
-            this.pictureBox_ca310.Name = "pictureBox_ca310";
-            this.pictureBox_ca310.Size = new System.Drawing.Size(13, 13);
-            this.pictureBox_ca310.TabIndex = 113;
-            this.pictureBox_ca310.TabStop = false;
-            this.pictureBox_ca310.Visible = false;
+            this.pictureBox_Minolta.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox_Minolta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox_Minolta.Location = new System.Drawing.Point(508, 29);
+            this.pictureBox_Minolta.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox_Minolta.Name = "pictureBox_Minolta";
+            this.pictureBox_Minolta.Size = new System.Drawing.Size(13, 13);
+            this.pictureBox_Minolta.TabIndex = 113;
+            this.pictureBox_Minolta.TabStop = false;
+            this.pictureBox_Minolta.Visible = false;
             // 
             // timer_Chamber
             // 
@@ -1532,8 +1532,8 @@ namespace Woodpecker
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1079, 610);
-            this.Controls.Add(this.label_ca310);
-            this.Controls.Add(this.pictureBox_ca310);
+            this.Controls.Add(this.label_Minolta);
+            this.Controls.Add(this.pictureBox_Minolta);
             this.Controls.Add(this.button_savelog);
             this.Controls.Add(this.comboBox_savelog);
             this.Controls.Add(this.button_Start);
@@ -1617,7 +1617,7 @@ namespace Woodpecker
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_RedRat)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelVideo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_ca310)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox_Minolta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Schedule)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1738,8 +1738,8 @@ namespace Woodpecker
         protected internal System.Windows.Forms.Button button_Pause;
         private System.Windows.Forms.Timer timer_Chamber;
         private System.Windows.Forms.Timer timer_ca310;
-        private System.Windows.Forms.Label label_ca310;
-        private System.Windows.Forms.PictureBox pictureBox_ca310;
+        private System.Windows.Forms.Label label_Minolta;
+        private System.Windows.Forms.PictureBox pictureBox_Minolta;
         protected internal System.Windows.Forms.ComboBox comboBox_CameraDevice;
         private System.Windows.Forms.Timer timer_duringShot;
         private System.IO.Ports.SerialPort serialPort_Arduino;

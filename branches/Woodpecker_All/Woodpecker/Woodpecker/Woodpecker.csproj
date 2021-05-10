@@ -179,6 +179,7 @@
     <Compile Include="CAN_Read.cs" />
     <Compile Include="CAN_2C.cs" />
     <Compile Include="CRC_Calc.cs" />
+    <Compile Include="Debugging\Log_Dump.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="FormRC.cs">
@@ -252,6 +253,8 @@
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="Konica_Minolta.cs" />
     <Compile Include="KWP_2000.cs" />
+    <Compile Include="ModuleLayer\Mod_RS232.cs" />
+    <Compile Include="ModuleLayer\StateMachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

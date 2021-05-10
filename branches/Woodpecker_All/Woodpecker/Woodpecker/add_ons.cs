@@ -6,14 +6,104 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 
 namespace Woodpecker
 {
+    /// <summary>
+    /// 動態載入DLL
+    /// </summary>
+    public class DynamicLoadDll
+    {
+        /// <summary>
+        /// 根據非託管庫的控制代碼，函式名稱和指定委託型別，返回委託
+        /// </summary>
+        /// <param name="dllModule"></param>
+        /// <param name="functionName"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        private static Delegate GetFunctionAddress(int dllModule, string functionName, Type t)
+        {
+            int address = Kernel32Helper.GetProcAddress(dllModule, functionName); //得到地址
+            if (address == 0)
+                return null;
+            else
+                return Marshal.GetDelegateForFunctionPointer(new IntPtr(address), t);//將非託管函式指標轉換為委託。
+        }
+        /// <summary>
+        /// 根據dll的路徑，dll中的方法名，動態呼叫非託管dll的方法
+        /// </summary>
+        /// <param name="dllPath">dll的路徑</param>
+        /// <param name="functionName">要呼叫的dll的方法名稱</param>
+        /// <param name="delegateType">要將對應非託管dll中的方法名對映為C#的簽名一致的委託型別</param>
+        /// <param name="msg">執行過程中的錯誤資訊</param>
+        /// <param name="par">執行方法的引數</param>
+        /// <returns></returns>
+        public static object DynamicInvoke(string dllPath, string functionName, Type delegateType, out string msg, params object[] par)
+        {
+            msg = "";
+            int address = 0;
+            try
+            {
+                address = Kernel32Helper.LoadLibrary(dllPath);
+                if (address == 0)
+                {
+                    msg = "載入dll失敗，dll路徑：" + dllPath;
+                    return null;
+                }
+                Delegate d1 = GetFunctionAddress(address, functionName, delegateType);
+                if (d1 == null)
+                {
+                    msg = "獲取函式名稱失敗，函式名稱：" + functionName;
+                    return null;
+                }
+                object result = d1.DynamicInvoke(par);
+                Kernel32Helper.FreeLibrary(address);
+                return result;
+            }
+            catch (Exception e)
+            {
+                msg = e.Message;
+                return null;
+            }
+        }
+    }
+
+    public class Kernel32Helper
+    {
+        /// <summary>
+        /// API LoadLibrary
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int LoadLibrary(string funcName);
+
+        /// <summary>
+        /// API GetProcAddress
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int GetProcAddress(int handle, string funcName);
+
+        /// <summary>
+        /// API FreeLibrary
+        /// </summary>
+        [DllImport("kernel32")]
+        public static extern int FreeLibrary(int handle);
+    }
+
     class Add_ons
     {
         string MonkeyTestPath = Application.StartupPath + "\\Monkey_Test.ini";
+
+        public delegate int DllRegisterHandler();
+        public delegate int DllUnregisterHandler();
+
+        static string[] GetFiles(string pattern)
+        {
+            string dir = AppDomain.CurrentDomain.BaseDirectory;
+            return System.IO.Directory.GetFiles(dir, pattern, System.IO.SearchOption.TopDirectoryOnly);
+        }
 
         #region MonketTest指令
         public void MonkeyTest()
@@ -463,7 +553,29 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
+                        string msg = "";
+                        string dllFunction = "DllRegisterServer";
+                        string[] dllPathList = System.IO.Directory.GetFiles(@"C:\Program Files (x86)\KONICAMINOLTA\CA-SDK\SDK", "CA200Srvr.dll", System.IO.SearchOption.TopDirectoryOnly);
+                        if (dllPathList != null && dllPathList.Length > 0)
+                        {
+                            foreach (var dllPath in dllPathList)
+                            {
+
+                                object o = DynamicLoadDll.DynamicInvoke(dllPath, dllFunction, typeof(DllRegisterHandler), out msg);
+                                if (o != null && (int)o >= 0)
+                                {
+                                    Console.WriteLine(dllPath + "註冊成功！");
+                                    ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA310Exist", "1");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(dllPath + "註冊失敗" + msg);
+                                }
+                            }
+                        }
+
+                        Console.Read();
+						
                     }
                     #endregion
 
@@ -480,7 +592,29 @@ namespace Woodpecker
                                               "Pnp: {6}\n"
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
-                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
+                        string msg = "";
+                        string dllFunction = "DllRegisterServer";
+                        string[] dllPathList = System.IO.Directory.GetFiles(@"C:\Program Files (x86)\KONICA MINOLTA\CA-S40\CA-SDK2\x86\lib", "CA200Srvr.dll", System.IO.SearchOption.TopDirectoryOnly);
+                        if (dllPathList != null && dllPathList.Length > 0)
+                        {
+                            foreach (var dllPath in dllPathList)
+                            {
+
+                                object o = DynamicLoadDll.DynamicInvoke(dllPath, dllFunction, typeof(DllRegisterHandler), out msg);
+                                if (o != null && (int)o >= 0)
+                                {
+                                    Console.WriteLine(dllPath + "註冊成功！");
+                                    ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CA410Exist", "1");
+                                }
+                                else
+                                {
+                                    Console.WriteLine(dllPath + "註冊失敗" + msg);
+                                }
+                            }
+                        }
+
+                        Console.Read();
+
                     }
                     #endregion
 

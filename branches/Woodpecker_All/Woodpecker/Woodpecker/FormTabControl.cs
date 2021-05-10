@@ -316,10 +316,10 @@ namespace Woodpecker
         private void FormTabControl_FormClosed(object sender, FormClosedEventArgs e)
         {
             string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline";
-            string[] labelArray = new string[6] { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K};
-            string[] configArray = new string[6] { "PortA", "PortB", "PortC", "PortD", "PortE", "Kline"};
+            string[] labelArray = new string[6] { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
+            string[] configArray = new string[6] { "PortA", "PortB", "PortC", "PortD", "PortE", "Kline" };
             List <bool> chkValList = new List<bool> { FormSetting.checkBox_SerialPort1.Checked, FormSetting.checkBox_SerialPort2.Checked, FormSetting.checkBox_SerialPort3.Checked,
-                FormSetting.checkBox_SerialPort4.Checked, FormSetting.checkBox_SerialPort5.Checked, FormSetting.checkBox_Kline.Checked};
+                FormSetting.checkBox_SerialPort4.Checked, FormSetting.checkBox_SerialPort5.Checked, FormSetting.checkBox_Kline.Checked };
             List<string> portNameList = new List<string> { FormSetting.comboBox_SerialPort1_PortName_Value.Text, FormSetting.comboBox_SerialPort2_PortName_Value.Text,
                 FormSetting.comboBox_SerialPort3_PortName_Value.Text, FormSetting.comboBox_SerialPort4_PortName_Value.Text,
                 FormSetting.comboBox_SerialPort5_PortName_Value.Text, FormSetting.comboBox_KlinePort_PortName_Value.Text };
