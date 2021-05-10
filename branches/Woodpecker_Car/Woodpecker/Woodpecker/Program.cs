@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Threading;
 using System.Collections.Generic;
-using Woodpecker;
+using ModuleLayer;
 
 namespace Woodpecker
 {
@@ -98,12 +98,14 @@ namespace Woodpecker
         public static string MailSettingPath = Application.StartupPath + "\\Mail.ini";
         public static string RcSettingPath = Application.StartupPath + "\\RC.ini";
         public static string StartupPath = Application.StartupPath;
+        public static string MeasurePath = Application.StartupPath;
 
         public static int Scheduler_Row = 0;
         public static List<string> VidList = new List<string>();     //List is an Object inherited from System.Collections.Generic
         public static List<string> PidList = new List<string>();
         public static List<string> AutoBoxComPort_List = new List<string>();
         public static List<string> RcList = new List<string>();
+        public static List<string> sourceList;
         public static int Schedule_Number = 0;
         public static int Schedule_1_Exist = 0;
         public static int Schedule_2_Exist = 0;
@@ -197,6 +199,15 @@ namespace Woodpecker
         public static PortConfigGroup portConfigGroup_Kline = new PortConfigGroup();
         public static List<PortConfigGroup> _portConfigList = new List<PortConfigGroup>() { portConfigGroup_A, portConfigGroup_B, portConfigGroup_C, portConfigGroup_D, portConfigGroup_E, portConfigGroup_Kline };
 
+        public static Mod_RS232 m_SerialPort_A = new Mod_RS232();
+        public static Mod_RS232 m_SerialPort_B = new Mod_RS232();
+        public static Mod_RS232 m_SerialPort_C = new Mod_RS232();
+        public static Mod_RS232 m_SerialPort_D = new Mod_RS232();
+        public static Mod_RS232 m_SerialPort_E = new Mod_RS232();
+
+        public static string logAllText;
+        public static string Measure_Backlight = "None";
+        public static string Measure_Thermal = "None";
         //MessageBox.Show("RC Key is empty", "Error", MessageBoxButtons.OK, MessageBoxIcon.Question);//MessageBox範例
 
         /*public static GlobalData()

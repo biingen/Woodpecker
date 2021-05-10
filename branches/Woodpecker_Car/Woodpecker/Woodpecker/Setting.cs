@@ -768,7 +768,7 @@ namespace Woodpecker
 
                 if (deviecDescription != null)
                 {
-                    if (deviceId.IndexOf("&0&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                    if (deviceId.IndexOf("&5", StringComparison.OrdinalIgnoreCase) >= 0 &&
                 deviceId.IndexOf("USB\\VID_067B&PID_2303\\", StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         Console.WriteLine("-----------------AutoBox2------------------");
@@ -928,7 +928,7 @@ namespace Woodpecker
                             (checkBox_SerialPort5.Checked == true && comboBox_SerialPort1_PortName_Value.Text == comboBox_SerialPort5_PortName_Value.Text) ||
                             (checkBox_Kline.Checked == true && comboBox_SerialPort1_PortName_Value.Text == comboBox_KlinePort_PortName_Value.Text))
                 {
-                    label_ErrorMessage.Text = "Duplicate SerialPort ";
+                    label_ErrorMessage.Text = "Duplicate SerialPort";
                     pictureBox_SerialPort1.Image = Properties.Resources.ERROR;
                 }
                 else

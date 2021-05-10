@@ -97,9 +97,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BlueRatLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="CaControl">
-      <HintPath>..\..\CaControl.dll</HintPath>
-    </Reference>
     <Reference Include="CheckDisk, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\CheckDisk.dll</HintPath>
@@ -109,6 +106,10 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.CA200SRVRLib">
+      <HintPath>..\..\Interop.CA200SRVRLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="jini, Version=1.0.2120.17161, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>

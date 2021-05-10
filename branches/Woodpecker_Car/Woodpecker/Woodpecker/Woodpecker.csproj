@@ -111,10 +111,6 @@
       <HintPath>..\..\Interop.CA200SRVRLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Interop.CDO">
-      <HintPath>obj\Debug\Interop.CDO.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="jini, Version=1.0.2120.17161, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\jini.dll</HintPath>
@@ -184,6 +180,7 @@
     <Compile Include="CAN_Read.cs" />
     <Compile Include="CAN_2C.cs" />
     <Compile Include="CRC_Calc.cs" />
+    <Compile Include="Debugging\Log_Dump.cs" />
     <Compile Include="DTC_ABS.cs" />
     <Compile Include="DTC_OBD.cs" />
     <Compile Include="FormRC.cs">
@@ -255,7 +252,10 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ImageHelper.cs" />
     <Compile Include="Kline_Serial.cs" />
+    <Compile Include="Konica_Minolta.cs" />
     <Compile Include="KWP_2000.cs" />
+    <Compile Include="ModuleLayer\Mod_RS232.cs" />
+    <Compile Include="ModuleLayer\StateMachine.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="CompareSimilarity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -360,6 +360,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="CA200SRVRLib">
+      <Guid>{81480671-9287-43D4-8A21-F0CB0157077F}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
     <COMReference Include="CDO">
       <Guid>{CD000000-8B95-11D1-82DB-00C04FB1625D}</Guid>
       <VersionMajor>1</VersionMajor>
