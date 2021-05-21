@@ -5659,7 +5659,8 @@ namespace Woodpecker
                         string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();                 //先讀取IO值，避免schedule第一行放IO CMD會出錯//
-                        Arduino_IO_INPUT();  //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
+                        if (serialPort_Arduino.IsOpen == true)
+                            Arduino_IO_INPUT();         //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
 
                         GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
                         if (StartButtonPressed == false)
