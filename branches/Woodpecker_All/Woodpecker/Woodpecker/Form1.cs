@@ -6837,8 +6837,9 @@ namespace Woodpecker
                                          columns_serial != "" && columns_function == "")
                                 {
                                     string hexValues = columns_serial;
-                                    byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
-                                    Outputbytes = HexConverter.StrToByte(hexValues);
+                                    Outputstring = hexValues;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
                                     //serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length);
                                     GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length);
                                 }
