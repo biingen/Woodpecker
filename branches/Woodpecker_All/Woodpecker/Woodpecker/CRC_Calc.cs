@@ -250,16 +250,16 @@ namespace Woodpecker
         }
     }
 
-    public static class Algorithm
+    public class Algorithm
     {
-        public static byte XOR(byte bHEX1, byte bHEX2)
+        public byte XOR(byte bHEX1, byte bHEX2)
         {
             byte bHEX_OUT = new byte();
             bHEX_OUT = (byte)(bHEX1 ^ bHEX2);
             return bHEX_OUT;
         }
 
-        public static byte[] OR(byte[] bHEX1, byte[] bHEX2)
+        public byte[] OR(byte[] bHEX1, byte[] bHEX2)
         {
             byte[] bHEX_OUT = new byte[bHEX1.Length];
             for (int i = 0; i < bHEX1.Length; i++)
@@ -269,7 +269,7 @@ namespace Woodpecker
             return bHEX_OUT;
         }
 
-        public static byte[] AND(byte[] bHEX1, byte[] bHEX2)
+        public byte[] AND(byte[] bHEX1, byte[] bHEX2)
         {
             byte[] bHEX_OUT = new byte[bHEX1.Length];
             for (int i = 0; i < bHEX1.Length; i++)
@@ -279,7 +279,7 @@ namespace Woodpecker
             return bHEX_OUT;
         }
 
-        public static byte XOR_Byte(byte[] bHEX1, int length)
+        public byte XOR_Byte(byte[] bHEX1, int length)
         {
             byte bHEX_OUT = bHEX1[0];
             for (int i = 1; i < length; i++)
@@ -289,7 +289,7 @@ namespace Woodpecker
             return bHEX_OUT;
         }
 
-        public static byte XOR_List(List<byte> bHEX1, int length)
+        public byte XOR_List(List<byte> bHEX1, int length)
         {
             byte bHEX_OUT = bHEX1[0];
             for (int i = 1; i < length; i++)
@@ -299,7 +299,7 @@ namespace Woodpecker
             return bHEX_OUT;
         }
 
-        public static string Medical_XOR8(string orginal_data)
+        public string Medical_XOR8(string orginal_data)
         {
             string[] hexValuesSplit = orginal_data.Split(' ');
             byte[] bytes = new byte[hexValuesSplit.Count()];
@@ -325,6 +325,103 @@ namespace Woodpecker
             string XOR_Hex = ((int)XOR_value).ToString("X2").PadLeft(2, '0');
             string XOR_calu = " " + XOR_Hex;   //原始資料加入XOR
             return XOR_calu;
+        }
+
+        public byte Mod256_Byte(byte[] packetBytes)
+        {
+            byte chksumByte_calculation = 0;
+            int sumValue = 0, pktLength = packetBytes.Length;
+            if (pktLength > 4)
+            {
+                for (int i = 2; i <= pktLength - 3; i++)
+                {
+                    sumValue += (int)packetBytes[i];
+                }
+
+                chksumByte_calculation = (byte)(sumValue % 256);
+            }
+
+
+            return chksumByte_calculation;
+        }
+
+        public bool Mod256(byte packetLen, byte chksumByte_packet, List<byte> partList, ref List<byte> fullList)
+        {
+            bool res = false;
+            byte chksumByte_calculation = 0;
+            int toBeSummed = 0;
+            foreach (byte partByte in partList)
+            {
+                toBeSummed += partByte;
+            }
+            //sumValue = (int)toBeSummed;
+            chksumByte_calculation = (byte)(toBeSummed % 256);
+
+            if (chksumByte_calculation == chksumByte_packet)
+            {
+                res = true;
+                /*
+                fullList.Add(0x42);
+                fullList.Add(packetLen);
+                fullList.AddRange(partList);
+                fullList.Add(chksumByte_calculation);
+                fullList.Add(0x51);
+                */
+            }
+            else
+                res = false;
+
+            fullList.Add(0x42);
+            fullList.Add(packetLen);
+            fullList.AddRange(partList);
+            fullList.Add(chksumByte_calculation);
+            fullList.Add(0x51);
+
+            return res;
+        }
+
+        public byte[] MOD256_BytesWithChksum(string original_data)
+        {
+            string[] hexValuesSplit = original_data.Split(' ');
+            string StringWithChksum = "";
+            int bytesLength = hexValuesSplit.Length;
+            byte[] cmdBytes = new byte[bytesLength];
+            byte[] tmpBytes = new byte[bytesLength];
+
+            try
+            {
+                for (int i = 0; i < bytesLength; i++)
+                {
+                    cmdBytes[i] = Convert.ToByte(Convert.ToInt32(hexValuesSplit[i], 16));
+
+                    if (i > 1 && i < bytesLength - 2)
+                        tmpBytes[i] = cmdBytes[i];
+                    else
+                        tmpBytes[i] = 0x00;
+                }
+
+                var chksumByte = Mod256_Byte(tmpBytes);
+                cmdBytes[bytesLength - 2] = chksumByte;
+                for (int i = 0; i < bytesLength; i++)
+                {
+                    if (i < bytesLength - 2)
+                        StringWithChksum = StringWithChksum + hexValuesSplit[i] + " ";
+                    else if (i == bytesLength - 2)
+                    {
+                        hexValuesSplit[bytesLength - 2] = chksumByte.ToString("X2");
+                        StringWithChksum = StringWithChksum + hexValuesSplit[bytesLength - 2] + " ";
+                    }
+                    else if (i == bytesLength - 1)
+                        StringWithChksum += hexValuesSplit[i];
+                }
+            }
+            catch (OverflowException)
+            {
+                MessageBox.Show("Please check HEX command format.", "Format error");
+            }
+
+            //return StringWithChksum;
+            return cmdBytes;
         }
     }
 }

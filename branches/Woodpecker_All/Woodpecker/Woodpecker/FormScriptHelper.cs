@@ -92,6 +92,7 @@ namespace Woodpecker
                 case "_HEX + Function":
                     CmdList.Add("CRC16_Modbus");
                     CmdList.Add("XOR8");
+                    CmdList.Add("MOD256");
                     break;
 
                 case "_HEX + >SerialPort                   >I/O cmd":

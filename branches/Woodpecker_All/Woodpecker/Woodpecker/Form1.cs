@@ -6796,6 +6796,7 @@ namespace Woodpecker
                         #region -- Hex --
                         else if (columns_command == "_HEX")
                         {
+                            Algorithm algorithm = new Algorithm();
                             string Outputstring = "";
                             //if (ini12.INIRead(MainSettingPath, "Port A", "Checked", "") == "1" && columns_comport == "A")
                             if (GlobalData.portConfigGroup_A.checkedValue == true && columns_comport == "A")
@@ -6811,7 +6812,7 @@ namespace Woodpecker
                                 {
                                     logA_text = string.Empty; //清除logA_text
                                 }
-                                else if (columns_serial != "_save" && columns_serial != "_clear" && 
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                     columns_serial != "" && columns_function == "CRC16_Modbus")
                                 {
                                     string original_data = columns_serial;
@@ -6826,12 +6827,19 @@ namespace Woodpecker
                                          columns_serial != "" && columns_function == "XOR8")
                                 {
                                     string orginal_data = columns_serial;
-                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length);
                                     //serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "MOD256")
+                                {
+                                    string orginal_data = columns_serial;
+                                    byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(orginal_data);
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "")
@@ -6881,11 +6889,18 @@ namespace Woodpecker
                                          columns_serial != "" && columns_function == "XOR8")
                                 {
                                     string orginal_data = columns_serial;
-                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
                                     GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "MOD256")
+                                {
+                                    string orginal_data = columns_serial;
+                                    byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(orginal_data);
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -6909,7 +6924,8 @@ namespace Woodpecker
                                 debug_process("Hex Log: _PortC");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("C"); //存檔rs232
+                                    //Serialportsave("C"); //存檔rs232
+                                    logDumpping.LogDumpToFile(serialPortConfig_C, GlobalData.portConfigGroup_C.portName, ref logC_text);
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -6925,17 +6941,24 @@ namespace Woodpecker
                                     Outputstring = orginal_data + crc16_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "XOR8")
                                 {
                                     string orginal_data = columns_serial;
-                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "MOD256")
+                                {
+                                    string orginal_data = columns_serial;
+                                    byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(orginal_data);
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -6945,7 +6968,7 @@ namespace Woodpecker
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(hexValues);
-                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length);	//發送數據 Rs232
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length);	//發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string dataValue = "[" + serialPortConfig_C + "(" + GlobalData.portConfigGroup_C.portName + ")] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -6959,7 +6982,8 @@ namespace Woodpecker
                                 debug_process("Hex Log: _PortD");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("D"); //存檔rs232
+                                    //Serialportsave("D"); //存檔rs232
+                                    logDumpping.LogDumpToFile(serialPortConfig_D, GlobalData.portConfigGroup_D.portName, ref logD_text);
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -6975,17 +6999,24 @@ namespace Woodpecker
                                     Outputstring = orginal_data + crc16_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length);	//發送數據 Rs232 + Crc16
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length);	//發送數據 Rs232 + Crc16
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "XOR8")
                                 {
                                     string orginal_data = columns_serial;
-                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "MOD256")
+                                {
+                                    string orginal_data = columns_serial;
+                                    byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(orginal_data);
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -6995,7 +7026,7 @@ namespace Woodpecker
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(hexValues);
-                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string dataValue = "[" + serialPortConfig_D + "(" + GlobalData.portConfigGroup_D.portName + ")] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7009,7 +7040,8 @@ namespace Woodpecker
                                 debug_process("Hex Log: _PortE");
                                 if (columns_serial == "_save")
                                 {
-                                    Serialportsave("E"); //存檔rs232
+                                    //Serialportsave("E"); //存檔rs232
+                                    logDumpping.LogDumpToFile(serialPortConfig_E, GlobalData.portConfigGroup_E.portName, ref logE_text);
                                 }
                                 else if (columns_serial == "_clear")
                                 {
@@ -7025,17 +7057,24 @@ namespace Woodpecker
                                     Outputstring = orginal_data + crc16_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); ; //發送數據 Rs232 + Crc16
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); ; //發送數據 Rs232 + Crc16
                                 }
                                 else if (columns_serial != "_save" && columns_serial != "_clear" &&
                                          columns_serial != "" && columns_function == "XOR8")
                                 {
                                     string orginal_data = columns_serial;
-                                    string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                     Outputstring = orginal_data + xor8_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                }
+                                else if (columns_serial != "_save" && columns_serial != "_clear" &&
+                                         columns_serial != "" && columns_function == "MOD256")
+                                {
+                                    string orginal_data = columns_serial;
+                                    byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(orginal_data);
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                 }
                                 else if (columns_serial != "_save" &&
                                          columns_serial != "_clear" &&
@@ -7045,7 +7084,7 @@ namespace Woodpecker
                                     string hexValues = columns_serial;
                                     byte[] Outputbytes = new byte[hexValues.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(hexValues);
-                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                 }
                                 DateTime dt = DateTime.Now;
                                 string dataValue = "[" + serialPortConfig_E + "(" + GlobalData.portConfigGroup_E.portName + ")] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7077,21 +7116,27 @@ namespace Woodpecker
                                         Outputstring = orginal_data + crc16_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
                                     else if (columns_function == "XOR8")
                                     {
-                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                         Outputstring = orginal_data + xor8_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                        GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
+                                    else if (columns_function == "MOD256")
+                                    {
+                                        string mod256_data = columns_serial;
+                                        byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(mod256_data);
+                                        GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                     }
                                     else
                                     {
                                         Outputstring = orginal_data;
                                         byte[] Outputbytes = serial_content[0].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                        GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7108,21 +7153,27 @@ namespace Woodpecker
                                         Outputstring = orginal_data + crc16_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
                                     else if (columns_function == "XOR8")
                                     {
-                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                         Outputstring = orginal_data + xor8_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                        GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
+                                    else if (columns_function == "MOD256")
+                                    {
+                                        string mod256_data = columns_serial;
+                                        byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(mod256_data);
+                                        GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                     }
                                     else
                                     {
                                         Outputstring = orginal_data;
                                         byte[] Outputbytes = serial_content[1].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                        GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7139,21 +7190,27 @@ namespace Woodpecker
                                         Outputstring = orginal_data + crc16_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
                                     else if (columns_function == "XOR8")
                                     {
-                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                         Outputstring = orginal_data + xor8_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                        GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
+                                    else if (columns_function == "MOD256")
+                                    {
+                                        string mod256_data = columns_serial;
+                                        byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(mod256_data);
+                                        GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                     }
                                     else
                                     {
                                         Outputstring = orginal_data;
                                         byte[] Outputbytes = serial_content[2].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                        GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7170,21 +7227,27 @@ namespace Woodpecker
                                         Outputstring = orginal_data + crc16_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
                                     else if (columns_function == "XOR8")
                                     {
-                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                         Outputstring = orginal_data + xor8_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                        GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
+                                    else if (columns_function == "MOD256")
+                                    {
+                                        string mod256_data = columns_serial;
+                                        byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(mod256_data);
+                                        GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                     }
                                     else
                                     {
                                         Outputstring = orginal_data;
                                         byte[] Outputbytes = serial_content[3].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                        GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
@@ -7201,21 +7264,27 @@ namespace Woodpecker
                                         Outputstring = orginal_data + crc16_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
+                                        GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Crc16
                                     }
                                     else if (columns_function == "XOR8")
                                     {
-                                        string xor8_data = Algorithm.Medical_XOR8(orginal_data);
+                                        string xor8_data = algorithm.Medical_XOR8(orginal_data);
                                         Outputstring = orginal_data + xor8_data;
                                         byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                         Outputbytes = HexConverter.StrToByte(Outputstring);
-                                        serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                        GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Xor8
+                                    }
+                                    else if (columns_function == "MOD256")
+                                    {
+                                        string mod256_data = columns_serial;
+                                        byte[] Outputbytes = algorithm.MOD256_BytesWithChksum(mod256_data);
+                                        GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232 + Mod256
                                     }
                                     else
                                     {
                                         Outputstring = orginal_data;
                                         byte[] Outputbytes = serial_content[4].Split(' ').Select(s => Convert.ToByte(s, 16)).ToArray();
-                                        serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                        GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     }
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + serial_content[4] + "\r\n";
@@ -7429,7 +7498,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logA_text, dataValue);
@@ -7447,7 +7516,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logB_text, dataValue);
@@ -7465,7 +7534,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logC_text, dataValue);
@@ -7483,7 +7552,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logD_text, dataValue);
@@ -7501,7 +7570,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6D " + columns_times + " 06 " + columns_function + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logE_text, dataValue);
@@ -7525,7 +7594,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortA.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_A.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_A] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logA_text, dataValue);
@@ -7544,7 +7613,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortB.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_B.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_B] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logB_text, dataValue);
@@ -7563,7 +7632,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortC.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_C.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_C] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logC_text, dataValue);
@@ -7582,7 +7651,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortD.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_D.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_D] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logD_text, dataValue);
@@ -7601,7 +7670,7 @@ namespace Woodpecker
                                     string Outputstring = "79 6C " + (Data_length + 1).ToString("X2") + " " + (Data_length + 6).ToString("X2") + " " + columns_function + " " + columns_subFunction + " 20 " + crc32_data;
                                     byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
                                     Outputbytes = HexConverter.StrToByte(Outputstring);
-                                    serialPortE.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
+                                    GlobalData.m_SerialPort_E.WriteDataOut(Outputbytes, Outputbytes.Length); //發送數據 Rs232
                                     DateTime dt = DateTime.Now;
                                     string dataValue = "[Send_Port_E] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
                                     logDumpping.LogCat(ref logE_text, dataValue);

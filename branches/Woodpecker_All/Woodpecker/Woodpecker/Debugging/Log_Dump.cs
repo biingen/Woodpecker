@@ -621,6 +621,7 @@ namespace Woodpecker
 
         public void Package_queue_to_list(Mod_RS232 serialPort)
         {
+            Algorithm algorithm = new Algorithm();
             if (serialPort.ReceiveList.Count >= 3)
             {
                 if (serialPort.ReceiveList.ElementAt(2) != 0xE0)
@@ -635,7 +636,7 @@ namespace Woodpecker
                         if (serialPort.ReceiveList.Count >= packet_len)
                         {
                             byte calculate_checksum;
-                            calculate_checksum = Algorithm.XOR_List(serialPort.ReceiveList, packet_len);
+                            calculate_checksum = algorithm.XOR_List(serialPort.ReceiveList, packet_len);
 
                             if (calculate_checksum == 0)
                             {
