@@ -280,8 +280,8 @@ namespace Woodpecker
         private void InitPortConfigParam()
         {
             //Initialize Port Config Parameters
-            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K };
-            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K };
+            string[] labelArray = { portLabel_A, portLabel_B, portLabel_C, portLabel_D, portLabel_E, portLabel_K};
+            string[] configArray = { serialPortConfig_A, serialPortConfig_B, serialPortConfig_C, serialPortConfig_D, serialPortConfig_E, portLabel_K};
             
             bool tst = GlobalData._portConfigList[0].Equals(GlobalData._portConfigList[2]);   //this is used to check the instance of portConfig_A independent or not 
             if (GlobalData._portConfigList.Count == labelArray.Length && GlobalData._portConfigList.Count == configArray.Length)
@@ -296,12 +296,19 @@ namespace Woodpecker
                         portConfig.checkedValue = false;
                         portConfig.portName = "";
                         portConfig.portBR = "";
+                        portConfig.portLF = 0xFF;
                     }
                     else if (ini12.INIRead(MainSettingPath, portConfig.portLabel, "Checked", "") == "1")
                     {
                         portConfig.checkedValue = true;
                         portConfig.portName = ini12.INIRead(MainSettingPath, portConfig.portLabel, "PortName", "");
                         portConfig.portBR = ini12.INIRead(MainSettingPath, portConfig.portLabel, "BaudRate", "");
+                        byte byteValue;
+                        bool success = byte.TryParse(ini12.INIRead(MainSettingPath, portConfig.portLabel, "LineFeed", ""), out byteValue);
+                        if (success)
+                            portConfig.portLF = byteValue;
+                        else
+                            portConfig.portLF = 0x0D;
                     }
                     i++;
                 }
@@ -1764,23 +1771,23 @@ namespace Woodpecker
 
         private void logA_analysis()
         {
-            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, ref logA_text);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_A, GlobalData.portConfigGroup_A.portConfig, GlobalData.portConfigGroup_A.portLF, ref logA_text);
         }
         private void logB_analysis()
         {
-            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_B, GlobalData.portConfigGroup_B.portConfig, ref logB_text);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_B, GlobalData.portConfigGroup_B.portConfig, GlobalData.portConfigGroup_B.portLF, ref logB_text);
         }
         private void logC_analysis()
         {
-            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_C, GlobalData.portConfigGroup_C.portConfig, ref logC_text);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_C, GlobalData.portConfigGroup_C.portConfig, GlobalData.portConfigGroup_C.portLF, ref logC_text);
         }
         private void logD_analysis()
         {
-            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_D, GlobalData.portConfigGroup_D.portConfig, ref logD_text);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_D, GlobalData.portConfigGroup_D.portConfig, GlobalData.portConfigGroup_D.portLF, ref logD_text);
         }
         private void logE_analysis()
         {
-            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, ref logE_text);
+            logDumpping.LogDataReceiving(GlobalData.m_SerialPort_E, GlobalData.portConfigGroup_E.portConfig, GlobalData.portConfigGroup_E.portLF, ref logE_text);
         }
 
         private void logA_RK2797()

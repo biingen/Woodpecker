@@ -677,11 +677,11 @@ namespace Woodpecker
             string[] RedRat = { "RedRatIndex", "DBFile", "Brands", "SerialNumber" };
             string[] Camera = { "VideoIndex", "VideoNumber", "VideoName", "AudioIndex", "AudioNumber", "AudioName", "CameraDevice", "Resolution" };
             string[] Canbus = { "Log", "DevIndex", "Baudrate" };
-            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
-            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex" };
+            string[] PortA = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
+            string[] PortB = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
+            string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
+            string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
+            string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
             string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp", "Outofmemorysave" };
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };

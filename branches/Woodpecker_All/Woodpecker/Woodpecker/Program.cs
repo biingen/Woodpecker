@@ -223,5 +223,6 @@ namespace Woodpecker
         public string portConfig;
         public string portName;
         public string portBR;
+        public byte portLF;
     }
 }

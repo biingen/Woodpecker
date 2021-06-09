@@ -56,7 +56,7 @@ namespace Woodpecker
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<double> temperatureDouble = new Queue<double> { };
 
-        public void LogDataReceiving(Mod_RS232 serialPort, string portConfig, ref string logText)
+        public void LogDataReceiving(Mod_RS232 serialPort, string portConfig, byte portLF, ref string logText)
         {
             while (serialPort.IsOpen())
             {
@@ -71,7 +71,7 @@ namespace Woodpecker
                     for (int index = 0; index < data_to_read; index++)
                     {
                         byte input_ch = dataset[index];
-                        LogRecording(portConfig, ref logText, input_ch, true);
+                        LogRecording(portConfig, ref logText, input_ch, portLF, true);
                         /*
                         if (TemperatureIsFound == true)
                         {
@@ -94,7 +94,7 @@ namespace Woodpecker
         int byteMessage_length = 0;
 
         //private void LogRecording(string strPort, string strPortAll, byte ch, bool SaveToLog = false)
-        private void LogRecording(string portConfig, ref string logText, byte ch, bool SaveToLog = false)
+        private void LogRecording(string portConfig, ref string logText, byte ch, byte portLF, bool SaveToLog = false)
         {
             if (ini12.INIRead(MainSettingPath, "Record", "Displayhex", "") == "1")
             {
@@ -103,7 +103,7 @@ namespace Woodpecker
                     byteMessage[byteMessage_length] = ch;
                     byteMessage_length++;
                 }
-                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length >= byteMessage_max_Hex))
+                if ((ch == portLF) || (byteMessage_length >= byteMessage_max_Hex))
                 {
                     string strData = BitConverter.ToString(byteMessage).Replace("-", "").Substring(0, byteMessage_length * 2);
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
@@ -119,7 +119,7 @@ namespace Woodpecker
             }
             else
             {
-                if ((ch == 0x0A) || (ch == 0x0D) || (byteMessage_length >= byteMessage_max_Ascii))
+                if ((ch == portLF) || (byteMessage_length >= byteMessage_max_Ascii))
                 {
                     string strData = Encoding.ASCII.GetString(byteMessage).Substring(0, byteMessage_length);
                     if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "1")
