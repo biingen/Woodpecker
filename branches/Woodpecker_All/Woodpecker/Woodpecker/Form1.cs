@@ -6056,12 +6056,17 @@ namespace Woodpecker
                             debug_process("Take Record: _rec_start");
                             if (ini12.INIRead(MainSettingPath, "Device", "CameraExist", "") == "1")
                             {
-                                if (GlobalData.VideoRecording == false)
+                                if (GlobalData.VideoRecording == false && columns_serial == "")
                                 {
                                     Mysvideo(); // 開新檔
                                     GlobalData.VideoRecording = true;
                                     Thread oThreadC = new Thread(new ThreadStart(MySrtCamd));
                                     oThreadC.Start();
+                                }
+                                else if (GlobalData.VideoRecording == false && columns_serial == "wmv")
+                                {
+                                    Mywmvideo(); // 開新檔
+                                    GlobalData.VideoRecording = true;
                                 }
                                 label_Command.Text = "Start Recording";
                             }
@@ -10707,7 +10712,9 @@ namespace Woodpecker
         #endregion
 
         #region -- 錄影 --
-        private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo(); }));//開始錄影//
+        private void Mysvideo() => Invoke(new EventHandler(delegate { Savevideo("avi"); }));//開始錄影//
+
+        private void Mywmvideo() => Invoke(new EventHandler(delegate { Savevideo("wmv"); }));//開始錄影//
 
         private void Mysstop() => Invoke(new EventHandler(delegate//停止錄影//
         {
@@ -10716,17 +10723,26 @@ namespace Woodpecker
             Camstart();
         }));
 
-        private void Savevideo()//儲存影片//
+        private void Savevideo(string format)//儲存影片//
         {
             string fName = ini12.INIRead(MainSettingPath, "Record", "VideoPath", "");
-
-            string t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
-            srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
+            string t;
+            if (format == "wmv")
+                t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".wmv";
+            else
+            {
+                t = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".avi";
+                srtstring = fName + "\\" + "_rec" + DateTime.Now.ToString("yyyyMMddHHmmss") + "__" + label_LoopNumber_Value.Text + ".srt";
+            }
 
             if (!capture.Cued)
                 capture.Filename = t;
 
-            capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+            if (format == "wmv")
+                capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Wmv; //宣告我要wmv檔格式
+            else
+                capture.RecFileMode = DirectX.Capture.Capture.RecFileModeType.Avi; //宣告我要avi檔格式
+
             capture.Cue(); // 創一個檔
             capture.Start(); // 開始錄影
 
