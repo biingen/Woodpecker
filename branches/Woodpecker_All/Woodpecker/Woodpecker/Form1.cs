@@ -9583,11 +9583,12 @@ namespace Woodpecker
                         //假如足跡模式打開則會append足跡上去
                         if (ini12.INIRead(MainSettingPath, "Record", "Footprint Mode", "") == "1" && SysDelay != 0)
                         {
+                            string fName = ini12.INIRead(GlobalData.MainSettingPath, "Record", "LogPath", "");
                             debug_process("IO Input Footprint Mode Start");
                             //檔案不存在則加入標題
-                            if (File.Exists(Application.StartupPath + @"\StepRecord.csv") == false)
+                            if (File.Exists(fName + @"\StepRecord.csv") == false && ini12.INIRead(MainSettingPath, "Device", "AutoboxExist", "") == "1")
                             {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
+                                File.AppendAllText(fName + @"\StepRecord.csv", "LOOP,TIME,COMMAND,PB07_Status,PB01_Status,PA15_Status,PA14_Status,PA11_Status,PA10_Status," +
                                     "PA10_0,PA10_1," +
                                     "PA11_0,PA11_1," +
                                     "PA14_0,PA14_1," +
@@ -9596,7 +9597,7 @@ namespace Woodpecker
                                     "PB7_0,PB7_1," +
                                     Environment.NewLine);
 
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
+                                File.AppendAllText(fName + @"\StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.IO_INPUT +
                                 "," + GlobalData.IO_PA10_0_COUNT + "," + GlobalData.IO_PA10_1_COUNT +
                                 "," + GlobalData.IO_PA11_0_COUNT + "," + GlobalData.IO_PA11_1_COUNT +
@@ -9607,7 +9608,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                File.AppendAllText(Application.StartupPath + @"\StepRecord.csv",
+                                File.AppendAllText(fName + @"\StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.IO_INPUT +
                                 "," + GlobalData.IO_PA10_0_COUNT + "," + GlobalData.IO_PA10_1_COUNT +
                                 "," + GlobalData.IO_PA11_0_COUNT + "," + GlobalData.IO_PA11_1_COUNT +
@@ -9620,9 +9621,9 @@ namespace Woodpecker
 
                             debug_process("Arduino IO Input Footprint Mode Start");
                             //檔案不存在則加入標題
-                            if (File.Exists(Application.StartupPath + @"\Arduino_StepRecord.csv") == false)
+                            if (File.Exists(fName + @"\Arduino_StepRecord.csv") == false && serialPort_Arduino.IsOpen == true)
                             {
-                                File.AppendAllText(Application.StartupPath + @"\Arduino_StepRecord.csv", "LOOP,TIME,COMMAND,P09_Status,P08_Status,P07_Status,P06_Status,P05_Status,P04_Status,P03_Status,P02_Status," +
+                                File.AppendAllText(fName + @"\Arduino_StepRecord.csv", "LOOP,TIME,COMMAND,P09_Status,P08_Status,P07_Status,P06_Status,P05_Status,P04_Status,P03_Status,P02_Status," +
                                     "P09_0,P09_1," +
                                     "P08_0,P08_1," +
                                     "P07_0,P07_1," +
@@ -9633,7 +9634,7 @@ namespace Woodpecker
                                     "P02_0,P02_1," +
                                     Environment.NewLine);
 
-                                File.AppendAllText(Application.StartupPath + @"\Arduino_StepRecord.csv",
+                                File.AppendAllText(fName + @"\Arduino_StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.Arduino_IO_INPUT +
                                 GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT + "," +
                                 GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT + "," +
@@ -9646,7 +9647,7 @@ namespace Woodpecker
                             }
                             else
                             {
-                                File.AppendAllText(Application.StartupPath + @"\Arduino_StepRecord.csv",
+                                File.AppendAllText(fName + @"\Arduino_StepRecord.csv",
                                 GlobalData.Loop_Number + "," + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "," + label_Command.Text + "," + GlobalData.Arduino_IO_INPUT +
                                 GlobalData.IO_Arduino9_0_COUNT + "," + GlobalData.IO_Arduino9_1_COUNT + "," +
                                 GlobalData.IO_Arduino8_0_COUNT + "," + GlobalData.IO_Arduino8_1_COUNT + "," +
