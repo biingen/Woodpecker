@@ -115,6 +115,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\jini.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialSkin">
       <HintPath>..\..\MaterialSkin.dll</HintPath>
     </Reference>

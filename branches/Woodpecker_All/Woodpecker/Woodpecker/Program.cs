@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Collections.Generic;
 using ModuleLayer;
+using log4net.Config;
 
 namespace Woodpecker
 {
@@ -17,6 +18,7 @@ namespace Woodpecker
         [STAThread]
         static void Main(string[] args)
         {
+            XmlConfigurator.Configure(new System.IO.FileInfo("./log4net.config"));      //log4net configure file
             //高Dpi設定
             if (Environment.OSVersion.Version.Major >= 6) { SetProcessDPIAware(); }
 
