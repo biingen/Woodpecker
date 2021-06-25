@@ -257,6 +257,15 @@
     <Compile Include="Kline_Serial.cs" />
     <Compile Include="Konica_Minolta.cs" />
     <Compile Include="KWP_2000.cs" />
+    <Compile Include="ModuleLayer\FT2232_Lib.cs" />
+    <Compile Include="ModuleLayer\FtChannelConfig.cs" />
+    <Compile Include="ModuleLayer\FtConfigOptions.cs" />
+    <Compile Include="ModuleLayer\FtDeviceInfo.cs" />
+    <Compile Include="ModuleLayer\FtI2cTransferOptions.cs" />
+    <Compile Include="ModuleLayer\FtResult.cs" />
+    <Compile Include="ModuleLayer\FtSpiTransferOptions.cs" />
+    <Compile Include="ModuleLayer\Ft_I2C_ChannelConfig.cs" />
+    <Compile Include="ModuleLayer\Ft_I2C_ClockRate.cs" />
     <Compile Include="ModuleLayer\Mod_RS232.cs" />
     <Compile Include="ModuleLayer\StateMachine.cs" />
     <Compile Include="Program.cs" />
