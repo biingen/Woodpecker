@@ -39,6 +39,8 @@ using Microsoft.VisualBasic.FileIO;
 using USB_VN1630A;
 using ModuleLayer;
 using log4net;
+using Universal_Toolkit;
+using Universal_Toolkit.Types;
 //using NationalInstruments.DAQmx;
 
 namespace Woodpecker
@@ -169,7 +171,8 @@ namespace Woodpecker
         public string serialPortName_A, serialPortName_B, serialPortName_C, serialPortName_D, serialPortName_E, serialPortName_Arduino;
         public string serialPortBR_A, serialPortBR_B, serialPortBR_C, serialPortBR_D, serialPortBR_E, serialPortBR_Arduino;
         private int log_max_length = 10000000, debug_max_length = 10000000;
-
+        private FTDI_Lib Ftdi_lib = new FTDI_Lib();
+        private PortInfo portinfo = new PortInfo();
         //Search temperature parameter
         List<Temperature_Data> temperatureList = new List<Temperature_Data> { };
         Queue<double> temperatureDouble = new Queue<double> { };
@@ -382,6 +385,16 @@ namespace Woodpecker
                 {
                     pictureBox_ext_board.Image = Properties.Resources.OFF;
                 }
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
+            {
+                ConnectFtdi();
+                pictureBox_ext_board.Image = Properties.Resources.ON;
+            }
+            else
+            {
+                pictureBox_ext_board.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -940,6 +953,15 @@ namespace Woodpecker
             OpenSerialPort("Arduino");
         }
 
+        private void ConnectFtdi()
+        {
+            portinfo.I2C_Channel_Conf.ClockRate = Ft_I2C_ClockRate.I2C_CLOCK_STANDARD_MODE;
+            portinfo.I2C_Channel_Conf.LatencyTimer = 200;
+            portinfo.I2C_Channel_Conf.Options = 0x00000001;     //FtConfigOptions.I2C_DISABLE_3PHASE_CLOCKING;
+            portinfo.PortNum = 0;
+            portinfo.ftStatus = Ftdi_lib.I2C_Init(out portinfo.ftHandle, portinfo);
+        }
+
         private void DisconnectAutoBox1()
         {
             serialPortWood.Close();
@@ -970,6 +992,11 @@ namespace Woodpecker
             {
                 CloseSerialPort("Arduino");
             }
+        }
+
+        private void DisconnectFtdi()
+        {
+            portinfo.ftStatus = Ftdi_lib.I2C_DeInit(portinfo.ftHandle);
         }
 
         protected void ConnectUsbCAN()
@@ -11579,6 +11606,12 @@ namespace Woodpecker
                 }
             }
 
+            if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
+            {
+                DisconnectFtdi();
+                pictureBox_ext_board.Image = Properties.Resources.OFF;
+            }
+
             if (CA210.Status() == true)
             {
                 CA210.DisConnect();
@@ -11637,6 +11670,16 @@ namespace Woodpecker
                     {
                         pictureBox_ext_board.Image = Properties.Resources.OFF;
                     }
+                }
+
+                if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
+                {
+                    ConnectFtdi();
+                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                }
+                else
+                {
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -11821,6 +11864,11 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "ArduinoExist", "") == "1")
             {
                 DisconnectArduino();
+            }
+
+            if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
+            {
+                DisconnectFtdi();
             }
 
             Application.ExitThread();

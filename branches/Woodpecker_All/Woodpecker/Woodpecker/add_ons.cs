@@ -385,6 +385,7 @@ namespace Woodpecker
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "UsbCANExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "0");
             ini12.INIWrite(GlobalData.MainSettingPath, "Device", "KlineExist", "0");
+            ini12.INIWrite(GlobalData.MainSettingPath, "Device", "FTDIExist", "0");
 
             ManagementObjectSearcher search = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
             ManagementObjectCollection collection = search.Get();
@@ -649,6 +650,23 @@ namespace Woodpecker
                                               , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
 
                         ini12.INIWrite(GlobalData.MainSettingPath, "Device", "CAN1630AExist", "1");
+                    }
+                    #endregion
+
+                    #region 偵測USB_FTDI_2232H
+                    if (deviceId.IndexOf("USB\\VID_0403&PID_6010\\", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Console.WriteLine("-----------------USB_FTDI_2232H------------------");
+                        Console.WriteLine("DeviceID: {0}\n" +
+                                              "Name: {1}\n" +
+                                              "Description: {2}\n" +
+                                              "Status: {3}\n" +
+                                              "System: {4}\n" +
+                                              "Caption: {5}\n" +
+                                              "Pnp: {6}\n"
+                                              , deviceId, deviceTp, deviecDescription, deviceStatus, deviceSystem, deviceCaption, devicePnp);
+
+                        ini12.INIWrite(GlobalData.MainSettingPath, "Device", "FTDIExist", "1");
                     }
                     #endregion
                 }
