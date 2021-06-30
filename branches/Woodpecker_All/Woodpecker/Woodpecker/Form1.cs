@@ -164,7 +164,7 @@ namespace Woodpecker
         //Serial Port Parameters
         public delegate void AddDataDelegate(String myString);
         public AddDataDelegate myDelegate1;
-        private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", minolta_text = "", arduino_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
+        private string logA_text = "", logB_text = "", logC_text = "", logD_text = "", logE_text = "", minolta_text = "", arduino_text = "", ftdi_text = "", ca310_text = "", canbus_text = "", kline_text = "", logAll_text = "", debug_text = "",
                        minolta_csv_report = "Sx, Sy, Lv, T, duv, Display mode, X, Y, Z, Date, Time, Scenario, Now measure count, Target measure count, Backlight sensor, Thanmal sensor, \r\n";		   
         public string portLabel_A = "Port A", portLabel_B = "Port B", portLabel_C = "Port C", portLabel_D = "Port D", portLabel_E = "Port E", portLabel_K = "Kline", portLabel_Arduino = "Arduino";
         public string serialPortConfig_A = "PortA", serialPortConfig_B = "PortB", serialPortConfig_C = "PortC", serialPortConfig_D = "PortD", serialPortConfig_E = "PortE", serialPortConfig_Arduino = "Arduino";
@@ -390,7 +390,10 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
             {
                 ConnectFtdi();
-                pictureBox_ext_board.Image = Properties.Resources.ON;
+                if (portinfo.ftStatus == FtResult.Ok)
+                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                else
+                    pictureBox_ext_board.Image = Properties.Resources.OFF;
             }
             else
             {
@@ -960,6 +963,10 @@ namespace Woodpecker
             portinfo.I2C_Channel_Conf.Options = 0x00000001;     //FtConfigOptions.I2C_DISABLE_3PHASE_CLOCKING;
             portinfo.PortNum = 0;
             portinfo.ftStatus = Ftdi_lib.I2C_Init(out portinfo.ftHandle, portinfo);
+            if (portinfo.ftStatus == FtResult.Ok)
+                pictureBox_ext_board.Image = Properties.Resources.ON;
+            else
+                pictureBox_ext_board.Image = Properties.Resources.OFF;
         }
 
         private void DisconnectAutoBox1()
@@ -7726,6 +7733,89 @@ namespace Woodpecker
                         }
                         #endregion
 
+                        #region -- FTDI Read/Write --
+                        else if (columns_command == "_FTDI")
+                        {
+                            if (portinfo.ftStatus == FtResult.Ok)
+                            {
+                                log.Debug("FTDI Write Log: _FTDI_Read_Write");
+                                Algorithm algorithm = new Algorithm();
+                                string Outputstring = "";
+                                if (columns_serial == "_save")
+                                {
+                                    logDumpping.LogDumpToFile("FTDI", "FTDI Port", ref ftdi_text);
+                                    Outputstring = "Save FTDI log";
+                                }
+                                else if (columns_serial == "_clear")
+                                {
+                                    ftdi_text = string.Empty; //清除ftdi_text
+                                    Outputstring = "Clear FTDI log";
+                                }
+                                else if (columns_function == "Write" && columns_serial != "")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    byte DeviceAddr = Outputbytes[0];
+                                    byte[] DeviceData = new byte[Outputstring.Split(' ').Count() - 1];
+                                    int i;
+                                    for (i = 0; i < DeviceData.Length; i++)
+                                    {
+                                        DeviceData[i] = Outputbytes[i + 1];
+                                    }
+                                    Ftdi_lib.I2C_SEQ_Write(portinfo.ftHandle, DeviceAddr, DeviceData); //發送數據 Rs232 + Xor8
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Ftdi_Port_Send] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    logDumpping.LogCat(ref ftdi_text, dataValue);
+                                    logDumpping.LogCat(ref logAll_text, dataValue);
+                                }
+                                else if (columns_function == "Read" && columns_serial != "")
+                                {
+                                    string orginal_data = columns_serial;
+                                    string xor8_data = algorithm.Medical_XOR8(orginal_data);
+                                    byte[] Readbytes = new byte[128];
+                                    byte Readbyte;
+                                    Outputstring = orginal_data + xor8_data;
+                                    byte[] Outputbytes = new byte[Outputstring.Split(' ').Count()];
+                                    Outputbytes = HexConverter.StrToByte(Outputstring);
+                                    byte DeviceAddr = Outputbytes[0];
+                                    byte[] DeviceData = new byte[Outputstring.Split(' ').Count() - 1];
+                                    int i;
+                                    for (i = 0; i < DeviceData.Length; i++)
+                                    {
+                                        DeviceData[i] = Outputbytes[i + 1];
+                                    }
+                                    DateTime dt = DateTime.Now;
+                                    string dataValue = "[Ftdi_Port_Send] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + Outputstring + "\r\n";
+                                    logDumpping.LogCat(ref ftdi_text, dataValue);
+                                    logDumpping.LogCat(ref logAll_text, dataValue);
+                                    if (Ftdi_lib.I2C_SEQ_Read(portinfo.ftHandle, DeviceAddr, DeviceData, Readbytes, out Readbyte) == FtResult.Ok)
+                                    {
+                                        byte[] Getbytes = new byte[Readbyte];
+                                        byte checksum;
+                                        Array.Copy(Readbytes, Getbytes, Getbytes.Length);
+                                        checksum = Getbytes[Getbytes.Length - 1];
+                                        Getbytes[Getbytes.Length - 1] = 0x50;
+                                        if (checksum == algorithm.XOR_Byte(Getbytes, Getbytes.Length))
+                                        {
+                                            Getbytes[Getbytes.Length - 1] = checksum;
+                                            string inputstring = BitConverter.ToString(Getbytes).Replace("-", " ");
+                                            dt = DateTime.Now;
+                                            dataValue = "[Ftdi_Port_Receive] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + inputstring + "\r\n";
+                                            logDumpping.LogCat(ref ftdi_text, dataValue);
+                                            logDumpping.LogCat(ref logAll_text, dataValue);
+                                        }
+                                        else
+                                            MessageBox.Show("Ftdi_Port_Receive no data !!", "The checksum error!!");
+                                    }
+                                }
+                                label_Command.Text = "(" + columns_command + ") " + Outputstring;
+                            }
+                        }
+                        #endregion
+
                         #region -- Canbus Send --
                         else if (columns_command == "_Canbus_Send")
                         {
@@ -10942,6 +11032,7 @@ namespace Woodpecker
             RCDB.Items.Add("_Condition_OR");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_HEX");
+            RCDB.Items.Add("_FTDI");
             RCDB.Items.Add("_ascii");
             RCDB.Items.Add("------------------------");
             RCDB.Items.Add("_FuncKey");
@@ -11606,7 +11697,7 @@ namespace Woodpecker
                 }
             }
 
-            if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
+            if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1" && portinfo.ftStatus == FtResult.Ok)
             {
                 DisconnectFtdi();
                 pictureBox_ext_board.Image = Properties.Resources.OFF;
@@ -11675,7 +11766,10 @@ namespace Woodpecker
                 if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1")
                 {
                     ConnectFtdi();
-                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                    if (portinfo.ftStatus == FtResult.Ok)
+                        pictureBox_ext_board.Image = Properties.Resources.ON;
+                    else
+                        pictureBox_ext_board.Image = Properties.Resources.OFF;
                 }
                 else
                 {

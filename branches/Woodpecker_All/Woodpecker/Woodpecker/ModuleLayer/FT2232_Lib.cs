@@ -15,7 +15,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Universal_Toolkit.Types;
 
-
 namespace Universal_Toolkit
 {
     public class FTDI_Lib
@@ -214,8 +213,8 @@ namespace Universal_Toolkit
         public FtResult I2C_SEQ_Read(IntPtr FtHandle, byte DeviceAddr, byte[] W_Data, byte[] R_Data, out byte RDataLength)
         {
             FtResult FtStatus;
-            byte[] buffer = new byte[128];
             int ByteTransfered;
+            byte[] buffer = new byte[128];
 
             FtStatus = I2C_SEQ_Write(FtHandle, DeviceAddr, W_Data);
             if (FtStatus != FtResult.Ok)
@@ -224,7 +223,7 @@ namespace Universal_Toolkit
                 return FtStatus;
             }
                 
-            Thread.Sleep(1000);
+            Thread.Sleep(200);
             FtStatus = I2C_DeviceRead(FtHandle, (byte)(DeviceAddr >> 1), 128, buffer, out ByteTransfered, FtI2cTransferOptions.START_BIT | FtI2cTransferOptions.NACK_LAST_BYTE);
             RDataLength = buffer[1];
             if (RDataLength > 0x7D)
