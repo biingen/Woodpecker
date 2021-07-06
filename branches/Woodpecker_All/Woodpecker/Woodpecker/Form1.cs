@@ -391,13 +391,13 @@ namespace Woodpecker
             {
                 ConnectFtdi();
                 if (portinfo.ftStatus == FtResult.Ok)
-                    pictureBox_ext_board.Image = Properties.Resources.ON;
+                    pictureBox_ftdi.Image = Properties.Resources.ON;
                 else
-                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    pictureBox_ftdi.Image = Properties.Resources.OFF;
             }
             else
             {
-                pictureBox_ext_board.Image = Properties.Resources.OFF;
+                pictureBox_ftdi.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -477,18 +477,18 @@ namespace Woodpecker
                     if (ini12.INIRead(MainSettingPath, "Canbus", "BaudRate", "") == "")
                         ini12.INIWrite(MainSettingPath, "Canbus", "BaudRate", "500 Kbps");
                     ConnectUsbCAN();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
+                    pictureBox_can.Image = Properties.Resources.ON;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "CAN1630AExist", "") == "1")
                 {
                     ConnectVectorCAN();
-                    pictureBox_canbus.Image = Properties.Resources.ON;
+                    pictureBox_can.Image = Properties.Resources.ON;
                 }
             }
             else
             {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
+                pictureBox_can.Image = Properties.Resources.OFF;
             }
 
             if (ini12.INIWrite(MainSettingPath, "Record", "ImportDB", "") == "1")
@@ -577,6 +577,8 @@ namespace Woodpecker
                 pictureBox_RedRat.Visible = true;
                 label_Minolta.Visible = true;
                 pictureBox_Minolta.Visible = true;
+                label_ftdi.Visible = true;
+                pictureBox_ftdi.Visible = true;
                 button_VirtualRC.Visible = true;
             }
 
@@ -964,9 +966,9 @@ namespace Woodpecker
             portinfo.PortNum = 0;
             portinfo.ftStatus = Ftdi_lib.I2C_Init(out portinfo.ftHandle, portinfo);
             if (portinfo.ftStatus == FtResult.Ok)
-                pictureBox_ext_board.Image = Properties.Resources.ON;
+                pictureBox_ftdi.Image = Properties.Resources.ON;
             else
-                pictureBox_ext_board.Image = Properties.Resources.OFF;
+                pictureBox_ftdi.Image = Properties.Resources.OFF;
         }
 
         private void DisconnectAutoBox1()
@@ -1017,16 +1019,16 @@ namespace Woodpecker
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
-                    pictureBox_canbus.Image = Properties.Resources.ON;
+                    pictureBox_can.Image = Properties.Resources.ON;
                 }
                 else
                 {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                    pictureBox_can.Image = Properties.Resources.OFF;
                 }
             }
             else
             {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
+                pictureBox_can.Image = Properties.Resources.OFF;
             }
         }
 
@@ -1041,16 +1043,16 @@ namespace Woodpecker
                 if (status == 1)
                 {
                     timer_canbus.Enabled = true;
-                    pictureBox_canbus.Image = Properties.Resources.ON;
+                    pictureBox_can.Image = Properties.Resources.ON;
                 }
                 else
                 {
-                    pictureBox_canbus.Image = Properties.Resources.OFF;
+                    pictureBox_can.Image = Properties.Resources.OFF;
                 }
             }
             else
             {
-                pictureBox_canbus.Image = Properties.Resources.OFF;
+                pictureBox_can.Image = Properties.Resources.OFF;
             }
         }
 
@@ -11700,7 +11702,7 @@ namespace Woodpecker
             if (ini12.INIRead(MainSettingPath, "Device", "FTDIExist", "") == "1" && portinfo.ftStatus == FtResult.Ok)
             {
                 DisconnectFtdi();
-                pictureBox_ext_board.Image = Properties.Resources.OFF;
+                pictureBox_ftdi.Image = Properties.Resources.OFF;
             }
 
             if (CA210.Status() == true)
@@ -11767,13 +11769,13 @@ namespace Woodpecker
                 {
                     ConnectFtdi();
                     if (portinfo.ftStatus == FtResult.Ok)
-                        pictureBox_ext_board.Image = Properties.Resources.ON;
+                        pictureBox_ftdi.Image = Properties.Resources.ON;
                     else
-                        pictureBox_ext_board.Image = Properties.Resources.OFF;
+                        pictureBox_ftdi.Image = Properties.Resources.OFF;
                 }
                 else
                 {
-                    pictureBox_ext_board.Image = Properties.Resources.OFF;
+                    pictureBox_ftdi.Image = Properties.Resources.OFF;
                 }
 
                 if (ini12.INIRead(MainSettingPath, "Device", "RedRatExist", "") == "1")
@@ -13160,6 +13162,13 @@ namespace Woodpecker
             }
         }
 
+        private void button_VirtualGPIO_Click(object sender, EventArgs e)
+        {
+            FormGPIO formGPIO = new FormGPIO();
+            formGPIO.Owner = this;
+            formGPIO.Show();
+        }
+
         private void button_AcUsb_Click(object sender, EventArgs e)
         {
             AcUsbPanel = !AcUsbPanel;
@@ -13622,7 +13631,7 @@ namespace Woodpecker
                         Can_Usb2C.StopCAN();
                         Can_Usb2C.Disconnect();
 
-                        pictureBox_canbus.Image = Properties.Resources.OFF;
+                        pictureBox_can.Image = Properties.Resources.OFF;
 
                         ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
 
@@ -13650,7 +13659,7 @@ namespace Woodpecker
                             timer_canbus.Enabled = false;
                             Can_Usb2C.StopCAN();
                             Can_Usb2C.Disconnect();
-                            pictureBox_canbus.Image = Properties.Resources.OFF;
+                            pictureBox_can.Image = Properties.Resources.OFF;
                             ini12.INIWrite(MainSettingPath, "Device", "UsbCANExist", "0");
                             return;
                         }

@@ -102,7 +102,7 @@ namespace Woodpecker
 
                 if (sw.IsRunning == true)
                 {
-                    lForm1.DataGridView_Schedule.Rows[lForm1.DataGridView_Schedule.RowCount - 3].Cells[9].Value = sw.ElapsedMilliseconds.ToString();
+                    lForm1.DataGridView_Schedule.Rows[lForm1.DataGridView_Schedule.RowCount - 3].Cells[8].Value = sw.ElapsedMilliseconds.ToString();
                     sw.Restart();
                 }
                 else
