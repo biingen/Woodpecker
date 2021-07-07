@@ -16,7 +16,6 @@ namespace Woodpecker
 {
     public partial class FormGPIO : MaterialForm
     {
-        private string xmlfile = ini12.INIRead(GlobalData.MainSettingPath, "Record", "GPIO", "");
         private string button1_down = "";
         private string button1_up = "";
         private string button2_down = "";
@@ -39,10 +38,9 @@ namespace Woodpecker
         public FormGPIO()
         {
             InitializeComponent();
-            LoadGpioDB();
         }
 
-        private void LoadGpioDB()
+        private void LoadGpioDB(string xmlfile)
         {
             try
             {
@@ -200,6 +198,22 @@ namespace Woodpecker
                 case 9:
                     lForm1.serialPort_Arduino.WriteLine(button9_up);
                     break;
+            }
+        }
+
+        private void button_XmlFile_Click(object sender, EventArgs e)
+        {
+            // Generator Command Path
+            openFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            openFileDialog1.ShowDialog();
+            if (openFileDialog1.FileName == "")
+            {
+                textBox_XmlPath.Text = textBox_XmlPath.Text;
+            }
+            else
+            {
+                textBox_XmlPath.Text = openFileDialog1.FileName;
+                LoadGpioDB(textBox_XmlPath.Text);
             }
         }
     }

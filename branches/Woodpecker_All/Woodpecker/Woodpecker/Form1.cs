@@ -3157,6 +3157,7 @@ namespace Woodpecker
                         DateTime dt = DateTime.Now;
                         dataValue = "[Receive_Port_Arduino] [" + dt.ToString("yyyy/MM/dd HH:mm:ss.fff") + "]  " + dataValue + "\r\n"; //OK
                     }
+                    log.Debug("Ardroud receive:" + dataValue);
                     serial_receive = true;
                     logDumpping.LogCat(ref arduino_text, dataValue);
                     logDumpping.LogCat(ref logAll_text, dataValue);
