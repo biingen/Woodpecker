@@ -13171,7 +13171,6 @@ namespace Woodpecker
             {
                 formGPIO.Show();
             }
-
         }
 
         private void button_AcUsb_Click(object sender, EventArgs e)

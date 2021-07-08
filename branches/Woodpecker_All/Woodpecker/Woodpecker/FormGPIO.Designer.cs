@@ -140,13 +140,13 @@
             this.button_XmlFile.BackColor = System.Drawing.SystemColors.Control;
             this.button_XmlFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button_XmlFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_XmlFile.ForeColor = System.Drawing.Color.White;
+            this.button_XmlFile.ForeColor = System.Drawing.SystemColors.ControlText;
             this.button_XmlFile.Location = new System.Drawing.Point(172, 299);
             this.button_XmlFile.Margin = new System.Windows.Forms.Padding(2);
             this.button_XmlFile.Name = "button_XmlFile";
             this.button_XmlFile.Size = new System.Drawing.Size(75, 25);
             this.button_XmlFile.TabIndex = 142;
-            this.button_XmlFile.Text = "Generator Path";
+            this.button_XmlFile.Text = "Load Xml";
             this.button_XmlFile.UseVisualStyleBackColor = false;
             this.button_XmlFile.Click += new System.EventHandler(this.button_XmlFile_Click);
             // 
