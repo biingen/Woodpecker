@@ -13167,7 +13167,11 @@ namespace Woodpecker
         {
             FormGPIO formGPIO = new FormGPIO();
             formGPIO.Owner = this;
-            formGPIO.Show();
+            if (GlobalData.FormGPIO == false)
+            {
+                formGPIO.Show();
+            }
+
         }
 
         private void button_AcUsb_Click(object sender, EventArgs e)

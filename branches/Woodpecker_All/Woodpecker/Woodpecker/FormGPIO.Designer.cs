@@ -172,6 +172,8 @@
             this.Controls.Add(this.button1);
             this.Name = "FormGPIO";
             this.Text = "FormGPIO";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormGPIO_FormClosed);
+            this.Shown += new System.EventHandler(this.FormGPIO_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

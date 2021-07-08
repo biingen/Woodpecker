@@ -216,5 +216,15 @@ namespace Woodpecker
                 LoadGpioDB(textBox_XmlPath.Text);
             }
         }
+
+        private void FormGPIO_Shown(object sender, EventArgs e)
+        {
+            GlobalData.FormGPIO = true;
+        }
+
+        private void FormGPIO_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            GlobalData.FormGPIO = false;
+        }
     }
 }

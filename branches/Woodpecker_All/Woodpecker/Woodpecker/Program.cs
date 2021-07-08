@@ -185,6 +185,7 @@ namespace Woodpecker
         public static int Break_Out_Schedule = 0;//定時器中斷變數//
         public static int Break_Out_MyRunCamd;//是否跳出倒數迴圈，1為跳出//
         public static bool FormRC = false;
+        public static bool FormGPIO = false;
         public static int TEXTBOX_FOCUS = 0;
         public static string label_Command = "";
         public static string label_Remark = "";
