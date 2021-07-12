@@ -31,7 +31,6 @@
             this.folderBrowserDialog2 = new System.Windows.Forms.FolderBrowserDialog();
             this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.GroupBox_Rs232 = new System.Windows.Forms.GroupBox();
-            this.checkBox_outofmemorysave = new System.Windows.Forms.CheckBox();
             this.comboBox_CAN_Choice = new System.Windows.Forms.ComboBox();
             this.label_CAN_choice = new System.Windows.Forms.Label();
             this.pictureBox_klinePort = new System.Windows.Forms.PictureBox();
@@ -124,7 +123,6 @@
             // GroupBox_Rs232
             // 
             this.GroupBox_Rs232.BackColor = System.Drawing.Color.Transparent;
-            this.GroupBox_Rs232.Controls.Add(this.checkBox_outofmemorysave);
             this.GroupBox_Rs232.Controls.Add(this.comboBox_CAN_Choice);
             this.GroupBox_Rs232.Controls.Add(this.label_CAN_choice);
             this.GroupBox_Rs232.Controls.Add(this.pictureBox_klinePort);
@@ -177,19 +175,6 @@
             this.GroupBox_Rs232.TabIndex = 37;
             this.GroupBox_Rs232.TabStop = false;
             this.GroupBox_Rs232.Text = "RS232";
-            // 
-            // checkBox_outofmemorysave
-            // 
-            this.checkBox_outofmemorysave.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            this.checkBox_outofmemorysave.ForeColor = System.Drawing.Color.White;
-            this.checkBox_outofmemorysave.Location = new System.Drawing.Point(193, 218);
-            this.checkBox_outofmemorysave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox_outofmemorysave.Name = "checkBox_outofmemorysave";
-            this.checkBox_outofmemorysave.Size = new System.Drawing.Size(144, 23);
-            this.checkBox_outofmemorysave.TabIndex = 157;
-            this.checkBox_outofmemorysave.Text = "Out-of-memory saving";
-            this.checkBox_outofmemorysave.UseVisualStyleBackColor = true;
-            this.checkBox_outofmemorysave.CheckedChanged += new System.EventHandler(this.checkBox_outofmemorysave_CheckedChanged);
             // 
             // comboBox_CAN_Choice
             // 
@@ -1338,6 +1323,5 @@
         internal System.Windows.Forms.ComboBox comboBox_CAN_Choice;
         internal System.Windows.Forms.Label label_CAN_choice;
         private System.Windows.Forms.CheckBox checkBox_timestamp;
-        private System.Windows.Forms.CheckBox checkBox_outofmemorysave;
     }
 }

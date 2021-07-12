@@ -700,7 +700,7 @@ namespace Woodpecker
             string[] PortC = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
             string[] PortD = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
             string[] PortE = { "Checked", "PortName", "BaudRate", "DataBit", "StopBits", "DisplayHex", "LineFeed" };
-            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp", "Outofmemorysave" };
+            string[] Record = { "VideoPath", "LogPath", "Generator", "CompareChoose", "CompareDifferent", "EachVideo", "ImportDB", "Footprint Mode", "Displayhex", "Timestamp"};
             string[] Schedule1 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule2 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };
             string[] Schedule3 = { "Exist", "Loop", "OnTimeStart", "Timer", "Path" };

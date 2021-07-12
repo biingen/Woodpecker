@@ -383,15 +383,6 @@ namespace Woodpecker
                 {
                     checkBox_timestamp.Checked = false;
                 }
-
-                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
-                {
-                    checkBox_outofmemorysave.Checked = true;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "")
-                {
-                    checkBox_outofmemorysave.Checked = false;
-                }
             }
             else
             {
@@ -485,15 +476,6 @@ namespace Woodpecker
                 else if (ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Timestamp", "") == "")
                 {
                     checkBox_timestamp.Checked = false;
-                }
-
-                if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "1")
-                {
-                    checkBox_outofmemorysave.Checked = true;
-                }
-                else if (ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "0" || ini12.INIRead(MainSettingPath, "Record", "Outofmemorysave", "") == "")
-                {
-                    checkBox_outofmemorysave.Checked = false;
                 }
             }
 
@@ -1357,18 +1339,6 @@ namespace Woodpecker
             else
             {
                 ini12.INIWrite(MainSettingPath, "Record", "Timestamp", "0");
-            }
-        }
-
-        private void checkBox_outofmemorysave_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_outofmemorysave.Checked == true)
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "Outofmemorysave", "1");
-            }
-            else
-            {
-                ini12.INIWrite(MainSettingPath, "Record", "Outofmemorysave", "0");
             }
         }
     }
