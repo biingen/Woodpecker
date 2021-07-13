@@ -11,6 +11,7 @@ using System.Reflection;                                //support BindingFlags
 using jini;
 using Woodpecker;
 using System.Collections;
+using log4net;
 
 namespace ModuleLayer
 {
@@ -22,6 +23,7 @@ namespace ModuleLayer
         public Queue<byte> ReceiveQueue = new Queue<byte>();
         public List<byte> ReceiveList = new List<byte>();
         public Queue<List<byte>> ReceiveQueueList = new Queue<List<byte>>();
+        private static ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);        //log4net
         /*
         private SerialPortConfig portConfig;
 
@@ -229,8 +231,41 @@ namespace ModuleLayer
             return (ReceiveQueue.Count);
         }
 
+        public void DataReceivedByEvent(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;   //this is used with Forms-Serialport component inserted
+            try
+            {
+                if (sp.IsOpen)
+                {
+                    byte[] byteRead = new byte[sp.BytesToRead];
+                    //it must use ReadLine() to do carriage-return and line-feed instead of using /r/n.
+                    string dataValue = sp.ReadLine();
+                    if (dataValue.Contains("io i"))
+                        GlobalData.Arduino_Read_String = dataValue;
+                    log.Debug("[" + sp + "] DataReceived: " + dataValue);
+
+                    int recByteCount = byteRead.Count();
+                    if (recByteCount > 0)
+                        GlobalData.Arduino_recFlag = true;
+                    else
+                        GlobalData.Arduino_recFlag = false;
+
+                    sp.DiscardInBuffer();                      //Clear buffer of SerialPort component
+                }
+                else
+                {
+                    Console.WriteLine("Arduino serialport is not opened!");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex.Message, "DataReceivedEvent error!");
+            }
+        }
+
         //public int OpenSerialPort(int PortNumber, int BaudRate, int ParityBit, int DataLength, int StopBit, int Handshake)
-        public int OpenSerialPort(string port_Name, string port_BR)
+        public int OpenSerialPort(string port_Name, string port_BR, bool receive_Data = false)
         {
             try
             {
@@ -256,7 +291,8 @@ namespace ModuleLayer
                     _serialPort.Parity = Parity.None;
                     _serialPort.ReadTimeout = 2000;
                     _serialPort.WriteTimeout = 100;
-
+                    if (receive_Data)
+                        _serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedByEvent);
                     _serialPort.Open();
 
                     Console.WriteLine("[DrvRS232] " + _serialPort.PortName + " is successfully opened.");

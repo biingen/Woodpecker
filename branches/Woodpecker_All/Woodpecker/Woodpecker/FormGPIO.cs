@@ -54,64 +54,64 @@ namespace Woodpecker
                         {
                             case "GPIO1":
                                 button1.Text = GPIOCode.Element("GPIO_N").Value;
-                                button1_down = GPIOCode.Element("GPIO_D").Value;
-                                button1_up = GPIOCode.Element("GPIO_U").Value;
+                                button1_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button1_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button1.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button1.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO2":
                                 button2.Text = GPIOCode.Element("GPIO_N").Value;
-                                button2_down = GPIOCode.Element("GPIO_D").Value;
-                                button2_up = GPIOCode.Element("GPIO_U").Value;
+                                button2_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button2_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button2.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button2.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO3":
                                 button3.Text = GPIOCode.Element("GPIO_N").Value;
-                                button3_down = GPIOCode.Element("GPIO_D").Value;
-                                button3_up = GPIOCode.Element("GPIO_U").Value;
+                                button3_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button3_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button3.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button3.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO4":
                                 button4.Text = GPIOCode.Element("GPIO_N").Value;
-                                button4_down = GPIOCode.Element("GPIO_D").Value;
-                                button4_up = GPIOCode.Element("GPIO_U").Value;
+                                button4_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button4_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button4.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button4.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO5":
                                 button5.Text = GPIOCode.Element("GPIO_N").Value;
-                                button5_down = GPIOCode.Element("GPIO_D").Value;
-                                button5_up = GPIOCode.Element("GPIO_U").Value;
+                                button5_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button5_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button5.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button5.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO6":
                                 button6.Text = GPIOCode.Element("GPIO_N").Value;
-                                button6_down = GPIOCode.Element("GPIO_D").Value;
-                                button6_up = GPIOCode.Element("GPIO_U").Value;
+                                button6_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button6_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button6.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button6.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO7":
                                 button7.Text = GPIOCode.Element("GPIO_N").Value;
-                                button7_down = GPIOCode.Element("GPIO_D").Value;
-                                button7_up = GPIOCode.Element("GPIO_U").Value;
+                                button7_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button7_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button7.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button7.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO8":
                                 button8.Text = GPIOCode.Element("GPIO_N").Value;
-                                button8_down = GPIOCode.Element("GPIO_D").Value;
-                                button8_up = GPIOCode.Element("GPIO_U").Value;
+                                button8_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button8_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button8.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button8.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
                             case "GPIO9":
                                 button9.Text = GPIOCode.Element("GPIO_N").Value;
-                                button9_down = GPIOCode.Element("GPIO_D").Value;
-                                button9_up = GPIOCode.Element("GPIO_U").Value;
+                                button9_down = GPIOCode.Element("GPIO_D").Value + "\r\n";
+                                button9_up = GPIOCode.Element("GPIO_U").Value + "\r\n";
                                 button9.MouseDown += new MouseEventHandler(button_MouseDown);
                                 button9.MouseUp += new MouseEventHandler(button_MouseUp);
                                 break;
@@ -132,35 +132,34 @@ namespace Woodpecker
         private void button_MouseDown(object sender, EventArgs e)
         {
             int index = int.Parse(((Button)(sender)).Name.ToString().Replace("button", ""));
-            Form1 lForm1 = (Form1)this.Owner;
             switch (index)
             {
                 case 1:
-                    lForm1.serialPort_Arduino.WriteLine(button1_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button1_down, button1_down.Length);
                     break;
                 case 2:
-                    lForm1.serialPort_Arduino.WriteLine(button2_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button2_down, button2_down.Length);
                     break;
                 case 3:
-                    lForm1.serialPort_Arduino.WriteLine(button3_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button3_down, button3_down.Length);
                     break;
                 case 4:
-                    lForm1.serialPort_Arduino.WriteLine(button4_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button4_down, button4_down.Length);
                     break;
                 case 5:
-                    lForm1.serialPort_Arduino.WriteLine(button5_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button5_down, button5_down.Length);
                     break;
                 case 6:
-                    lForm1.serialPort_Arduino.WriteLine(button6_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button6_down, button6_down.Length);
                     break;
                 case 7:
-                    lForm1.serialPort_Arduino.WriteLine(button7_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button7_down, button7_down.Length);
                     break;
                 case 8:
-                    lForm1.serialPort_Arduino.WriteLine(button8_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button8_down, button8_down.Length);
                     break;
                 case 9:
-                    lForm1.serialPort_Arduino.WriteLine(button9_down);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button9_down, button9_down.Length);
                     break;
             }
         }
@@ -168,35 +167,34 @@ namespace Woodpecker
         private void button_MouseUp(object sender, EventArgs e)
         {
             int index = int.Parse(((Button)(sender)).Name.ToString().Replace("button", ""));
-            Form1 lForm1 = (Form1)this.Owner;
             switch (index)
             {
                 case 1:
-                    lForm1.serialPort_Arduino.WriteLine(button1_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button1_up, button1_up.Length);
                     break;
                 case 2:
-                    lForm1.serialPort_Arduino.WriteLine(button2_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button2_up, button2_up.Length);
                     break;
                 case 3:
-                    lForm1.serialPort_Arduino.WriteLine(button3_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button3_up, button3_up.Length);
                     break;
                 case 4:
-                    lForm1.serialPort_Arduino.WriteLine(button4_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button4_up, button4_up.Length);
                     break;
                 case 5:
-                    lForm1.serialPort_Arduino.WriteLine(button5_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button5_up, button5_up.Length);
                     break;
                 case 6:
-                    lForm1.serialPort_Arduino.WriteLine(button6_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button6_up, button6_up.Length);
                     break;
                 case 7:
-                    lForm1.serialPort_Arduino.WriteLine(button7_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button7_up, button7_up.Length);
                     break;
                 case 8:
-                    lForm1.serialPort_Arduino.WriteLine(button8_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button8_up, button8_up.Length);
                     break;
                 case 9:
-                    lForm1.serialPort_Arduino.WriteLine(button9_up);
+                    GlobalData.m_Arduino_Port.WriteDataOut(button9_up, button9_up.Length);
                     break;
             }
         }

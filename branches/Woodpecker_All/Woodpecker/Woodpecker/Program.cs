@@ -142,6 +142,10 @@ namespace Woodpecker
         public static string Arduino_IO_INPUT = "Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,Undefine,";
         public static uint IO_INPUT_value = 0x40;
         public static uint Arduino_IO_INPUT_value = 0x10000;
+        public static string Arduino_Comport = "";
+        public static string Arduino_Read_String = "";
+        public static bool Arduino_openFlag;
+        public static bool Arduino_recFlag;
         public static int IO_PA10_0_COUNT = 0;
         public static int IO_PA10_1_COUNT = 0;
         public static int IO_PA11_0_COUNT = 0;
@@ -207,6 +211,7 @@ namespace Woodpecker
         public static Mod_RS232 m_SerialPort_C = new Mod_RS232();
         public static Mod_RS232 m_SerialPort_D = new Mod_RS232();
         public static Mod_RS232 m_SerialPort_E = new Mod_RS232();
+        public static Mod_RS232 m_Arduino_Port = new Mod_RS232();
 
         public static string logAllText;
         public static string Measure_Backlight = "None";

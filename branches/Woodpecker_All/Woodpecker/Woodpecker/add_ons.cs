@@ -532,6 +532,7 @@ namespace Woodpecker
 
                         int ArduinoPortLengh = ArduinoPort.Length;
                         string ArduinoPortFinal = ArduinoPort.Remove(ArduinoPortLengh - 1);
+                        GlobalData.Arduino_Comport = ArduinoPortFinal;
 
                         if (ArduinoPortSubstring.Substring(0, 3) == "COM")
                         {
