@@ -375,7 +375,7 @@ namespace Woodpecker
             {
                 if (ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "") != "")
                 {
-                    GlobalData.m_Arduino_Port.OpenSerialPort(GlobalData.Arduino_Comport, "9600", true);
+                    GlobalData.m_Arduino_Port.OpenSerialPort(GlobalData.Arduino_Comport, GlobalData.Arduino_Baudrate, true);
                     pictureBox_ext_board.Image = Properties.Resources.ON;
                 }
                 else
@@ -5698,7 +5698,7 @@ namespace Woodpecker
                         string columns_remark = DataGridView_Schedule.Rows[GlobalData.Scheduler_Row].Cells[9].Value.ToString().Trim();
 
                         IO_INPUT();                 //先讀取IO值，避免schedule第一行放IO CMD會出錯//
-                        if (GlobalData.m_Arduino_Port.IsOpen() == true)
+                        if (GlobalData.m_Arduino_Port.IsOpen() == true && GlobalData.Arduino_outputFlag == false)
                             Arduino_IO_INPUT();         //先讀取Arduino_IO值，避免schedule第一行放IO CMD會出錯//
 
                         GlobalData.Schedule_Step = GlobalData.Scheduler_Row;
@@ -8213,6 +8213,7 @@ namespace Woodpecker
                         else if (columns_command == "_Arduino_Input")
                         {
                             log.Debug("GPIO control: _Arduino_Input");
+                            GlobalData.Arduino_outputFlag = false;
                             Arduino_IO_INPUT(SysDelay);
                         }
 
@@ -8230,7 +8231,11 @@ namespace Woodpecker
                         {
                             log.Debug("GPIO control: _Arduino_Command");
                             if (columns_serial != "")
+                            {
+                                GlobalData.Arduino_outputFlag = true;
                                 Arduino_Set_Value(columns_serial, SysDelay);
+
+                            }
                             else
                                 MessageBox.Show("Please check the Arduino command.", "Arduino command Error!");
                             label_Command.Text = "(" + columns_command + ") " + columns_serial;
@@ -8865,6 +8870,11 @@ namespace Woodpecker
                         else if (columns_command == "_Arduino_Pin" && columns_comport.Length >= 6 && columns_comport.Substring(0, 3) == "_P0")
                         {
                             {
+                                if (GlobalData.Arduino_outputFlag)
+                                {
+                                    GlobalData.Arduino_outputFlag = false;
+                                    Arduino_IO_INPUT();
+                                }
                                 switch (columns_comport.Substring(3, 1))
                                 {
                                     #region -- P02 --
@@ -11752,7 +11762,7 @@ namespace Woodpecker
                 {
                     if (ini12.INIRead(MainSettingPath, "Device", "ArduinoPort", "") != "")
                     {
-                        GlobalData.m_Arduino_Port.OpenSerialPort(GlobalData.Arduino_Comport, "9600", true);
+                        GlobalData.m_Arduino_Port.OpenSerialPort(GlobalData.Arduino_Comport, GlobalData.Arduino_Baudrate, true);
                         pictureBox_ext_board.Image = Properties.Resources.ON;
                     }
                     else
@@ -12945,7 +12955,7 @@ namespace Woodpecker
                     {
                         if (high_binary_value.Substring(i, 1) == "1")
                         {
-                            string DebugValue = "adc";
+                            string DebugValue = "adc" + "\r\n";
                             GlobalData.m_Arduino_Port.WriteDataOut(DebugValue, DebugValue.Length);
                             MessageBox.Show("Please check the Arduino-P0" + (9 - i) + " :status. Maybe voltage have issue.", "Arduino-PIN Error!");
                         }
@@ -13090,7 +13100,7 @@ namespace Woodpecker
             {
                 try
                 {
-                    string dataValue = input_value;
+                    string dataValue = input_value + "\r\n";
                     GlobalData.Arduino_recFlag = false;
                     do
                     {

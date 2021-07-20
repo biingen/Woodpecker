@@ -143,9 +143,10 @@ namespace Woodpecker
         public static uint IO_INPUT_value = 0x40;
         public static uint Arduino_IO_INPUT_value = 0x10000;
         public static string Arduino_Comport = "";
+        public static string Arduino_Baudrate = "";
         public static string Arduino_Read_String = "";
-        public static bool Arduino_openFlag;
-        public static bool Arduino_recFlag;
+        public static bool Arduino_outputFlag = false;
+        public static bool Arduino_recFlag = false;
         public static int IO_PA10_0_COUNT = 0;
         public static int IO_PA10_1_COUNT = 0;
         public static int IO_PA11_0_COUNT = 0;
